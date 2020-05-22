@@ -14,8 +14,11 @@ package de.unika.ipd.grgen.ast.expr.array;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ContainerSingleElementInitNode;
-import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;

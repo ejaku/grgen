@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.expr.deque;
 
 import de.unika.ipd.grgen.ast.expr.ContainerFunctionMethodInvocationBaseExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.typedecl.DequeTypeNode;
+import de.unika.ipd.grgen.ast.type.DequeTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 public abstract class DequeFunctionMethodInvocationBaseExprNode extends ContainerFunctionMethodInvocationBaseExprNode

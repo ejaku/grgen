@@ -14,9 +14,14 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.AttributeIndexDeclNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.IncidenceCountIndexDeclNode;
+import de.unika.ipd.grgen.ast.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.typedecl.IntTypeNode;
+import de.unika.ipd.grgen.ast.type.IntTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Index;

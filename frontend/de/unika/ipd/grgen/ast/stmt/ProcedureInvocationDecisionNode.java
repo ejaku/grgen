@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.graph.GraphAddCopyEdgeProcNode;
 import de.unika.ipd.grgen.ast.stmt.graph.GraphAddCopyNodeProcNode;
@@ -49,7 +50,8 @@ import de.unika.ipd.grgen.ast.stmt.procenv.RecordProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.ResumeTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.RollbackTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.StartTransactionProcNode;
-import de.unika.ipd.grgen.ast.typedecl.ProcedureTypeNode;
+import de.unika.ipd.grgen.ast.type.ProcedureTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 

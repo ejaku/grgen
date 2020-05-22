@@ -11,9 +11,10 @@
 
 package de.unika.ipd.grgen.ast.expr.numeric;
 
-import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.string.StringConstNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

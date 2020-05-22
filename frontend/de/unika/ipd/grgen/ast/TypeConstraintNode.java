@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;

@@ -14,7 +14,13 @@ package de.unika.ipd.grgen.ast.expr;
 import java.awt.Color;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.typedecl.NullTypeNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+import de.unika.ipd.grgen.ast.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
+import de.unika.ipd.grgen.ast.type.NodeTypeNode;
+import de.unika.ipd.grgen.ast.type.NullTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

@@ -10,6 +10,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.ir.ConnAssert;
@@ -38,7 +39,7 @@ public class ConnAssertNode extends BaseNode
 	private RangeSpecNode tgtRange;
 	private boolean bothDirections;
 
-	boolean copyExtends;
+	public boolean copyExtends;
 
 	/**
 	 * Construct a new connection assertion node.

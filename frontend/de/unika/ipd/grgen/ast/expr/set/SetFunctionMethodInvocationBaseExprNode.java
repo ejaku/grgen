@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.expr.set;
 
 import de.unika.ipd.grgen.ast.expr.ContainerFunctionMethodInvocationBaseExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
+import de.unika.ipd.grgen.ast.type.SetTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 public abstract class SetFunctionMethodInvocationBaseExprNode extends ContainerFunctionMethodInvocationBaseExprNode

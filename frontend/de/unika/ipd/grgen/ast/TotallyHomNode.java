@@ -11,6 +11,13 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.decl.NodeDeclNode;
+import de.unika.ipd.grgen.ast.type.DirectedEdgeTypeNode;
+import de.unika.ipd.grgen.ast.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.type.NodeTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.TypeChecker;

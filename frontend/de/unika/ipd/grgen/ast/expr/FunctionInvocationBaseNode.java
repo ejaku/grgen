@@ -13,8 +13,8 @@ package de.unika.ipd.grgen.ast.expr;
 
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.TypeNode;
-import de.unika.ipd.grgen.ast.typedecl.FunctionDeclBaseNode;
+import de.unika.ipd.grgen.ast.decl.FunctionDeclBaseNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 public abstract class FunctionInvocationBaseNode extends FunctionOrBuiltinFunctionInvocationBaseNode

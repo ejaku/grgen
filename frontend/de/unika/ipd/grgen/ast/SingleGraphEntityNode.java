@@ -10,6 +10,8 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.NodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.SubpatternUsageNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 

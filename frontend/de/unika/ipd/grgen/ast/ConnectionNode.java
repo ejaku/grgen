@@ -15,6 +15,15 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.DummyNodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.decl.EdgeTypeChangeNode;
+import de.unika.ipd.grgen.ast.decl.NodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.type.ArbitraryEdgeTypeNode;
+import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+import de.unika.ipd.grgen.ast.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;

@@ -7,7 +7,7 @@
 
 package de.unika.ipd.grgen.ast.expr;
 
-import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class InvalidConstNode extends ConstNode

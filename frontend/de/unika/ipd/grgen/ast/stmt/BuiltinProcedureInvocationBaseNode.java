@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.stmt;
 
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /** base class for builtin procedures calls */

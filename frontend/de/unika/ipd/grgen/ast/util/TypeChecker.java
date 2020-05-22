@@ -12,8 +12,8 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.DeclNode;
-import de.unika.ipd.grgen.ast.TypeNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**

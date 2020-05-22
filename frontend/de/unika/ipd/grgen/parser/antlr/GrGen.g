@@ -90,7 +90,8 @@ tokens {
 	import de.unika.ipd.grgen.ast.expr.set.*;
 	import de.unika.ipd.grgen.ast.stmt.*;
 	import de.unika.ipd.grgen.ast.stmt.graph.*;
-	import de.unika.ipd.grgen.ast.typedecl.*;
+	import de.unika.ipd.grgen.ast.type.*;
+	import de.unika.ipd.grgen.ast.decl.*;
 	import de.unika.ipd.grgen.util.*;
 }
 

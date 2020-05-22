@@ -15,12 +15,15 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.IntTypeNode;
+import de.unika.ipd.grgen.ast.type.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.IntTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.expr.Expression;

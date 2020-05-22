@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Symbol;

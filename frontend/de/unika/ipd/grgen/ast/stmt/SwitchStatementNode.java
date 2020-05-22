@@ -15,9 +15,11 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.typedecl.EnumTypeNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.EnumTypeNode;
 import de.unika.ipd.grgen.ir.stmt.CaseStatement;
 import de.unika.ipd.grgen.ir.stmt.SwitchStatement;
 import de.unika.ipd.grgen.ir.IR;

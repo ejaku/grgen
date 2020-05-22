@@ -12,8 +12,11 @@
 package de.unika.ipd.grgen.ast.stmt.graph;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.VarDeclNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.NestingStatementNode;
+import de.unika.ipd.grgen.ast.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.type.NodeTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

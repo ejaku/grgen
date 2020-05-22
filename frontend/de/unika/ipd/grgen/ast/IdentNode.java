@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.util.Annotated;
@@ -34,7 +35,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated
 	protected Annotations annotations = EmptyAnnotations.get();
 
 	/** Occurrence of the identifier. */
-	protected Symbol.Occurrence occ;
+	public Symbol.Occurrence occ;
 
 	/** The declaration associated with this identifier. */
 	protected DeclNode decl = DeclNode.getInvalid();

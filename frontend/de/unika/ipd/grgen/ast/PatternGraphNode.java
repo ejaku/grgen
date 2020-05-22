@@ -24,9 +24,23 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.AlternativeCaseNode;
+import de.unika.ipd.grgen.ast.decl.AlternativeNode;
+import de.unika.ipd.grgen.ast.decl.ConstraintDeclNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.decl.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.NodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.RuleDeclNode;
+import de.unika.ipd.grgen.ast.decl.SubpatternUsageNode;
+import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.decl.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.BoolConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.GraphEntity;
@@ -70,10 +84,10 @@ public class PatternGraphNode extends GraphNode
 	private int modifiers = 0;
 
 	private CollectNode<ExprNode> conditions;
-	protected CollectNode<AlternativeNode> alts;
-	protected CollectNode<IteratedNode> iters;
-	protected CollectNode<PatternGraphNode> negs; // NACs
-	protected CollectNode<PatternGraphNode> idpts; // PACs
+	public CollectNode<AlternativeNode> alts;
+	public CollectNode<IteratedNode> iters;
+	public CollectNode<PatternGraphNode> negs; // NACs
+	public CollectNode<PatternGraphNode> idpts; // PACs
 	private CollectNode<HomNode> homs;
 	private CollectNode<TotallyHomNode> totallyHoms;
 	private CollectNode<ExactNode> exact;
@@ -468,7 +482,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	protected Collection<Set<ConstraintDeclNode>> getHoms()
+	public Collection<Set<ConstraintDeclNode>> getHoms()
 	{
 		if(homSets == null) {
 			initHomSets();
@@ -708,7 +722,7 @@ public class PatternGraphNode extends GraphNode
 	 *
 	 * @return The IR object.
 	 */
-	protected PatternGraph getPatternGraph()
+	public PatternGraph getPatternGraph()
 	{
 		return checkIR(PatternGraph.class);
 	}
@@ -1247,7 +1261,7 @@ public class PatternGraphNode extends GraphNode
 	 *
 	 * @return The Collection for the NACs.
 	 */
-	protected Collection<PatternGraph> getImplicitNegGraphs()
+	public Collection<PatternGraph> getImplicitNegGraphs()
 	{
 		Collection<PatternGraph> ret = new LinkedList<PatternGraph>();
 
@@ -1566,7 +1580,7 @@ public class PatternGraphNode extends GraphNode
 	}
 
 	/** Return the correspondent homomorphic set. */
-	protected Set<NodeDeclNode> getHomomorphic(NodeDeclNode node)
+	public Set<NodeDeclNode> getHomomorphic(NodeDeclNode node)
 	{
 		if(!nodeHomMap.containsKey(node)) {
 			initHomMaps();
@@ -1583,7 +1597,7 @@ public class PatternGraphNode extends GraphNode
 	}
 
 	/** Return the correspondent homomorphic set. */
-	protected Set<EdgeDeclNode> getHomomorphic(EdgeDeclNode edge)
+	public Set<EdgeDeclNode> getHomomorphic(EdgeDeclNode edge)
 	{
 		if(!edgeHomMap.containsKey(edge)) {
 			initHomMaps();

@@ -14,6 +14,10 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.SubpatternDeclNode;
+import de.unika.ipd.grgen.ast.decl.TestDeclNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;

@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+
 /**
  * Something, that gives access to members.
  */

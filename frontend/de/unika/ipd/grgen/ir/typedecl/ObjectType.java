@@ -13,8 +13,8 @@
 
 package de.unika.ipd.grgen.ir.typedecl;
 
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ast.BasicTypeNode;
 
 public class ObjectType extends PrimitiveType
 {

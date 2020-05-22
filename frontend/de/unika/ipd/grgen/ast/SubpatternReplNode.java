@@ -16,8 +16,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.ConstraintDeclNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.RhsDeclNode;
+import de.unika.ipd.grgen.ast.decl.SubpatternUsageNode;
+import de.unika.ipd.grgen.ast.decl.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;

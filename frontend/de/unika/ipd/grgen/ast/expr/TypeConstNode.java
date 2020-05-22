@@ -13,6 +13,8 @@ package de.unika.ipd.grgen.ast.expr;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.string.StringConstNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Constant;
 
@@ -35,7 +37,7 @@ public class TypeConstNode extends ConstNode
 		this.id = id;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.expr.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
+	/** @see de.unika.ipd.grgen.ast.expr.ConstNode#doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) */
 	@Override
 	protected ConstNode doCastTo(TypeNode type)
 	{

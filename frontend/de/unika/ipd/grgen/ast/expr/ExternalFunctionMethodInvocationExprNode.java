@@ -15,8 +15,9 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.typedecl.ExternalFunctionDeclNode;
-import de.unika.ipd.grgen.ast.typedecl.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.decl.ExternalFunctionDeclNode;
+import de.unika.ipd.grgen.ast.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.typedecl.ExternalFunction;
 import de.unika.ipd.grgen.ir.IR;

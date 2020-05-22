@@ -12,16 +12,16 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.DeclNode;
-import de.unika.ipd.grgen.ast.FilterFunctionDeclNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.InvalidDeclNode;
-import de.unika.ipd.grgen.ast.ActionDeclNode;
-import de.unika.ipd.grgen.ast.SequenceDeclNode;
-import de.unika.ipd.grgen.ast.typedecl.EnumTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.typedecl.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.ActionDeclNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.FilterFunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.InvalidDeclNode;
+import de.unika.ipd.grgen.ast.decl.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.SequenceDeclNode;
+import de.unika.ipd.grgen.ast.type.EnumTypeNode;
+import de.unika.ipd.grgen.ast.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
 import java.util.Map;

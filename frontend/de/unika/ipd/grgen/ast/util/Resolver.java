@@ -12,19 +12,19 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CompoundTypeNode;
-import de.unika.ipd.grgen.ast.DeclNode;
-import de.unika.ipd.grgen.ast.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.IteratedNode;
-import de.unika.ipd.grgen.ast.MatchTypeIteratedNode;
-import de.unika.ipd.grgen.ast.MatchTypeNode;
-import de.unika.ipd.grgen.ast.MemberDeclNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.ScopeOwner;
-import de.unika.ipd.grgen.ast.TestDeclNode;
-import de.unika.ipd.grgen.ast.TypeNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.MemberDeclNode;
+import de.unika.ipd.grgen.ast.decl.TestDeclNode;
+import de.unika.ipd.grgen.ast.type.CompoundTypeNode;
+import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+import de.unika.ipd.grgen.ast.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.util.Base;
 
 /**

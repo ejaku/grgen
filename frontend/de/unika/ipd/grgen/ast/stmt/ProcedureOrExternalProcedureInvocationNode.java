@@ -15,10 +15,12 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.ExternalProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.ProcedureDeclBaseNode;
+import de.unika.ipd.grgen.ast.decl.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.typedecl.ExternalProcedureDeclNode;
-import de.unika.ipd.grgen.ast.typedecl.ProcedureDeclBaseNode;
-import de.unika.ipd.grgen.ast.typedecl.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.stmt.ExternalProcedureInvocation;

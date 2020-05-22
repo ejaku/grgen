@@ -15,8 +15,13 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+import de.unika.ipd.grgen.ast.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEachBy;

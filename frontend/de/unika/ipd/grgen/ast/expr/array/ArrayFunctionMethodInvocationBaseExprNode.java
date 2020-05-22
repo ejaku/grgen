@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.expr.array;
 
 import de.unika.ipd.grgen.ast.expr.ContainerFunctionMethodInvocationBaseExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.ArrayTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 public abstract class ArrayFunctionMethodInvocationBaseExprNode extends ContainerFunctionMethodInvocationBaseExprNode

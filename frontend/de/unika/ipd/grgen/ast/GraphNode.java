@@ -12,9 +12,17 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
-import de.unika.ipd.grgen.ast.typedecl.ContainerTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.EnumTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.ContainerTypeNode;
+import de.unika.ipd.grgen.ast.type.EnumTypeNode;
+import de.unika.ipd.grgen.ast.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.decl.ConstraintDeclNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.DummyNodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.decl.NodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.SubpatternUsageNode;
+import de.unika.ipd.grgen.ast.decl.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
@@ -64,10 +72,10 @@ public class GraphNode extends BaseNode
 	protected CollectNode<SubpatternReplNode> subpatternRepls;
 	protected CollectNode<OrderedReplacementsNode> orderedReplacements;
 	protected CollectNode<EvalStatementsNode> yieldsEvals;
-	protected CollectNode<ExprNode> returns;
-	protected CollectNode<BaseNode> imperativeStmts;
-	protected CollectNode<BaseNode> params;
-	protected CollectNode<VarDeclNode> defVariablesToBeYieldedTo;
+	public CollectNode<ExprNode> returns;
+	public CollectNode<BaseNode> imperativeStmts;
+	public CollectNode<BaseNode> params;
+	public CollectNode<VarDeclNode> defVariablesToBeYieldedTo;
 
 	protected boolean hasAbstractElements;
 
@@ -80,7 +88,7 @@ public class GraphNode extends BaseNode
 
 	PatternGraphNode directlyNestingLHSGraph;
 
-	protected String nameOfGraph;
+	public String nameOfGraph;
 
 	/**
 	 * A new pattern node
@@ -382,7 +390,7 @@ public class GraphNode extends BaseNode
 	 * These are the children of the collect node at position 0.
 	 * @return The iterator.
 	 */
-	protected Collection<ConnectionCharacter> getConnections()
+	public Collection<ConnectionCharacter> getConnections()
 	{
 		assert isResolved();
 
@@ -439,7 +447,7 @@ public class GraphNode extends BaseNode
 	 * Get the correctly casted IR object.
 	 * @return The IR object.
 	 */
-	protected PatternGraph getGraph()
+	public PatternGraph getGraph()
 	{
 		return checkIR(PatternGraph.class);
 	}
@@ -573,7 +581,7 @@ public class GraphNode extends BaseNode
 		}
 	}
 
-	protected void addNodeIfNotYetContained(PatternGraph gr, Node neededNode)
+	public void addNodeIfNotYetContained(PatternGraph gr, Node neededNode)
 	{
 		if(!gr.hasNode(neededNode)) {
 			gr.addSingleNode(neededNode);
@@ -581,7 +589,7 @@ public class GraphNode extends BaseNode
 		}
 	}
 
-	protected void addEdgeIfNotYetContained(PatternGraph gr, Edge neededEdge)
+	public void addEdgeIfNotYetContained(PatternGraph gr, Edge neededEdge)
 	{
 		if(!gr.hasEdge(neededEdge)) {
 			gr.addSingleEdge(neededEdge); // TODO: maybe we lose context here
@@ -613,7 +621,7 @@ public class GraphNode extends BaseNode
 		}
 	}
 
-	protected Vector<DeclNode> getParamDecls()
+	public Vector<DeclNode> getParamDecls()
 	{
 		Vector<DeclNode> res = new Vector<DeclNode>();
 

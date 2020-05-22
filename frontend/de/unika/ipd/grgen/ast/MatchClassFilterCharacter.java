@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+
 /**
  * AST interface representing match class filters
  */

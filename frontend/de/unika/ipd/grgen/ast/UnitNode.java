@@ -14,10 +14,27 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.AlternativeCaseNode;
+import de.unika.ipd.grgen.ast.decl.AlternativeNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.FilterFunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.MatchClassFilterFunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.ModelNode;
+import de.unika.ipd.grgen.ast.decl.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.RuleDeclNode;
+import de.unika.ipd.grgen.ast.decl.SequenceDeclNode;
+import de.unika.ipd.grgen.ast.decl.SubpatternDeclNode;
+import de.unika.ipd.grgen.ast.decl.TestDeclNode;
+import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
-import de.unika.ipd.grgen.ast.typedecl.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.typedecl.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+import de.unika.ipd.grgen.ast.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
+import de.unika.ipd.grgen.ast.type.PackageTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
@@ -286,7 +303,7 @@ public class UnitNode extends BaseNode
 		return res;
 	}
 
-	protected static boolean checkStatementsLHS(DeclNode root, PatternGraphNode curPattern)
+	public static boolean checkStatementsLHS(DeclNode root, PatternGraphNode curPattern)
 	{
 		boolean res = true;
 
@@ -315,7 +332,7 @@ public class UnitNode extends BaseNode
 		return res;
 	}
 
-	protected static boolean checkStatementsRHS(DeclNode root, GraphNode curGraph)
+	public static boolean checkStatementsRHS(DeclNode root, GraphNode curGraph)
 	{
 		boolean res = true;
 

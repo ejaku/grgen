@@ -12,6 +12,8 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.stmt.ProcedureOrBuiltinProcedureInvocationBaseNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.ProjectionExpr;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;

@@ -15,9 +15,10 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.typedecl.ExternalFunctionDeclNode;
-import de.unika.ipd.grgen.ast.typedecl.FunctionDeclBaseNode;
-import de.unika.ipd.grgen.ast.typedecl.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.ExternalFunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.FunctionDeclBaseNode;
+import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.typedecl.ExternalFunction;

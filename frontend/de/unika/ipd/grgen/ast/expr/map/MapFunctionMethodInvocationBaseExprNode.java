@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.expr.map;
 
 import de.unika.ipd.grgen.ast.expr.ContainerFunctionMethodInvocationBaseExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
+import de.unika.ipd.grgen.ast.type.MapTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 public abstract class MapFunctionMethodInvocationBaseExprNode extends ContainerFunctionMethodInvocationBaseExprNode

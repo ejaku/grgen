@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.ModelNode;
+import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
@@ -500,14 +502,14 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 
 	/** Check whether this AST node is a root node (i.e. it has no predecessors)
 	 * @return true, if it's a root node, false, if not. */
-	protected final boolean isRoot()
+	public final boolean isRoot()
 	{
 		return parents.isEmpty();
 	}
 
 	/** Get the parent nodes of this node.
 	 * Mostly only one parent (syntax tree), few nodes with multiple parents (syntax DAG), root node without parents.*/
-	protected final Collection<BaseNode> getParents()
+	public final Collection<BaseNode> getParents()
 	{
 		return Collections.unmodifiableCollection(parents);
 	}
@@ -608,7 +610,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	 * @return true, if checking of the AST beginning with this node finished successfully;
 	 * false, if there was some error.
 	 */
-	protected final boolean check()
+	public final boolean check()
 	{
 		debug.report(NOTE, getCoords(), "check in: " + getId() + "(" + getClass() + ")");
 
@@ -659,7 +661,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/** Has this node already been checked? */
-	protected final boolean isChecked()
+	public final boolean isChecked()
 	{
 		return checked;
 	}

@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.AlternativeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.AlternativeReplacement;

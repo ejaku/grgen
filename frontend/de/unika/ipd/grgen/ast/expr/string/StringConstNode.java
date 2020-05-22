@@ -11,8 +11,9 @@
 
 package de.unika.ipd.grgen.ast.expr.string;
 
-import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -31,7 +32,7 @@ public class StringConstNode extends ConstNode
 		return BasicTypeNode.stringType;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.expr.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
+	/** @see de.unika.ipd.grgen.ast.expr.ConstNode#doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) */
 	@Override
 	protected ConstNode doCastTo(TypeNode type)
 	{

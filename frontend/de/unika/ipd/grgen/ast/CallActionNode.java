@@ -15,8 +15,21 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.EdgeInterfaceTypeChangeNode;
+import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
+import de.unika.ipd.grgen.ast.decl.FilterFunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.NodeInterfaceTypeChangeNode;
+import de.unika.ipd.grgen.ast.decl.SequenceDeclNode;
+import de.unika.ipd.grgen.ast.decl.TestDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.type.NodeTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.TypeTypeNode;
+import de.unika.ipd.grgen.ast.type.UntypedExecVarTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
@@ -49,7 +62,7 @@ public class CallActionNode extends BaseNode
 	private SequenceDeclNode sequence;
 	private ExecVarDeclNode boolVar;
 
-	protected CollectNode<ExprNode> params;
+	public CollectNode<ExprNode> params;
 	protected CollectNode<ExecVarDeclNode> returns;
 	protected CollectNode<FilterFunctionDeclNode> filterFunctions;
 

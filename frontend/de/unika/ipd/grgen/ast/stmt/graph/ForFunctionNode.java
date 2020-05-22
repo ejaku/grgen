@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.FunctionInvocationDecisionNode;
 import de.unika.ipd.grgen.ast.expr.graph.AdjacentNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.BoundedReachableEdgeExprNode;

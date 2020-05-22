@@ -12,9 +12,12 @@
 package de.unika.ipd.grgen.ast.stmt;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.SubpatternDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.typedecl.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.typedecl.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 public abstract class EvalStatementNode extends OrderedReplacementNode

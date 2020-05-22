@@ -7,7 +7,7 @@
 
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.ast.typedecl.OperatorSignature;
+import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ir.expr.Expression;
 
 /**

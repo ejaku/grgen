@@ -13,6 +13,8 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Set;
 
+import de.unika.ipd.grgen.ast.decl.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.decl.NodeDeclNode;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.parser.Coords;
 

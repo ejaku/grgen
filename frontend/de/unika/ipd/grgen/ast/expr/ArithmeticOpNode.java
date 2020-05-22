@@ -16,12 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
 import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
-import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.OperatorSignature;
-import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
+import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+import de.unika.ipd.grgen.ast.type.MapTypeNode;
+import de.unika.ipd.grgen.ast.type.OperatorSignature;
+import de.unika.ipd.grgen.ast.type.SetTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.map.MapAddItem;

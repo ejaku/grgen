@@ -14,8 +14,10 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.ConstructorParam;
 import de.unika.ipd.grgen.ir.Entity;
@@ -33,8 +35,8 @@ public class ConstructorParamNode extends BaseNode
 	}
 
 	private IdentNode lhsUnresolved;
-	protected DeclNode lhs;
-	protected ExprNode rhs;
+	public DeclNode lhs;
+	public ExprNode rhs;
 
 	public ConstructorParamNode(IdentNode paramNode, ExprNode expr)
 	{

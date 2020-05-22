@@ -11,7 +11,12 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.typedecl.ContainerTypeNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.ContainerTypeNode;
+import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+import de.unika.ipd.grgen.ast.type.GraphTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.CopyExpr;
 import de.unika.ipd.grgen.ir.expr.Expression;

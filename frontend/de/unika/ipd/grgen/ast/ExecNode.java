@@ -17,19 +17,27 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.ConstraintDeclNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
+import de.unika.ipd.grgen.ast.decl.NodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.DeclExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
-import de.unika.ipd.grgen.ast.typedecl.BooleanTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.ByteTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.DoubleTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.FloatTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.IntTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.LongTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.NullTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.ShortTypeNode;
-import de.unika.ipd.grgen.ast.typedecl.StringTypeNode;
+import de.unika.ipd.grgen.ast.type.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.BooleanTypeNode;
+import de.unika.ipd.grgen.ast.type.ByteTypeNode;
+import de.unika.ipd.grgen.ast.type.DoubleTypeNode;
+import de.unika.ipd.grgen.ast.type.FloatTypeNode;
+import de.unika.ipd.grgen.ast.type.IntTypeNode;
+import de.unika.ipd.grgen.ast.type.LongTypeNode;
+import de.unika.ipd.grgen.ast.type.NullTypeNode;
+import de.unika.ipd.grgen.ast.type.ShortTypeNode;
+import de.unika.ipd.grgen.ast.type.StringTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.CollectQuadrupleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationQuadrupleResolver;
 import de.unika.ipd.grgen.ast.util.Quadruple;
@@ -55,7 +63,7 @@ public class ExecNode extends BaseNode
 
 	private StringBuilder sb = new StringBuilder(); // if sb.length()==0 this is an external exec implemented externally
 	protected CollectNode<MultiCallActionNode> multiCallActions = new CollectNode<MultiCallActionNode>();
-	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
+	public CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 	private CollectNode<ExecVarDeclNode> varDecls = new CollectNode<ExecVarDeclNode>();
 	private CollectNode<IdentNode> usageUnresolved = new CollectNode<IdentNode>();
 	private CollectNode<IdentNode> writeUsageUnresolved = new CollectNode<IdentNode>();
