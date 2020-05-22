@@ -18,6 +18,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.FilterCharacter;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;

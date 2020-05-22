@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.pattern.OrderedReplacementNode;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;

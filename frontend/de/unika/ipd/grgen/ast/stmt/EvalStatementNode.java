@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.SubpatternDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.pattern.OrderedReplacementNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 

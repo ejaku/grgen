@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ast.stmt;
 
-import de.unika.ipd.grgen.ast.decl.VarDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.type.ContainerTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;

@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ast.stmt.deque;
 
-import de.unika.ipd.grgen.ast.decl.VarDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
 import de.unika.ipd.grgen.ast.type.DequeTypeNode;

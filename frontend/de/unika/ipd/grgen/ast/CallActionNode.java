@@ -16,12 +16,12 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.EdgeInterfaceTypeChangeNode;
 import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
 import de.unika.ipd.grgen.ast.decl.FilterFunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.NodeInterfaceTypeChangeNode;
 import de.unika.ipd.grgen.ast.decl.SequenceDeclNode;
 import de.unika.ipd.grgen.ast.decl.TestDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.EdgeInterfaceTypeChangeNode;
+import de.unika.ipd.grgen.ast.decl.pattern.NodeInterfaceTypeChangeNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.type.BasicTypeNode;

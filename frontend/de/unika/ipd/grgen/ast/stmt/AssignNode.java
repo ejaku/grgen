@@ -16,10 +16,10 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.MemberDeclNode;
-import de.unika.ipd.grgen.ast.decl.VarDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ArithmeticOpNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;

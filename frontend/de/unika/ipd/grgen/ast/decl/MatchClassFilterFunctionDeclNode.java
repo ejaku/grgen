@@ -16,11 +16,13 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.ConnectionNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.MatchClassFilterCharacter;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
-import de.unika.ipd.grgen.ast.SingleNodeConnNode;
+import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
+import de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.type.FilterFunctionTypeNode;

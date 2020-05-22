@@ -17,6 +17,8 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
+import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.typedecl.Function;

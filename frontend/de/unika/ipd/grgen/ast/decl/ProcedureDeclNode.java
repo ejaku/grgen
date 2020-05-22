@@ -15,6 +15,10 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
+import de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.ProcedureTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
