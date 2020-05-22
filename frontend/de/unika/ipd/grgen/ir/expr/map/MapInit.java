@@ -16,7 +16,7 @@ import java.util.Collection;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.ExpressionPair;
-import de.unika.ipd.grgen.ir.type.MapType;
+import de.unika.ipd.grgen.ir.type.container.MapType;
 
 public class MapInit extends Expression
 {

@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.type.NodeType;
+import de.unika.ipd.grgen.ir.type.model.NodeType;
 
 public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCharacter
 {

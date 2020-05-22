@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.type.DequeType;
+import de.unika.ipd.grgen.ir.type.container.DequeType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class DequeInitNode extends ContainerSingleElementInitNode

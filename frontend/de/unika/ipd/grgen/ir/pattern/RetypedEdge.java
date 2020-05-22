@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.ir.pattern;
 
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.type.EdgeType;
+import de.unika.ipd.grgen.ir.type.model.EdgeType;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Retyped;
 

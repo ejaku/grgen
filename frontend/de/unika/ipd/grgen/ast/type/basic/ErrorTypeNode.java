@@ -14,7 +14,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.VoidType;
+import de.unika.ipd.grgen.ir.type.basic.VoidType;
 
 /**
  * The error basic type. It is compatible to no other type.

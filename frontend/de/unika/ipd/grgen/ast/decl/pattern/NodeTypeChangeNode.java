@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.RetypedNode;
-import de.unika.ipd.grgen.ir.type.NodeType;
+import de.unika.ipd.grgen.ir.type.model.NodeType;
 
 /**
  * A node which is created by retyping, with the old node (old nodes in case of a merge)

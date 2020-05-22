@@ -17,6 +17,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 
+import de.unika.ipd.grgen.ir.type.model.InheritanceType;
+
 public class TypeExprConst extends TypeExpr
 {
 	private final Collection<InheritanceType> types = new HashSet<InheritanceType>();

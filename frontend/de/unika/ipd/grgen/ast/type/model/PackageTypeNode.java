@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.type.PackageType;
+import de.unika.ipd.grgen.ir.type.model.PackageType;
 
 /**
  * A package type AST node.

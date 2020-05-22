@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.NameOrAttributeInitialization;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.type.NodeType;
+import de.unika.ipd.grgen.ir.type.model.NodeType;
 
 /**
  * Declaration of a node.

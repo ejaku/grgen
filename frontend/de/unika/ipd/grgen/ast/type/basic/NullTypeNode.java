@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.type.basic;
 
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.ObjectType;
+import de.unika.ipd.grgen.ir.type.basic.ObjectType;
 
 public class NullTypeNode extends BasicTypeNode
 {

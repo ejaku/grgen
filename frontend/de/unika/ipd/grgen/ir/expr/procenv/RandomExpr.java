@@ -9,8 +9,8 @@ package de.unika.ipd.grgen.ir.expr.procenv;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.DoubleType;
-import de.unika.ipd.grgen.ir.type.IntType;
+import de.unika.ipd.grgen.ir.type.basic.DoubleType;
+import de.unika.ipd.grgen.ir.type.basic.IntType;
 
 public class RandomExpr extends Expression
 {

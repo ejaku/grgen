@@ -39,13 +39,13 @@ import de.unika.ipd.grgen.ast.type.CompoundTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.FunctionMethod;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.ProcedureMethod;
 import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
-import de.unika.ipd.grgen.ir.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.MemberInit;
+import de.unika.ipd.grgen.ir.type.model.InheritanceType;
 import de.unika.ipd.grgen.parser.Symbol;
 
 /**

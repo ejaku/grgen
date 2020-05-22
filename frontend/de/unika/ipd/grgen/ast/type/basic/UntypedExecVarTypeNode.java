@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ast.type.basic;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.UntypedExecVarType;
+import de.unika.ipd.grgen.ir.type.basic.UntypedExecVarType;
 
 import java.util.Collection;
 import java.util.Vector;

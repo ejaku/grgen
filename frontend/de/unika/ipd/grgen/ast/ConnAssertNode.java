@@ -13,9 +13,9 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.NodeType;
+import de.unika.ipd.grgen.ir.model.ConnAssert;
+import de.unika.ipd.grgen.ir.type.model.NodeType;
 
 /**
  * AST node that represents a Connection Assertion

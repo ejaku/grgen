@@ -8,9 +8,9 @@
 package de.unika.ipd.grgen.ir.pattern;
 
 import de.unika.ipd.grgen.ast.type.OperatorSignature;
-import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.model.Index;
 
 /**
  * Class for accessing an index by ordering, binding a pattern element

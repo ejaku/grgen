@@ -7,7 +7,7 @@
 
 package de.unika.ipd.grgen.ast.type.basic;
 
-import de.unika.ipd.grgen.ir.type.FloatType;
+import de.unika.ipd.grgen.ir.type.basic.FloatType;
 
 /**
  * The floating point basic type.

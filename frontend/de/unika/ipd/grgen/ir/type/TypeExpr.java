@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.type.model.InheritanceType;
 
 public abstract class TypeExpr extends IR
 {

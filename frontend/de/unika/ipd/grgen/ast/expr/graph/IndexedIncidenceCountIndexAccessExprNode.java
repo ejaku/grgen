@@ -23,9 +23,9 @@ import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
 import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.IncidenceCountIndex;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.IndexedIncidenceCountIndexAccessExpr;
+import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode

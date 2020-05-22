@@ -19,11 +19,11 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.ir.Index;
-import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.ir.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.Index;
+import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.model.InheritanceType;
 
 public class SearchPlanBackend2 implements Backend, BackendFactory
 {

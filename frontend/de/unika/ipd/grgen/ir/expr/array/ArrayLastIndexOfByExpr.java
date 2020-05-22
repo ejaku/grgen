@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir.expr.array;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.IntType;
+import de.unika.ipd.grgen.ir.type.basic.IntType;
 
 public class ArrayLastIndexOfByExpr extends Expression
 {

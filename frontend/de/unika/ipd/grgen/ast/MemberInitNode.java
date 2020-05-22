@@ -24,12 +24,12 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
+import de.unika.ipd.grgen.ir.model.MemberInit;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

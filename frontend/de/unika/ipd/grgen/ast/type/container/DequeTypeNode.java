@@ -22,8 +22,8 @@ import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.DequeType;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.container.DequeType;
 
 public class DequeTypeNode extends ContainerTypeNode
 {

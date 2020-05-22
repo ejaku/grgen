@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.ConnAssertNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ir.type.EdgeType;
+import de.unika.ipd.grgen.ir.type.model.EdgeType;
 
 public class UndirectedEdgeTypeNode extends EdgeTypeNode
 {

@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.ExpressionPair;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.type.MapType;
+import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MapInitNode extends ContainerInitNode

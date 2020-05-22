@@ -11,9 +11,9 @@
 
 package de.unika.ipd.grgen.be;
 
-import de.unika.ipd.grgen.ir.type.EdgeType;
-import de.unika.ipd.grgen.ir.type.NodeType;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.model.EdgeType;
+import de.unika.ipd.grgen.ir.type.model.NodeType;
 
 /**
  * Something that can give IDs for types.

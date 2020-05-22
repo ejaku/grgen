@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.ir.expr.numeric;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.ByteType;
+import de.unika.ipd.grgen.ir.type.basic.ByteType;
 
 public class ByteMaxExpr extends Expression
 {

@@ -24,9 +24,9 @@ import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.IncidenceCountIndex;
-import de.unika.ipd.grgen.ir.type.EdgeType;
-import de.unika.ipd.grgen.ir.type.NodeType;
+import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
+import de.unika.ipd.grgen.ir.type.model.EdgeType;
+import de.unika.ipd.grgen.ir.type.model.NodeType;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
 import java.util.Collection;

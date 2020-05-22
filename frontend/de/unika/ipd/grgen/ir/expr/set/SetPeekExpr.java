@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir.expr.set;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.SetType;
+import de.unika.ipd.grgen.ir.type.container.SetType;
 
 public class SetPeekExpr extends Expression
 {

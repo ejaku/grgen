@@ -17,9 +17,10 @@ import java.util.Date;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.type.ExternalType;
-import de.unika.ipd.grgen.ir.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.model.ExternalType;
+import de.unika.ipd.grgen.ir.type.model.InheritanceType;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModelExternalGen extends CSharpBase

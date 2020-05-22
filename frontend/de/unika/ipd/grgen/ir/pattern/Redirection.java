@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.ir.pattern;
 
-import de.unika.ipd.grgen.ir.type.EdgeType;
-import de.unika.ipd.grgen.ir.type.NodeType;
+import de.unika.ipd.grgen.ir.type.model.EdgeType;
+import de.unika.ipd.grgen.ir.type.model.NodeType;
 
 /** A class representing redirections in rules. */
 public class Redirection

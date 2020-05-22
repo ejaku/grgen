@@ -47,11 +47,11 @@ import de.unika.ipd.grgen.ir.FilterFunction;
 import de.unika.ipd.grgen.ir.Function;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchClassFilterFunction;
-import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Procedure;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Sequence;
 import de.unika.ipd.grgen.ir.Unit;
+import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 import de.unika.ipd.grgen.ir.type.PackageActionType;
 

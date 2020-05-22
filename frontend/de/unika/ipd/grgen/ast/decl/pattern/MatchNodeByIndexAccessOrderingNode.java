@@ -23,8 +23,8 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
 import de.unika.ipd.grgen.ir.pattern.Node;
 

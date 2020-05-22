@@ -26,6 +26,7 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
+import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;

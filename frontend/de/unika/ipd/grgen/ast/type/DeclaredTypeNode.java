@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ast.type;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ir.type.PrimitiveType;
+import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
 
 /**
  * Base class for all AST nodes representing declared types.

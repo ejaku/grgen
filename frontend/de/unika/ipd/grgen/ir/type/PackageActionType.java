@@ -24,6 +24,7 @@ import de.unika.ipd.grgen.ir.MatchClassFilterFunction;
 import de.unika.ipd.grgen.ir.Procedure;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Sequence;
+import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
 
 /**
  * A package type, for packages from the actions (in contrast to the models).

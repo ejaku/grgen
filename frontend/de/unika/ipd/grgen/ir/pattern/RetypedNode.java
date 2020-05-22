@@ -13,7 +13,7 @@ import java.util.List;
 
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.type.NodeType;
+import de.unika.ipd.grgen.ir.type.model.NodeType;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Retyped;
 

@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.ir.expr.numeric;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.FloatType;
+import de.unika.ipd.grgen.ir.type.basic.FloatType;
 
 public class FloatMaxExpr extends Expression
 {

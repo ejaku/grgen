@@ -15,7 +15,7 @@ import java.util.Collection;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.SetType;
+import de.unika.ipd.grgen.ir.type.container.SetType;
 
 public class SetInit extends Expression
 {

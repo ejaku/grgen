@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir.expr.deque;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.BooleanType;
+import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
 public class DequeEmptyExpr extends Expression
 {

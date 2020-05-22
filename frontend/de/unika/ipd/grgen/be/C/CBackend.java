@@ -23,10 +23,12 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.type.EdgeType;
-import de.unika.ipd.grgen.ir.type.EnumType;
-import de.unika.ipd.grgen.ir.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.ConnAssert;
+import de.unika.ipd.grgen.ir.model.EnumItem;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.model.EdgeType;
+import de.unika.ipd.grgen.ir.type.model.EnumType;
+import de.unika.ipd.grgen.ir.type.model.InheritanceType;
 import de.unika.ipd.grgen.util.Util;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 

@@ -22,14 +22,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ir.model.Model;
+import de.unika.ipd.grgen.ir.model.NodeEdgeEnumBearer;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
-import de.unika.ipd.grgen.ir.type.InheritanceType;
 import de.unika.ipd.grgen.ir.type.PackageActionType;
-import de.unika.ipd.grgen.ir.type.PackageType;
+import de.unika.ipd.grgen.ir.type.model.InheritanceType;
+import de.unika.ipd.grgen.ir.type.model.PackageType;
 import de.unika.ipd.grgen.util.Util;
 
 /**

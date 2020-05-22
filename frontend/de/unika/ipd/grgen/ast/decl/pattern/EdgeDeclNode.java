@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.NameOrAttributeInitialization;
-import de.unika.ipd.grgen.ir.type.EdgeType;
+import de.unika.ipd.grgen.ir.type.model.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 
 public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter

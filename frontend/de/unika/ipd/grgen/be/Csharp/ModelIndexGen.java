@@ -15,9 +15,13 @@ package de.unika.ipd.grgen.be.Csharp;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
-import de.unika.ipd.grgen.ir.type.BooleanType;
-import de.unika.ipd.grgen.ir.type.NodeType;
-import de.unika.ipd.grgen.ir.type.StringType;
+import de.unika.ipd.grgen.ir.model.AttributeIndex;
+import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
+import de.unika.ipd.grgen.ir.model.Index;
+import de.unika.ipd.grgen.ir.model.Model;
+import de.unika.ipd.grgen.ir.type.basic.BooleanType;
+import de.unika.ipd.grgen.ir.type.basic.StringType;
+import de.unika.ipd.grgen.ir.type.model.NodeType;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModelIndexGen extends CSharpBase

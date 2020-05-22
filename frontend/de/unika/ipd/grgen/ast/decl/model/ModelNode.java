@@ -38,9 +38,9 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.ExternalFunction;
 import de.unika.ipd.grgen.ir.ExternalProcedure;
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.Index;
-import de.unika.ipd.grgen.ir.Model;
-import de.unika.ipd.grgen.ir.type.PackageType;
+import de.unika.ipd.grgen.ir.model.Index;
+import de.unika.ipd.grgen.ir.model.Model;
+import de.unika.ipd.grgen.ir.type.model.PackageType;
 
 public class ModelNode extends DeclNode
 {

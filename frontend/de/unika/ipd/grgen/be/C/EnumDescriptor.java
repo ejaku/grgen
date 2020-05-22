@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.be.C;
 
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.EnumItem;
+import de.unika.ipd.grgen.ir.model.EnumItem;
 
 public class EnumDescriptor
 {
