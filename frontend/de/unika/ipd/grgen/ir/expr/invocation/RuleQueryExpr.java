@@ -9,17 +9,18 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ir.expr;
+package de.unika.ipd.grgen.ir.expr.invocation;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
+import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
-// dummy class for multi rule queries from compiled sequences
-public class MultiRuleQueryExpr extends Expression
+// dummy class for rule queries from compiled sequences
+public class RuleQueryExpr extends Expression
 {
-	public MultiRuleQueryExpr(Type targetType)
+	public RuleQueryExpr(Type targetType)
 	{
-		super("multi rule query", targetType);
+		super("rule query", targetType);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

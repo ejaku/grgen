@@ -9,46 +9,48 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.expr;
+package de.unika.ipd.grgen.ast.stmt.invocation;
 
 import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
 import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
+import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Function;
+import de.unika.ipd.grgen.ir.executable.Procedure;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.FunctionMethodInvocationExpr;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureMethodInvocation;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**
- * Invocation of a function method
+ * Invocation of a procedure method
  */
-public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
+public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 {
 	static {
-		setName(FunctionMethodInvocationExprNode.class, "function method invocation expression");
+		setName(ProcedureMethodInvocationNode.class, "procedure method invocation");
 	}
 
 	private IdentNode ownerUnresolved;
 	private DeclNode owner;
 
-	private IdentNode functionUnresolved;
-	private FunctionDeclNode functionDecl;
+	private IdentNode procedureUnresolved;
+	private ProcedureDeclNode procedureDecl;
 
-	public FunctionMethodInvocationExprNode(IdentNode owner, IdentNode functionUnresolved,
-			CollectNode<ExprNode> arguments)
+	public ProcedureMethodInvocationNode(IdentNode owner, IdentNode procedureOrExternalProcedureUnresolved,
+			CollectNode<ExprNode> arguments, int context)
 	{
-		super(functionUnresolved.getCoords(), arguments);
+		super(procedureOrExternalProcedureUnresolved.getCoords(), arguments, context);
 		this.ownerUnresolved = becomeParent(owner);
-		this.functionUnresolved = becomeParent(functionUnresolved);
+		this.procedureUnresolved = becomeParent(procedureOrExternalProcedureUnresolved);
 	}
 
 	@Override
@@ -56,7 +58,7 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(ownerUnresolved, owner));
-		children.add(getValidVersion(functionUnresolved, functionDecl));
+		children.add(getValidVersion(procedureUnresolved, procedureDecl));
 		children.add(arguments);
 		return children;
 	}
@@ -66,15 +68,15 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("owner");
-		childrenNames.add("function method");
+		childrenNames.add("procedure");
 		childrenNames.add("arguments");
 		return childrenNames;
 	}
 
 	private static final DeclarationResolver<DeclNode> ownerResolver =
 			new DeclarationResolver<DeclNode>(DeclNode.class);
-	private static final DeclarationResolver<FunctionDeclNode> resolver =
-			new DeclarationResolver<FunctionDeclNode>(FunctionDeclNode.class);
+	private static final DeclarationResolver<ProcedureDeclNode> resolver =
+			new DeclarationResolver<ProcedureDeclNode>(ProcedureDeclNode.class);
 
 	protected boolean resolveLocal()
 	{
@@ -100,15 +102,15 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 			TypeNode ownerType = owner.getDeclType();
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner)ownerType;
-				res = o.fixupDefinition(functionUnresolved);
+				res = o.fixupDefinition(procedureUnresolved);
 
-				functionDecl = resolver.resolve(functionUnresolved, this);
-				if(functionDecl == null) {
-					functionUnresolved.reportError("Unknown function method called -- misspelled function name? Or procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
+				procedureDecl = resolver.resolve(procedureUnresolved, this);
+				if(procedureDecl == null) {
+					procedureUnresolved.reportError("Unknown procedure method called -- misspelled procedure name? Or function call intended (not possible when assignment target is given as (param,...)=call denoting a procedure call)?");
 					return false;
 				}
 
-				successfullyResolved = functionDecl != null && successfullyResolved;
+				successfullyResolved = procedureDecl != null && successfullyResolved;
 			} else {
 				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;
@@ -124,25 +126,40 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		return checkSignatureAdhered(functionDecl, functionUnresolved, true);
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
+			reportError("procedure method call not allowed in function or lhs context");
+			return false;
+		}
+		return checkSignatureAdhered(procedureDecl, procedureUnresolved, true);
 	}
 
-	@Override
-	public TypeNode getType()
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
+		return true;
+	}
+
+	public Vector<TypeNode> getType()
 	{
 		assert isResolved();
-		return functionDecl.getReturnType();
+		return procedureDecl.getReturnTypes();
+	}
+
+	public int getNumReturnTypes()
+	{
+		return procedureDecl.returnTypes.size();
 	}
 
 	@Override
 	protected IR constructIR()
 	{
-		FunctionMethodInvocationExpr ci = new FunctionMethodInvocationExpr(owner.checkIR(Entity.class),
-				functionDecl.ret.checkIR(Type.class),
-				functionDecl.checkIR(Function.class));
+		ProcedureMethodInvocation pmi = new ProcedureMethodInvocation(owner.checkIR(Entity.class),
+				procedureDecl.checkIR(Procedure.class));
 		for(ExprNode expr : arguments.getChildren()) {
-			ci.addArgument(expr.checkIR(Expression.class));
+			pmi.addArgument(expr.checkIR(Expression.class));
 		}
-		return ci;
+		for(TypeNode type : procedureDecl.returnTypes.getChildren()) {
+			pmi.addReturnType(type.checkIR(Type.class));
+		}
+		return pmi;
 	}
 }

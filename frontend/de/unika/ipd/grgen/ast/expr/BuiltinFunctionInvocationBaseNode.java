@@ -11,6 +11,7 @@
 
 package de.unika.ipd.grgen.ast.expr;
 
+import de.unika.ipd.grgen.ast.expr.invocation.FunctionOrBuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /** base class for builtin function calls */

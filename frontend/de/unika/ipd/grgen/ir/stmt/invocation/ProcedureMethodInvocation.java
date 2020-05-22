@@ -9,7 +9,7 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ir.stmt;
+package de.unika.ipd.grgen.ir.stmt.invocation;
 
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.NeededEntities;
@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ir.executable.Procedure;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 
 /**
  * A procedure method invocation.

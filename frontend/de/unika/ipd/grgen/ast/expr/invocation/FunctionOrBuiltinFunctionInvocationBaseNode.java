@@ -9,8 +9,9 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.expr;
+package de.unika.ipd.grgen.ast.expr.invocation;
 
+import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /** base class for builtin and real function calls */

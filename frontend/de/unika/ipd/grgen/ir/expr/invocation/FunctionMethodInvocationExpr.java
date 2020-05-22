@@ -9,32 +9,43 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ir.expr;
+package de.unika.ipd.grgen.ir.expr.invocation;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.ExternalFunction;
+import de.unika.ipd.grgen.ir.executable.Function;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**
- * An external function invocation is an expression.
+ * A function method invocation is an expression.
  */
-public class ExternalFunctionInvocationExpr extends Expression
+public class FunctionMethodInvocationExpr extends Expression
 {
-	/** The arguments of the function invocation expression. */
+	/** The owner of the function method. */
+	private Entity owner;
+
+	/** The arguments of the function method invocation expression. */
 	protected List<Expression> arguments = new ArrayList<Expression>();
 
-	/** The function of the function invocation expression. */
-	protected ExternalFunction externalFunction;
+	/** The function of the function method invocation expression. */
+	protected Function function;
 
-	public ExternalFunctionInvocationExpr(Type type, ExternalFunction externalFunction)
+	public FunctionMethodInvocationExpr(Entity owner, Type type, Function function)
 	{
-		super("external function invocation expr", type);
+		super("function method invocation expr", type);
 
-		this.externalFunction = externalFunction;
+		this.owner = owner;
+		this.function = function;
+	}
+
+	public Entity getOwner()
+	{
+		return owner;
 	}
 
 	/** @return The number of arguments. */
@@ -43,9 +54,9 @@ public class ExternalFunctionInvocationExpr extends Expression
 		return arguments.size();
 	}
 
-	public ExternalFunction getExternalFunc()
+	public Function getFunction()
 	{
-		return externalFunction;
+		return function;
 	}
 
 	/**
@@ -72,6 +83,8 @@ public class ExternalFunctionInvocationExpr extends Expression
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs)
 	{
+		if(!isGlobalVariable(owner))
+			needs.add((GraphEntity)owner);
 		for(Expression child : getWalkableChildren()) {
 			child.collectNeededEntities(needs);
 		}

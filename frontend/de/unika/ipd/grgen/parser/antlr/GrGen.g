@@ -95,8 +95,10 @@ tokens {
 	import de.unika.ipd.grgen.ast.expr.deque.*;
 	import de.unika.ipd.grgen.ast.expr.map.*;
 	import de.unika.ipd.grgen.ast.expr.set.*;
+	import de.unika.ipd.grgen.ast.expr.invocation.*;
 	import de.unika.ipd.grgen.ast.stmt.*;
 	import de.unika.ipd.grgen.ast.stmt.graph.*;
+	import de.unika.ipd.grgen.ast.stmt.invocation.*;
 	import de.unika.ipd.grgen.ast.type.*;
 	import de.unika.ipd.grgen.ast.type.basic.*;
 	import de.unika.ipd.grgen.ast.type.container.*;

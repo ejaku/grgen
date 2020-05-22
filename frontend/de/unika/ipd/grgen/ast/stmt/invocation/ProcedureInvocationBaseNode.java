@@ -9,7 +9,7 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.stmt;
+package de.unika.ipd.grgen.ast.stmt.invocation;
 
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;

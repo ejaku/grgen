@@ -9,32 +9,44 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ir.expr;
+package de.unika.ipd.grgen.ir.expr.invocation;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.executable.Function;
+import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**
- * An untyped function method invocation is an expression.
+ * A function invocation is an expression.
  */
-public class UntypedFunctionMethodInvocationExpr extends Expression
+public class FunctionInvocationExpr extends Expression
 {
-	/** The arguments of the function method invocation expression. */
+	/** The arguments of the function invocation expression. */
 	protected List<Expression> arguments = new ArrayList<Expression>();
 
-	public UntypedFunctionMethodInvocationExpr(Type type)
+	/** The function of the function invocation expression. */
+	protected Function function;
+
+	public FunctionInvocationExpr(Type type, Function function)
 	{
-		super("untyped function method invocation expr", type);
+		super("function invocation expr", type);
+
+		this.function = function;
 	}
 
 	/** @return The number of arguments. */
 	public int arity()
 	{
 		return arguments.size();
+	}
+
+	public Function getFunction()
+	{
+		return function;
 	}
 
 	/**

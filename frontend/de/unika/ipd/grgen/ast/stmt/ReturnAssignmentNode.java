@@ -15,6 +15,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureInvocationDecisionNode;
+import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureMethodInvocationDecisionNode;
+import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrExternalProcedureInvocationNode;
 import de.unika.ipd.grgen.ir.stmt.AssignmentBase;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.stmt.ReturnAssignment;

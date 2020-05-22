@@ -9,7 +9,7 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ir.expr;
+package de.unika.ipd.grgen.ir.expr.invocation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +17,7 @@ import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.executable.ExternalFunction;
+import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**

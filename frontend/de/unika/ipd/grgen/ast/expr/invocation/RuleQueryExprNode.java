@@ -9,36 +9,34 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.expr;
+package de.unika.ipd.grgen.ast.expr.invocation;
 
 import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.MultiRuleQueryExpr;
+import de.unika.ipd.grgen.ir.expr.invocation.RuleQueryExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MultiRuleQueryExprNode extends ExprNode
+public class RuleQueryExprNode extends ExprNode
 {
 	static {
-		setName(MultiRuleQueryExprNode.class, "multi rule query");
+		setName(RuleQueryExprNode.class, "rule query");
 	}
 
-	private CollectNode<ExprNode> ruleQueries;
-	private IdentNode matchClass;
+	private CallActionNode callAction;
 
 	private TypeNode arrayOfMatchTypeUnresolved;
 	private TypeNode arrayOfMatchType;
 
-	public MultiRuleQueryExprNode(Coords coords, CollectNode<ExprNode> ruleQueries, IdentNode matchClass,
-			TypeNode arrayOfMatchType)
+	public RuleQueryExprNode(Coords coords, CallActionNode callAction, TypeNode arrayOfMatchType)
 	{
 		super(coords);
 
-		this.ruleQueries = becomeParent(ruleQueries);
-		this.matchClass = becomeParent(matchClass);
+		this.callAction = becomeParent(callAction);
 		this.arrayOfMatchTypeUnresolved = becomeParent(arrayOfMatchType);
 	}
 
@@ -46,8 +44,7 @@ public class MultiRuleQueryExprNode extends ExprNode
 	public Collection<? extends BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(ruleQueries);
-		children.add(matchClass);
+		children.add(callAction);
 		children.add(getValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
 		return children;
 	}
@@ -56,8 +53,7 @@ public class MultiRuleQueryExprNode extends ExprNode
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ruleQueries");
-		childrenNames.add("matchClass");
+		childrenNames.add("callAction");
 		childrenNames.add("arrayOfMatchType");
 		return childrenNames;
 	}
@@ -74,20 +70,18 @@ public class MultiRuleQueryExprNode extends ExprNode
 	@Override
 	protected boolean checkLocal()
 	{
-		// all actions must implement the match classes of the employed filters
-		for(ExprNode ruleQuery : ruleQueries.getChildren()) {
-			CallActionNode actionCall = ((RuleQueryExprNode)ruleQuery).getCallAction();
-			MultiCallActionNode.checkWhetherCalledActionImplementsMatchClass(matchClass.getIdent().toString(), null,
-					actionCall);
-		}
-
 		return true;
+	}
+
+	public CallActionNode getCallAction()
+	{
+		return callAction;
 	}
 
 	@Override
 	protected IR constructIR()
 	{
-		return new MultiRuleQueryExpr(getType().getType());
+		return new RuleQueryExpr(getType().getType());
 	}
 
 	@Override

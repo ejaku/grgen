@@ -9,7 +9,7 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.stmt;
+package de.unika.ipd.grgen.ast.stmt.invocation;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -20,16 +20,17 @@ import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclBaseNode;
 import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.stmt.ExternalProcedureInvocation;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocation;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
 import de.unika.ipd.grgen.ir.executable.Procedure;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.stmt.invocation.ExternalProcedureInvocation;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureInvocation;
 
 /**
  * Invocation of a procedure or an external procedure

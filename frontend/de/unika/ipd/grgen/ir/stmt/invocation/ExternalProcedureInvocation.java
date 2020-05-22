@@ -9,10 +9,11 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ir.stmt;
+package de.unika.ipd.grgen.ir.stmt.invocation;
 
 import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
+import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 
 /**
  * An external procedure invocation.

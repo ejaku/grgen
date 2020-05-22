@@ -16,7 +16,6 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.FunctionInvocationDecisionNode;
 import de.unika.ipd.grgen.ast.expr.graph.AdjacentNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.BoundedReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.BoundedReachableNodeExprNode;
@@ -25,6 +24,7 @@ import de.unika.ipd.grgen.ast.expr.graph.IncidentEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.ReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.ReachableNodeExprNode;
+import de.unika.ipd.grgen.ast.expr.invocation.FunctionInvocationDecisionNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.graph.ForFunction;

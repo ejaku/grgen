@@ -9,7 +9,7 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.stmt;
+package de.unika.ipd.grgen.ast.stmt.invocation;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -18,11 +18,12 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.ExternalProcedureMethodInvocationNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
+import de.unika.ipd.grgen.ast.expr.invocation.ExternalProcedureMethodInvocationNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayAddItemNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayClearNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayRemoveItemNode;

@@ -9,12 +9,16 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.expr;
+package de.unika.ipd.grgen.ast.expr.invocation;
 
 import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+import de.unika.ipd.grgen.ast.expr.CopyExprNode;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.expr.IdentExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.AdjacentNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.BoundedReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.BoundedReachableNodeExprNode;
