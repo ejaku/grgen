@@ -28,6 +28,7 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 		this.cls = cls;
 	}
 
+	@SafeVarargs
 	public DeclarationResolver(Class<? extends R>... classes)
 	{
 		this.classes = classes;
