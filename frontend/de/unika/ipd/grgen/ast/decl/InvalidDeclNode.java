@@ -12,9 +12,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.type.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.ErrorTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 
 /**

@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ast.stmt.set;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
-import de.unika.ipd.grgen.ast.type.SetTypeNode;
+import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 public abstract class SetProcedureMethodInvocationBaseNode extends ContainerProcedureMethodInvocationBaseNode

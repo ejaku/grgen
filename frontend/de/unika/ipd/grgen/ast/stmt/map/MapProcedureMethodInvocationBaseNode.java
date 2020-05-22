@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ast.stmt.map;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
-import de.unika.ipd.grgen.ast.type.MapTypeNode;
+import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 public abstract class MapProcedureMethodInvocationBaseNode extends ContainerProcedureMethodInvocationBaseNode

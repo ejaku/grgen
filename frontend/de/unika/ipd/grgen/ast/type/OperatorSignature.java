@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
-import de.unika.ipd.grgen.ast.decl.MemberDeclNode;
+import de.unika.ipd.grgen.ast.decl.model.MemberDeclNode;
 import de.unika.ipd.grgen.ast.expr.ArithmeticOpNode;
 import de.unika.ipd.grgen.ast.expr.BoolConstNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
@@ -30,6 +30,10 @@ import de.unika.ipd.grgen.ast.expr.numeric.IntConstNode;
 import de.unika.ipd.grgen.ast.expr.numeric.LongConstNode;
 import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
 import de.unika.ipd.grgen.ast.expr.string.StringConstNode;
+import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
+import de.unika.ipd.grgen.ast.type.model.EnumTypeNode;
+import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

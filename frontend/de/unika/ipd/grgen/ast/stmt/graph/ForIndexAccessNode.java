@@ -11,7 +11,7 @@
 package de.unika.ipd.grgen.ast.stmt.graph;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.IndexDeclNode;
+import de.unika.ipd.grgen.ast.decl.model.IndexDeclNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.parser.Coords;

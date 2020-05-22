@@ -16,11 +16,11 @@ import java.util.HashSet;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.ExternalTypeNode;
-import de.unika.ipd.grgen.ast.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.ObjectTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
+import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.type.model.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;

@@ -81,7 +81,11 @@ tokens {
 	import de.unika.ipd.grgen.parser.*;
 	import de.unika.ipd.grgen.ast.*;
 	import de.unika.ipd.grgen.ast.type.*;
+	import de.unika.ipd.grgen.ast.type.basic.*;
+	import de.unika.ipd.grgen.ast.type.container.*;
+	import de.unika.ipd.grgen.ast.type.model.*;
 	import de.unika.ipd.grgen.ast.decl.*;
+	import de.unika.ipd.grgen.ast.decl.model.*;
 	import de.unika.ipd.grgen.ast.decl.pattern.*;
 	import de.unika.ipd.grgen.ast.pattern.*;
 	import de.unika.ipd.grgen.ast.expr.*;

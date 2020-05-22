@@ -16,10 +16,10 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.type.IntTypeNode;
-import de.unika.ipd.grgen.ast.type.MapTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
+import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.map.MapAsArrayExpr;

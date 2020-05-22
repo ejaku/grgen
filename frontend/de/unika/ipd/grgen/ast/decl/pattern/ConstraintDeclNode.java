@@ -20,11 +20,11 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
-import de.unika.ipd.grgen.ast.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 
 import java.util.Collection;
 import java.util.HashSet;

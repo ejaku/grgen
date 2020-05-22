@@ -12,10 +12,10 @@ package de.unika.ipd.grgen.ast.pattern;
 
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
-import de.unika.ipd.grgen.ast.type.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.ContainerTypeNode;
-import de.unika.ipd.grgen.ast.type.EnumTypeNode;
-import de.unika.ipd.grgen.ast.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
+import de.unika.ipd.grgen.ast.type.model.EnumTypeNode;
+import de.unika.ipd.grgen.ast.type.model.ExternalTypeNode;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;

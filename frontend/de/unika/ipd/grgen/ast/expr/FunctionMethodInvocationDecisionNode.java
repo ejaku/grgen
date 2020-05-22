@@ -74,15 +74,15 @@ import de.unika.ipd.grgen.ast.expr.string.StringStartsWithNode;
 import de.unika.ipd.grgen.ast.expr.string.StringSubstringNode;
 import de.unika.ipd.grgen.ast.expr.string.StringToLowerNode;
 import de.unika.ipd.grgen.ast.expr.string.StringToUpperNode;
-import de.unika.ipd.grgen.ast.type.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.type.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.DequeTypeNode;
-import de.unika.ipd.grgen.ast.type.ExternalTypeNode;
-import de.unika.ipd.grgen.ast.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.MapTypeNode;
-import de.unika.ipd.grgen.ast.type.SetTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.UntypedExecVarTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.UntypedExecVarTypeNode;
+import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
+import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+import de.unika.ipd.grgen.ast.type.model.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 
 public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBaseNode
