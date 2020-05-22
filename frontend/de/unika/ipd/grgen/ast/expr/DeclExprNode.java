@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.typedecl.EnumItemNode;
+import de.unika.ipd.grgen.ast.typedecl.EnumItemDeclNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.ExecVariable;
@@ -142,8 +142,8 @@ public class DeclExprNode extends ExprNode
 		ExprNode res = this;
 		DeclNode declNode = decl.getDecl();
 
-		if(declNode instanceof EnumItemNode)
-			res = ((EnumItemNode)declNode).getValue();
+		if(declNode instanceof EnumItemDeclNode)
+			res = ((EnumItemDeclNode)declNode).getValue();
 
 		return res;
 	}

@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.typedecl.EnumItemNode;
+import de.unika.ipd.grgen.ast.typedecl.EnumItemDeclNode;
 import de.unika.ipd.grgen.ast.typedecl.EnumTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -38,7 +38,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 
 	private EnumTypeNode owner;
 
-	private EnumItemNode member;
+	private EnumItemDeclNode member;
 
 	/** returns children of this node */
 	@Override
@@ -54,8 +54,8 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 	private static final DeclarationTypeResolver<EnumTypeNode> ownerResolver =
 			new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
 
-	private static final DeclarationResolver<EnumItemNode> memberResolver =
-			new DeclarationResolver<EnumItemNode>(EnumItemNode.class);
+	private static final DeclarationResolver<EnumItemDeclNode> memberResolver =
+			new DeclarationResolver<EnumItemDeclNode>(EnumItemDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
@@ -79,7 +79,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
 	@Override
-	public EnumItemNode getDecl()
+	public EnumItemDeclNode getDecl()
 	{
 		assert isResolved();
 

@@ -2601,7 +2601,7 @@ classBody [IdentNode clsId, boolean isNode] returns [ CollectNode<BaseNode> c = 
 
 enumDecl returns [ IdentNode res = env.getDummyIdent() ]
 	@init{
-		CollectNode<EnumItemNode> c = new CollectNode<EnumItemNode>();
+		CollectNode<EnumItemDeclNode> c = new CollectNode<EnumItemDeclNode>();
 	}
 
 	: ENUM id=typeIdentDecl { env.pushScope(id); }
@@ -2614,7 +2614,7 @@ enumDecl returns [ IdentNode res = env.getDummyIdent() ]
 		RBRACE { env.popScope(); }
 	;
 
-enumList[ IdentNode enumType, CollectNode<EnumItemNode> collect ]
+enumList[ IdentNode enumType, CollectNode<EnumItemDeclNode> collect ]
 	@init{
 		int pos = 0;
 	}
@@ -2623,7 +2623,7 @@ enumList[ IdentNode enumType, CollectNode<EnumItemNode> collect ]
 		( COMMA init=enumItemDecl[enumType, collect, init, pos++] )*
 	;
 
-enumItemDecl [ IdentNode type, CollectNode<EnumItemNode> coll, ExprNode defInit, int pos ]
+enumItemDecl [ IdentNode type, CollectNode<EnumItemDeclNode> coll, ExprNode defInit, int pos ]
 				returns [ ExprNode res = env.initExprNode() ]
 	@init{
 		ExprNode value;
@@ -2636,7 +2636,7 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemNode> coll, ExprNode defInit,
 			} else {
 				value = defInit;
 			}
-			EnumItemNode memberDecl = new EnumItemNode(id, type, value, pos);
+			EnumItemDeclNode memberDecl = new EnumItemDeclNode(id, type, value, pos);
 			id.setDecl(memberDecl);
 			coll.addChild(memberDecl);
 			OpNode add = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);

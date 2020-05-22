@@ -29,7 +29,7 @@ public class EnumTypeNode extends CompoundTypeNode
 		setName(EnumTypeNode.class, "enum type");
 	}
 
-	private CollectNode<EnumItemNode> elements;
+	private CollectNode<EnumItemDeclNode> elements;
 
 	/*
 	 private static final OperatorSignature.Evaluator enumEvaluator =
@@ -48,7 +48,7 @@ public class EnumTypeNode extends CompoundTypeNode
 	 };
 	 */
 
-	public EnumTypeNode(CollectNode<EnumItemNode> body)
+	public EnumTypeNode(CollectNode<EnumItemDeclNode> body)
 	{
 		this.elements = body;
 		becomeParent(this.elements);
@@ -99,7 +99,7 @@ public class EnumTypeNode extends CompoundTypeNode
 		Ident name = getIdentNode().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
 
-		for(EnumItemNode item : elements.getChildren()) {
+		for(EnumItemDeclNode item : elements.getChildren()) {
 			EnumItem it = item.getItem();
 			it.getValue().lateInit(ty, it);
 			ty.addItem(it);

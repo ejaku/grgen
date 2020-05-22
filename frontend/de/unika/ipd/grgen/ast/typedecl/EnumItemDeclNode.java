@@ -28,10 +28,10 @@ import de.unika.ipd.grgen.util.Walkable;
 /**
  * A class for enum items.
  */
-public class EnumItemNode extends MemberDeclNode
+public class EnumItemDeclNode extends MemberDeclNode
 {
 	static {
-		setName(EnumItemNode.class, "enum item");
+		setName(EnumItemDeclNode.class, "enum item decl");
 	}
 
 	private ExprNode value;
@@ -41,9 +41,9 @@ public class EnumItemNode extends MemberDeclNode
 	private final int pos;
 
 	/**
-	 * Make a new enum item node.
+	 * Make a new enum item decl node.
 	 */
-	public EnumItemNode(IdentNode identifier, IdentNode type, ExprNode value, int pos)
+	public EnumItemDeclNode(IdentNode identifier, IdentNode type, ExprNode value, int pos)
 	{
 		super(identifier, type, true);
 		this.value = value;
@@ -94,7 +94,7 @@ public class EnumItemNode extends MemberDeclNode
 		boolean res = super.checkLocal();
 		// Check, if this enum item was defined with a latter one.
 		// This may not be.
-		HashSet<EnumItemNode> visitedEnumItems = new HashSet<EnumItemNode>();
+		HashSet<EnumItemDeclNode> visitedEnumItems = new HashSet<EnumItemDeclNode>();
 		if(!checkValue(value, visitedEnumItems))
 			return false;
 
@@ -124,11 +124,11 @@ public class EnumItemNode extends MemberDeclNode
 	 * and accesses to enum item declared after use
 	 * @returns false, if an illegal use has been found
 	 */
-	private boolean checkValue(Walkable cur, HashSet<EnumItemNode> visitedEnumItems)
+	private boolean checkValue(Walkable cur, HashSet<EnumItemDeclNode> visitedEnumItems)
 	{
-		EnumItemNode enumItem = null;
-		if(cur instanceof EnumItemNode) {
-			enumItem = (EnumItemNode)cur;
+		EnumItemDeclNode enumItem = null;
+		if(cur instanceof EnumItemDeclNode) {
+			enumItem = (EnumItemDeclNode)cur;
 			if(pos == enumItem.pos) {
 				reportError("Enum item must not depend on its own value");
 				return false;
