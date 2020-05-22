@@ -22,8 +22,8 @@ import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.model.Model;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
 
 public class SearchPlanBackend2 implements Backend, BackendFactory
 {

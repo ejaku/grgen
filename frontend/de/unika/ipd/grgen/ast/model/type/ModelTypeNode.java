@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.type.model;
+package de.unika.ipd.grgen.ast.model.type;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -14,12 +14,12 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 
 /**
- * Type of incidence count index node declaration.
+ * Type of model node declaration.
  */
-public class IncidenceCountIndexTypeNode extends TypeNode
+public class ModelTypeNode extends TypeNode
 {
 	static {
-		setName(IncidenceCountIndexTypeNode.class, "incidence count index type");
+		setName(ModelTypeNode.class, "model type");
 	}
 
 	/** returns children of this node */

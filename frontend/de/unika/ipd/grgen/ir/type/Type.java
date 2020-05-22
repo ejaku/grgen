@@ -15,7 +15,7 @@ import java.util.Comparator;
 
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
 /**
  * Abstract base class for types.

@@ -16,12 +16,12 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.model.type.ArbitraryEdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.DirectedEdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
-import de.unika.ipd.grgen.ast.type.model.ArbitraryEdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.model.DirectedEdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.model.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 

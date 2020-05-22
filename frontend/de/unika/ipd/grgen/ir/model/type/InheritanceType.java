@@ -8,7 +8,7 @@
 /**
  * @author shack
  */
-package de.unika.ipd.grgen.ir.type.model;
+package de.unika.ipd.grgen.ir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;

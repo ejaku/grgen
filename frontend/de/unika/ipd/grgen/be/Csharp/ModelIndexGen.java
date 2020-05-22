@@ -19,9 +19,9 @@ import de.unika.ipd.grgen.ir.model.AttributeIndex;
 import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
 import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.model.Model;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 import de.unika.ipd.grgen.ir.type.basic.StringType;
-import de.unika.ipd.grgen.ir.type.model.NodeType;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModelIndexGen extends CSharpBase

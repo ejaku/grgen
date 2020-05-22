@@ -9,12 +9,12 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.decl.model;
+package de.unika.ipd.grgen.ast.model.decl;
 
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 
 /**
  * AST node base base class representing index declarations (attribute index and incidence index being its specializations)

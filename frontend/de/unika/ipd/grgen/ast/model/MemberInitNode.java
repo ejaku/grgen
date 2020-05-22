@@ -8,11 +8,13 @@
 /**
  * @author Rubino Geiss
  */
-package de.unika.ipd.grgen.ast;
+package de.unika.ipd.grgen.ast.model;
 
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;

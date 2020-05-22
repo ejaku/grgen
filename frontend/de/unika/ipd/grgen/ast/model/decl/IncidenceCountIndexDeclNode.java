@@ -9,24 +9,24 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.decl.model;
+package de.unika.ipd.grgen.ast.model.decl;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountIncidentEdgeExprNode;
+import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.IncidenceCountIndexTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
-import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.model.IncidenceCountIndexTypeNode;
-import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
-import de.unika.ipd.grgen.ir.type.model.EdgeType;
-import de.unika.ipd.grgen.ir.type.model.NodeType;
+import de.unika.ipd.grgen.ir.model.type.EdgeType;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
 import java.util.Collection;

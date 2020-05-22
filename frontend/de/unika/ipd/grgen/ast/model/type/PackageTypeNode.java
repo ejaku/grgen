@@ -9,7 +9,7 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.type.model;
+package de.unika.ipd.grgen.ast.model.type;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.type.model.PackageType;
+import de.unika.ipd.grgen.ir.model.type.PackageType;
 
 /**
  * A package type AST node.

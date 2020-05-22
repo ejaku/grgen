@@ -13,14 +13,14 @@ package de.unika.ipd.grgen.ast.expr;
 
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.ByteTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.ShortTypeNode;
-import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.model.ExternalTypeNode;
-import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

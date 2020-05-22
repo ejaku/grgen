@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.model.NodeType;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
 
 public class ConnAssert extends IR
 {

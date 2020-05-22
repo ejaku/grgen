@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
 public class TypeExprSetOperator extends TypeExpr
 {

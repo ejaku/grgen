@@ -12,7 +12,7 @@
 package de.unika.ipd.grgen.ir.pattern;
 
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.type.model.NodeType;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
 

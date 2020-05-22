@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.type.model;
+package de.unika.ipd.grgen.ast.model.type;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -14,12 +14,12 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 
 /**
- * Type of model node declaration.
+ * Type of attribute index node declaration.
  */
-public class ModelTypeNode extends TypeNode
+public class AttributeIndexTypeNode extends TypeNode
 {
 	static {
-		setName(ModelTypeNode.class, "model type");
+		setName(AttributeIndexTypeNode.class, "attribute index type");
 	}
 
 	/** returns children of this node */

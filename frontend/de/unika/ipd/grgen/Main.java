@@ -43,7 +43,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.UnitNode;
-import de.unika.ipd.grgen.ast.decl.model.ModelNode;
+import de.unika.ipd.grgen.ast.model.decl.ModelNode;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.ir.Dumper;

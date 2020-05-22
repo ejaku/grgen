@@ -21,6 +21,8 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.ExternalProcedureMethodInvocationNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayAddItemNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayClearNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayRemoveItemNode;
@@ -38,8 +40,6 @@ import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
 import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.ast.type.model.ExternalTypeNode;
-import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 
 public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBaseNode

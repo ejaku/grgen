@@ -46,12 +46,6 @@ import de.unika.ipd.grgen.ir.type.container.ArrayType;
 import de.unika.ipd.grgen.ir.type.container.DequeType;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.ir.type.container.SetType;
-import de.unika.ipd.grgen.ir.type.model.EdgeType;
-import de.unika.ipd.grgen.ir.type.model.EnumType;
-import de.unika.ipd.grgen.ir.type.model.ExternalType;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
-import de.unika.ipd.grgen.ir.type.model.NodeType;
-import de.unika.ipd.grgen.ir.type.model.PackageType;
 import de.unika.ipd.grgen.util.SourceBuilder;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.ExpressionPair;
@@ -69,6 +63,12 @@ import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.model.MemberInit;
 import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.NodeEdgeEnumBearer;
+import de.unika.ipd.grgen.ir.model.type.EdgeType;
+import de.unika.ipd.grgen.ir.model.type.EnumType;
+import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
+import de.unika.ipd.grgen.ir.model.type.PackageType;
 
 public class ModelGen extends CSharpBase
 {

@@ -9,20 +9,20 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.decl.model;
+package de.unika.ipd.grgen.ast.model.decl;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.ScopeOwner;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.model.type.AttributeIndexTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.model.AttributeIndexTypeNode;
-import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.model.AttributeIndex;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
 import java.util.Collection;
 import java.util.Vector;

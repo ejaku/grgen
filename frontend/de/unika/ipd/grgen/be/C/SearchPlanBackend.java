@@ -33,6 +33,9 @@ import de.unika.ipd.grgen.ir.expr.Constant;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Operator;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.model.type.EdgeType;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Graph;
 import de.unika.ipd.grgen.ir.pattern.Node;
@@ -41,9 +44,6 @@ import de.unika.ipd.grgen.ir.stmt.Assignment;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.model.EdgeType;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
-import de.unika.ipd.grgen.ir.type.model.NodeType;
 
 public class SearchPlanBackend extends MoreInformationCollector implements Backend, BackendFactory
 {

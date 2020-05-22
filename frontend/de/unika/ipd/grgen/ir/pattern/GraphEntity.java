@@ -16,8 +16,8 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.type.TypeExpr;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
 import de.unika.ipd.grgen.util.Annotations;
 
 /**

@@ -9,13 +9,13 @@
  * @author Sebastian Hack
  */
 
-package de.unika.ipd.grgen.ast.type.model;
+package de.unika.ipd.grgen.ast.model.type;
 
 import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.model.EnumItemDeclNode;
+import de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
 import de.unika.ipd.grgen.ast.type.CompoundTypeNode;
 import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.model.EnumItem;
-import de.unika.ipd.grgen.ir.type.model.EnumType;
+import de.unika.ipd.grgen.ir.model.type.EnumType;
 
 /**
  * An enumeration type AST node.

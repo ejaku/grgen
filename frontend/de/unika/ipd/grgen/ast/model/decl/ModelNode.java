@@ -11,7 +11,7 @@
  * @author Sebastian Hack
  */
 
-package de.unika.ipd.grgen.ast.decl.model;
+package de.unika.ipd.grgen.ast.model.decl;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,14 +24,14 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.ExternalFunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.ExternalProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ModelTypeNode;
+import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.model.ExternalTypeNode;
-import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.model.ModelTypeNode;
-import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -40,7 +40,7 @@ import de.unika.ipd.grgen.ir.ExternalProcedure;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.ir.type.model.PackageType;
+import de.unika.ipd.grgen.ir.model.type.PackageType;
 
 public class ModelNode extends DeclNode
 {

@@ -9,7 +9,7 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.type.model;
+package de.unika.ipd.grgen.ast.model.type;
 
 import java.util.Collection;
 import java.util.Map;
@@ -28,8 +28,8 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.ExternalFunctionMethod;
 import de.unika.ipd.grgen.ir.ExternalProcedureMethod;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.model.ExternalType;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
 /**
  * A class representing a node type

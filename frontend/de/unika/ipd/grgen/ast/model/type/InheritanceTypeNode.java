@@ -8,7 +8,7 @@
 /**
  * @author Sebastian Hack
  */
-package de.unika.ipd.grgen.ast.type.model;
+package de.unika.ipd.grgen.ast.model.type;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -22,18 +22,18 @@ import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.ConstructorParamNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.MemberAccessor;
-import de.unika.ipd.grgen.ast.MemberInitNode;
 import de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.FunctionDeclBaseNode;
 import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.ProcedureDeclBaseNode;
 import de.unika.ipd.grgen.ast.decl.ProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.model.AbstractMemberDeclNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
 import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
 import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
 import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
+import de.unika.ipd.grgen.ast.model.MemberInitNode;
+import de.unika.ipd.grgen.ast.model.decl.AbstractMemberDeclNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.CompoundTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -45,7 +45,7 @@ import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
 import de.unika.ipd.grgen.ir.model.MemberInit;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.parser.Symbol;
 
 /**

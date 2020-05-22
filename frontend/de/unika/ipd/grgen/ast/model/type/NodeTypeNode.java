@@ -8,7 +8,7 @@
 /**
  * @author Sebastian Hack
  */
-package de.unika.ipd.grgen.ast.type.model;
+package de.unika.ipd.grgen.ast.model.type;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -16,21 +16,21 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.MemberInitNode;
 import de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
 import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.ProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.model.MemberDeclNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
 import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
 import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
 import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
+import de.unika.ipd.grgen.ast.model.MemberInitNode;
+import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.model.NodeType;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
 
 /**
  * A class representing a node type

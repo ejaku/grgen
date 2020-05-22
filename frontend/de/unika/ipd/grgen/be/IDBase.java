@@ -22,12 +22,12 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Unit;
+import de.unika.ipd.grgen.ir.model.type.EdgeType;
+import de.unika.ipd.grgen.ir.model.type.EnumType;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.type.CompoundType;
 import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.model.EdgeType;
-import de.unika.ipd.grgen.ir.type.model.EnumType;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
-import de.unika.ipd.grgen.ir.type.model.NodeType;
 import de.unika.ipd.grgen.util.Base;
 
 /**

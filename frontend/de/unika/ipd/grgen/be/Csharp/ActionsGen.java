@@ -26,6 +26,8 @@ import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.VariableExpression;
 import de.unika.ipd.grgen.ir.model.Model;
+import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
@@ -46,8 +48,6 @@ import de.unika.ipd.grgen.ir.stmt.ReturnStatementFilter;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 import de.unika.ipd.grgen.ir.type.PackageActionType;
 import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.model.ExternalType;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ActionsGen extends CSharpBase

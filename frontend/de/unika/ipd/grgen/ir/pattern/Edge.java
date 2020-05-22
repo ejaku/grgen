@@ -17,7 +17,7 @@ package de.unika.ipd.grgen.ir.pattern;
 import java.util.HashMap;
 
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.type.model.EdgeType;
+import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
 

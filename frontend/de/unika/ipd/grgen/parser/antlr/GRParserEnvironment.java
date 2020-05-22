@@ -21,7 +21,7 @@ import org.antlr.runtime.*;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.model.ModelNode;
+import de.unika.ipd.grgen.ast.model.decl.ModelNode;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
 /**

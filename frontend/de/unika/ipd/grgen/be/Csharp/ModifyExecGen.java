@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.model.Model;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
@@ -29,7 +30,6 @@ import de.unika.ipd.grgen.ir.stmt.ExecStatement;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 import de.unika.ipd.grgen.ir.type.MatchType;
-import de.unika.ipd.grgen.ir.type.model.InheritanceType;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModifyExecGen extends CSharpBase

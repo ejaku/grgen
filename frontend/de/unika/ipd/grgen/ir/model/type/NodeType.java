@@ -9,7 +9,7 @@
  * @author shack
  */
 
-package de.unika.ipd.grgen.ir.type.model;
+package de.unika.ipd.grgen.ir.model.type;
 
 import de.unika.ipd.grgen.ir.ContainedInPackage;
 import de.unika.ipd.grgen.ir.Ident;

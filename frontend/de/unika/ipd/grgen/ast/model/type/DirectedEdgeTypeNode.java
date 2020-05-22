@@ -6,25 +6,25 @@
  */
 
 /**
- * @author Sebastian Buchwald
+ * @author Sebastian Hack
  */
 
-package de.unika.ipd.grgen.ast.type.model;
+package de.unika.ipd.grgen.ast.model.type;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.ConnAssertNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ir.type.model.EdgeType;
+import de.unika.ipd.grgen.ast.model.ConnAssertNode;
+import de.unika.ipd.grgen.ir.model.type.EdgeType;
 
-public class UndirectedEdgeTypeNode extends EdgeTypeNode
+public class DirectedEdgeTypeNode extends EdgeTypeNode
 {
 	static {
-		setName(UndirectedEdgeTypeNode.class, "undirected edge type");
+		setName(DirectedEdgeTypeNode.class, "directed edge type");
 	}
 
 	/**
-	 * Make a new undirected edge type node.
+	 * Make a new directed edge type node.
 	 * @param ext The collect node with all edge classes that this one extends.
 	 * @param cas The collect node with all connection assertion of this type.
 	 * @param body The body of the type declaration. It consists of basic
@@ -32,8 +32,8 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public UndirectedEdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas,
-			CollectNode<BaseNode> body, int modifiers, String externalName)
+	public DirectedEdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body,
+			int modifiers, String externalName)
 	{
 		super(ext, cas, body, modifiers, externalName);
 	}
@@ -41,16 +41,16 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode
 	@Override
 	protected void setDirectednessIR(EdgeType edgeType)
 	{
-		edgeType.setDirectedness(EdgeType.Directedness.Undirected);
+		edgeType.setDirectedness(EdgeType.Directedness.Directed);
 	}
 
 	public static String getKindStr()
 	{
-		return "undirected edge type";
+		return "directed edge type";
 	}
 
 	public static String getUseStr()
 	{
-		return "undirected edge type";
+		return "directed edge type";
 	}
 }

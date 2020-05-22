@@ -15,10 +15,10 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.model.AttributeIndexDeclNode;
-import de.unika.ipd.grgen.ast.decl.model.IncidenceCountIndexDeclNode;
-import de.unika.ipd.grgen.ast.decl.model.IndexDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.model.decl.AttributeIndexDeclNode;
+import de.unika.ipd.grgen.ast.model.decl.IncidenceCountIndexDeclNode;
+import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.OperatorSignature;

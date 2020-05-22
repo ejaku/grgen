@@ -16,14 +16,14 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.model.EnumItemDeclNode;
-import de.unika.ipd.grgen.ast.type.model.EnumTypeNode;
+import de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
+import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.EnumExpression;
 import de.unika.ipd.grgen.ir.model.EnumItem;
-import de.unika.ipd.grgen.ir.type.model.EnumType;
+import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class EnumExprNode extends QualIdentNode implements DeclaredCharacter

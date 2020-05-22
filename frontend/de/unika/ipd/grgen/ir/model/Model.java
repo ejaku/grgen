@@ -26,13 +26,13 @@ import de.unika.ipd.grgen.ir.ExternalFunction;
 import de.unika.ipd.grgen.ir.ExternalProcedure;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.model.type.EdgeType;
+import de.unika.ipd.grgen.ir.model.type.EnumType;
+import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
+import de.unika.ipd.grgen.ir.model.type.PackageType;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
-import de.unika.ipd.grgen.ir.type.model.EdgeType;
-import de.unika.ipd.grgen.ir.type.model.EnumType;
-import de.unika.ipd.grgen.ir.type.model.ExternalType;
-import de.unika.ipd.grgen.ir.type.model.NodeType;
-import de.unika.ipd.grgen.ir.type.model.PackageType;
 
 public class Model extends Identifiable implements NodeEdgeEnumBearer
 {

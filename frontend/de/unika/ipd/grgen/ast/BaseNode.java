@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.decl.model.ModelNode;
+import de.unika.ipd.grgen.ast.model.decl.ModelNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;

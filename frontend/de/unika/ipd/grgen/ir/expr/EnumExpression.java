@@ -14,7 +14,7 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.model.EnumItem;
-import de.unika.ipd.grgen.ir.type.model.EnumType;
+import de.unika.ipd.grgen.ir.model.type.EnumType;
 
 public class EnumExpression extends Constant
 {

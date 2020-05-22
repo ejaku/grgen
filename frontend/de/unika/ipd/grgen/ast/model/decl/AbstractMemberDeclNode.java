@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.decl.model;
+package de.unika.ipd.grgen.ast.model.decl;
 
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;

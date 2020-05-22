@@ -5,17 +5,20 @@
  * www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast;
+package de.unika.ipd.grgen.ast.model;
 
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.RangeSpecNode;
+import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.model.ConnAssert;
-import de.unika.ipd.grgen.ir.type.model.NodeType;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
 
 /**
  * AST node that represents a Connection Assertion
