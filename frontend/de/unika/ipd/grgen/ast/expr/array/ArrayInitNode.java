@@ -11,13 +11,10 @@
 
 package de.unika.ipd.grgen.ast.expr.array;
 
-import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.DeclExprNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.expr.ContainerSingleElementInitNode;
 import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
@@ -27,16 +24,11 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.typedecl.ArrayType;
 import de.unika.ipd.grgen.parser.Coords;
 
-//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque 
-//should be unified in abstract base classes and algorithms working on them
-
-public class ArrayInitNode extends ExprNode
+public class ArrayInitNode extends ContainerSingleElementInitNode
 {
 	static {
 		setName(ArrayInitNode.class, "array init");
 	}
-
-	private CollectNode<ExprNode> arrayItems = new CollectNode<ExprNode>();
 
 	// if array init node is used in model, for member init
 	//     then lhs != null, arrayType == null
@@ -55,27 +47,6 @@ public class ArrayInitNode extends ExprNode
 		} else {
 			this.arrayType = arrayType;
 		}
-	}
-
-	@Override
-	public Collection<? extends BaseNode> getChildren()
-	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(arrayItems);
-		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("arrayItems");
-		return childrenNames;
-	}
-
-	public void addArrayItem(ExprNode item)
-	{
-		arrayItems.addChild(item);
 	}
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
@@ -98,41 +69,7 @@ public class ArrayInitNode extends ExprNode
 	@Override
 	protected boolean checkLocal()
 	{
-		boolean success = true;
-
-		ArrayTypeNode arrayType;
-		if(lhs != null) {
-			TypeNode type = lhs.getDeclType();
-			assert type instanceof ArrayTypeNode : "Lhs should be a Array<Value>";
-			arrayType = (ArrayTypeNode)type;
-		} else {
-			arrayType = this.arrayType;
-		}
-
-		for(ExprNode item : arrayItems.getChildren()) {
-			if(item.getType() != arrayType.valueType) {
-				if(this.arrayType != null) {
-					ExprNode oldValueExpr = item;
-					ExprNode newValueExpr = item.adjustType(arrayType.valueType, getCoords());
-					arrayItems.replace(oldValueExpr, newValueExpr);
-					if(newValueExpr == ConstNode.getInvalid()) {
-						success = false;
-						item.reportError("Value type \"" + oldValueExpr.getType()
-								+ "\" of initializer doesn't fit to value type \"" + arrayType.valueType
-								+ "\" of array.");
-					}
-				} else {
-					success = false;
-					item.reportError("Value type \"" + item.getType()
-							+ "\" of initializer doesn't fit to value type \"" + arrayType.valueType
-							+ "\" of array (all items must be of exactly the same type).");
-				}
-			}
-		}
-
-		if(lhs == null && this.arrayType == null) {
-			this.arrayType = arrayType;
-		}
+		boolean success = checkContainerItems();
 
 		if(!isConstant() && lhs != null) {
 			reportError("Only constant items allowed in array initialization in model");
@@ -144,47 +81,13 @@ public class ArrayInitNode extends ExprNode
 
 	protected ArrayTypeNode createArrayType()
 	{
-		TypeNode itemTypeNode = arrayItems.getChildren().iterator().next().getType();
+		TypeNode itemTypeNode = containerItems.getChildren().iterator().next().getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return new ArrayTypeNode(itemTypeIdent);
 	}
 
-	/**
-	 * Checks whether the set only contains constants.
-	 * @return True, if all set items are constant.
-	 */
-	protected boolean isConstant()
-	{
-		for(ExprNode item : arrayItems.getChildren()) {
-			if(!(item instanceof ConstNode || isEnumValue(item)))
-				return false;
-		}
-		return true;
-	}
-
-	protected boolean isEnumValue(ExprNode expr)
-	{
-		if(!(expr instanceof DeclExprNode))
-			return false;
-		if(!(((DeclExprNode)expr).isEnumValue()))
-			return false;
-		return true;
-	}
-
-	protected boolean contains(ConstNode node)
-	{
-		for(ExprNode item : arrayItems.getChildren()) {
-			if(item instanceof ConstNode) {
-				ConstNode itemConst = (ConstNode)item;
-				if(node.getValue().equals(itemConst.getValue()))
-					return true;
-			}
-		}
-		return false;
-	}
-
 	@Override
-	public TypeNode getType()
+	public ArrayTypeNode getContainerType()
 	{
 		assert(isResolved());
 		if(lhs != null) {
@@ -195,18 +98,16 @@ public class ArrayInitNode extends ExprNode
 		}
 	}
 
-	protected CollectNode<ExprNode> getItems()
+	@Override
+	public boolean isInitInModel()
 	{
-		return arrayItems;
+		return arrayType == null;
 	}
 
 	@Override
 	protected IR constructIR()
 	{
-		Vector<Expression> items = new Vector<Expression>();
-		for(ExprNode item : arrayItems.getChildren()) {
-			items.add(item.checkIR(Expression.class));
-		}
+		Vector<Expression> items = constructItems();
 		Entity member = lhs != null ? lhs.getEntity() : null;
 		ArrayType type = arrayType != null ? arrayType.checkIR(ArrayType.class) : null;
 		return new ArrayInit(items, member, type, isConstant());

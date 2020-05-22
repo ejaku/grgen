@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.DeclExprNode;
+import de.unika.ipd.grgen.ast.expr.ContainerInitNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprPairNode;
 import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
@@ -28,10 +28,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.typedecl.MapType;
 import de.unika.ipd.grgen.parser.Coords;
 
-//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque 
-//should be unified in abstract base classes and algorithms working on them
-
-public class MapInitNode extends ExprNode
+public class MapInitNode extends ContainerInitNode
 {
 	static {
 		setName(MapInitNode.class, "map init");
@@ -74,7 +71,7 @@ public class MapInitNode extends ExprNode
 		return childrenNames;
 	}
 
-	public void addMapItem(ExprPairNode item)
+	public void addPairItem(ExprPairNode item)
 	{
 		mapItems.addChild(item);
 	}
@@ -101,31 +98,25 @@ public class MapInitNode extends ExprNode
 	{
 		boolean success = true;
 
-		MapTypeNode mapType;
-		if(lhs != null) {
-			TypeNode type = lhs.getDeclType();
-			assert type instanceof MapTypeNode : "Lhs should be a Map<Key,Value>";
-			mapType = (MapTypeNode)type;
-		} else {
-			mapType = this.mapType;
-		}
-
+		MapTypeNode mapType = getContainerType();
 		for(ExprPairNode item : mapItems.getChildren()) {
 			if(item.keyExpr.getType() != mapType.keyType) {
-				if(this.mapType != null) {
+				if(!isInitInModel()) {
 					ExprNode oldKeyExpr = item.keyExpr;
 					item.keyExpr = item.keyExpr.adjustType(mapType.keyType, getCoords());
 					item.switchParenthood(oldKeyExpr, item.keyExpr);
 					if(item.keyExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.keyExpr.reportError("Key type \"" + oldKeyExpr.getType()
-								+ "\" of initializer doesn't fit to key type \"" + mapType.keyType + "\" of map.");
+								+ "\" of initializer doesn't fit to key type \"" + mapType.keyType
+								+ "\" of the map (" + mapType + ").");
 					}
 				} else {
 					success = false;
 					item.keyExpr.reportError("Key type \"" + item.keyExpr.getType()
-							+ "\" of initializer doesn't fit to key type \""
-							+ mapType.keyType + "\" of map (all items must be of exactly the same type).");
+							+ "\" of initializer doesn't fit to key type \"" + mapType.keyType
+							+ "\" of the map (" + mapType
+							+ " -- all items must be of exactly the same type).");
 				}
 			}
 			if(item.valueExpr.getType() != mapType.valueType) {
@@ -136,19 +127,17 @@ public class MapInitNode extends ExprNode
 					if(item.valueExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
-								+ "\" of initializer doesn't fit to value type \"" + mapType.valueType + "\" of map.");
+								+ "\" of initializer doesn't fit to value type \"" + mapType.valueType
+								+ "\" of the map (" + mapType + ").");
 					}
 				} else {
 					success = false;
 					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
 							+ "\" of initializer doesn't fit to value type \"" + mapType.valueType
-							+ "\" of map (all items must be of exactly the same type).");
+							+ "\" of the map (" + mapType
+							+ " -- all items must be of exactly the same type).");
 				}
 			}
-		}
-
-		if(lhs == null && this.mapType == null) {
-			this.mapType = mapType;
 		}
 
 		if(!isConstant() && lhs != null) {
@@ -183,17 +172,8 @@ public class MapInitNode extends ExprNode
 		return true;
 	}
 
-	private boolean isEnumValue(ExprNode expr)
-	{
-		if(!(expr instanceof DeclExprNode))
-			return false;
-		if(!(((DeclExprNode)expr).isEnumValue()))
-			return false;
-		return true;
-	}
-
 	@Override
-	public TypeNode getType()
+	public MapTypeNode getContainerType()
 	{
 		assert(isResolved());
 		if(lhs != null) {
@@ -202,6 +182,12 @@ public class MapInitNode extends ExprNode
 		} else {
 			return mapType;
 		}
+	}
+
+	@Override
+	public boolean isInitInModel()
+	{
+		return mapType == null;
 	}
 
 	public CollectNode<ExprPairNode> getItems()

@@ -2880,8 +2880,8 @@ initExprDecl [IdentNode id] returns [ MemberInitNode res = null ]
 initMapExpr [int context, IdentNode id, MapTypeNode mapType] returns [ ExprNode res = null ]
 	@init{ MapInitNode mapInit = null; }
 	: l=LBRACE { res = mapInit = new MapInitNode(getCoords(l), id, mapType); }
-		( item1=keyToValue[context] { mapInit.addMapItem(item1); }
-			( COMMA item2=keyToValue[context] { mapInit.addMapItem(item2); } )*
+		( item1=keyToValue[context] { mapInit.addPairItem(item1); }
+			( COMMA item2=keyToValue[context] { mapInit.addPairItem(item2); } )*
 		)?
 	  RBRACE
 	| lp=LPAREN value=expr[context, false]
@@ -2892,9 +2892,7 @@ initMapExpr [int context, IdentNode id, MapTypeNode mapType] returns [ ExprNode 
 initSetExpr [int context, IdentNode id, SetTypeNode setType] returns [ ExprNode res = null ]
 	@init{ SetInitNode setInit = null; }
 	: l=LBRACE { res = setInit = new SetInitNode(getCoords(l), id, setType); }
-		( item1=expr[context, false] { setInit.addSetItem(item1); }
-			( COMMA item2=expr[context, false] { setInit.addSetItem(item2); } )*
-		)?
+		( initializerOfSingleElements[context, setInit] )?
 	  RBRACE
 	| lp=LPAREN value=expr[context, false]
 		{ res = new SetCopyConstructorNode(getCoords(lp), id, setType, value); }
@@ -2904,9 +2902,7 @@ initSetExpr [int context, IdentNode id, SetTypeNode setType] returns [ ExprNode 
 initArrayExpr [int context, IdentNode id, ArrayTypeNode arrayType] returns [ ExprNode res = null ]
 	@init{ ArrayInitNode arrayInit = null; }
 	: l=LBRACK { res = arrayInit = new ArrayInitNode(getCoords(l), id, arrayType); }
-		( item1=expr[context, false] { arrayInit.addArrayItem(item1); }
-			( COMMA item2=expr[context, false] { arrayInit.addArrayItem(item2); } )*
-		)?
+		( initializerOfSingleElements[context, arrayInit] )?
 	  RBRACK
 	| lp=LPAREN value=expr[context, false]
 		{ res = new ArrayCopyConstructorNode(getCoords(lp), id, arrayType, value); }
@@ -2916,13 +2912,16 @@ initArrayExpr [int context, IdentNode id, ArrayTypeNode arrayType] returns [ Exp
 initDequeExpr [int context, IdentNode id, DequeTypeNode dequeType] returns [ ExprNode res = null ]
 	@init{ DequeInitNode dequeInit = null; }
 	: l=LBRACK { res = dequeInit = new DequeInitNode(getCoords(l), id, dequeType); }
-		( item1=expr[context, false] { dequeInit.addDequeItem(item1); }
-			( COMMA item2=expr[context, false] { dequeInit.addDequeItem(item2); } )*
-		)?
+		( initializerOfSingleElements[context, dequeInit] )?
 	  RBRACK
 	| lp=LPAREN value=expr[context, false]
 		{ res = new DequeCopyConstructorNode(getCoords(lp), id, dequeType, value); }
 	  RPAREN 
+	;
+
+initializerOfSingleElements [int context, ContainerSingleElementInitNode initNode]
+	: item1=expr[context, false] { initNode.addItem(item1); }
+		( COMMA item2=expr[context, false] { initNode.addItem(item2); } )*
 	;
 
 keyToValue [int context] returns [ ExprPairNode res = null ]

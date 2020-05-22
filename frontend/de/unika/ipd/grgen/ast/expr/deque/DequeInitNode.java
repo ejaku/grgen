@@ -11,13 +11,10 @@
 
 package de.unika.ipd.grgen.ast.expr.deque;
 
-import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.DeclExprNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.expr.ContainerSingleElementInitNode;
 import de.unika.ipd.grgen.ast.typedecl.DequeTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
@@ -27,16 +24,11 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.typedecl.DequeType;
 import de.unika.ipd.grgen.parser.Coords;
 
-//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque
-//should be unified in abstract base classes and algorithms working on them
-
-public class DequeInitNode extends ExprNode
+public class DequeInitNode extends ContainerSingleElementInitNode
 {
 	static {
 		setName(DequeInitNode.class, "deque init");
 	}
-
-	private CollectNode<ExprNode> dequeItems = new CollectNode<ExprNode>();
 
 	// if deque init node is used in model, for member init
 	//     then lhs != null, dequeType == null
@@ -55,27 +47,6 @@ public class DequeInitNode extends ExprNode
 		} else {
 			this.dequeType = dequeType;
 		}
-	}
-
-	@Override
-	public Collection<? extends BaseNode> getChildren()
-	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(dequeItems);
-		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("dequeItems");
-		return childrenNames;
-	}
-
-	public void addDequeItem(ExprNode item)
-	{
-		dequeItems.addChild(item);
 	}
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
@@ -98,41 +69,7 @@ public class DequeInitNode extends ExprNode
 	@Override
 	protected boolean checkLocal()
 	{
-		boolean success = true;
-
-		DequeTypeNode dequeType;
-		if(lhs != null) {
-			TypeNode type = lhs.getDeclType();
-			assert type instanceof DequeTypeNode : "Lhs should be a Deque<Value>";
-			dequeType = (DequeTypeNode)type;
-		} else {
-			dequeType = this.dequeType;
-		}
-
-		for(ExprNode item : dequeItems.getChildren()) {
-			if(item.getType() != dequeType.valueType) {
-				if(this.dequeType != null) {
-					ExprNode oldValueExpr = item;
-					ExprNode newValueExpr = item.adjustType(dequeType.valueType, getCoords());
-					dequeItems.replace(oldValueExpr, newValueExpr);
-					if(newValueExpr == ConstNode.getInvalid()) {
-						success = false;
-						item.reportError("Value type \"" + oldValueExpr.getType()
-								+ "\" of initializer doesn't fit to value type \"" + dequeType.valueType
-								+ "\" of deque.");
-					}
-				} else {
-					success = false;
-					item.reportError("Value type \"" + item.getType()
-							+ "\" of initializer doesn't fit to value type \"" + dequeType.valueType
-							+ "\" of deque (all items must be of exactly the same type).");
-				}
-			}
-		}
-
-		if(lhs == null && this.dequeType == null) {
-			this.dequeType = dequeType;
-		}
+		boolean success = checkContainerItems();
 
 		if(!isConstant() && lhs != null) {
 			reportError("Only constant items allowed in deque initialization in model");
@@ -144,47 +81,13 @@ public class DequeInitNode extends ExprNode
 
 	protected DequeTypeNode createDequeType()
 	{
-		TypeNode itemTypeNode = dequeItems.getChildren().iterator().next().getType();
+		TypeNode itemTypeNode = containerItems.getChildren().iterator().next().getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return new DequeTypeNode(itemTypeIdent);
 	}
 
-	/**
-	 * Checks whether the set only contains constants.
-	 * @return True, if all set items are constant.
-	 */
-	protected boolean isConstant()
-	{
-		for(ExprNode item : dequeItems.getChildren()) {
-			if(!(item instanceof ConstNode || isEnumValue(item)))
-				return false;
-		}
-		return true;
-	}
-
-	protected boolean isEnumValue(ExprNode expr)
-	{
-		if(!(expr instanceof DeclExprNode))
-			return false;
-		if(!(((DeclExprNode)expr).isEnumValue()))
-			return false;
-		return true;
-	}
-
-	protected boolean contains(ConstNode node)
-	{
-		for(ExprNode item : dequeItems.getChildren()) {
-			if(item instanceof ConstNode) {
-				ConstNode itemConst = (ConstNode)item;
-				if(node.getValue().equals(itemConst.getValue()))
-					return true;
-			}
-		}
-		return false;
-	}
-
 	@Override
-	public TypeNode getType()
+	public DequeTypeNode getContainerType()
 	{
 		assert(isResolved());
 		if(lhs != null) {
@@ -195,18 +98,16 @@ public class DequeInitNode extends ExprNode
 		}
 	}
 
-	protected CollectNode<ExprNode> getItems()
+	@Override
+	public boolean isInitInModel()
 	{
-		return dequeItems;
+		return dequeType == null;
 	}
 
 	@Override
 	protected IR constructIR()
 	{
-		Vector<Expression> items = new Vector<Expression>();
-		for(ExprNode item : dequeItems.getChildren()) {
-			items.add(item.checkIR(Expression.class));
-		}
+		Vector<Expression> items = constructItems();
 		Entity member = lhs != null ? lhs.getEntity() : null;
 		DequeType type = dequeType != null ? dequeType.checkIR(DequeType.class) : null;
 		return new DequeInit(items, member, type, isConstant());
