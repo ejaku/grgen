@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Cast;
 import de.unika.ipd.grgen.ir.expr.Constant;
 import de.unika.ipd.grgen.ir.expr.Expression;

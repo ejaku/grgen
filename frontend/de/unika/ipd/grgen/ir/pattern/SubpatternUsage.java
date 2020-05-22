@@ -15,7 +15,7 @@ import java.util.List;
 
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Expression;
 
 public class SubpatternUsage extends Identifiable

@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.decl.MatchClassFilterFunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.MatchClassFilterFunctionDeclNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;

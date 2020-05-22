@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
+import de.unika.ipd.grgen.ast.type.executable.FunctionSignature;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

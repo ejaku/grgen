@@ -12,7 +12,7 @@
 package de.unika.ipd.grgen.ir.stmt.procenv;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.ProcedureBase;
+import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 
 public class PauseTransactionProc extends ProcedureInvocationBase

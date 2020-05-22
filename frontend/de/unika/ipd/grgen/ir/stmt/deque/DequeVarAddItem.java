@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ir.stmt.deque;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;

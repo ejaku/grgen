@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.decl.TestDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 
 /**
  * AST interface representing filters

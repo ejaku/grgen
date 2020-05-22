@@ -16,6 +16,10 @@ import java.util.Collection;
 import java.util.Date;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.executable.ExternalFunction;
+import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
+import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
+import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.type.ExternalType;

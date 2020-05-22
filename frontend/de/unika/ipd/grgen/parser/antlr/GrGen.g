@@ -84,6 +84,7 @@ tokens {
 	import de.unika.ipd.grgen.ast.model.type.*;
 	import de.unika.ipd.grgen.ast.*;
 	import de.unika.ipd.grgen.ast.decl.*;
+	import de.unika.ipd.grgen.ast.decl.executable.*;
 	import de.unika.ipd.grgen.ast.decl.pattern.*;
 	import de.unika.ipd.grgen.ast.pattern.*;
 	import de.unika.ipd.grgen.ast.expr.*;

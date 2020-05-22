@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ir.stmt.deque;
 import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Variable;

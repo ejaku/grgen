@@ -84,8 +84,8 @@ import de.unika.ipd.grgen.ast.expr.procenv.ExistsFileExprNode;
 import de.unika.ipd.grgen.ast.expr.procenv.ImportExprNode;
 import de.unika.ipd.grgen.ast.expr.procenv.NowExprNode;
 import de.unika.ipd.grgen.ast.expr.procenv.RandomNode;
-import de.unika.ipd.grgen.ast.type.FunctionTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.executable.FunctionTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 

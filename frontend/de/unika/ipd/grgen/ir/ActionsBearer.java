@@ -13,6 +13,12 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
 
+import de.unika.ipd.grgen.ir.executable.FilterFunction;
+import de.unika.ipd.grgen.ir.executable.Function;
+import de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
+import de.unika.ipd.grgen.ir.executable.Procedure;
+import de.unika.ipd.grgen.ir.executable.Rule;
+import de.unika.ipd.grgen.ir.executable.Sequence;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 
 /**

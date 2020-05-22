@@ -22,6 +22,9 @@ import java.util.Map;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.executable.Action;
+import de.unika.ipd.grgen.ir.executable.MatchingAction;
+import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Operator;
 import de.unika.ipd.grgen.ir.expr.Qualification;

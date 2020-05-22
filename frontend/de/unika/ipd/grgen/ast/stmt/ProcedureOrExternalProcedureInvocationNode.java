@@ -16,9 +16,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.ExternalProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.ProcedureDeclBaseNode;
-import de.unika.ipd.grgen.ast.decl.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclBaseNode;
+import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
@@ -26,9 +26,9 @@ import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.stmt.ExternalProcedureInvocation;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocation;
 import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.ExternalProcedure;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Procedure;
+import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
+import de.unika.ipd.grgen.ir.executable.Procedure;
 import de.unika.ipd.grgen.ir.expr.Expression;
 
 /**

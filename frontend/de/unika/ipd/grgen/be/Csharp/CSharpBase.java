@@ -21,6 +21,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
+import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
+import de.unika.ipd.grgen.ir.executable.FunctionMethod;
+import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
+import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 import de.unika.ipd.grgen.ir.type.MatchType;

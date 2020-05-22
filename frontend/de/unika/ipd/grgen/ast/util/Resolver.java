@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.ScopeOwner;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.TestDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ir.FilterInvocation;
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 

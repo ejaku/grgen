@@ -13,6 +13,8 @@
 package de.unika.ipd.grgen.be.Csharp;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.executable.Procedure;
+import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;

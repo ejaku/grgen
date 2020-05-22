@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.type.Type;
 
 public class IteratedQueryExpr extends Expression

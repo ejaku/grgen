@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.executable.Rule;
 
 /**
  * Represents an alternative statement in the IR.

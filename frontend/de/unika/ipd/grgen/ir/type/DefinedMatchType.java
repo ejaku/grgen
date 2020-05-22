@@ -18,7 +18,7 @@ import java.util.List;
 
 import de.unika.ipd.grgen.ir.ContainedInPackage;
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.MatchClassFilter;
+import de.unika.ipd.grgen.ir.executable.MatchClassFilter;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;

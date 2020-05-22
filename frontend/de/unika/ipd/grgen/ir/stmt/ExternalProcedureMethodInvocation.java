@@ -14,9 +14,9 @@ package de.unika.ipd.grgen.ir.stmt;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unika.ipd.grgen.ir.ExternalProcedure;
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.ProcedureBase;
+import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
+import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;

@@ -16,9 +16,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.FilterFunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.stmt.ReturnStatement;

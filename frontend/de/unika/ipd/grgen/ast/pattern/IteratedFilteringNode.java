@@ -20,8 +20,8 @@ import de.unika.ipd.grgen.ast.FilterInvocationNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.SubpatternDeclNode;
-import de.unika.ipd.grgen.ast.decl.TestDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.FilterInvocation;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.pattern.IteratedFiltering;
 
 public class IteratedFilteringNode extends EvalStatementNode

@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir.pattern;
 
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.executable.Rule;
 
 public class IteratedReplacement extends Identifiable implements OrderedReplacement
 {

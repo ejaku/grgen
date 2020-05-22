@@ -10,7 +10,7 @@ package de.unika.ipd.grgen.ir.stmt.procenv;
 import java.util.Collection;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.ProcedureBase;
+import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 

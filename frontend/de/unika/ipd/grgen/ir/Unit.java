@@ -22,6 +22,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ir.executable.FilterFunction;
+import de.unika.ipd.grgen.ir.executable.Function;
+import de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
+import de.unika.ipd.grgen.ir.executable.Procedure;
+import de.unika.ipd.grgen.ir.executable.Rule;
+import de.unika.ipd.grgen.ir.executable.Sequence;
 import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.NodeEdgeEnumBearer;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;

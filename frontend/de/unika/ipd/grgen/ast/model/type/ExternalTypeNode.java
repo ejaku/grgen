@@ -17,17 +17,17 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.ExternalFunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.ExternalProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
 import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.ExternalFunctionMethod;
-import de.unika.ipd.grgen.ir.ExternalProcedureMethod;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
+import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
 import de.unika.ipd.grgen.ir.model.type.ExternalType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 

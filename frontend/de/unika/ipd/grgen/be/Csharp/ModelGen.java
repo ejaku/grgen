@@ -29,6 +29,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.executable.FunctionMethod;
+import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;

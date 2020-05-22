@@ -65,7 +65,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	}
 
 	/** Set the name of this IR object. */
-	protected void setName(String newName)
+	public void setName(String newName)
 	{
 		name = newName;
 	}

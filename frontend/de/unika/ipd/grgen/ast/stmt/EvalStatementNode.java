@@ -13,9 +13,9 @@ package de.unika.ipd.grgen.ast.stmt;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.ProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.SubpatternDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.pattern.OrderedReplacementNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;

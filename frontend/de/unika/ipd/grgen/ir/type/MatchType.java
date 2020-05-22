@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir.type;
 
 import de.unika.ipd.grgen.ir.ContainedInPackage;
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.executable.Rule;
 
 public class MatchType extends Type implements ContainedInPackage
 {

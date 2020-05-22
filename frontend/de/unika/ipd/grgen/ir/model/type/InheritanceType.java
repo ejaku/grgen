@@ -22,9 +22,9 @@ import java.util.Set;
 
 import de.unika.ipd.grgen.ir.Constructor;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.FunctionMethod;
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.ProcedureMethod;
+import de.unika.ipd.grgen.ir.executable.FunctionMethod;
+import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
 import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;

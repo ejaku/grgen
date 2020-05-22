@@ -17,9 +17,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.RuleDeclNode;
-import de.unika.ipd.grgen.ast.decl.SubpatternDeclNode;
-import de.unika.ipd.grgen.ast.decl.TestDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;

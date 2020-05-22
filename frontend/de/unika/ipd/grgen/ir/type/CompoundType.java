@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.FunctionMethod;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.ProcedureMethod;
+import de.unika.ipd.grgen.ir.executable.FunctionMethod;
+import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
 
 /**
  * Abstract base class for compound types containing members.

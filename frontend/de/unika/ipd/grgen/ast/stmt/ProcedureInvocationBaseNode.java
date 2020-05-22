@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.stmt;
 
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.ProcedureDeclBaseNode;
+import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;

@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
+import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
 
 /**
  * IR class that represents external types.

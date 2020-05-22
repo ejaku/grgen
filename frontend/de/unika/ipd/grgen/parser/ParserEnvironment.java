@@ -20,9 +20,9 @@ import org.antlr.runtime.Token;
 import org.antlr.runtime.Lexer;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.FilterAutoNode;
-import de.unika.ipd.grgen.ast.decl.FilterAutoSuppliedNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.FilterAutoNode;
+import de.unika.ipd.grgen.ast.decl.executable.FilterAutoSuppliedNode;
 import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;

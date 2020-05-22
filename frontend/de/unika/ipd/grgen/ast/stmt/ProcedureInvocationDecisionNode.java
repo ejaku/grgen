@@ -50,8 +50,8 @@ import de.unika.ipd.grgen.ast.stmt.procenv.RecordProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.ResumeTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.RollbackTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.StartTransactionProcNode;
-import de.unika.ipd.grgen.ast.type.ProcedureTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.executable.ProcedureTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
