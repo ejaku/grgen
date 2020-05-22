@@ -21,8 +21,8 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
-import de.unika.ipd.grgen.ir.expr.array.ArrayItem;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.typedecl.ArrayType;
 import de.unika.ipd.grgen.parser.Coords;
@@ -36,7 +36,7 @@ public class ArrayInitNode extends ExprNode
 		setName(ArrayInitNode.class, "array init");
 	}
 
-	private CollectNode<ArrayItemNode> arrayItems = new CollectNode<ArrayItemNode>();
+	private CollectNode<ExprNode> arrayItems = new CollectNode<ExprNode>();
 
 	// if array init node is used in model, for member init
 	//     then lhs != null, arrayType == null
@@ -73,7 +73,7 @@ public class ArrayInitNode extends ExprNode
 		return childrenNames;
 	}
 
-	public void addArrayItem(ArrayItemNode item)
+	public void addArrayItem(ExprNode item)
 	{
 		arrayItems.addChild(item);
 	}
@@ -109,21 +109,21 @@ public class ArrayInitNode extends ExprNode
 			arrayType = this.arrayType;
 		}
 
-		for(ArrayItemNode item : arrayItems.getChildren()) {
-			if(item.valueExpr.getType() != arrayType.valueType) {
+		for(ExprNode item : arrayItems.getChildren()) {
+			if(item.getType() != arrayType.valueType) {
 				if(this.arrayType != null) {
-					ExprNode oldValueExpr = item.valueExpr;
-					item.valueExpr = item.valueExpr.adjustType(arrayType.valueType, getCoords());
-					item.switchParenthoodOfItem(oldValueExpr, item.valueExpr);
-					if(item.valueExpr == ConstNode.getInvalid()) {
+					ExprNode oldValueExpr = item;
+					ExprNode newValueExpr = item.adjustType(arrayType.valueType, getCoords());
+					arrayItems.replace(oldValueExpr, newValueExpr);
+					if(newValueExpr == ConstNode.getInvalid()) {
 						success = false;
-						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
+						item.reportError("Value type \"" + oldValueExpr.getType()
 								+ "\" of initializer doesn't fit to value type \"" + arrayType.valueType
 								+ "\" of array.");
 					}
 				} else {
 					success = false;
-					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
+					item.reportError("Value type \"" + item.getType()
 							+ "\" of initializer doesn't fit to value type \"" + arrayType.valueType
 							+ "\" of array (all items must be of exactly the same type).");
 				}
@@ -144,7 +144,7 @@ public class ArrayInitNode extends ExprNode
 
 	protected ArrayTypeNode createArrayType()
 	{
-		TypeNode itemTypeNode = arrayItems.getChildren().iterator().next().valueExpr.getType();
+		TypeNode itemTypeNode = arrayItems.getChildren().iterator().next().getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return new ArrayTypeNode(itemTypeIdent);
 	}
@@ -155,8 +155,8 @@ public class ArrayInitNode extends ExprNode
 	 */
 	protected boolean isConstant()
 	{
-		for(ArrayItemNode item : arrayItems.getChildren()) {
-			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
+		for(ExprNode item : arrayItems.getChildren()) {
+			if(!(item instanceof ConstNode || isEnumValue(item)))
 				return false;
 		}
 		return true;
@@ -173,9 +173,9 @@ public class ArrayInitNode extends ExprNode
 
 	protected boolean contains(ConstNode node)
 	{
-		for(ArrayItemNode item : arrayItems.getChildren()) {
-			if(item.valueExpr instanceof ConstNode) {
-				ConstNode itemConst = (ConstNode)item.valueExpr;
+		for(ExprNode item : arrayItems.getChildren()) {
+			if(item instanceof ConstNode) {
+				ConstNode itemConst = (ConstNode)item;
 				if(node.getValue().equals(itemConst.getValue()))
 					return true;
 			}
@@ -195,7 +195,7 @@ public class ArrayInitNode extends ExprNode
 		}
 	}
 
-	protected CollectNode<ArrayItemNode> getItems()
+	protected CollectNode<ExprNode> getItems()
 	{
 		return arrayItems;
 	}
@@ -203,9 +203,9 @@ public class ArrayInitNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
-		Vector<ArrayItem> items = new Vector<ArrayItem>();
-		for(ArrayItemNode item : arrayItems.getChildren()) {
-			items.add(item.getArrayItem());
+		Vector<Expression> items = new Vector<Expression>();
+		for(ExprNode item : arrayItems.getChildren()) {
+			items.add(item.checkIR(Expression.class));
 		}
 		Entity member = lhs != null ? lhs.getEntity() : null;
 		ArrayType type = arrayType != null ? arrayType.checkIR(ArrayType.class) : null;

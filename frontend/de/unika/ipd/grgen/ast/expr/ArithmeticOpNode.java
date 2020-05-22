@@ -18,9 +18,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
-import de.unika.ipd.grgen.ast.expr.map.MapItemNode;
 import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
-import de.unika.ipd.grgen.ast.expr.set.SetItemNode;
 import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
 import de.unika.ipd.grgen.ast.typedecl.OperatorSignature;
 import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
@@ -177,9 +175,9 @@ public class ArithmeticOpNode extends OpNode
 		if(getOperator().getOpId() == OperatorSignature.BIT_OR) {
 			if(children.get(1).getType() instanceof SetTypeNode) {
 				SetInitNode initNode = (SetInitNode)children.get(1);
-				for(SetItemNode item : initNode.getItems().getChildren()) {
+				for(ExprNode item : initNode.getItems().getChildren()) {
 					SetAddItem addItem = new SetAddItem(qual,
-							item.valueExpr.checkIR(Expression.class));
+							item.checkIR(Expression.class));
 					if(first == null)
 						first = addItem;
 					if(previous != null)
@@ -188,7 +186,7 @@ public class ArithmeticOpNode extends OpNode
 				}
 			} else { //if(children.get(1).getType() instanceof MapTypeNode)
 				MapInitNode initNode = (MapInitNode)children.get(1);
-				for(MapItemNode item : initNode.getItems().getChildren()) {
+				for(ExprPairNode item : initNode.getItems().getChildren()) {
 					MapAddItem addItem = new MapAddItem(qual,
 							item.keyExpr.checkIR(Expression.class),
 							item.valueExpr.checkIR(Expression.class));
@@ -203,9 +201,9 @@ public class ArithmeticOpNode extends OpNode
 			if(children.get(1).getType() instanceof SetTypeNode) {
 				SetInitNode initNode = (SetInitNode)children.get(1);
 				if(children.get(0).getType() instanceof MapTypeNode) { // handle map \ set
-					for(SetItemNode item : initNode.getItems().getChildren()) {
+					for(ExprNode item : initNode.getItems().getChildren()) {
 						MapRemoveItem remItem = new MapRemoveItem(qual,
-								item.valueExpr.checkIR(Expression.class));
+								item.checkIR(Expression.class));
 						if(first == null)
 							first = remItem;
 						if(previous != null)
@@ -213,9 +211,9 @@ public class ArithmeticOpNode extends OpNode
 						previous = remItem;
 					}
 				} else { // handle normal case set \ set
-					for(SetItemNode item : initNode.getItems().getChildren()) {
+					for(ExprNode item : initNode.getItems().getChildren()) {
 						SetRemoveItem remItem = new SetRemoveItem(qual,
-								item.valueExpr.checkIR(Expression.class));
+								item.checkIR(Expression.class));
 						if(first == null)
 							first = remItem;
 						if(previous != null)
@@ -225,7 +223,7 @@ public class ArithmeticOpNode extends OpNode
 				}
 			} else { //if(children.get(1).getType() instanceof MapTypeNode)
 				MapInitNode initNode = (MapInitNode)children.get(1);
-				for(MapItemNode item : initNode.getItems().getChildren()) {
+				for(ExprPairNode item : initNode.getItems().getChildren()) {
 					MapRemoveItem remItem = new MapRemoveItem(qual,
 							item.keyExpr.checkIR(Expression.class));
 					if(first == null)

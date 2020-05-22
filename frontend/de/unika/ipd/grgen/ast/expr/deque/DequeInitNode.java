@@ -21,8 +21,8 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.DequeTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.expr.deque.DequeItem;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.typedecl.DequeType;
 import de.unika.ipd.grgen.parser.Coords;
@@ -36,7 +36,7 @@ public class DequeInitNode extends ExprNode
 		setName(DequeInitNode.class, "deque init");
 	}
 
-	private CollectNode<DequeItemNode> dequeItems = new CollectNode<DequeItemNode>();
+	private CollectNode<ExprNode> dequeItems = new CollectNode<ExprNode>();
 
 	// if deque init node is used in model, for member init
 	//     then lhs != null, dequeType == null
@@ -73,7 +73,7 @@ public class DequeInitNode extends ExprNode
 		return childrenNames;
 	}
 
-	public void addDequeItem(DequeItemNode item)
+	public void addDequeItem(ExprNode item)
 	{
 		dequeItems.addChild(item);
 	}
@@ -109,21 +109,21 @@ public class DequeInitNode extends ExprNode
 			dequeType = this.dequeType;
 		}
 
-		for(DequeItemNode item : dequeItems.getChildren()) {
-			if(item.valueExpr.getType() != dequeType.valueType) {
+		for(ExprNode item : dequeItems.getChildren()) {
+			if(item.getType() != dequeType.valueType) {
 				if(this.dequeType != null) {
-					ExprNode oldValueExpr = item.valueExpr;
-					item.valueExpr = item.valueExpr.adjustType(dequeType.valueType, getCoords());
-					item.switchParenthoodOfItem(oldValueExpr, item.valueExpr);
-					if(item.valueExpr == ConstNode.getInvalid()) {
+					ExprNode oldValueExpr = item;
+					ExprNode newValueExpr = item.adjustType(dequeType.valueType, getCoords());
+					dequeItems.replace(oldValueExpr, newValueExpr);
+					if(newValueExpr == ConstNode.getInvalid()) {
 						success = false;
-						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
+						item.reportError("Value type \"" + oldValueExpr.getType()
 								+ "\" of initializer doesn't fit to value type \"" + dequeType.valueType
 								+ "\" of deque.");
 					}
 				} else {
 					success = false;
-					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
+					item.reportError("Value type \"" + item.getType()
 							+ "\" of initializer doesn't fit to value type \"" + dequeType.valueType
 							+ "\" of deque (all items must be of exactly the same type).");
 				}
@@ -144,7 +144,7 @@ public class DequeInitNode extends ExprNode
 
 	protected DequeTypeNode createDequeType()
 	{
-		TypeNode itemTypeNode = dequeItems.getChildren().iterator().next().valueExpr.getType();
+		TypeNode itemTypeNode = dequeItems.getChildren().iterator().next().getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return new DequeTypeNode(itemTypeIdent);
 	}
@@ -155,8 +155,8 @@ public class DequeInitNode extends ExprNode
 	 */
 	protected boolean isConstant()
 	{
-		for(DequeItemNode item : dequeItems.getChildren()) {
-			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
+		for(ExprNode item : dequeItems.getChildren()) {
+			if(!(item instanceof ConstNode || isEnumValue(item)))
 				return false;
 		}
 		return true;
@@ -173,9 +173,9 @@ public class DequeInitNode extends ExprNode
 
 	protected boolean contains(ConstNode node)
 	{
-		for(DequeItemNode item : dequeItems.getChildren()) {
-			if(item.valueExpr instanceof ConstNode) {
-				ConstNode itemConst = (ConstNode)item.valueExpr;
+		for(ExprNode item : dequeItems.getChildren()) {
+			if(item instanceof ConstNode) {
+				ConstNode itemConst = (ConstNode)item;
 				if(node.getValue().equals(itemConst.getValue()))
 					return true;
 			}
@@ -195,7 +195,7 @@ public class DequeInitNode extends ExprNode
 		}
 	}
 
-	protected CollectNode<DequeItemNode> getItems()
+	protected CollectNode<ExprNode> getItems()
 	{
 		return dequeItems;
 	}
@@ -203,9 +203,9 @@ public class DequeInitNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
-		Vector<DequeItem> items = new Vector<DequeItem>();
-		for(DequeItemNode item : dequeItems.getChildren()) {
-			items.add(item.getDequeItem());
+		Vector<Expression> items = new Vector<Expression>();
+		for(ExprNode item : dequeItems.getChildren()) {
+			items.add(item.checkIR(Expression.class));
 		}
 		Entity member = lhs != null ? lhs.getEntity() : null;
 		DequeType type = dequeType != null ? dequeType.checkIR(DequeType.class) : null;

@@ -19,14 +19,14 @@ import de.unika.ipd.grgen.ir.typedecl.DequeType;
 
 public class DequeInit extends Expression
 {
-	private Collection<DequeItem> dequeItems;
+	private Collection<Expression> dequeItems;
 	private Entity member;
 	private DequeType dequeType;
 	private boolean isConst;
 	private int anonymousDequeId;
 	private static int anonymousDequeCounter;
 
-	public DequeInit(Collection<DequeItem> dequeItems, Entity member, DequeType dequeType, boolean isConst)
+	public DequeInit(Collection<Expression> dequeItems, Entity member, DequeType dequeType, boolean isConst)
 	{
 		super("deque init", member != null ? member.getType() : dequeType);
 		this.dequeItems = dequeItems;
@@ -42,12 +42,12 @@ public class DequeInit extends Expression
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
-		for(DequeItem dequeItem : dequeItems) {
+		for(Expression dequeItem : dequeItems) {
 			dequeItem.collectNeededEntities(needs);
 		}
 	}
 
-	public Collection<DequeItem> getDequeItems()
+	public Collection<Expression> getDequeItems()
 	{
 		return dequeItems;
 	}

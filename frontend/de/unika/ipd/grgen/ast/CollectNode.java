@@ -15,10 +15,8 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.expr.array.ArrayItemNode;
-import de.unika.ipd.grgen.ast.expr.deque.DequeItemNode;
-import de.unika.ipd.grgen.ast.expr.map.MapItemNode;
-import de.unika.ipd.grgen.ast.expr.set.SetItemNode;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.expr.ExprPairNode;
 
 /**
  * An AST node that represents a collection of other nodes.
@@ -72,6 +70,12 @@ public class CollectNode<T extends BaseNode> extends BaseNode
 		return children.set(i, n);
 	}
 
+	public void replace(T oldValue, T newValue)
+	{
+		children.set(children.indexOf(oldValue), newValue);
+		switchParenthood(oldValue, newValue);
+	}
+	
 	public int size()
 	{
 		return children.size();
@@ -116,14 +120,10 @@ public class CollectNode<T extends BaseNode> extends BaseNode
 	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
-			if(child instanceof SetItemNode)
-				res &= ((SetItemNode)child).noDefElement(containingConstruct);
-			else if(child instanceof MapItemNode)
-				res &= ((MapItemNode)child).noDefElement(containingConstruct);
-			else if(child instanceof ArrayItemNode)
-				res &= ((ArrayItemNode)child).noDefElement(containingConstruct);
-			else if(child instanceof DequeItemNode)
-				res &= ((DequeItemNode)child).noDefElement(containingConstruct);
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).noDefElement(containingConstruct);
+			else if(child instanceof ExprPairNode)
+				res &= ((ExprPairNode)child).noDefElement(containingConstruct);
 		}
 		return res;
 	}
@@ -132,14 +132,10 @@ public class CollectNode<T extends BaseNode> extends BaseNode
 	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
-			if(child instanceof SetItemNode)
-				res &= ((SetItemNode)child).noIteratedReference(containingConstruct);
-			else if(child instanceof MapItemNode)
-				res &= ((MapItemNode)child).noIteratedReference(containingConstruct);
-			else if(child instanceof ArrayItemNode)
-				res &= ((ArrayItemNode)child).noIteratedReference(containingConstruct);
-			else if(child instanceof DequeItemNode)
-				res &= ((DequeItemNode)child).noIteratedReference(containingConstruct);
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).noIteratedReference(containingConstruct);
+			else if(child instanceof ExprPairNode)
+				res &= ((ExprPairNode)child).noIteratedReference(containingConstruct);
 		}
 		return res;
 	}
@@ -148,14 +144,10 @@ public class CollectNode<T extends BaseNode> extends BaseNode
 	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
-			if(child instanceof SetItemNode)
-				res &= ((SetItemNode)child).iteratedNotReferenced(iterName);
-			else if(child instanceof MapItemNode)
-				res &= ((MapItemNode)child).iteratedNotReferenced(iterName);
-			else if(child instanceof ArrayItemNode)
-				res &= ((ArrayItemNode)child).iteratedNotReferenced(iterName);
-			else if(child instanceof DequeItemNode)
-				res &= ((DequeItemNode)child).iteratedNotReferenced(iterName);
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).iteratedNotReferenced(iterName);
+			else if(child instanceof ExprPairNode)
+				res &= ((ExprPairNode)child).iteratedNotReferenced(iterName);
 		}
 		return res;
 	}

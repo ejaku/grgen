@@ -83,7 +83,6 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedByExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
-import de.unika.ipd.grgen.ir.expr.array.ArrayItem;
 import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEach;
 import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEachBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayLastIndexOfByExpr;
@@ -109,7 +108,6 @@ import de.unika.ipd.grgen.ir.expr.deque.DequeCopyConstructor;
 import de.unika.ipd.grgen.ir.expr.deque.DequeEmptyExpr;
 import de.unika.ipd.grgen.ir.expr.deque.DequeIndexOfExpr;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.expr.deque.DequeItem;
 import de.unika.ipd.grgen.ir.expr.deque.DequeLastIndexOfExpr;
 import de.unika.ipd.grgen.ir.expr.deque.DequePeekExpr;
 import de.unika.ipd.grgen.ir.expr.deque.DequeSizeExpr;
@@ -160,7 +158,6 @@ import de.unika.ipd.grgen.ir.expr.map.MapCopyConstructor;
 import de.unika.ipd.grgen.ir.expr.map.MapDomainExpr;
 import de.unika.ipd.grgen.ir.expr.map.MapEmptyExpr;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.expr.map.MapItem;
 import de.unika.ipd.grgen.ir.expr.map.MapPeekExpr;
 import de.unika.ipd.grgen.ir.expr.map.MapRangeExpr;
 import de.unika.ipd.grgen.ir.expr.map.MapSizeExpr;
@@ -200,7 +197,6 @@ import de.unika.ipd.grgen.ir.expr.set.SetAsArrayExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
 import de.unika.ipd.grgen.ir.expr.set.SetEmptyExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
-import de.unika.ipd.grgen.ir.expr.set.SetItem;
 import de.unika.ipd.grgen.ir.expr.set.SetPeekExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetSizeExpr;
 import de.unika.ipd.grgen.ir.expr.string.StringAsArray;
@@ -1008,7 +1004,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			} else {
 				sb.append("new GRGEN_EXPR.MapConstructor(\"" + className + "\", \"" + mi.getAnonymousMapName() + "\",");
 				int openParenthesis = 0;
-				for(MapItem item : mi.getMapItems()) {
+				for(ExpressionPair item : mi.getMapItems()) {
 					sb.append("new GRGEN_EXPR.MapItem(");
 					genExpressionTree(sb, item.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
@@ -1036,12 +1032,12 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			} else {
 				sb.append("new GRGEN_EXPR.SetConstructor(\"" + className + "\", \"" + si.getAnonymousSetName() + "\", ");
 				int openParenthesis = 0;
-				for(SetItem item : si.getSetItems()) {
+				for(Expression item : si.getSetItems()) {
 					sb.append("new GRGEN_EXPR.SetItem(");
-					genExpressionTree(sb, item.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+					genExpressionTree(sb, item, className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
-					if(item.getValueExpr() instanceof GraphEntityExpression)
-						sb.append("\"" + formatElementInterfaceRef(item.getValueExpr().getType()) + "\", ");
+					if(item instanceof GraphEntityExpression)
+						sb.append("\"" + formatElementInterfaceRef(item.getType()) + "\", ");
 					else
 						sb.append("null, ");
 					++openParenthesis;
@@ -1058,12 +1054,12 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			} else {
 				sb.append("new GRGEN_EXPR.ArrayConstructor(\"" + className + "\", \"" + ai.getAnonymousArrayName() + "\", ");
 				int openParenthesis = 0;
-				for(ArrayItem item : ai.getArrayItems()) {
+				for(Expression item : ai.getArrayItems()) {
 					sb.append("new GRGEN_EXPR.ArrayItem(");
-					genExpressionTree(sb, item.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+					genExpressionTree(sb, item, className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
-					if(item.getValueExpr() instanceof GraphEntityExpression)
-						sb.append("\"" + formatElementInterfaceRef(item.getValueExpr().getType()) + "\", ");
+					if(item instanceof GraphEntityExpression)
+						sb.append("\"" + formatElementInterfaceRef(item.getType()) + "\", ");
 					else
 						sb.append("null, ");
 					++openParenthesis;
@@ -1080,12 +1076,12 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			} else {
 				sb.append("new GRGEN_EXPR.DequeConstructor(\"" + className + "\", \"" + di.getAnonymousDequeName() + "\", ");
 				int openParenthesis = 0;
-				for(DequeItem item : di.getDequeItems()) {
+				for(Expression item : di.getDequeItems()) {
 					sb.append("new GRGEN_EXPR.DequeItem(");
-					genExpressionTree(sb, item.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+					genExpressionTree(sb, item, className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
-					if(item.getValueExpr() instanceof GraphEntityExpression)
-						sb.append("\"" + formatElementInterfaceRef(item.getValueExpr().getType()) + "\", ");
+					if(item instanceof GraphEntityExpression)
+						sb.append("\"" + formatElementInterfaceRef(item.getType()) + "\", ");
 					else
 						sb.append("null, ");
 					++openParenthesis;

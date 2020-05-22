@@ -50,16 +50,14 @@ import de.unika.ipd.grgen.ir.typedecl.ShortType;
 import de.unika.ipd.grgen.ir.typedecl.StringType;
 import de.unika.ipd.grgen.ir.typedecl.VoidType;
 import de.unika.ipd.grgen.util.SourceBuilder;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.ExpressionPair;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
-import de.unika.ipd.grgen.ir.expr.array.ArrayItem;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.expr.deque.DequeItem;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.expr.map.MapItem;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
-import de.unika.ipd.grgen.ir.expr.set.SetItem;
 
 public class ModelGen extends CSharpBase
 {
@@ -1057,7 +1055,7 @@ deque_init_loop:
 				continue;
 
 			String attrName = formatIdentifiable(mapInit.getMember());
-			for(MapItem item : mapInit.getMapItems()) {
+			for(ExpressionPair item : mapInit.getMapItems()) {
 				sb.appendFront(varName + ".@" + attrName + "[");
 				genExpression(sb, item.getKeyExpr(), null);
 				sb.append("] = ");
@@ -1077,9 +1075,9 @@ deque_init_loop:
 				continue;
 
 			String attrName = formatIdentifiable(setInit.getMember());
-			for(SetItem item : setInit.getSetItems()) {
+			for(Expression item : setInit.getSetItems()) {
 				sb.appendFront(varName + ".@" + attrName + "[");
-				genExpression(sb, item.getValueExpr(), null);
+				genExpression(sb, item, null);
 				sb.append("] = null;\n");
 			}
 		}
@@ -1095,9 +1093,9 @@ deque_init_loop:
 				continue;
 
 			String attrName = formatIdentifiable(arrayInit.getMember());
-			for(ArrayItem item : arrayInit.getArrayItems()) {
+			for(Expression item : arrayInit.getArrayItems()) {
 				sb.appendFront(varName + ".@" + attrName + ".Add(");
-				genExpression(sb, item.getValueExpr(), null);
+				genExpression(sb, item, null);
 				sb.append(");\n");
 			}
 		}
@@ -1113,9 +1111,9 @@ deque_init_loop:
 				continue;
 
 			String attrName = formatIdentifiable(dequeInit.getMember());
-			for(DequeItem item : dequeInit.getDequeItems()) {
+			for(Expression item : dequeInit.getDequeItems()) {
 				sb.appendFront(varName + ".@" + attrName + ".Add(");
-				genExpression(sb, item.getValueExpr(), null);
+				genExpression(sb, item, null);
 				sb.append(");\n");
 			}
 		}
@@ -1189,7 +1187,7 @@ deque_init_loop:
 			staticInitializers.add("init_" + attrName);
 			sb.appendFront("static void init_" + attrName + "() {\n");
 			sb.indent();
-			for(MapItem item : mapInit.getMapItems()) {
+			for(ExpressionPair item : mapInit.getMapItems()) {
 				sb.appendFront("");
 				sb.append(attrName + ModelGen.ATTR_IMPL_SUFFIX);
 				sb.append("[");
@@ -1222,11 +1220,11 @@ deque_init_loop:
 			staticInitializers.add("init_" + attrName);
 			sb.appendFront("static void init_" + attrName + "() {\n");
 			sb.indent();
-			for(SetItem item : setInit.getSetItems()) {
+			for(Expression item : setInit.getSetItems()) {
 				sb.appendFront("");
 				sb.append(attrName + ModelGen.ATTR_IMPL_SUFFIX);
 				sb.append("[");
-				genExpression(sb, item.getValueExpr(), null);
+				genExpression(sb, item, null);
 				sb.append("] = null;\n");
 			}
 			sb.unindent();
@@ -1253,11 +1251,11 @@ deque_init_loop:
 			staticInitializers.add("init_" + attrName);
 			sb.appendFront("static void init_" + attrName + "() {\n");
 			sb.indent();
-			for(ArrayItem item : arrayInit.getArrayItems()) {
+			for(Expression item : arrayInit.getArrayItems()) {
 				sb.appendFront("");
 				sb.append(attrName + ModelGen.ATTR_IMPL_SUFFIX);
 				sb.append(".Add(");
-				genExpression(sb, item.getValueExpr(), null);
+				genExpression(sb, item, null);
 				sb.append(");\n");
 			}
 			sb.unindent();
@@ -1284,11 +1282,11 @@ deque_init_loop:
 			staticInitializers.add("init_" + attrName);
 			sb.appendFront("static void init_" + attrName + "() {\n");
 			sb.indent();
-			for(DequeItem item : dequeInit.getDequeItems()) {
+			for(Expression item : dequeInit.getDequeItems()) {
 				sb.appendFront("");
 				sb.append(attrName + ModelGen.ATTR_IMPL_SUFFIX);
 				sb.append(".Enqueue(");
-				genExpression(sb, item.getValueExpr(), null);
+				genExpression(sb, item, null);
 				sb.append(");\n");
 			}
 			sb.unindent();

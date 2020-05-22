@@ -338,7 +338,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/** helper: remove ourself as parent of child to throw out, become parent of child to adopt instead */
-	protected final void switchParenthood(BaseNode throwOut, BaseNode adopt)
+	public final void switchParenthood(BaseNode throwOut, BaseNode adopt)
 	{
 		throwOut.parents.remove(this);
 		adopt.parents.add(this);

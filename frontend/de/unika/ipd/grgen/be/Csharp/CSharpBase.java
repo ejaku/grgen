@@ -57,7 +57,6 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedByExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
-import de.unika.ipd.grgen.ir.expr.array.ArrayItem;
 import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEach;
 import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEachBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayLastIndexOfByExpr;
@@ -83,7 +82,6 @@ import de.unika.ipd.grgen.ir.expr.deque.DequeCopyConstructor;
 import de.unika.ipd.grgen.ir.expr.deque.DequeEmptyExpr;
 import de.unika.ipd.grgen.ir.expr.deque.DequeIndexOfExpr;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.expr.deque.DequeItem;
 import de.unika.ipd.grgen.ir.expr.deque.DequeLastIndexOfExpr;
 import de.unika.ipd.grgen.ir.expr.deque.DequePeekExpr;
 import de.unika.ipd.grgen.ir.expr.deque.DequeSizeExpr;
@@ -134,7 +132,6 @@ import de.unika.ipd.grgen.ir.expr.map.MapCopyConstructor;
 import de.unika.ipd.grgen.ir.expr.map.MapDomainExpr;
 import de.unika.ipd.grgen.ir.expr.map.MapEmptyExpr;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.expr.map.MapItem;
 import de.unika.ipd.grgen.ir.expr.map.MapPeekExpr;
 import de.unika.ipd.grgen.ir.expr.map.MapRangeExpr;
 import de.unika.ipd.grgen.ir.expr.map.MapSizeExpr;
@@ -174,7 +171,6 @@ import de.unika.ipd.grgen.ir.expr.set.SetAsArrayExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
 import de.unika.ipd.grgen.ir.expr.set.SetEmptyExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
-import de.unika.ipd.grgen.ir.expr.set.SetItem;
 import de.unika.ipd.grgen.ir.expr.set.SetPeekExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetSizeExpr;
 import de.unika.ipd.grgen.ir.expr.string.StringAsArray;
@@ -1682,7 +1678,7 @@ public abstract class CSharpBase
 			} else {
 				sb.append("fill_" + mi.getAnonymousMapName() + "(");
 				boolean first = true;
-				for(MapItem item : mi.getMapItems()) {
+				for(ExpressionPair item : mi.getMapItems()) {
 					if(first)
 						first = false;
 					else
@@ -1711,16 +1707,16 @@ public abstract class CSharpBase
 			} else {
 				sb.append("fill_" + si.getAnonymousSetName() + "(");
 				boolean first = true;
-				for(SetItem item : si.getSetItems()) {
+				for(Expression item : si.getSetItems()) {
 					if(first)
 						first = false;
 					else
 						sb.append(", ");
 
-					if(item.getValueExpr() instanceof GraphEntityExpression)
-						sb.append("(" + formatElementInterfaceRef(item.getValueExpr().getType()) + ")(");
-					genExpression(sb, item.getValueExpr(), modifyGenerationState);
-					if(item.getValueExpr() instanceof GraphEntityExpression)
+					if(item instanceof GraphEntityExpression)
+						sb.append("(" + formatElementInterfaceRef(item.getType()) + ")(");
+					genExpression(sb, item, modifyGenerationState);
+					if(item instanceof GraphEntityExpression)
 						sb.append(")");
 				}
 				sb.append(")");
@@ -1732,16 +1728,16 @@ public abstract class CSharpBase
 			} else {
 				sb.append("fill_" + ai.getAnonymousArrayName() + "(");
 				boolean first = true;
-				for(ArrayItem item : ai.getArrayItems()) {
+				for(Expression item : ai.getArrayItems()) {
 					if(first)
 						first = false;
 					else
 						sb.append(", ");
 
-					if(item.getValueExpr() instanceof GraphEntityExpression)
-						sb.append("(" + formatElementInterfaceRef(item.getValueExpr().getType()) + ")(");
-					genExpression(sb, item.getValueExpr(), modifyGenerationState);
-					if(item.getValueExpr() instanceof GraphEntityExpression)
+					if(item instanceof GraphEntityExpression)
+						sb.append("(" + formatElementInterfaceRef(item.getType()) + ")(");
+					genExpression(sb, item, modifyGenerationState);
+					if(item instanceof GraphEntityExpression)
 						sb.append(")");
 				}
 				sb.append(")");
@@ -1753,16 +1749,16 @@ public abstract class CSharpBase
 			} else {
 				sb.append("fill_" + di.getAnonymousDequeName() + "(");
 				boolean first = true;
-				for(DequeItem item : di.getDequeItems()) {
+				for(Expression item : di.getDequeItems()) {
 					if(first)
 						first = false;
 					else
 						sb.append(", ");
 
-					if(item.getValueExpr() instanceof GraphEntityExpression)
-						sb.append("(" + formatElementInterfaceRef(item.getValueExpr().getType()) + ")(");
-					genExpression(sb, item.getValueExpr(), modifyGenerationState);
-					if(item.getValueExpr() instanceof GraphEntityExpression)
+					if(item instanceof GraphEntityExpression)
+						sb.append("(" + formatElementInterfaceRef(item.getType()) + ")(");
+					genExpression(sb, item, modifyGenerationState);
+					if(item instanceof GraphEntityExpression)
 						sb.append(")");
 				}
 				sb.append(")");
@@ -3176,7 +3172,7 @@ public abstract class CSharpBase
 			staticInitializers.add("init_" + mapName);
 			sb.appendFront("static void init_" + mapName + "() {\n");
 			sb.indent();
-			for(MapItem item : mapInit.getMapItems()) {
+			for(ExpressionPair item : mapInit.getMapItems()) {
 				sb.appendFront("");
 				sb.append(mapName);
 				sb.append("[");
@@ -3191,7 +3187,7 @@ public abstract class CSharpBase
 			sb.appendFront("public static " + attrType + " fill_" + mapName + "(");
 			int itemCounter = 0;
 			boolean first = true;
-			for(MapItem item : mapInit.getMapItems()) {
+			for(ExpressionPair item : mapInit.getMapItems()) {
 				String itemKeyType = formatType(item.getKeyExpr().getType());
 				String itemValueType = formatType(item.getValueExpr().getType());
 				if(first) {
@@ -3230,10 +3226,10 @@ public abstract class CSharpBase
 			staticInitializers.add("init_" + setName);
 			sb.appendFront("static void init_" + setName + "() {\n");
 			sb.indent();
-			for(SetItem item : setInit.getSetItems()) {
+			for(Expression item : setInit.getSetItems()) {
 				sb.appendFront(setName);
 				sb.append("[");
-				genExpression(sb, item.getValueExpr(), null);
+				genExpression(sb, item, null);
 				sb.append("] = null;\n");
 			}
 			sb.unindent();
@@ -3242,8 +3238,8 @@ public abstract class CSharpBase
 			sb.appendFront("public static " + attrType + " fill_" + setName + "(");
 			int itemCounter = 0;
 			boolean first = true;
-			for(SetItem item : setInit.getSetItems()) {
-				String itemType = formatType(item.getValueExpr().getType());
+			for(Expression item : setInit.getSetItems()) {
+				String itemType = formatType(item.getType());
 				if(first) {
 					sb.append(itemType + " item" + itemCounter);
 					first = false;
@@ -3278,10 +3274,10 @@ public abstract class CSharpBase
 			staticInitializers.add("init_" + arrayName);
 			sb.appendFront("static void init_" + arrayName + "() {\n");
 			sb.indent();
-			for(ArrayItem item : arrayInit.getArrayItems()) {
+			for(Expression item : arrayInit.getArrayItems()) {
 				sb.appendFront(arrayName);
 				sb.append(".Add(");
-				genExpression(sb, item.getValueExpr(), null);
+				genExpression(sb, item, null);
 				sb.append(");\n");
 			}
 			sb.unindent();
@@ -3290,8 +3286,8 @@ public abstract class CSharpBase
 			sb.appendFront("public static " + attrType + " fill_" + arrayName + "(");
 			int itemCounter = 0;
 			boolean first = true;
-			for(ArrayItem item : arrayInit.getArrayItems()) {
-				String itemType = formatType(item.getValueExpr().getType());
+			for(Expression item : arrayInit.getArrayItems()) {
+				String itemType = formatType(item.getType());
 				if(first) {
 					sb.append(itemType + " item" + itemCounter);
 					first = false;
@@ -3326,11 +3322,11 @@ public abstract class CSharpBase
 			staticInitializers.add("init_" + dequeName);
 			sb.appendFront("static void init_" + dequeName + "() {\n");
 			sb.indent();
-			for(DequeItem item : dequeInit.getDequeItems()) {
+			for(Expression item : dequeInit.getDequeItems()) {
 				sb.appendFront("");
 				sb.append(dequeName);
 				sb.append(".Add(");
-				genExpression(sb, item.getValueExpr(), null);
+				genExpression(sb, item, null);
 				sb.append(");\n");
 			}
 			sb.unindent();
@@ -3339,8 +3335,8 @@ public abstract class CSharpBase
 			sb.appendFront("public static " + attrType + " fill_" + dequeName + "(");
 			int itemCounter = 0;
 			boolean first = true;
-			for(DequeItem item : dequeInit.getDequeItems()) {
-				String itemType = formatType(item.getValueExpr().getType());
+			for(Expression item : dequeInit.getDequeItems()) {
+				String itemType = formatType(item.getType());
 				if(first) {
 					sb.append(itemType + " item" + itemCounter);
 					first = false;

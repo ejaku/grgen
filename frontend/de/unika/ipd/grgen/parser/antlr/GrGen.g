@@ -2880,8 +2880,8 @@ initExprDecl [IdentNode id] returns [ MemberInitNode res = null ]
 initMapExpr [int context, IdentNode id, MapTypeNode mapType] returns [ ExprNode res = null ]
 	@init{ MapInitNode mapInit = null; }
 	: l=LBRACE { res = mapInit = new MapInitNode(getCoords(l), id, mapType); }
-		( item1=mapItem[context] { mapInit.addMapItem(item1); }
-			( COMMA item2=mapItem[context] { mapInit.addMapItem(item2); } )*
+		( item1=keyToValue[context] { mapInit.addMapItem(item1); }
+			( COMMA item2=keyToValue[context] { mapInit.addMapItem(item2); } )*
 		)?
 	  RBRACE
 	| lp=LPAREN value=expr[context, false]
@@ -2892,8 +2892,8 @@ initMapExpr [int context, IdentNode id, MapTypeNode mapType] returns [ ExprNode 
 initSetExpr [int context, IdentNode id, SetTypeNode setType] returns [ ExprNode res = null ]
 	@init{ SetInitNode setInit = null; }
 	: l=LBRACE { res = setInit = new SetInitNode(getCoords(l), id, setType); }
-		( item1=setItem[context] { setInit.addSetItem(item1); }
-			( COMMA item2=setItem[context] { setInit.addSetItem(item2); } )*
+		( item1=expr[context, false] { setInit.addSetItem(item1); }
+			( COMMA item2=expr[context, false] { setInit.addSetItem(item2); } )*
 		)?
 	  RBRACE
 	| lp=LPAREN value=expr[context, false]
@@ -2904,8 +2904,8 @@ initSetExpr [int context, IdentNode id, SetTypeNode setType] returns [ ExprNode 
 initArrayExpr [int context, IdentNode id, ArrayTypeNode arrayType] returns [ ExprNode res = null ]
 	@init{ ArrayInitNode arrayInit = null; }
 	: l=LBRACK { res = arrayInit = new ArrayInitNode(getCoords(l), id, arrayType); }
-		( item1=arrayItem[context] { arrayInit.addArrayItem(item1); }
-			( COMMA item2=arrayItem[context] { arrayInit.addArrayItem(item2); } )*
+		( item1=expr[context, false] { arrayInit.addArrayItem(item1); }
+			( COMMA item2=expr[context, false] { arrayInit.addArrayItem(item2); } )*
 		)?
 	  RBRACK
 	| lp=LPAREN value=expr[context, false]
@@ -2916,8 +2916,8 @@ initArrayExpr [int context, IdentNode id, ArrayTypeNode arrayType] returns [ Exp
 initDequeExpr [int context, IdentNode id, DequeTypeNode dequeType] returns [ ExprNode res = null ]
 	@init{ DequeInitNode dequeInit = null; }
 	: l=LBRACK { res = dequeInit = new DequeInitNode(getCoords(l), id, dequeType); }
-		( item1=dequeItem[context] { dequeInit.addDequeItem(item1); }
-			( COMMA item2=dequeItem[context] { dequeInit.addDequeItem(item2); } )*
+		( item1=expr[context, false] { dequeInit.addDequeItem(item1); }
+			( COMMA item2=expr[context, false] { dequeInit.addDequeItem(item2); } )*
 		)?
 	  RBRACK
 	| lp=LPAREN value=expr[context, false]
@@ -2925,31 +2925,10 @@ initDequeExpr [int context, IdentNode id, DequeTypeNode dequeType] returns [ Exp
 	  RPAREN 
 	;
 
-mapItem [int context] returns [ MapItemNode res = null ]
+keyToValue [int context] returns [ ExprPairNode res = null ]
 	: key=expr[context, false] a=RARROW value=expr[context, false]
 		{
-			res = new MapItemNode(getCoords(a), key, value);
-		}
-	;
-
-setItem [int context] returns [ SetItemNode res = null ]
-	: value=expr[context, false]
-		{
-			res = new SetItemNode(value.getCoords(), value);
-		}
-	;
-
-arrayItem [int context] returns [ ArrayItemNode res = null ]
-	: value=expr[context, false]
-		{
-			res = new ArrayItemNode(value.getCoords(), value);
-		}
-	;
-
-dequeItem [int context] returns [ DequeItemNode res = null ]
-	: value=expr[context, false]
-		{
-			res = new DequeItemNode(value.getCoords(), value);
+			res = new ExprPairNode(getCoords(a), key, value);
 		}
 	;
 

@@ -19,14 +19,14 @@ import de.unika.ipd.grgen.ir.typedecl.ArrayType;
 
 public class ArrayInit extends Expression
 {
-	private Collection<ArrayItem> arrayItems;
+	private Collection<Expression> arrayItems;
 	private Entity member;
 	private ArrayType arrayType;
 	private boolean isConst;
 	private int anonymousArrayId;
 	private static int anonymousArrayCounter;
 
-	public ArrayInit(Collection<ArrayItem> arrayItems, Entity member, ArrayType arrayType, boolean isConst)
+	public ArrayInit(Collection<Expression> arrayItems, Entity member, ArrayType arrayType, boolean isConst)
 	{
 		super("array init", member != null ? member.getType() : arrayType);
 		this.arrayItems = arrayItems;
@@ -42,12 +42,12 @@ public class ArrayInit extends Expression
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
-		for(ArrayItem arrayItem : arrayItems) {
+		for(Expression arrayItem : arrayItems) {
 			arrayItem.collectNeededEntities(needs);
 		}
 	}
 
-	public Collection<ArrayItem> getArrayItems()
+	public Collection<Expression> getArrayItems()
 	{
 		return arrayItems;
 	}

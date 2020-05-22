@@ -507,8 +507,8 @@ options { k = 4; }
 seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ ExprNode res = null ]
 	@init{ MapInitNode mapInit = null; }
 	: l=LBRACE { xg.append("{"); } { res = mapInit = new MapInitNode(getCoords(l), null, mapType); }
-		( item1=seqMapItem[xg] { mapInit.addMapItem(item1); }
-			( COMMA { xg.append(","); } item2=seqMapItem[xg] { mapInit.addMapItem(item2); } )*
+		( item1=seqKeyToValue[xg] { mapInit.addMapItem(item1); }
+			( COMMA { xg.append(","); } item2=seqKeyToValue[xg] { mapInit.addMapItem(item2); } )*
 		)?
 	  RBRACE { xg.append("}"); }
 	| l=LPAREN { xg.append("("); } value=seqExpression[xg]
@@ -519,8 +519,8 @@ seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ ExprNode res = null 
 seqInitSetExpr [ExecNode xg, SetTypeNode setType] returns [ ExprNode res = null ]
 	@init{ SetInitNode setInit = null; }
 	: l=LBRACE { xg.append("{"); } { res = setInit = new SetInitNode(getCoords(l), null, setType); }
-		( item1=seqSetItem[xg] { setInit.addSetItem(item1); }
-			( COMMA { xg.append(","); } item2=seqSetItem[xg] { setInit.addSetItem(item2); } )*
+		( item1=seqExpression[xg] { setInit.addSetItem(item1); }
+			( COMMA { xg.append(","); } item2=seqExpression[xg] { setInit.addSetItem(item2); } )*
 		)?
 	  RBRACE { xg.append("}"); }
 	| l=LPAREN { xg.append("("); } value=seqExpression[xg]
@@ -531,8 +531,8 @@ seqInitSetExpr [ExecNode xg, SetTypeNode setType] returns [ ExprNode res = null 
 seqInitArrayExpr [ExecNode xg, ArrayTypeNode arrayType] returns [ ExprNode res = null ]
 	@init{ ArrayInitNode arrayInit = null; }
 	: l=LBRACK { xg.append("["); } { res = arrayInit = new ArrayInitNode(getCoords(l), null, arrayType); }	
-		( item1=seqArrayItem[xg] { arrayInit.addArrayItem(item1); }
-			( COMMA { xg.append(","); } item2=seqArrayItem[xg] { arrayInit.addArrayItem(item2); } )*
+		( item1=seqExpression[xg] { arrayInit.addArrayItem(item1); }
+			( COMMA { xg.append(","); } item2=seqExpression[xg] { arrayInit.addArrayItem(item2); } )*
 		)?
 	  RBRACK { xg.append("]"); }
 	| l=LPAREN { xg.append("("); } value=seqExpression[xg]
@@ -543,8 +543,8 @@ seqInitArrayExpr [ExecNode xg, ArrayTypeNode arrayType] returns [ ExprNode res =
 seqInitDequeExpr [ExecNode xg, DequeTypeNode dequeType] returns [ ExprNode res = null ]
 	@init{ DequeInitNode dequeInit = null; }
 	: l=LBRACK { xg.append("["); } { res = dequeInit = new DequeInitNode(getCoords(l), null, dequeType); }	
-		( item1=seqDequeItem[xg] { dequeInit.addDequeItem(item1); }
-			( COMMA { xg.append(","); } item2=seqDequeItem[xg] { dequeInit.addDequeItem(item2); } )*
+		( item1=seqExpression[xg] { dequeInit.addDequeItem(item1); }
+			( COMMA { xg.append(","); } item2=seqExpression[xg] { dequeInit.addDequeItem(item2); } )*
 		)?
 	  RBRACK { xg.append("]"); }
 	| l=LPAREN { xg.append("("); } value=seqExpression[xg]
@@ -552,31 +552,10 @@ seqInitDequeExpr [ExecNode xg, DequeTypeNode dequeType] returns [ ExprNode res =
 	  RPAREN { xg.append(")"); }
 	;
 
-seqMapItem [ExecNode xg] returns [ MapItemNode res = null ]
+seqKeyToValue [ExecNode xg] returns [ ExprPairNode res = null ]
 	: key=seqExpression[xg] a=RARROW { xg.append("->"); } value=seqExpression[xg]
 		{
-			res = new MapItemNode(getCoords(a), key, value);
-		}
-	;
-
-seqSetItem [ExecNode xg] returns [ SetItemNode res = null ]
-	: value=seqExpression[xg]
-		{
-			res = new SetItemNode(value.getCoords(), value);
-		}
-	;
-
-seqArrayItem [ExecNode xg] returns [ ArrayItemNode res = null ]
-	: value=seqExpression[xg]
-		{
-			res = new ArrayItemNode(value.getCoords(), value);
-		}
-	;
-
-seqDequeItem [ExecNode xg] returns [ DequeItemNode res = null ]
-	: value=seqExpression[xg]
-		{
-			res = new DequeItemNode(value.getCoords(), value);
+			res = new ExprPairNode(getCoords(a), key, value);
 		}
 	;
 

@@ -21,8 +21,8 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
-import de.unika.ipd.grgen.ir.expr.set.SetItem;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.typedecl.SetType;
 import de.unika.ipd.grgen.parser.Coords;
@@ -36,7 +36,7 @@ public class SetInitNode extends ExprNode
 		setName(SetInitNode.class, "set init");
 	}
 
-	private CollectNode<SetItemNode> setItems = new CollectNode<SetItemNode>();
+	private CollectNode<ExprNode> setItems = new CollectNode<ExprNode>();
 
 	// if set init node is used in model, for member init
 	//     then lhs != null, setType == null
@@ -73,7 +73,7 @@ public class SetInitNode extends ExprNode
 		return childrenNames;
 	}
 
-	public void addSetItem(SetItemNode item)
+	public void addSetItem(ExprNode item)
 	{
 		setItems.addChild(item);
 	}
@@ -109,20 +109,20 @@ public class SetInitNode extends ExprNode
 			setType = this.setType;
 		}
 
-		for(SetItemNode item : setItems.getChildren()) {
-			if(item.valueExpr.getType() != setType.valueType) {
+		for(ExprNode item : setItems.getChildren()) {
+			if(item.getType() != setType.valueType) {
 				if(this.setType != null) {
-					ExprNode oldValueExpr = item.valueExpr;
-					item.valueExpr = item.valueExpr.adjustType(setType.valueType, getCoords());
-					item.switchParenthoodOfItem(oldValueExpr, item.valueExpr);
-					if(item.valueExpr == ConstNode.getInvalid()) {
+					ExprNode oldValueExpr = item;
+					ExprNode newValueExpr = item.adjustType(setType.valueType, getCoords());
+					setItems.replace(oldValueExpr, newValueExpr);
+					if(newValueExpr == ConstNode.getInvalid()) {
 						success = false;
-						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
+						item.reportError("Value type \"" + oldValueExpr.getType()
 								+ "\" of initializer doesn't fit to value type \"" + setType.valueType + "\" of set.");
 					}
 				} else {
 					success = false;
-					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
+					item.reportError("Value type \"" + item.getType()
 							+ "\" of initializer doesn't fit to value type \"" + setType.valueType
 							+ "\" of set (all items must be of exactly the same type).");
 				}
@@ -143,7 +143,7 @@ public class SetInitNode extends ExprNode
 
 	protected SetTypeNode createSetType()
 	{
-		TypeNode itemTypeNode = setItems.getChildren().iterator().next().valueExpr.getType();
+		TypeNode itemTypeNode = setItems.getChildren().iterator().next().getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return new SetTypeNode(itemTypeIdent);
 	}
@@ -154,8 +154,8 @@ public class SetInitNode extends ExprNode
 	 */
 	public boolean isConstant()
 	{
-		for(SetItemNode item : setItems.getChildren()) {
-			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
+		for(ExprNode item : setItems.getChildren()) {
+			if(!(item instanceof ConstNode || isEnumValue(item)))
 				return false;
 		}
 		return true;
@@ -172,9 +172,9 @@ public class SetInitNode extends ExprNode
 
 	public boolean contains(ConstNode node)
 	{
-		for(SetItemNode item : setItems.getChildren()) {
-			if(item.valueExpr instanceof ConstNode) {
-				ConstNode itemConst = (ConstNode)item.valueExpr;
+		for(ExprNode item : setItems.getChildren()) {
+			if(item instanceof ConstNode) {
+				ConstNode itemConst = (ConstNode)item;
 				if(node.getValue().equals(itemConst.getValue()))
 					return true;
 			}
@@ -194,7 +194,7 @@ public class SetInitNode extends ExprNode
 		}
 	}
 
-	public CollectNode<SetItemNode> getItems()
+	public CollectNode<ExprNode> getItems()
 	{
 		return setItems;
 	}
@@ -202,9 +202,9 @@ public class SetInitNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
-		Vector<SetItem> items = new Vector<SetItem>();
-		for(SetItemNode item : setItems.getChildren()) {
-			items.add(item.getSetItem());
+		Vector<Expression> items = new Vector<Expression>();
+		for(ExprNode item : setItems.getChildren()) {
+			items.add(item.checkIR(Expression.class));
 		}
 		Entity member = lhs != null ? lhs.getEntity() : null;
 		SetType type = setType != null ? setType.checkIR(SetType.class) : null;

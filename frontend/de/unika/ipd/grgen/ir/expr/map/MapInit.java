@@ -15,18 +15,19 @@ import java.util.Collection;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.ExpressionPair;
 import de.unika.ipd.grgen.ir.typedecl.MapType;
 
 public class MapInit extends Expression
 {
-	private Collection<MapItem> mapItems;
+	private Collection<ExpressionPair> mapItems;
 	private Entity member;
 	private MapType mapType;
 	private boolean isConst;
 	private int anonymousMapId;
 	private static int anonymousMapCounter;
 
-	public MapInit(Collection<MapItem> mapItems, Entity member, MapType mapType, boolean isConst)
+	public MapInit(Collection<ExpressionPair> mapItems, Entity member, MapType mapType, boolean isConst)
 	{
 		super("map init", member != null ? member.getType() : mapType);
 		this.mapItems = mapItems;
@@ -42,12 +43,12 @@ public class MapInit extends Expression
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
-		for(MapItem mapItem : mapItems) {
+		for(ExpressionPair mapItem : mapItems) {
 			mapItem.collectNeededEntities(needs);
 		}
 	}
 
-	public Collection<MapItem> getMapItems()
+	public Collection<ExpressionPair> getMapItems()
 	{
 		return mapItems;
 	}

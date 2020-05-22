@@ -19,14 +19,14 @@ import de.unika.ipd.grgen.ir.typedecl.SetType;
 
 public class SetInit extends Expression
 {
-	private Collection<SetItem> setItems;
+	private Collection<Expression> setItems;
 	private Entity member;
 	private SetType setType;
 	private boolean isConst;
 	private int anonymousSetId;
 	private static int anonymousSetCounter;
 
-	public SetInit(Collection<SetItem> setItems, Entity member, SetType setType, boolean isConst)
+	public SetInit(Collection<Expression> setItems, Entity member, SetType setType, boolean isConst)
 	{
 		super("set init", member != null ? member.getType() : setType);
 		this.setItems = setItems;
@@ -42,12 +42,12 @@ public class SetInit extends Expression
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
-		for(SetItem setItem : setItems) {
+		for(Expression setItem : setItems) {
 			setItem.collectNeededEntities(needs);
 		}
 	}
 
-	public Collection<SetItem> getSetItems()
+	public Collection<Expression> getSetItems()
 	{
 		return setItems;
 	}

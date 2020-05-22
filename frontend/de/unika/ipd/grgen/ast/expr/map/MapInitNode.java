@@ -18,11 +18,12 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.DeclExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.expr.ExprPairNode;
 import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.expr.ExpressionPair;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.expr.map.MapItem;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.typedecl.MapType;
 import de.unika.ipd.grgen.parser.Coords;
@@ -36,7 +37,7 @@ public class MapInitNode extends ExprNode
 		setName(MapInitNode.class, "map init");
 	}
 
-	private CollectNode<MapItemNode> mapItems = new CollectNode<MapItemNode>();
+	private CollectNode<ExprPairNode> mapItems = new CollectNode<ExprPairNode>();
 
 	// if map init node is used in model, for member init
 	//     then lhs != null, mapType == null
@@ -73,7 +74,7 @@ public class MapInitNode extends ExprNode
 		return childrenNames;
 	}
 
-	public void addMapItem(MapItemNode item)
+	public void addMapItem(ExprPairNode item)
 	{
 		mapItems.addChild(item);
 	}
@@ -109,12 +110,12 @@ public class MapInitNode extends ExprNode
 			mapType = this.mapType;
 		}
 
-		for(MapItemNode item : mapItems.getChildren()) {
+		for(ExprPairNode item : mapItems.getChildren()) {
 			if(item.keyExpr.getType() != mapType.keyType) {
 				if(this.mapType != null) {
 					ExprNode oldKeyExpr = item.keyExpr;
 					item.keyExpr = item.keyExpr.adjustType(mapType.keyType, getCoords());
-					item.switchParenthoodOfItem(oldKeyExpr, item.keyExpr);
+					item.switchParenthood(oldKeyExpr, item.keyExpr);
 					if(item.keyExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.keyExpr.reportError("Key type \"" + oldKeyExpr.getType()
@@ -131,7 +132,7 @@ public class MapInitNode extends ExprNode
 				if(this.mapType != null) {
 					ExprNode oldValueExpr = item.valueExpr;
 					item.valueExpr = item.valueExpr.adjustType(mapType.valueType, getCoords());
-					item.switchParenthoodOfItem(oldValueExpr, item.valueExpr);
+					item.switchParenthood(oldValueExpr, item.valueExpr);
 					if(item.valueExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
@@ -173,7 +174,7 @@ public class MapInitNode extends ExprNode
 	 */
 	protected final boolean isConstant()
 	{
-		for(MapItemNode item : mapItems.getChildren()) {
+		for(ExprPairNode item : mapItems.getChildren()) {
 			if(!(item.keyExpr instanceof ConstNode || isEnumValue(item.keyExpr)))
 				return false;
 			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
@@ -203,7 +204,7 @@ public class MapInitNode extends ExprNode
 		}
 	}
 
-	public CollectNode<MapItemNode> getItems()
+	public CollectNode<ExprPairNode> getItems()
 	{
 		return mapItems;
 	}
@@ -211,9 +212,9 @@ public class MapInitNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
-		Vector<MapItem> items = new Vector<MapItem>();
-		for(MapItemNode item : mapItems.getChildren()) {
-			items.add(item.getMapItem());
+		Vector<ExpressionPair> items = new Vector<ExpressionPair>();
+		for(ExprPairNode item : mapItems.getChildren()) {
+			items.add(item.getExpressionPair());
 		}
 		Entity member = lhs != null ? lhs.getEntity() : null;
 		MapType type = mapType != null ? mapType.checkIR(MapType.class) : null;

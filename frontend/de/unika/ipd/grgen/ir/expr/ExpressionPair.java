@@ -9,19 +9,19 @@
  * @author Moritz Kroll, Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ir.expr.map;
+package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 
-public class MapItem extends IR
+public class ExpressionPair extends IR
 {
-	Expression keyExpr;
-	Expression valueExpr;
+	Expression keyExpr; // first
+	Expression valueExpr; // second
 
-	public MapItem(Expression keyExpr, Expression valueExpr)
+	public ExpressionPair(Expression keyExpr, Expression valueExpr)
 	{
-		super("map item");
+		super("pair");
 		this.keyExpr = keyExpr;
 		this.valueExpr = valueExpr;
 	}

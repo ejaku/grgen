@@ -6,44 +6,42 @@
  */
 
 /**
- * @author Edgar Jakumeit
+ * @author Moritz Kroll, Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ast.expr.set;
+package de.unika.ipd.grgen.ast.expr;
 
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.set.SetItem;
+import de.unika.ipd.grgen.ir.expr.ExpressionPair;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetItemNode extends BaseNode
+public class ExprPairNode extends BaseNode
 {
 	static {
-		setName(SetItemNode.class, "set item");
+		setName(ExprPairNode.class, "expr pair");
 	}
 
-	public ExprNode valueExpr;
+	public ExprNode keyExpr; // first
+	public ExprNode valueExpr; // second
 
-	public SetItemNode(Coords coords, ExprNode valueExpr)
+	public ExprPairNode(Coords coords, ExprNode keyExpr, ExprNode valueExpr)
 	{
 		super(coords);
+		this.keyExpr = becomeParent(keyExpr);
 		this.valueExpr = becomeParent(valueExpr);
-	}
-
-	public void switchParenthoodOfItem(BaseNode throwOut, BaseNode adopt)
-	{
-		switchParenthood(throwOut, adopt);
 	}
 
 	@Override
 	public Collection<? extends BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(keyExpr);
 		children.add(valueExpr);
 		return children;
 	}
@@ -52,6 +50,7 @@ public class SetItemNode extends BaseNode
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("keyExpr");
 		childrenNames.add("valueExpr");
 		return childrenNames;
 	}
@@ -65,48 +64,33 @@ public class SetItemNode extends BaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		// All checks are done in SetInitNode
+		// All checks are done in MapInitNode
 		return true;
 	}
 
 	@Override
 	protected IR constructIR()
 	{
-		return new SetItem(valueExpr.checkIR(Expression.class));
+		return new ExpressionPair(keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
 	}
 
-	protected SetItem getSetItem()
+	public ExpressionPair getExpressionPair()
 	{
-		return checkIR(SetItem.class);
+		return checkIR(ExpressionPair.class);
 	}
 
 	public boolean noDefElement(String containingConstruct)
 	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noDefElement(containingConstruct);
-		}
-		return res;
+		return keyExpr.noDefElement(containingConstruct) & valueExpr.noDefElement(containingConstruct);
 	}
 
 	public boolean noIteratedReference(String containingConstruct)
 	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noIteratedReference(containingConstruct);
-		}
-		return res;
+		return keyExpr.noIteratedReference(containingConstruct) & valueExpr.noIteratedReference(containingConstruct);
 	}
 
 	public boolean iteratedNotReferenced(String iterName)
 	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).iteratedNotReferenced(iterName);
-		}
-		return res;
+		return keyExpr.iteratedNotReferenced(iterName) & valueExpr.iteratedNotReferenced(iterName);
 	}
 }
