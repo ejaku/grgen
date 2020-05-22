@@ -265,7 +265,7 @@ public class Scope
 	public Scope newOrReuseScope(IdentNode name)
 	{
 		for(Scope child : childs) {
-			if(child.getIdentNode().toString().equals(name))
+			if(child.getIdentNode().toString().equals(name.toString()))
 				return child;
 		}
 		Scope s = new Scope(this, childs.size(), name);

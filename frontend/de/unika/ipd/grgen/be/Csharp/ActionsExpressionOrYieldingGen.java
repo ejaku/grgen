@@ -1281,7 +1281,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			NodeByNameExpr nbn = (NodeByNameExpr)expr;
 			sb.append("new GRGEN_EXPR.NodeByName(");
 			genExpressionTree(sb, nbn.getNameExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			if(!nbn.getNodeTypeExpr().getType().getIdent().equals("Node")) {
+			if(!nbn.getNodeTypeExpr().getType().getIdent().toString().equals("Node")) {
 				sb.append(", ");
 				genExpressionTree(sb, nbn.getNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			}
@@ -1290,7 +1290,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			EdgeByNameExpr ebn = (EdgeByNameExpr)expr;
 			sb.append("new GRGEN_EXPR.EdgeByName(");
 			genExpressionTree(sb, ebn.getNameExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			if(!ebn.getEdgeTypeExpr().getType().getIdent().equals("AEdge")) {
+			if(!ebn.getEdgeTypeExpr().getType().getIdent().toString().equals("AEdge")) {
 				sb.append(", ");
 				genExpressionTree(sb, ebn.getEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			}
@@ -1299,7 +1299,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			NodeByUniqueExpr nbu = (NodeByUniqueExpr)expr;
 			sb.append("new GRGEN_EXPR.NodeByUnique(");
 			genExpressionTree(sb, nbu.getUniqueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			if(!nbu.getNodeTypeExpr().getType().getIdent().equals("Node")) {
+			if(!nbu.getNodeTypeExpr().getType().getIdent().toString().equals("Node")) {
 				sb.append(", ");
 				genExpressionTree(sb, nbu.getNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			}
@@ -1308,7 +1308,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			EdgeByUniqueExpr ebu = (EdgeByUniqueExpr)expr;
 			sb.append("new GRGEN_EXPR.EdgeByUnique(");
 			genExpressionTree(sb, ebu.getUniqueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			if(!ebu.getEdgeTypeExpr().getType().getIdent().equals("AEdge")) {
+			if(!ebu.getEdgeTypeExpr().getType().getIdent().toString().equals("AEdge")) {
 				sb.append(", ");
 				genExpressionTree(sb, ebu.getEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			}

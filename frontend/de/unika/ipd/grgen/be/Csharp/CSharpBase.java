@@ -1947,7 +1947,7 @@ public abstract class CSharpBase
 			NodeByNameExpr nbn = (NodeByNameExpr)expr;
 			sb.append("GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, ");
 			genExpression(sb, nbn.getNameExpr(), modifyGenerationState);
-			if(!nbn.getNodeTypeExpr().getType().getIdent().equals("Node")) {
+			if(!nbn.getNodeTypeExpr().getType().getIdent().toString().equals("Node")) {
 				sb.append(", ");
 				genExpression(sb, nbn.getNodeTypeExpr(), modifyGenerationState);
 			}
@@ -1960,7 +1960,7 @@ public abstract class CSharpBase
 			EdgeByNameExpr ebn = (EdgeByNameExpr)expr;
 			sb.append("GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, ");
 			genExpression(sb, ebn.getNameExpr(), modifyGenerationState);
-			if(!ebn.getEdgeTypeExpr().getType().getIdent().equals("AEdge")) {
+			if(!ebn.getEdgeTypeExpr().getType().getIdent().toString().equals("AEdge")) {
 				sb.append(", ");
 				genExpression(sb, ebn.getEdgeTypeExpr(), modifyGenerationState);
 			}
@@ -1973,7 +1973,7 @@ public abstract class CSharpBase
 			NodeByUniqueExpr nbu = (NodeByUniqueExpr)expr;
 			sb.append("GRGEN_LIBGR.GraphHelper.GetNode(graph, ");
 			genExpression(sb, nbu.getUniqueExpr(), modifyGenerationState);
-			if(!nbu.getNodeTypeExpr().getType().getIdent().equals("Node")) {
+			if(!nbu.getNodeTypeExpr().getType().getIdent().toString().equals("Node")) {
 				sb.append(", ");
 				genExpression(sb, nbu.getNodeTypeExpr(), modifyGenerationState);
 			}
@@ -1986,7 +1986,7 @@ public abstract class CSharpBase
 			EdgeByUniqueExpr ebu = (EdgeByUniqueExpr)expr;
 			sb.append("GRGEN_LIBGR.GraphHelper.GetEdge(graph, ");
 			genExpression(sb, ebu.getUniqueExpr(), modifyGenerationState);
-			if(!ebu.getEdgeTypeExpr().getType().getIdent().equals("AEdge")) {
+			if(!ebu.getEdgeTypeExpr().getType().getIdent().toString().equals("AEdge")) {
 				sb.append(", ");
 				genExpression(sb, ebu.getEdgeTypeExpr(), modifyGenerationState);
 			}
