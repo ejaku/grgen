@@ -11,8 +11,9 @@
 
 package de.unika.ipd.grgen.ast.decl.pattern;
 
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -20,7 +21,7 @@ import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
 import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
 import de.unika.ipd.grgen.ast.pattern.GraphNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
-import de.unika.ipd.grgen.ir.Edge;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;

@@ -23,9 +23,9 @@ import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.type.EdgeType;
 
 public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 {

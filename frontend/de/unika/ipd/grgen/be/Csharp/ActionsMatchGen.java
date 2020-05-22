@@ -16,6 +16,12 @@ import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.Alternative;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ActionsMatchGen extends CSharpBase

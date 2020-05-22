@@ -19,9 +19,15 @@ import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.stmt.Assignment;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
+import de.unika.ipd.grgen.ir.type.InheritanceType;
+import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.util.Formatter;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumper;

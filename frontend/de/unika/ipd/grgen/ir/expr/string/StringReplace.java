@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir.expr.string;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.typedecl.StringType;
+import de.unika.ipd.grgen.ir.type.StringType;
 
 public class StringReplace extends Expression
 {

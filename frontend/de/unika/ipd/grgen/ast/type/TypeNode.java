@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.type.model.EnumTypeNode;
 import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
-import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.type.Type;
+
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Collections;

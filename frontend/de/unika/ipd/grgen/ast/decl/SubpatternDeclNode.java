@@ -34,8 +34,8 @@ import de.unika.ipd.grgen.ast.type.SubpatternTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 /**

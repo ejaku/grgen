@@ -20,10 +20,10 @@ import de.unika.ipd.grgen.ast.type.CompoundTypeNode;
 import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.typedecl.EnumItem;
-import de.unika.ipd.grgen.ir.typedecl.EnumType;
+import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
+import de.unika.ipd.grgen.ir.type.EnumType;
 
 /**
  * An enumeration type AST node.

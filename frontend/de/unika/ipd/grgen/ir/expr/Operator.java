@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.type.Type;
 
 /**
  * An operator in an expression.

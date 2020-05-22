@@ -20,10 +20,10 @@ import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayClear;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayVarClear;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ArrayClearNode extends ArrayProcedureMethodInvocationBaseNode

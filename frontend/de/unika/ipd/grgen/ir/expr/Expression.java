@@ -12,6 +12,12 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
+import de.unika.ipd.grgen.ir.pattern.RetypedNode;
+import de.unika.ipd.grgen.ir.pattern.Variable;
+import de.unika.ipd.grgen.ir.type.Type;
 
 /**
  * Abstract base class for expression nodes

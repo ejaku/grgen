@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.pattern.Graph;
 
 /**
  * AST node representing nodes
@@ -87,7 +87,7 @@ public class SingleNodeConnNode extends ConnectionCharacter
 		return node;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addToGraph(de.unika.ipd.grgen.ir.Graph) */
+	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addToGraph(de.unika.ipd.grgen.ir.pattern.Graph) */
 	public void addToGraph(Graph gr)
 	{
 		assert isResolved();

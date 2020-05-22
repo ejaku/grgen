@@ -23,6 +23,10 @@ import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.Typeof;
 import de.unika.ipd.grgen.ir.expr.VariableExpression;
 import de.unika.ipd.grgen.ir.expr.graph.Visited;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.Variable;
+import de.unika.ipd.grgen.ir.type.Type;
 
 public class Formatter
 {

@@ -16,6 +16,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.util.GraphDumpVisitor;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumpableProxy;

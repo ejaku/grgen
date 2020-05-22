@@ -12,7 +12,7 @@ package de.unika.ipd.grgen.ir.expr.array;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.typedecl.ArrayType;
+import de.unika.ipd.grgen.ir.type.ArrayType;
 
 public class ArrayVarExpr extends Expression
 {

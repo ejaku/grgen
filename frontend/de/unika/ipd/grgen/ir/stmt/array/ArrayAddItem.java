@@ -16,8 +16,9 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
-import de.unika.ipd.grgen.ir.typedecl.ProcedureBase;
 
 public class ArrayAddItem extends ProcedureInvocationBase
 {

@@ -12,8 +12,8 @@
 package de.unika.ipd.grgen.ir.stmt.deque;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
-import de.unika.ipd.grgen.ir.typedecl.ProcedureBase;
 
 public class DequeVarClear extends ProcedureInvocationBase
 {

@@ -8,7 +8,7 @@
 package de.unika.ipd.grgen.ast.type.basic;
 
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.typedecl.DoubleType;
+import de.unika.ipd.grgen.ir.type.DoubleType;
 
 /** The double precision floating point basic type. */
 public class DoubleTypeNode extends BasicTypeNode

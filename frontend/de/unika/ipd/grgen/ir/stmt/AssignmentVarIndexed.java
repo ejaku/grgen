@@ -12,6 +12,7 @@ package de.unika.ipd.grgen.ir.stmt;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 /**
  * Represents an indexed assignment statement in the IR.

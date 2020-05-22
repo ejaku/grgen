@@ -15,6 +15,10 @@ import java.util.LinkedHashSet;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.MemberExpression;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 /**
  * Holds a collection of entities needed by an expression.

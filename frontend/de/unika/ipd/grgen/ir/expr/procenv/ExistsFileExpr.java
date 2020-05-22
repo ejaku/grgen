@@ -9,6 +9,7 @@ package de.unika.ipd.grgen.ir.expr.procenv;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.type.Type;
 
 public class ExistsFileExpr extends Expression
 {

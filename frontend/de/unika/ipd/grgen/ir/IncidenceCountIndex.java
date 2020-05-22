@@ -11,6 +11,9 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.type.EdgeType;
+import de.unika.ipd.grgen.ir.type.NodeType;
+
 /**
  * An incidence count index.
  */

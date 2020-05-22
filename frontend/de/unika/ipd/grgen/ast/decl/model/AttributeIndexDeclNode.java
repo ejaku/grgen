@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.AttributeIndex;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.type.InheritanceType;
 
 import java.util.Collection;
 import java.util.Vector;

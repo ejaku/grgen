@@ -23,10 +23,10 @@ import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.NameOrAttributeInitialization;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.NameOrAttributeInitialization;
 
 public class NameOrAttributeInitializationNode extends BaseNode
 {

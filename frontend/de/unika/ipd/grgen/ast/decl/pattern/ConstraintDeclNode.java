@@ -25,11 +25,10 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
+import de.unika.ipd.grgen.ir.type.TypeExpr;
 
 import java.util.Collection;
 import java.util.HashSet;
-
-import de.unika.ipd.grgen.ir.TypeExpr;
 
 public abstract class ConstraintDeclNode extends DeclNode
 {

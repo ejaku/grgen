@@ -16,7 +16,7 @@ import java.util.Set;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.pattern.Graph;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

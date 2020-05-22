@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 
 /**

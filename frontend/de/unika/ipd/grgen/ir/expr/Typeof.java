@@ -8,6 +8,8 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 public class Typeof extends Expression
 {

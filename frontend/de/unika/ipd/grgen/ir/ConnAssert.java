@@ -13,6 +13,8 @@ package de.unika.ipd.grgen.ir;
 import java.util.Collections;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ir.type.NodeType;
+
 public class ConnAssert extends IR
 {
 	private final long srcLower;

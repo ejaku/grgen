@@ -27,11 +27,18 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Operator;
 import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.typedecl.BooleanType;
-import de.unika.ipd.grgen.ir.typedecl.EnumItem;
-import de.unika.ipd.grgen.ir.typedecl.EnumType;
-import de.unika.ipd.grgen.ir.typedecl.IntType;
-import de.unika.ipd.grgen.ir.typedecl.StringType;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.type.BooleanType;
+import de.unika.ipd.grgen.ir.type.EdgeType;
+import de.unika.ipd.grgen.ir.type.EnumType;
+import de.unika.ipd.grgen.ir.type.InheritanceType;
+import de.unika.ipd.grgen.ir.type.IntType;
+import de.unika.ipd.grgen.ir.type.NodeType;
+import de.unika.ipd.grgen.ir.type.StringType;
+import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.util.Annotations;
 
 public class InformationCollector extends CBackend

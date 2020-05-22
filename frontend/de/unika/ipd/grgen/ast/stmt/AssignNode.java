@@ -35,20 +35,20 @@ import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ast.type.model.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
-import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.stmt.Assignment;
 import de.unika.ipd.grgen.ir.stmt.AssignmentGraphEntity;
 import de.unika.ipd.grgen.ir.stmt.AssignmentIdentical;
 import de.unika.ipd.grgen.ir.stmt.AssignmentMember;
 import de.unika.ipd.grgen.ir.stmt.AssignmentVar;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

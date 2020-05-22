@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.type.DefinedMatchType;
+
 /**
  * A match class filter (base type for auto-generated match class filters and match class filter functions).
  */

@@ -17,6 +17,11 @@ import java.util.HashSet;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 interface ModifyGenerationStateConst extends ExpressionGenerationState
 {

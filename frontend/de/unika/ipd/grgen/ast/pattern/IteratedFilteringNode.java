@@ -29,8 +29,8 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.FilterInvocation;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.IteratedFiltering;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.pattern.IteratedFiltering;
 
 public class IteratedFilteringNode extends EvalStatementNode
 {

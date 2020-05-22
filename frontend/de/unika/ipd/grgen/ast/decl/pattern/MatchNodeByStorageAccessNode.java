@@ -21,13 +21,13 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
-import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.StorageAccess;
-import de.unika.ipd.grgen.ir.StorageAccessIndex;
-import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.StorageAccess;
+import de.unika.ipd.grgen.ir.pattern.StorageAccessIndex;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
 {

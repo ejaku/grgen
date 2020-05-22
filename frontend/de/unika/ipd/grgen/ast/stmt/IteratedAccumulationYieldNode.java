@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.IteratedAccumulationYield;
 import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

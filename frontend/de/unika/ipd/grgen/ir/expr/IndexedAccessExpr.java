@@ -12,7 +12,7 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.type.Type;
 
 public class IndexedAccessExpr extends Expression
 {

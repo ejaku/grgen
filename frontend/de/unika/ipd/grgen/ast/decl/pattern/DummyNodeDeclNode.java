@@ -11,7 +11,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
-import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.pattern.Node;
 
 /**
  * Dummy node needed for dangling edges

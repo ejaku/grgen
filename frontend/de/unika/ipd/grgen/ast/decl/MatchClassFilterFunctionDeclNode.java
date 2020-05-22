@@ -28,13 +28,13 @@ import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.type.FilterFunctionTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.DefinedMatchType;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchClassFilterFunction;
 import de.unika.ipd.grgen.ir.MatchClassFilterFunctionExternal;
 import de.unika.ipd.grgen.ir.MatchClassFilterFunctionInternal;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 
 /**
  * AST node class representing match class filter function declarations

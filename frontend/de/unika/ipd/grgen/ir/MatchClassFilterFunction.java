@@ -15,6 +15,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.unika.ipd.grgen.ir.type.DefinedMatchType;
+import de.unika.ipd.grgen.ir.type.Type;
+
 /**
  * Base type for match class filter functions (internal and external).
  */

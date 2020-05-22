@@ -27,14 +27,14 @@ import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
 import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
-import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.stmt.AssignmentIndexed;
 import de.unika.ipd.grgen.ir.stmt.AssignmentVarIndexed;
-import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

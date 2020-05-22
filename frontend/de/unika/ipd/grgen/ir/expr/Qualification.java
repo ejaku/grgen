@@ -12,6 +12,10 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Variable;
+import de.unika.ipd.grgen.ir.type.DefinedMatchType;
+import de.unika.ipd.grgen.ir.type.MatchType;
 
 public class Qualification extends Expression
 {

@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.typedecl.Function;
+import de.unika.ipd.grgen.ir.type.Type;
 
 /**
  * A function invocation is an expression.

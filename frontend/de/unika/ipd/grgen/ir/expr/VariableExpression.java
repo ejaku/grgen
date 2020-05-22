@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 /**
  * A variable expression node.

@@ -30,9 +30,9 @@ import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.RetypedNode;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.RetypedNode;
+import de.unika.ipd.grgen.ir.type.NodeType;
 
 /**
  * A node which is created by retyping, with the old node (old nodes in case of a merge)

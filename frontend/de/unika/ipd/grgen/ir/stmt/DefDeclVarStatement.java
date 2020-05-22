@@ -11,6 +11,7 @@
 package de.unika.ipd.grgen.ir.stmt;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 /**
  * Represents a declaration of a local variable of non-graph-element-type in the IR.

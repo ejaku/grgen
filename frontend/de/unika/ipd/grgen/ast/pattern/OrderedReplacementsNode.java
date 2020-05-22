@@ -13,8 +13,8 @@ import java.util.LinkedList;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.OrderedReplacement;
-import de.unika.ipd.grgen.ir.OrderedReplacements;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class OrderedReplacementsNode extends BaseNode

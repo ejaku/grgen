@@ -12,8 +12,8 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
+import de.unika.ipd.grgen.ir.ProcedureBase;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
-import de.unika.ipd.grgen.ir.typedecl.ProcedureBase;
 
 public class VAllocProc extends ProcedureInvocationBase
 {

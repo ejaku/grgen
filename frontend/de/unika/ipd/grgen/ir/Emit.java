@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 
 /**

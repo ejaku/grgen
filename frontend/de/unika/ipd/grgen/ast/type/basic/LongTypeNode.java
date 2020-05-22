@@ -8,7 +8,7 @@
 package de.unika.ipd.grgen.ast.type.basic;
 
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.typedecl.LongType;
+import de.unika.ipd.grgen.ir.type.LongType;
 
 /**
  * The long basic type.

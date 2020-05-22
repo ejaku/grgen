@@ -13,8 +13,7 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
 
-import de.unika.ipd.grgen.ir.typedecl.Function;
-import de.unika.ipd.grgen.ir.typedecl.Procedure;
+import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 
 /**
  * A type bearing all the different actions available in the rules language.

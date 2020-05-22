@@ -26,17 +26,17 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.RhsTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.Emit;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.OrderedReplacement;
-import de.unika.ipd.grgen.ir.OrderedReplacements;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 /**
  * AST node for a replacement right-hand side.

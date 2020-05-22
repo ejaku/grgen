@@ -26,9 +26,9 @@ import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.map.MapAddItem;
 import de.unika.ipd.grgen.ir.stmt.map.MapVarAddItem;
-import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MapAddItemNode extends MapProcedureMethodInvocationBaseNode

@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ast.pattern;
 
-import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.pattern.Node;
 
 /**
  * Something, that produces an IR node.

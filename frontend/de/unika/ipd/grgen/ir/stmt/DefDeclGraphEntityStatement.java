@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ir.stmt;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 
 /**
  * Represents a declaration of a local variable of graph element type in the IR.

@@ -17,9 +17,9 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.type.AlternativeTypeNode;
-import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.pattern.Alternative;
 
 /**
  * AST node that represents an alternative, containing the alternative graph patterns

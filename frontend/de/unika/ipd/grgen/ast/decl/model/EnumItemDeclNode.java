@@ -24,8 +24,8 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.model.EnumTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.typedecl.EnumItem;
 import de.unika.ipd.grgen.util.Walkable;
 
 /**

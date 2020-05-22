@@ -22,12 +22,12 @@ import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
 import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.typedecl.Procedure;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Procedure;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.stmt.ProcedureMethodInvocation;
+import de.unika.ipd.grgen.ir.type.Type;
 
 /**
  * Invocation of a procedure method

@@ -20,11 +20,11 @@ import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.typedecl.ArrayType;
+import de.unika.ipd.grgen.ir.type.ArrayType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ArrayInitNode extends ContainerSingleElementInitNode

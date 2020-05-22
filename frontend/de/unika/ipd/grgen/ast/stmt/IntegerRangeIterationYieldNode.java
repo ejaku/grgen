@@ -22,8 +22,8 @@ import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.IntegerRangeIterationYield;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

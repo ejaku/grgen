@@ -25,10 +25,10 @@ import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.stmt.ExternalProcedureInvocation;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocation;
-import de.unika.ipd.grgen.ir.typedecl.ExternalProcedure;
-import de.unika.ipd.grgen.ir.typedecl.Procedure;
+import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.ExternalProcedure;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Procedure;
 import de.unika.ipd.grgen.ir.expr.Expression;
 
 /**

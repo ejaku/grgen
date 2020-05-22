@@ -13,6 +13,9 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.ArrayList;
 
+import de.unika.ipd.grgen.ir.type.DefinedMatchType;
+import de.unika.ipd.grgen.ir.type.Type;
+
 /**
  * An auto-generated match class filter.
  */

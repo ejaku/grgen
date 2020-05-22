@@ -14,7 +14,7 @@
 package de.unika.ipd.grgen.ast.type.basic;
 
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.typedecl.ObjectType;
+import de.unika.ipd.grgen.ir.type.ObjectType;
 
 public class ObjectTypeNode extends BasicTypeNode
 {

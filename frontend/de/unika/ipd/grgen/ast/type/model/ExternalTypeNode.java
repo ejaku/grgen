@@ -25,11 +25,11 @@ import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ir.ExternalFunctionMethod;
+import de.unika.ipd.grgen.ir.ExternalProcedureMethod;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.typedecl.ExternalFunctionMethod;
-import de.unika.ipd.grgen.ir.typedecl.ExternalProcedureMethod;
-import de.unika.ipd.grgen.ir.typedecl.ExternalType;
+import de.unika.ipd.grgen.ir.type.ExternalType;
+import de.unika.ipd.grgen.ir.type.InheritanceType;
 
 /**
  * A class representing a node type

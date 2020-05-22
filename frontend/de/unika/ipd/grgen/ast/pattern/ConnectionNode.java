@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.ast.type.model.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.pattern.Graph;
 
 /**
  * AST node that represents a Connection (an edge connecting two nodes)

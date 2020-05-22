@@ -18,7 +18,7 @@ import java.awt.Color;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ir.TypeExprSetOperator;
+import de.unika.ipd.grgen.ir.type.TypeExprSetOperator;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

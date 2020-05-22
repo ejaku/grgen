@@ -15,7 +15,7 @@ import java.util.Collection;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.typedecl.ArrayType;
+import de.unika.ipd.grgen.ir.type.ArrayType;
 
 public class ArrayInit extends Expression
 {

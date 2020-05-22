@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.type.NodeType;
 
 /**
  * AST node that represents a Connection Assertion

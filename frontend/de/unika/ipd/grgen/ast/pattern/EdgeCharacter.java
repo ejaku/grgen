@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ast.pattern;
 
-import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.pattern.Edge;
 
 /**
  * Something, that looks like an edge.

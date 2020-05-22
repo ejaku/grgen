@@ -13,8 +13,8 @@
 
 package de.unika.ipd.grgen.ir.expr;
 
-import de.unika.ipd.grgen.ir.typedecl.EnumItem;
-import de.unika.ipd.grgen.ir.typedecl.EnumType;
+import de.unika.ipd.grgen.ir.EnumItem;
+import de.unika.ipd.grgen.ir.type.EnumType;
 
 public class EnumExpression extends Constant
 {

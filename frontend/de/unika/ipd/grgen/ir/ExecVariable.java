@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.type.Type;
+
 /**
  * A variable declared inside an "exec" statement containing nodes, edges or primitive types.
  * (due to being declared in the sequence, it can't be a defToBeYieldedTo variable, only entities from the outside can be)

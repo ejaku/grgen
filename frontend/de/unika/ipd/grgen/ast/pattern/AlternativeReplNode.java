@@ -18,9 +18,9 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.pattern.AlternativeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.Alternative;
-import de.unika.ipd.grgen.ir.AlternativeReplacement;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.pattern.Alternative;
+import de.unika.ipd.grgen.ir.pattern.AlternativeReplacement;
 
 public class AlternativeReplNode extends OrderedReplacementNode
 {

@@ -18,7 +18,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.typedecl.ProcedureBase;
+import de.unika.ipd.grgen.ir.type.Type;
 
 /**
  * A base class for procedure invocations.

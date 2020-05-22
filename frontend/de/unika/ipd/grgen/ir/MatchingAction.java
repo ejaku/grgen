@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 
 /**
  * An action that represents something that does graph matching.
@@ -28,7 +29,7 @@ public abstract class MatchingAction extends Action
 	};
 
 	/** The graph pattern to match against. */
-	protected PatternGraph pattern;
+	public PatternGraph pattern;
 
 	/** A list of the pattern parameters */
 	private final List<Entity> params = new LinkedList<Entity>();

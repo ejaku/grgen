@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.type.NodeType;
 
 /**
  * A class representing a node type

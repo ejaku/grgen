@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 /**
  * Represents an accumulation yielding of an iterated match def variable in the IR.

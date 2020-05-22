@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ir.expr.graph;
 import de.unika.ipd.grgen.ir.IncidenceCountIndex;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.typedecl.IntType;
+import de.unika.ipd.grgen.ir.type.IntType;
 
 public class IndexedIncidenceCountIndexAccessExpr extends Expression
 {

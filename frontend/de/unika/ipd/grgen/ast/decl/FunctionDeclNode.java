@@ -23,11 +23,11 @@ import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.FunctionTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.typedecl.Function;
-import de.unika.ipd.grgen.ir.typedecl.FunctionMethod;
+import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Function;
+import de.unika.ipd.grgen.ir.FunctionMethod;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Type;
 
 /**
  * AST node class representing function declarations

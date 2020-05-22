@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir.expr.procenv;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.typedecl.LongType;
+import de.unika.ipd.grgen.ir.type.LongType;
 
 public class NowExpr extends Expression
 {

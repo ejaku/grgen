@@ -20,10 +20,10 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
-import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.UniqueLookup;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.UniqueLookup;
 
 public class MatchEdgeByUniqueLookupNode extends EdgeDeclNode
 {

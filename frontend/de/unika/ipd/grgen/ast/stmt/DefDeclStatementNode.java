@@ -24,9 +24,9 @@ import de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.stmt.DefDeclGraphEntityStatement;
 import de.unika.ipd.grgen.ir.stmt.DefDeclVarStatement;
-import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

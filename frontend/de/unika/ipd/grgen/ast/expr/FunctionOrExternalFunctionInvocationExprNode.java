@@ -21,13 +21,13 @@ import de.unika.ipd.grgen.ast.decl.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.typedecl.ExternalFunction;
-import de.unika.ipd.grgen.ir.typedecl.Function;
+import de.unika.ipd.grgen.ir.ExternalFunction;
+import de.unika.ipd.grgen.ir.Function;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.ExternalFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.expr.FunctionInvocationExpr;
+import de.unika.ipd.grgen.ir.type.Type;
 
 /**
  * Invocation of a function or an external function

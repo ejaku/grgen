@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.map.MapCopyConstructor;
-import de.unika.ipd.grgen.ir.typedecl.MapType;
+import de.unika.ipd.grgen.ir.type.MapType;
 import de.unika.ipd.grgen.parser.Coords;
 
 //TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque 

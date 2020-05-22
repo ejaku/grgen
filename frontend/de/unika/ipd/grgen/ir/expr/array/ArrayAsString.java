@@ -12,7 +12,7 @@ package de.unika.ipd.grgen.ir.expr.array;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.typedecl.StringType;
+import de.unika.ipd.grgen.ir.type.StringType;
 
 public class ArrayAsString extends Expression
 {

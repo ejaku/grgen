@@ -10,9 +10,9 @@ package de.unika.ipd.grgen.ir.stmt.procenv;
 import java.util.Collection;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
+import de.unika.ipd.grgen.ir.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
-import de.unika.ipd.grgen.ir.typedecl.ProcedureBase;
 
 public class DebugRemProc extends ProcedureInvocationBase
 {

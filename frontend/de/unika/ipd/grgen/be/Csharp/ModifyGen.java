@@ -24,15 +24,33 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
-import de.unika.ipd.grgen.ir.typedecl.ArrayType;
-import de.unika.ipd.grgen.ir.typedecl.DequeType;
-import de.unika.ipd.grgen.ir.typedecl.EnumType;
-import de.unika.ipd.grgen.ir.typedecl.MapType;
-import de.unika.ipd.grgen.ir.typedecl.SetType;
+import de.unika.ipd.grgen.ir.type.ArrayType;
+import de.unika.ipd.grgen.ir.type.DefinedMatchType;
+import de.unika.ipd.grgen.ir.type.DequeType;
+import de.unika.ipd.grgen.ir.type.EnumType;
+import de.unika.ipd.grgen.ir.type.MapType;
+import de.unika.ipd.grgen.ir.type.MatchType;
+import de.unika.ipd.grgen.ir.type.SetType;
+import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.util.SourceBuilder;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.Alternative;
+import de.unika.ipd.grgen.ir.pattern.AlternativeReplacement;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.IteratedReplacement;
+import de.unika.ipd.grgen.ir.pattern.NameOrAttributeInitialization;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
+import de.unika.ipd.grgen.ir.pattern.RetypedNode;
+import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
+import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 public class ModifyGen extends CSharpBase
 {

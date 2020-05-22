@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.type.Type;
 
 public class Cast extends Expression
 {

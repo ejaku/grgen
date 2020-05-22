@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import de.unika.ipd.grgen.ir.typedecl.Procedure;
-import de.unika.ipd.grgen.ir.typedecl.ProcedureBase;
+import de.unika.ipd.grgen.ir.Procedure;
+import de.unika.ipd.grgen.ir.ProcedureBase;
 
 /**
  * A procedure invocation.

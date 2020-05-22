@@ -32,8 +32,8 @@ import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.ConnAssert;
-import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.type.EdgeType;
 
 public abstract class EdgeTypeNode extends InheritanceTypeNode
 {

@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.type.InheritanceType;
+
 /**
  * An attribute index.
  */

@@ -20,11 +20,11 @@ import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.typedecl.SetType;
+import de.unika.ipd.grgen.ir.type.SetType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class SetInitNode extends ContainerSingleElementInitNode

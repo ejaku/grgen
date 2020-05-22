@@ -24,11 +24,11 @@ import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.ExpressionPair;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.typedecl.MapType;
+import de.unika.ipd.grgen.ir.type.MapType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MapInitNode extends ContainerInitNode

@@ -23,11 +23,11 @@ import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.ProcedureTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.typedecl.Procedure;
-import de.unika.ipd.grgen.ir.typedecl.ProcedureMethod;
+import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Procedure;
+import de.unika.ipd.grgen.ir.ProcedureMethod;
 
 /**
  * AST node class representing procedure declarations

@@ -21,11 +21,11 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Index;
-import de.unika.ipd.grgen.ir.IndexAccessEquality;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
 
 public class MatchEdgeByIndexAccessEqualityNode extends MatchEdgeByIndexNode
 {

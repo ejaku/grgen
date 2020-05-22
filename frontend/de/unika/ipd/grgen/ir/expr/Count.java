@@ -8,6 +8,7 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.type.Type;
 
 public class Count extends Expression
 {

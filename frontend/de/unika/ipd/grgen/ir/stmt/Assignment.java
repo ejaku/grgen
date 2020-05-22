@@ -15,6 +15,10 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Variable;
+import de.unika.ipd.grgen.ir.type.DefinedMatchType;
+import de.unika.ipd.grgen.ir.type.MatchType;
 
 /**
  * Represents an assignment statement in the IR.

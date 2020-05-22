@@ -21,9 +21,9 @@ import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.NameLookup;
-import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.NameLookup;
+import de.unika.ipd.grgen.ir.pattern.Node;
 
 public class MatchNodeByNameLookupNode extends NodeDeclNode
 {

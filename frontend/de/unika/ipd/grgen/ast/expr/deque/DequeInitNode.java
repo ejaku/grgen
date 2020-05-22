@@ -20,11 +20,11 @@ import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.typedecl.DequeType;
+import de.unika.ipd.grgen.ir.type.DequeType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class DequeInitNode extends ContainerSingleElementInitNode

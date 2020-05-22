@@ -23,9 +23,9 @@ import de.unika.ipd.grgen.ast.type.model.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Index;
-import de.unika.ipd.grgen.ir.IndexAccessEquality;
-import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
+import de.unika.ipd.grgen.ir.pattern.Node;
 
 public class MatchNodeByIndexAccessEqualityNode extends MatchNodeByIndexNode
 {

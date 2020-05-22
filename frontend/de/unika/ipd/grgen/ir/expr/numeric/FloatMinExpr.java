@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.ir.expr.numeric;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.typedecl.FloatType;
+import de.unika.ipd.grgen.ir.type.FloatType;
 
 public class FloatMinExpr extends Expression
 {

@@ -8,7 +8,7 @@
 package de.unika.ipd.grgen.ast.type.basic;
 
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.typedecl.ByteType;
+import de.unika.ipd.grgen.ir.type.ByteType;
 
 /**
  * The byte basic type.

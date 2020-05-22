@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
-import de.unika.ipd.grgen.ir.typedecl.SetType;
+import de.unika.ipd.grgen.ir.type.SetType;
 import de.unika.ipd.grgen.parser.Coords;
 
 //TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque

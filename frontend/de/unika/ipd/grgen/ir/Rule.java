@@ -23,8 +23,20 @@ import java.util.List;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.Alternative;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
+import de.unika.ipd.grgen.ir.pattern.RetypedNode;
+import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
+import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
+import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 import de.unika.ipd.grgen.ast.BaseNode;
 
 /**

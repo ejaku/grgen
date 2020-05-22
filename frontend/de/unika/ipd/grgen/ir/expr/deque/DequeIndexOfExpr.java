@@ -12,7 +12,7 @@ package de.unika.ipd.grgen.ir.expr.deque;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.typedecl.IntType;
+import de.unika.ipd.grgen.ir.type.IntType;
 
 public class DequeIndexOfExpr extends Expression
 {

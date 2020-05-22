@@ -12,8 +12,8 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.TypeExpr;
-import de.unika.ipd.grgen.ir.TypeExprSetOperator;
+import de.unika.ipd.grgen.ir.type.TypeExpr;
+import de.unika.ipd.grgen.ir.type.TypeExprSetOperator;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

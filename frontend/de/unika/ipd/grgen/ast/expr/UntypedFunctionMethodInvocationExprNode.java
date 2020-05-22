@@ -19,9 +19,9 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.UntypedFunctionMethodInvocationExpr;
+import de.unika.ipd.grgen.ir.type.Type;
 
 /**
  * Invocation of a function method on an untyped target - result untyped

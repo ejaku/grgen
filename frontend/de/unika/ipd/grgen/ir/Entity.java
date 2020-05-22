@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Set;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.type.Type;
 
 /**
  * An instantiation of a type.
@@ -40,7 +42,7 @@ public class Entity extends Identifiable
 	protected PatternGraph patternGraphDefYieldedIsToBeDeleted = null; // todo: DELETE=LHS\RHS does not work any more due to nesting and def entities, switch to delete annotations in AST, IR
 
 	/** Context of the declaration */
-	protected int context;
+	public int context;
 
 	/**
 	 * Make a new entity of a given type
@@ -78,7 +80,7 @@ public class Entity extends Identifiable
 	 * This function is just called from other IR classes.
 	 * @param type The owner of the entity.
 	 */
-	protected void setOwner(Type type)
+	public void setOwner(Type type)
 	{
 		owner = type;
 	}

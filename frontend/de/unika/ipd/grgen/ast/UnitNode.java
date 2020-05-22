@@ -43,17 +43,17 @@ import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.DefinedMatchType;
 import de.unika.ipd.grgen.ir.FilterFunction;
+import de.unika.ipd.grgen.ir.Function;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchClassFilterFunction;
 import de.unika.ipd.grgen.ir.Model;
-import de.unika.ipd.grgen.ir.PackageActionType;
+import de.unika.ipd.grgen.ir.Procedure;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Sequence;
 import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.ir.typedecl.Function;
-import de.unika.ipd.grgen.ir.typedecl.Procedure;
+import de.unika.ipd.grgen.ir.type.DefinedMatchType;
+import de.unika.ipd.grgen.ir.type.PackageActionType;
 
 /**
  * The main node of the text. It is the root of the AST.

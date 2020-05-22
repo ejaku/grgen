@@ -8,7 +8,7 @@
 package de.unika.ipd.grgen.ast.type.basic;
 
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.typedecl.BooleanType;
+import de.unika.ipd.grgen.ir.type.BooleanType;
 
 /**
  * The boolean basic type.

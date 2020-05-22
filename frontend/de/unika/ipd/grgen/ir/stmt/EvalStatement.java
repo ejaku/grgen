@@ -12,6 +12,12 @@
 package de.unika.ipd.grgen.ir.stmt;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
+import de.unika.ipd.grgen.ir.pattern.RetypedNode;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 // too much dedicated assignment statements depending on LHS
 // -> TODO: replace by one assignment statement plus LHS expressions denoting the target (two needed because of change assignment with two LHS expressions)
