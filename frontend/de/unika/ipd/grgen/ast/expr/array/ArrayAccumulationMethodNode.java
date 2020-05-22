@@ -52,24 +52,27 @@ public abstract class ArrayAccumulationMethodNode extends ArrayFunctionMethodInv
 	// returns DUMMY object only to be used for checking with isValidTargetTypeOfAccumulation
 	public static ArrayAccumulationMethodNode getArrayMethodNode(String method)
 	{
-		if(method.equals("sum"))
+		switch(method) {
+		case "sum":
 			return new ArraySumNode(null, null);
-		if(method.equals("prod"))
+		case "prod":
 			return new ArrayProdNode(null, null);
-		if(method.equals("min"))
+		case "min":
 			return new ArrayMinNode(null, null);
-		if(method.equals("max"))
+		case "max":
 			return new ArrayMaxNode(null, null);
-		if(method.equals("avg"))
+		case "avg":
 			return new ArrayAvgNode(null, null);
-		if(method.equals("med"))
+		case "med":
 			return new ArrayMedNode(null, null);
-		if(method.equals("medUnordered"))
+		case "medUnordered":
 			return new ArrayMedUnorderedNode(null, null);
-		if(method.equals("var"))
+		case "var":
 			return new ArrayVarNode(null, null);
-		if(method.equals("dev"))
+		case "dev":
 			return new ArrayDevNode(null, null);
-		return null;
+		default:
+			return null;
+		}
 	}
 }

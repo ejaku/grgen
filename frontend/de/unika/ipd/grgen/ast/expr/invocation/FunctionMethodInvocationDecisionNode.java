@@ -185,25 +185,26 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 
 	private BuiltinFunctionInvocationBaseNode decideString(String methodName)
 	{
-		if(methodName.equals("length")) {
+		switch(methodName) {
+		case "length":
 			if(arguments.size() != 0) {
 				reportError("string.length() does not take any parameters.");
 				return null;
 			} else
 				return new StringLengthNode(getCoords(), targetExpr);
-		} else if(methodName.equals("toUpper")) {
+		case "toUpper":
 			if(arguments.size() != 0) {
 				reportError("string.toUpper() does not take any parameters.");
 				return null;
 			} else
 				return new StringToUpperNode(getCoords(), targetExpr);
-		} else if(methodName.equals("toLower")) {
+		case "toLower":
 			if(arguments.size() != 0) {
 				reportError("string.toLower() does not take any parameters.");
 				return null;
 			} else
 				return new StringToLowerNode(getCoords(), targetExpr);
-		} else if(methodName.equals("substring")) {
+		case "substring":
 			if(arguments.size() != 1 && arguments.size() != 2) {
 				reportError("string.substring(startIndex, length) takes two parameters, or one if the length is omitted.");
 				return null;
@@ -211,7 +212,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return new StringSubstringNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 			else
 				return new StringSubstringNode(getCoords(), targetExpr, arguments.get(0));
-		} else if(methodName.equals("indexOf")) {
+		case "indexOf":
 			if(arguments.size() != 1 && arguments.size() != 2) {
 				reportError("string.indexOf(strToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
@@ -219,7 +220,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return new StringIndexOfNode(getCoords(), targetExpr, arguments.get(0));
 			else
 				return new StringIndexOfNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
-		} else if(methodName.equals("lastIndexOf")) {
+		case "lastIndexOf":
 			if(arguments.size() != 1 && arguments.size() != 2) {
 				reportError("string.lastIndexOf(strToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
@@ -227,31 +228,31 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return new StringLastIndexOfNode(getCoords(), targetExpr, arguments.get(0));
 			else
 				return new StringLastIndexOfNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
-		} else if(methodName.equals("startsWith")) {
+		case "startsWith":
 			if(arguments.size() != 1) {
 				reportError("string.startsWith(strToSearchFor) takes one parameter.");
 				return null;
 			} else
 				return new StringStartsWithNode(getCoords(), targetExpr, arguments.get(0));
-		} else if(methodName.equals("endsWith")) {
+		case "endsWith":
 			if(arguments.size() != 1) {
 				reportError("string.endsWith(strToSearchFor) takes one parameter.");
 				return null;
 			} else
 				return new StringEndsWithNode(getCoords(), targetExpr, arguments.get(0));
-		} else if(methodName.equals("replace")) {
+		case "replace":
 			if(arguments.size() != 3) {
 				reportError("string.replace(startIndex, length, replaceStr) takes three parameters.");
 				return null;
 			} else
 				return new StringReplaceNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1), arguments.get(2));
-		} else if(methodName.equals("asArray")) {
+		case "asArray":
 			if(arguments.size() != 1) {
 				reportError("string.asArray(separator) takes one parameter.");
 				return null;
 			} else
 				return new StringAsArrayNode(getCoords(), targetExpr, arguments.get(0));
-		} else {
+		default:
 			reportError("string does not have a function method named \"" + methodName + "\"");
 			return null;
 		}
@@ -259,43 +260,44 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 
 	private BuiltinFunctionInvocationBaseNode decideMap(String methodName)
 	{
-		if(methodName.equals("size")) {
+		switch(methodName) {
+		case "size":
 			if(arguments.size() != 0) {
 				reportError("map<S,T>.size() does not take any parameters.");
 				return null;
 			} else
 				return new MapSizeNode(getCoords(), targetExpr);
-		} else if(methodName.equals("empty")) {
+		case "empty":
 			if(arguments.size() != 0) {
 				reportError("map<S,T>.empty() does not take any parameters.");
 				return null;
 			} else
 				return new MapEmptyNode(getCoords(), targetExpr);
-		} else if(methodName.equals("domain")) {
+		case "domain":
 			if(arguments.size() != 0) {
 				reportError("map<S,T>.domain() does not take any parameters.");
 				return null;
 			} else
 				return new MapDomainNode(getCoords(), targetExpr);
-		} else if(methodName.equals("range")) {
+		case "range":
 			if(arguments.size() != 0) {
 				reportError("map<S,T>.range() does not take any parameters.");
 				return null;
 			} else
 				return new MapRangeNode(getCoords(), targetExpr);
-		} else if(methodName.equals("asArray")) {
+		case "asArray":
 			if(arguments.size() != 0) {
 				reportError("map<int,T>.asArray() does not take any parameters.");
 				return null;
 			} else
 				return new MapAsArrayNode(getCoords(), targetExpr);
-		} else if(methodName.equals("peek")) {
+		case "peek":
 			if(arguments.size() != 1) {
 				reportError("map<S,T>.peek(number in iteration sequence) takes one parameter.");
 				return null;
 			} else
 				return new MapPeekNode(getCoords(), targetExpr, arguments.get(0));
-		} else {
+		default:
 			reportError("map<S,T> does not have a function method named \"" + methodName + "\"");
 			return null;
 		}
@@ -303,31 +305,32 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 	
 	private BuiltinFunctionInvocationBaseNode decideSet(String methodName)
 	{
-		if(methodName.equals("size")) {
+		switch(methodName) {
+		case "size":
 			if(arguments.size() != 0) {
 				reportError("set<T>.size() does not take any parameters.");
 				return null;
 			} else
 				return new SetSizeNode(getCoords(), targetExpr);
-		} else if(methodName.equals("empty")) {
+		case "empty":
 			if(arguments.size() != 0) {
 				reportError("set<T>.empty() does not take any parameters.");
 				return null;
 			} else
 				return new SetEmptyNode(getCoords(), targetExpr);
-		} else if(methodName.equals("peek")) {
+		case "peek":
 			if(arguments.size() != 1) {
 				reportError("set<T>.peek(number in iteration sequence) takes one parameter.");
 				return null;
 			} else
 				return new SetPeekNode(getCoords(), targetExpr, arguments.get(0));
-		} else if(methodName.equals("asArray")) {
+		case "asArray":
 			if(arguments.size() != 0) {
 				reportError("set<T>.asArray() takes no parameters.");
 				return null;
 			} else
 				return new SetAsArrayNode(getCoords(), targetExpr);
-		} else {
+		default:
 			reportError("set<T> does not have a function method named \"" + methodName + "\"");
 			return null;
 		}
@@ -335,19 +338,20 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 
 	private BuiltinFunctionInvocationBaseNode decideArray(String methodName)
 	{
-		if(methodName.equals("size")) {
+		switch(methodName) {
+		case "size":
 			if(arguments.size() != 0) {
 				reportError("array<T>.size() does not take any parameters.");
 				return null;
 			} else
 				return new ArraySizeNode(getCoords(), targetExpr);
-		} else if(methodName.equals("empty")) {
+		case "empty":
 			if(arguments.size() != 0) {
 				reportError("array<T>.empty() does not take any parameters.");
 				return null;
 			} else
 				return new ArrayEmptyNode(getCoords(), targetExpr);
-		} else if(methodName.equals("peek")) {
+		case "peek":
 			if(arguments.size() != 0 && arguments.size() != 1) {
 				reportError("array<T>.peek(index) takes one parameter; or none parameter returning the value from the end.");
 				return null;
@@ -357,7 +361,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				else
 					return new ArrayPeekNode(getCoords(), targetExpr, arguments.get(0));
 			}
-		} else if(methodName.equals("indexOf")) {
+		case "indexOf":
 			if(arguments.size() != 1 && arguments.size() != 2) {
 				reportError("array<T>.indexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
@@ -365,7 +369,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return new ArrayIndexOfNode(getCoords(), targetExpr, arguments.get(0));
 			else
 				return new ArrayIndexOfNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
-		} else if(methodName.equals("indexOfBy")) {
+		case "indexOfBy":
 			if(arguments.size() != 1 && arguments.size() != 2) {
 				reportError("array<T>.indexOfBy<attribute>(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
@@ -373,19 +377,19 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return new ArrayIndexOfByNode(getCoords(), targetExpr, attributeIdent, arguments.get(0));
 			else
 				return new ArrayIndexOfByNode(getCoords(), targetExpr, attributeIdent, arguments.get(0), arguments.get(1));
-		} else if(methodName.equals("indexOfOrdered")) {
+		case "indexOfOrdered":
 			if(arguments.size() != 1) {
 				reportError("array<T>.indexOfOrdered(valueToSearchFor) takes one parameter.");
 				return null;
 			} else
 				return new ArrayIndexOfOrderedNode(getCoords(), targetExpr, arguments.get(0));
-		} else if(methodName.equals("indexOfOrderedBy")) {
+		case "indexOfOrderedBy":
 			if(arguments.size() != 1) {
 				reportError("array<T>.indexOfOrderedBy<attribute>(valueToSearchFor) takes one parameter.");
 				return null;
 			} else
 				return new ArrayIndexOfOrderedByNode(getCoords(), targetExpr, attributeIdent, arguments.get(0));
-		} else if(methodName.equals("lastIndexOf")) {
+		case "lastIndexOf":
 			if(arguments.size() != 1 && arguments.size() != 2) {
 				reportError("array<T>.lastIndexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
@@ -393,7 +397,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return new ArrayLastIndexOfNode(getCoords(), targetExpr, arguments.get(0));
 			else
 				return new ArrayLastIndexOfNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
-		} else if(methodName.equals("lastIndexOfBy")) {
+		case "lastIndexOfBy":
 			if(arguments.size() != 1 && arguments.size() != 2) {
 				reportError("array<T>.lastIndexOfBy<attribute>(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
@@ -401,25 +405,25 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return new ArrayLastIndexOfByNode(getCoords(), targetExpr, attributeIdent, arguments.get(0));
 			else
 				return new ArrayLastIndexOfByNode(getCoords(), targetExpr, attributeIdent, arguments.get(0), arguments.get(1));
-		} else if(methodName.equals("subarray")) {
+		case "subarray":
 			if(arguments.size() != 2) {
 				reportError("array<T>.subarray(startIndex, length) takes two parameters.");
 				return null;
 			} else
 				return new ArraySubarrayNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
-		} else if(methodName.equals("orderAscending")) {
+		case "orderAscending":
 			if(arguments.size() != 0) {
 				reportError("array<T>.orderAscending() takes no parameters.");
 				return null;
 			} else
 				return new ArrayOrderAscendingNode(getCoords(), targetExpr);
-		} else if(methodName.equals("orderDescending")) {
+		case "orderDescending":
 			if(arguments.size() != 0) {
 				reportError("array<T>.orderDescending() takes no parameters.");
 				return null;
 			} else
 				return new ArrayOrderDescendingNode(getCoords(), targetExpr);
-		} else if(methodName.equals("keepOneForEach")) {
+		case "keepOneForEach":
 			if(attributeIdent == null) {
 				if(arguments.size() != 0) {
 					reportError("array<T>.keepOneForEach() takes no parameters.");
@@ -433,118 +437,118 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				} else
 					return new ArrayKeepOneForEachByNode(getCoords(), targetExpr, attributeIdent);
 			}
-		} else if(methodName.equals("orderAscendingBy")) {
+		case "orderAscendingBy":
 			if(arguments.size() != 0) {
 				reportError("array<T>.orderAscendingBy<attribute>() takes no parameters.");
 				return null;
 			} else
 				return new ArrayOrderAscendingByNode(getCoords(), targetExpr, attributeIdent);
-		} else if(methodName.equals("orderDescendingBy")) {
+		case "orderDescendingBy":
 			if(arguments.size() != 0) {
 				reportError("array<T>.orderDescendingBy<attribute>() takes no parameters.");
 				return null;
 			} else
 				return new ArrayOrderDescendingByNode(getCoords(), targetExpr, attributeIdent);
-		} else if(methodName.equals("reverse")) {
+		case "reverse":
 			if(arguments.size() != 0) {
 				reportError("array<T>.reverse() takes no parameters.");
 				return null;
 			} else
 				return new ArrayReverseNode(getCoords(), targetExpr);
-		} else if(methodName.equals("extract")) {
+		case "extract":
 			if(arguments.size() != 0) {
 				reportError("array<T>.extract<attribute>() takes no parameters.");
 				return null;
 			} else
 				return new ArrayExtractNode(getCoords(), targetExpr, attributeIdent);
-		} else if(methodName.equals("asSet")) {
+		case "asSet":
 			if(arguments.size() != 0) {
 				reportError("array<T>.asSet() takes no parameters.");
 				return null;
 			} else
 				return new ArrayAsSetNode(getCoords(), targetExpr);
-		} else if(methodName.equals("asDeque")) {
+		case "asDeque":
 			if(arguments.size() != 0) {
 				reportError("array<T>.asDeque() takes no parameters.");
 				return null;
 			} else
 				return new ArrayAsDequeNode(getCoords(), targetExpr);
-		} else if(methodName.equals("asMap")) {
+		case "asMap":
 			if(arguments.size() != 0) {
 				reportError("array<T>.asMap() takes no parameters.");
 				return null;
 			} else
 				return new ArrayAsMapNode(getCoords(), targetExpr);
-		} else if(methodName.equals("asString")) {
+		case "asString":
 			if(arguments.size() != 1) {
 				reportError("array<string>.asString(separator) takes one parameter.");
 				return null;
 			} else
 				return new ArrayAsStringNode(getCoords(), targetExpr, arguments.get(0));
-		} else if(methodName.equals("sum")) {
+		case "sum":
 			if(arguments.size() != 0) {
 				reportError("array<T>.sum() takes no parameters.");
 				return null;
 			} else {
 				return new ArraySumNode(getCoords(), targetExpr);
 			}
-		} else if(methodName.equals("prod")) {
+		case "prod":
 			if(arguments.size() != 0) {
 				reportError("array<T>.prod() takes no parameters.");
 				return null;
 			} else {
 				return new ArrayProdNode(getCoords(), targetExpr);
 			}
-		} else if(methodName.equals("min")) {
+		case "min":
 			if(arguments.size() != 0) {
 				reportError("array<T>.min() takes no parameters.");
 				return null;
 			} else {
 				return new ArrayMinNode(getCoords(), targetExpr);
 			}
-		} else if(methodName.equals("max")) {
+		case "max":
 			if(arguments.size() != 0) {
 				reportError("array<T>.max() takes no parameters.");
 				return null;
 			} else {
 				return new ArrayMaxNode(getCoords(), targetExpr);
 			}
-		} else if(methodName.equals("avg")) {
+		case "avg":
 			if(arguments.size() != 0) {
 				reportError("array<T>.avg() takes no parameters.");
 				return null;
 			} else {
 				return new ArrayAvgNode(getCoords(), targetExpr);
 			}
-		} else if(methodName.equals("med")) {
+		case "med":
 			if(arguments.size() != 0) {
 				reportError("array<T>.med() takes no parameters.");
 				return null;
 			} else {
 				return new ArrayMedNode(getCoords(), targetExpr);
 			}
-		} else if(methodName.equals("medUnordered")) {
+		case "medUnordered":
 			if(arguments.size() != 0) {
 				reportError("array<T>.medUnordered() takes no parameters.");
 				return null;
 			} else {
 				return new ArrayMedUnorderedNode(getCoords(), targetExpr);
 			}
-		} else if(methodName.equals("var")) {
+		case "var":
 			if(arguments.size() != 0) {
 				reportError("array<T>.var() takes no parameters.");
 				return null;
 			} else {
 				return new ArrayVarNode(getCoords(), targetExpr);
 			}
-		} else if(methodName.equals("dev")) {
+		case "dev":
 			if(arguments.size() != 0) {
 				reportError("array<T>.dev() takes no parameters.");
 				return null;
 			} else {
 				return new ArrayDevNode(getCoords(), targetExpr);
 			}
-		} else {
+		default:
 			reportError("array<T> does not have a function method named \"" + methodName + "\"");
 			return null;
 		}
@@ -552,19 +556,20 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 	
 	private BuiltinFunctionInvocationBaseNode decideDeque(String methodName)
 	{
-		if(methodName.equals("size")) {
+		switch(methodName) {
+		case "size":
 			if(arguments.size() != 0) {
 				reportError("deque<T>.size() does not take any parameters.");
 				return null;
 			} else
 				return new DequeSizeNode(getCoords(), targetExpr);
-		} else if(methodName.equals("empty")) {
+		case "empty":
 			if(arguments.size() != 0) {
 				reportError("deque<T>.empty() does not take any parameters.");
 				return null;
 			} else
 				return new DequeEmptyNode(getCoords(), targetExpr);
-		} else if(methodName.equals("peek")) {
+		case "peek":
 			if(arguments.size() != 0 && arguments.size() != 1) {
 				reportError("deque<T>.peek(index) takes one parameter; or none parameter returning the value from the begin.");
 				return null;
@@ -574,7 +579,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				else
 					return new DequePeekNode(getCoords(), targetExpr, arguments.get(0));
 			}
-		} else if(methodName.equals("indexOf")) {
+		case "indexOf":
 			if(arguments.size() != 1 && arguments.size() != 2) {
 				reportError("deque<T>.indexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
@@ -582,31 +587,31 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return new DequeIndexOfNode(getCoords(), targetExpr, arguments.get(0));
 			else
 				return new DequeIndexOfNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
-		} else if(methodName.equals("lastIndexOf")) {
+		case "lastIndexOf":
 			if(arguments.size() != 1) {
 				reportError("deque<T>.lastIndexOf(valueToSearchFor) takes one parameter.");
 				return null;
 			} else
 				return new DequeLastIndexOfNode(getCoords(), targetExpr, arguments.get(0));
-		} else if(methodName.equals("subdeque")) {
+		case "subdeque":
 			if(arguments.size() != 2) {
 				reportError("deque<T>.subdeque(startIndex, length) takes two parameters.");
 				return null;
 			} else
 				return new DequeSubdequeNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
-		} else if(methodName.equals("asSet")) {
+		case "asSet":
 			if(arguments.size() != 0) {
 				reportError("deque<T>.asSet() takes no parameters.");
 				return null;
 			} else
 				return new DequeAsSetNode(getCoords(), targetExpr);
-		} else if(methodName.equals("asArray")) {
+		case "asArray":
 			if(arguments.size() != 0) {
 				reportError("deque<T>.asArray() takes no parameters.");
 				return null;
 			} else
 				return new DequeAsArrayNode(getCoords(), targetExpr);
-		} else {
+		default:
 			reportError("deque<T> does not have a function method named \"" + methodName + "\"");
 			return null;
 		}

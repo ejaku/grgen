@@ -132,7 +132,8 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 
 	private BuiltinProcedureInvocationBaseNode decideMap(String methodName, QualIdentNode targetQual, VarDeclNode targetVar)
 	{
-		if(methodName.equals("add")) {
+		switch(methodName) {
+		case "add":
 			if(arguments.size() != 2) {
 				reportError("map<S,T>.add(key, value) takes two parameters.");
 				return null;
@@ -142,7 +143,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				else
 					return new MapAddItemNode(getCoords(), targetVar, arguments.get(0), arguments.get(1));
 			}
-		} else if(methodName.equals("rem")) {
+		case "rem":
 			if(arguments.size() != 1) {
 				reportError("map<S,T>.rem(key) takes one parameter.");
 				return null;
@@ -152,7 +153,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				else
 					return new MapRemoveItemNode(getCoords(), targetVar, arguments.get(0));
 			}
-		} else if(methodName.equals("clear")) {
+		case "clear":
 			if(arguments.size() != 0) {
 				reportError("map<S,T>.clear() takes no parameters.");
 				return null;
@@ -162,7 +163,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				else
 					return new MapClearNode(getCoords(), targetVar);
 			}
-		} else {
+		default:
 			reportError("map<S,T> does not have a procedure method named \"" + methodName + "\"");
 			return null;
 		}
@@ -170,7 +171,8 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 
 	private BuiltinProcedureInvocationBaseNode decideSet(String methodName, QualIdentNode targetQual, VarDeclNode targetVar)
 	{
-		if(methodName.equals("add")) {
+		switch(methodName) {
+		case "add":
 			if(arguments.size() != 1) {
 				reportError("set<T>.add(value) takes one parameter.");
 				return null;
@@ -180,7 +182,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				else
 					return new SetAddItemNode(getCoords(), targetVar, arguments.get(0));
 			}
-		} else if(methodName.equals("rem")) {
+		case "rem":
 			if(arguments.size() != 1) {
 				reportError("set<T>.rem(value) takes one parameter.");
 				return null;
@@ -190,7 +192,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				else
 					return new SetRemoveItemNode(getCoords(), targetVar, arguments.get(0));
 			}
-		} else if(methodName.equals("clear")) {
+		case "clear":
 			if(arguments.size() != 0) {
 				reportError("set<T>.clear() takes no parameters.");
 				return null;
@@ -200,7 +202,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				else
 					return new SetClearNode(getCoords(), targetVar);
 			}
-		} else {
+		default:
 			reportError("set<T> does not have a procedure method named \"" + methodName + "\"");
 			return null;
 		}
@@ -208,7 +210,8 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 
 	private BuiltinProcedureInvocationBaseNode decideArray(String methodName, QualIdentNode targetQual, VarDeclNode targetVar)
 	{
-		if(methodName.equals("add")) {
+		switch(methodName) {
+		case "add":
 			if(arguments.size() != 1 && arguments.size() != 2) {
 				reportError("array<T>.add(value)/array<T>.add(value, index) takes one or two parameters.");
 				return null;
@@ -221,7 +224,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 							arguments.size() != 1 ? arguments.get(1) : null);
 				}
 			}
-		} else if(methodName.equals("rem")) {
+		case "rem":
 			if(arguments.size() != 1 && arguments.size() != 0) {
 				reportError("array<T>.rem()/array<T>.rem(index) takes zero or one parameter.");
 				return null;
@@ -234,7 +237,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 							arguments.size() != 0 ? arguments.get(0) : null);
 				}
 			}
-		} else if(methodName.equals("clear")) {
+		case "clear":
 			if(arguments.size() != 0) {
 				reportError("array<T>.clear() takes no parameters.");
 				return null;
@@ -244,7 +247,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				else
 					return new ArrayClearNode(getCoords(), targetVar);
 			}
-		} else {
+		default:
 			reportError("array<T> does not have a procedure method named \"" + methodName + "\"");
 			return null;
 		}
@@ -252,7 +255,8 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 
 	private BuiltinProcedureInvocationBaseNode decideDeque(String methodName, QualIdentNode targetQual, VarDeclNode targetVar)
 	{
-		if(methodName.equals("add")) {
+		switch(methodName) {
+		case "add":
 			if(arguments.size() != 1 && arguments.size() != 2) {
 				reportError("deque<T>.add(value)/deque<T>.add(value, index) takes one or two parameters.");
 				return null;
@@ -265,7 +269,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 							arguments.size() != 1 ? arguments.get(1) : null);
 				}
 			}
-		} else if(methodName.equals("rem")) {
+		case "rem":
 			if(arguments.size() != 1 && arguments.size() != 0) {
 				reportError("deque<T>.rem()/deque<T>.rem(index) takes zero or one parameter.");
 				return null;
@@ -278,7 +282,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 							arguments.size() != 0 ? arguments.get(0) : null);
 				}
 			}
-		} else if(methodName.equals("clear")) {
+		case "clear":
 			if(arguments.size() != 0) {
 				reportError("deque<T>.clear() takes no parameters.");
 				return null;
@@ -288,7 +292,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				else
 					return new DequeClearNode(getCoords(), targetVar);
 			}
-		} else {
+		default:
 			reportError("deque<T> does not have a procedure method named \"" + methodName + "\"");
 			return null;
 		}
