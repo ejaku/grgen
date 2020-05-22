@@ -295,21 +295,27 @@ public class Util
 			targetFile.createNewFile();
 		}
 
-		FileChannel sourceStream = null;
-		FileChannel targetStream = null;
+		FileInputStream sourceStream = null;
+		FileChannel sourceChannel = null;
+		FileOutputStream targetStream = null;
+		FileChannel targetChannel = null;
 		try {
-			sourceStream = new FileInputStream(sourceFile).getChannel();
-			targetStream = new FileOutputStream(targetFile).getChannel();
+			sourceStream = new FileInputStream(sourceFile);
+			sourceChannel = sourceStream.getChannel();
+			targetStream = new FileOutputStream(targetFile);
+			targetChannel = targetStream.getChannel();
 
 			long count = 0;
-			long size = sourceStream.size();
-			while((count += targetStream.transferFrom(sourceStream, count, size - count)) < size)
+			long size = sourceChannel.size();
+			while((count += targetChannel.transferFrom(sourceChannel, count, size - count)) < size)
 				;
 		} finally {
-			if(sourceStream != null)
-				sourceStream.close();
-			if(targetStream != null)
-				targetStream.close();
+			sourceStream.close();
+			if(sourceChannel != null)
+				sourceChannel.close();
+			targetStream.close();
+			if(targetChannel != null)
+				targetChannel.close();
 		}
 	}
 }
