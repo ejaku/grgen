@@ -23,6 +23,7 @@ import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.expr.invocation.ExternalProcedureMethodInvocationNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayAddItemNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayClearNode;
@@ -105,157 +106,13 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 		}
 
 		if(targetType instanceof MapTypeNode) {
-			if(methodName.equals("add")) {
-				if(arguments.size() != 2) {
-					reportError("map<S,T>.add(key, value) takes two parameters.");
-					return false;
-				} else {
-					if(targetQual != null)
-						result = new MapAddItemNode(getCoords(), targetQual, arguments.get(0), arguments.get(1));
-					else
-						result = new MapAddItemNode(getCoords(), targetVar, arguments.get(0), arguments.get(1));
-				}
-			} else if(methodName.equals("rem")) {
-				if(arguments.size() != 1) {
-					reportError("map<S,T>.rem(key) takes one parameter.");
-					return false;
-				} else {
-					if(targetQual != null)
-						result = new MapRemoveItemNode(getCoords(), targetQual, arguments.get(0));
-					else
-						result = new MapRemoveItemNode(getCoords(), targetVar, arguments.get(0));
-				}
-			} else if(methodName.equals("clear")) {
-				if(arguments.size() != 0) {
-					reportError("map<S,T>.clear() takes no parameters.");
-					return false;
-				} else {
-					if(targetQual != null)
-						result = new MapClearNode(getCoords(), targetQual);
-					else
-						result = new MapClearNode(getCoords(), targetVar);
-				}
-			} else {
-				reportError("map<S,T> does not have a statement method named \"" + methodName + "\"");
-				return false;
-			}
+			result = decideMap(methodName, targetQual, targetVar);
 		} else if(targetType instanceof SetTypeNode) {
-			if(methodName.equals("add")) {
-				if(arguments.size() != 1) {
-					reportError("set<T>.add(value) takes one parameter.");
-					return false;
-				} else {
-					if(targetQual != null)
-						result = new SetAddItemNode(getCoords(), targetQual, arguments.get(0));
-					else
-						result = new SetAddItemNode(getCoords(), targetVar, arguments.get(0));
-				}
-			} else if(methodName.equals("rem")) {
-				if(arguments.size() != 1) {
-					reportError("set<T>.rem(value) takes one parameter.");
-					return false;
-				} else {
-					if(targetQual != null)
-						result = new SetRemoveItemNode(getCoords(), targetQual, arguments.get(0));
-					else
-						result = new SetRemoveItemNode(getCoords(), targetVar, arguments.get(0));
-				}
-			} else if(methodName.equals("clear")) {
-				if(arguments.size() != 0) {
-					reportError("set<T>.clear() takes no parameters.");
-					return false;
-				} else {
-					if(targetQual != null)
-						result = new SetClearNode(getCoords(), targetQual);
-					else
-						result = new SetClearNode(getCoords(), targetVar);
-				}
-			} else {
-				reportError("set<T> does not have a method named \"" + methodName + "\"");
-				return false;
-			}
+			result = decideSet(methodName, targetQual, targetVar);
 		} else if(targetType instanceof ArrayTypeNode) {
-			if(methodName.equals("add")) {
-				if(arguments.size() != 1 && arguments.size() != 2) {
-					reportError("array<T>.add(value)/array<T>.add(value, index) takes one or two parameters.");
-					return false;
-				} else {
-					if(targetQual != null) {
-						result = new ArrayAddItemNode(getCoords(), targetQual, arguments.get(0),
-								arguments.size() != 1 ? arguments.get(1) : null);
-					} else {
-						result = new ArrayAddItemNode(getCoords(), targetVar, arguments.get(0),
-								arguments.size() != 1 ? arguments.get(1) : null);
-					}
-				}
-			} else if(methodName.equals("rem")) {
-				if(arguments.size() != 1 && arguments.size() != 0) {
-					reportError("array<T>.rem()/array<T>.rem(index) takes zero or one parameter.");
-					return false;
-				} else {
-					if(targetQual != null) {
-						result = new ArrayRemoveItemNode(getCoords(), targetQual,
-								arguments.size() != 0 ? arguments.get(0) : null);
-					} else {
-						result = new ArrayRemoveItemNode(getCoords(), targetVar,
-								arguments.size() != 0 ? arguments.get(0) : null);
-					}
-				}
-			} else if(methodName.equals("clear")) {
-				if(arguments.size() != 0) {
-					reportError("array<T>.clear() takes no parameters.");
-					return false;
-				} else {
-					if(targetQual != null)
-						result = new ArrayClearNode(getCoords(), targetQual);
-					else
-						result = new ArrayClearNode(getCoords(), targetVar);
-				}
-			} else {
-				reportError("array<T> does not have a statement method named \"" + methodName + "\"");
-				return false;
-			}
+			result = decideArray(methodName, targetQual, targetVar);
 		} else if(targetType instanceof DequeTypeNode) {
-			if(methodName.equals("add")) {
-				if(arguments.size() != 1 && arguments.size() != 2) {
-					reportError("deque<T>.add(value)/deque<T>.add(value, index) takes one or two parameters.");
-					return false;
-				} else {
-					if(targetQual != null) {
-						result = new DequeAddItemNode(getCoords(), targetQual, arguments.get(0),
-								arguments.size() != 1 ? arguments.get(1) : null);
-					} else {
-						result = new DequeAddItemNode(getCoords(), targetVar, arguments.get(0),
-								arguments.size() != 1 ? arguments.get(1) : null);
-					}
-				}
-			} else if(methodName.equals("rem")) {
-				if(arguments.size() != 1 && arguments.size() != 0) {
-					reportError("deque<T>.rem()/deque<T>.rem(index) takes zero or one parameter.");
-					return false;
-				} else {
-					if(targetQual != null) {
-						result = new DequeRemoveItemNode(getCoords(), targetQual,
-								arguments.size() != 0 ? arguments.get(0) : null);
-					} else {
-						result = new DequeRemoveItemNode(getCoords(), targetVar,
-								arguments.size() != 0 ? arguments.get(0) : null);
-					}
-				}
-			} else if(methodName.equals("clear")) {
-				if(arguments.size() != 0) {
-					reportError("deque<T>.clear() takes no parameters.");
-					return false;
-				} else {
-					if(targetQual != null)
-						result = new DequeClearNode(getCoords(), targetQual);
-					else
-						result = new DequeClearNode(getCoords(), targetVar);
-				}
-			} else {
-				reportError("deque<T> does not have a statement method named \"" + methodName + "\"");
-				return false;
-			}
+			result = decideDeque(methodName, targetQual, targetVar);
 		} else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalTypeNode)) {
 			// we don't support calling a method from a graph element typed attribute contained in a graph element, only calling method directly on the graph element
 			result = new ProcedureMethodInvocationNode(((IdentExprNode)target).getIdent(), methodIdent, arguments, context);
@@ -267,10 +124,174 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				result = new ExternalProcedureMethodInvocationNode(targetVar, methodIdent, arguments, context);
 			result.resolve();
 		} else {
-			reportError(targetType.toString() + " does not have any methods");
-			return false;
+			reportError(targetType.toString() + " does not have any procedure methods");
 		}
-		return true;
+		
+		return result != null;
+	}
+
+	private BuiltinProcedureInvocationBaseNode decideMap(String methodName, QualIdentNode targetQual, VarDeclNode targetVar)
+	{
+		if(methodName.equals("add")) {
+			if(arguments.size() != 2) {
+				reportError("map<S,T>.add(key, value) takes two parameters.");
+				return null;
+			} else {
+				if(targetQual != null)
+					return new MapAddItemNode(getCoords(), targetQual, arguments.get(0), arguments.get(1));
+				else
+					return new MapAddItemNode(getCoords(), targetVar, arguments.get(0), arguments.get(1));
+			}
+		} else if(methodName.equals("rem")) {
+			if(arguments.size() != 1) {
+				reportError("map<S,T>.rem(key) takes one parameter.");
+				return null;
+			} else {
+				if(targetQual != null)
+					return new MapRemoveItemNode(getCoords(), targetQual, arguments.get(0));
+				else
+					return new MapRemoveItemNode(getCoords(), targetVar, arguments.get(0));
+			}
+		} else if(methodName.equals("clear")) {
+			if(arguments.size() != 0) {
+				reportError("map<S,T>.clear() takes no parameters.");
+				return null;
+			} else {
+				if(targetQual != null)
+					return new MapClearNode(getCoords(), targetQual);
+				else
+					return new MapClearNode(getCoords(), targetVar);
+			}
+		} else {
+			reportError("map<S,T> does not have a procedure method named \"" + methodName + "\"");
+			return null;
+		}
+	}
+
+	private BuiltinProcedureInvocationBaseNode decideSet(String methodName, QualIdentNode targetQual, VarDeclNode targetVar)
+	{
+		if(methodName.equals("add")) {
+			if(arguments.size() != 1) {
+				reportError("set<T>.add(value) takes one parameter.");
+				return null;
+			} else {
+				if(targetQual != null)
+					return new SetAddItemNode(getCoords(), targetQual, arguments.get(0));
+				else
+					return new SetAddItemNode(getCoords(), targetVar, arguments.get(0));
+			}
+		} else if(methodName.equals("rem")) {
+			if(arguments.size() != 1) {
+				reportError("set<T>.rem(value) takes one parameter.");
+				return null;
+			} else {
+				if(targetQual != null)
+					return new SetRemoveItemNode(getCoords(), targetQual, arguments.get(0));
+				else
+					return new SetRemoveItemNode(getCoords(), targetVar, arguments.get(0));
+			}
+		} else if(methodName.equals("clear")) {
+			if(arguments.size() != 0) {
+				reportError("set<T>.clear() takes no parameters.");
+				return null;
+			} else {
+				if(targetQual != null)
+					return new SetClearNode(getCoords(), targetQual);
+				else
+					return new SetClearNode(getCoords(), targetVar);
+			}
+		} else {
+			reportError("set<T> does not have a procedure method named \"" + methodName + "\"");
+			return null;
+		}
+	}
+
+	private BuiltinProcedureInvocationBaseNode decideArray(String methodName, QualIdentNode targetQual, VarDeclNode targetVar)
+	{
+		if(methodName.equals("add")) {
+			if(arguments.size() != 1 && arguments.size() != 2) {
+				reportError("array<T>.add(value)/array<T>.add(value, index) takes one or two parameters.");
+				return null;
+			} else {
+				if(targetQual != null) {
+					return new ArrayAddItemNode(getCoords(), targetQual, arguments.get(0),
+							arguments.size() != 1 ? arguments.get(1) : null);
+				} else {
+					return new ArrayAddItemNode(getCoords(), targetVar, arguments.get(0),
+							arguments.size() != 1 ? arguments.get(1) : null);
+				}
+			}
+		} else if(methodName.equals("rem")) {
+			if(arguments.size() != 1 && arguments.size() != 0) {
+				reportError("array<T>.rem()/array<T>.rem(index) takes zero or one parameter.");
+				return null;
+			} else {
+				if(targetQual != null) {
+					return new ArrayRemoveItemNode(getCoords(), targetQual,
+							arguments.size() != 0 ? arguments.get(0) : null);
+				} else {
+					return new ArrayRemoveItemNode(getCoords(), targetVar,
+							arguments.size() != 0 ? arguments.get(0) : null);
+				}
+			}
+		} else if(methodName.equals("clear")) {
+			if(arguments.size() != 0) {
+				reportError("array<T>.clear() takes no parameters.");
+				return null;
+			} else {
+				if(targetQual != null)
+					return new ArrayClearNode(getCoords(), targetQual);
+				else
+					return new ArrayClearNode(getCoords(), targetVar);
+			}
+		} else {
+			reportError("array<T> does not have a procedure method named \"" + methodName + "\"");
+			return null;
+		}
+	}
+
+	private BuiltinProcedureInvocationBaseNode decideDeque(String methodName, QualIdentNode targetQual, VarDeclNode targetVar)
+	{
+		if(methodName.equals("add")) {
+			if(arguments.size() != 1 && arguments.size() != 2) {
+				reportError("deque<T>.add(value)/deque<T>.add(value, index) takes one or two parameters.");
+				return null;
+			} else {
+				if(targetQual != null) {
+					return new DequeAddItemNode(getCoords(), targetQual, arguments.get(0),
+							arguments.size() != 1 ? arguments.get(1) : null);
+				} else {
+					return new DequeAddItemNode(getCoords(), targetVar, arguments.get(0),
+							arguments.size() != 1 ? arguments.get(1) : null);
+				}
+			}
+		} else if(methodName.equals("rem")) {
+			if(arguments.size() != 1 && arguments.size() != 0) {
+				reportError("deque<T>.rem()/deque<T>.rem(index) takes zero or one parameter.");
+				return null;
+			} else {
+				if(targetQual != null) {
+					return new DequeRemoveItemNode(getCoords(), targetQual,
+							arguments.size() != 0 ? arguments.get(0) : null);
+				} else {
+					return new DequeRemoveItemNode(getCoords(), targetVar,
+							arguments.size() != 0 ? arguments.get(0) : null);
+				}
+			}
+		} else if(methodName.equals("clear")) {
+			if(arguments.size() != 0) {
+				reportError("deque<T>.clear() takes no parameters.");
+				return null;
+			} else {
+				if(targetQual != null)
+					return new DequeClearNode(getCoords(), targetQual);
+				else
+					return new DequeClearNode(getCoords(), targetVar);
+			}
+		} else {
+			reportError("deque<T> does not have a procedure method named \"" + methodName + "\"");
+			return null;
+		}
 	}
 
 	@Override
