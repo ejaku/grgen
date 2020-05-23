@@ -74,13 +74,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 				if(root instanceof FunctionDeclNode || isLHS) {
 					ReturnAssignmentNode node = (ReturnAssignmentNode)eval;
 					if(node.builtinProcedure == null
-						|| (!node.builtinProcedure.getProcedureName().equals("emit")
-							&& !node.builtinProcedure.getProcedureName().equals("emitdebug")
-							&& !node.builtinProcedure.getProcedureName().equals("addDebug")
-							&& !node.builtinProcedure.getProcedureName().equals("remDebug")
-							&& !node.builtinProcedure.getProcedureName().equals("emitDebug")
-							&& !node.builtinProcedure.getProcedureName().equals("haltDebug")
-							&& !node.builtinProcedure.getProcedureName().equals("highlightDebug"))) {
+						|| (!node.builtinProcedure.isEmitOrDebugProcedure())) {
 						if(root instanceof FunctionDeclNode)
 							eval.reportError("procedure call not allowed in function (only emit/emitdebug and the Debug package functions)");
 						else

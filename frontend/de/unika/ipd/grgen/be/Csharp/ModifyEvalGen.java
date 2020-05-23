@@ -3032,21 +3032,25 @@ public class ModifyEvalGen extends CSharpBase
 		sb.append("((");
 		sb.append(formatType(idsp.getEdgeExpr().getType()));
 		sb.append(")GRGEN_LIBGR.GraphHelper.InsertDefined");
-		if(getDirectednessSuffix(idsp.getSetExpr().getType()).equals("Directed")) {
+		switch(getDirectednessSuffix(idsp.getSetExpr().getType())) {
+		case "Directed":
 			sb.append("Directed(");
 			sb.append("(IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)");
 			genExpression(sb, idsp.getSetExpr(), state);
 			sb.append(",(GRGEN_LIBGR.IDEdge)");
-		} else if(getDirectednessSuffix(idsp.getSetExpr().getType()).equals("Undirected")) {
+			break;
+		case "Undirected":
 			sb.append("Undirected(");
 			sb.append("(IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)");
 			genExpression(sb, idsp.getSetExpr(), state);
 			sb.append(",(GRGEN_LIBGR.IUEdge)");
-		} else {
+			break;
+		default:
 			sb.append("(");
 			sb.append("(IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
 			genExpression(sb, idsp.getSetExpr(), state);
 			sb.append(",(GRGEN_LIBGR.IEdge)");
+			break;
 		}
 		genExpression(sb, idsp.getEdgeExpr(), state);
 		sb.append(", graph))");

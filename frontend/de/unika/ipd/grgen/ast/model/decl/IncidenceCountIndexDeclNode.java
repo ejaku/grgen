@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ast.model.decl;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
-import de.unika.ipd.grgen.ast.expr.graph.CountIncidentEdgeExprNode;
+import de.unika.ipd.grgen.ast.expr.invocation.FunctionInvocationDecisionNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.IncidenceCountIndexTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
@@ -125,6 +125,13 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 		if(adjacentNodeType == null)
 			return false;
 
+		direction = FunctionInvocationDecisionNode.getDirection(functionName);
+		if(direction == -1) {
+			reportError(functionName
+					+ "() is not valid, use countIncoming|countOutgoing|countIncident for defining an incidence count index.");
+			return false;
+		}
+
 		return true;
 	}
 
@@ -132,18 +139,6 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(functionName.equals("countIncoming"))
-			direction = CountIncidentEdgeExprNode.INCOMING;
-		else if(functionName.equals("countOutgoing"))
-			direction = CountIncidentEdgeExprNode.OUTGOING;
-		else if(functionName.equals("countIncident"))
-			direction = CountIncidentEdgeExprNode.INCIDENT;
-		else {
-			reportError(functionName
-					+ "() is not valid, use countIncoming|countOutgoing|countIncident for defining an incidence count index.");
-			return false;
-		}
-
 		if(!(startNodeType instanceof NodeTypeNode)) {
 			reportError("first argument of " + functionName + "(.,.,.) must be a node type");
 			return false;

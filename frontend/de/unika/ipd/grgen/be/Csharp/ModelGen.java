@@ -1808,19 +1808,24 @@ deque_init_loop:
 				+ (!getPackagePrefix(type).equals("") ? "\"" + getPackagePrefix(type) + "\"" : "null") + "; } }\n");
 		sb.appendFront("public override string PackagePrefixedName { get { return \""
 				+ getPackagePrefixDoubleColon(type) + typeident + "\"; } }\n");
-		if(type.getIdent().toString().equals("Node")) {
+		switch(type.getIdent().toString()) {
+		case "Node":
 			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.libGr.INode\"; } }\n");
-		} else if(type.getIdent().toString().equals("AEdge")) {
+			break;
+		case "AEdge":
 			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.libGr.IEdge\"; } }\n");
-		} else if(type.getIdent().toString().equals("Edge")) {
+			break;
+		case "Edge":
 			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.libGr.IDEdge\"; } }\n");
-		} else if(type.getIdent().toString().equals("UEdge")) {
+			break;
+		case "UEdge":
 			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.libGr.IUEdge\"; } }\n");
-		} else {
+			break;
+		default:
 			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.Model_" + model.getIdent() + "."
 					+ getPackagePrefixDot(type) + "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type)

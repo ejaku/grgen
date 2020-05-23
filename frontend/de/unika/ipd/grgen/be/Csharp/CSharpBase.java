@@ -473,10 +473,14 @@ public abstract class CSharpBase
 			return "GRGEN_MODEL." + type.getIdent().toString();
 		}
 
-		InheritanceType nodeEdgeType = (InheritanceType)type;
-		String ident = formatIdentifiable(type);
-		if(ident.equals("Node") || ident.equals("AEdge") || ident.equals("Edge") || ident.equals("UEdge"))
+		switch(formatIdentifiable(type)) {
+		case "Node":
+		case "AEdge":
+		case "Edge":
+		case "UEdge":
+			InheritanceType nodeEdgeType = (InheritanceType)type;
 			return getRootElementInterfaceRef(nodeEdgeType);
+		}
 
 		return "GRGEN_MODEL." + getPackagePrefixDot(type) + "I" + formatElementClassRaw(type);
 	}
@@ -2396,15 +2400,19 @@ public abstract class CSharpBase
 		} else if(expr instanceof DefinedSubgraphExpr) {
 			DefinedSubgraphExpr ds = (DefinedSubgraphExpr)expr;
 			sb.append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph");
-			if(getDirectednessSuffix(ds.getSetExpr().getType()).equals("Directed")) {
+			switch(getDirectednessSuffix(ds.getSetExpr().getType())) {
+			case "Directed":
 				sb.append("Directed(");
 				sb.append("(IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)");
-			} else if(getDirectednessSuffix(ds.getSetExpr().getType()).equals("Undirected")) {
+				break;
+			case "Undirected":
 				sb.append("Undirected(");
 				sb.append("(IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)");
-			} else {
+				break;
+			default:
 				sb.append("(");
 				sb.append("(IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
+				break;
 			}
 			genExpression(sb, ds.getSetExpr(), modifyGenerationState);
 			sb.append(", graph)");

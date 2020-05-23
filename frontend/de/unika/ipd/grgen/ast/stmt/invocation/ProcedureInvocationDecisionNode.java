@@ -108,7 +108,8 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	
 	private BuiltinProcedureInvocationBaseNode decide(String procedureName)
 	{
-		if(procedureName.equals("add")) {
+		switch(procedureName) {
+		case "add":
 			if(arguments.size() == 1) {
 				return new GraphAddNodeProcNode(getCoords(), arguments.get(0));
 			} else if(arguments.size() == 3) {
@@ -117,92 +118,92 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError(procedureName + "() takes 1 or 3 parameters.");
 				return null;
 			}
-		} else if(procedureName.equals("retype")) {
+		case "retype":
 			if(arguments.size() == 2) {
 				return new GraphRetypeProcNode(getCoords(), arguments.get(0), arguments.get(1));
 			} else {
 				reportError(procedureName + "() takes 2 parameters.");
 				return null;
 			}
-		} else if(procedureName.equals("insert")) {
+		case "insert":
 			if(arguments.size() != 1) {
 				reportError("insert(.) takes one parameter.");
 				return null;
 			} else
 				return new InsertProcNode(getCoords(), arguments.get(0));
-		} else if(procedureName.equals("insertCopy")) {
+		case "insertCopy":
 			if(arguments.size() != 2) {
 				reportError("insertCopy(.,.) takes two parameters.");
 				return null;
 			} else
 				return new InsertCopyProcNode(getCoords(), arguments.get(0), arguments.get(1));
-		} else if(procedureName.equals("insertInduced")) {
+		case "insertInduced":
 			if(arguments.size() != 2) {
 				reportError("insertInduced(.,.) takes two parameters.");
 				return null;
 			} else
 				return new InsertInducedSubgraphProcNode(getCoords(), arguments.get(0), arguments.get(1));
-		} else if(procedureName.equals("insertDefined")) {
+		case "insertDefined":
 			if(arguments.size() != 2) {
 				reportError("insertDefined(.,.) takes two parameters.");
 				return null;
 			} else
 				return new InsertDefinedSubgraphProcNode(getCoords(), arguments.get(0), arguments.get(1));
-		} else if(procedureName.equals("valloc")) {
+		case "valloc":
 			if(arguments.size() != 0) {
 				reportError("valloc() takes no parameters.");
 				return null;
 			} else
 				return new VAllocProcNode(getCoords());
-		} else if(procedureName.equals("startTransaction")) {
+		case "startTransaction":
 			if(arguments.size() != 0) {
 				reportError("Transaction::start() takes no parameters.");
 				return null;
 			} else
 				return new StartTransactionProcNode(getCoords());
-		} else if(procedureName.equals("rem")) {
+		case "rem":
 			if(arguments.size() != 1) {
 				reportError("rem(value) takes one parameter.");
 				return null;
 			} else {
 				return new GraphRemoveProcNode(getCoords(), arguments.get(0));
 			}
-		} else if(procedureName.equals("clear")) {
+		case "clear":
 			if(arguments.size() != 0) {
 				reportError("clear() takes no parameters.");
 				return null;
 			} else {
 				return new GraphClearProcNode(getCoords());
 			}
-		} else if(procedureName.equals("vfree")) {
+		case "vfree":
 			if(arguments.size() != 1) {
 				reportError("vfree(value) takes one parameter.");
 				return null;
 			} else {
 				return new VFreeProcNode(getCoords(), arguments.get(0));
 			}
-		} else if(procedureName.equals("vfreenonreset")) {
+		case "vfreenonreset":
 			if(arguments.size() != 1) {
 				reportError("vfreenonreset(value) takes one parameter.");
 				return null;
 			} else {
 				return new VFreeNonResetProcNode(getCoords(), arguments.get(0));
 			}
-		} else if(procedureName.equals("vreset")) {
+		case "vreset":
 			if(arguments.size() != 1) {
 				reportError("vreset(value) takes one parameter.");
 				return null;
 			} else {
 				return new VResetProcNode(getCoords(), arguments.get(0));
 			}
-		} else if(procedureName.equals("record")) {
+		case "record":
 			if(arguments.size() != 1) {
 				reportError("record(value) takes one parameter.");
 				return null;
 			} else {
 				return new RecordProcNode(getCoords(), arguments.get(0));
 			}
-		} else if(procedureName.equals("emit")) {
+		case "emit":
 			if(arguments.size() >= 1) {
 				EmitProcNode emit = new EmitProcNode(getCoords(), false);
 				for(ExprNode param : arguments.getChildren()) {
@@ -213,7 +214,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("emit() takes at least one parameter.");
 				return null;
 			}
-		} else if(procedureName.equals("emitdebug")) {
+		case "emitdebug":
 			if(arguments.size() >= 1) {
 				EmitProcNode emit = new EmitProcNode(getCoords(), true);
 				for(ExprNode param : arguments.getChildren()) {
@@ -224,7 +225,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("emitdebug() takes at least one parameter.");
 				return null;
 			}
-		} else if(procedureName.equals("exportFile")) {
+		case "exportFile":
 			if(arguments.size() == 1) {
 				return new ExportProcNode(getCoords(), arguments.get(0), null);
 			} else if(arguments.size() == 2) {
@@ -233,14 +234,14 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("File::export() takes 1 (filepath) or 2 (graph, filepath) parameters.");
 				return null;
 			}
-		} else if(procedureName.equals("deleteFile")) {
+		case "deleteFile":
 			if(arguments.size() == 1) {
 				return new DeleteFileProcNode(getCoords(), arguments.get(0));
 			} else {
 				reportError("File::delete() takes 1 (filepath) parameters.");
 				return null;
 			}
-		} else if(procedureName.equals("addDebug")) {
+		case "addDebug":
 			if(arguments.size() >= 1) {
 				DebugAddProcNode add = new DebugAddProcNode(getCoords());
 				for(ExprNode param : arguments.getChildren()) {
@@ -251,7 +252,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("Debug::add() takes at least one parameter, the message/computation entered.");
 				return null;
 			}
-		} else if(procedureName.equals("remDebug")) {
+		case "remDebug":
 			if(arguments.size() >= 1) {
 				DebugRemProcNode rem = new DebugRemProcNode(getCoords());
 				for(ExprNode param : arguments.getChildren()) {
@@ -262,7 +263,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("Debug::rem() takes at least one parameter, the message/computation left.");
 				return null;
 			}
-		} else if(procedureName.equals("emitDebug")) {
+		case "emitDebug":
 			if(arguments.size() >= 1) {
 				DebugEmitProcNode emit = new DebugEmitProcNode(getCoords());
 				for(ExprNode param : arguments.getChildren()) {
@@ -273,7 +274,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("Debug::emit() takes at least one parameter, the message to report.");
 				return null;
 			}
-		} else if(procedureName.equals("haltDebug")) {
+		case "haltDebug":
 			if(arguments.size() >= 1) {
 				DebugHaltProcNode halt = new DebugHaltProcNode(getCoords());
 				for(ExprNode param : arguments.getChildren()) {
@@ -284,7 +285,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("Debug::halt() takes at least one parameter, the message to report.");
 				return null;
 			}
-		} else if(procedureName.equals("highlightDebug")) {
+		case "highlightDebug":
 			if(arguments.size() % 2 == 1) {
 				DebugHighlightProcNode highlight = new DebugHighlightProcNode(getCoords());
 				for(ExprNode param : arguments.getChildren()) {
@@ -295,7 +296,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("Debug::highlight() takes an odd number of parameters, first the message, then a series of pairs of the value to highlight followed by its annotation.");
 				return null;
 			}
-		} else if(procedureName.equals("addCopy")) {
+		case "addCopy":
 			if(arguments.size() == 1) {
 				return new GraphAddCopyNodeProcNode(getCoords(), arguments.get(0));
 			} else if(arguments.size() == 3) {
@@ -304,7 +305,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError(procedureName + "() takes 1 or 3 parameters.");
 				return null;
 			}
-		} else if(procedureName.equals("merge")) {
+		case "merge":
 			if(arguments.size() < 2 || arguments.size() > 3) {
 				reportError("merge(target,source,oldSourceName) takes two or three parameters.");
 				return null;
@@ -314,7 +315,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				else
 					return new GraphMergeProcNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			}
-		} else if(procedureName.equals("redirectSource")) {
+		case "redirectSource":
 			if(arguments.size() < 2 || arguments.size() > 3) {
 				reportError("redirectSource(edge,newSource,oldSourceName) takes two or three parameters.");
 				return null;
@@ -324,7 +325,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				else
 					return new GraphRedirectSourceProcNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			}
-		} else if(procedureName.equals("redirectTarget")) {
+		case "redirectTarget":
 			if(arguments.size() < 2 || arguments.size() > 3) {
 				reportError("redirectTarget(edge,newTarget,oldTargetName) takes two or three parameters.");
 				return null;
@@ -334,7 +335,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				else
 					return new GraphRedirectTargetProcNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			}
-		} else if(procedureName.equals("redirectSourceAndTarget")) {
+		case "redirectSourceAndTarget":
 			if(arguments.size() != 3 && arguments.size() != 5) {
 				reportError("redirectSourceAndTarget(edge,newSource,newTarget,oldSourceName,oldTargetName) takes three or five parameters.");
 				return null;
@@ -346,35 +347,35 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 					return new GraphRedirectSourceAndTargetProcNode(getCoords(), arguments.get(0), arguments.get(1),
 							arguments.get(2), arguments.get(3), arguments.get(4));
 			}
-		} else if(procedureName.equals("pauseTransaction")) {
+		case "pauseTransaction":
 			if(arguments.size() != 0) {
 				reportError("Transaction::pause() takes no parameters.");
 				return null;
 			} else {
 				return new PauseTransactionProcNode(getCoords());
 			}
-		} else if(procedureName.equals("resumeTransaction")) {
+		case "resumeTransaction":
 			if(arguments.size() != 0) {
 				reportError("Transaction::resume() takes no parameters.");
 				return null;
 			} else {
 				return new ResumeTransactionProcNode(getCoords());
 			}
-		} else if(procedureName.equals("commitTransaction")) {
+		case "commitTransaction":
 			if(arguments.size() != 1) {
 				reportError("Transaction::commit(transactionId) takes one parameter.");
 				return null;
 			} else {
 				return new CommitTransactionProcNode(getCoords(), arguments.get(0));
 			}
-		} else if(procedureName.equals("rollbackTransaction")) {
+		case "rollbackTransaction":
 			if(arguments.size() != 1) {
 				reportError("Transaction::rollback(transactionId) takes one parameter.");
 				return null;
 			} else {
 				return new RollbackTransactionProcNode(getCoords(), arguments.get(0));
 			}
-		} else {
+		default:
 			reportError("no computation " + procedureName + " known");
 			return null;
 		}
@@ -383,18 +384,32 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION
-				&& !procedureIdent.toString().equals("emit")
-				&& !procedureIdent.toString().equals("emitdebug")
-				&& !procedureIdent.toString().equals("addDebug")
-				&& !procedureIdent.toString().equals("remDebug")
-				&& !procedureIdent.toString().equals("emitDebug")
-				&& !procedureIdent.toString().equals("haltDebug")
-				&& !procedureIdent.toString().equals("highlightDebug")) {
-			reportError("procedure call not allowed in function or lhs context (built-in-procedure)");
-			return false;
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
+			if(isEmitOrDebugProcedure()) { // allowed exceptions
+				return true;
+			} else {
+				reportError("procedure call not allowed in function or lhs context (built-in-procedure)");
+				return false;
+			}
 		}
 		return true;
+	}
+	
+	// procedures for debugging purpose, allowed also on lhs
+	public boolean isEmitOrDebugProcedure()
+	{
+		switch(procedureIdent.toString()) {
+		case "emit":
+		case "emitdebug":
+		case "addDebug":
+		case "remDebug":
+		case "emitDebug":
+		case "haltDebug":
+		case "highlightDebug":
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
