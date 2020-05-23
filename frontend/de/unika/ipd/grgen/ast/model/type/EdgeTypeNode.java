@@ -45,7 +45,6 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	public static DirectedEdgeTypeNode directedEdgeType;
 	public static UndirectedEdgeTypeNode undirectedEdgeType;
 
-	@SuppressWarnings("unchecked")
 	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
 			new DeclarationResolver<BaseNode>(MemberDeclNode.class, MemberInitNode.class, ConstructorDeclNode.class,
 					MapInitNode.class, SetInitNode.class, ArrayInitNode.class, DequeInitNode.class,

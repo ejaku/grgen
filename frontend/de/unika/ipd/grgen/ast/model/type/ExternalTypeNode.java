@@ -81,7 +81,6 @@ public class ExternalTypeNode extends InheritanceTypeNode
 	private static final CollectResolver<ExternalTypeNode> extendResolver =
 			new CollectResolver<ExternalTypeNode>(new DeclarationTypeResolver<ExternalTypeNode>(ExternalTypeNode.class));
 
-	@SuppressWarnings("unchecked")
 	private static final CollectResolver<BaseNode> bodyResolver =
 			new CollectResolver<BaseNode>(new DeclarationResolver<BaseNode>(ExternalFunctionDeclNode.class, ExternalProcedureDeclNode.class));
 
