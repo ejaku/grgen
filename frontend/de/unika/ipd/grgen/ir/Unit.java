@@ -297,10 +297,10 @@ public class Unit extends IR implements ActionsBearer
 
 	public static void postPatchIR(ActionsBearer bearer)
 	{
-		for(Rule actionRule : bearer.getActionRules()) {
-			//if(!actionRule.getAnnotations().containsKey("parallelize")) // uncomment to parallelize everything as far as possible, for testing
-			//	actionRule.getAnnotations().put("parallelize", 2); // don't forget "comment out to parallelize everything as far as possible, for testing"
-		}
+		/*for(Rule actionRule : bearer.getActionRules()) {
+			if(!actionRule.getAnnotations().containsKey("parallelize")) // uncomment to parallelize everything as far as possible, for testing
+				actionRule.getAnnotations().put("parallelize", 2); // don't forget "comment out to parallelize everything as far as possible, for testing"
+		}*/
 	}
 
 	public void checkForEmptyPatternsInIterateds()
