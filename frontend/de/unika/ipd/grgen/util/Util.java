@@ -136,12 +136,10 @@ public class Util
 	 */
 	public static void writeFile(File file, CharSequence cs, ErrorReporter reporter)
 	{
-		try {
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-			PrintStream ps = new PrintStream(bos);
+		try(BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+				PrintStream ps = new PrintStream(bos)) {
 			ps.print(cs);
-			ps.close();
-		} catch(FileNotFoundException e) {
+		} catch(IOException e) {
 			reporter.error(e.toString());
 		}
 	}
@@ -281,12 +279,16 @@ public class Util
 
 	public static String toString(StreamDumpable dumpable)
 	{
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		PrintStream ps = new PrintStream(bos);
-		dumpable.dump(ps);
-		ps.flush();
-		ps.close();
-		return bos.toString();
+		try(ByteArrayOutputStream bos = new ByteArrayOutputStream();
+				PrintStream ps = new PrintStream(bos))
+		{
+			dumpable.dump(ps);
+			ps.flush();
+			return bos.toString();
+		} catch(IOException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 
 	public static void copyFile(File sourceFile, File targetFile) throws IOException
@@ -295,27 +297,14 @@ public class Util
 			targetFile.createNewFile();
 		}
 
-		FileInputStream sourceStream = null;
-		FileChannel sourceChannel = null;
-		FileOutputStream targetStream = null;
-		FileChannel targetChannel = null;
-		try {
-			sourceStream = new FileInputStream(sourceFile);
-			sourceChannel = sourceStream.getChannel();
-			targetStream = new FileOutputStream(targetFile);
-			targetChannel = targetStream.getChannel();
-
+		try(FileInputStream sourceStream = new FileInputStream(sourceFile);
+				FileChannel sourceChannel = sourceStream.getChannel();
+				FileOutputStream targetStream = new FileOutputStream(targetFile);
+				FileChannel targetChannel = targetStream.getChannel()) {
 			long count = 0;
 			long size = sourceChannel.size();
 			while((count += targetChannel.transferFrom(sourceChannel, count, size - count)) < size)
 				;
-		} finally {
-			sourceStream.close();
-			if(sourceChannel != null)
-				sourceChannel.close();
-			targetStream.close();
-			if(targetChannel != null)
-				targetChannel.close();
 		}
 	}
 }

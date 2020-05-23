@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.prefs.Preferences;
@@ -476,15 +477,19 @@ public class Main extends Base implements Sys
 	{
 
 		File file = new File(suffix + ".vcg");
-		OutputStream os = createDebugFile(file);
-
-		VCGDumper vcg = new VCGDumper(new PrintStream(os));
-		visitor.setDumper(vcg);
-		PrePostWalker walker = new PostWalker(visitor);
-		vcg.begin();
-		walker.reset();
-		walker.walk(node);
-		vcg.finish();
+		try(OutputStream os = createDebugFile(file);
+				PrintStream ps = new PrintStream(os))
+		{
+			VCGDumper vcg = new VCGDumper(ps);
+			visitor.setDumper(vcg);
+			PrePostWalker walker = new PostWalker(visitor);
+			vcg.begin();
+			walker.reset();
+			walker.walk(node);
+			vcg.finish();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void buildIR()
@@ -628,12 +633,14 @@ public class Main extends Base implements Sys
 			if(dumpRules)
 				dumper.dump(irUnit);
 
-			OutputStream os = createDebugFile(new File("ir.xml"));
-			PrintStream ps = new PrintStream(os);
-			XMLDumper xmlDumper = new XMLDumper(ps);
-			xmlDumper.dump(irUnit);
-			ps.flush();
-			ps.close();
+			try(OutputStream os = createDebugFile(new File("ir.xml"));
+					PrintStream ps = new PrintStream(os)) {
+				XMLDumper xmlDumper = new XMLDumper(ps);
+				xmlDumper.dump(irUnit);
+				ps.flush();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		if(graphic && debugTree != null) {
@@ -672,8 +679,7 @@ public class Main extends Base implements Sys
 	private void exportPrefs()
 	{
 		if(prefsExport != null) {
-			try {
-				FileOutputStream fos = new FileOutputStream(prefsExport);
+			try(FileOutputStream fos = new FileOutputStream(prefsExport)) {
 				prefs.exportSubtree(fos);
 			} catch(Exception e) {
 				System.err.println(e.getMessage());
@@ -687,8 +693,7 @@ public class Main extends Base implements Sys
 	private void importPrefs()
 	{
 		if(prefsImport != null) {
-			try {
-				FileInputStream fis = new FileInputStream(prefsImport);
+			try(FileInputStream fis = new FileInputStream(prefsImport)) {
 				Preferences.importPreferences(fis);
 			} catch(Exception e) {
 				System.err.println(e.getMessage());
