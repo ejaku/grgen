@@ -216,7 +216,7 @@ namespace de.unika.ipd.grGen.libGr
             EdgeClass
         }
 
-        protected class AttributeClass
+        private class AttributeClass
         {
             public readonly String Name;
             public String Type;
@@ -227,7 +227,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected class EnumDomain
+        private class EnumDomain
         {
             public readonly String Name;
             public readonly List<EnumMember> Members = new List<EnumMember>();
@@ -238,7 +238,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected class NodeClass
+        private class NodeClass
         {
             public readonly String Name;
             public readonly bool IsAbstract;
@@ -252,7 +252,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected class EdgeClass : NodeClass
+        private class EdgeClass : NodeClass
         {
             public readonly bool IsDirected;
 
@@ -263,7 +263,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected class Thing
+        private class Thing
         {
             public readonly String ID;
             public readonly ThingKind Kind;
@@ -350,7 +350,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected class IDMap : Dictionary<String, Thing>
+        private class IDMap : Dictionary<String, Thing>
         {
             public readonly List<NodeClass>  NodeClasses = new List<NodeClass>();
             public readonly List<EdgeClass>  EdgeClasses = new List<EdgeClass>();
