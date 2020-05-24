@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalFiltersAndSequences.grg" on 27.04.2020 20:32:34 Mitteleuropäische Zeit
+// Generated from "ExternalFiltersAndSequences.grg" on 24.05.2020 19:21:37 Mitteleuropäische Zeit
 using System;
 using System.Collections.Generic;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -58,23 +58,23 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 
     public partial class MatchFilters
     {
-        //public static void Filter_f1(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
+        //public static GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> Filter_f1(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
     }
     public partial class MatchFilters
     {
-        //public static void Filter_nomnomnom(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
+        //public static GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> Filter_nomnomnom(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
     }
     public partial class MatchFilters
     {
-        //public static void Filter_f2(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
+        //public static GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> Filter_f2(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
     }
     public partial class MatchFilters
     {
-        //public static void Filter_f3(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
+        //public static GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> Filter_f3(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
     }
     public partial class MatchFilters
     {
-        //public static void Filter_f4(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> matches, System.Int32 i, System.String s)
+        //public static GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> Filter_f4(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> matches, System.Int32 i, System.String s)
     }
 
     // ------------------------------------------------------
@@ -83,23 +83,23 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 
     public partial class MatchFilters
     {
-        public static void Filter_filterBase_auto(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches)
+        public static GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> Filter_filterBase_auto(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches)
         {
             if(matches.Count < 2)
-            	return;
+                return matches;
             List<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matchesArray = matches.ToListExact();
             if(matches.Count < 5 || GRGEN_ACTIONS.Rule_filterBase.Instance.patternGraph.nodes.Length + GRGEN_ACTIONS.Rule_filterBase.Instance.patternGraph.edges.Length < 1)
             {
                 for(int i = 0; i < matchesArray.Count; ++i)
                 {
                     if(matchesArray[i] == null)
-                    	continue;
+                        continue;
                     for(int j = i + 1; j < matchesArray.Count; ++j)
                     {
                         if(matchesArray[j] == null)
-                        	continue;
+                            continue;
                         if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(matchesArray[i], matchesArray[j], procEnv.graph))
-                        	matchesArray[j] = null;
+                            matchesArray[j] = null;
                     }
                 }
             }
@@ -127,7 +127,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
                         while((duplicateMatchCandidate = duplicateMatchCandidate.nextWithSameHash) != null);
                     }
                     if(!contained)
-                    	foundMatchesOfSameMainPatternHash[duplicateMatchHash] = match;
+                        foundMatchesOfSameMainPatternHash[duplicateMatchHash] = match;
                     else
                     {
                         GRGEN_ACTIONS.Rule_filterBase.Match_filterBase duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];
@@ -139,27 +139,28 @@ label_auto_GRGEN_ACTIONS_Rule_filterBase: ;
                 foreach(GRGEN_ACTIONS.Rule_filterBase.Match_filterBase toClean in foundMatchesOfSameMainPatternHash.Values) toClean.CleanNextWithSameHash();
             }
             matches.FromListExact();
+            return matches;
         }
     }
     public partial class MatchFilters
     {
-        public static void Filter_filterBass_auto(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches)
+        public static GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> Filter_filterBass_auto(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches)
         {
             if(matches.Count < 2)
-            	return;
+                return matches;
             List<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matchesArray = matches.ToListExact();
             if(matches.Count < 5 || GRGEN_ACTIONS.Rule_filterBass.Instance.patternGraph.nodes.Length + GRGEN_ACTIONS.Rule_filterBass.Instance.patternGraph.edges.Length < 1)
             {
                 for(int i = 0; i < matchesArray.Count; ++i)
                 {
                     if(matchesArray[i] == null)
-                    	continue;
+                        continue;
                     for(int j = i + 1; j < matchesArray.Count; ++j)
                     {
                         if(matchesArray[j] == null)
-                        	continue;
+                            continue;
                         if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(matchesArray[i], matchesArray[j], procEnv.graph))
-                        	matchesArray[j] = null;
+                            matchesArray[j] = null;
                     }
                 }
             }
@@ -187,7 +188,7 @@ label_auto_GRGEN_ACTIONS_Rule_filterBase: ;
                         while((duplicateMatchCandidate = duplicateMatchCandidate.nextWithSameHash) != null);
                     }
                     if(!contained)
-                    	foundMatchesOfSameMainPatternHash[duplicateMatchHash] = match;
+                        foundMatchesOfSameMainPatternHash[duplicateMatchHash] = match;
                     else
                     {
                         GRGEN_ACTIONS.Rule_filterBass.Match_filterBass duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];
@@ -199,15 +200,17 @@ label_auto_GRGEN_ACTIONS_Rule_filterBass: ;
                 foreach(GRGEN_ACTIONS.Rule_filterBass.Match_filterBass toClean in foundMatchesOfSameMainPatternHash.Values) toClean.CleanNextWithSameHash();
             }
             matches.FromListExact();
+            return matches;
         }
     }
     public partial class MatchFilters
     {
-        public static void Filter_filterHass_orderAscendingBy_i(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterHass.IMatch_filterHass> matches)
+        public static GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterHass.IMatch_filterHass> Filter_filterHass_orderAscendingBy_i(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterHass.IMatch_filterHass> matches)
         {
             List<GRGEN_ACTIONS.Rule_filterHass.IMatch_filterHass> matchesArray = matches.ToListExact();
             matchesArray.Sort(new Comparer_filterHass_orderAscendingBy_i());
             matches.FromListExact();
+            return matches;
         }
     }
 
@@ -217,7 +220,7 @@ label_auto_GRGEN_ACTIONS_Rule_filterBass: ;
 
     public partial class MatchClassFilters
     {
-        //public static void Filter_extshf(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IList<GRGEN_LIBGR.IMatch> matches, System.Int32 f)
+        //public static IList<GRGEN_LIBGR.IMatch> Filter_extshf(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IList<GRGEN_LIBGR.IMatch> matches, System.Int32 f)
     }
 
     // ------------------------------------------------------
@@ -226,11 +229,12 @@ label_auto_GRGEN_ACTIONS_Rule_filterBass: ;
 
     public partial class MatchClassFilters
     {
-        public static void Filter_shared_orderAscendingBy_v(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IList<GRGEN_LIBGR.IMatch> matches)
+        public static IList<GRGEN_LIBGR.IMatch> Filter_shared_orderAscendingBy_v(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IList<GRGEN_LIBGR.IMatch> matches)
         {
             List<IMatch_shared> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<IMatch_shared>(matches);
             matchesArray.Sort(new Comparer_shared_orderAscendingBy_v());
             GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);
+            return matches;
         }
     }
 

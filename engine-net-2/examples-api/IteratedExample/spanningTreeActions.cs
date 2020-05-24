@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon Apr 27 20:32:40 CEST 2020
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun May 24 19:21:43 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	public class Pattern_SpanningTree : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_SpanningTree instance = null;
-		public static Pattern_SpanningTree Instance { get { if (instance==null) { instance = new Pattern_SpanningTree(); instance.initialize(); } return instance; } }
+		public static Pattern_SpanningTree Instance { get { if(instance==null) { instance = new Pattern_SpanningTree(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTree_node_root_AllowedTypes = null;
 		public static bool[] SpanningTree_node_root_IsAllowedType = null;
@@ -635,12 +635,51 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_keepOneForEachBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_root)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_root, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_keepOneForEachBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_next)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_next, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_keepOneForEachBy_e(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
+			Dictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge_e)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge_e, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Pattern_SpanningTreeReverse : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_SpanningTreeReverse instance = null;
-		public static Pattern_SpanningTreeReverse Instance { get { if (instance==null) { instance = new Pattern_SpanningTreeReverse(); instance.initialize(); } return instance; } }
+		public static Pattern_SpanningTreeReverse Instance { get { if(instance==null) { instance = new Pattern_SpanningTreeReverse(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTreeReverse_node_root_AllowedTypes = null;
 		public static bool[] SpanningTreeReverse_node_root_IsAllowedType = null;
@@ -1254,12 +1293,51 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_keepOneForEachBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_root)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_root, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_keepOneForEachBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_next)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_next, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Pattern_SpanningTreeOutgoing : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_SpanningTreeOutgoing instance = null;
-		public static Pattern_SpanningTreeOutgoing Instance { get { if (instance==null) { instance = new Pattern_SpanningTreeOutgoing(); instance.initialize(); } return instance; } }
+		public static Pattern_SpanningTreeOutgoing Instance { get { if(instance==null) { instance = new Pattern_SpanningTreeOutgoing(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTreeOutgoing_node_root_AllowedTypes = null;
 		public static bool[] SpanningTreeOutgoing_node_root_IsAllowedType = null;
@@ -1831,12 +1909,51 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_keepOneForEachBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_root)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_root, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_keepOneForEachBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_next)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_next, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Pattern_SpanningTreeIncoming : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_SpanningTreeIncoming instance = null;
-		public static Pattern_SpanningTreeIncoming Instance { get { if (instance==null) { instance = new Pattern_SpanningTreeIncoming(); instance.initialize(); } return instance; } }
+		public static Pattern_SpanningTreeIncoming Instance { get { if(instance==null) { instance = new Pattern_SpanningTreeIncoming(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTreeIncoming_node_root_AllowedTypes = null;
 		public static bool[] SpanningTreeIncoming_node_root_IsAllowedType = null;
@@ -2408,12 +2525,51 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_keepOneForEachBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_next)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_next, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_keepOneForEachBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_root)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_root, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_initTree : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_initTree instance = null;
-		public static Rule_initTree Instance { get { if (instance==null) { instance = new Rule_initTree(); instance.initialize(); } return instance; } }
+		public static Rule_initTree Instance { get { if(instance==null) { instance = new Rule_initTree(); instance.initialize(); } return instance; } }
 
 		public enum initTree_NodeNums { };
 		public enum initTree_EdgeNums { };
@@ -2700,7 +2856,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 	public class Rule_initUndirected : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_initUndirected instance = null;
-		public static Rule_initUndirected Instance { get { if (instance==null) { instance = new Rule_initUndirected(); instance.initialize(); } return instance; } }
+		public static Rule_initUndirected Instance { get { if(instance==null) { instance = new Rule_initUndirected(); instance.initialize(); } return instance; } }
 
 		public enum initUndirected_NodeNums { };
 		public enum initUndirected_EdgeNums { };
@@ -2981,7 +3137,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 	public class Rule_initDirected : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_initDirected instance = null;
-		public static Rule_initDirected Instance { get { if (instance==null) { instance = new Rule_initDirected(); instance.initialize(); } return instance; } }
+		public static Rule_initDirected Instance { get { if(instance==null) { instance = new Rule_initDirected(); instance.initialize(); } return instance; } }
 
 		public enum initDirected_NodeNums { };
 		public enum initDirected_EdgeNums { };
@@ -3262,7 +3418,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 	public class Rule_spanningTree : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_spanningTree instance = null;
-		public static Rule_spanningTree Instance { get { if (instance==null) { instance = new Rule_spanningTree(); instance.initialize(); } return instance; } }
+		public static Rule_spanningTree Instance { get { if(instance==null) { instance = new Rule_spanningTree(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] spanningTree_node_root_AllowedTypes = null;
 		public static bool[] spanningTree_node_root_IsAllowedType = null;
@@ -3568,12 +3724,25 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> Array_spanningTree_keepOneForEachBy_root(List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> list)
+		{
+			List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> newList = new List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_root)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_root, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_edgesVisited : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_edgesVisited instance = null;
-		public static Rule_edgesVisited Instance { get { if (instance==null) { instance = new Rule_edgesVisited(); instance.initialize(); } return instance; } }
+		public static Rule_edgesVisited Instance { get { if(instance==null) { instance = new Rule_edgesVisited(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.EdgeType[] edgesVisited_edge_e_AllowedTypes = null;
 		public static bool[] edgesVisited_edge_e_IsAllowedType = null;
@@ -3853,12 +4022,25 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> Array_edgesVisited_keepOneForEachBy_e(List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> list)
+		{
+			List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> newList = new List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>();
+			Dictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge_e)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge_e, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_nodesVisited : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_nodesVisited instance = null;
-		public static Rule_nodesVisited Instance { get { if (instance==null) { instance = new Rule_nodesVisited(); instance.initialize(); } return instance; } }
+		public static Rule_nodesVisited Instance { get { if(instance==null) { instance = new Rule_nodesVisited(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] nodesVisited_node_n_AllowedTypes = null;
 		public static bool[] nodesVisited_node_n_IsAllowedType = null;
@@ -4138,12 +4320,25 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> Array_nodesVisited_keepOneForEachBy_n(List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> list)
+		{
+			List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> newList = new List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_spanningTreeReverse : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_spanningTreeReverse instance = null;
-		public static Rule_spanningTreeReverse Instance { get { if (instance==null) { instance = new Rule_spanningTreeReverse(); instance.initialize(); } return instance; } }
+		public static Rule_spanningTreeReverse Instance { get { if(instance==null) { instance = new Rule_spanningTreeReverse(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] spanningTreeReverse_node_root_AllowedTypes = null;
 		public static bool[] spanningTreeReverse_node_root_IsAllowedType = null;
@@ -4444,12 +4639,25 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> Array_spanningTreeReverse_keepOneForEachBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> list)
+		{
+			List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> newList = new List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_root)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_root, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_spanningTreeOutgoing : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_spanningTreeOutgoing instance = null;
-		public static Rule_spanningTreeOutgoing Instance { get { if (instance==null) { instance = new Rule_spanningTreeOutgoing(); instance.initialize(); } return instance; } }
+		public static Rule_spanningTreeOutgoing Instance { get { if(instance==null) { instance = new Rule_spanningTreeOutgoing(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] spanningTreeOutgoing_node_root_AllowedTypes = null;
 		public static bool[] spanningTreeOutgoing_node_root_IsAllowedType = null;
@@ -4742,12 +4950,25 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> Array_spanningTreeOutgoing_keepOneForEachBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> list)
+		{
+			List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> newList = new List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_root)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_root, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_spanningTreeIncoming : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_spanningTreeIncoming instance = null;
-		public static Rule_spanningTreeIncoming Instance { get { if (instance==null) { instance = new Rule_spanningTreeIncoming(); instance.initialize(); } return instance; } }
+		public static Rule_spanningTreeIncoming Instance { get { if(instance==null) { instance = new Rule_spanningTreeIncoming(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] spanningTreeIncoming_node_root_AllowedTypes = null;
 		public static bool[] spanningTreeIncoming_node_root_IsAllowedType = null;
@@ -5040,6 +5261,19 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> Array_spanningTreeIncoming_keepOneForEachBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> list)
+		{
+			List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> newList = new List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_root)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_root, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Functions
@@ -7218,9 +7452,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>)
-            	return ((List<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -7478,9 +7712,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>)
-            	return ((List<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -7738,9 +7972,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>)
-            	return ((List<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -8021,9 +8255,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>)
-            	return ((List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -8457,9 +8691,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>)
-            	return ((List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -8716,9 +8950,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>)
-            	return ((List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -8999,9 +9233,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>)
-            	return ((List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -9455,9 +9689,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>)
-            	return ((List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -9911,9 +10145,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>)
-            	return ((List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     

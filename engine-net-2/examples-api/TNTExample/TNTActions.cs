@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Mon Apr 27 20:32:50 CEST 2020
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun May 24 19:21:58 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_BenzolRing : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_BenzolRing instance = null;
-		public static Pattern_BenzolRing Instance { get { if (instance==null) { instance = new Pattern_BenzolRing(); instance.initialize(); } return instance; } }
+		public static Pattern_BenzolRing Instance { get { if(instance==null) { instance = new Pattern_BenzolRing(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] BenzolRing_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] BenzolRing_node_c2_AllowedTypes = null;
@@ -533,7 +533,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_BenzolRingC123456Exposed : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_BenzolRingC123456Exposed instance = null;
-		public static Pattern_BenzolRingC123456Exposed Instance { get { if (instance==null) { instance = new Pattern_BenzolRingC123456Exposed(); instance.initialize(); } return instance; } }
+		public static Pattern_BenzolRingC123456Exposed Instance { get { if(instance==null) { instance = new Pattern_BenzolRingC123456Exposed(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] BenzolRingC123456Exposed_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] BenzolRingC123456Exposed_node_c2_AllowedTypes = null;
@@ -1023,7 +1023,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_BenzolRingC1Exposed : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_BenzolRingC1Exposed instance = null;
-		public static Pattern_BenzolRingC1Exposed Instance { get { if (instance==null) { instance = new Pattern_BenzolRingC1Exposed(); instance.initialize(); } return instance; } }
+		public static Pattern_BenzolRingC1Exposed Instance { get { if(instance==null) { instance = new Pattern_BenzolRingC1Exposed(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] BenzolRingC1Exposed_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] BenzolRingC1Exposed_node_c2_AllowedTypes = null;
@@ -1533,7 +1533,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_BenzolRingC1ExposedNotC6Nitro : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_BenzolRingC1ExposedNotC6Nitro instance = null;
-		public static Pattern_BenzolRingC1ExposedNotC6Nitro Instance { get { if (instance==null) { instance = new Pattern_BenzolRingC1ExposedNotC6Nitro(); instance.initialize(); } return instance; } }
+		public static Pattern_BenzolRingC1ExposedNotC6Nitro Instance { get { if(instance==null) { instance = new Pattern_BenzolRingC1ExposedNotC6Nitro(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] BenzolRingC1ExposedNotC6Nitro_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] BenzolRingC1ExposedNotC6Nitro_node_c2_AllowedTypes = null;
@@ -2344,7 +2344,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_Oxygen : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Oxygen instance = null;
-		public static Pattern_Oxygen Instance { get { if (instance==null) { instance = new Pattern_Oxygen(); instance.initialize(); } return instance; } }
+		public static Pattern_Oxygen Instance { get { if(instance==null) { instance = new Pattern_Oxygen(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Oxygen_node_o1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] Oxygen_node_o2_AllowedTypes = null;
@@ -2664,7 +2664,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_Hydrogen : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Hydrogen instance = null;
-		public static Pattern_Hydrogen Instance { get { if (instance==null) { instance = new Pattern_Hydrogen(); instance.initialize(); } return instance; } }
+		public static Pattern_Hydrogen Instance { get { if(instance==null) { instance = new Pattern_Hydrogen(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Hydrogen_node_anchor_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] Hydrogen_node__node0_AllowedTypes = null;
@@ -2962,7 +2962,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_Hydroxyl : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Hydroxyl instance = null;
-		public static Pattern_Hydroxyl Instance { get { if (instance==null) { instance = new Pattern_Hydroxyl(); instance.initialize(); } return instance; } }
+		public static Pattern_Hydroxyl Instance { get { if(instance==null) { instance = new Pattern_Hydroxyl(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Hydroxyl_node_anchor_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] Hydroxyl_node__node0_AllowedTypes = null;
@@ -3295,7 +3295,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_Methyl : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Methyl instance = null;
-		public static Pattern_Methyl Instance { get { if (instance==null) { instance = new Pattern_Methyl(); instance.initialize(); } return instance; } }
+		public static Pattern_Methyl Instance { get { if(instance==null) { instance = new Pattern_Methyl(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Methyl_node_anchor_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] Methyl_node_c_AllowedTypes = null;
@@ -3698,7 +3698,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_Nitro : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Nitro instance = null;
-		public static Pattern_Nitro Instance { get { if (instance==null) { instance = new Pattern_Nitro(); instance.initialize(); } return instance; } }
+		public static Pattern_Nitro Instance { get { if(instance==null) { instance = new Pattern_Nitro(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Nitro_node_anchor_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] Nitro_node_n_AllowedTypes = null;
@@ -4066,7 +4066,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_TriNitro : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_TriNitro instance = null;
-		public static Pattern_TriNitro Instance { get { if (instance==null) { instance = new Pattern_TriNitro(); instance.initialize(); } return instance; } }
+		public static Pattern_TriNitro Instance { get { if(instance==null) { instance = new Pattern_TriNitro(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] TriNitro_node_c2_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] TriNitro_node_c4_AllowedTypes = null;
@@ -4407,7 +4407,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Pattern_ToluolCoreThenTriNitro : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ToluolCoreThenTriNitro instance = null;
-		public static Pattern_ToluolCoreThenTriNitro Instance { get { if (instance==null) { instance = new Pattern_ToluolCoreThenTriNitro(); instance.initialize(); } return instance; } }
+		public static Pattern_ToluolCoreThenTriNitro Instance { get { if(instance==null) { instance = new Pattern_ToluolCoreThenTriNitro(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ToluolCoreThenTriNitro_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ToluolCoreThenTriNitro_node_c2_AllowedTypes = null;
@@ -4807,7 +4807,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Rule_BenzolRing : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_BenzolRing instance = null;
-		public static Rule_BenzolRing Instance { get { if (instance==null) { instance = new Rule_BenzolRing(); instance.initialize(); } return instance; } }
+		public static Rule_BenzolRing Instance { get { if(instance==null) { instance = new Rule_BenzolRing(); instance.initialize(); } return instance; } }
 
 		public enum BenzolRing_NodeNums { };
 		public enum BenzolRing_EdgeNums { };
@@ -5081,7 +5081,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Rule_TNTTotallyFolded : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_TNTTotallyFolded instance = null;
-		public static Rule_TNTTotallyFolded Instance { get { if (instance==null) { instance = new Rule_TNTTotallyFolded(); instance.initialize(); } return instance; } }
+		public static Rule_TNTTotallyFolded Instance { get { if(instance==null) { instance = new Rule_TNTTotallyFolded(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] TNTTotallyFolded_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] TNTTotallyFolded_node_c2_AllowedTypes = null;
@@ -5580,12 +5580,90 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_keepOneForEachBy_c2(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_keepOneForEachBy_c4(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_keepOneForEachBy_c6(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c6, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_TNTChain : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_TNTChain instance = null;
-		public static Rule_TNTChain Instance { get { if (instance==null) { instance = new Rule_TNTChain(); instance.initialize(); } return instance; } }
+		public static Rule_TNTChain Instance { get { if(instance==null) { instance = new Rule_TNTChain(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] TNTChain_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] TNTChain_node_c2_AllowedTypes = null;
@@ -6009,12 +6087,90 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_keepOneForEachBy_c2(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_keepOneForEachBy_c4(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_keepOneForEachBy_c6(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c6, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_ToluolCore : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_ToluolCore instance = null;
-		public static Rule_ToluolCore Instance { get { if (instance==null) { instance = new Rule_ToluolCore(); instance.initialize(); } return instance; } }
+		public static Rule_ToluolCore Instance { get { if(instance==null) { instance = new Rule_ToluolCore(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ToluolCore_node_c1_AllowedTypes = null;
 		public static bool[] ToluolCore_node_c1_IsAllowedType = null;
@@ -6323,12 +6479,25 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> Array_ToluolCore_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> newList = new List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_ToluolCoreNotC6Nitro : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_ToluolCoreNotC6Nitro instance = null;
-		public static Rule_ToluolCoreNotC6Nitro Instance { get { if (instance==null) { instance = new Rule_ToluolCoreNotC6Nitro(); instance.initialize(); } return instance; } }
+		public static Rule_ToluolCoreNotC6Nitro Instance { get { if(instance==null) { instance = new Rule_ToluolCoreNotC6Nitro(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ToluolCoreNotC6Nitro_node_c1_AllowedTypes = null;
 		public static bool[] ToluolCoreNotC6Nitro_node_c1_IsAllowedType = null;
@@ -6637,12 +6806,25 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> Array_ToluolCoreNotC6Nitro_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> newList = new List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_Toluol : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_Toluol instance = null;
-		public static Rule_Toluol Instance { get { if (instance==null) { instance = new Rule_Toluol(); instance.initialize(); } return instance; } }
+		public static Rule_Toluol Instance { get { if(instance==null) { instance = new Rule_Toluol(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Toluol_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] Toluol_node_c2_AllowedTypes = null;
@@ -7141,12 +7323,90 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_keepOneForEachBy_c2(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_keepOneForEachBy_c4(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_keepOneForEachBy_c6(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c6, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_TNT : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_TNT instance = null;
-		public static Rule_TNT Instance { get { if (instance==null) { instance = new Rule_TNT(); instance.initialize(); } return instance; } }
+		public static Rule_TNT Instance { get { if(instance==null) { instance = new Rule_TNT(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] TNT_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] TNT_node_c2_AllowedTypes = null;
@@ -7824,12 +8084,207 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy_c2(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy_c4(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy_c6(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge3(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge4(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge5(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge6(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge7)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge7, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge8(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNT.IMatch_TNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge8)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge8, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_TNTUnfolded : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_TNTUnfolded instance = null;
-		public static Rule_TNTUnfolded Instance { get { if (instance==null) { instance = new Rule_TNTUnfolded(); instance.initialize(); } return instance; } }
+		public static Rule_TNTUnfolded Instance { get { if(instance==null) { instance = new Rule_TNTUnfolded(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] TNTUnfolded_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] TNTUnfolded_node_c2_AllowedTypes = null;
@@ -9035,12 +9490,597 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node0(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_n2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_n4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node7(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node7)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node7, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node8(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node8)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node8, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_n6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node9(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node9)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node9, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node10(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node10)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node10, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge7)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge7, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge8(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge8)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge8, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge9(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge9)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge9, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge10(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge10)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge10, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge11(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge11)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge11, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge12(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge12)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge12, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge13(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge13)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge13, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge14(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge14)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge14, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge15(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge15)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge15, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge16(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge16)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge16, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge17(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge17)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge17, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge18(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge18)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge18, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge19(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge19)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge19, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge20(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge20)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge20, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge21(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge21)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge21, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge22(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge22)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge22, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge23(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge23)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge23, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_createTNT : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createTNT instance = null;
-		public static Rule_createTNT Instance { get { if (instance==null) { instance = new Rule_createTNT(); instance.initialize(); } return instance; } }
+		public static Rule_createTNT Instance { get { if(instance==null) { instance = new Rule_createTNT(); instance.initialize(); } return instance; } }
 
 		public enum createTNT_NodeNums { };
 		public enum createTNT_EdgeNums { };
@@ -9350,7 +10390,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Rule_DNT : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_DNT instance = null;
-		public static Rule_DNT Instance { get { if (instance==null) { instance = new Rule_DNT(); instance.initialize(); } return instance; } }
+		public static Rule_DNT Instance { get { if(instance==null) { instance = new Rule_DNT(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] DNT_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] DNT_node_c2_AllowedTypes = null;
@@ -10028,12 +11068,207 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy_c2(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy_c4(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy_c6(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge3(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge4(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge5(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge6(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge7)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge7, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge8(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNT.IMatch_DNT element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge8)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge8, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_DNTUnfolded : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_DNTUnfolded instance = null;
-		public static Rule_DNTUnfolded Instance { get { if (instance==null) { instance = new Rule_DNTUnfolded(); instance.initialize(); } return instance; } }
+		public static Rule_DNTUnfolded Instance { get { if(instance==null) { instance = new Rule_DNTUnfolded(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] DNTUnfolded_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] DNTUnfolded_node_c2_AllowedTypes = null;
@@ -11155,12 +12390,545 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c6(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node0(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_n2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_n4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node6(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node7(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node7)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node7, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node8(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node8)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node8, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node9(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node9)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node9, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge6(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge7)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge7, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge8(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge8)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge8, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge9(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge9)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge9, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge10(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge10)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge10, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge11(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge11)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge11, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge12(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge12)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge12, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge13(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge13)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge13, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge14(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge14)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge14, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge15(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge15)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge15, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge16(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge16)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge16, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge17(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge17)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge17, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge18(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge18)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge18, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge19(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge19)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge19, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge20(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge20)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge20, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge21(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge21)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge21, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_createDNT : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createDNT instance = null;
-		public static Rule_createDNT Instance { get { if (instance==null) { instance = new Rule_createDNT(); instance.initialize(); } return instance; } }
+		public static Rule_createDNT Instance { get { if(instance==null) { instance = new Rule_createDNT(); instance.initialize(); } return instance; } }
 
 		public enum createDNT_NodeNums { };
 		public enum createDNT_EdgeNums { };
@@ -11466,7 +13234,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Rule_TNB : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_TNB instance = null;
-		public static Rule_TNB Instance { get { if (instance==null) { instance = new Rule_TNB(); instance.initialize(); } return instance; } }
+		public static Rule_TNB Instance { get { if(instance==null) { instance = new Rule_TNB(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] TNB_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] TNB_node_c2_AllowedTypes = null;
@@ -12144,12 +13912,207 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy_c2(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy_c4(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy_c6(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge3(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge4(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge5(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge6(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge7)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge7, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge8(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNB.IMatch_TNB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge8)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge8, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_TNBUnfolded : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_TNBUnfolded instance = null;
-		public static Rule_TNBUnfolded Instance { get { if (instance==null) { instance = new Rule_TNBUnfolded(); instance.initialize(); } return instance; } }
+		public static Rule_TNBUnfolded Instance { get { if(instance==null) { instance = new Rule_TNBUnfolded(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] TNBUnfolded_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] TNBUnfolded_node_c2_AllowedTypes = null;
@@ -13229,12 +15192,519 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_c2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_c4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_c6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IC, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node0(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_n2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_n4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node5(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IH, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_n6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node7(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node7)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node7, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node8(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IO, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node8)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node8, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge5(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge6)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge6, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge7)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge7, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge8(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge8)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge8, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge9(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge9)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge9, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge10(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge10)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge10, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge11(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge11)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge11, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge12(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge12)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge12, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge13(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge13)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge13, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge14(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge14)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge14, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge15(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge15)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge15, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge16(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge16)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge16, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge17(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge17)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge17, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge18(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge18)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge18, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge19(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge19)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge19, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge20(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge20)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge20, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_createTNB : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createTNB instance = null;
-		public static Rule_createTNB Instance { get { if (instance==null) { instance = new Rule_createTNB(); instance.initialize(); } return instance; } }
+		public static Rule_createTNB Instance { get { if(instance==null) { instance = new Rule_createTNB(); instance.initialize(); } return instance; } }
 
 		public enum createTNB_NodeNums { };
 		public enum createTNB_EdgeNums { };
@@ -13538,7 +16008,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Rule_keepBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_keepBenzolRingPattern instance = null;
-		public static Rule_keepBenzolRingPattern Instance { get { if (instance==null) { instance = new Rule_keepBenzolRingPattern(); instance.initialize(); } return instance; } }
+		public static Rule_keepBenzolRingPattern Instance { get { if(instance==null) { instance = new Rule_keepBenzolRingPattern(); instance.initialize(); } return instance; } }
 
 		public enum keepBenzolRingPattern_NodeNums { };
 		public enum keepBenzolRingPattern_EdgeNums { };
@@ -13818,7 +16288,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Rule_createBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createBenzolRingPattern instance = null;
-		public static Rule_createBenzolRingPattern Instance { get { if (instance==null) { instance = new Rule_createBenzolRingPattern(); instance.initialize(); } return instance; } }
+		public static Rule_createBenzolRingPattern Instance { get { if(instance==null) { instance = new Rule_createBenzolRingPattern(); instance.initialize(); } return instance; } }
 
 		public enum createBenzolRingPattern_NodeNums { };
 		public enum createBenzolRingPattern_EdgeNums { };
@@ -14084,7 +16554,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Rule_deleteBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_deleteBenzolRingPattern instance = null;
-		public static Rule_deleteBenzolRingPattern Instance { get { if (instance==null) { instance = new Rule_deleteBenzolRingPattern(); instance.initialize(); } return instance; } }
+		public static Rule_deleteBenzolRingPattern Instance { get { if(instance==null) { instance = new Rule_deleteBenzolRingPattern(); instance.initialize(); } return instance; } }
 
 		public enum deleteBenzolRingPattern_NodeNums { };
 		public enum deleteBenzolRingPattern_EdgeNums { };
@@ -14365,7 +16835,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	public class Rule_deleteInModifyBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_deleteInModifyBenzolRingPattern instance = null;
-		public static Rule_deleteInModifyBenzolRingPattern Instance { get { if (instance==null) { instance = new Rule_deleteInModifyBenzolRingPattern(); instance.initialize(); } return instance; } }
+		public static Rule_deleteInModifyBenzolRingPattern Instance { get { if(instance==null) { instance = new Rule_deleteInModifyBenzolRingPattern(); instance.initialize(); } return instance; } }
 
 		public enum deleteInModifyBenzolRingPattern_NodeNums { };
 		public enum deleteInModifyBenzolRingPattern_EdgeNums { };
@@ -19636,9 +22106,9 @@ label0: ;
         public static List<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>)
-            	return ((List<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -20901,9 +23371,9 @@ label0: ;
         public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>)
-            	return ((List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -21710,9 +24180,9 @@ label0: ;
         public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>)
-            	return ((List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -22444,9 +24914,9 @@ label0: ;
         public static List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>)
-            	return ((List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -23272,9 +25742,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>)
-            	return ((List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -24311,9 +26781,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>)
-            	return ((List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -25517,9 +27987,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>)
-            	return ((List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -26653,9 +29123,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>)
-            	return ((List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -26901,9 +29371,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>)
-            	return ((List<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -28025,9 +30495,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>)
-            	return ((List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -29079,9 +31549,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>)
-            	return ((List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -29327,9 +31797,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>)
-            	return ((List<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -30410,9 +32880,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>)
-            	return ((List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -31423,9 +33893,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>)
-            	return ((List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -31671,9 +34141,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>)
-            	return ((List<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -31944,9 +34414,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>)
-            	return ((List<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -32192,9 +34662,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>)
-            	return ((List<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -32465,9 +34935,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>)
-            	return ((List<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -32738,9 +35208,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>)
-            	return ((List<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     

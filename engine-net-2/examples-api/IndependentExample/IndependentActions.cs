@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Mon Apr 27 20:32:39 CEST 2020
+// Generated from "..\..\tests\independent\Independent.grg" on Sun May 24 19:21:41 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	public class Pattern_iteratedPath : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_iteratedPath instance = null;
-		public static Pattern_iteratedPath Instance { get { if (instance==null) { instance = new Pattern_iteratedPath(); instance.initialize(); } return instance; } }
+		public static Pattern_iteratedPath Instance { get { if(instance==null) { instance = new Pattern_iteratedPath(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] iteratedPath_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] iteratedPath_node_end_AllowedTypes = null;
@@ -868,7 +868,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	public class Pattern_iteratedPathToIntNode : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_iteratedPathToIntNode instance = null;
-		public static Pattern_iteratedPathToIntNode Instance { get { if (instance==null) { instance = new Pattern_iteratedPathToIntNode(); instance.initialize(); } return instance; } }
+		public static Pattern_iteratedPathToIntNode Instance { get { if(instance==null) { instance = new Pattern_iteratedPathToIntNode(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] iteratedPathToIntNode_node_beg_AllowedTypes = null;
 		public static bool[] iteratedPathToIntNode_node_beg_IsAllowedType = null;
@@ -1695,7 +1695,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	public class Rule_create : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_create instance = null;
-		public static Rule_create Instance { get { if (instance==null) { instance = new Rule_create(); instance.initialize(); } return instance; } }
+		public static Rule_create Instance { get { if(instance==null) { instance = new Rule_create(); instance.initialize(); } return instance; } }
 
 		public enum create_NodeNums { };
 		public enum create_EdgeNums { };
@@ -1969,7 +1969,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	public class Rule_find : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_find instance = null;
-		public static Rule_find Instance { get { if (instance==null) { instance = new Rule_find(); instance.initialize(); } return instance; } }
+		public static Rule_find Instance { get { if(instance==null) { instance = new Rule_find(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] find_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] find_node__node0_AllowedTypes = null;
@@ -2395,12 +2395,116 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_find.IMatch_find element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy__node0(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_find.IMatch_find element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_find.IMatch_find element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_end)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_end, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy__node1(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_find.IMatch_find element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_find.IMatch_find element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_find.IMatch_find element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_find.IMatch_find element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy__edge3(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_find.IMatch_find element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge3, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_findIndependent : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_findIndependent instance = null;
-		public static Rule_findIndependent Instance { get { if (instance==null) { instance = new Rule_findIndependent(); instance.initialize(); } return instance; } }
+		public static Rule_findIndependent Instance { get { if(instance==null) { instance = new Rule_findIndependent(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] findIndependent_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] findIndependent_node__node0_AllowedTypes = null;
@@ -3037,12 +3141,77 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_keepOneForEachBy__node0(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_end)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_end, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_findMultiNested : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_findMultiNested instance = null;
-		public static Rule_findMultiNested Instance { get { if (instance==null) { instance = new Rule_findMultiNested(); instance.initialize(); } return instance; } }
+		public static Rule_findMultiNested Instance { get { if(instance==null) { instance = new Rule_findMultiNested(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] findMultiNested_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] findMultiNested_node__node0_AllowedTypes = null;
@@ -4504,12 +4673,77 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_keepOneForEachBy__node0(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_end)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_end, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_createIterated : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createIterated instance = null;
-		public static Rule_createIterated Instance { get { if (instance==null) { instance = new Rule_createIterated(); instance.initialize(); } return instance; } }
+		public static Rule_createIterated Instance { get { if(instance==null) { instance = new Rule_createIterated(); instance.initialize(); } return instance; } }
 
 		public enum createIterated_NodeNums { };
 		public enum createIterated_EdgeNums { };
@@ -4790,7 +5024,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	public class Rule_findChainPlusChainToInt : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_findChainPlusChainToInt instance = null;
-		public static Rule_findChainPlusChainToInt Instance { get { if (instance==null) { instance = new Rule_findChainPlusChainToInt(); instance.initialize(); } return instance; } }
+		public static Rule_findChainPlusChainToInt Instance { get { if(instance==null) { instance = new Rule_findChainPlusChainToInt(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] findChainPlusChainToInt_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] findChainPlusChainToInt_node_end_AllowedTypes = null;
@@ -5121,12 +5355,38 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> Array_findChainPlusChainToInt_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> newList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> Array_findChainPlusChainToInt_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> newList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_end)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_end, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_findChainPlusChainToIntIndependent : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_findChainPlusChainToIntIndependent instance = null;
-		public static Rule_findChainPlusChainToIntIndependent Instance { get { if (instance==null) { instance = new Rule_findChainPlusChainToIntIndependent(); instance.initialize(); } return instance; } }
+		public static Rule_findChainPlusChainToIntIndependent Instance { get { if(instance==null) { instance = new Rule_findChainPlusChainToIntIndependent(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] findChainPlusChainToIntIndependent_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] findChainPlusChainToIntIndependent_node_end_AllowedTypes = null;
@@ -5677,6 +5937,32 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> Array_findChainPlusChainToIntIndependent_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> newList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> Array_findChainPlusChainToIntIndependent_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list)
+		{
+			List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> newList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_end)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_end, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Functions
@@ -7193,9 +7479,9 @@ namespace de.unika.ipd.grGen.Action_Independent
         public static List<GRGEN_ACTIONS.Rule_create.IMatch_create> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_create.IMatch_create>)
-            	return ((List<GRGEN_ACTIONS.Rule_create.IMatch_create>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_create.IMatch_create>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_create.IMatch_create>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_create.IMatch_create>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -7566,9 +7852,9 @@ namespace de.unika.ipd.grGen.Action_Independent
         public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_find.IMatch_find>)
-            	return ((List<GRGEN_ACTIONS.Rule_find.IMatch_find>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_find.IMatch_find>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_find.IMatch_find>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_find.IMatch_find>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -7955,9 +8241,9 @@ label2: ;
         public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>)
-            	return ((List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -8593,9 +8879,9 @@ label14: ;
         public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>)
-            	return ((List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -8865,9 +9151,9 @@ label14: ;
         public static List<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>)
-            	return ((List<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -9191,9 +9477,9 @@ label14: ;
         public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>)
-            	return ((List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -10026,9 +10312,9 @@ label15: ;
         public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>)
-            	return ((List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     

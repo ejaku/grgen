@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon Apr 27 20:32:42 CEST 2020
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun May 24 19:21:45 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -382,9 +382,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Package_name : Comparer<GRGEN_MODEL.IPackage>
 	{
 		public static ReverseComparer_Package_name thisComparer = new ReverseComparer_Package_name();
-		public override int Compare(GRGEN_MODEL.IPackage a, GRGEN_MODEL.IPackage b)
+		public override int Compare(GRGEN_MODEL.IPackage b, GRGEN_MODEL.IPackage a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+			return StringComparer.InvariantCulture.Compare(a.@name, b.@name);
 		}
 	}
 
@@ -713,9 +713,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Classifier_name : Comparer<GRGEN_MODEL.IClassifier>
 	{
 		public static ReverseComparer_Classifier_name thisComparer = new ReverseComparer_Classifier_name();
-		public override int Compare(GRGEN_MODEL.IClassifier a, GRGEN_MODEL.IClassifier b)
+		public override int Compare(GRGEN_MODEL.IClassifier b, GRGEN_MODEL.IClassifier a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+			return StringComparer.InvariantCulture.Compare(a.@name, b.@name);
 		}
 	}
 
@@ -798,9 +798,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Classifier_visibility : Comparer<GRGEN_MODEL.IClassifier>
 	{
 		public static ReverseComparer_Classifier_visibility thisComparer = new ReverseComparer_Classifier_visibility();
-		public override int Compare(GRGEN_MODEL.IClassifier a, GRGEN_MODEL.IClassifier b)
+		public override int Compare(GRGEN_MODEL.IClassifier b, GRGEN_MODEL.IClassifier a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
+			return StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
 		}
 	}
 
@@ -883,9 +883,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Classifier_isAbstract : Comparer<GRGEN_MODEL.IClassifier>
 	{
 		public static ReverseComparer_Classifier_isAbstract thisComparer = new ReverseComparer_Classifier_isAbstract();
-		public override int Compare(GRGEN_MODEL.IClassifier a, GRGEN_MODEL.IClassifier b)
+		public override int Compare(GRGEN_MODEL.IClassifier b, GRGEN_MODEL.IClassifier a)
 		{
-			return -a.@isAbstract.CompareTo(b.@isAbstract);
+			return a.@isAbstract.CompareTo(b.@isAbstract);
 		}
 	}
 
@@ -1239,9 +1239,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Class_name : Comparer<GRGEN_MODEL.IClass>
 	{
 		public static ReverseComparer_Class_name thisComparer = new ReverseComparer_Class_name();
-		public override int Compare(GRGEN_MODEL.IClass a, GRGEN_MODEL.IClass b)
+		public override int Compare(GRGEN_MODEL.IClass b, GRGEN_MODEL.IClass a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+			return StringComparer.InvariantCulture.Compare(a.@name, b.@name);
 		}
 	}
 
@@ -1324,9 +1324,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Class_visibility : Comparer<GRGEN_MODEL.IClass>
 	{
 		public static ReverseComparer_Class_visibility thisComparer = new ReverseComparer_Class_visibility();
-		public override int Compare(GRGEN_MODEL.IClass a, GRGEN_MODEL.IClass b)
+		public override int Compare(GRGEN_MODEL.IClass b, GRGEN_MODEL.IClass a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
+			return StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
 		}
 	}
 
@@ -1409,9 +1409,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Class_isAbstract : Comparer<GRGEN_MODEL.IClass>
 	{
 		public static ReverseComparer_Class_isAbstract thisComparer = new ReverseComparer_Class_isAbstract();
-		public override int Compare(GRGEN_MODEL.IClass a, GRGEN_MODEL.IClass b)
+		public override int Compare(GRGEN_MODEL.IClass b, GRGEN_MODEL.IClass a)
 		{
-			return -a.@isAbstract.CompareTo(b.@isAbstract);
+			return a.@isAbstract.CompareTo(b.@isAbstract);
 		}
 	}
 
@@ -1494,9 +1494,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Class_isFinal : Comparer<GRGEN_MODEL.IClass>
 	{
 		public static ReverseComparer_Class_isFinal thisComparer = new ReverseComparer_Class_isFinal();
-		public override int Compare(GRGEN_MODEL.IClass a, GRGEN_MODEL.IClass b)
+		public override int Compare(GRGEN_MODEL.IClass b, GRGEN_MODEL.IClass a)
 		{
-			return -a.@isFinal.CompareTo(b.@isFinal);
+			return a.@isFinal.CompareTo(b.@isFinal);
 		}
 	}
 
@@ -1830,9 +1830,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Interface_name : Comparer<GRGEN_MODEL.IInterface>
 	{
 		public static ReverseComparer_Interface_name thisComparer = new ReverseComparer_Interface_name();
-		public override int Compare(GRGEN_MODEL.IInterface a, GRGEN_MODEL.IInterface b)
+		public override int Compare(GRGEN_MODEL.IInterface b, GRGEN_MODEL.IInterface a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+			return StringComparer.InvariantCulture.Compare(a.@name, b.@name);
 		}
 	}
 
@@ -1915,9 +1915,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Interface_visibility : Comparer<GRGEN_MODEL.IInterface>
 	{
 		public static ReverseComparer_Interface_visibility thisComparer = new ReverseComparer_Interface_visibility();
-		public override int Compare(GRGEN_MODEL.IInterface a, GRGEN_MODEL.IInterface b)
+		public override int Compare(GRGEN_MODEL.IInterface b, GRGEN_MODEL.IInterface a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
+			return StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
 		}
 	}
 
@@ -2000,9 +2000,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Interface_isAbstract : Comparer<GRGEN_MODEL.IInterface>
 	{
 		public static ReverseComparer_Interface_isAbstract thisComparer = new ReverseComparer_Interface_isAbstract();
-		public override int Compare(GRGEN_MODEL.IInterface a, GRGEN_MODEL.IInterface b)
+		public override int Compare(GRGEN_MODEL.IInterface b, GRGEN_MODEL.IInterface a)
 		{
-			return -a.@isAbstract.CompareTo(b.@isAbstract);
+			return a.@isAbstract.CompareTo(b.@isAbstract);
 		}
 	}
 
@@ -2349,9 +2349,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Variable_name : Comparer<GRGEN_MODEL.IVariable>
 	{
 		public static ReverseComparer_Variable_name thisComparer = new ReverseComparer_Variable_name();
-		public override int Compare(GRGEN_MODEL.IVariable a, GRGEN_MODEL.IVariable b)
+		public override int Compare(GRGEN_MODEL.IVariable b, GRGEN_MODEL.IVariable a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+			return StringComparer.InvariantCulture.Compare(a.@name, b.@name);
 		}
 	}
 
@@ -2434,9 +2434,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Variable_visibility : Comparer<GRGEN_MODEL.IVariable>
 	{
 		public static ReverseComparer_Variable_visibility thisComparer = new ReverseComparer_Variable_visibility();
-		public override int Compare(GRGEN_MODEL.IVariable a, GRGEN_MODEL.IVariable b)
+		public override int Compare(GRGEN_MODEL.IVariable b, GRGEN_MODEL.IVariable a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
+			return StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
 		}
 	}
 
@@ -2519,9 +2519,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Variable_isStatic : Comparer<GRGEN_MODEL.IVariable>
 	{
 		public static ReverseComparer_Variable_isStatic thisComparer = new ReverseComparer_Variable_isStatic();
-		public override int Compare(GRGEN_MODEL.IVariable a, GRGEN_MODEL.IVariable b)
+		public override int Compare(GRGEN_MODEL.IVariable b, GRGEN_MODEL.IVariable a)
 		{
-			return -a.@isStatic.CompareTo(b.@isStatic);
+			return a.@isStatic.CompareTo(b.@isStatic);
 		}
 	}
 
@@ -2604,9 +2604,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Variable_isFinal : Comparer<GRGEN_MODEL.IVariable>
 	{
 		public static ReverseComparer_Variable_isFinal thisComparer = new ReverseComparer_Variable_isFinal();
-		public override int Compare(GRGEN_MODEL.IVariable a, GRGEN_MODEL.IVariable b)
+		public override int Compare(GRGEN_MODEL.IVariable b, GRGEN_MODEL.IVariable a)
 		{
-			return -a.@isFinal.CompareTo(b.@isFinal);
+			return a.@isFinal.CompareTo(b.@isFinal);
 		}
 	}
 
@@ -2973,9 +2973,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Operation_name : Comparer<GRGEN_MODEL.IOperation>
 	{
 		public static ReverseComparer_Operation_name thisComparer = new ReverseComparer_Operation_name();
-		public override int Compare(GRGEN_MODEL.IOperation a, GRGEN_MODEL.IOperation b)
+		public override int Compare(GRGEN_MODEL.IOperation b, GRGEN_MODEL.IOperation a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+			return StringComparer.InvariantCulture.Compare(a.@name, b.@name);
 		}
 	}
 
@@ -3058,9 +3058,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Operation_visibility : Comparer<GRGEN_MODEL.IOperation>
 	{
 		public static ReverseComparer_Operation_visibility thisComparer = new ReverseComparer_Operation_visibility();
-		public override int Compare(GRGEN_MODEL.IOperation a, GRGEN_MODEL.IOperation b)
+		public override int Compare(GRGEN_MODEL.IOperation b, GRGEN_MODEL.IOperation a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
+			return StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
 		}
 	}
 
@@ -3143,9 +3143,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Operation_isAbstract : Comparer<GRGEN_MODEL.IOperation>
 	{
 		public static ReverseComparer_Operation_isAbstract thisComparer = new ReverseComparer_Operation_isAbstract();
-		public override int Compare(GRGEN_MODEL.IOperation a, GRGEN_MODEL.IOperation b)
+		public override int Compare(GRGEN_MODEL.IOperation b, GRGEN_MODEL.IOperation a)
 		{
-			return -a.@isAbstract.CompareTo(b.@isAbstract);
+			return a.@isAbstract.CompareTo(b.@isAbstract);
 		}
 	}
 
@@ -3228,9 +3228,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Operation_isStatic : Comparer<GRGEN_MODEL.IOperation>
 	{
 		public static ReverseComparer_Operation_isStatic thisComparer = new ReverseComparer_Operation_isStatic();
-		public override int Compare(GRGEN_MODEL.IOperation a, GRGEN_MODEL.IOperation b)
+		public override int Compare(GRGEN_MODEL.IOperation b, GRGEN_MODEL.IOperation a)
 		{
-			return -a.@isStatic.CompareTo(b.@isStatic);
+			return a.@isStatic.CompareTo(b.@isStatic);
 		}
 	}
 
@@ -3313,9 +3313,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Operation_isFinal : Comparer<GRGEN_MODEL.IOperation>
 	{
 		public static ReverseComparer_Operation_isFinal thisComparer = new ReverseComparer_Operation_isFinal();
-		public override int Compare(GRGEN_MODEL.IOperation a, GRGEN_MODEL.IOperation b)
+		public override int Compare(GRGEN_MODEL.IOperation b, GRGEN_MODEL.IOperation a)
 		{
-			return -a.@isFinal.CompareTo(b.@isFinal);
+			return a.@isFinal.CompareTo(b.@isFinal);
 		}
 	}
 
@@ -3920,9 +3920,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Access_this_ : Comparer<GRGEN_MODEL.IAccess>
 	{
 		public static ReverseComparer_Access_this_ thisComparer = new ReverseComparer_Access_this_();
-		public override int Compare(GRGEN_MODEL.IAccess a, GRGEN_MODEL.IAccess b)
+		public override int Compare(GRGEN_MODEL.IAccess b, GRGEN_MODEL.IAccess a)
 		{
-			return -a.@this_.CompareTo(b.@this_);
+			return a.@this_.CompareTo(b.@this_);
 		}
 	}
 
@@ -4215,9 +4215,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Update_this_ : Comparer<GRGEN_MODEL.IUpdate>
 	{
 		public static ReverseComparer_Update_this_ thisComparer = new ReverseComparer_Update_this_();
-		public override int Compare(GRGEN_MODEL.IUpdate a, GRGEN_MODEL.IUpdate b)
+		public override int Compare(GRGEN_MODEL.IUpdate b, GRGEN_MODEL.IUpdate a)
 		{
-			return -a.@this_.CompareTo(b.@this_);
+			return a.@this_.CompareTo(b.@this_);
 		}
 	}
 
@@ -4530,9 +4530,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Call_this_ : Comparer<GRGEN_MODEL.ICall>
 	{
 		public static ReverseComparer_Call_this_ thisComparer = new ReverseComparer_Call_this_();
-		public override int Compare(GRGEN_MODEL.ICall a, GRGEN_MODEL.ICall b)
+		public override int Compare(GRGEN_MODEL.ICall b, GRGEN_MODEL.ICall a)
 		{
-			return -a.@this_.CompareTo(b.@this_);
+			return a.@this_.CompareTo(b.@this_);
 		}
 	}
 
@@ -4615,9 +4615,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Call_super : Comparer<GRGEN_MODEL.ICall>
 	{
 		public static ReverseComparer_Call_super thisComparer = new ReverseComparer_Call_super();
-		public override int Compare(GRGEN_MODEL.ICall a, GRGEN_MODEL.ICall b)
+		public override int Compare(GRGEN_MODEL.ICall b, GRGEN_MODEL.ICall a)
 		{
-			return -a.@super.CompareTo(b.@super);
+			return a.@super.CompareTo(b.@super);
 		}
 	}
 
@@ -5072,9 +5072,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Operator_name : Comparer<GRGEN_MODEL.IOperator>
 	{
 		public static ReverseComparer_Operator_name thisComparer = new ReverseComparer_Operator_name();
-		public override int Compare(GRGEN_MODEL.IOperator a, GRGEN_MODEL.IOperator b)
+		public override int Compare(GRGEN_MODEL.IOperator b, GRGEN_MODEL.IOperator a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+			return StringComparer.InvariantCulture.Compare(a.@name, b.@name);
 		}
 	}
 
@@ -5685,9 +5685,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_Literal_value : Comparer<GRGEN_MODEL.ILiteral>
 	{
 		public static ReverseComparer_Literal_value thisComparer = new ReverseComparer_Literal_value();
-		public override int Compare(GRGEN_MODEL.ILiteral a, GRGEN_MODEL.ILiteral b)
+		public override int Compare(GRGEN_MODEL.ILiteral b, GRGEN_MODEL.ILiteral a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@value, b.@value);
+			return StringComparer.InvariantCulture.Compare(a.@value, b.@value);
 		}
 	}
 
@@ -7334,9 +7334,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_parameter_order : Comparer<GRGEN_MODEL.Iparameter>
 	{
 		public static ReverseComparer_parameter_order thisComparer = new ReverseComparer_parameter_order();
-		public override int Compare(GRGEN_MODEL.Iparameter a, GRGEN_MODEL.Iparameter b)
+		public override int Compare(GRGEN_MODEL.Iparameter b, GRGEN_MODEL.Iparameter a)
 		{
-			return -a.@order.CompareTo(b.@order);
+			return a.@order.CompareTo(b.@order);
 		}
 	}
 
@@ -8127,9 +8127,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	public class ReverseComparer_expression_order : Comparer<GRGEN_MODEL.Iexpression>
 	{
 		public static ReverseComparer_expression_order thisComparer = new ReverseComparer_expression_order();
-		public override int Compare(GRGEN_MODEL.Iexpression a, GRGEN_MODEL.Iexpression b)
+		public override int Compare(GRGEN_MODEL.Iexpression b, GRGEN_MODEL.Iexpression a)
 		{
-			return -a.@order.CompareTo(b.@order);
+			return a.@order.CompareTo(b.@order);
 		}
 	}
 

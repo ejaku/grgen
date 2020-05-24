@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Mon Apr 27 20:32:37 CEST 2020
+// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Sun May 24 19:21:40 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 	public class Rule_init : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_init instance = null;
-		public static Rule_init Instance { get { if (instance==null) { instance = new Rule_init(); instance.initialize(); } return instance; } }
+		public static Rule_init Instance { get { if(instance==null) { instance = new Rule_init(); instance.initialize(); } return instance; } }
 
 		public enum init_NodeNums { };
 		public enum init_EdgeNums { };
@@ -286,7 +286,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 	public class Rule_r : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_r instance = null;
-		public static Rule_r Instance { get { if (instance==null) { instance = new Rule_r(); instance.initialize(); } return instance; } }
+		public static Rule_r Instance { get { if(instance==null) { instance = new Rule_r(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] r_node_nn_AllowedTypes = null;
 		public static bool[] r_node_nn_IsAllowedType = null;
@@ -604,12 +604,38 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_r.IMatch_r> Array_r_keepOneForEachBy_nn(List<GRGEN_ACTIONS.Rule_r.IMatch_r> list)
+		{
+			List<GRGEN_ACTIONS.Rule_r.IMatch_r> newList = new List<GRGEN_ACTIONS.Rule_r.IMatch_r>();
+			Dictionary<GRGEN_MODEL.INN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.INN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_r.IMatch_r element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_nn)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_nn, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_r.IMatch_r> Array_r_keepOneForEachBy_ee(List<GRGEN_ACTIONS.Rule_r.IMatch_r> list)
+		{
+			List<GRGEN_ACTIONS.Rule_r.IMatch_r> newList = new List<GRGEN_ACTIONS.Rule_r.IMatch_r>();
+			Dictionary<GRGEN_MODEL.IEE, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IEE, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_r.IMatch_r element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge_ee)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge_ee, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class SequenceInfo_s : GRGEN_LIBGR.DefinedSequenceInfo
 	{
 		private static SequenceInfo_s instance = null;
-		public static SequenceInfo_s Instance { get { if (instance==null) { instance = new SequenceInfo_s(); } return instance; } }
+		public static SequenceInfo_s Instance { get { if(instance==null) { instance = new SequenceInfo_s(); } return instance; } }
 
 		private SequenceInfo_s()
 			: base(
@@ -643,7 +669,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 	public class FunctionInfo_hur : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_hur instance = null;
-		public static FunctionInfo_hur Instance { get { if (instance==null) { instance = new FunctionInfo_hur(); } return instance; } }
+		public static FunctionInfo_hur Instance { get { if(instance==null) { instance = new FunctionInfo_hur(); } return instance; } }
 
 		private FunctionInfo_hur()
 			: base(
@@ -685,7 +711,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 	public class ProcedureInfo_dur : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureInfo_dur instance = null;
-		public static ProcedureInfo_dur Instance { get { if (instance==null) { instance = new ProcedureInfo_dur(); } return instance; } }
+		public static ProcedureInfo_dur Instance { get { if(instance==null) { instance = new ProcedureInfo_dur(); } return instance; } }
 
 		private ProcedureInfo_dur()
 			: base(
@@ -1011,9 +1037,9 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
         public static List<GRGEN_ACTIONS.Rule_init.IMatch_init> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_init.IMatch_init>)
-            	return ((List<GRGEN_ACTIONS.Rule_init.IMatch_init>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_init.IMatch_init>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_init.IMatch_init>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_init.IMatch_init>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -1278,9 +1304,9 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
         public static List<GRGEN_ACTIONS.Rule_r.IMatch_r> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_r.IMatch_r>)
-            	return ((List<GRGEN_ACTIONS.Rule_r.IMatch_r>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_r.IMatch_r>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_r.IMatch_r>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_r.IMatch_r>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     

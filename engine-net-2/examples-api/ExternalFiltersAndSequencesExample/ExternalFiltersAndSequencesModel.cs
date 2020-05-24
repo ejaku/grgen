@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Mon Apr 27 20:32:34 CEST 2020
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun May 24 19:21:36 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -607,9 +607,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	public class ReverseComparer_N_i : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_i thisComparer = new ReverseComparer_N_i();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		public override int Compare(GRGEN_MODEL.IN b, GRGEN_MODEL.IN a)
 		{
-			return -a.@i.CompareTo(b.@i);
+			return a.@i.CompareTo(b.@i);
 		}
 	}
 
@@ -692,9 +692,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	public class ReverseComparer_N_s : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_s thisComparer = new ReverseComparer_N_s();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		public override int Compare(GRGEN_MODEL.IN b, GRGEN_MODEL.IN a)
 		{
-			return -StringComparer.InvariantCulture.Compare(a.@s, b.@s);
+			return StringComparer.InvariantCulture.Compare(a.@s, b.@s);
 		}
 	}
 
@@ -777,9 +777,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	public class ReverseComparer_N_b : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_b thisComparer = new ReverseComparer_N_b();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		public override int Compare(GRGEN_MODEL.IN b, GRGEN_MODEL.IN a)
 		{
-			return -a.@b.CompareTo(b.@b);
+			return a.@b.CompareTo(b.@b);
 		}
 	}
 
@@ -862,9 +862,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	public class ReverseComparer_N_f : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_f thisComparer = new ReverseComparer_N_f();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		public override int Compare(GRGEN_MODEL.IN b, GRGEN_MODEL.IN a)
 		{
-			return -a.@f.CompareTo(b.@f);
+			return a.@f.CompareTo(b.@f);
 		}
 	}
 
@@ -947,9 +947,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	public class ReverseComparer_N_d : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_d thisComparer = new ReverseComparer_N_d();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		public override int Compare(GRGEN_MODEL.IN b, GRGEN_MODEL.IN a)
 		{
-			return -a.@d.CompareTo(b.@d);
+			return a.@d.CompareTo(b.@d);
 		}
 	}
 
@@ -1032,9 +1032,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	public class ReverseComparer_N_enu : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_enu thisComparer = new ReverseComparer_N_enu();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		public override int Compare(GRGEN_MODEL.IN b, GRGEN_MODEL.IN a)
 		{
-			return -a.@enu.CompareTo(b.@enu);
+			return a.@enu.CompareTo(b.@enu);
 		}
 	}
 

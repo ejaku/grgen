@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Mon Apr 27 20:32:32 CEST 2020
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun May 24 19:21:35 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 	public class Rule_init : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_init instance = null;
-		public static Rule_init Instance { get { if (instance==null) { instance = new Rule_init(); instance.initialize(); } return instance; } }
+		public static Rule_init Instance { get { if(instance==null) { instance = new Rule_init(); instance.initialize(); } return instance; } }
 
 		public enum init_NodeNums { };
 		public enum init_EdgeNums { };
@@ -286,7 +286,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 	public class Rule_init2 : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_init2 instance = null;
-		public static Rule_init2 Instance { get { if (instance==null) { instance = new Rule_init2(); instance.initialize(); } return instance; } }
+		public static Rule_init2 Instance { get { if(instance==null) { instance = new Rule_init2(); instance.initialize(); } return instance; } }
 
 		public enum init2_NodeNums { };
 		public enum init2_EdgeNums { };
@@ -585,7 +585,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 	public class Rule_r : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_r instance = null;
-		public static Rule_r Instance { get { if (instance==null) { instance = new Rule_r(); instance.initialize(); } return instance; } }
+		public static Rule_r Instance { get { if(instance==null) { instance = new Rule_r(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] r_node_n_AllowedTypes = null;
 		public static bool[] r_node_n_IsAllowedType = null;
@@ -930,12 +930,38 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_r.IMatch_r> Array_r_keepOneForEachBy_n(List<GRGEN_ACTIONS.Rule_r.IMatch_r> list)
+		{
+			List<GRGEN_ACTIONS.Rule_r.IMatch_r> newList = new List<GRGEN_ACTIONS.Rule_r.IMatch_r>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_r.IMatch_r element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_r.IMatch_r> Array_r_keepOneForEachBy_e(List<GRGEN_ACTIONS.Rule_r.IMatch_r> list)
+		{
+			List<GRGEN_ACTIONS.Rule_r.IMatch_r> newList = new List<GRGEN_ACTIONS.Rule_r.IMatch_r>();
+			Dictionary<GRGEN_MODEL.IE, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IE, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_r.IMatch_r element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge_e)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge_e, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_rp : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_rp instance = null;
-		public static Rule_rp Instance { get { if (instance==null) { instance = new Rule_rp(); instance.initialize(); } return instance; } }
+		public static Rule_rp Instance { get { if(instance==null) { instance = new Rule_rp(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] rp_node_n_AllowedTypes = null;
 		public static bool[] rp_node_n_IsAllowedType = null;
@@ -1281,12 +1307,38 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> Array_rp_keepOneForEachBy_n(List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list)
+		{
+			List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> newList = new List<GRGEN_ACTIONS.Rule_rp.IMatch_rp>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_rp.IMatch_rp element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> Array_rp_keepOneForEachBy_e(List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list)
+		{
+			List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> newList = new List<GRGEN_ACTIONS.Rule_rp.IMatch_rp>();
+			Dictionary<GRGEN_MODEL.IE, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IE, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_rp.IMatch_rp element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge_e)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge_e, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_testCopy : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_testCopy instance = null;
-		public static Rule_testCopy Instance { get { if (instance==null) { instance = new Rule_testCopy(); instance.initialize(); } return instance; } }
+		public static Rule_testCopy Instance { get { if(instance==null) { instance = new Rule_testCopy(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] testCopy_node_n_AllowedTypes = null;
 		public static bool[] testCopy_node_n_IsAllowedType = null;
@@ -1571,12 +1623,25 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy> Array_testCopy_keepOneForEachBy_n(List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy> list)
+		{
+			List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy> newList = new List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_testComparison : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_testComparison instance = null;
-		public static Rule_testComparison Instance { get { if (instance==null) { instance = new Rule_testComparison(); instance.initialize(); } return instance; } }
+		public static Rule_testComparison Instance { get { if(instance==null) { instance = new Rule_testComparison(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] testComparison_node_n_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] testComparison_node_m_AllowedTypes = null;
@@ -1958,6 +2023,32 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> Array_testComparison_keepOneForEachBy_n(List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list)
+		{
+			List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> newList = new List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_n)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_n, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> Array_testComparison_keepOneForEachBy_m(List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list)
+		{
+			List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> newList = new List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>();
+			Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IN, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_m)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_m, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Functions
@@ -1996,7 +2087,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 	public class FunctionInfo_foo : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_foo instance = null;
-		public static FunctionInfo_foo Instance { get { if (instance==null) { instance = new FunctionInfo_foo(); } return instance; } }
+		public static FunctionInfo_foo Instance { get { if(instance==null) { instance = new FunctionInfo_foo(); } return instance; } }
 
 		private FunctionInfo_foo()
 			: base(
@@ -2018,7 +2109,7 @@ return GRGEN_EXPR.ExternalFunctions.foo((GRGEN_LGSP.LGSPActionExecutionEnvironme
 	public class FunctionInfo_bar : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_bar instance = null;
-		public static FunctionInfo_bar Instance { get { if (instance==null) { instance = new FunctionInfo_bar(); } return instance; } }
+		public static FunctionInfo_bar Instance { get { if(instance==null) { instance = new FunctionInfo_bar(); } return instance; } }
 
 		private FunctionInfo_bar()
 			: base(
@@ -2040,7 +2131,7 @@ return GRGEN_EXPR.ExternalFunctions.bar((GRGEN_LGSP.LGSPActionExecutionEnvironme
 	public class FunctionInfo_isnull : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_isnull instance = null;
-		public static FunctionInfo_isnull Instance { get { if (instance==null) { instance = new FunctionInfo_isnull(); } return instance; } }
+		public static FunctionInfo_isnull Instance { get { if(instance==null) { instance = new FunctionInfo_isnull(); } return instance; } }
 
 		private FunctionInfo_isnull()
 			: base(
@@ -2062,7 +2153,7 @@ return GRGEN_EXPR.ExternalFunctions.isnull((GRGEN_LGSP.LGSPActionExecutionEnviro
 	public class FunctionInfo_bla : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_bla instance = null;
-		public static FunctionInfo_bla Instance { get { if (instance==null) { instance = new FunctionInfo_bla(); } return instance; } }
+		public static FunctionInfo_bla Instance { get { if(instance==null) { instance = new FunctionInfo_bla(); } return instance; } }
 
 		private FunctionInfo_bla()
 			: base(
@@ -2084,7 +2175,7 @@ return GRGEN_EXPR.ExternalFunctions.bla((GRGEN_LGSP.LGSPActionExecutionEnvironme
 	public class FunctionInfo_blo : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_blo instance = null;
-		public static FunctionInfo_blo Instance { get { if (instance==null) { instance = new FunctionInfo_blo(); } return instance; } }
+		public static FunctionInfo_blo Instance { get { if(instance==null) { instance = new FunctionInfo_blo(); } return instance; } }
 
 		private FunctionInfo_blo()
 			: base(
@@ -2106,7 +2197,7 @@ return GRGEN_EXPR.ExternalFunctions.blo((GRGEN_LGSP.LGSPActionExecutionEnvironme
 	public class FunctionInfo_har : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_har instance = null;
-		public static FunctionInfo_har Instance { get { if (instance==null) { instance = new FunctionInfo_har(); } return instance; } }
+		public static FunctionInfo_har Instance { get { if(instance==null) { instance = new FunctionInfo_har(); } return instance; } }
 
 		private FunctionInfo_har()
 			: base(
@@ -2128,7 +2219,7 @@ return GRGEN_EXPR.ExternalFunctions.har((GRGEN_LGSP.LGSPActionExecutionEnvironme
 	public class FunctionInfo_hur : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_hur instance = null;
-		public static FunctionInfo_hur Instance { get { if (instance==null) { instance = new FunctionInfo_hur(); } return instance; } }
+		public static FunctionInfo_hur Instance { get { if(instance==null) { instance = new FunctionInfo_hur(); } return instance; } }
 
 		private FunctionInfo_hur()
 			: base(
@@ -2150,7 +2241,7 @@ return GRGEN_EXPR.ExternalFunctions.hur((GRGEN_LGSP.LGSPActionExecutionEnvironme
 	public class FunctionInfo_hurdur : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_hurdur instance = null;
-		public static FunctionInfo_hurdur Instance { get { if (instance==null) { instance = new FunctionInfo_hurdur(); } return instance; } }
+		public static FunctionInfo_hurdur Instance { get { if(instance==null) { instance = new FunctionInfo_hurdur(); } return instance; } }
 
 		private FunctionInfo_hurdur()
 			: base(
@@ -2172,7 +2263,7 @@ return GRGEN_EXPR.ExternalFunctions.hurdur((GRGEN_LGSP.LGSPActionExecutionEnviro
 	public class FunctionInfo_own : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_own instance = null;
-		public static FunctionInfo_own Instance { get { if (instance==null) { instance = new FunctionInfo_own(); } return instance; } }
+		public static FunctionInfo_own Instance { get { if(instance==null) { instance = new FunctionInfo_own(); } return instance; } }
 
 		private FunctionInfo_own()
 			: base(
@@ -2194,7 +2285,7 @@ return GRGEN_EXPR.ExternalFunctions.own((GRGEN_LGSP.LGSPActionExecutionEnvironme
 	public class FunctionInfo_ownPown : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_ownPown instance = null;
-		public static FunctionInfo_ownPown Instance { get { if (instance==null) { instance = new FunctionInfo_ownPown(); } return instance; } }
+		public static FunctionInfo_ownPown Instance { get { if(instance==null) { instance = new FunctionInfo_ownPown(); } return instance; } }
 
 		private FunctionInfo_ownPown()
 			: base(
@@ -2216,7 +2307,7 @@ return GRGEN_EXPR.ExternalFunctions.ownPown((GRGEN_LGSP.LGSPActionExecutionEnvir
 	public class FunctionInfo_ownPownHome : GRGEN_LIBGR.FunctionInfo
 	{
 		private static FunctionInfo_ownPownHome instance = null;
-		public static FunctionInfo_ownPownHome Instance { get { if (instance==null) { instance = new FunctionInfo_ownPownHome(); } return instance; } }
+		public static FunctionInfo_ownPownHome Instance { get { if(instance==null) { instance = new FunctionInfo_ownPownHome(); } return instance; } }
 
 		private FunctionInfo_ownPownHome()
 			: base(
@@ -2238,7 +2329,7 @@ return GRGEN_EXPR.ExternalFunctions.ownPownHome((GRGEN_LGSP.LGSPActionExecutionE
 	public class ProcedureInfo_fooProc : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureInfo_fooProc instance = null;
-		public static ProcedureInfo_fooProc Instance { get { if (instance==null) { instance = new ProcedureInfo_fooProc(); } return instance; } }
+		public static ProcedureInfo_fooProc Instance { get { if(instance==null) { instance = new ProcedureInfo_fooProc(); } return instance; } }
 
 		private ProcedureInfo_fooProc()
 			: base(
@@ -2261,7 +2352,7 @@ GRGEN_EXPR.ExternalProcedures.fooProc((GRGEN_LGSP.LGSPActionExecutionEnvironment
 	public class ProcedureInfo_barProc : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureInfo_barProc instance = null;
-		public static ProcedureInfo_barProc Instance { get { if (instance==null) { instance = new ProcedureInfo_barProc(); } return instance; } }
+		public static ProcedureInfo_barProc Instance { get { if(instance==null) { instance = new ProcedureInfo_barProc(); } return instance; } }
 
 		private ProcedureInfo_barProc()
 			: base(
@@ -2286,7 +2377,7 @@ GRGEN_EXPR.ExternalProcedures.barProc((GRGEN_LGSP.LGSPActionExecutionEnvironment
 	public class ProcedureInfo_isnullProc : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureInfo_isnullProc instance = null;
-		public static ProcedureInfo_isnullProc Instance { get { if (instance==null) { instance = new ProcedureInfo_isnullProc(); } return instance; } }
+		public static ProcedureInfo_isnullProc Instance { get { if(instance==null) { instance = new ProcedureInfo_isnullProc(); } return instance; } }
 
 		private ProcedureInfo_isnullProc()
 			: base(
@@ -2311,7 +2402,7 @@ GRGEN_EXPR.ExternalProcedures.isnullProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
 	public class ProcedureInfo_blaProc : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureInfo_blaProc instance = null;
-		public static ProcedureInfo_blaProc Instance { get { if (instance==null) { instance = new ProcedureInfo_blaProc(); } return instance; } }
+		public static ProcedureInfo_blaProc Instance { get { if(instance==null) { instance = new ProcedureInfo_blaProc(); } return instance; } }
 
 		private ProcedureInfo_blaProc()
 			: base(
@@ -2338,7 +2429,7 @@ GRGEN_EXPR.ExternalProcedures.blaProc((GRGEN_LGSP.LGSPActionExecutionEnvironment
 	public class ProcedureInfo_bloProc : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureInfo_bloProc instance = null;
-		public static ProcedureInfo_bloProc Instance { get { if (instance==null) { instance = new ProcedureInfo_bloProc(); } return instance; } }
+		public static ProcedureInfo_bloProc Instance { get { if(instance==null) { instance = new ProcedureInfo_bloProc(); } return instance; } }
 
 		private ProcedureInfo_bloProc()
 			: base(
@@ -2363,7 +2454,7 @@ GRGEN_EXPR.ExternalProcedures.bloProc((GRGEN_LGSP.LGSPActionExecutionEnvironment
 	public class ProcedureInfo_harProc : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureInfo_harProc instance = null;
-		public static ProcedureInfo_harProc Instance { get { if (instance==null) { instance = new ProcedureInfo_harProc(); } return instance; } }
+		public static ProcedureInfo_harProc Instance { get { if(instance==null) { instance = new ProcedureInfo_harProc(); } return instance; } }
 
 		private ProcedureInfo_harProc()
 			: base(
@@ -2392,7 +2483,7 @@ GRGEN_EXPR.ExternalProcedures.harProc((GRGEN_LGSP.LGSPActionExecutionEnvironment
 	public class ProcedureInfo_hurProc : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureInfo_hurProc instance = null;
-		public static ProcedureInfo_hurProc Instance { get { if (instance==null) { instance = new ProcedureInfo_hurProc(); } return instance; } }
+		public static ProcedureInfo_hurProc Instance { get { if(instance==null) { instance = new ProcedureInfo_hurProc(); } return instance; } }
 
 		private ProcedureInfo_hurProc()
 			: base(
@@ -2415,7 +2506,7 @@ GRGEN_EXPR.ExternalProcedures.hurProc((GRGEN_LGSP.LGSPActionExecutionEnvironment
 	public class ProcedureInfo_hurdurProc : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureInfo_hurdurProc instance = null;
-		public static ProcedureInfo_hurdurProc Instance { get { if (instance==null) { instance = new ProcedureInfo_hurdurProc(); } return instance; } }
+		public static ProcedureInfo_hurdurProc Instance { get { if(instance==null) { instance = new ProcedureInfo_hurdurProc(); } return instance; } }
 
 		private ProcedureInfo_hurdurProc()
 			: base(
@@ -2743,9 +2834,9 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         public static List<GRGEN_ACTIONS.Rule_init.IMatch_init> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_init.IMatch_init>)
-            	return ((List<GRGEN_ACTIONS.Rule_init.IMatch_init>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_init.IMatch_init>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_init.IMatch_init>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_init.IMatch_init>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -2991,9 +3082,9 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         public static List<GRGEN_ACTIONS.Rule_init2.IMatch_init2> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_init2.IMatch_init2>)
-            	return ((List<GRGEN_ACTIONS.Rule_init2.IMatch_init2>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_init2.IMatch_init2>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_init2.IMatch_init2>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_init2.IMatch_init2>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -3274,9 +3365,9 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         public static List<GRGEN_ACTIONS.Rule_r.IMatch_r> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_r.IMatch_r>)
-            	return ((List<GRGEN_ACTIONS.Rule_r.IMatch_r>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_r.IMatch_r>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_r.IMatch_r>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_r.IMatch_r>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -3541,9 +3632,9 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         public static List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_rp.IMatch_rp>)
-            	return ((List<GRGEN_ACTIONS.Rule_rp.IMatch_rp>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_rp.IMatch_rp>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_rp.IMatch_rp>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_rp.IMatch_rp>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -3799,9 +3890,9 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         public static List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy>)
-            	return ((List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -4148,9 +4239,9 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         public static List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>)
-            	return ((List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     

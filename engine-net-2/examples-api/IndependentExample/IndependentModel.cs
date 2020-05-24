@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Mon Apr 27 20:32:39 CEST 2020
+// Generated from "..\..\tests\independent\Independent.grg" on Sun May 24 19:21:41 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -382,9 +382,9 @@ namespace de.unika.ipd.grGen.Model_Independent
 	public class ReverseComparer_intNode_val : Comparer<GRGEN_MODEL.IintNode>
 	{
 		public static ReverseComparer_intNode_val thisComparer = new ReverseComparer_intNode_val();
-		public override int Compare(GRGEN_MODEL.IintNode a, GRGEN_MODEL.IintNode b)
+		public override int Compare(GRGEN_MODEL.IintNode b, GRGEN_MODEL.IintNode a)
 		{
-			return -a.@val.CompareTo(b.@val);
+			return a.@val.CompareTo(b.@val);
 		}
 	}
 

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon Apr 27 20:32:48 CEST 2020
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun May 24 19:21:55 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Pattern_ChainFromTo : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ChainFromTo instance = null;
-		public static Pattern_ChainFromTo Instance { get { if (instance==null) { instance = new Pattern_ChainFromTo(); instance.initialize(); } return instance; } }
+		public static Pattern_ChainFromTo Instance { get { if(instance==null) { instance = new Pattern_ChainFromTo(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromTo_node_from_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ChainFromTo_node_to_AllowedTypes = null;
@@ -868,7 +868,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Pattern_ChainFrom : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ChainFrom instance = null;
-		public static Pattern_ChainFrom Instance { get { if (instance==null) { instance = new Pattern_ChainFrom(); instance.initialize(); } return instance; } }
+		public static Pattern_ChainFrom Instance { get { if(instance==null) { instance = new Pattern_ChainFrom(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ChainFrom_node_from_AllowedTypes = null;
 		public static bool[] ChainFrom_node_from_IsAllowedType = null;
@@ -1646,7 +1646,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Pattern_ChainFromComplete : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ChainFromComplete instance = null;
-		public static Pattern_ChainFromComplete Instance { get { if (instance==null) { instance = new Pattern_ChainFromComplete(); instance.initialize(); } return instance; } }
+		public static Pattern_ChainFromComplete Instance { get { if(instance==null) { instance = new Pattern_ChainFromComplete(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromComplete_node_from_AllowedTypes = null;
 		public static bool[] ChainFromComplete_node_from_IsAllowedType = null;
@@ -2683,7 +2683,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Pattern_ChainFromCompleteArbitraryPatternpathLocked : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ChainFromCompleteArbitraryPatternpathLocked instance = null;
-		public static Pattern_ChainFromCompleteArbitraryPatternpathLocked Instance { get { if (instance==null) { instance = new Pattern_ChainFromCompleteArbitraryPatternpathLocked(); instance.initialize(); } return instance; } }
+		public static Pattern_ChainFromCompleteArbitraryPatternpathLocked Instance { get { if(instance==null) { instance = new Pattern_ChainFromCompleteArbitraryPatternpathLocked(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromCompleteArbitraryPatternpathLocked_node_from_AllowedTypes = null;
 		public static bool[] ChainFromCompleteArbitraryPatternpathLocked_node_from_IsAllowedType = null;
@@ -3720,7 +3720,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards instance = null;
-		public static Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards Instance { get { if (instance==null) { instance = new Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(); instance.initialize(); } return instance; } }
+		public static Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards Instance { get { if(instance==null) { instance = new Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_AllowedTypes = null;
 		public static bool[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_IsAllowedType = null;
@@ -4757,7 +4757,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Pattern_Blowball : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Blowball instance = null;
-		public static Pattern_Blowball Instance { get { if (instance==null) { instance = new Pattern_Blowball(); instance.initialize(); } return instance; } }
+		public static Pattern_Blowball Instance { get { if(instance==null) { instance = new Pattern_Blowball(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Blowball_node_head_AllowedTypes = null;
 		public static bool[] Blowball_node_head_IsAllowedType = null;
@@ -5794,7 +5794,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Pattern_ReverseChainFromTo : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ReverseChainFromTo instance = null;
-		public static Pattern_ReverseChainFromTo Instance { get { if (instance==null) { instance = new Pattern_ReverseChainFromTo(); instance.initialize(); } return instance; } }
+		public static Pattern_ReverseChainFromTo Instance { get { if(instance==null) { instance = new Pattern_ReverseChainFromTo(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromTo_node_from_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromTo_node_to_AllowedTypes = null;
@@ -6643,7 +6643,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Pattern_ChainFromToReverse : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ChainFromToReverse instance = null;
-		public static Pattern_ChainFromToReverse Instance { get { if (instance==null) { instance = new Pattern_ChainFromToReverse(); instance.initialize(); } return instance; } }
+		public static Pattern_ChainFromToReverse Instance { get { if(instance==null) { instance = new Pattern_ChainFromToReverse(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverse_node_from_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverse_node_to_AllowedTypes = null;
@@ -7557,7 +7557,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Pattern_ChainFromToReverseToCommon : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ChainFromToReverseToCommon instance = null;
-		public static Pattern_ChainFromToReverseToCommon Instance { get { if (instance==null) { instance = new Pattern_ChainFromToReverseToCommon(); instance.initialize(); } return instance; } }
+		public static Pattern_ChainFromToReverseToCommon Instance { get { if(instance==null) { instance = new Pattern_ChainFromToReverseToCommon(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverseToCommon_node_from_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverseToCommon_node_to_AllowedTypes = null;
@@ -8474,7 +8474,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Pattern_ReverseChainFromToToCommon : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ReverseChainFromToToCommon instance = null;
-		public static Pattern_ReverseChainFromToToCommon Instance { get { if (instance==null) { instance = new Pattern_ReverseChainFromToToCommon(); instance.initialize(); } return instance; } }
+		public static Pattern_ReverseChainFromToToCommon Instance { get { if(instance==null) { instance = new Pattern_ReverseChainFromToToCommon(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromToToCommon_node_from_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromToToCommon_node_to_AllowedTypes = null;
@@ -9395,7 +9395,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Rule_createChain : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createChain instance = null;
-		public static Rule_createChain Instance { get { if (instance==null) { instance = new Rule_createChain(); instance.initialize(); } return instance; } }
+		public static Rule_createChain Instance { get { if(instance==null) { instance = new Rule_createChain(); instance.initialize(); } return instance; } }
 
 		public enum createChain_NodeNums { };
 		public enum createChain_EdgeNums { };
@@ -9669,7 +9669,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Rule_chainFromTo : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_chainFromTo instance = null;
-		public static Rule_chainFromTo Instance { get { if (instance==null) { instance = new Rule_chainFromTo(); instance.initialize(); } return instance; } }
+		public static Rule_chainFromTo Instance { get { if(instance==null) { instance = new Rule_chainFromTo(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] chainFromTo_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] chainFromTo_node_end_AllowedTypes = null;
@@ -9984,12 +9984,38 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> Array_chainFromTo_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list)
+		{
+			List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> newList = new List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> Array_chainFromTo_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list)
+		{
+			List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> newList = new List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_end)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_end, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_chainFrom : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_chainFrom instance = null;
-		public static Rule_chainFrom Instance { get { if (instance==null) { instance = new Rule_chainFrom(); instance.initialize(); } return instance; } }
+		public static Rule_chainFrom Instance { get { if(instance==null) { instance = new Rule_chainFrom(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] chainFrom_node_beg_AllowedTypes = null;
 		public static bool[] chainFrom_node_beg_IsAllowedType = null;
@@ -10282,12 +10308,25 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom> Array_chainFrom_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom> list)
+		{
+			List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom> newList = new List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_chainFromComplete : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_chainFromComplete instance = null;
-		public static Rule_chainFromComplete Instance { get { if (instance==null) { instance = new Rule_chainFromComplete(); instance.initialize(); } return instance; } }
+		public static Rule_chainFromComplete Instance { get { if(instance==null) { instance = new Rule_chainFromComplete(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] chainFromComplete_node_beg_AllowedTypes = null;
 		public static bool[] chainFromComplete_node_beg_IsAllowedType = null;
@@ -10580,12 +10619,25 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete> Array_chainFromComplete_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete> list)
+		{
+			List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete> newList = new List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_chainFromCompleteArbitraryPatternpathLocked : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_chainFromCompleteArbitraryPatternpathLocked instance = null;
-		public static Rule_chainFromCompleteArbitraryPatternpathLocked Instance { get { if (instance==null) { instance = new Rule_chainFromCompleteArbitraryPatternpathLocked(); instance.initialize(); } return instance; } }
+		public static Rule_chainFromCompleteArbitraryPatternpathLocked Instance { get { if(instance==null) { instance = new Rule_chainFromCompleteArbitraryPatternpathLocked(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] chainFromCompleteArbitraryPatternpathLocked_node_beg_AllowedTypes = null;
 		public static bool[] chainFromCompleteArbitraryPatternpathLocked_node_beg_IsAllowedType = null;
@@ -10878,12 +10930,25 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> Array_chainFromCompleteArbitraryPatternpathLocked_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> list)
+		{
+			List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> newList = new List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards instance = null;
-		public static Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards Instance { get { if (instance==null) { instance = new Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(); instance.initialize(); } return instance; } }
+		public static Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards Instance { get { if(instance==null) { instance = new Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg_AllowedTypes = null;
 		public static bool[] chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg_IsAllowedType = null;
@@ -11176,12 +11241,25 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> Array_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> list)
+		{
+			List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> newList = new List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_createBlowball : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createBlowball instance = null;
-		public static Rule_createBlowball Instance { get { if (instance==null) { instance = new Rule_createBlowball(); instance.initialize(); } return instance; } }
+		public static Rule_createBlowball Instance { get { if(instance==null) { instance = new Rule_createBlowball(); instance.initialize(); } return instance; } }
 
 		public enum createBlowball_NodeNums { };
 		public enum createBlowball_EdgeNums { };
@@ -11456,7 +11534,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Rule_blowball : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_blowball instance = null;
-		public static Rule_blowball Instance { get { if (instance==null) { instance = new Rule_blowball(); instance.initialize(); } return instance; } }
+		public static Rule_blowball Instance { get { if(instance==null) { instance = new Rule_blowball(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] blowball_node_head_AllowedTypes = null;
 		public static bool[] blowball_node_head_IsAllowedType = null;
@@ -11749,12 +11827,25 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball> Array_blowball_keepOneForEachBy_head(List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball> list)
+		{
+			List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball> newList = new List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_blowball.IMatch_blowball element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_head)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_head, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_reverseChainFromTo : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_reverseChainFromTo instance = null;
-		public static Rule_reverseChainFromTo Instance { get { if (instance==null) { instance = new Rule_reverseChainFromTo(); instance.initialize(); } return instance; } }
+		public static Rule_reverseChainFromTo Instance { get { if(instance==null) { instance = new Rule_reverseChainFromTo(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] reverseChainFromTo_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] reverseChainFromTo_node_end_AllowedTypes = null;
@@ -12069,12 +12160,38 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> Array_reverseChainFromTo_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list)
+		{
+			List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> newList = new List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> Array_reverseChainFromTo_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list)
+		{
+			List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> newList = new List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_end)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_end, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_createReverseChain : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createReverseChain instance = null;
-		public static Rule_createReverseChain Instance { get { if (instance==null) { instance = new Rule_createReverseChain(); instance.initialize(); } return instance; } }
+		public static Rule_createReverseChain Instance { get { if(instance==null) { instance = new Rule_createReverseChain(); instance.initialize(); } return instance; } }
 
 		public enum createReverseChain_NodeNums { };
 		public enum createReverseChain_EdgeNums { };
@@ -12348,7 +12465,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	public class Rule_chainFromToReverse : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_chainFromToReverse instance = null;
-		public static Rule_chainFromToReverse Instance { get { if (instance==null) { instance = new Rule_chainFromToReverse(); instance.initialize(); } return instance; } }
+		public static Rule_chainFromToReverse Instance { get { if(instance==null) { instance = new Rule_chainFromToReverse(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] chainFromToReverse_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] chainFromToReverse_node_end_AllowedTypes = null;
@@ -12670,12 +12787,38 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> Array_chainFromToReverse_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list)
+		{
+			List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> newList = new List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> Array_chainFromToReverse_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list)
+		{
+			List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> newList = new List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_end)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_end, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_chainFromToReverseToCommon : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_chainFromToReverseToCommon instance = null;
-		public static Rule_chainFromToReverseToCommon Instance { get { if (instance==null) { instance = new Rule_chainFromToReverseToCommon(); instance.initialize(); } return instance; } }
+		public static Rule_chainFromToReverseToCommon Instance { get { if(instance==null) { instance = new Rule_chainFromToReverseToCommon(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] chainFromToReverseToCommon_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] chainFromToReverseToCommon_node_end_AllowedTypes = null;
@@ -12999,12 +13142,38 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> Array_chainFromToReverseToCommon_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list)
+		{
+			List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> newList = new List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> Array_chainFromToReverseToCommon_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list)
+		{
+			List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> newList = new List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_end)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_end, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_reverseChainFromToToCommon : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_reverseChainFromToToCommon instance = null;
-		public static Rule_reverseChainFromToToCommon Instance { get { if (instance==null) { instance = new Rule_reverseChainFromToToCommon(); instance.initialize(); } return instance; } }
+		public static Rule_reverseChainFromToToCommon Instance { get { if(instance==null) { instance = new Rule_reverseChainFromToToCommon(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] reverseChainFromToToCommon_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] reverseChainFromToToCommon_node_end_AllowedTypes = null;
@@ -13341,6 +13510,45 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> Array_reverseChainFromToToCommon_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list)
+		{
+			List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> newList = new List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_beg)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_beg, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> Array_reverseChainFromToToCommon_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list)
+		{
+			List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> newList = new List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_end)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_end, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> Array_reverseChainFromToToCommon_keepOneForEachBy_common(List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list)
+		{
+			List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> newList = new List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_common)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_common, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Functions
@@ -19184,9 +19392,9 @@ label17: ;
         public static List<GRGEN_ACTIONS.Rule_createChain.IMatch_createChain> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createChain.IMatch_createChain>)
-            	return ((List<GRGEN_ACTIONS.Rule_createChain.IMatch_createChain>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createChain.IMatch_createChain>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createChain.IMatch_createChain>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createChain.IMatch_createChain>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -19492,9 +19700,9 @@ label17: ;
         public static List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>)
-            	return ((List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -20004,9 +20212,9 @@ label17: ;
         public static List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom>)
-            	return ((List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -20473,9 +20681,9 @@ label17: ;
         public static List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete>)
-            	return ((List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -20995,9 +21203,9 @@ label20: ;
         public static List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>)
-            	return ((List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -21273,9 +21481,9 @@ label20: ;
         public static List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>)
-            	return ((List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -21772,9 +21980,9 @@ label23: ;
         public static List<GRGEN_ACTIONS.Rule_createBlowball.IMatch_createBlowball> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createBlowball.IMatch_createBlowball>)
-            	return ((List<GRGEN_ACTIONS.Rule_createBlowball.IMatch_createBlowball>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createBlowball.IMatch_createBlowball>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createBlowball.IMatch_createBlowball>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createBlowball.IMatch_createBlowball>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -22056,9 +22264,9 @@ label23: ;
         public static List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball>)
-            	return ((List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -22364,9 +22572,9 @@ label23: ;
         public static List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>)
-            	return ((List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -22870,9 +23078,9 @@ label23: ;
         public static List<GRGEN_ACTIONS.Rule_createReverseChain.IMatch_createReverseChain> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createReverseChain.IMatch_createReverseChain>)
-            	return ((List<GRGEN_ACTIONS.Rule_createReverseChain.IMatch_createReverseChain>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createReverseChain.IMatch_createReverseChain>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createReverseChain.IMatch_createReverseChain>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createReverseChain.IMatch_createReverseChain>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -23178,9 +23386,9 @@ label23: ;
         public static List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>)
-            	return ((List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -23729,9 +23937,9 @@ label23: ;
         public static List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>)
-            	return ((List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -24296,9 +24504,9 @@ label23: ;
         public static List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>)
-            	return ((List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     

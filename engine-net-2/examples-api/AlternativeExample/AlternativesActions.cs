@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Mon Apr 27 20:32:26 CEST 2020
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun May 24 19:21:24 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Pattern_toAorB : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_toAorB instance = null;
-		public static Pattern_toAorB Instance { get { if (instance==null) { instance = new Pattern_toAorB(); instance.initialize(); } return instance; } }
+		public static Pattern_toAorB Instance { get { if(instance==null) { instance = new Pattern_toAorB(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] toAorB_node_x_AllowedTypes = null;
 		public static bool[] toAorB_node_x_IsAllowedType = null;
@@ -804,7 +804,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_createA : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createA instance = null;
-		public static Rule_createA Instance { get { if (instance==null) { instance = new Rule_createA(); instance.initialize(); } return instance; } }
+		public static Rule_createA Instance { get { if(instance==null) { instance = new Rule_createA(); instance.initialize(); } return instance; } }
 
 		public enum createA_NodeNums { };
 		public enum createA_EdgeNums { };
@@ -1070,7 +1070,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_createB : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createB instance = null;
-		public static Rule_createB Instance { get { if (instance==null) { instance = new Rule_createB(); instance.initialize(); } return instance; } }
+		public static Rule_createB Instance { get { if(instance==null) { instance = new Rule_createB(); instance.initialize(); } return instance; } }
 
 		public enum createB_NodeNums { };
 		public enum createB_EdgeNums { };
@@ -1336,7 +1336,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_createC : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createC instance = null;
-		public static Rule_createC Instance { get { if (instance==null) { instance = new Rule_createC(); instance.initialize(); } return instance; } }
+		public static Rule_createC Instance { get { if(instance==null) { instance = new Rule_createC(); instance.initialize(); } return instance; } }
 
 		public enum createC_NodeNums { };
 		public enum createC_EdgeNums { };
@@ -1602,7 +1602,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_createAtoB : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createAtoB instance = null;
-		public static Rule_createAtoB Instance { get { if (instance==null) { instance = new Rule_createAtoB(); instance.initialize(); } return instance; } }
+		public static Rule_createAtoB Instance { get { if(instance==null) { instance = new Rule_createAtoB(); instance.initialize(); } return instance; } }
 
 		public enum createAtoB_NodeNums { };
 		public enum createAtoB_EdgeNums { };
@@ -1870,7 +1870,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_leer : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_leer instance = null;
-		public static Rule_leer Instance { get { if (instance==null) { instance = new Rule_leer(); instance.initialize(); } return instance; } }
+		public static Rule_leer Instance { get { if(instance==null) { instance = new Rule_leer(); instance.initialize(); } return instance; } }
 
 		public enum leer_NodeNums { };
 		public enum leer_EdgeNums { };
@@ -2356,7 +2356,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_AorB : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_AorB instance = null;
-		public static Rule_AorB Instance { get { if (instance==null) { instance = new Rule_AorB(); instance.initialize(); } return instance; } }
+		public static Rule_AorB Instance { get { if(instance==null) { instance = new Rule_AorB(); instance.initialize(); } return instance; } }
 
 		public enum AorB_NodeNums { };
 		public enum AorB_EdgeNums { };
@@ -3084,7 +3084,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_AandnotCorB : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_AandnotCorB instance = null;
-		public static Rule_AandnotCorB Instance { get { if (instance==null) { instance = new Rule_AandnotCorB(); instance.initialize(); } return instance; } }
+		public static Rule_AandnotCorB Instance { get { if(instance==null) { instance = new Rule_AandnotCorB(); instance.initialize(); } return instance; } }
 
 		public enum AandnotCorB_NodeNums { };
 		public enum AandnotCorB_EdgeNums { };
@@ -4031,7 +4031,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_AorBorC : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_AorBorC instance = null;
-		public static Rule_AorBorC Instance { get { if (instance==null) { instance = new Rule_AorBorC(); instance.initialize(); } return instance; } }
+		public static Rule_AorBorC Instance { get { if(instance==null) { instance = new Rule_AorBorC(); instance.initialize(); } return instance; } }
 
 		public enum AorBorC_NodeNums { };
 		public enum AorBorC_EdgeNums { };
@@ -4986,7 +4986,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_AtoAorB : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_AtoAorB instance = null;
-		public static Rule_AtoAorB Instance { get { if (instance==null) { instance = new Rule_AtoAorB(); instance.initialize(); } return instance; } }
+		public static Rule_AtoAorB Instance { get { if(instance==null) { instance = new Rule_AtoAorB(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] AtoAorB_node_a_AllowedTypes = null;
 		public static bool[] AtoAorB_node_a_IsAllowedType = null;
@@ -5783,12 +5783,25 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB> Array_AtoAorB_keepOneForEachBy_a(List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB> newList = new List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB>();
+			Dictionary<GRGEN_MODEL.IA, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IA, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_a)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_a, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_createComplex : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createComplex instance = null;
-		public static Rule_createComplex Instance { get { if (instance==null) { instance = new Rule_createComplex(); instance.initialize(); } return instance; } }
+		public static Rule_createComplex Instance { get { if(instance==null) { instance = new Rule_createComplex(); instance.initialize(); } return instance; } }
 
 		public enum createComplex_NodeNums { };
 		public enum createComplex_EdgeNums { };
@@ -6066,7 +6079,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_Complex : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_Complex instance = null;
-		public static Rule_Complex Instance { get { if (instance==null) { instance = new Rule_Complex(); instance.initialize(); } return instance; } }
+		public static Rule_Complex Instance { get { if(instance==null) { instance = new Rule_Complex(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Complex_node_a_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] Complex_node_b_AllowedTypes = null;
@@ -7450,12 +7463,64 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> Array_Complex_keepOneForEachBy_a(List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list)
+		{
+			List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> newList = new List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>();
+			Dictionary<GRGEN_MODEL.IA, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IA, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_Complex.IMatch_Complex element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_a)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_a, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> Array_Complex_keepOneForEachBy_b(List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list)
+		{
+			List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> newList = new List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>();
+			Dictionary<GRGEN_MODEL.IB, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IB, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_Complex.IMatch_Complex element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_b)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_b, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> Array_Complex_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list)
+		{
+			List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> newList = new List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_Complex.IMatch_Complex element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> Array_Complex_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list)
+		{
+			List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> newList = new List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_Complex.IMatch_Complex element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_ComplexMax : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_ComplexMax instance = null;
-		public static Rule_ComplexMax Instance { get { if (instance==null) { instance = new Rule_ComplexMax(); instance.initialize(); } return instance; } }
+		public static Rule_ComplexMax Instance { get { if(instance==null) { instance = new Rule_ComplexMax(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ComplexMax_node_a_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ComplexMax_node_b_AllowedTypes = null;
@@ -9084,12 +9149,64 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> Array_ComplexMax_keepOneForEachBy_a(List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> newList = new List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>();
+			Dictionary<GRGEN_MODEL.IA, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IA, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_a)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_a, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> Array_ComplexMax_keepOneForEachBy_b(List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> newList = new List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>();
+			Dictionary<GRGEN_MODEL.IB, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IB, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_b)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_b, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> Array_ComplexMax_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> newList = new List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> Array_ComplexMax_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> newList = new List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_createABA : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createABA instance = null;
-		public static Rule_createABA Instance { get { if (instance==null) { instance = new Rule_createABA(); instance.initialize(); } return instance; } }
+		public static Rule_createABA Instance { get { if(instance==null) { instance = new Rule_createABA(); instance.initialize(); } return instance; } }
 
 		public enum createABA_NodeNums { };
 		public enum createABA_EdgeNums { };
@@ -9360,7 +9477,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_homm : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_homm instance = null;
-		public static Rule_homm Instance { get { if (instance==null) { instance = new Rule_homm(); instance.initialize(); } return instance; } }
+		public static Rule_homm Instance { get { if(instance==null) { instance = new Rule_homm(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] homm_node_a_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] homm_node_b_AllowedTypes = null;
@@ -10262,12 +10379,64 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> Array_homm_keepOneForEachBy_a(List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list)
+		{
+			List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> newList = new List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>();
+			Dictionary<GRGEN_MODEL.IA, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IA, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_homm.IMatch_homm element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_a)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_a, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> Array_homm_keepOneForEachBy_b(List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list)
+		{
+			List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> newList = new List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>();
+			Dictionary<GRGEN_MODEL.IB, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IB, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_homm.IMatch_homm element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_b)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_b, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> Array_homm_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list)
+		{
+			List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> newList = new List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_homm.IMatch_homm element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> Array_homm_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list)
+		{
+			List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> newList = new List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_homm.IMatch_homm element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_XtoAorB : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_XtoAorB instance = null;
-		public static Rule_XtoAorB Instance { get { if (instance==null) { instance = new Rule_XtoAorB(); instance.initialize(); } return instance; } }
+		public static Rule_XtoAorB Instance { get { if(instance==null) { instance = new Rule_XtoAorB(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] XtoAorB_node_x_AllowedTypes = null;
 		public static bool[] XtoAorB_node_x_IsAllowedType = null;
@@ -10560,12 +10729,25 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB> Array_XtoAorB_keepOneForEachBy_x(List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB> list)
+		{
+			List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB> newList = new List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_x)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_x, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_alternative_in_negative : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_alternative_in_negative instance = null;
-		public static Rule_alternative_in_negative Instance { get { if (instance==null) { instance = new Rule_alternative_in_negative(); instance.initialize(); } return instance; } }
+		public static Rule_alternative_in_negative Instance { get { if(instance==null) { instance = new Rule_alternative_in_negative(); instance.initialize(); } return instance; } }
 
 		public enum alternative_in_negative_NodeNums { };
 		public enum alternative_in_negative_EdgeNums { };
@@ -11520,7 +11702,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	public class Rule_alternative_in_iterated : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_alternative_in_iterated instance = null;
-		public static Rule_alternative_in_iterated Instance { get { if (instance==null) { instance = new Rule_alternative_in_iterated(); instance.initialize(); } return instance; } }
+		public static Rule_alternative_in_iterated Instance { get { if(instance==null) { instance = new Rule_alternative_in_iterated(); instance.initialize(); } return instance; } }
 
 		public enum alternative_in_iterated_NodeNums { };
 		public enum alternative_in_iterated_EdgeNums { };
@@ -12588,6 +12770,19 @@ if(!(_iter_0_thisEnumerator.Current as Match_alternative_in_iterated_iter_0).IsE
 	}
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0> Array_alternative_in_iterated_iter_0_keepOneForEachBy__node0(List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0> newList = new List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0>();
+			Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node0, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Functions
@@ -13244,9 +13439,9 @@ if(!(_iter_0_thisEnumerator.Current as Match_alternative_in_iterated_iter_0).IsE
         public static List<GRGEN_ACTIONS.Rule_createA.IMatch_createA> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createA.IMatch_createA>)
-            	return ((List<GRGEN_ACTIONS.Rule_createA.IMatch_createA>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createA.IMatch_createA>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createA.IMatch_createA>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createA.IMatch_createA>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -13492,9 +13687,9 @@ if(!(_iter_0_thisEnumerator.Current as Match_alternative_in_iterated_iter_0).IsE
         public static List<GRGEN_ACTIONS.Rule_createB.IMatch_createB> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createB.IMatch_createB>)
-            	return ((List<GRGEN_ACTIONS.Rule_createB.IMatch_createB>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createB.IMatch_createB>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createB.IMatch_createB>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createB.IMatch_createB>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -13740,9 +13935,9 @@ if(!(_iter_0_thisEnumerator.Current as Match_alternative_in_iterated_iter_0).IsE
         public static List<GRGEN_ACTIONS.Rule_createC.IMatch_createC> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createC.IMatch_createC>)
-            	return ((List<GRGEN_ACTIONS.Rule_createC.IMatch_createC>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createC.IMatch_createC>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createC.IMatch_createC>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createC.IMatch_createC>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -13988,9 +14183,9 @@ if(!(_iter_0_thisEnumerator.Current as Match_alternative_in_iterated_iter_0).IsE
         public static List<GRGEN_ACTIONS.Rule_createAtoB.IMatch_createAtoB> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createAtoB.IMatch_createAtoB>)
-            	return ((List<GRGEN_ACTIONS.Rule_createAtoB.IMatch_createAtoB>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createAtoB.IMatch_createAtoB>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createAtoB.IMatch_createAtoB>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createAtoB.IMatch_createAtoB>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -14261,9 +14456,9 @@ if(!(_iter_0_thisEnumerator.Current as Match_alternative_in_iterated_iter_0).IsE
         public static List<GRGEN_ACTIONS.Rule_leer.IMatch_leer> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_leer.IMatch_leer>)
-            	return ((List<GRGEN_ACTIONS.Rule_leer.IMatch_leer>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_leer.IMatch_leer>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_leer.IMatch_leer>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_leer.IMatch_leer>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -14628,9 +14823,9 @@ if(!(_iter_0_thisEnumerator.Current as Match_alternative_in_iterated_iter_0).IsE
         public static List<GRGEN_ACTIONS.Rule_AorB.IMatch_AorB> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_AorB.IMatch_AorB>)
-            	return ((List<GRGEN_ACTIONS.Rule_AorB.IMatch_AorB>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_AorB.IMatch_AorB>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_AorB.IMatch_AorB>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_AorB.IMatch_AorB>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -15084,9 +15279,9 @@ if(!(_iter_0_thisEnumerator.Current as Match_alternative_in_iterated_iter_0).IsE
         public static List<GRGEN_ACTIONS.Rule_AandnotCorB.IMatch_AandnotCorB> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_AandnotCorB.IMatch_AandnotCorB>)
-            	return ((List<GRGEN_ACTIONS.Rule_AandnotCorB.IMatch_AandnotCorB>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_AandnotCorB.IMatch_AandnotCorB>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_AandnotCorB.IMatch_AandnotCorB>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_AandnotCorB.IMatch_AandnotCorB>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -15558,9 +15753,9 @@ label0: ;
         public static List<GRGEN_ACTIONS.Rule_AorBorC.IMatch_AorBorC> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_AorBorC.IMatch_AorBorC>)
-            	return ((List<GRGEN_ACTIONS.Rule_AorBorC.IMatch_AorBorC>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_AorBorC.IMatch_AorBorC>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_AorBorC.IMatch_AorBorC>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_AorBorC.IMatch_AorBorC>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -16099,9 +16294,9 @@ label0: ;
         public static List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB>)
-            	return ((List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -16593,9 +16788,9 @@ label0: ;
         public static List<GRGEN_ACTIONS.Rule_createComplex.IMatch_createComplex> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createComplex.IMatch_createComplex>)
-            	return ((List<GRGEN_ACTIONS.Rule_createComplex.IMatch_createComplex>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createComplex.IMatch_createComplex>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createComplex.IMatch_createComplex>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createComplex.IMatch_createComplex>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -16938,9 +17133,9 @@ label0: ;
         public static List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>)
-            	return ((List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -18190,9 +18385,9 @@ label0: ;
         public static List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>)
-            	return ((List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -19391,9 +19586,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_createABA.IMatch_createABA> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createABA.IMatch_createABA>)
-            	return ((List<GRGEN_ACTIONS.Rule_createABA.IMatch_createABA>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createABA.IMatch_createABA>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createABA.IMatch_createABA>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createABA.IMatch_createABA>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -19736,9 +19931,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>)
-            	return ((List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_homm.IMatch_homm>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_homm.IMatch_homm>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -20364,9 +20559,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB>)
-            	return ((List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -20830,9 +21025,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_alternative_in_negative.IMatch_alternative_in_negative> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_alternative_in_negative.IMatch_alternative_in_negative>)
-            	return ((List<GRGEN_ACTIONS.Rule_alternative_in_negative.IMatch_alternative_in_negative>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_alternative_in_negative.IMatch_alternative_in_negative>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_alternative_in_negative.IMatch_alternative_in_negative>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_alternative_in_negative.IMatch_alternative_in_negative>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -21336,9 +21531,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated>)
-            	return ((List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     

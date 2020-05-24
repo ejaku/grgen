@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Apr 27 20:32:29 CEST 2020
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun May 24 19:21:30 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -382,9 +382,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	public class ReverseComparer_BandPosition_value : Comparer<GRGEN_MODEL.IBandPosition>
 	{
 		public static ReverseComparer_BandPosition_value thisComparer = new ReverseComparer_BandPosition_value();
-		public override int Compare(GRGEN_MODEL.IBandPosition a, GRGEN_MODEL.IBandPosition b)
+		public override int Compare(GRGEN_MODEL.IBandPosition b, GRGEN_MODEL.IBandPosition a)
 		{
-			return -a.@value.CompareTo(b.@value);
+			return a.@value.CompareTo(b.@value);
 		}
 	}
 
@@ -827,9 +827,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	public class ReverseComparer_WriteValue_value : Comparer<GRGEN_MODEL.IWriteValue>
 	{
 		public static ReverseComparer_WriteValue_value thisComparer = new ReverseComparer_WriteValue_value();
-		public override int Compare(GRGEN_MODEL.IWriteValue a, GRGEN_MODEL.IWriteValue b)
+		public override int Compare(GRGEN_MODEL.IWriteValue b, GRGEN_MODEL.IWriteValue a)
 		{
-			return -a.@value.CompareTo(b.@value);
+			return a.@value.CompareTo(b.@value);
 		}
 	}
 

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Mon Apr 27 20:32:30 CEST 2020
+// Generated from "test.grg" on Sun May 24 19:21:31 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -383,9 +383,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_A1_a1 : Comparer<GRGEN_MODEL.IA1>
 	{
 		public static ReverseComparer_A1_a1 thisComparer = new ReverseComparer_A1_a1();
-		public override int Compare(GRGEN_MODEL.IA1 a, GRGEN_MODEL.IA1 b)
+		public override int Compare(GRGEN_MODEL.IA1 b, GRGEN_MODEL.IA1 a)
 		{
-			return -a.@a1.CompareTo(b.@a1);
+			return a.@a1.CompareTo(b.@a1);
 		}
 	}
 
@@ -680,9 +680,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_A2_a2 : Comparer<GRGEN_MODEL.IA2>
 	{
 		public static ReverseComparer_A2_a2 thisComparer = new ReverseComparer_A2_a2();
-		public override int Compare(GRGEN_MODEL.IA2 a, GRGEN_MODEL.IA2 b)
+		public override int Compare(GRGEN_MODEL.IA2 b, GRGEN_MODEL.IA2 a)
 		{
-			return -a.@a2.CompareTo(b.@a2);
+			return a.@a2.CompareTo(b.@a2);
 		}
 	}
 
@@ -970,9 +970,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_A3_a3 : Comparer<GRGEN_MODEL.IA3>
 	{
 		public static ReverseComparer_A3_a3 thisComparer = new ReverseComparer_A3_a3();
-		public override int Compare(GRGEN_MODEL.IA3 a, GRGEN_MODEL.IA3 b)
+		public override int Compare(GRGEN_MODEL.IA3 b, GRGEN_MODEL.IA3 a)
 		{
-			return -a.@a3.CompareTo(b.@a3);
+			return a.@a3.CompareTo(b.@a3);
 		}
 	}
 
@@ -1268,9 +1268,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_A4_a4 : Comparer<GRGEN_MODEL.IA4>
 	{
 		public static ReverseComparer_A4_a4 thisComparer = new ReverseComparer_A4_a4();
-		public override int Compare(GRGEN_MODEL.IA4 a, GRGEN_MODEL.IA4 b)
+		public override int Compare(GRGEN_MODEL.IA4 b, GRGEN_MODEL.IA4 a)
 		{
-			return -a.@a4.CompareTo(b.@a4);
+			return a.@a4.CompareTo(b.@a4);
 		}
 	}
 
@@ -1559,9 +1559,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_A5_a5 : Comparer<GRGEN_MODEL.IA5>
 	{
 		public static ReverseComparer_A5_a5 thisComparer = new ReverseComparer_A5_a5();
-		public override int Compare(GRGEN_MODEL.IA5 a, GRGEN_MODEL.IA5 b)
+		public override int Compare(GRGEN_MODEL.IA5 b, GRGEN_MODEL.IA5 a)
 		{
-			return -a.@a5.CompareTo(b.@a5);
+			return a.@a5.CompareTo(b.@a5);
 		}
 	}
 
@@ -1885,9 +1885,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B21_a2 : Comparer<GRGEN_MODEL.IB21>
 	{
 		public static ReverseComparer_B21_a2 thisComparer = new ReverseComparer_B21_a2();
-		public override int Compare(GRGEN_MODEL.IB21 a, GRGEN_MODEL.IB21 b)
+		public override int Compare(GRGEN_MODEL.IB21 b, GRGEN_MODEL.IB21 a)
 		{
-			return -a.@a2.CompareTo(b.@a2);
+			return a.@a2.CompareTo(b.@a2);
 		}
 	}
 
@@ -1970,9 +1970,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B21_b21 : Comparer<GRGEN_MODEL.IB21>
 	{
 		public static ReverseComparer_B21_b21 thisComparer = new ReverseComparer_B21_b21();
-		public override int Compare(GRGEN_MODEL.IB21 a, GRGEN_MODEL.IB21 b)
+		public override int Compare(GRGEN_MODEL.IB21 b, GRGEN_MODEL.IB21 a)
 		{
-			return -a.@b21.CompareTo(b.@b21);
+			return a.@b21.CompareTo(b.@b21);
 		}
 	}
 
@@ -2296,9 +2296,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B22_a2 : Comparer<GRGEN_MODEL.IB22>
 	{
 		public static ReverseComparer_B22_a2 thisComparer = new ReverseComparer_B22_a2();
-		public override int Compare(GRGEN_MODEL.IB22 a, GRGEN_MODEL.IB22 b)
+		public override int Compare(GRGEN_MODEL.IB22 b, GRGEN_MODEL.IB22 a)
 		{
-			return -a.@a2.CompareTo(b.@a2);
+			return a.@a2.CompareTo(b.@a2);
 		}
 	}
 
@@ -2381,9 +2381,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B22_b22 : Comparer<GRGEN_MODEL.IB22>
 	{
 		public static ReverseComparer_B22_b22 thisComparer = new ReverseComparer_B22_b22();
-		public override int Compare(GRGEN_MODEL.IB22 a, GRGEN_MODEL.IB22 b)
+		public override int Compare(GRGEN_MODEL.IB22 b, GRGEN_MODEL.IB22 a)
 		{
-			return -a.@b22.CompareTo(b.@b22);
+			return a.@b22.CompareTo(b.@b22);
 		}
 	}
 
@@ -2707,9 +2707,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B23_a2 : Comparer<GRGEN_MODEL.IB23>
 	{
 		public static ReverseComparer_B23_a2 thisComparer = new ReverseComparer_B23_a2();
-		public override int Compare(GRGEN_MODEL.IB23 a, GRGEN_MODEL.IB23 b)
+		public override int Compare(GRGEN_MODEL.IB23 b, GRGEN_MODEL.IB23 a)
 		{
-			return -a.@a2.CompareTo(b.@a2);
+			return a.@a2.CompareTo(b.@a2);
 		}
 	}
 
@@ -2792,9 +2792,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B23_b23 : Comparer<GRGEN_MODEL.IB23>
 	{
 		public static ReverseComparer_B23_b23 thisComparer = new ReverseComparer_B23_b23();
-		public override int Compare(GRGEN_MODEL.IB23 a, GRGEN_MODEL.IB23 b)
+		public override int Compare(GRGEN_MODEL.IB23 b, GRGEN_MODEL.IB23 a)
 		{
-			return -a.@b23.CompareTo(b.@b23);
+			return a.@b23.CompareTo(b.@b23);
 		}
 	}
 
@@ -3119,9 +3119,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B41_a4 : Comparer<GRGEN_MODEL.IB41>
 	{
 		public static ReverseComparer_B41_a4 thisComparer = new ReverseComparer_B41_a4();
-		public override int Compare(GRGEN_MODEL.IB41 a, GRGEN_MODEL.IB41 b)
+		public override int Compare(GRGEN_MODEL.IB41 b, GRGEN_MODEL.IB41 a)
 		{
-			return -a.@a4.CompareTo(b.@a4);
+			return a.@a4.CompareTo(b.@a4);
 		}
 	}
 
@@ -3204,9 +3204,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B41_b41 : Comparer<GRGEN_MODEL.IB41>
 	{
 		public static ReverseComparer_B41_b41 thisComparer = new ReverseComparer_B41_b41();
-		public override int Compare(GRGEN_MODEL.IB41 a, GRGEN_MODEL.IB41 b)
+		public override int Compare(GRGEN_MODEL.IB41 b, GRGEN_MODEL.IB41 a)
 		{
-			return -a.@b41.CompareTo(b.@b41);
+			return a.@b41.CompareTo(b.@b41);
 		}
 	}
 
@@ -3531,9 +3531,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B42_a4 : Comparer<GRGEN_MODEL.IB42>
 	{
 		public static ReverseComparer_B42_a4 thisComparer = new ReverseComparer_B42_a4();
-		public override int Compare(GRGEN_MODEL.IB42 a, GRGEN_MODEL.IB42 b)
+		public override int Compare(GRGEN_MODEL.IB42 b, GRGEN_MODEL.IB42 a)
 		{
-			return -a.@a4.CompareTo(b.@a4);
+			return a.@a4.CompareTo(b.@a4);
 		}
 	}
 
@@ -3616,9 +3616,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B42_b42 : Comparer<GRGEN_MODEL.IB42>
 	{
 		public static ReverseComparer_B42_b42 thisComparer = new ReverseComparer_B42_b42();
-		public override int Compare(GRGEN_MODEL.IB42 a, GRGEN_MODEL.IB42 b)
+		public override int Compare(GRGEN_MODEL.IB42 b, GRGEN_MODEL.IB42 a)
 		{
-			return -a.@b42.CompareTo(b.@b42);
+			return a.@b42.CompareTo(b.@b42);
 		}
 	}
 
@@ -3923,9 +3923,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_B43_a4 : Comparer<GRGEN_MODEL.IB43>
 	{
 		public static ReverseComparer_B43_a4 thisComparer = new ReverseComparer_B43_a4();
-		public override int Compare(GRGEN_MODEL.IB43 a, GRGEN_MODEL.IB43 b)
+		public override int Compare(GRGEN_MODEL.IB43 b, GRGEN_MODEL.IB43 a)
 		{
-			return -a.@a4.CompareTo(b.@a4);
+			return a.@a4.CompareTo(b.@a4);
 		}
 	}
 
@@ -4279,9 +4279,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C221_a2 : Comparer<GRGEN_MODEL.IC221>
 	{
 		public static ReverseComparer_C221_a2 thisComparer = new ReverseComparer_C221_a2();
-		public override int Compare(GRGEN_MODEL.IC221 a, GRGEN_MODEL.IC221 b)
+		public override int Compare(GRGEN_MODEL.IC221 b, GRGEN_MODEL.IC221 a)
 		{
-			return -a.@a2.CompareTo(b.@a2);
+			return a.@a2.CompareTo(b.@a2);
 		}
 	}
 
@@ -4364,9 +4364,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C221_b22 : Comparer<GRGEN_MODEL.IC221>
 	{
 		public static ReverseComparer_C221_b22 thisComparer = new ReverseComparer_C221_b22();
-		public override int Compare(GRGEN_MODEL.IC221 a, GRGEN_MODEL.IC221 b)
+		public override int Compare(GRGEN_MODEL.IC221 b, GRGEN_MODEL.IC221 a)
 		{
-			return -a.@b22.CompareTo(b.@b22);
+			return a.@b22.CompareTo(b.@b22);
 		}
 	}
 
@@ -4449,9 +4449,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C221_c221 : Comparer<GRGEN_MODEL.IC221>
 	{
 		public static ReverseComparer_C221_c221 thisComparer = new ReverseComparer_C221_c221();
-		public override int Compare(GRGEN_MODEL.IC221 a, GRGEN_MODEL.IC221 b)
+		public override int Compare(GRGEN_MODEL.IC221 b, GRGEN_MODEL.IC221 a)
 		{
-			return -a.@c221.CompareTo(b.@c221);
+			return a.@c221.CompareTo(b.@c221);
 		}
 	}
 
@@ -4882,9 +4882,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C222_411_a2 : Comparer<GRGEN_MODEL.IC222_411>
 	{
 		public static ReverseComparer_C222_411_a2 thisComparer = new ReverseComparer_C222_411_a2();
-		public override int Compare(GRGEN_MODEL.IC222_411 a, GRGEN_MODEL.IC222_411 b)
+		public override int Compare(GRGEN_MODEL.IC222_411 b, GRGEN_MODEL.IC222_411 a)
 		{
-			return -a.@a2.CompareTo(b.@a2);
+			return a.@a2.CompareTo(b.@a2);
 		}
 	}
 
@@ -4967,9 +4967,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C222_411_b22 : Comparer<GRGEN_MODEL.IC222_411>
 	{
 		public static ReverseComparer_C222_411_b22 thisComparer = new ReverseComparer_C222_411_b22();
-		public override int Compare(GRGEN_MODEL.IC222_411 a, GRGEN_MODEL.IC222_411 b)
+		public override int Compare(GRGEN_MODEL.IC222_411 b, GRGEN_MODEL.IC222_411 a)
 		{
-			return -a.@b22.CompareTo(b.@b22);
+			return a.@b22.CompareTo(b.@b22);
 		}
 	}
 
@@ -5052,9 +5052,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C222_411_a4 : Comparer<GRGEN_MODEL.IC222_411>
 	{
 		public static ReverseComparer_C222_411_a4 thisComparer = new ReverseComparer_C222_411_a4();
-		public override int Compare(GRGEN_MODEL.IC222_411 a, GRGEN_MODEL.IC222_411 b)
+		public override int Compare(GRGEN_MODEL.IC222_411 b, GRGEN_MODEL.IC222_411 a)
 		{
-			return -a.@a4.CompareTo(b.@a4);
+			return a.@a4.CompareTo(b.@a4);
 		}
 	}
 
@@ -5137,9 +5137,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C222_411_b41 : Comparer<GRGEN_MODEL.IC222_411>
 	{
 		public static ReverseComparer_C222_411_b41 thisComparer = new ReverseComparer_C222_411_b41();
-		public override int Compare(GRGEN_MODEL.IC222_411 a, GRGEN_MODEL.IC222_411 b)
+		public override int Compare(GRGEN_MODEL.IC222_411 b, GRGEN_MODEL.IC222_411 a)
 		{
-			return -a.@b41.CompareTo(b.@b41);
+			return a.@b41.CompareTo(b.@b41);
 		}
 	}
 
@@ -5222,9 +5222,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C222_411_c222_411 : Comparer<GRGEN_MODEL.IC222_411>
 	{
 		public static ReverseComparer_C222_411_c222_411 thisComparer = new ReverseComparer_C222_411_c222_411();
-		public override int Compare(GRGEN_MODEL.IC222_411 a, GRGEN_MODEL.IC222_411 b)
+		public override int Compare(GRGEN_MODEL.IC222_411 b, GRGEN_MODEL.IC222_411 a)
 		{
-			return -a.@c222_411.CompareTo(b.@c222_411);
+			return a.@c222_411.CompareTo(b.@c222_411);
 		}
 	}
 
@@ -5640,9 +5640,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C412_421_431_51_a4 : Comparer<GRGEN_MODEL.IC412_421_431_51>
 	{
 		public static ReverseComparer_C412_421_431_51_a4 thisComparer = new ReverseComparer_C412_421_431_51_a4();
-		public override int Compare(GRGEN_MODEL.IC412_421_431_51 a, GRGEN_MODEL.IC412_421_431_51 b)
+		public override int Compare(GRGEN_MODEL.IC412_421_431_51 b, GRGEN_MODEL.IC412_421_431_51 a)
 		{
-			return -a.@a4.CompareTo(b.@a4);
+			return a.@a4.CompareTo(b.@a4);
 		}
 	}
 
@@ -5725,9 +5725,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C412_421_431_51_b41 : Comparer<GRGEN_MODEL.IC412_421_431_51>
 	{
 		public static ReverseComparer_C412_421_431_51_b41 thisComparer = new ReverseComparer_C412_421_431_51_b41();
-		public override int Compare(GRGEN_MODEL.IC412_421_431_51 a, GRGEN_MODEL.IC412_421_431_51 b)
+		public override int Compare(GRGEN_MODEL.IC412_421_431_51 b, GRGEN_MODEL.IC412_421_431_51 a)
 		{
-			return -a.@b41.CompareTo(b.@b41);
+			return a.@b41.CompareTo(b.@b41);
 		}
 	}
 
@@ -5810,9 +5810,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C412_421_431_51_b42 : Comparer<GRGEN_MODEL.IC412_421_431_51>
 	{
 		public static ReverseComparer_C412_421_431_51_b42 thisComparer = new ReverseComparer_C412_421_431_51_b42();
-		public override int Compare(GRGEN_MODEL.IC412_421_431_51 a, GRGEN_MODEL.IC412_421_431_51 b)
+		public override int Compare(GRGEN_MODEL.IC412_421_431_51 b, GRGEN_MODEL.IC412_421_431_51 a)
 		{
-			return -a.@b42.CompareTo(b.@b42);
+			return a.@b42.CompareTo(b.@b42);
 		}
 	}
 
@@ -5895,9 +5895,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C412_421_431_51_a5 : Comparer<GRGEN_MODEL.IC412_421_431_51>
 	{
 		public static ReverseComparer_C412_421_431_51_a5 thisComparer = new ReverseComparer_C412_421_431_51_a5();
-		public override int Compare(GRGEN_MODEL.IC412_421_431_51 a, GRGEN_MODEL.IC412_421_431_51 b)
+		public override int Compare(GRGEN_MODEL.IC412_421_431_51 b, GRGEN_MODEL.IC412_421_431_51 a)
 		{
-			return -a.@a5.CompareTo(b.@a5);
+			return a.@a5.CompareTo(b.@a5);
 		}
 	}
 
@@ -6273,9 +6273,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C432_422_a4 : Comparer<GRGEN_MODEL.IC432_422>
 	{
 		public static ReverseComparer_C432_422_a4 thisComparer = new ReverseComparer_C432_422_a4();
-		public override int Compare(GRGEN_MODEL.IC432_422 a, GRGEN_MODEL.IC432_422 b)
+		public override int Compare(GRGEN_MODEL.IC432_422 b, GRGEN_MODEL.IC432_422 a)
 		{
-			return -a.@a4.CompareTo(b.@a4);
+			return a.@a4.CompareTo(b.@a4);
 		}
 	}
 
@@ -6358,9 +6358,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C432_422_b42 : Comparer<GRGEN_MODEL.IC432_422>
 	{
 		public static ReverseComparer_C432_422_b42 thisComparer = new ReverseComparer_C432_422_b42();
-		public override int Compare(GRGEN_MODEL.IC432_422 a, GRGEN_MODEL.IC432_422 b)
+		public override int Compare(GRGEN_MODEL.IC432_422 b, GRGEN_MODEL.IC432_422 a)
 		{
-			return -a.@b42.CompareTo(b.@b42);
+			return a.@b42.CompareTo(b.@b42);
 		}
 	}
 
@@ -6443,9 +6443,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_C432_422_c432_422 : Comparer<GRGEN_MODEL.IC432_422>
 	{
 		public static ReverseComparer_C432_422_c432_422 thisComparer = new ReverseComparer_C432_422_c432_422();
-		public override int Compare(GRGEN_MODEL.IC432_422 a, GRGEN_MODEL.IC432_422 b)
+		public override int Compare(GRGEN_MODEL.IC432_422 b, GRGEN_MODEL.IC432_422 a)
 		{
-			return -a.@c432_422.CompareTo(b.@c432_422);
+			return a.@c432_422.CompareTo(b.@c432_422);
 		}
 	}
 
@@ -6939,9 +6939,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D11_2221_a1 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
 		public static ReverseComparer_D11_2221_a1 thisComparer = new ReverseComparer_D11_2221_a1();
-		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		public override int Compare(GRGEN_MODEL.ID11_2221 b, GRGEN_MODEL.ID11_2221 a)
 		{
-			return -a.@a1.CompareTo(b.@a1);
+			return a.@a1.CompareTo(b.@a1);
 		}
 	}
 
@@ -7024,9 +7024,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D11_2221_a2 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
 		public static ReverseComparer_D11_2221_a2 thisComparer = new ReverseComparer_D11_2221_a2();
-		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		public override int Compare(GRGEN_MODEL.ID11_2221 b, GRGEN_MODEL.ID11_2221 a)
 		{
-			return -a.@a2.CompareTo(b.@a2);
+			return a.@a2.CompareTo(b.@a2);
 		}
 	}
 
@@ -7109,9 +7109,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D11_2221_b22 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
 		public static ReverseComparer_D11_2221_b22 thisComparer = new ReverseComparer_D11_2221_b22();
-		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		public override int Compare(GRGEN_MODEL.ID11_2221 b, GRGEN_MODEL.ID11_2221 a)
 		{
-			return -a.@b22.CompareTo(b.@b22);
+			return a.@b22.CompareTo(b.@b22);
 		}
 	}
 
@@ -7194,9 +7194,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D11_2221_a4 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
 		public static ReverseComparer_D11_2221_a4 thisComparer = new ReverseComparer_D11_2221_a4();
-		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		public override int Compare(GRGEN_MODEL.ID11_2221 b, GRGEN_MODEL.ID11_2221 a)
 		{
-			return -a.@a4.CompareTo(b.@a4);
+			return a.@a4.CompareTo(b.@a4);
 		}
 	}
 
@@ -7279,9 +7279,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D11_2221_b41 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
 		public static ReverseComparer_D11_2221_b41 thisComparer = new ReverseComparer_D11_2221_b41();
-		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		public override int Compare(GRGEN_MODEL.ID11_2221 b, GRGEN_MODEL.ID11_2221 a)
 		{
-			return -a.@b41.CompareTo(b.@b41);
+			return a.@b41.CompareTo(b.@b41);
 		}
 	}
 
@@ -7364,9 +7364,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D11_2221_c222_411 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
 		public static ReverseComparer_D11_2221_c222_411 thisComparer = new ReverseComparer_D11_2221_c222_411();
-		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		public override int Compare(GRGEN_MODEL.ID11_2221 b, GRGEN_MODEL.ID11_2221 a)
 		{
-			return -a.@c222_411.CompareTo(b.@c222_411);
+			return a.@c222_411.CompareTo(b.@c222_411);
 		}
 	}
 
@@ -7449,9 +7449,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D11_2221_d11_2221 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
 		public static ReverseComparer_D11_2221_d11_2221 thisComparer = new ReverseComparer_D11_2221_d11_2221();
-		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		public override int Compare(GRGEN_MODEL.ID11_2221 b, GRGEN_MODEL.ID11_2221 a)
 		{
-			return -a.@d11_2221.CompareTo(b.@d11_2221);
+			return a.@d11_2221.CompareTo(b.@d11_2221);
 		}
 	}
 
@@ -7976,9 +7976,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D2211_2222_31_a2 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
 		public static ReverseComparer_D2211_2222_31_a2 thisComparer = new ReverseComparer_D2211_2222_31_a2();
-		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 b, GRGEN_MODEL.ID2211_2222_31 a)
 		{
-			return -a.@a2.CompareTo(b.@a2);
+			return a.@a2.CompareTo(b.@a2);
 		}
 	}
 
@@ -8061,9 +8061,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D2211_2222_31_b22 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
 		public static ReverseComparer_D2211_2222_31_b22 thisComparer = new ReverseComparer_D2211_2222_31_b22();
-		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 b, GRGEN_MODEL.ID2211_2222_31 a)
 		{
-			return -a.@b22.CompareTo(b.@b22);
+			return a.@b22.CompareTo(b.@b22);
 		}
 	}
 
@@ -8146,9 +8146,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D2211_2222_31_c221 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
 		public static ReverseComparer_D2211_2222_31_c221 thisComparer = new ReverseComparer_D2211_2222_31_c221();
-		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 b, GRGEN_MODEL.ID2211_2222_31 a)
 		{
-			return -a.@c221.CompareTo(b.@c221);
+			return a.@c221.CompareTo(b.@c221);
 		}
 	}
 
@@ -8231,9 +8231,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D2211_2222_31_a4 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
 		public static ReverseComparer_D2211_2222_31_a4 thisComparer = new ReverseComparer_D2211_2222_31_a4();
-		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 b, GRGEN_MODEL.ID2211_2222_31 a)
 		{
-			return -a.@a4.CompareTo(b.@a4);
+			return a.@a4.CompareTo(b.@a4);
 		}
 	}
 
@@ -8316,9 +8316,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D2211_2222_31_b41 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
 		public static ReverseComparer_D2211_2222_31_b41 thisComparer = new ReverseComparer_D2211_2222_31_b41();
-		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 b, GRGEN_MODEL.ID2211_2222_31 a)
 		{
-			return -a.@b41.CompareTo(b.@b41);
+			return a.@b41.CompareTo(b.@b41);
 		}
 	}
 
@@ -8401,9 +8401,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D2211_2222_31_c222_411 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
 		public static ReverseComparer_D2211_2222_31_c222_411 thisComparer = new ReverseComparer_D2211_2222_31_c222_411();
-		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 b, GRGEN_MODEL.ID2211_2222_31 a)
 		{
-			return -a.@c222_411.CompareTo(b.@c222_411);
+			return a.@c222_411.CompareTo(b.@c222_411);
 		}
 	}
 
@@ -8486,9 +8486,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D2211_2222_31_a3 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
 		public static ReverseComparer_D2211_2222_31_a3 thisComparer = new ReverseComparer_D2211_2222_31_a3();
-		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 b, GRGEN_MODEL.ID2211_2222_31 a)
 		{
-			return -a.@a3.CompareTo(b.@a3);
+			return a.@a3.CompareTo(b.@a3);
 		}
 	}
 
@@ -8571,9 +8571,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public class ReverseComparer_D2211_2222_31_d2211_2222_31 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
 		public static ReverseComparer_D2211_2222_31_d2211_2222_31 thisComparer = new ReverseComparer_D2211_2222_31_d2211_2222_31();
-		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 b, GRGEN_MODEL.ID2211_2222_31 a)
 		{
-			return -a.@d2211_2222_31.CompareTo(b.@d2211_2222_31);
+			return a.@d2211_2222_31.CompareTo(b.@d2211_2222_31);
 		}
 	}
 

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Apr 27 20:32:29 CEST 2020
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun May 24 19:21:30 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 	public class Rule_readZeroRule : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_readZeroRule instance = null;
-		public static Rule_readZeroRule Instance { get { if (instance==null) { instance = new Rule_readZeroRule(); instance.initialize(); } return instance; } }
+		public static Rule_readZeroRule Instance { get { if(instance==null) { instance = new Rule_readZeroRule(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] readZeroRule_node_s_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] readZeroRule_node_wv_AllowedTypes = null;
@@ -381,12 +381,64 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> Array_readZeroRule_keepOneForEachBy_s(List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> newList = new List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule>();
+			Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_s)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_s, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> Array_readZeroRule_keepOneForEachBy_wv(List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> newList = new List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule>();
+			Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_wv)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_wv, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> Array_readZeroRule_keepOneForEachBy_bp(List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> newList = new List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule>();
+			Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_bp)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_bp, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> Array_readZeroRule_keepOneForEachBy_rv(List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> newList = new List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule>();
+			Dictionary<GRGEN_MODEL.IreadZero, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IreadZero, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge_rv)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge_rv, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_readOneRule : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_readOneRule instance = null;
-		public static Rule_readOneRule Instance { get { if (instance==null) { instance = new Rule_readOneRule(); instance.initialize(); } return instance; } }
+		public static Rule_readOneRule Instance { get { if(instance==null) { instance = new Rule_readOneRule(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] readOneRule_node_s_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] readOneRule_node_wv_AllowedTypes = null;
@@ -748,12 +800,64 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> Array_readOneRule_keepOneForEachBy_s(List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> newList = new List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule>();
+			Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_s)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_s, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> Array_readOneRule_keepOneForEachBy_wv(List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> newList = new List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule>();
+			Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_wv)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_wv, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> Array_readOneRule_keepOneForEachBy_bp(List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> newList = new List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule>();
+			Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_bp)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_bp, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> Array_readOneRule_keepOneForEachBy_rv(List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> newList = new List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule>();
+			Dictionary<GRGEN_MODEL.IreadOne, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IreadOne, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge_rv)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge_rv, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_ensureMoveLeftValidRule : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_ensureMoveLeftValidRule instance = null;
-		public static Rule_ensureMoveLeftValidRule Instance { get { if (instance==null) { instance = new Rule_ensureMoveLeftValidRule(); instance.initialize(); } return instance; } }
+		public static Rule_ensureMoveLeftValidRule Instance { get { if(instance==null) { instance = new Rule_ensureMoveLeftValidRule(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ensureMoveLeftValidRule_node_wv_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ensureMoveLeftValidRule_node__node0_AllowedTypes = null;
@@ -1347,12 +1451,64 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> Array_ensureMoveLeftValidRule_keepOneForEachBy_wv(List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> newList = new List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>();
+			Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_wv)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_wv, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> Array_ensureMoveLeftValidRule_keepOneForEachBy__node0(List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> newList = new List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>();
+			Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> Array_ensureMoveLeftValidRule_keepOneForEachBy_bp(List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> newList = new List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>();
+			Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_bp)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_bp, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> Array_ensureMoveLeftValidRule_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> newList = new List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>();
+			Dictionary<GRGEN_MODEL.ImoveLeft, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.ImoveLeft, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_ensureMoveRightValidRule : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_ensureMoveRightValidRule instance = null;
-		public static Rule_ensureMoveRightValidRule Instance { get { if (instance==null) { instance = new Rule_ensureMoveRightValidRule(); instance.initialize(); } return instance; } }
+		public static Rule_ensureMoveRightValidRule Instance { get { if(instance==null) { instance = new Rule_ensureMoveRightValidRule(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ensureMoveRightValidRule_node_wv_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ensureMoveRightValidRule_node__node0_AllowedTypes = null;
@@ -1946,12 +2102,64 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> Array_ensureMoveRightValidRule_keepOneForEachBy_wv(List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> newList = new List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>();
+			Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_wv)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_wv, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> Array_ensureMoveRightValidRule_keepOneForEachBy__node0(List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> newList = new List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>();
+			Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node__node0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node__node0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> Array_ensureMoveRightValidRule_keepOneForEachBy_bp(List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> newList = new List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>();
+			Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_bp)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_bp, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> Array_ensureMoveRightValidRule_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> newList = new List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>();
+			Dictionary<GRGEN_MODEL.ImoveRight, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.ImoveRight, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_moveLeftRule : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_moveLeftRule instance = null;
-		public static Rule_moveLeftRule Instance { get { if (instance==null) { instance = new Rule_moveLeftRule(); instance.initialize(); } return instance; } }
+		public static Rule_moveLeftRule Instance { get { if(instance==null) { instance = new Rule_moveLeftRule(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] moveLeftRule_node_wv_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] moveLeftRule_node_s_AllowedTypes = null;
@@ -2343,12 +2551,90 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> Array_moveLeftRule_keepOneForEachBy_wv(List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> newList = new List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>();
+			Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_wv)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_wv, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> Array_moveLeftRule_keepOneForEachBy_s(List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> newList = new List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>();
+			Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_s)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_s, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> Array_moveLeftRule_keepOneForEachBy_lbp(List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> newList = new List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>();
+			Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_lbp)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_lbp, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> Array_moveLeftRule_keepOneForEachBy_bp(List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> newList = new List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>();
+			Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_bp)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_bp, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> Array_moveLeftRule_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> newList = new List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>();
+			Dictionary<GRGEN_MODEL.ImoveLeft, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.ImoveLeft, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> Array_moveLeftRule_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> newList = new List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>();
+			Dictionary<GRGEN_MODEL.Iright, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.Iright, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_moveRightRule : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_moveRightRule instance = null;
-		public static Rule_moveRightRule Instance { get { if (instance==null) { instance = new Rule_moveRightRule(); instance.initialize(); } return instance; } }
+		public static Rule_moveRightRule Instance { get { if(instance==null) { instance = new Rule_moveRightRule(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] moveRightRule_node_wv_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] moveRightRule_node_s_AllowedTypes = null;
@@ -2740,12 +3026,90 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> Array_moveRightRule_keepOneForEachBy_wv(List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> newList = new List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>();
+			Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IWriteValue, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_wv)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_wv, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> Array_moveRightRule_keepOneForEachBy_s(List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> newList = new List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>();
+			Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IState, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_s)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_s, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> Array_moveRightRule_keepOneForEachBy_bp(List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> newList = new List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>();
+			Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_bp)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_bp, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> Array_moveRightRule_keepOneForEachBy_rbp(List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> newList = new List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>();
+			Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_rbp)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_rbp, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> Array_moveRightRule_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> newList = new List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>();
+			Dictionary<GRGEN_MODEL.ImoveRight, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.ImoveRight, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> Array_moveRightRule_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> newList = new List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>();
+			Dictionary<GRGEN_MODEL.Iright, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.Iright, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_countZeros : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_countZeros instance = null;
-		public static Rule_countZeros Instance { get { if (instance==null) { instance = new Rule_countZeros(); instance.initialize(); } return instance; } }
+		public static Rule_countZeros Instance { get { if(instance==null) { instance = new Rule_countZeros(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] countZeros_node_bp_AllowedTypes = null;
 		public static bool[] countZeros_node_bp_IsAllowedType = null;
@@ -3031,12 +3395,25 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros> Array_countZeros_keepOneForEachBy_bp(List<GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros> list)
+		{
+			List<GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros> newList = new List<GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros>();
+			Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_bp)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_bp, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_countOnes : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_countOnes instance = null;
-		public static Rule_countOnes Instance { get { if (instance==null) { instance = new Rule_countOnes(); instance.initialize(); } return instance; } }
+		public static Rule_countOnes Instance { get { if(instance==null) { instance = new Rule_countOnes(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] countOnes_node_bp_AllowedTypes = null;
 		public static bool[] countOnes_node_bp_IsAllowedType = null;
@@ -3322,6 +3699,19 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes> Array_countOnes_keepOneForEachBy_bp(List<GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes> list)
+		{
+			List<GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes> newList = new List<GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes>();
+			Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IBandPosition, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_bp)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_bp, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Functions
@@ -3685,9 +4075,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public static List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule>)
-            	return ((List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_readZeroRule.IMatch_readZeroRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -3968,9 +4358,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public static List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule>)
-            	return ((List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_readOneRule.IMatch_readOneRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -4273,9 +4663,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public static List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>)
-            	return ((List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -4578,9 +4968,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public static List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>)
-            	return ((List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -4896,9 +5286,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public static List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>)
-            	return ((List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_moveLeftRule.IMatch_moveLeftRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -5214,9 +5604,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public static List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>)
-            	return ((List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_moveRightRule.IMatch_moveRightRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -5473,9 +5863,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public static List<GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros>)
-            	return ((List<GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_countZeros.IMatch_countZeros>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -5732,9 +6122,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public static List<GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes>)
-            	return ((List<GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_countOnes.IMatch_countOnes>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Mon Apr 27 20:32:30 CEST 2020
+// Generated from "test.grg" on Sun May 24 19:21:31 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.Action_test
 	public class Rule_testRule : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_testRule instance = null;
-		public static Rule_testRule Instance { get { if (instance==null) { instance = new Rule_testRule(); instance.initialize(); } return instance; } }
+		public static Rule_testRule Instance { get { if(instance==null) { instance = new Rule_testRule(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] testRule_node_a_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] testRule_node_f_AllowedTypes = null;
@@ -411,6 +411,71 @@ namespace de.unika.ipd.grGen.Action_test
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_keepOneForEachBy_a(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+			Dictionary<GRGEN_MODEL.ID231_4121, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.ID231_4121, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_testRule.IMatch_testRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_a)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_a, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_keepOneForEachBy_f(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+			Dictionary<GRGEN_MODEL.IB21, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IB21, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_testRule.IMatch_testRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_f)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_f, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_keepOneForEachBy_m(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+			Dictionary<GRGEN_MODEL.ID2211_2222_31, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.ID2211_2222_31, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_testRule.IMatch_testRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_m)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_m, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_testRule.IMatch_testRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
+		{
+			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+			Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_testRule.IMatch_testRule element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Functions
@@ -776,9 +841,9 @@ namespace de.unika.ipd.grGen.Action_test
         public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>)
-            	return ((List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     

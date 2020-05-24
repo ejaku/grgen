@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Apr 27 20:32:45 CEST 2020
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun May 24 19:21:50 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -2225,9 +2225,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public class ReverseComparer_annotationTestEdge_attrib : Comparer<GRGEN_MODEL.IannotationTestEdge>
 	{
 		public static ReverseComparer_annotationTestEdge_attrib thisComparer = new ReverseComparer_annotationTestEdge_attrib();
-		public override int Compare(GRGEN_MODEL.IannotationTestEdge a, GRGEN_MODEL.IannotationTestEdge b)
+		public override int Compare(GRGEN_MODEL.IannotationTestEdge b, GRGEN_MODEL.IannotationTestEdge a)
 		{
-			return -a.@attrib.CompareTo(b.@attrib);
+			return a.@attrib.CompareTo(b.@attrib);
 		}
 	}
 

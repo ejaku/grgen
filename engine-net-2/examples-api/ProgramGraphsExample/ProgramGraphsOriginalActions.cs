@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Mon Apr 27 20:32:46 CEST 2020
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun May 24 19:21:53 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	public class Pattern_Subclasses : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Subclasses instance = null;
-		public static Pattern_Subclasses Instance { get { if (instance==null) { instance = new Pattern_Subclasses(); instance.initialize(); } return instance; } }
+		public static Pattern_Subclasses Instance { get { if(instance==null) { instance = new Pattern_Subclasses(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Subclasses_node_c_AllowedTypes = null;
 		public static bool[] Subclasses_node_c_IsAllowedType = null;
@@ -591,12 +591,51 @@ if(!(_iter_0_thisEnumerator.Current as Match_Subclasses_iter_0).IsEqual(_iter_0_
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> Array_Subclasses_iter_0_keepOneForEachBy_c(List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0>();
+			Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> Array_Subclasses_iter_0_keepOneForEachBy_sub(List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0>();
+			Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_sub)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_sub, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> Array_Subclasses_iter_0_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0>();
+			Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Pattern_Subclass : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Subclass instance = null;
-		public static Pattern_Subclass Instance { get { if (instance==null) { instance = new Pattern_Subclass(); instance.initialize(); } return instance; } }
+		public static Pattern_Subclass Instance { get { if(instance==null) { instance = new Pattern_Subclass(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Subclass_node_sub_AllowedTypes = null;
 		public static bool[] Subclass_node_sub_IsAllowedType = null;
@@ -893,7 +932,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Subclasses_iter_0).IsEqual(_iter_0_
 	public class Pattern_Features : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Features instance = null;
-		public static Pattern_Features Instance { get { if (instance==null) { instance = new Pattern_Features(); instance.initialize(); } return instance; } }
+		public static Pattern_Features Instance { get { if(instance==null) { instance = new Pattern_Features(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Features_node_c_AllowedTypes = null;
 		public static bool[] Features_node_c_IsAllowedType = null;
@@ -1430,12 +1469,25 @@ if(!(_iter_0_thisEnumerator.Current as Match_Features_iter_0).IsEqual(_iter_0_th
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0> Array_Features_iter_0_keepOneForEachBy_c(List<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0>();
+			Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Pattern_FeaturePattern : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_FeaturePattern instance = null;
-		public static Pattern_FeaturePattern Instance { get { if (instance==null) { instance = new Pattern_FeaturePattern(); instance.initialize(); } return instance; } }
+		public static Pattern_FeaturePattern Instance { get { if(instance==null) { instance = new Pattern_FeaturePattern(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] FeaturePattern_node_c_AllowedTypes = null;
 		public static bool[] FeaturePattern_node_c_IsAllowedType = null;
@@ -2807,7 +2859,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Features_iter_0).IsEqual(_iter_0_th
 	public class Pattern_Parameters : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Parameters instance = null;
-		public static Pattern_Parameters Instance { get { if (instance==null) { instance = new Pattern_Parameters(); instance.initialize(); } return instance; } }
+		public static Pattern_Parameters Instance { get { if(instance==null) { instance = new Pattern_Parameters(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Parameters_node_b_AllowedTypes = null;
 		public static bool[] Parameters_node_b_IsAllowedType = null;
@@ -3344,12 +3396,25 @@ if(!(_iter_0_thisEnumerator.Current as Match_Parameters_iter_0).IsEqual(_iter_0_
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0> Array_Parameters_iter_0_keepOneForEachBy_b(List<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0>();
+			Dictionary<GRGEN_MODEL.IMethodBody, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IMethodBody, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_b)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_b, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Pattern_Parameter : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Parameter instance = null;
-		public static Pattern_Parameter Instance { get { if (instance==null) { instance = new Pattern_Parameter(); instance.initialize(); } return instance; } }
+		public static Pattern_Parameter Instance { get { if(instance==null) { instance = new Pattern_Parameter(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Parameter_node_b_AllowedTypes = null;
 		public static bool[] Parameter_node_b_IsAllowedType = null;
@@ -4159,7 +4224,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Parameters_iter_0).IsEqual(_iter_0_
 	public class Pattern_Statements : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Statements instance = null;
-		public static Pattern_Statements Instance { get { if (instance==null) { instance = new Pattern_Statements(); instance.initialize(); } return instance; } }
+		public static Pattern_Statements Instance { get { if(instance==null) { instance = new Pattern_Statements(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Statements_node_b_AllowedTypes = null;
 		public static bool[] Statements_node_b_IsAllowedType = null;
@@ -4696,12 +4761,25 @@ if(!(_iter_0_thisEnumerator.Current as Match_Statements_iter_0).IsEqual(_iter_0_
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0> Array_Statements_iter_0_keepOneForEachBy_b(List<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0>();
+			Dictionary<GRGEN_MODEL.IMethodBody, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IMethodBody, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_b)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_b, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Pattern_Statement : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Statement instance = null;
-		public static Pattern_Statement Instance { get { if (instance==null) { instance = new Pattern_Statement(); instance.initialize(); } return instance; } }
+		public static Pattern_Statement Instance { get { if(instance==null) { instance = new Pattern_Statement(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Statement_node_b_AllowedTypes = null;
 		public static bool[] Statement_node_b_IsAllowedType = null;
@@ -5857,7 +5935,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Statements_iter_0).IsEqual(_iter_0_
 	public class Pattern_Expressions : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Expressions instance = null;
-		public static Pattern_Expressions Instance { get { if (instance==null) { instance = new Pattern_Expressions(); instance.initialize(); } return instance; } }
+		public static Pattern_Expressions Instance { get { if(instance==null) { instance = new Pattern_Expressions(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Expressions_node_e_AllowedTypes = null;
 		public static bool[] Expressions_node_e_IsAllowedType = null;
@@ -6394,12 +6472,25 @@ if(!(_iter_0_thisEnumerator.Current as Match_Expressions_iter_0).IsEqual(_iter_0
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0> Array_Expressions_iter_0_keepOneForEachBy_e(List<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0>();
+			Dictionary<GRGEN_MODEL.IExpression, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IExpression, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_e)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_e, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Pattern_ExpressionPattern : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_ExpressionPattern instance = null;
-		public static Pattern_ExpressionPattern Instance { get { if (instance==null) { instance = new Pattern_ExpressionPattern(); instance.initialize(); } return instance; } }
+		public static Pattern_ExpressionPattern Instance { get { if(instance==null) { instance = new Pattern_ExpressionPattern(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] ExpressionPattern_node_e_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ExpressionPattern_node_sub_AllowedTypes = null;
@@ -7229,7 +7320,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Expressions_iter_0).IsEqual(_iter_0
 	public class Pattern_Bodies : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Bodies instance = null;
-		public static Pattern_Bodies Instance { get { if (instance==null) { instance = new Pattern_Bodies(); instance.initialize(); } return instance; } }
+		public static Pattern_Bodies Instance { get { if(instance==null) { instance = new Pattern_Bodies(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Bodies_node_m5_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] Bodies_node_c1_AllowedTypes = null;
@@ -7829,12 +7920,38 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> Array_Bodies_iter_0_keepOneForEachBy_m5(List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0>();
+			Dictionary<GRGEN_MODEL.IMethodSignature, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IMethodSignature, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_m5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_m5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> Array_Bodies_iter_0_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list)
+		{
+			List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0>();
+			Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Pattern_Body : GRGEN_LGSP.LGSPMatchingPattern
 	{
 		private static Pattern_Body instance = null;
-		public static Pattern_Body Instance { get { if (instance==null) { instance = new Pattern_Body(); instance.initialize(); } return instance; } }
+		public static Pattern_Body Instance { get { if(instance==null) { instance = new Pattern_Body(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] Body_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] Body_node_c2_AllowedTypes = null;
@@ -8257,7 +8374,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 	public class Rule_createProgramGraphExample : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createProgramGraphExample instance = null;
-		public static Rule_createProgramGraphExample Instance { get { if (instance==null) { instance = new Rule_createProgramGraphExample(); instance.initialize(); } return instance; } }
+		public static Rule_createProgramGraphExample Instance { get { if(instance==null) { instance = new Rule_createProgramGraphExample(); instance.initialize(); } return instance; } }
 
 		public enum createProgramGraphExample_NodeNums { };
 		public enum createProgramGraphExample_EdgeNums { };
@@ -8584,7 +8701,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 	public class Rule_createProgramGraphPullUp : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_createProgramGraphPullUp instance = null;
-		public static Rule_createProgramGraphPullUp Instance { get { if (instance==null) { instance = new Rule_createProgramGraphPullUp(); instance.initialize(); } return instance; } }
+		public static Rule_createProgramGraphPullUp Instance { get { if(instance==null) { instance = new Rule_createProgramGraphPullUp(); instance.initialize(); } return instance; } }
 
 		public enum createProgramGraphPullUp_NodeNums { };
 		public enum createProgramGraphPullUp_EdgeNums { };
@@ -8898,7 +9015,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 	public class Rule_pullUpMethod : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_pullUpMethod instance = null;
-		public static Rule_pullUpMethod Instance { get { if (instance==null) { instance = new Rule_pullUpMethod(); instance.initialize(); } return instance; } }
+		public static Rule_pullUpMethod Instance { get { if(instance==null) { instance = new Rule_pullUpMethod(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] pullUpMethod_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] pullUpMethod_node_c3_AllowedTypes = null;
@@ -9333,12 +9450,103 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
+		{
+			List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> newList = new List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>();
+			Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
+		{
+			List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> newList = new List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>();
+			Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_keepOneForEachBy_b4(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
+		{
+			List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> newList = new List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>();
+			Dictionary<GRGEN_MODEL.IMethodBody, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IMethodBody, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_b4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_b4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_keepOneForEachBy_m5(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
+		{
+			List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> newList = new List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>();
+			Dictionary<GRGEN_MODEL.IMethodSignature, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IMethodSignature, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_m5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_m5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
+		{
+			List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> newList = new List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>();
+			Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_keepOneForEachBy_m(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
+		{
+			List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> newList = new List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>();
+			Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge_m)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge_m, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
+		{
+			List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> newList = new List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>();
+			Dictionary<GRGEN_MODEL.IbindsTo, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IbindsTo, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_matchAll : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_matchAll instance = null;
-		public static Rule_matchAll Instance { get { if (instance==null) { instance = new Rule_matchAll(); instance.initialize(); } return instance; } }
+		public static Rule_matchAll Instance { get { if(instance==null) { instance = new Rule_matchAll(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] matchAll_node_c1_AllowedTypes = null;
 		public static bool[] matchAll_node_c1_IsAllowedType = null;
@@ -9631,12 +9839,25 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll> Array_matchAll_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll> list)
+		{
+			List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll> newList = new List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll>();
+			Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_InsertHelperEdgesForNestedLayout : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_InsertHelperEdgesForNestedLayout instance = null;
-		public static Rule_InsertHelperEdgesForNestedLayout Instance { get { if (instance==null) { instance = new Rule_InsertHelperEdgesForNestedLayout(); instance.initialize(); } return instance; } }
+		public static Rule_InsertHelperEdgesForNestedLayout Instance { get { if(instance==null) { instance = new Rule_InsertHelperEdgesForNestedLayout(); instance.initialize(); } return instance; } }
 
 		public enum InsertHelperEdgesForNestedLayout_NodeNums { };
 		public enum InsertHelperEdgesForNestedLayout_EdgeNums { };
@@ -9756,7 +9977,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
                     procEnv.Finished(matches_0, false);
                 }
                 if(!res_0)
-                	break;
+                    break;
                 ++i_1;
             }
             res_1 = (bool)(i_1 >= 0);
@@ -9781,7 +10002,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
                         procEnv.Finished(matches_2, false);
                     }
                     if(!res_2)
-                    	break;
+                        break;
                     ++i_3;
                 }
                 res_3 = (bool)(i_3 >= 0);
@@ -9832,7 +10053,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
                         procEnv.Finished(matches_7, false);
                     }
                     if(!res_7)
-                    	break;
+                        break;
                     ++i_8;
                 }
                 res_8 = (bool)(i_8 >= 0);
@@ -10025,7 +10246,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 	public class Rule_LinkMethodBodyToContainedEntity : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_LinkMethodBodyToContainedEntity instance = null;
-		public static Rule_LinkMethodBodyToContainedEntity Instance { get { if (instance==null) { instance = new Rule_LinkMethodBodyToContainedEntity(); instance.initialize(); } return instance; } }
+		public static Rule_LinkMethodBodyToContainedEntity Instance { get { if(instance==null) { instance = new Rule_LinkMethodBodyToContainedEntity(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] LinkMethodBodyToContainedEntity_node_mb_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] LinkMethodBodyToContainedEntity_node_e_AllowedTypes = null;
@@ -10595,12 +10816,51 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> Array_LinkMethodBodyToContainedEntity_keepOneForEachBy_mb(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list)
+		{
+			List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> newList = new List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>();
+			Dictionary<GRGEN_MODEL.IMethodBody, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IMethodBody, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_mb)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_mb, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> Array_LinkMethodBodyToContainedEntity_keepOneForEachBy_e(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list)
+		{
+			List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> newList = new List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>();
+			Dictionary<GRGEN_MODEL.IEntity, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IEntity, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_e)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_e, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> Array_LinkMethodBodyToContainedEntity_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list)
+		{
+			List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> newList = new List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>();
+			Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_LinkMethodBodyToContainedExpressionTransitive : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_LinkMethodBodyToContainedExpressionTransitive instance = null;
-		public static Rule_LinkMethodBodyToContainedExpressionTransitive Instance { get { if (instance==null) { instance = new Rule_LinkMethodBodyToContainedExpressionTransitive(); instance.initialize(); } return instance; } }
+		public static Rule_LinkMethodBodyToContainedExpressionTransitive Instance { get { if(instance==null) { instance = new Rule_LinkMethodBodyToContainedExpressionTransitive(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] LinkMethodBodyToContainedExpressionTransitive_node_mb_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] LinkMethodBodyToContainedExpressionTransitive_node_e1_AllowedTypes = null;
@@ -11214,12 +11474,77 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> Array_LinkMethodBodyToContainedExpressionTransitive_keepOneForEachBy_mb(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list)
+		{
+			List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> newList = new List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>();
+			Dictionary<GRGEN_MODEL.IMethodBody, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IMethodBody, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_mb)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_mb, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> Array_LinkMethodBodyToContainedExpressionTransitive_keepOneForEachBy_e1(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list)
+		{
+			List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> newList = new List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>();
+			Dictionary<GRGEN_MODEL.IExpression, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IExpression, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_e1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_e1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> Array_LinkMethodBodyToContainedExpressionTransitive_keepOneForEachBy_e2(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list)
+		{
+			List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> newList = new List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>();
+			Dictionary<GRGEN_MODEL.IExpression, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IExpression, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_e2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_e2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> Array_LinkMethodBodyToContainedExpressionTransitive_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list)
+		{
+			List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> newList = new List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>();
+			Dictionary<GRGEN_MODEL.ImethodBodyContains, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.ImethodBodyContains, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge0)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge0, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> Array_LinkMethodBodyToContainedExpressionTransitive_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list)
+		{
+			List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> newList = new List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>();
+			Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge__edge1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge__edge1, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_RemoveMethodBodyContainsBetweenExpressions : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_RemoveMethodBodyContainsBetweenExpressions instance = null;
-		public static Rule_RemoveMethodBodyContainsBetweenExpressions Instance { get { if (instance==null) { instance = new Rule_RemoveMethodBodyContainsBetweenExpressions(); instance.initialize(); } return instance; } }
+		public static Rule_RemoveMethodBodyContainsBetweenExpressions Instance { get { if(instance==null) { instance = new Rule_RemoveMethodBodyContainsBetweenExpressions(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] RemoveMethodBodyContainsBetweenExpressions_node_e1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] RemoveMethodBodyContainsBetweenExpressions_node_e2_AllowedTypes = null;
@@ -11547,12 +11872,51 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> Array_RemoveMethodBodyContainsBetweenExpressions_keepOneForEachBy_e1(List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list)
+		{
+			List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> newList = new List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>();
+			Dictionary<GRGEN_MODEL.IExpression, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IExpression, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_e1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_e1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> Array_RemoveMethodBodyContainsBetweenExpressions_keepOneForEachBy_e2(List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list)
+		{
+			List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> newList = new List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>();
+			Dictionary<GRGEN_MODEL.IExpression, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IExpression, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_e2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_e2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> Array_RemoveMethodBodyContainsBetweenExpressions_keepOneForEachBy_mbc(List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list)
+		{
+			List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> newList = new List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>();
+			Dictionary<GRGEN_MODEL.ImethodBodyContains, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.ImethodBodyContains, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge_mbc)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge_mbc, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Rule_RetypeClassContainment : GRGEN_LGSP.LGSPRulePattern
 	{
 		private static Rule_RetypeClassContainment instance = null;
-		public static Rule_RetypeClassContainment Instance { get { if (instance==null) { instance = new Rule_RetypeClassContainment(); instance.initialize(); } return instance; } }
+		public static Rule_RetypeClassContainment Instance { get { if(instance==null) { instance = new Rule_RetypeClassContainment(); instance.initialize(); } return instance; } }
 
 		public static GRGEN_LIBGR.NodeType[] RetypeClassContainment_node_c1_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] RetypeClassContainment_node_c2_AllowedTypes = null;
@@ -11880,6 +12244,45 @@ if(!(_iter_0_thisEnumerator.Current as Match_Bodies_iter_0).IsEqual(_iter_0_that
 
 	public partial class MatchFilters
 	{
+		public static List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> Array_RetypeClassContainment_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list)
+		{
+			List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> newList = new List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>();
+			Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> Array_RetypeClassContainment_keepOneForEachBy_c2(List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list)
+		{
+			List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> newList = new List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>();
+			Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.IClass, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@node_c2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@node_c2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> Array_RetypeClassContainment_keepOneForEachBy_c(List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list)
+		{
+			List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> newList = new List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>();
+			Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.Icontains, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@edge_c)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@edge_c, null);
+				}
+			}
+			return newList;
+		}
 	}
 
 	public class Functions
@@ -18759,9 +19162,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_createProgramGraphExample.IMatch_createProgramGraphExample> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createProgramGraphExample.IMatch_createProgramGraphExample>)
-            	return ((List<GRGEN_ACTIONS.Rule_createProgramGraphExample.IMatch_createProgramGraphExample>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createProgramGraphExample.IMatch_createProgramGraphExample>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createProgramGraphExample.IMatch_createProgramGraphExample>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createProgramGraphExample.IMatch_createProgramGraphExample>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -19031,9 +19434,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp>)
-            	return ((List<GRGEN_ACTIONS.Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -19448,9 +19851,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>)
-            	return ((List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -19881,9 +20284,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll>)
-            	return ((List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -20129,9 +20532,9 @@ maxMatchesIterReached:
         public static List<GRGEN_ACTIONS.Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout>)
-            	return ((List<GRGEN_ACTIONS.Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -20448,9 +20851,9 @@ label1: ;
         public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>)
-            	return ((List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -20788,9 +21191,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>)
-            	return ((List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -21066,9 +21469,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>)
-            	return ((List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -21344,9 +21747,9 @@ label3: ;
         public static List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> ConvertAsNeeded(object parameter)
         {
             if(parameter is List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>)
-            	return ((List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>)parameter);
+                return ((List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>)parameter);
             else
-            	return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>((IList<GRGEN_LIBGR.IMatch>)parameter);
+                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
