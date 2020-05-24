@@ -27,13 +27,13 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IActionCore.Package">
             <summary>
-            null if this is a global type, otherwise the package the type is contained in.
+            null if this is a global action, otherwise the package the action is contained in.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IActionCore.PackagePrefixedName">
             <summary>
-            The name of the type in case of a global type,
-            the name of the type prefixed by the name of the package otherwise.
+            The name of the action in case of a global type,
+            the name of the action prefixed by the name of the package otherwise.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IActionCore.RulePattern">
@@ -214,24 +214,29 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IFilter.Name">
             <summary>
-            The name of the filter (plain name in case of auto-generated filter) 
+            The name of the filter (full name in case of an auto-generated filter, without package prefix) 
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IFilter.Package">
             <summary>
-            null if this is a global type, otherwise the package the type is contained in (only set for filter functions).
+            null if this is a global filter, otherwise the package the filter is contained in.
+            Always null for auto-supplied and auto-generated filters.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IFilter.PackagePrefixedName">
             <summary>
-            The name of the type in case of a global type,
-            the name of the type prefixed by the name of the package otherwise (only possible for filter functions).
+            The name of the filter in case of a global filter,
+            the name of the filter prefixed by the name of the package otherwise.
+            Auto-supplied and auto-generated filters come without a package
+            (they belong to a rule or match class, only those may be contained in a package).
             Gives the name string to be used in a call to denote the filter to be employed.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IFilter.PackageOfApplyee">
             <summary>
-            The package the rule/match class is contained in the filter is applyed to.
+            The package the rule/match class is contained in the filter belongs to,
+            i.e. the package of the applyee in a filter call.
+            (TODO: this is a filter definition description, applyee does not make sense for it, is a concept from a filter call.)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IFilterAutoSupplied">
@@ -295,20 +300,20 @@
             The name of the function.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IFunctionDefinition.Annotations">
-            <summary>
-            The annotations of the function
-            </summary>
-        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IFunctionDefinition.Package">
             <summary>
-            null if this is a global type, otherwise the package the type is contained in.
+            null if this is a global function, otherwise the package the function is contained in.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IFunctionDefinition.PackagePrefixedName">
             <summary>
-            The name of the type in case of a global type,
-            the name of the type prefixed by the name of the package otherwise.
+            The name of the function in case of a global function,
+            the name of the function prefixed by the name of the package otherwise.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IFunctionDefinition.Annotations">
+            <summary>
+            The annotations of the function
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IFunctionDefinition.InputNames">
@@ -411,20 +416,20 @@
             The name of the match class
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IMatchClass.Annotations">
-            <summary>
-            The annotations of the match class
-            </summary>
-        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatchClass.Package">
             <summary>
-            null if this is a global type, otherwise the package the type is contained in.
+            null if this is a global match class, otherwise the package the match class is contained in.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatchClass.PackagePrefixedName">
             <summary>
-            The name of the type in case of a global type,
-            the name of the type prefixed by the name of the package otherwise.
+            The name of the match class in case of a global match class,
+            the name of the match class prefixed by the name of the package otherwise.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatchClass.Annotations">
+            <summary>
+            The annotations of the match class
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatchClass.Nodes">
@@ -538,20 +543,20 @@
             The name of the procedure
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IProcedureDefinition.Annotations">
-            <summary>
-            The annotations of the procedure
-            </summary>
-        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IProcedureDefinition.Package">
             <summary>
-            null if this is a global type, otherwise the package the type is contained in.
+            null if this is a global procedure, otherwise the package the procedure is contained in.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IProcedureDefinition.PackagePrefixedName">
             <summary>
-            The name of the type in case of a global type,
-            the name of the type prefixed by the name of the package otherwise.
+            The name of the procedure in case of a global procedure,
+            the name of the procedure prefixed by the name of the package otherwise.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IProcedureDefinition.Annotations">
+            <summary>
+            The annotations of the procedure
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IProcedureDefinition.InputNames">
@@ -722,7 +727,7 @@
             Or the types of the graph elements returned to the calling action in case of a defined sequence.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo.Package">
+        <member name="P:de.unika.ipd.grGen.libGr.EmbeddedSequenceInfo.Package">
             <summary>
             null if this is a global embedded sequence, otherwise the package the embedded sequence is contained in.
             </summary>
@@ -757,15 +762,20 @@
             <param name="xgrs">The XGRS string.</param>
             <param name="lineNr">The line number the sequence appears on in the source.</param>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.Name">
+        <member name="P:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.Name">
             <summary>
             The name the sequence was defined with
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.PackagePrefixedName">
+        <member name="P:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.Package">
             <summary>
-            The name of the type in case of a global type,
-            the name of the type prefixed by the name of the package otherwise.
+            null if this is a global sequence, otherwise the package the sequence is contained in.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.PackagePrefixedName">
+            <summary>
+            The name of the sequence in case of a global sequence,
+            the name of the sequence prefixed by the name of the package otherwise.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.DefinedSequenceInfo.annotations">
@@ -1255,27 +1265,6 @@
             <param name="map">A dictionary representing a map.</param>
             <returns>A new list containing all values from <paramref name="map"/>.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetTypeFromNameForContainer(System.String,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Deque
-            </summary>
-            <param name="typeName">Name of the type we want some type object for</param>
-            <param name="graph">Graph to be search for enum,node,edge types / enum,node/edge type names</param>
-            <returns>The type object corresponding to the given string, null if type was not found</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetTypeFromNameForContainer(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
-            <summary>
-            Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Deque
-            </summary>
-            <param name="typeName">Name of the type we want some type object for</param>
-            <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
-            <returns>The type object corresponding to the given string, null if type was not found</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.GetQualifiedTypeName(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
-            <summary>
-            Returns the qualified type name for the type name given
-            </summary>
-        </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Clone(System.Object)">
             <summary>
             Creates a shallow clone of the given container.
@@ -1591,6 +1580,154 @@
             <param name="a">A dictionary.</param>
             <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
             <returns>Boolean result of set/map comparison.</returns>
+        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given non-container value
+            </summary>
+            <param name="value">The scalar value of which to get the string representation</param>
+            <param name="type">The type as string, e.g int,string,Foo </param>
+            <param name="content">The content as string, e.g. 42,"foo",bar } </param>
+            <param name="attrType">The attribute type of the value (may be null)</param>
+            <param name="graph">The graph with the model and the element names</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given non-container value
+            </summary>
+            <param name="value">The scalar of which to get the string representation</param>
+            <param name="attrType">The attribute type (may be null)</param>
+            <param name="graph">The graph with the model and the element names</param>
+            <returns>String representation of the scalar.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringObject(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value of attribute kind object,
+            i.e. an externally defined type, maybe registered as external type to GrGen, maybe not, only defined as object
+            </summary>
+            <param name="value">The scalar of which to get the string representation</param>
+            <param name="attrType">The attribute type</param>
+            <param name="graph">The graph with the model and the element names</param>
+            <returns>String representation of the scalar.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a deque
+            </summary>
+            <param name="value">The value of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of value</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringNonNull(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given value, which must be not null (for emit,record)
+            </summary>
+            <param name="value">The value of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of the value</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given dictionary
+            </summary>
+            <param name="setmap">The dictionary of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of dictionary</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given List
+            </summary>
+            <param name="array">The List of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of List</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given Deque
+            </summary>
+            <param name="deque">The Deque of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of Deque</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar value of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of scalar value</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.TypesHelper">
+            <summary>
+            The TypesHelper in this file contains code that creates or handles .net / C# types, as name strings or Type objects
+            </summary>
+            <summary>
+            The TypesHelper in this file contains code that creates or handles GrGen types, as name strings or libGr-objects
+            </summary>
+            <summary>
+            The TypesHelper in this file contains code to handle values of diverse supported types at runtime.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.TypeName(de.unika.ipd.grGen.libGr.GrGenType)">
+            <summary>
+            Returns C# type string
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.PrefixedTypeFromType(System.Type)">
+            <summary>
+            Returns C# type string with correct namespace prefix for the type given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.XgrsTypeToCSharpType(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Returns C# type string with correct namespace prefix for the type given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.GetType(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Returns type object for type name string
+            </summary>
+            <param name="typeName">Name of the type we want some type object for</param>
+            <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
+            <returns>The type object corresponding to the given string, null if type was not found</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.Clone(System.Object)">
+            <summary>
+            Returns a clone of either a graph or a match or a container
+            </summary>
+            <param name="toBeCloned">The graph or match or container to be cloned</param>
+            <returns>The cloned graph or match or container</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.INamed">
+            <summary>
+            Represents a named entity/type that may be contained in a package.
+            (Packages were added late during development, with the constraint to stay compatible,
+            and intentionally as 2nd class citizens, confined to one nesting level, and without explicit object representing them.)
+            ("Overrides" by "new" in inherited interfaces are for comment refinement only.)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.INamed.Name">
+            <summary>
+            The name of the entity/type
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.INamed.Package">
+            <summary>
+            null if this is a global entity/type, otherwise the package the entity/type is contained in.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.INamed.PackagePrefixedName">
+            <summary>
+            The name of the entity/type in case of a global type,
+            the name of the entity/type prefixed by the name of the package otherwise (separated by a double colon).
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IAlternative">
             <summary>
@@ -2268,7 +2405,11 @@
             The annotations of the pattern element
             </summary>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "T:de.unika.ipd.grGen.libGr.VarType" ignoriert -->
+        <member name="T:de.unika.ipd.grGen.libGr.VarType">
+            <summary>
+            A representation of a GrGen variable type.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.VarType.varTypeMap">
             <summary>
             A map from .NET types to singleton VarTypes.
@@ -3125,89 +3266,6 @@
             Items can be added and removed in O(1) at the beginning and at the end, and accessed at an arbitrary index in O(1).
             Implemented by a ring buffer that is doubled in size (and the old content copied) when necessary (so insert is only amortized O(1)).
             </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given dictionary
-            </summary>
-            <param name="setmap">The dictionary of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of dictionary</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given List
-            </summary>
-            <param name="array">The List of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of List</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given Deque
-            </summary>
-            <param name="deque">The Deque of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of Deque</returns>
-        </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar value of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of scalar value</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringNonNull(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given value, which must be not null (for emit,record)
-            </summary>
-            <param name="value">The value of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of the value</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar value of which to get the string representation</param>
-            <param name="type">The type as string, e.g int,string,Foo </param>
-            <param name="content">The content as string, e.g. 42,"foo",bar } </param>
-            <param name="attrType">The attribute type of the value (may be null)</param>
-            <param name="graph">The graph with the model and the element names</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar of which to get the string representation</param>
-            <param name="attrType">The attribute type</param>
-            <param name="graph">The graph with the model and the element names</param>
-            <returns>String representation of the scalar.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringObject(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value of attribute kind object,
-            i.e. an externally defined type, maybe registered as external type to GrGen, maybe not, only defined as object
-            </summary>
-            <param name="value">The scalar of which to get the string representation</param>
-            <param name="attrType">The attribute type</param>
-            <param name="graph">The graph with the model and the element names</param>
-            <returns>String representation of the scalar.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a deque
-            </summary>
-            <param name="value">The value of which to get the string representation</param>
-            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-            <returns>string representation of value</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.FilterCall">
             <summary>
@@ -4770,20 +4828,20 @@
             A description of a GrGen enum type.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.EnumAttributeType.Name">
+        <member name="P:de.unika.ipd.grGen.libGr.EnumAttributeType.Name">
             <summary>
             The name of the enum type.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.EnumAttributeType.Package">
+        <member name="P:de.unika.ipd.grGen.libGr.EnumAttributeType.Package">
             <summary>
-            null if this is a global type, otherwise the package the type is contained in.
+            null if this is a global enum type, otherwise the package the enum type is contained in.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.EnumAttributeType.PackagePrefixedName">
+        <member name="P:de.unika.ipd.grGen.libGr.EnumAttributeType.PackagePrefixedName">
             <summary>
-            The name of the type in case of a global type,
-            the name of the type prefixed by the name of the package otherwise.
+            The name of the enum type in case of a global enum type,
+            the name of the enum type prefixed by the name of the package otherwise.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.EnumAttributeType.EnumType">
@@ -4796,8 +4854,8 @@
             Initializes an EnumAttributeType instance.
             </summary>
             <param name="name">The name of the enum type.</param>
-            <param name="name">The package the enum is contained in, or null if it is not contained in a package.</param>
-            <param name="name">The name of the enum type; prefixed by the package name plus a double colon, in case it is contain in a package.</param>
+            <param name="package">The package the enum is contained in, or null if it is not contained in a package.</param>
+            <param name="packagePrefixedName">The name of the enum type; prefixed by the package name plus a double colon, in case it is contain in a package.</param>
             <param name="enumType">The .NET type for the enum type.</param>
             <param name="memberArray">An array of all enum members.</param>
         </member>
@@ -6702,6 +6760,18 @@
             or -1, if all matches are to be applied.</param>
             <returns>A list with the return values of each of the rewrites applied. 
             Each element is a possibly empty array of objects that were returned by their rewrite.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.MatchForQuery(de.unika.ipd.grGen.libGr.IAction,System.Object[],System.Int32)">
+            <summary>
+            Matches a rewrite rule, without firing the Matched event, but with Cloning of the matches
+            (so they can stored, or used in an expression combining multiple queries like [?r] + [?r], 
+            or the action can be called multiple times in a multi rule all call query (on different parameters)).
+            </summary>
+            <param name="action">The rule to invoke</param>
+            <param name="arguments">The input arguments</param>
+            <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
+            depends on MaxMatches)</param>
+            <returns>A matches object containing the found matches.</returns>
         </member>
         <member name="E:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.OnMatched">
             <summary>
@@ -10299,28 +10369,6 @@
             Searches for a symmetric partner for the subpattern match at the index in the partition in this
             Returns true if it was possible in the end to map every match in the partition in this to a match in that
             </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.PrefixedTypeFromType(System.Type)">
-            <summary>
-            Returns type string with correct namespace prefix for the type given
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.XgrsTypeToCSharpType(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
-            <summary>
-            Returns type with correct namespace prefix for the type given
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.XgrsTypeToCSharpTypeNodeEdge(System.String)">
-            <summary>
-            Returns type with correct namespace prefix for the node or edge type given
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.Clone(System.Object)">
-            <summary>
-            Returns a clone of either a graph or a match or a container
-            </summary>
-            <param name="toBeCloned">The graph or match or container to be cloned</param>
-            <returns>The cloned graph or match or container</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.VCGFlags">
             <summary>
