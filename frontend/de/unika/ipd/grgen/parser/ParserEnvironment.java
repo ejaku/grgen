@@ -782,24 +782,30 @@ public abstract class ParserEnvironment extends Base
 		case "vfree":
 		case "vfreenonreset":
 		case "vreset":
+			return params.getChildren().size() == 1;
 		case "record":
+			return params.getChildren().size() == 1;
 		case "emit":
 		case "emitdebug":
 			return true;
 		case "add":
 			return (params.getChildren().size() == 1 || params.getChildren().size() == 3);
 		case "rem":
+			return params.getChildren().size() == 1;
 		case "clear":
-			return true;
+			return params.getChildren().size() == 0;
 		case "retype":
 			return params.getChildren().size() == 2;
 		case "addCopy":
 			return (params.getChildren().size() == 1 || params.getChildren().size() == 3);
 		case "merge":
+			return (params.getChildren().size() >= 2 && params.getChildren().size() <= 3);
 		case "redirectSource":
+			return (params.getChildren().size() >= 2 && params.getChildren().size() <= 3);
 		case "redirectTarget":
+			return (params.getChildren().size() >= 2 && params.getChildren().size() <= 3);
 		case "redirectSourceAndTarget":
-			return true;
+			return (params.getChildren().size() >= 3 && params.getChildren().size() <= 5);
 		case "insert":
 			return params.getChildren().size() == 1;
 		case "insertCopy":
