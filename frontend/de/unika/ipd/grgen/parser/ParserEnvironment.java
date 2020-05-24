@@ -100,6 +100,8 @@ public abstract class ParserEnvironment extends Base
 
 	private HashSet<String> keywords = new HashSet<String>();
 
+	private IdentNode packageId;
+
 	private IdentNode id;
 
 	private CollectNode<IdentNode> matchTypeChilds = new CollectNode<IdentNode>();
@@ -280,6 +282,16 @@ public abstract class ParserEnvironment extends Base
 	{
 		assert symTab >= 0 && symTab < symTabs.length : "Illegal symbol table index";
 		return symTabs[symTab].test(text);
+	}
+
+	public void setCurrentPackage(IdentNode id)
+	{
+		this.packageId = id;
+	}
+
+	public IdentNode getCurrentPackage()
+	{
+		return packageId;
 	}
 
 	public void setCurrentActionOrSubpattern(IdentNode id)
@@ -568,119 +580,124 @@ public abstract class ParserEnvironment extends Base
 
 	public boolean isGlobalFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
-		switch(i.getText()) {
+		return isGlobalFunction(i.getText(), params.getChildren().size());
+	}
+
+	public boolean isGlobalFunction(String functionName, int numParams)
+	{
+		switch(functionName) {
 		case "nodes":
 		case "edges":
-			return params.getChildren().size() <= 1;
+			return numParams <= 1;
 		case "countNodes":
 		case "countEdges":
-			return params.getChildren().size() <= 1;
+			return numParams <= 1;
 		case "empty":
 		case "size":
-			return params.getChildren().size() == 0;
+			return numParams == 0;
 		case "source":
 		case "target":
-			return params.getChildren().size() == 1;
+			return numParams == 1;
 		case "opposite":
-			return params.getChildren().size() == 2;
+			return numParams == 2;
 		case "nodeByName":
 		case "edgeByName":
-			return params.getChildren().size() >= 1 && params.getChildren().size() <= 2;
+			return numParams >= 1 && numParams <= 2;
 		case "nodeByUnique":
 		case "edgeByUnique":
-			return params.getChildren().size() >= 1 && params.getChildren().size() <= 2;
+			return numParams >= 1 && numParams <= 2;
 		case "incoming":
 		case "outgoing":
 		case "incident":
-			return params.getChildren().size() >= 1 && params.getChildren().size() <= 3;
+			return numParams >= 1 && numParams <= 3;
 		case "adjacentIncoming":
 		case "adjacentOutgoing":
 		case "adjacent":
-			return params.getChildren().size() >= 1 && params.getChildren().size() <= 3;
+			return numParams >= 1 && numParams <= 3;
 		case "reachableIncoming":
 		case "reachableOutgoing":
 		case "reachable":
-			return params.getChildren().size() >= 1 && params.getChildren().size() <= 3;
+			return numParams >= 1 && numParams <= 3;
 		case "reachableEdgesIncoming":
 		case "reachableEdgesOutgoing":
 		case "reachableEdges":
-			return params.getChildren().size() >= 1 && params.getChildren().size() <= 3;
+			return numParams >= 1 && numParams <= 3;
 		case "boundedReachableIncoming":
 		case "boundedReachableOutgoing":
 		case "boundedReachable":
-			return params.getChildren().size() >= 2 && params.getChildren().size() <= 4;
+			return numParams >= 2 && numParams <= 4;
 		case "boundedReachableEdgesIncoming":
 		case "boundedReachableEdgesOutgoing":
 		case "boundedReachableEdges":
-			return params.getChildren().size() >= 2 && params.getChildren().size() <= 4;
+			return numParams >= 2 && numParams <= 4;
 		case "boundedReachableWithRemainingDepthIncoming":
 		case "boundedReachableWithRemainingDepthOutgoing":
 		case "boundedReachableWithRemainingDepth":
-			return params.getChildren().size() >= 2 && params.getChildren().size() <= 4;
+			return numParams >= 2 && numParams <= 4;
 		case "countIncoming":
 		case "countOutgoing":
 		case "countIncident":
-			return params.getChildren().size() >= 1 && params.getChildren().size() <= 3;
+			return numParams >= 1 && numParams <= 3;
 		case "countAdjacentIncoming":
 		case "countAdjacentOutgoing":
 		case "countAdjacent":
-			return params.getChildren().size() >= 1 && params.getChildren().size() <= 3;
+			return numParams >= 1 && numParams <= 3;
 		case "countReachableIncoming":
 		case "countReachableOutgoing":
 		case "countReachable":
-			return params.getChildren().size() >= 1 && params.getChildren().size() <= 3;
+			return numParams >= 1 && numParams <= 3;
 		case "countReachableEdgesIncoming":
 		case "countReachableEdgesOutgoing":
 		case "countReachableEdges":
-			return params.getChildren().size() >= 1 && params.getChildren().size() <= 3;
+			return numParams >= 1 && numParams <= 3;
 		case "countBoundedReachableIncoming":
 		case "countBoundedReachableOutgoing":
 		case "countBoundedReachable":
-			return params.getChildren().size() >= 2 && params.getChildren().size() <= 4;
+			return numParams >= 2 && numParams <= 4;
 		case "countBoundedReachableEdgesIncoming":
 		case "countBoundedReachableEdgesOutgoing":
 		case "countBoundedReachableEdges":
-			return params.getChildren().size() >= 2 && params.getChildren().size() <= 4;
+			return numParams >= 2 && numParams <= 4;
 		case "isIncoming":
 		case "isOutgoing":
 		case "isIncident":
-			return params.getChildren().size() >= 2 && params.getChildren().size() <= 4;
+			return numParams >= 2 && numParams <= 4;
 		case "isAdjacentIncoming":
 		case "isAdjacentOutgoing":
 		case "isAdjacent":
-			return params.getChildren().size() >= 2 && params.getChildren().size() <= 4;
+			return numParams >= 2 && numParams <= 4;
 		case "isReachableIncoming":
 		case "isReachableOutgoing":
 		case "isReachable":
-			return params.getChildren().size() >= 2 && params.getChildren().size() <= 4;
+			return numParams >= 2 && numParams <= 4;
 		case "isReachableEdgesIncoming":
 		case "isReachableEdgesOutgoing":
 		case "isReachableEdges":
-			return params.getChildren().size() >= 2 && params.getChildren().size() <= 4;
+			return numParams >= 2 && numParams <= 4;
 		case "isBoundedReachableIncoming":
 		case "isBoundedReachableOutgoing":
 		case "isBoundedReachable":
-			return params.getChildren().size() >= 3 && params.getChildren().size() <= 5;
+			return numParams >= 3 && numParams <= 5;
 		case "isBoundedReachableEdgesIncoming":
 		case "isBoundedReachableEdgesOutgoing":
 		case "isBoundedReachableEdges":
-			return params.getChildren().size() >= 3 && params.getChildren().size() <= 5;
+			return numParams >= 3 && numParams <= 5;
 		case "random":
-			return params.getChildren().size() >= 0 && params.getChildren().size() <= 1;
+			return numParams >= 0 && numParams <= 1;
 		case "canonize":
-			return params.getChildren().size() == 1;
+			return numParams == 1;
 		case "inducedSubgraph":
 		case "definedSubgraph":
-			return params.getChildren().size() == 1;
+			return numParams == 1;
 		case "equalsAny":
 		case "equalsAnyStructurally":
-			return params.getChildren().size() == 2;
+			return numParams == 2;
 		case "copy":
-			return params.getChildren().size() == 1;
+			return numParams == 1;
 		case "nameof":
-			return params.getChildren().size() == 1 || params.getChildren().size() == 0;
+			return numParams == 1 || numParams == 0;
 		case "uniqueof":
-			return params.getChildren().size() == 1 || params.getChildren().size() == 0;
+			return numParams == 1 || numParams == 0;
 		default:
 			return false;
 		}
@@ -774,45 +791,50 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	boolean isGlobalProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	public boolean isGlobalProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
-		switch(i.getText()) {
+		return isGlobalProcedure(i.getText(), params.getChildren().size());
+	}
+
+	public boolean isGlobalProcedure(String procedureName, int numParams)
+	{
+		switch(procedureName) {
 		case "valloc":
-			return params.getChildren().size() == 0;
+			return numParams == 0;
 		case "vfree":
 		case "vfreenonreset":
 		case "vreset":
-			return params.getChildren().size() == 1;
+			return numParams == 1;
 		case "record":
-			return params.getChildren().size() == 1;
+			return numParams == 1;
 		case "emit":
 		case "emitdebug":
 			return true;
 		case "add":
-			return (params.getChildren().size() == 1 || params.getChildren().size() == 3);
+			return (numParams == 1 || numParams == 3);
 		case "rem":
-			return params.getChildren().size() == 1;
+			return numParams == 1;
 		case "clear":
-			return params.getChildren().size() == 0;
+			return numParams == 0;
 		case "retype":
-			return params.getChildren().size() == 2;
+			return numParams == 2;
 		case "addCopy":
-			return (params.getChildren().size() == 1 || params.getChildren().size() == 3);
+			return (numParams == 1 || numParams == 3);
 		case "merge":
-			return (params.getChildren().size() >= 2 && params.getChildren().size() <= 3);
+			return (numParams >= 2 && numParams <= 3);
 		case "redirectSource":
-			return (params.getChildren().size() >= 2 && params.getChildren().size() <= 3);
+			return (numParams >= 2 && numParams <= 3);
 		case "redirectTarget":
-			return (params.getChildren().size() >= 2 && params.getChildren().size() <= 3);
+			return (numParams >= 2 && numParams <= 3);
 		case "redirectSourceAndTarget":
-			return (params.getChildren().size() >= 3 && params.getChildren().size() <= 5);
+			return (numParams >= 3 && numParams <= 5);
 		case "insert":
-			return params.getChildren().size() == 1;
+			return numParams == 1;
 		case "insertCopy":
-			return params.getChildren().size() == 2;
+			return numParams == 2;
 		case "insertInduced":
 		case "insertDefined":
-			return params.getChildren().size() == 2;
+			return numParams == 2;
 		default:
 			return false;
 		}
