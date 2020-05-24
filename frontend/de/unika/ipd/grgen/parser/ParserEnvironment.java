@@ -497,67 +497,73 @@ public abstract class ParserEnvironment extends Base
 
 	boolean isMathFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
-		if(pack != null && pack.getText().equals("Math")) {
-			switch(i.getText()) {
-			case "min":
-			case "max":
-			case "sin":
-			case "cos":
-			case "tan":
-			case "arcsin":
-			case "arccos":
-			case "arctan":
-			case "sqr":
-			case "sqrt":
-			case "pow":
-			case "log":
-			case "ceil":
-			case "floor":
-			case "round":
-			case "truncate":
-			case "abs":
-			case "sgn":
-			case "pi":
-			case "e":
-			case "byteMin":
-			case "byteMax":
-			case "shortMin":
-			case "shortMax":
-			case "intMin":
-			case "intMax":
-			case "longMin":
-			case "longMax":
-			case "floatMin":
-			case "floatMax":
-			case "doubleMin":
-			case "doubleMax":
-				return true;
-			}
+		if(pack == null || !pack.getText().equals("Math"))
+			return false;
+		
+		switch(i.getText()) {
+		case "min":
+		case "max":
+		case "sin":
+		case "cos":
+		case "tan":
+		case "arcsin":
+		case "arccos":
+		case "arctan":
+		case "sqr":
+		case "sqrt":
+		case "pow":
+		case "log":
+		case "ceil":
+		case "floor":
+		case "round":
+		case "truncate":
+		case "abs":
+		case "sgn":
+		case "pi":
+		case "e":
+		case "byteMin":
+		case "byteMax":
+		case "shortMin":
+		case "shortMax":
+		case "intMin":
+		case "intMax":
+		case "longMin":
+		case "longMax":
+		case "floatMin":
+		case "floatMax":
+		case "doubleMin":
+		case "doubleMax":
+			return true;
+		default:
+			return false;
 		}
-		return false;
 	}
 
 	boolean isFileFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
-		if(pack != null && pack.getText().equals("File")) {
-			switch(i.getText()) {
-			case "exists":
-			case "import":
-				return true;
-			}
+		if(pack == null || !pack.getText().equals("File"))
+			return false;
+		
+		switch(i.getText()) {
+		case "exists":
+		case "import":
+			return true;
+		default:
+			return false;
 		}
-		return false;
 	}
 
 	boolean isTimeFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
-		if(pack != null && pack.getText().equals("Time")) {
-			switch(i.getText()) {
-			case "now":
-				return true;
-			}
+		if(pack == null || !pack.getText().equals("Time"))
+			return false;
+
+		switch(i.getText()) {
+		case "now":
+			return true;
+		default:
+			return false;
 		}
-		return false;
 	}
 
 	public boolean isGlobalFunction(Token pack, Token i, CollectNode<ExprNode> params)
@@ -722,44 +728,50 @@ public abstract class ParserEnvironment extends Base
 
 	boolean isFileProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
-		if(pack != null && pack.getText().equals("File")) {
-			switch(i.getText()) {
-			case "export":
-			case "delete":
-				return true;
-			}
+		if(pack == null || !pack.getText().equals("File"))
+			return false;
+		
+		switch(i.getText()) {
+		case "export":
+		case "delete":
+			return true;
+		default:
+			return false;
 		}
-		return false;
 	}
 
 	boolean isTransactionProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
-		if(pack != null && pack.getText().equals("Transaction")) {
-			switch(i.getText()) {
-			case "start":
-			case "pause":
-			case "resume":
-			case "commit":
-			case "rollback":
-				return true;
-			}
+		if(pack == null || !pack.getText().equals("Transaction"))
+			return false;
+		
+		switch(i.getText()) {
+		case "start":
+		case "pause":
+		case "resume":
+		case "commit":
+		case "rollback":
+			return true;
+		default:
+			return false;
 		}
-		return false;
 	}
 
 	boolean isDebugProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
-		if(pack != null && pack.getText().equals("Debug")) {
-			switch(i.getText()) {
-			case "add":
-			case "rem":
-			case "emit":
-			case "halt":
-			case "highlight":
-				return true;
-			}
+		if(pack == null || !pack.getText().equals("Debug"))
+			return false;
+		
+		switch(i.getText()) {
+		case "add":
+		case "rem":
+		case "emit":
+		case "halt":
+		case "highlight":
+			return true;
+		default:
+			return false;
 		}
-		return false;
 	}
 
 	boolean isGlobalProcedure(Token pack, Token i, CollectNode<ExprNode> params)
