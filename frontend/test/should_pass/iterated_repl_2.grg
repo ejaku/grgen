@@ -19,6 +19,7 @@ rule r
 
 		modify {
 			x --> y;
+		---
 			iterated bar;
 			iterated baz;
 		}
@@ -26,6 +27,7 @@ rule r
 	
 	modify {
 		x:Node;
+	---
 		iterated foo;
 	}
 }
@@ -51,6 +53,7 @@ pattern p
 
 		modify {
 			x --> y;
+		---
 			iterated bar;
 			iterated baz;
 		}
@@ -58,6 +61,7 @@ pattern p
 	
 	modify {
 		x:Node;
+	---
 		iterated foo;
 	}
 }
