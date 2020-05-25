@@ -91,25 +91,25 @@ public class GraphRedirectSourceAndTargetProcNode extends BuiltinProcedureInvoca
 	protected boolean checkLocal()
 	{
 		if(!(edgeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("first(target) argument of redirectSource(.,.,.) must be of edge type");
+			reportError("first(edge-to-be-redirected) argument of redirectSourceAndTarget(.,.,.) must be of edge type");
 			return false;
 		}
 		if(!(newSourceExpr.getType() instanceof NodeTypeNode)) {
-			reportError("second(source) argument of redirectSource(.,.,.) must be of node type");
+			reportError("second(source node) argument of redirectSourceAndTarget(.,.,.) must be of node type");
 			return false;
 		}
 		if(!(newTargetExpr.getType() instanceof NodeTypeNode)) {
-			reportError("second(source) argument of redirectTarget(.,.,.) must be of node type");
+			reportError("third(target node) argument of redirectSourceAndTarget(.,.,.) must be of node type");
 			return false;
 		}
 		if(oldSourceNameExpr != null
 			&& !(oldSourceNameExpr.getType().equals(BasicTypeNode.stringType))) {
-			reportError("third(source name) argument of redirectSource(.,.,.) must be of string type");
+			reportError("fourth(source name) argument of redirectSourceAndTarget(.,.,.,.) must be of string type");
 			return false;
 		}
 		if(oldTargetNameExpr != null
 			&& !(oldTargetNameExpr.getType().equals(BasicTypeNode.stringType))) {
-			reportError("third(source name) argument of redirectTarget(.,.,.) must be of string type");
+			reportError("fifth(target name) argument of redirectSourceAndTarget(.,.,.,.,.) must be of string type");
 			return false;
 		}
 		return true;

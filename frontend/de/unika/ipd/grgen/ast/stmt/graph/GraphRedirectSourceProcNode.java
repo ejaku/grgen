@@ -77,11 +77,11 @@ public class GraphRedirectSourceProcNode extends BuiltinProcedureInvocationBaseN
 	protected boolean checkLocal()
 	{
 		if(!(edgeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("first(target) argument of redirectSource(.,.,.) must be of edge type");
+			reportError("first(edge-to-be-redirected) argument of redirectSource(.,.) must be of edge type");
 			return false;
 		}
 		if(!(newSourceExpr.getType() instanceof NodeTypeNode)) {
-			reportError("second(source) argument of redirectSource(.,.,.) must be of node type");
+			reportError("second(source node) argument of redirectSource(.,.) must be of node type");
 			return false;
 		}
 		if(oldSourceNameExpr != null
