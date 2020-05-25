@@ -1,0 +1,15 @@
+procedure addCopy(n:Node)
+{
+}
+
+rule r
+{
+	n:N;
+	
+	modify
+	{
+		eval {
+			addCopy(n);
+		}
+	}
+}

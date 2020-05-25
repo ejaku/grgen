@@ -1,0 +1,9 @@
+function nodes() : set<Node>
+{
+	return(set<Node>{});
+}
+
+test t
+{
+	if { nodes().empty(); }
+}
