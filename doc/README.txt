@@ -1,4 +1,4 @@
-GrGen.NET v5.0 (2020-04-27)
+GrGen.NET v5.1 (2020-??-??)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -14,9 +14,9 @@ INSTALL
 -------
 
 You need the following system setup for GrGen.NET:
-  - Microsoft .NET 2.0 or above
-    OR Mono 1.2.5 or above
-  - Java 1.5 or above
+  - Microsoft .NET 4.0 or above
+    OR Mono 3.2.8 or above
+  - Java 1.7 or above
 
 For Linux:
   - Unpack GrGenNET.tar.bz2 to a folder of your choice (referred to
@@ -27,6 +27,8 @@ For Linux:
 
   - Add the <GrGenNETPath>/bin directory to your search path,
     otherwise you must specify it together with the executable when running mono
+	
+	( by adding in .profile or .bashrc: export PATH=<GrGenNETPath>/bin:$PATH )
 
 For Windows:
   - Unpack GrGenNET.zip to a folder of your choice (referred to as
