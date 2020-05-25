@@ -254,6 +254,15 @@ public abstract class InheritanceType extends CompoundType
 		return allFunctionMethods.values();
 	}
 
+	public Map<String, FunctionMethod> getAllFunctionMethodsByName()
+	{
+		if(allFunctionMethods == null) {
+			getAllFunctionMethods();
+		}
+
+		return allFunctionMethods;
+	}
+
 	public Collection<ProcedureMethod> getAllProcedureMethods()
 	{
 		if(allProcedureMethods == null) {
@@ -269,6 +278,35 @@ public abstract class InheritanceType extends CompoundType
 		}
 
 		return allProcedureMethods.values();
+	}
+
+	public Map<String, ProcedureMethod> getAllProcedureMethodsByName()
+	{
+		if(allProcedureMethods == null) {
+			getAllProcedureMethods();
+		}
+
+		return allProcedureMethods;
+	}
+
+	public boolean superTypeDefinesFunctionMethod(FunctionMethod functionMethod)
+	{
+		for(InheritanceType superType : getAllSuperTypes()) {
+			if(superType.getAllFunctionMethodsByName().containsKey(functionMethod.getIdent().toString())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean superTypeDefinesProcedureMethod(ProcedureMethod procedureMethod)
+	{
+		for(InheritanceType superType : getAllSuperTypes()) {
+			if(superType.getAllProcedureMethodsByName().containsKey(procedureMethod.getIdent().toString())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

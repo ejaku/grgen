@@ -420,6 +420,9 @@ public class ModelGen extends CSharpBase
 	{
 		// METHOD-TODO - inheritance?
 		for(FunctionMethod fm : functionMethods) {
+			if(type.superTypeDefinesFunctionMethod(fm))
+				continue; // skip methods which were already declared in a base interface
+
 			sb.appendFront(formatType(fm.getReturnType()) + " ");
 			sb.append(fm.getIdent().toString()
 					+ "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
@@ -446,6 +449,9 @@ public class ModelGen extends CSharpBase
 			}
 		}
 		for(ProcedureMethod pm : procedureMethods) {
+			if(type.superTypeDefinesProcedureMethod(pm))
+				continue; // skip methods which were already declared in a base interface
+
 			sb.appendFront("void ");
 			sb.append(pm.getIdent().toString()
 					+ "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
