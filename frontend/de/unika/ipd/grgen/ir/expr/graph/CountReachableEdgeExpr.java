@@ -11,46 +11,14 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class CountReachableEdgeExpr extends Expression
+public class CountReachableEdgeExpr extends NeighborhoodQueryExpr
 {
-	private final Expression startNodeExpr;
-	private final Expression incidentEdgeTypeExpr;
-	private final int direction;
-	private final Expression adjacentNodeTypeExpr;
-
-	public static final int INCIDENT = 0;
-	public static final int INCOMING = 1;
-	public static final int OUTGOING = 2;
-
 	public CountReachableEdgeExpr(Expression startNodeExpression,
 			Expression incidentEdgeTypeExpr, int direction,
 			Expression adjacentNodeTypeExpr)
 	{
-		super("count reachable edge expression", IntType.getType());
-		this.startNodeExpr = startNodeExpression;
-		this.incidentEdgeTypeExpr = incidentEdgeTypeExpr;
-		this.direction = direction;
-		this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
-	}
-
-	public Expression getStartNodeExpr()
-	{
-		return startNodeExpr;
-	}
-
-	public Expression getIncidentEdgeTypeExpr()
-	{
-		return incidentEdgeTypeExpr;
-	}
-
-	public int Direction()
-	{
-		return direction;
-	}
-
-	public Expression getAdjacentNodeTypeExpr()
-	{
-		return adjacentNodeTypeExpr;
+		super("count reachable edge expression", IntType.getType(), startNodeExpression,
+				incidentEdgeTypeExpr, direction, adjacentNodeTypeExpr);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */

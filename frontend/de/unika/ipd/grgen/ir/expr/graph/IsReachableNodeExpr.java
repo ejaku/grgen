@@ -11,53 +11,22 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
-public class IsReachableNodeExpr extends Expression
+public class IsReachableNodeExpr extends NeighborhoodQueryExpr
 {
-	private final Expression startNodeExpr;
 	private final Expression endNodeExpr;
-	private final Expression incidentEdgeTypeExpr;
-	private final int direction;
-	private final Expression adjacentNodeTypeExpr;
-
-	public static final int ADJACENT = 0;
-	public static final int INCOMING = 1;
-	public static final int OUTGOING = 2;
 
 	public IsReachableNodeExpr(Expression startNodeExpression, Expression endNodeExpression,
 			Expression incidentEdgeTypeExpr, int direction,
 			Expression adjacentNodeTypeExpr, Type type)
 	{
-		super("is reachable node expression", type);
-		this.startNodeExpr = startNodeExpression;
+		super("is reachable node expression", type, startNodeExpression,
+				incidentEdgeTypeExpr, direction, adjacentNodeTypeExpr);
 		this.endNodeExpr = endNodeExpression;
-		this.incidentEdgeTypeExpr = incidentEdgeTypeExpr;
-		this.direction = direction;
-		this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
-	}
-
-	public Expression getStartNodeExpr()
-	{
-		return startNodeExpr;
 	}
 
 	public Expression getEndNodeExpr()
 	{
 		return endNodeExpr;
-	}
-
-	public Expression getIncidentEdgeTypeExpr()
-	{
-		return incidentEdgeTypeExpr;
-	}
-
-	public int Direction()
-	{
-		return direction;
-	}
-
-	public Expression getAdjacentNodeTypeExpr()
-	{
-		return adjacentNodeTypeExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
