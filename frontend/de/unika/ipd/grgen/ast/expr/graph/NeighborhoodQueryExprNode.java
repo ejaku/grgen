@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ast.expr.graph;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.util.Direction;
 
 /**
  * Base class for neighborhood graph queries (with members shared by all these queries).
@@ -28,16 +29,11 @@ public abstract class NeighborhoodQueryExprNode extends BuiltinFunctionInvocatio
 	protected ExprNode incidentTypeExpr;
 	protected ExprNode adjacentTypeExpr;
 
-	protected int direction;
-
-	public static final int ADJACENT = 0;
-	public static final int INCIDENT = 0;
-	public static final int INCOMING = 1;
-	public static final int OUTGOING = 2;
+	protected Direction direction;
 
 	public NeighborhoodQueryExprNode(Coords coords,
 			ExprNode startNodeExpr,
-			ExprNode incidentTypeExpr, int direction,
+			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
 		super(coords);

@@ -10,13 +10,14 @@ package de.unika.ipd.grgen.ir.expr.graph;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.util.Direction;
 
 public class BoundedReachableEdgeExpr extends NeighborhoodQueryExpr
 {
 	private final Expression depthExpr;
 
 	public BoundedReachableEdgeExpr(Expression startNodeExpression, Expression depthExpression,
-			Expression incidentEdgeTypeExpr, int direction,
+			Expression incidentEdgeTypeExpr, Direction direction,
 			Expression adjacentNodeTypeExpr, Type type)
 	{
 		super("bounded reachable edge expression", type, startNodeExpression,

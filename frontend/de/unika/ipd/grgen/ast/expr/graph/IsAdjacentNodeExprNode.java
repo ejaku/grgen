@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.IsAdjacentNodeExpr;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.util.Direction;
 
 /**
  * Am ast node telling whether an end node is adjacent to a start node, via incoming/outgoing/incident edges of given type, from/to a node of given type.
@@ -35,7 +36,7 @@ public class IsAdjacentNodeExprNode extends NeighborhoodQueryExprNode
 
 	public IsAdjacentNodeExprNode(Coords coords, 
 			ExprNode startNodeExpr, ExprNode endNodeExpr,
-			ExprNode incidentTypeExpr, int direction,
+			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
 		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);

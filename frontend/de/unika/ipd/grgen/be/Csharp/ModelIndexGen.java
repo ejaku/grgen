@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.be.Csharp;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.model.AttributeIndex;
 import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
 import de.unika.ipd.grgen.ir.model.Index;
@@ -22,6 +21,7 @@ import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 import de.unika.ipd.grgen.ir.type.basic.StringType;
+import de.unika.ipd.grgen.util.Direction;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModelIndexGen extends CSharpBase
@@ -1887,7 +1887,7 @@ public class ModelIndexGen extends CSharpBase
 		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 		String adjacentNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getAdjacentNodeType());
 
-		if(index.Direction() == IncidentEdgeExpr.OUTGOING) {
+		if(index.Direction() == Direction.OUTGOING) {
 			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
 			sb.indent();
 			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
@@ -1898,7 +1898,7 @@ public class ModelIndexGen extends CSharpBase
 					+"(" + startNodeType + ")source);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-		} else if(index.Direction() == IncidentEdgeExpr.INCOMING) {
+		} else if(index.Direction() == Direction.INCOMING) {
 			sb.appendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + ") {\n");
 			sb.indent();
 			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
@@ -1938,7 +1938,7 @@ public class ModelIndexGen extends CSharpBase
 		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 		String adjacentNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getAdjacentNodeType());
 
-		if(index.Direction() == IncidentEdgeExpr.OUTGOING) {
+		if(index.Direction() == Direction.OUTGOING) {
 			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
 			sb.indent();
 			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
@@ -1949,7 +1949,7 @@ public class ModelIndexGen extends CSharpBase
 					+ "(" + startNodeType + ")source);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-		} else if(index.Direction() == IncidentEdgeExpr.INCOMING) {
+		} else if(index.Direction() == Direction.INCOMING) {
 			sb.appendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + ") {\n");
 			sb.indent();
 			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "

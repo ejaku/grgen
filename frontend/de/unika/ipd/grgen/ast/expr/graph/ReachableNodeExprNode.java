@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.ReachableNodeExpr;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.util.Direction;
 
 /**
  * A node yielding the reachable nodes of a node, via incident edges, via incoming edges, via outgoing edges.
@@ -34,7 +35,7 @@ public class ReachableNodeExprNode extends NeighborhoodQueryExprNode
 
 	public ReachableNodeExprNode(Coords coords,
 			ExprNode startNodeExpr,
-			ExprNode incidentTypeExpr, int direction,
+			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
 		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);

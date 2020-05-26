@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
+import de.unika.ipd.grgen.util.Direction;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -42,7 +43,7 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 	}
 
 	private String functionName; // input string, "resolved" to direction
-	private int direction; // one of INCIDENT|INCOMING|OUTGOING in CountIncidentEdgeExprNode
+	private Direction direction;
 	private IdentNode startNodeTypeUnresolved;
 	private InheritanceTypeNode startNodeType;
 	private IdentNode incidentEdgeTypeUnresolved;
@@ -126,7 +127,7 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 			return false;
 
 		direction = FunctionInvocationDecisionNode.getDirection(functionName);
-		if(direction == -1) {
+		if(direction == Direction.INVALID) {
 			reportError(functionName
 					+ "() is not valid, use countIncoming|countOutgoing|countIncident for defining an incidence count index.");
 			return false;

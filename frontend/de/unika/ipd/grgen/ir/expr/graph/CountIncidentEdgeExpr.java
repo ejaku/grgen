@@ -10,11 +10,12 @@ package de.unika.ipd.grgen.ir.expr.graph;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
+import de.unika.ipd.grgen.util.Direction;
 
 public class CountIncidentEdgeExpr extends NeighborhoodQueryExpr
 {
 	public CountIncidentEdgeExpr(Expression startNodeExpression,
-			Expression incidentEdgeTypeExpr, int direction,
+			Expression incidentEdgeTypeExpr, Direction direction,
 			Expression adjacentNodeTypeExpr)
 	{
 		super("count incident edge expression", IntType.getType(), startNodeExpression,

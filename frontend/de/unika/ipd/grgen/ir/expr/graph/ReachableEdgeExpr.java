@@ -10,11 +10,12 @@ package de.unika.ipd.grgen.ir.expr.graph;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.util.Direction;
 
 public class ReachableEdgeExpr extends NeighborhoodQueryExpr
 {
 	public ReachableEdgeExpr(Expression startNodeExpression,
-			Expression incidentEdgeTypeExpr, int direction,
+			Expression incidentEdgeTypeExpr, Direction direction,
 			Expression adjacentNodeTypeExpr, Type type)
 	{
 		super("reachable edge expression", type, startNodeExpression,

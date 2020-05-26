@@ -9,22 +9,18 @@ package de.unika.ipd.grgen.ir.expr.graph;
 
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.util.Direction;
 
 public abstract class NeighborhoodQueryExpr extends Expression
 {
 	protected final Expression startNodeExpr;
 	protected final Expression incidentEdgeTypeExpr;
-	protected final int direction;
+	protected final Direction direction;
 	protected final Expression adjacentNodeTypeExpr;
-
-	public static final int ADJACENT = 0;
-	public static final int INCIDENT = 0;
-	public static final int INCOMING = 1;
-	public static final int OUTGOING = 2;
 
 	public NeighborhoodQueryExpr(String name, Type type,
 			Expression startNodeExpression,
-			Expression incidentEdgeTypeExpr, int direction,
+			Expression incidentEdgeTypeExpr, Direction direction,
 			Expression adjacentNodeTypeExpr)
 	{
 		super(name, type);
@@ -44,7 +40,7 @@ public abstract class NeighborhoodQueryExpr extends Expression
 		return incidentEdgeTypeExpr;
 	}
 
-	public int Direction()
+	public Direction Direction()
 	{
 		return direction;
 	}

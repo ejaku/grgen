@@ -21,6 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.CountBoundedReachableNodeExpr;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.util.Direction;
 
 /**
  * A node yielding the count of the depth-bounded reachable nodes/reachable nodes via incoming edges/reachable nodes via outgoing edges of a node.
@@ -36,7 +37,7 @@ public class CountBoundedReachableNodeExprNode extends NeighborhoodQueryExprNode
 	
 	public CountBoundedReachableNodeExprNode(Coords coords,
 			ExprNode startNodeExpr, ExprNode depthExpr,
-			ExprNode incidentTypeExpr, int direction,
+			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
 		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);

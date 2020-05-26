@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ir.model;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
+import de.unika.ipd.grgen.util.Direction;
 
 /**
  * An incidence count index.
@@ -22,7 +23,7 @@ public class IncidenceCountIndex extends Index
 {
 	private final NodeType startNodeType;
 	private final EdgeType incidentEdgeType;
-	private final int direction; // one of INCIDENT|INCOMING|OUTGOING in CountIncidentEdgeExpr
+	private final Direction direction;
 	private final NodeType adjacentNodeType;
 
 	/**
@@ -31,7 +32,7 @@ public class IncidenceCountIndex extends Index
 	 */
 	public IncidenceCountIndex(String name, Ident ident,
 			NodeType startNodeType,
-			EdgeType incidentEdgeType, int direction,
+			EdgeType incidentEdgeType, Direction direction,
 			NodeType adjacentNodeType)
 	{
 		super(name, ident);
@@ -51,7 +52,7 @@ public class IncidenceCountIndex extends Index
 		return incidentEdgeType;
 	}
 
-	public int Direction()
+	public Direction Direction()
 	{
 		return direction;
 	}

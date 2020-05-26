@@ -10,13 +10,14 @@ package de.unika.ipd.grgen.ir.expr.graph;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
+import de.unika.ipd.grgen.util.Direction;
 
 public class CountBoundedReachableNodeExpr extends NeighborhoodQueryExpr
 {
 	private final Expression depthExpr;
 
 	public CountBoundedReachableNodeExpr(Expression startNodeExpression, Expression depthExpression,
-			Expression incidentEdgeTypeExpr, int direction,
+			Expression incidentEdgeTypeExpr, Direction direction,
 			Expression adjacentNodeTypeExpr)
 	{
 		super("count bounded reachable node expression", IntType.getType(), startNodeExpression,

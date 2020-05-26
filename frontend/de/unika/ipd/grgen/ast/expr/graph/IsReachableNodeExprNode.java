@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.IsReachableNodeExpr;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.util.Direction;
 
 /**
  * An ast node telling whether an end node can be reached from a start node, via incoming/outgoing/incident edges of given type, from/to a node of given type.
@@ -34,7 +35,7 @@ public class IsReachableNodeExprNode extends NeighborhoodQueryExprNode
 
 	public IsReachableNodeExprNode(Coords coords,
 			ExprNode startNodeExpr, ExprNode endNodeExpr,
-			ExprNode incidentTypeExpr, int direction,
+			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
 		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);

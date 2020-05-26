@@ -131,6 +131,7 @@ import de.unika.ipd.grgen.ir.type.container.ArrayType;
 import de.unika.ipd.grgen.ir.type.container.DequeType;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.ir.type.container.SetType;
+import de.unika.ipd.grgen.util.Direction;
 import de.unika.ipd.grgen.util.SourceBuilder;
 import de.unika.ipd.grgen.ir.expr.Cast;
 import de.unika.ipd.grgen.ir.expr.Constant;
@@ -1795,7 +1796,7 @@ public class ModifyEvalGen extends CSharpBase
 
 		if(ff.getFunction() instanceof AdjacentNodeExpr) {
 			AdjacentNodeExpr adjacent = (AdjacentNodeExpr)ff.getFunction();
-			if(adjacent.Direction() == AdjacentNodeExpr.ADJACENT) {
+			if(adjacent.Direction() == Direction.INCIDENT) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, adjacent.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -1830,7 +1831,7 @@ public class ModifyEvalGen extends CSharpBase
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id
 						+ ".Opposite(node_" + id + ");\n");
-			} else if(adjacent.Direction() == AdjacentNodeExpr.INCOMING) {
+			} else if(adjacent.Direction() == Direction.INCOMING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, adjacent.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -1865,7 +1866,7 @@ public class ModifyEvalGen extends CSharpBase
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id
 						+ ".Source;\n");
-			} else if(adjacent.Direction() == AdjacentNodeExpr.OUTGOING) {
+			} else if(adjacent.Direction() == Direction.OUTGOING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, adjacent.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -1903,7 +1904,7 @@ public class ModifyEvalGen extends CSharpBase
 			}
 		} else if(ff.getFunction() instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr incident = (IncidentEdgeExpr)ff.getFunction();
-			if(incident.Direction() == IncidentEdgeExpr.INCIDENT) {
+			if(incident.Direction() == Direction.INCIDENT) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, incident.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -1937,7 +1938,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
-			} else if(incident.Direction() == IncidentEdgeExpr.INCOMING) {
+			} else if(incident.Direction() == Direction.INCOMING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, incident.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -1971,7 +1972,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
-			} else if(incident.Direction() == IncidentEdgeExpr.OUTGOING) {
+			} else if(incident.Direction() == Direction.OUTGOING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, incident.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2008,7 +2009,7 @@ public class ModifyEvalGen extends CSharpBase
 			}
 		} else if(ff.getFunction() instanceof ReachableNodeExpr) {
 			ReachableNodeExpr reachable = (ReachableNodeExpr)ff.getFunction();
-			if(reachable.Direction() == ReachableNodeExpr.ADJACENT) {
+			if(reachable.Direction() == Direction.INCIDENT) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2030,7 +2031,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
-			} else if(reachable.Direction() == ReachableNodeExpr.INCOMING) {
+			} else if(reachable.Direction() == Direction.INCOMING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2052,7 +2053,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
-			} else if(reachable.Direction() == ReachableNodeExpr.OUTGOING) {
+			} else if(reachable.Direction() == Direction.OUTGOING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2077,7 +2078,7 @@ public class ModifyEvalGen extends CSharpBase
 			}
 		} else if(ff.getFunction() instanceof ReachableEdgeExpr) {
 			ReachableEdgeExpr reachable = (ReachableEdgeExpr)ff.getFunction();
-			if(reachable.Direction() == ReachableEdgeExpr.INCIDENT) {
+			if(reachable.Direction() == Direction.INCIDENT) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2099,7 +2100,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
-			} else if(reachable.Direction() == ReachableEdgeExpr.INCOMING) {
+			} else if(reachable.Direction() == Direction.INCOMING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2121,7 +2122,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
-			} else if(reachable.Direction() == ReachableEdgeExpr.OUTGOING) {
+			} else if(reachable.Direction() == Direction.OUTGOING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2146,7 +2147,7 @@ public class ModifyEvalGen extends CSharpBase
 			}
 		} else if(ff.getFunction() instanceof BoundedReachableNodeExpr) {
 			BoundedReachableNodeExpr reachable = (BoundedReachableNodeExpr)ff.getFunction();
-			if(reachable.Direction() == BoundedReachableNodeExpr.ADJACENT) {
+			if(reachable.Direction() == Direction.INCIDENT) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2170,7 +2171,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
-			} else if(reachable.Direction() == BoundedReachableNodeExpr.INCOMING) {
+			} else if(reachable.Direction() == Direction.INCOMING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2194,7 +2195,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")iter_" + id + ";\n");
-			} else if(reachable.Direction() == BoundedReachableNodeExpr.OUTGOING) {
+			} else if(reachable.Direction() == Direction.OUTGOING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2221,7 +2222,7 @@ public class ModifyEvalGen extends CSharpBase
 			}
 		} else if(ff.getFunction() instanceof BoundedReachableEdgeExpr) {
 			BoundedReachableEdgeExpr reachable = (BoundedReachableEdgeExpr)ff.getFunction();
-			if(reachable.Direction() == BoundedReachableEdgeExpr.INCIDENT) {
+			if(reachable.Direction() == Direction.INCIDENT) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2245,7 +2246,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
-			} else if(reachable.Direction() == BoundedReachableEdgeExpr.INCOMING) {
+			} else if(reachable.Direction() == Direction.INCOMING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");
@@ -2269,7 +2270,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
-			} else if(reachable.Direction() == BoundedReachableEdgeExpr.OUTGOING) {
+			} else if(reachable.Direction() == Direction.OUTGOING) {
 				sb.appendFront("GRGEN_LIBGR.INode node_" + id + " = ");
 				genExpression(sb, reachable.getStartNodeExpr(), state);
 				sb.append(";\n");

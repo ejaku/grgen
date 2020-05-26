@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.CountIncidentEdgeExpr;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.util.Direction;
 
 /**
  * A node yielding the count of the incident/incoming/outgoing edges of a node.
@@ -33,7 +34,7 @@ public class CountIncidentEdgeExprNode extends NeighborhoodQueryExprNode
 
 	public CountIncidentEdgeExprNode(Coords coords,
 			ExprNode startNodeExpr,
-			ExprNode incidentTypeExpr, int direction,
+			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
 		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);

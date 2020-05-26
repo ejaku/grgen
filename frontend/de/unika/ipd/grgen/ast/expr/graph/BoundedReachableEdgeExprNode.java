@@ -21,6 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.BoundedReachableEdgeExpr;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.util.Direction;
 
 /**
  * A node yielding the depth-bounded reachable incident/incoming/outgoing edges of a node.
@@ -38,7 +39,7 @@ public class BoundedReachableEdgeExprNode extends NeighborhoodQueryExprNode
 	
 	public BoundedReachableEdgeExprNode(Coords coords,
 			ExprNode startNodeExpr, ExprNode depthExpr,
-			ExprNode incidentTypeExpr, int direction,
+			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
 		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);

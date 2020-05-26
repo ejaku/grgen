@@ -54,7 +54,6 @@ import de.unika.ipd.grgen.ir.expr.ExpressionPair;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
 import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.map.MapInit;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
 import de.unika.ipd.grgen.ir.model.AttributeIndex;
@@ -3376,15 +3375,17 @@ commonLoop:
 		sb.appendFront("new GRGEN_LIBGR.IncidenceCountIndexDescription(");
 		sb.append("\"" + index.getIdent() + "\", ");
 		switch(index.Direction()) {
-		case IncidentEdgeExpr.OUTGOING:
+		case OUTGOING:
 			sb.append("GRGEN_LIBGR.IncidenceDirection.OUTGOING, ");
 			break;
-		case IncidentEdgeExpr.INCOMING:
+		case INCOMING:
 			sb.append("GRGEN_LIBGR.IncidenceDirection.INCOMING, ");
 			break;
-		case IncidentEdgeExpr.INCIDENT:
+		case INCIDENT:
 			sb.append("GRGEN_LIBGR.IncidenceDirection.INCIDENT, ");
 			break;
+		case INVALID:
+			throw new RuntimeException("Internal compiler error");
 		}
 		sb.append(formatTypeClassRefInstance(((IncidenceCountIndex)index).getStartNodeType()) + ", ");
 		sb.append(formatTypeClassRefInstance(((IncidenceCountIndex)index).getIncidentEdgeType()) + ", ");

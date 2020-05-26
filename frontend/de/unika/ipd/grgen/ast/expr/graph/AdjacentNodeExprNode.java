@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.AdjacentNodeExpr;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.util.Direction;
 
 /**
  * A node yielding the adjacent nodes/adjacent nodes via incoming edges/adjacent nodes via outgoing edges of a node.
@@ -35,7 +36,7 @@ public class AdjacentNodeExprNode extends NeighborhoodQueryExprNode
 	
 	public AdjacentNodeExprNode(Coords coords,
 			ExprNode startNodeExpr,
-			ExprNode incidentTypeExpr, int direction,
+			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
 		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);

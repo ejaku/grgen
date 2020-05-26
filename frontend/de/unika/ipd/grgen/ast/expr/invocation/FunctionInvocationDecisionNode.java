@@ -46,7 +46,6 @@ import de.unika.ipd.grgen.ast.expr.graph.IsBoundedReachableNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsIncidentEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsReachableNodeExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.NeighborhoodQueryExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodeByNameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodeByUniqueExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesExprNode;
@@ -93,6 +92,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.FunctionTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
+import de.unika.ipd.grgen.util.Direction;
 
 public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 {
@@ -473,7 +473,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "outgoing":
 		case "incident":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
 				return new IncidentEdgeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -491,7 +491,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "adjacentOutgoing":
 		case "adjacent":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
 				return new AdjacentNodeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -509,7 +509,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "countOutgoing":
 		case "countIncident":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
 				return new CountIncidentEdgeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -528,7 +528,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "countAdjacentOutgoing":
 		case "countAdjacent":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
 				return new CountAdjacentNodeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -547,7 +547,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "isOutgoing":
 		case "isIncident":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
 				return new IsIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -566,7 +566,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "isAdjacentOutgoing":
 		case "isAdjacent":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
 				return new IsAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -585,7 +585,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "reachableEdgesOutgoing":
 		case "reachableEdges":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
 				return new ReachableEdgeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -603,7 +603,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "reachableOutgoing":
 		case "reachable":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
 				return new ReachableNodeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -621,7 +621,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "countReachableEdgesOutgoing":
 		case "countReachableEdges":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
 				return new CountReachableEdgeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -640,7 +640,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "countReachableOutgoing":
 		case "countReachable":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
 				return new CountReachableNodeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -659,7 +659,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "isReachableOutgoing":
 		case "isReachable":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
 				return new IsReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -678,7 +678,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "isReachableEdgesOutgoing":
 		case "isReachableEdges":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
 				return new IsReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -697,7 +697,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "boundedReachableEdgesOutgoing":
 		case "boundedReachableEdges":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
 				return new BoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -716,7 +716,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "boundedReachableOutgoing":
 		case "boundedReachable":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
 				return new BoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -735,7 +735,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "boundedReachableWithRemainingDepthOutgoing":
 		case "boundedReachableWithRemainingDepth":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
 				return new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -754,7 +754,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "countBoundedReachableEdgesOutgoing":
 		case "countBoundedReachableEdges":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
 				return new CountBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -773,7 +773,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "countBoundedReachableOutgoing":
 		case "countBoundedReachable":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
 				return new CountBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -792,7 +792,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "isBoundedReachableOutgoing":
 		case "isBoundedReachable":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 3) {
 				return new IsBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -811,7 +811,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "isBoundedReachableEdgesOutgoing":
 		case "isBoundedReachableEdges":
 		{
-			int direction = getDirection(functionName);
+			Direction direction = getDirection(functionName);
 			if(arguments.size() == 3) {
 				return new IsBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
@@ -888,7 +888,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		}
 	}
 
-	public static int getDirection(String functionName)
+	public static Direction getDirection(String functionName)
 	{
 		switch(functionName) {
 		case "adjacentIncoming":
@@ -901,7 +901,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "boundedReachableWithRemainingDepthIncoming":
 		case "countBoundedReachableIncoming":
 		case "isBoundedReachableIncoming":
-			return NeighborhoodQueryExprNode.INCOMING;
+			return Direction.INCOMING;
 		case "adjacentOutgoing":
 		case "countAdjacentOutgoing":
 		case "isAdjacentOutgoing":
@@ -912,7 +912,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "boundedReachableWithRemainingDepthOutgoing":
 		case "countBoundedReachableOutgoing":
 		case "isBoundedReachableOutgoing":
-			return NeighborhoodQueryExprNode.OUTGOING;
+			return Direction.OUTGOING;
 		case "adjacent":
 		case "countAdjacent":
 		case "isAdjacent":
@@ -923,7 +923,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "boundedReachableWithRemainingDepth":
 		case "countBoundedReachable":
 		case "isBoundedReachable":
-			return NeighborhoodQueryExprNode.ADJACENT;
+			return Direction.INCIDENT;
 		case "incoming":
 		case "countIncoming":
 		case "isIncoming":
@@ -933,7 +933,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "boundedReachableEdgesIncoming":
 		case "countBoundedReachableEdgesIncoming":
 		case "isBoundedReachableEdgesIncoming":
-			return NeighborhoodQueryExprNode.INCOMING;
+			return Direction.INCOMING;
 		case "outgoing":
 		case "countOutgoing":
 		case "isOutgoing":
@@ -943,7 +943,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "boundedReachableEdgesOutgoing":
 		case "countBoundedReachableEdgesOutgoing":
 		case "isBoundedReachableEdgesOutgoing":
-			return NeighborhoodQueryExprNode.OUTGOING;
+			return Direction.OUTGOING;
 		case "incident":
 		case "countIncident":
 		case "isIncident":
@@ -953,10 +953,10 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		case "boundedReachableEdges":
 		case "countBoundedReachableEdges":
 		case "isBoundedReachableEdges":
-			return NeighborhoodQueryExprNode.INCIDENT;
+			return Direction.INCIDENT;
 		}
 		
-		return -1;
+		return Direction.INVALID;
 	}
 	
 	@Override

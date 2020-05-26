@@ -10,6 +10,7 @@ package de.unika.ipd.grgen.ir.expr.graph;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.util.Direction;
 
 public class IsBoundedReachableNodeExpr extends NeighborhoodQueryExpr
 {
@@ -18,7 +19,7 @@ public class IsBoundedReachableNodeExpr extends NeighborhoodQueryExpr
 
 	public IsBoundedReachableNodeExpr(Expression startNodeExpression,
 			Expression endNodeExpression, Expression depthExpression,
-			Expression incidentEdgeTypeExpr, int direction,
+			Expression incidentEdgeTypeExpr, Direction direction,
 			Expression adjacentNodeTypeExpr, Type type)
 	{
 		super("is bouneded reachable node expression", type, startNodeExpression,

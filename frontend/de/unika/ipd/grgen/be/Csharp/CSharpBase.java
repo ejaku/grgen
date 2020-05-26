@@ -203,6 +203,7 @@ import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.Direction;
 import de.unika.ipd.grgen.util.SourceBuilder;
 import de.unika.ipd.grgen.util.Util;
 
@@ -2001,9 +2002,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof IncidentEdgeExpr) {
 			IncidentEdgeExpr ie = (IncidentEdgeExpr)expr;
-			if(ie.Direction() == IncidentEdgeExpr.OUTGOING) {
+			if(ie.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.Outgoing");
-			} else if(ie.Direction() == IncidentEdgeExpr.INCOMING) {
+			} else if(ie.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.Incoming");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.Incident");
@@ -2022,9 +2023,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof AdjacentNodeExpr) {
 			AdjacentNodeExpr an = (AdjacentNodeExpr)expr;
-			if(an.Direction() == AdjacentNodeExpr.OUTGOING) {
+			if(an.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.AdjacentOutgoing(");
-			} else if(an.Direction() == AdjacentNodeExpr.INCOMING) {
+			} else if(an.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.AdjacentIncoming(");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.Adjacent(");
@@ -2041,9 +2042,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof CountIncidentEdgeExpr) {
 			CountIncidentEdgeExpr cie = (CountIncidentEdgeExpr)expr;
-			if(cie.Direction() == CountIncidentEdgeExpr.OUTGOING) {
+			if(cie.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountOutgoing(");
-			} else if(cie.Direction() == CountIncidentEdgeExpr.INCOMING) {
+			} else if(cie.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountIncoming(");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountIncident(");
@@ -2060,9 +2061,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof CountAdjacentNodeExpr) {
 			CountAdjacentNodeExpr can = (CountAdjacentNodeExpr)expr;
-			if(can.Direction() == CountAdjacentNodeExpr.OUTGOING) {
+			if(can.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountAdjacentOutgoing(graph, ");
-			} else if(can.Direction() == CountAdjacentNodeExpr.INCOMING) {
+			} else if(can.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountAdjacentIncoming(graph, ");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountAdjacent(graph, ");
@@ -2079,9 +2080,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof IsAdjacentNodeExpr) {
 			IsAdjacentNodeExpr ian = (IsAdjacentNodeExpr)expr;
-			if(ian.Direction() == IsReachableNodeExpr.OUTGOING) {
+			if(ian.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsAdjacentOutgoing(");
-			} else if(ian.Direction() == IsReachableNodeExpr.INCOMING) {
+			} else if(ian.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsAdjacentIncoming(");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsAdjacent(");
@@ -2100,9 +2101,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof IsIncidentEdgeExpr) {
 			IsIncidentEdgeExpr iie = (IsIncidentEdgeExpr)expr;
-			if(iie.Direction() == IsReachableEdgeExpr.OUTGOING) {
+			if(iie.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsOutgoing(");
-			} else if(iie.Direction() == IsReachableEdgeExpr.INCOMING) {
+			} else if(iie.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsIncoming(");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsIncident(");
@@ -2121,9 +2122,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof ReachableEdgeExpr) {
 			ReachableEdgeExpr re = (ReachableEdgeExpr)expr;
-			if(re.Direction() == ReachableEdgeExpr.OUTGOING) {
+			if(re.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing");
-			} else if(re.Direction() == ReachableEdgeExpr.INCOMING) {
+			} else if(re.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdges");
@@ -2142,9 +2143,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof ReachableNodeExpr) {
 			ReachableNodeExpr rn = (ReachableNodeExpr)expr;
-			if(rn.Direction() == ReachableNodeExpr.OUTGOING) {
+			if(rn.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.ReachableOutgoing(");
-			} else if(rn.Direction() == ReachableNodeExpr.INCOMING) {
+			} else if(rn.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.ReachableIncoming(");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.Reachable(");
@@ -2161,9 +2162,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof CountReachableEdgeExpr) {
 			CountReachableEdgeExpr cre = (CountReachableEdgeExpr)expr;
-			if(cre.Direction() == CountReachableEdgeExpr.OUTGOING) {
+			if(cre.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountReachableEdgesOutgoing(graph, ");
-			} else if(cre.Direction() == CountReachableEdgeExpr.INCOMING) {
+			} else if(cre.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountReachableEdgesIncoming(graph, ");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountReachableEdges(graph, ");
@@ -2180,9 +2181,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof CountReachableNodeExpr) {
 			CountReachableNodeExpr crn = (CountReachableNodeExpr)expr;
-			if(crn.Direction() == CountReachableNodeExpr.OUTGOING) {
+			if(crn.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountReachableOutgoing(");
-			} else if(crn.Direction() == CountReachableNodeExpr.INCOMING) {
+			} else if(crn.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountReachableIncoming(");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountReachable(");
@@ -2199,9 +2200,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof IsReachableNodeExpr) {
 			IsReachableNodeExpr irn = (IsReachableNodeExpr)expr;
-			if(irn.Direction() == IsReachableNodeExpr.OUTGOING) {
+			if(irn.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableOutgoing(graph, ");
-			} else if(irn.Direction() == IsReachableNodeExpr.INCOMING) {
+			} else if(irn.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableIncoming(graph, ");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsReachable(graph, ");
@@ -2220,9 +2221,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof IsReachableEdgeExpr) {
 			IsReachableEdgeExpr ire = (IsReachableEdgeExpr)expr;
-			if(ire.Direction() == IsReachableEdgeExpr.OUTGOING) {
+			if(ire.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableEdgesOutgoing(graph, ");
-			} else if(ire.Direction() == IsReachableEdgeExpr.INCOMING) {
+			} else if(ire.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableEdgesIncoming(graph, ");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableEdges(graph, ");
@@ -2241,9 +2242,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof BoundedReachableEdgeExpr) {
 			BoundedReachableEdgeExpr bre = (BoundedReachableEdgeExpr)expr;
-			if(bre.Direction() == BoundedReachableEdgeExpr.OUTGOING) {
+			if(bre.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing");
-			} else if(bre.Direction() == BoundedReachableEdgeExpr.INCOMING) {
+			} else if(bre.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdges");
@@ -2264,9 +2265,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof BoundedReachableNodeExpr) {
 			BoundedReachableNodeExpr brn = (BoundedReachableNodeExpr)expr;
-			if(brn.Direction() == BoundedReachableNodeExpr.OUTGOING) {
+			if(brn.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableOutgoing(");
-			} else if(brn.Direction() == BoundedReachableNodeExpr.INCOMING) {
+			} else if(brn.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableIncoming(");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachable(");
@@ -2285,9 +2286,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof BoundedReachableNodeWithRemainingDepthExpr) {
 			BoundedReachableNodeWithRemainingDepthExpr brnwrd = (BoundedReachableNodeWithRemainingDepthExpr)expr;
-			if(brnwrd.Direction() == BoundedReachableNodeWithRemainingDepthExpr.OUTGOING) {
+			if(brnwrd.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepthOutgoing(");
-			} else if(brnwrd.Direction() == BoundedReachableNodeWithRemainingDepthExpr.INCOMING) {
+			} else if(brnwrd.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepthIncoming(");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepth(");
@@ -2306,9 +2307,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof CountBoundedReachableEdgeExpr) {
 			CountBoundedReachableEdgeExpr cbre = (CountBoundedReachableEdgeExpr)expr;
-			if(cbre.Direction() == CountBoundedReachableEdgeExpr.OUTGOING) {
+			if(cbre.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdgesOutgoing(graph, ");
-			} else if(cbre.Direction() == CountBoundedReachableEdgeExpr.INCOMING) {
+			} else if(cbre.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdgesIncoming(graph, ");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdges(graph, ");
@@ -2327,9 +2328,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof CountBoundedReachableNodeExpr) {
 			CountBoundedReachableNodeExpr cbrn = (CountBoundedReachableNodeExpr)expr;
-			if(cbrn.Direction() == CountBoundedReachableNodeExpr.OUTGOING) {
+			if(cbrn.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableOutgoing(");
-			} else if(cbrn.Direction() == CountBoundedReachableNodeExpr.INCOMING) {
+			} else if(cbrn.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableIncoming(");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachable(");
@@ -2348,9 +2349,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof IsBoundedReachableNodeExpr) {
 			IsBoundedReachableNodeExpr ibrn = (IsBoundedReachableNodeExpr)expr;
-			if(ibrn.Direction() == IsBoundedReachableNodeExpr.OUTGOING) {
+			if(ibrn.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableOutgoing(graph, ");
-			} else if(ibrn.Direction() == IsBoundedReachableNodeExpr.INCOMING) {
+			} else if(ibrn.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableIncoming(graph, ");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachable(graph, ");
@@ -2371,9 +2372,9 @@ public abstract class CSharpBase
 			sb.append(")");
 		} else if(expr instanceof IsBoundedReachableEdgeExpr) {
 			IsBoundedReachableEdgeExpr ibre = (IsBoundedReachableEdgeExpr)expr;
-			if(ibre.Direction() == IsBoundedReachableEdgeExpr.OUTGOING) {
+			if(ibre.Direction() == Direction.OUTGOING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdgesOutgoing(graph, ");
-			} else if(ibre.Direction() == IsBoundedReachableEdgeExpr.INCOMING) {
+			} else if(ibre.Direction() == Direction.INCOMING) {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdgesIncoming(graph, ");
 			} else {
 				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdges(graph, ");
