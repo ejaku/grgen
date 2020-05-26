@@ -103,7 +103,7 @@ public class DeclExprNode extends ExprNode
 			return false;
 
 		memberResolver.getResult(MemberDeclNode.class);
-		memberResolver.getResult(QualIdentNode.class);
+		memberResolver.getResult(EnumExprNode.class);
 		memberResolver.getResult(VarDeclNode.class);
 		memberResolver.getResult(ExecVarDeclNode.class);
 		memberResolver.getResult(ConstraintDeclNode.class);
