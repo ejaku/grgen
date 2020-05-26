@@ -577,7 +577,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 	| f=FUNCTION id=funcOrExtFuncIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
 		COLON retType=returnType
 		{
-			if(env.getCurrentPackage()==null && env.isGlobalFunction(id.toString(), params.getChildren().size()))
+			if(env.isGlobalFunction(id.toString(), params.getChildren().size()))
 				reportError(id.getCoords(), "The function " + id.toString() + " cannot be defined - a builtin function of the same name and with the same number of parameters already exists");
 		}
 		LBRACE
@@ -590,7 +590,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 	| pr=PROCEDURE id=funcOrExtFuncIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphNode.getInvalid()]
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		{
-			if(env.getCurrentPackage()==null && env.isGlobalProcedure(id.toString(), params.getChildren().size()))
+			if(env.isGlobalProcedure(id.toString(), params.getChildren().size()))
 				reportError(id.getCoords(), "The procedure " + id.toString() + " cannot be defined - a builtin procedure of the same name and with the same number of parameters already exists");
 		}
 		LBRACE
