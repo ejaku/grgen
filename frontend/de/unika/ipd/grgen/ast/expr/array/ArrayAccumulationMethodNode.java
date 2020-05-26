@@ -49,6 +49,9 @@ public abstract class ArrayAccumulationMethodNode extends ArrayFunctionMethodInv
 	// returns whether an array of the given type can be accumulated by this accumulation method
 	public abstract boolean isValidTargetTypeOfAccumulation(TypeNode type);
 
+	// returns the types allowed as target types of this accumulation method
+	public abstract String getValidTargetTypesOfAccumulation();
+
 	// returns DUMMY object only to be used for checking with isValidTargetTypeOfAccumulation
 	public static ArrayAccumulationMethodNode getArrayMethodNode(String method)
 	{

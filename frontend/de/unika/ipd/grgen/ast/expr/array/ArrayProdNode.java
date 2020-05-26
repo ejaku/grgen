@@ -54,8 +54,13 @@ public class ArrayProdNode extends ArrayAccumulationMethodNode
 	@Override
 	public boolean isValidTargetTypeOfAccumulation(TypeNode type)
 	{
-		return type.isEqual(BasicTypeNode.doubleType) || type.isEqual(BasicTypeNode.floatType)
-				|| type.isEqual(BasicTypeNode.longType) || type.isEqual(BasicTypeNode.intType);
+		return type.isAccumulationTargetType();
+	}
+
+	@Override
+	public String getValidTargetTypesOfAccumulation()
+	{
+		return TypeNode.getAccumulationTargetTypesAsString();
 	}
 
 	@Override

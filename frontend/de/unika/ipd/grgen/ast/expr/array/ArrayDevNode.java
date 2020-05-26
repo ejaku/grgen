@@ -57,6 +57,12 @@ public class ArrayDevNode extends ArrayAccumulationMethodNode
 	}
 
 	@Override
+	public String getValidTargetTypesOfAccumulation()
+	{
+		return "double";
+	}
+
+	@Override
 	protected IR constructIR()
 	{
 		return new ArrayDevExpr(targetExpr.checkIR(Expression.class));

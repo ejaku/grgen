@@ -57,6 +57,12 @@ public class ArrayMedNode extends ArrayAccumulationMethodNode
 	}
 
 	@Override
+	public String getValidTargetTypesOfAccumulation()
+	{
+		return "double";
+	}
+
+	@Override
 	protected IR constructIR()
 	{
 		return new ArrayMedExpr(targetExpr.checkIR(Expression.class));

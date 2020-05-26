@@ -18,7 +18,6 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.numeric.MinExpr;
@@ -62,31 +61,9 @@ public class MinExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(leftExpr.getType().isEqual(BasicTypeNode.byteType)
-				&& rightExpr.getType().isEqual(BasicTypeNode.byteType)) {
+		if(leftExpr.getType().isNumericType() && rightExpr.getType().isEqual(leftExpr.getType()))
 			return true;
-		}
-		if(leftExpr.getType().isEqual(BasicTypeNode.shortType)
-				&& rightExpr.getType().isEqual(BasicTypeNode.shortType)) {
-			return true;
-		}
-		if(leftExpr.getType().isEqual(BasicTypeNode.intType)
-				&& rightExpr.getType().isEqual(BasicTypeNode.intType)) {
-			return true;
-		}
-		if(leftExpr.getType().isEqual(BasicTypeNode.longType)
-				&& rightExpr.getType().isEqual(BasicTypeNode.longType)) {
-			return true;
-		}
-		if(leftExpr.getType().isEqual(BasicTypeNode.floatType)
-				&& rightExpr.getType().isEqual(BasicTypeNode.floatType)) {
-			return true;
-		}
-		if(leftExpr.getType().isEqual(BasicTypeNode.doubleType)
-				&& rightExpr.getType().isEqual(BasicTypeNode.doubleType)) {
-			return true;
-		}
-		reportError("valid types for min(.,.) are: (byte,byte),(short,short),(int,int),(long,long),(float,float),(double,double)");
+		reportError("valid types for min(.,.) are: " + TypeNode.getNumericTypesAsString() + " (pairs of same type)");
 		return false;
 	}
 

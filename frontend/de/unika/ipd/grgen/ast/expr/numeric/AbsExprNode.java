@@ -14,7 +14,6 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.numeric.AbsExpr;
@@ -54,15 +53,9 @@ public class AbsExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(argumentExpr.getType().isEqual(BasicTypeNode.byteType)
-				|| argumentExpr.getType().isEqual(BasicTypeNode.shortType)
-				|| argumentExpr.getType().isEqual(BasicTypeNode.intType)
-				|| argumentExpr.getType().isEqual(BasicTypeNode.longType)
-				|| argumentExpr.getType().isEqual(BasicTypeNode.floatType)
-				|| argumentExpr.getType().isEqual(BasicTypeNode.doubleType)) {
+		if(argumentExpr.getType().isNumericType())
 			return true;
-		}
-		reportError("valid types for abs(.) are: byte,short,int,long,float,double");
+		reportError("valid types for abs(.) are: " + TypeNode.getNumericTypesAsString());
 		return false;
 	}
 

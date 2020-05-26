@@ -57,6 +57,12 @@ public class ArrayMedUnorderedNode extends ArrayAccumulationMethodNode
 	}
 
 	@Override
+	public String getValidTargetTypesOfAccumulation()
+	{
+		return "double";
+	}
+
+	@Override
 	protected IR constructIR()
 	{
 		return new ArrayMedUnorderedExpr(targetExpr.checkIR(Expression.class));

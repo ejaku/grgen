@@ -258,6 +258,24 @@ public abstract class TypeNode extends BaseNode
 
 	public boolean isAccumulatableType()
 	{
+		return isNumericType();
+	}
+
+	public boolean isAccumulationTargetType()
+	{
+		if(isEqual(BasicTypeNode.intType))
+			return true;
+		if(isEqual(BasicTypeNode.longType))
+			return true;
+		if(isEqual(BasicTypeNode.floatType))
+			return true;
+		if(isEqual(BasicTypeNode.doubleType))
+			return true;
+		return false;
+	}
+
+	public boolean isNumericType()
+	{
 		if(isEqual(BasicTypeNode.byteType))
 			return true;
 		if(isEqual(BasicTypeNode.shortType))
@@ -285,9 +303,19 @@ public abstract class TypeNode extends BaseNode
 
 	public static String getAccumulatableTypesAsString()
 	{
+		return getNumericTypesAsString();
+	}
+
+	public static String getAccumulationTargetTypesAsString()
+	{
+		return "int, long, float, double";
+	}
+
+	public static String getNumericTypesAsString()
+	{
 		return "byte, short, int, long, float, double";
 	}
-	
+
 	// returns type name (to be used in error reporting)
 	public String getTypeName() {
 		return toString();
