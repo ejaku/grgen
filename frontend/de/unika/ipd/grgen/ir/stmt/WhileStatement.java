@@ -11,19 +11,15 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 
 /**
  * Represents a while statement in the IR.
  */
-public class WhileStatement extends EvalStatement
+public class WhileStatement extends NestingStatement
 {
 	private Expression conditionExpr;
-	private Collection<EvalStatement> loopedStatements = new LinkedList<EvalStatement>();
 
 	public WhileStatement(Expression conditionExpr)
 	{
@@ -31,25 +27,15 @@ public class WhileStatement extends EvalStatement
 		this.conditionExpr = conditionExpr;
 	}
 
-	public void addLoopedStatement(EvalStatement loopedStatement)
-	{
-		loopedStatements.add(loopedStatement);
-	}
-
 	public Expression getConditionExpr()
 	{
 		return conditionExpr;
 	}
 
-	public Collection<EvalStatement> getLoopedStatements()
-	{
-		return loopedStatements;
-	}
-
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		conditionExpr.collectNeededEntities(needs);
-		for(EvalStatement loopedStatement : loopedStatements) {
+		for(EvalStatement loopedStatement : statements) {
 			loopedStatement.collectNeededEntities(needs);
 		}
 	}

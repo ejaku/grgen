@@ -20,21 +20,15 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 /**
  * Represents a condition statement in the IR.
  */
-public class ConditionStatement extends EvalStatement
+public class ConditionStatement extends NestingStatement
 {
 	private Expression conditionExpr;
-	private Collection<EvalStatement> trueCaseStatements = new LinkedList<EvalStatement>();
 	private Collection<EvalStatement> falseCaseStatements = null;
 
 	public ConditionStatement(Expression conditionExpr)
 	{
 		super("condition statement");
 		this.conditionExpr = conditionExpr;
-	}
-
-	public void addTrueCaseStatement(EvalStatement trueCaseStatement)
-	{
-		trueCaseStatements.add(trueCaseStatement);
 	}
 
 	public void addFalseCaseStatement(EvalStatement falseCaseStatement)
@@ -49,11 +43,6 @@ public class ConditionStatement extends EvalStatement
 		return conditionExpr;
 	}
 
-	public Collection<EvalStatement> getTrueCaseStatements()
-	{
-		return trueCaseStatements;
-	}
-
 	public Collection<EvalStatement> getFalseCaseStatements()
 	{
 		return falseCaseStatements;
@@ -62,7 +51,7 @@ public class ConditionStatement extends EvalStatement
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		conditionExpr.collectNeededEntities(needs);
-		for(EvalStatement trueCaseStatement : trueCaseStatements) {
+		for(EvalStatement trueCaseStatement : statements) {
 			trueCaseStatement.collectNeededEntities(needs);
 		}
 		if(falseCaseStatements != null) {

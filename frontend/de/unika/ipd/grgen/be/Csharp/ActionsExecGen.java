@@ -109,7 +109,7 @@ public class ActionsExecGen extends CSharpBase
 	{
 		if(evalStmt instanceof ConditionStatement) {
 			ConditionStatement condStmt = (ConditionStatement)evalStmt;
-			for(EvalStatement nestedEvalStmt : condStmt.getTrueCaseStatements()) {
+			for(EvalStatement nestedEvalStmt : condStmt.getStatements()) {
 				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
 			}
 			if(condStmt.getFalseCaseStatements() != null) {
@@ -129,27 +129,27 @@ public class ActionsExecGen extends CSharpBase
 			}
 		} else if(evalStmt instanceof WhileStatement) {
 			WhileStatement whileStmt = (WhileStatement)evalStmt;
-			for(EvalStatement nestedEvalStmt : whileStmt.getLoopedStatements()) {
+			for(EvalStatement nestedEvalStmt : whileStmt.getStatements()) {
 				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof DoWhileStatement) {
 			DoWhileStatement doWhileStmt = (DoWhileStatement)evalStmt;
-			for(EvalStatement nestedEvalStmt : doWhileStmt.getLoopedStatements()) {
+			for(EvalStatement nestedEvalStmt : doWhileStmt.getStatements()) {
 				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ContainerAccumulationYield) {
 			ContainerAccumulationYield containerAccumulationYieldStmt = (ContainerAccumulationYield)evalStmt;
-			for(EvalStatement nestedEvalStmt : containerAccumulationYieldStmt.getAccumulationStatements()) {
+			for(EvalStatement nestedEvalStmt : containerAccumulationYieldStmt.getStatements()) {
 				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof IntegerRangeIterationYield) {
 			IntegerRangeIterationYield integerRangeIterationYieldStmt = (IntegerRangeIterationYield)evalStmt;
-			for(EvalStatement nestedEvalStmt : integerRangeIterationYieldStmt.getAccumulationStatements()) {
+			for(EvalStatement nestedEvalStmt : integerRangeIterationYieldStmt.getStatements()) {
 				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof MatchesAccumulationYield) {
 			MatchesAccumulationYield matchesAccumulationYieldStmt = (MatchesAccumulationYield)evalStmt;
-			for(EvalStatement nestedEvalStmt : matchesAccumulationYieldStmt.getAccumulationStatements()) {
+			for(EvalStatement nestedEvalStmt : matchesAccumulationYieldStmt.getStatements()) {
 				xgrsID = genImperativeStatements(sb, rule, pathPrefix, packageName, nestedEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ForFunction) {
@@ -422,7 +422,7 @@ public class ActionsExecGen extends CSharpBase
 			++xgrsID;
 		} else if(evalStmt instanceof ConditionStatement) {
 			ConditionStatement condStmt = (ConditionStatement)evalStmt;
-			for(EvalStatement childEvalStmt : condStmt.getTrueCaseStatements()) {
+			for(EvalStatement childEvalStmt : condStmt.getStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 			if(condStmt.getFalseCaseStatements() != null) {
@@ -441,11 +441,11 @@ public class ActionsExecGen extends CSharpBase
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ContainerAccumulationYield) {
-			for(EvalStatement childEvalStmt : ((ContainerAccumulationYield)evalStmt).getAccumulationStatements()) {
+			for(EvalStatement childEvalStmt : ((ContainerAccumulationYield)evalStmt).getStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof IntegerRangeIterationYield) {
-			for(EvalStatement childEvalStmt : ((IntegerRangeIterationYield)evalStmt).getAccumulationStatements()) {
+			for(EvalStatement childEvalStmt : ((IntegerRangeIterationYield)evalStmt).getStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof ForFunction) {
@@ -453,11 +453,11 @@ public class ActionsExecGen extends CSharpBase
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof DoWhileStatement) {
-			for(EvalStatement childEvalStmt : ((DoWhileStatement)evalStmt).getLoopedStatements()) {
+			for(EvalStatement childEvalStmt : ((DoWhileStatement)evalStmt).getStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof WhileStatement) {
-			for(EvalStatement childEvalStmt : ((WhileStatement)evalStmt).getLoopedStatements()) {
+			for(EvalStatement childEvalStmt : ((WhileStatement)evalStmt).getStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
 		} else if(evalStmt instanceof MultiStatement) {

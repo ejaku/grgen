@@ -11,31 +11,22 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 
 /**
  * Represents an accumulation yielding of a matches variable in the IR.
  */
-public class MatchesAccumulationYield extends EvalStatement
+public class MatchesAccumulationYield extends NestingStatement
 {
 	private Variable iterationVar;
 	private Variable matchesVar;
-	private Collection<EvalStatement> accumulationStatements = new LinkedList<EvalStatement>();
 
 	public MatchesAccumulationYield(Variable iterationVar, Variable matchesVar)
 	{
 		super("matches accumulation yield");
 		this.iterationVar = iterationVar;
 		this.matchesVar = matchesVar;
-	}
-
-	public void addAccumulationStatement(EvalStatement accumulationStatement)
-	{
-		accumulationStatements.add(accumulationStatement);
 	}
 
 	public Variable getIterationVar()
@@ -48,16 +39,11 @@ public class MatchesAccumulationYield extends EvalStatement
 		return matchesVar;
 	}
 
-	public Collection<EvalStatement> getAccumulationStatements()
-	{
-		return accumulationStatements;
-	}
-
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(matchesVar))
 			needs.add(matchesVar);
-		for(EvalStatement accumulationStatement : accumulationStatements) {
+		for(EvalStatement accumulationStatement : statements) {
 			accumulationStatement.collectNeededEntities(needs);
 		}
 		if(needs.variables != null)

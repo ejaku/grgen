@@ -1471,7 +1471,7 @@ public class ModifyEvalGen extends CSharpBase
 		genExpression(sb, cs.getConditionExpr(), state);
 		sb.append(") {\n");
 		sb.indent();
-		genEvals(sb, state, cs.getTrueCaseStatements());
+		genEvals(sb, state, cs.getStatements());
 		if(cs.getFalseCaseStatements() != null) {
 			sb.unindent();
 			sb.appendFront("} else {\n");
@@ -1516,7 +1516,7 @@ public class ModifyEvalGen extends CSharpBase
 		genExpression(sb, ws.getConditionExpr(), state);
 		sb.append(") {\n");
 		sb.indent();
-		genEvals(sb, state, ws.getLoopedStatements());
+		genEvals(sb, state, ws.getStatements());
 		sb.unindent();
 		sb.appendFront("}\n");
 	}
@@ -1525,7 +1525,7 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		sb.appendFront("do {\n");
 		sb.indent();
-		genEvals(sb, state, dws.getLoopedStatements());
+		genEvals(sb, state, dws.getStatements());
 		sb.unindent();
 		sb.appendFront("} while(");
 		genExpression(sb, dws.getConditionExpr(), state);
@@ -1618,7 +1618,7 @@ public class ModifyEvalGen extends CSharpBase
 				}
 			}
 
-			genEvals(sb, state, cay.getAccumulationStatements());
+			genEvals(sb, state, cay.getStatements());
 
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -1658,7 +1658,7 @@ public class ModifyEvalGen extends CSharpBase
 				}
 			}
 
-			genEvals(sb, state, cay.getAccumulationStatements());
+			genEvals(sb, state, cay.getStatements());
 
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -1680,7 +1680,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront(formatGlobalVariableWrite(cay.getIterationVar(), entryVar + ".Key") + ";\n");
 			}
 
-			genEvals(sb, state, cay.getAccumulationStatements());
+			genEvals(sb, state, cay.getStatements());
 
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -1725,7 +1725,7 @@ public class ModifyEvalGen extends CSharpBase
 				}
 			}
 
-			genEvals(sb, state, cay.getAccumulationStatements());
+			genEvals(sb, state, cay.getStatements());
 
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -1756,7 +1756,7 @@ public class ModifyEvalGen extends CSharpBase
 			sb.appendFront(formatGlobalVariableWrite(iriy.getIterationVar(), entryVar) + ";\n");
 		}
 
-		genEvals(sb, state, iriy.getAccumulationStatements());
+		genEvals(sb, state, iriy.getStatements());
 
 		sb.appendFront("if(" + ascendingVar + ") ++" + entryVar + "; else --" + entryVar + ";\n");
 		sb.unindent();
@@ -1784,7 +1784,7 @@ public class ModifyEvalGen extends CSharpBase
 			sb.appendFront(formatGlobalVariableWrite(may.getIterationVar(), entryVar + "[" + indexVar + "]") + ";\n");
 		}
 
-		genEvals(sb, state, may.getAccumulationStatements());
+		genEvals(sb, state, may.getStatements());
 
 		sb.unindent();
 		sb.appendFront("}\n");

@@ -11,18 +11,14 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 
 /**
  * Represents a do while statement in the IR.
  */
-public class DoWhileStatement extends EvalStatement
+public class DoWhileStatement extends NestingStatement
 {
-	private Collection<EvalStatement> loopedStatements = new LinkedList<EvalStatement>();
 	private Expression conditionExpr;
 
 	public DoWhileStatement(Expression conditionExpr)
@@ -31,25 +27,15 @@ public class DoWhileStatement extends EvalStatement
 		this.conditionExpr = conditionExpr;
 	}
 
-	public void addLoopedStatement(EvalStatement loopedStatement)
-	{
-		loopedStatements.add(loopedStatement);
-	}
-
 	public Expression getConditionExpr()
 	{
 		return conditionExpr;
 	}
 
-	public Collection<EvalStatement> getLoopedStatements()
-	{
-		return loopedStatements;
-	}
-
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		conditionExpr.collectNeededEntities(needs);
-		for(EvalStatement loopedStatement : loopedStatements) {
+		for(EvalStatement loopedStatement : statements) {
 			loopedStatement.collectNeededEntities(needs);
 		}
 	}

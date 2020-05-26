@@ -150,7 +150,7 @@ public class IteratedAccumulationYieldNode extends NestingStatementNode
 		IteratedAccumulationYield iay = new IteratedAccumulationYield(iterationVariable.checkIR(Variable.class),
 				iterated.checkIR(Rule.class));
 		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
-			iay.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
+			iay.addStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return iay;
 	}

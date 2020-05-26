@@ -26,7 +26,7 @@ public class ForIndexAccessEquality extends EvalStatement
 {
 	private Variable iterationVar;
 	private IndexAccessEquality iae;
-	private Collection<EvalStatement> loopedStatements = new LinkedList<EvalStatement>();
+	private Collection<EvalStatement> statements = new LinkedList<EvalStatement>();
 
 	public ForIndexAccessEquality(Variable iterationVar,
 			IndexAccessEquality iae)
@@ -38,7 +38,7 @@ public class ForIndexAccessEquality extends EvalStatement
 
 	public void addLoopedStatement(EvalStatement loopedStatement)
 	{
-		loopedStatements.add(loopedStatement);
+		statements.add(loopedStatement);
 	}
 
 	public Variable getIterationVar()
@@ -53,13 +53,13 @@ public class ForIndexAccessEquality extends EvalStatement
 
 	public Collection<EvalStatement> getLoopedStatements()
 	{
-		return loopedStatements;
+		return statements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		iae.collectNeededEntities(needs);
-		for(EvalStatement loopedStatement : loopedStatements) {
+		for(EvalStatement loopedStatement : statements) {
 			loopedStatement.collectNeededEntities(needs);
 		}
 		if(needs.variables != null)

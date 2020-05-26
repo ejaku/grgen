@@ -92,7 +92,7 @@ public class DoWhileStatementNode extends NestingStatementNode
 	{
 		DoWhileStatement dws = new DoWhileStatement(conditionExpr.checkIR(Expression.class));
 		for(EvalStatementNode loopedStatement : statements.getChildren()) {
-			dws.addLoopedStatement(loopedStatement.checkIR(EvalStatement.class));
+			dws.addStatement(loopedStatement.checkIR(EvalStatement.class));
 		}
 		return dws;
 	}

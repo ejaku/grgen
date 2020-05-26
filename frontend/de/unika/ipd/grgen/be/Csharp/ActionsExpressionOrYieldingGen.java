@@ -2296,7 +2296,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		sb.append("\"" + formatIdentifiable(iterationVar) + "\", ");
 		sb.append("\"" + formatIdentifiable(iterated) + "\", ");
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
-		for(EvalStatement statement : iay.getAccumulationStatements()) {
+		for(EvalStatement statement : iay.getStatements()) {
 			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 		}
@@ -2338,7 +2338,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		sb.append("\"" + formatIdentifiable(container) + "\", ");
 		sb.append("\"" + formatType(container.getType()) + "\", ");
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
-		for(EvalStatement statement : cay.getAccumulationStatements()) {
+		for(EvalStatement statement : cay.getStatements()) {
 			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 		}
@@ -2362,7 +2362,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		genExpressionTree(sb, right, className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(", ");
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
-		for(EvalStatement statement : iriy.getAccumulationStatements()) {
+		for(EvalStatement statement : iriy.getStatements()) {
 			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 		}
@@ -2504,7 +2504,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		genExpressionTree(sb, cs.getConditionExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(",");
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
-		for(EvalStatement statement : cs.getTrueCaseStatements()) {
+		for(EvalStatement statement : cs.getStatements()) {
 			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 		}
@@ -2562,7 +2562,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		genExpressionTree(sb, ws.getConditionExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(",");
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
-		for(EvalStatement statement : ws.getLoopedStatements()) {
+		for(EvalStatement statement : ws.getStatements()) {
 			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 		}
@@ -2575,7 +2575,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 	{
 		sb.appendFront("new GRGEN_EXPR.DoWhileStatement(");
 		sb.append("new GRGEN_EXPR.Yielding[] { ");
-		for(EvalStatement statement : dws.getLoopedStatements()) {
+		for(EvalStatement statement : dws.getStatements()) {
 			genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 		}

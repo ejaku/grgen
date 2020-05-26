@@ -11,9 +11,6 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.pattern.Variable;
@@ -21,22 +18,16 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 /**
  * Represents an accumulation yielding of an iterated match def variable in the IR.
  */
-public class IteratedAccumulationYield extends EvalStatement
+public class IteratedAccumulationYield extends NestingStatement
 {
 	private Variable iterationVar;
 	private Rule iterated;
-	private Collection<EvalStatement> accumulationStatements = new LinkedList<EvalStatement>();
 
 	public IteratedAccumulationYield(Variable accumulationVar, Rule iterated)
 	{
 		super("iterated accumulation yield");
 		this.iterationVar = accumulationVar;
 		this.iterated = iterated;
-	}
-
-	public void addAccumulationStatement(EvalStatement accumulationStatement)
-	{
-		accumulationStatements.add(accumulationStatement);
 	}
 
 	public Variable getIterationVar()
@@ -49,14 +40,9 @@ public class IteratedAccumulationYield extends EvalStatement
 		return iterated;
 	}
 
-	public Collection<EvalStatement> getAccumulationStatements()
-	{
-		return accumulationStatements;
-	}
-
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		for(EvalStatement accumulationStatement : accumulationStatements) {
+		for(EvalStatement accumulationStatement : statements) {
 			accumulationStatement.collectNeededEntities(needs);
 		}
 		if(needs.variables != null)

@@ -184,7 +184,7 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 		MatchesAccumulationYield may = new MatchesAccumulationYield(iterationVariable.checkIR(Variable.class),
 				matchesContainer.checkIR(Variable.class));
 		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
-			may.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
+			may.addStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return may;
 	}

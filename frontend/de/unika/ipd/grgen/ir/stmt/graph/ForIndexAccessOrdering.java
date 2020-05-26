@@ -26,7 +26,7 @@ public class ForIndexAccessOrdering extends EvalStatement
 {
 	private Variable iterationVar;
 	private IndexAccessOrdering iao;
-	private Collection<EvalStatement> loopedStatements = new LinkedList<EvalStatement>();
+	private Collection<EvalStatement> statements = new LinkedList<EvalStatement>();
 
 	public ForIndexAccessOrdering(Variable iterationVar, IndexAccessOrdering iao)
 	{
@@ -37,7 +37,7 @@ public class ForIndexAccessOrdering extends EvalStatement
 
 	public void addLoopedStatement(EvalStatement loopedStatement)
 	{
-		loopedStatements.add(loopedStatement);
+		statements.add(loopedStatement);
 	}
 
 	public Variable getIterationVar()
@@ -52,13 +52,13 @@ public class ForIndexAccessOrdering extends EvalStatement
 
 	public Collection<EvalStatement> getLoopedStatements()
 	{
-		return loopedStatements;
+		return statements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		iao.collectNeededEntities(needs);
-		for(EvalStatement loopedStatement : loopedStatements) {
+		for(EvalStatement loopedStatement : statements) {
 			loopedStatement.collectNeededEntities(needs);
 		}
 		if(needs.variables != null)

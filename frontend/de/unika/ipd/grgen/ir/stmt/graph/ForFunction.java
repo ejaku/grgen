@@ -12,21 +12,20 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import java.util.Collection;
-import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.NestingStatement;
 
 /**
  * Represents a for lookup of a neighborhood function in the IR.
  */
-public class ForFunction extends EvalStatement
+public class ForFunction extends NestingStatement
 {
 	private Variable iterationVar;
 	private Expression function;
-	private Collection<EvalStatement> loopedStatements = new LinkedList<EvalStatement>();
 
 	public ForFunction(Variable iterationVar,
 			Expression function)
@@ -38,7 +37,7 @@ public class ForFunction extends EvalStatement
 
 	public void addLoopedStatement(EvalStatement loopedStatement)
 	{
-		loopedStatements.add(loopedStatement);
+		statements.add(loopedStatement);
 	}
 
 	public Variable getIterationVar()
@@ -53,13 +52,13 @@ public class ForFunction extends EvalStatement
 
 	public Collection<EvalStatement> getLoopedStatements()
 	{
-		return loopedStatements;
+		return statements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		function.collectNeededEntities(needs);
-		for(EvalStatement loopedStatement : loopedStatements) {
+		for(EvalStatement loopedStatement : statements) {
 			loopedStatement.collectNeededEntities(needs);
 		}
 		if(needs.variables != null)
