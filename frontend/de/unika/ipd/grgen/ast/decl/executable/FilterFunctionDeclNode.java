@@ -47,7 +47,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 	protected CollectNode<BaseNode> paramsUnresolved;
 	protected CollectNode<DeclNode> params;
 
-	public CollectNode<EvalStatementNode> evals;
+	public CollectNode<EvalStatementNode> evalStatements;
 	static final FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode();
 
 	protected IdentNode actionUnresolved;
@@ -57,8 +57,8 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 			IdentNode action)
 	{
 		super(id, filterFunctionType);
-		this.evals = evals;
-		becomeParent(this.evals);
+		this.evalStatements = evals;
+		becomeParent(this.evalStatements);
 		this.paramsUnresolved = params;
 		becomeParent(this.paramsUnresolved);
 		this.actionUnresolved = action;
@@ -70,8 +70,8 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		if(evals != null)
-			children.add(evals);
+		if(evalStatements != null)
+			children.add(evalStatements);
 		children.add(paramsUnresolved);
 		children.add(actionUnresolved);
 		return children;
@@ -83,7 +83,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
-		if(evals != null)
+		if(evalStatements != null)
 			childrenNames.add("evals");
 		childrenNames.add("params");
 		childrenNames.add("action");
@@ -171,7 +171,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 		}
 
 		FilterFunction filterFunction;
-		if(evals != null)
+		if(evalStatements != null)
 			filterFunction = new FilterFunctionInternal(getIdentNode().toString(), getIdentNode().getIdent());
 		else
 			filterFunction = new FilterFunctionExternal(getIdentNode().toString(), getIdentNode().getIdent());
@@ -187,9 +187,9 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 			filterFunction.addParameter(decl.checkIR(Entity.class));
 		}
 
-		if(evals != null) {
+		if(evalStatements != null) {
 			// add Computation Statements to the IR
-			for(EvalStatementNode eval : evals.getChildren()) {
+			for(EvalStatementNode eval : evalStatements.getChildren()) {
 				((FilterFunctionInternal)filterFunction).addComputationStatement(eval.checkIR(EvalStatement.class));
 			}
 		}

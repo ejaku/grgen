@@ -106,7 +106,7 @@ public class SubpatternDeclNode extends ActionDeclNode
 			CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
 			CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
 			CollectNode<OrderedReplacementsNode> orderedReplacements = new CollectNode<OrderedReplacementsNode>();
-			CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
+			CollectNode<EvalStatementsNode> evalStatments = new CollectNode<EvalStatementsNode>();
 			CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 			CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 			GraphNode graph = new GraphNode(getIdentNode().toString(), getIdentNode().getCoords(),
@@ -114,7 +114,7 @@ public class SubpatternDeclNode extends ActionDeclNode
 					orderedReplacements, returnz, imperativeStmts,
 					BaseNode.CONTEXT_PATTERN | BaseNode.CONTEXT_RHS, pattern);
 			graph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
-			graph.addEvals(evals);
+			graph.addEvals(evalStatments);
 			right = new ModifyDeclNode(getIdentNode(), graph, new CollectNode<IdentNode>());
 			getIdentNode().setDecl(this);
 		}

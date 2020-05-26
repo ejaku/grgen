@@ -42,7 +42,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 	protected CollectNode<BaseNode> paramsUnresolved;
 	protected CollectNode<DeclNode> params;
 
-	public CollectNode<EvalStatementNode> evals;
+	public CollectNode<EvalStatementNode> evalStatements;
 	static final ProcedureTypeNode procedureType = new ProcedureTypeNode();
 
 	boolean isMethod;
@@ -51,8 +51,8 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 			CollectNode<BaseNode> rets, boolean isMethod)
 	{
 		super(id, procedureType);
-		this.evals = evals;
-		becomeParent(this.evals);
+		this.evalStatements = evals;
+		becomeParent(this.evalStatements);
 		this.paramsUnresolved = params;
 		becomeParent(this.paramsUnresolved);
 		this.retsUnresolved = rets;
@@ -66,7 +66,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(evals);
+		children.add(evalStatements);
 		children.add(paramsUnresolved);
 		children.add(getValidVersion(retsUnresolved, returnTypes));
 		return children;
@@ -157,7 +157,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 		}
 
 		// add Computation Statements to the IR
-		for(EvalStatementNode eval : evals.getChildren()) {
+		for(EvalStatementNode eval : evalStatements.getChildren()) {
 			procedure.addComputationStatement(eval.checkIR(EvalStatement.class));
 		}
 

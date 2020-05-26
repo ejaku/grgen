@@ -63,7 +63,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	private final List<DefinedMatchType> implementedMatchClasses = new LinkedList<DefinedMatchType>();
 
 	/** The evaluation assignments of this rule (RHS). */
-	private final Collection<EvalStatements> evals = new LinkedList<EvalStatements>();
+	private final Collection<EvalStatements> evalStatements = new LinkedList<EvalStatements>();
 
 	/** How often the pattern is to be matched in case this is an iterated. */
 	private int minMatches;
@@ -130,13 +130,13 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	/** @return A collection containing all eval assignments of this rule. */
 	public Collection<EvalStatements> getEvals()
 	{
-		return Collections.unmodifiableCollection(evals);
+		return Collections.unmodifiableCollection(evalStatements);
 	}
 
 	/** Add an assignment to the list of evaluations. */
 	public void addEval(EvalStatements a)
 	{
-		evals.add(a);
+		evalStatements.add(a);
 	}
 
 	/**

@@ -379,10 +379,10 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		for(BaseNode child : body.getChildren()) {
 			if(child instanceof FunctionDeclNode) {
 				FunctionDeclNode function = (FunctionDeclNode)child;
-				res &= EvalStatementNode.checkStatements(true, function, null, function.evals, true);
+				res &= EvalStatementNode.checkStatements(true, function, null, function.evalStatements, true);
 			} else if(child instanceof ProcedureDeclNode) {
 				ProcedureDeclNode procedure = (ProcedureDeclNode)child;
-				res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evals, true);
+				res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evalStatements, true);
 			}
 		}
 		return res;

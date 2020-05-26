@@ -205,19 +205,19 @@ public class PackageActionTypeNode extends CompoundTypeNode
 			}
 		}
 		for(FilterFunctionDeclNode filterFunction : filterFunctions.getChildren()) {
-			if(filterFunction.evals != null) // otherwise external filter function without statements
-				res &= EvalStatementNode.checkStatements(true, filterFunction, null, filterFunction.evals, true);
+			if(filterFunction.evalStatements != null) // otherwise external filter function without statements
+				res &= EvalStatementNode.checkStatements(true, filterFunction, null, filterFunction.evalStatements, true);
 		}
 		for(MatchClassFilterFunctionDeclNode matchClassFilterFunction : matchClassFilterFunctions.getChildren()) {
-			if(matchClassFilterFunction.evals != null) // otherwise external filter function without statements
+			if(matchClassFilterFunction.evalStatements != null) // otherwise external filter function without statements
 				res &= EvalStatementNode.checkStatements(true, matchClassFilterFunction, null,
-						matchClassFilterFunction.evals, true);
+						matchClassFilterFunction.evalStatements, true);
 		}
 		for(FunctionDeclNode function : functions.getChildren()) {
-			res &= EvalStatementNode.checkStatements(true, function, null, function.evals, true);
+			res &= EvalStatementNode.checkStatements(true, function, null, function.evalStatements, true);
 		}
 		for(ProcedureDeclNode procedure : procedures.getChildren()) {
-			res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evals, true);
+			res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evalStatements, true);
 		}
 		return res;
 	}

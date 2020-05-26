@@ -28,10 +28,10 @@ public class EvalStatementsNode extends BaseNode
 		evalStatements = new CollectNode<EvalStatementNode>();
 	}
 
-	public void addChild(EvalStatementNode c)
+	public void addChild(EvalStatementNode evalStatement)
 	{
 		//assert(c!=null);
-		evalStatements.addChild(c);
+		evalStatements.addChild(evalStatement);
 	}
 
 	@Override

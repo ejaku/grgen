@@ -205,8 +205,8 @@ public class IteratedNode extends ActionDeclNode
 
 		// add Eval statements to the IR
 		if(this.right != null) {
-			for(EvalStatements n : this.right.getRHSGraph().getYieldEvalStatements()) {
-				iteratedRule.addEval(n);
+			for(EvalStatements evalStatements : this.right.getRHSGraph().getYieldEvalStatements()) {
+				iteratedRule.addEval(evalStatements);
 			}
 		}
 

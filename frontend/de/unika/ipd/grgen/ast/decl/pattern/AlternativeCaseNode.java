@@ -174,8 +174,8 @@ public class AlternativeCaseNode extends ActionDeclNode
 
 		// add Eval statements to the IR
 		if(right != null) {
-			for(EvalStatements n : right.getRHSGraph().getYieldEvalStatements()) {
-				altCaseRule.addEval(n);
+			for(EvalStatements evalStatement : right.getRHSGraph().getYieldEvalStatements()) {
+				altCaseRule.addEval(evalStatement);
 			}
 		}
 

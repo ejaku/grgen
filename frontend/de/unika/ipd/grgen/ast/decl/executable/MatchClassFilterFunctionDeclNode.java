@@ -49,7 +49,7 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 	protected CollectNode<BaseNode> paramsUnresolved;
 	protected CollectNode<DeclNode> params;
 
-	public CollectNode<EvalStatementNode> evals;
+	public CollectNode<EvalStatementNode> evalStatements;
 	static final FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode();
 
 	protected IdentNode matchTypeUnresolved;
@@ -59,8 +59,8 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 			CollectNode<BaseNode> params, IdentNode matchType)
 	{
 		super(id, filterFunctionType);
-		this.evals = evals;
-		becomeParent(this.evals);
+		this.evalStatements = evals;
+		becomeParent(this.evalStatements);
 		this.paramsUnresolved = params;
 		becomeParent(this.paramsUnresolved);
 		this.matchTypeUnresolved = matchType;
@@ -72,8 +72,8 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		if(evals != null)
-			children.add(evals);
+		if(evalStatements != null)
+			children.add(evalStatements);
 		children.add(paramsUnresolved);
 		children.add(matchTypeUnresolved);
 		return children;
@@ -85,7 +85,7 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
-		if(evals != null)
+		if(evalStatements != null)
 			childrenNames.add("evals");
 		childrenNames.add("params");
 		childrenNames.add("matchType");
@@ -173,7 +173,7 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 		}
 
 		MatchClassFilterFunction filterFunction;
-		if(evals != null)
+		if(evalStatements != null)
 			filterFunction = new MatchClassFilterFunctionInternal(getIdentNode().toString(), getIdentNode().getIdent());
 		else
 			filterFunction = new MatchClassFilterFunctionExternal(getIdentNode().toString(), getIdentNode().getIdent());
@@ -190,9 +190,9 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 			filterFunction.addParameter(decl.checkIR(Entity.class));
 		}
 
-		if(evals != null) {
+		if(evalStatements != null) {
 			// add Computation Statements to the IR
-			for(EvalStatementNode eval : evals.getChildren()) {
+			for(EvalStatementNode eval : evalStatements.getChildren()) {
 				((MatchClassFilterFunctionInternal)filterFunction).addComputationStatement(eval.checkIR(EvalStatement.class));
 			}
 		}

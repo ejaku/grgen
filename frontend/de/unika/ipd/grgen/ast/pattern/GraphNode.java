@@ -647,8 +647,8 @@ public class GraphNode extends BaseNode
 	{
 		Collection<EvalStatements> ret = new LinkedList<EvalStatements>();
 
-		for(EvalStatementsNode n : yieldsEvals.getChildren()) {
-			ret.add(n.checkIR(EvalStatements.class));
+		for(EvalStatementsNode evalStatements : yieldsEvals.getChildren()) {
+			ret.add(evalStatements.checkIR(EvalStatements.class));
 		}
 
 		return ret;

@@ -42,7 +42,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 	protected CollectNode<BaseNode> paramsUnresolved;
 	protected CollectNode<DeclNode> params;
 
-	public CollectNode<EvalStatementNode> evals;
+	public CollectNode<EvalStatementNode> evalStatements;
 	static final FunctionTypeNode functionType = new FunctionTypeNode();
 
 	boolean isMethod;
@@ -51,8 +51,8 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 			BaseNode ret, boolean isMethod)
 	{
 		super(id, functionType);
-		this.evals = evals;
-		becomeParent(this.evals);
+		this.evalStatements = evals;
+		becomeParent(this.evalStatements);
 		this.paramsUnresolved = params;
 		becomeParent(this.paramsUnresolved);
 		this.retUnresolved = ret;
@@ -66,7 +66,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(evals);
+		children.add(evalStatements);
 		children.add(paramsUnresolved);
 		children.add(getValidVersion(retUnresolved, ret));
 		return children;
@@ -153,7 +153,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		}
 
 		// add Computation Statements to the IR
-		for(EvalStatementNode eval : evals.getChildren()) {
+		for(EvalStatementNode eval : evalStatements.getChildren()) {
 			function.addComputationStatement(eval.checkIR(EvalStatement.class));
 		}
 
