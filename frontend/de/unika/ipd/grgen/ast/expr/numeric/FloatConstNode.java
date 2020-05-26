@@ -33,17 +33,18 @@ public class FloatConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type)
 	{
 		Float value = (Float)getValue();
+		float unboxed = (float)value;
 
 		if(type.isEqual(BasicTypeNode.byteType)) {
-			return new ByteConstNode(getCoords(), (byte)(float)value);
+			return new ByteConstNode(getCoords(), (byte)unboxed);
 		} else if(type.isEqual(BasicTypeNode.shortType)) {
-			return new ShortConstNode(getCoords(), (short)(float)value);
+			return new ShortConstNode(getCoords(), (short)unboxed);
 		} else if(type.isEqual(BasicTypeNode.intType)) {
-			return new IntConstNode(getCoords(), (int)(float)value);
+			return new IntConstNode(getCoords(), (int)unboxed);
 		} else if(type.isEqual(BasicTypeNode.longType)) {
-			return new LongConstNode(getCoords(), (long)(float)value);
+			return new LongConstNode(getCoords(), (long)unboxed);
 		} else if(type.isEqual(BasicTypeNode.doubleType)) {
-			return new DoubleConstNode(getCoords(), value);
+			return new DoubleConstNode(getCoords(), unboxed);
 		} else if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), value.toString());
 		} else

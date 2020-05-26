@@ -37,17 +37,18 @@ public class ByteConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type)
 	{
 		Byte value = (Byte)getValue();
+		byte unboxed = (byte)value;
 
 		if(type.isEqual(BasicTypeNode.shortType)) {
-			return new ShortConstNode(getCoords(), value);
+			return new ShortConstNode(getCoords(), unboxed);
 		} else if(type.isEqual(BasicTypeNode.intType)) {
-			return new IntConstNode(getCoords(), value);
+			return new IntConstNode(getCoords(), unboxed);
 		} else if(type.isEqual(BasicTypeNode.longType)) {
-			return new LongConstNode(getCoords(), value);
+			return new LongConstNode(getCoords(), unboxed);
 		} else if(type.isEqual(BasicTypeNode.floatType)) {
-			return new FloatConstNode(getCoords(), value);
+			return new FloatConstNode(getCoords(), unboxed);
 		} else if(type.isEqual(BasicTypeNode.doubleType)) {
-			return new DoubleConstNode(getCoords(), value);
+			return new DoubleConstNode(getCoords(), unboxed);
 		} else if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), value.toString());
 		} else
