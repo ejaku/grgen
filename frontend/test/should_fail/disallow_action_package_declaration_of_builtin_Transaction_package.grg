@@ -1,0 +1,13 @@
+package Transaction
+{
+}
+
+rule r
+{
+	modify {
+	---
+		eval {
+//			Transaction::start();
+		}
+	}
+}

@@ -1,0 +1,8 @@
+package Time
+{
+}
+
+rule t
+{
+//	if { Time::now() != Time::now(); }
+}

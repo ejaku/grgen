@@ -1,0 +1,13 @@
+package Debug
+{
+}
+
+rule r
+{
+	modify {
+	---
+		eval {
+//			Debug::halt("");
+		}
+	}
+}

@@ -1,0 +1,14 @@
+package File
+{
+}
+
+rule r
+{
+//	if { File::import("foo.grs") != this; }
+	modify {
+	---
+		eval {
+//			File::export("bar.grs");
+		}
+	}
+}

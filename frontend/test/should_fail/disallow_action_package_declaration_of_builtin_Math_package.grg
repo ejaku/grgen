@@ -1,0 +1,8 @@
+package Math
+{
+}
+
+test t
+{
+//	if { Math::min(0, 1) != 42; }
+}

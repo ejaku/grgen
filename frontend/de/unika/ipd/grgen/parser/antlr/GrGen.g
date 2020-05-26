@@ -398,6 +398,10 @@ packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
 	}
 	: PACKAGE id=packageIdentDecl LBRACE { env.pushScope(id); env.setCurrentPackage(id); }
+		{
+			if(env.isKnownPackage(id.toString()))
+				reportError(id.getCoords(), "The package " + id.toString() + " cannot be defined - a builtin package of the same name already exists");
+		}
 			( declsPatternMatchingOrAttributeEvaluationUnitWithModifier[patternChilds, actionChilds, 
 					matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
 					functionChilds, procedureChilds, sequenceChilds]

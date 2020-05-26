@@ -496,6 +496,20 @@ public abstract class ParserEnvironment extends Base
 		keywords.add("yield");
 	}
 
+	public boolean isKnownPackage(String packageName)
+	{
+		switch(packageName) {
+		case "Math":
+		case "File":
+		case "Time":
+		case "Debug":
+		case "Transaction":
+			return true;
+		default:
+			return false;
+		}
+	}
+
 	public boolean isKnownFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		if(isMathFunction(pack, i, params)
