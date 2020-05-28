@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.MemberAccessor;
 import de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclBaseNode;
+import de.unika.ipd.grgen.ast.decl.executable.FunctionOrOperatorDeclBaseNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclBaseNode;
 import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
@@ -389,7 +389,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	}
 
 	/** Check whether the override adheres to the signature of the base declaration */
-	protected boolean checkSignatureAdhered(FunctionDeclBaseNode base, FunctionDeclBaseNode override)
+	protected boolean checkSignatureAdhered(FunctionOrOperatorDeclBaseNode base, FunctionOrOperatorDeclBaseNode override)
 	{
 		String functionName = base.ident.toString();
 
@@ -419,7 +419,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		}
 
 		// check if the return type is correct
-		if(!base.getReturnType().isEqual(override.getReturnType())) {
+		if(!base.getResultType().isEqual(override.getResultType())) {
 			override.reportError("The function method \"" + functionName + "\" differs in its return type from the base class");
 		}
 
@@ -456,8 +456,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			}
 		}
 
-		Vector<TypeNode> baseReturnParams = base.getReturnTypes();
-		Vector<TypeNode> overrideReturnParams = override.getReturnTypes();
+		Vector<TypeNode> baseReturnParams = base.getResultTypes();
+		Vector<TypeNode> overrideReturnParams = override.getResultTypes();
 
 		// check if the number of parameters is correct
 		int numBaseReturnParams = baseReturnParams.size();

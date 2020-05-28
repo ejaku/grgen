@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.expr.invocation;
 
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclBaseNode;
+import de.unika.ipd.grgen.ast.decl.executable.FunctionOrOperatorDeclBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
@@ -33,7 +33,7 @@ public abstract class FunctionInvocationBaseNode extends FunctionOrBuiltinFuncti
 	}
 
 	/** Check whether the usage adheres to the signature of the declaration */
-	protected boolean checkSignatureAdhered(FunctionDeclBaseNode fb, IdentNode unresolved, boolean isMethod)
+	protected boolean checkSignatureAdhered(FunctionOrOperatorDeclBaseNode fb, IdentNode unresolved, boolean isMethod)
 	{
 		// check if the number of parameters are correct
 		int expected = fb.getParameterTypes().size();

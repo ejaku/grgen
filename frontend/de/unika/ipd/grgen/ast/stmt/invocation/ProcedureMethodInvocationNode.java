@@ -141,12 +141,12 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 	public Vector<TypeNode> getType()
 	{
 		assert isResolved();
-		return procedureDecl.getReturnTypes();
+		return procedureDecl.getResultTypes();
 	}
 
 	public int getNumReturnTypes()
 	{
-		return procedureDecl.returnTypes.size();
+		return procedureDecl.resultTypesCollectNode.size();
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 		for(ExprNode expr : arguments.getChildren()) {
 			pmi.addArgument(expr.checkIR(Expression.class));
 		}
-		for(TypeNode type : procedureDecl.returnTypes.getChildren()) {
+		for(TypeNode type : procedureDecl.resultTypesCollectNode.getChildren()) {
 			pmi.addReturnType(type.checkIR(Type.class));
 		}
 		return pmi;

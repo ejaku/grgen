@@ -16,10 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
 import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
-import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ir.IR;
@@ -46,32 +46,32 @@ public class ArithmeticOpNode extends OpNode
 	private static Map<Integer, Integer> irOpCodeMap = new HashMap<Integer, Integer>();
 
 	static {
-		assocOpCode(OperatorSignature.COND, Operator.COND);
-		assocOpCode(OperatorSignature.LOG_OR, Operator.LOG_OR);
-		assocOpCode(OperatorSignature.LOG_AND, Operator.LOG_AND);
-		assocOpCode(OperatorSignature.BIT_OR, Operator.BIT_OR);
-		assocOpCode(OperatorSignature.BIT_XOR, Operator.BIT_XOR);
-		assocOpCode(OperatorSignature.BIT_AND, Operator.BIT_AND);
-		assocOpCode(OperatorSignature.EQ, Operator.EQ);
-		assocOpCode(OperatorSignature.NE, Operator.NE);
-		assocOpCode(OperatorSignature.SE, Operator.SE);
-		assocOpCode(OperatorSignature.LT, Operator.LT);
-		assocOpCode(OperatorSignature.LE, Operator.LE);
-		assocOpCode(OperatorSignature.GT, Operator.GT);
-		assocOpCode(OperatorSignature.GE, Operator.GE);
-		assocOpCode(OperatorSignature.SHL, Operator.SHL);
-		assocOpCode(OperatorSignature.SHR, Operator.SHR);
-		assocOpCode(OperatorSignature.BIT_SHR, Operator.BIT_SHR);
-		assocOpCode(OperatorSignature.ADD, Operator.ADD);
-		assocOpCode(OperatorSignature.SUB, Operator.SUB);
-		assocOpCode(OperatorSignature.MUL, Operator.MUL);
-		assocOpCode(OperatorSignature.DIV, Operator.DIV);
-		assocOpCode(OperatorSignature.MOD, Operator.MOD);
-		assocOpCode(OperatorSignature.LOG_NOT, Operator.LOG_NOT);
-		assocOpCode(OperatorSignature.BIT_NOT, Operator.BIT_NOT);
-		assocOpCode(OperatorSignature.NEG, Operator.NEG);
-		assocOpCode(OperatorSignature.IN, Operator.IN);
-		assocOpCode(OperatorSignature.EXCEPT, Operator.EXCEPT);
+		assocOpCode(OperatorDeclNode.COND, Operator.COND);
+		assocOpCode(OperatorDeclNode.LOG_OR, Operator.LOG_OR);
+		assocOpCode(OperatorDeclNode.LOG_AND, Operator.LOG_AND);
+		assocOpCode(OperatorDeclNode.BIT_OR, Operator.BIT_OR);
+		assocOpCode(OperatorDeclNode.BIT_XOR, Operator.BIT_XOR);
+		assocOpCode(OperatorDeclNode.BIT_AND, Operator.BIT_AND);
+		assocOpCode(OperatorDeclNode.EQ, Operator.EQ);
+		assocOpCode(OperatorDeclNode.NE, Operator.NE);
+		assocOpCode(OperatorDeclNode.SE, Operator.SE);
+		assocOpCode(OperatorDeclNode.LT, Operator.LT);
+		assocOpCode(OperatorDeclNode.LE, Operator.LE);
+		assocOpCode(OperatorDeclNode.GT, Operator.GT);
+		assocOpCode(OperatorDeclNode.GE, Operator.GE);
+		assocOpCode(OperatorDeclNode.SHL, Operator.SHL);
+		assocOpCode(OperatorDeclNode.SHR, Operator.SHR);
+		assocOpCode(OperatorDeclNode.BIT_SHR, Operator.BIT_SHR);
+		assocOpCode(OperatorDeclNode.ADD, Operator.ADD);
+		assocOpCode(OperatorDeclNode.SUB, Operator.SUB);
+		assocOpCode(OperatorDeclNode.MUL, Operator.MUL);
+		assocOpCode(OperatorDeclNode.DIV, Operator.DIV);
+		assocOpCode(OperatorDeclNode.MOD, Operator.MOD);
+		assocOpCode(OperatorDeclNode.LOG_NOT, Operator.LOG_NOT);
+		assocOpCode(OperatorDeclNode.BIT_NOT, Operator.BIT_NOT);
+		assocOpCode(OperatorDeclNode.NEG, Operator.NEG);
+		assocOpCode(OperatorDeclNode.IN, Operator.IN);
+		assocOpCode(OperatorDeclNode.EXCEPT, Operator.EXCEPT);
 	}
 
 	private QualIdentNode target = null; // if !null it's a set/map union/except which is to be broken up
@@ -172,7 +172,7 @@ public class ArithmeticOpNode extends OpNode
 	private EvalStatement replaceSetMapOrExceptByAddRemove(Qualification qual,
 			EvalStatement previous, EvalStatement first)
 	{
-		if(getOperator().getOpId() == OperatorSignature.BIT_OR) {
+		if(getOperator().getOpId() == OperatorDeclNode.BIT_OR) {
 			if(children.get(1).getType() instanceof SetTypeNode) {
 				SetInitNode initNode = (SetInitNode)children.get(1);
 				for(ExprNode item : initNode.getItems().getChildren()) {
@@ -251,6 +251,6 @@ public class ArithmeticOpNode extends OpNode
 	@Override
 	public String toString()
 	{
-		return OperatorSignature.getName(getOpId());
+		return OperatorDeclNode.getName(getOpId());
 	}
 }

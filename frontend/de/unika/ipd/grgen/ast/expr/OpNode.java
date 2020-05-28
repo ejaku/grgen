@@ -13,10 +13,10 @@ package de.unika.ipd.grgen.ast.expr;
 
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.ByteTypeNode;
@@ -32,7 +32,7 @@ public abstract class OpNode extends ExprNode
 	private int opId;
 
 	/** The corresponding operator. */
-	private OperatorSignature operator;
+	private OperatorDeclNode operator;
 
 	public Vector<ExprNode> children = new Vector<ExprNode>();
 
@@ -59,7 +59,7 @@ public abstract class OpNode extends ExprNode
 	{
 		boolean res = true;
 		TypeNode type = getType();
-		int arity = OperatorSignature.getArity(opId);
+		int arity = OperatorDeclNode.getArity(opId);
 
 		if(children.size() != arity) {
 			reportError("Wrong operator arity: " + children.size());
@@ -81,49 +81,48 @@ public abstract class OpNode extends ExprNode
 	 * If no such operator is found, an error message is reported.
 	 * @return The proper operator for this node, <code>null</code> otherwise.
 	 */
-	private OperatorSignature computeOperator()
+	private OperatorDeclNode computeOperator()
 	{
-		OperatorSignature operator = null;
-		int n = children.size();
-		TypeNode[] argTypes = new TypeNode[n];
+		OperatorDeclNode operator = null;
+		Vector<TypeNode> argTypes = new Vector<TypeNode>();
 
-		for(int i = 0; i < n; i++) {
+		for(int i = 0; i < children.size(); i++) {
 			ExprNode op = children.get(i);
 			TypeNode type = op.getType();
 			if(type instanceof NodeTypeNode || type instanceof EdgeTypeNode)
 				type = BasicTypeNode.typeType;
-			if(type instanceof ExternalTypeNode && argTypes.length < 3) // keep real ext type for cond
+			if(type instanceof ExternalTypeNode && children.size() < 3) // keep real ext type for cond
 				type = BasicTypeNode.typeType;
 			if(type instanceof ByteTypeNode || type instanceof ShortTypeNode)
-				if(n < 3)
+				if(children.size() < 3)
 					type = BasicTypeNode.intType;
-			argTypes[i] = type;
+			argTypes.add(type);
 		}
 
-		operator = OperatorSignature.getNearestOperator(opId, argTypes);
+		operator = OperatorDeclNode.getNearestOperator(opId, argTypes);
 		if(!operator.isValid()) {
 			StringBuffer params = new StringBuffer();
 			boolean errorReported = false;
 
 			params.append('(');
-			for(int i = 0; i < n; i++) {
-				if(argTypes[i].isEqual(BasicTypeNode.errorType)) {
+			for(int i = 0; i < children.size(); i++) {
+				if(argTypes.get(i).isEqual(BasicTypeNode.errorType)) {
 					errorReported = true;
 				} else {
-					params.append((i > 0 ? ", " : "") + argTypes[i].toString());
+					params.append((i > 0 ? ", " : "") + argTypes.get(i).toString());
 				}
 			}
 			params.append(')');
 
 			if(!errorReported) {
-				reportError("No such operator " + OperatorSignature.getName(opId) + params);
+				reportError("No such operator " + OperatorDeclNode.getName(opId) + params);
 			}
 		} else {
 			// Insert implicit type casts for the arguments that need them.
 			TypeNode[] opTypes = operator.getOperandTypes();
-			assert(opTypes.length == argTypes.length);
-			for(int i = 0; i < argTypes.length; i++) {
-				if(!argTypes[i].isEqual(opTypes[i])) {
+			assert(opTypes.length == argTypes.size());
+			for(int i = 0; i < argTypes.size(); i++) {
+				if(!argTypes.get(i).isEqual(opTypes[i])) {
 					ExprNode child = children.get(i);
 					ExprNode adjusted = child.adjustType(opTypes[i]);
 					becomeParent(adjusted);
@@ -135,7 +134,7 @@ public abstract class OpNode extends ExprNode
 		return operator;
 	}
 
-	public final OperatorSignature getOperator()
+	public final OperatorDeclNode getOperator()
 	{
 		if(operator == null) {
 			operator = computeOperator();

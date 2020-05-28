@@ -17,6 +17,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ArithmeticOpNode;
@@ -31,7 +32,6 @@ import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
@@ -450,8 +450,8 @@ public class AssignNode extends EvalStatementNode
 		while(curLoc != null) {
 			if(curLoc instanceof ArithmeticOpNode) {
 				ArithmeticOpNode operator = (ArithmeticOpNode)curLoc;
-				if(!(operator.getOperator().getOpId() == OperatorSignature.BIT_OR)
-						&& !(operator.getOperator().getOpId() == OperatorSignature.EXCEPT)) {
+				if(!(operator.getOperator().getOpId() == OperatorDeclNode.BIT_OR)
+						&& !(operator.getOperator().getOpId() == OperatorDeclNode.EXCEPT)) {
 					return false;
 				}
 				Collection<ExprNode> children = operator.getChildren();

@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
 import de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
 import de.unika.ipd.grgen.ast.type.executable.ProcedureTypeNode;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.type.Type;
@@ -39,24 +40,26 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 		setName(ProcedureDeclNode.class, "procedure declaration");
 	}
 
-	protected CollectNode<BaseNode> paramsUnresolved;
-	protected CollectNode<DeclNode> params;
+	protected CollectNode<BaseNode> parametersUnresolved;
+	protected CollectNode<DeclNode> parameters;
 
 	public CollectNode<EvalStatementNode> evalStatements;
-	static final ProcedureTypeNode procedureType = new ProcedureTypeNode();
 
 	boolean isMethod;
 
+	static final ProcedureTypeNode procedureType = new ProcedureTypeNode();
+
+	
 	public ProcedureDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params,
 			CollectNode<BaseNode> rets, boolean isMethod)
 	{
 		super(id, procedureType);
 		this.evalStatements = evals;
 		becomeParent(this.evalStatements);
-		this.paramsUnresolved = params;
-		becomeParent(this.paramsUnresolved);
-		this.retsUnresolved = rets;
-		becomeParent(this.retsUnresolved);
+		this.parametersUnresolved = params;
+		becomeParent(this.parametersUnresolved);
+		this.resultsUnresolved = rets;
+		becomeParent(this.resultsUnresolved);
 		this.isMethod = isMethod;
 	}
 
@@ -67,8 +70,8 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(evalStatements);
-		children.add(paramsUnresolved);
-		children.add(getValidVersion(retsUnresolved, returnTypes));
+		children.add(parametersUnresolved);
+		children.add(getValidVersion(resultsUnresolved, resultTypesCollectNode));
 		return children;
 	}
 
@@ -88,21 +91,32 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		params = new CollectNode<DeclNode>();
-		for(BaseNode param : paramsUnresolved.getChildren()) {
+		parameters = new CollectNode<DeclNode>();
+		for(BaseNode param : parametersUnresolved.getChildren()) {
 			if(param instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode)param;
-				params.addChild(conn.getEdge().getDecl());
+				parameters.addChild(conn.getEdge().getDecl());
 			} else if(param instanceof SingleNodeConnNode) {
 				NodeDeclNode node = ((SingleNodeConnNode)param).getNode();
-				params.addChild(node);
+				parameters.addChild(node);
 			} else if(param instanceof VarDeclNode) {
-				params.addChild((VarDeclNode)param);
+				parameters.addChild((VarDeclNode)param);
 			} else
 				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
 		}
 
-		return true;
+		parameterTypes = new Vector<TypeNode>();
+		for(DeclNode decl : parameters.getChildren()) {
+			parameterTypes.add(decl.getDeclType());
+		}
+		boolean res = true;
+		for(TypeNode parameterType : parameterTypes) {
+			if(parameterType == null || parameterType instanceof ErrorTypeNode) {
+				res = false;
+			}
+		}
+
+		return res;
 	}
 
 	/** Returns the IR object for this procedure node. */
@@ -117,18 +131,6 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 		assert isResolved();
 
 		return procedureType;
-	}
-
-	public Vector<TypeNode> getParameterTypes()
-	{
-		assert isChecked();
-
-		Vector<TypeNode> types = new Vector<TypeNode>();
-		for(DeclNode decl : params.getChildren()) {
-			types.add(decl.getDeclType());
-		}
-
-		return types;
 	}
 
 	@Override
@@ -147,12 +149,12 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 		setIR(procedure);
 
 		// add return types to the IR
-		for(TypeNode retType : returnTypes.getChildren()) {
+		for(TypeNode retType : resultTypesCollectNode.getChildren()) {
 			procedure.addReturnType(retType.checkIR(Type.class));
 		}
 
 		// add Params to the IR
-		for(DeclNode decl : params.getChildren()) {
+		for(DeclNode decl : parameters.getChildren()) {
 			procedure.addParameter(decl.checkIR(Entity.class));
 		}
 

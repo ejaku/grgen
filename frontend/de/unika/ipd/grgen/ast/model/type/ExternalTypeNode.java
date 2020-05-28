@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
-import de.unika.ipd.grgen.ast.type.OperatorSignature;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
@@ -54,8 +54,8 @@ public class ExternalTypeNode extends InheritanceTypeNode
 		becomeParent(this.bodyUnresolved);
 
 		// allow the conditional operator on the external type
-		OperatorSignature.makeOp(OperatorSignature.COND, this,
-				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorSignature.condEvaluator);
+		OperatorDeclNode.makeOp(OperatorDeclNode.COND, this,
+				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorDeclNode.condEvaluator);
 	}
 
 	/** returns children of this node */

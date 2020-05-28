@@ -134,12 +134,12 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 	public Vector<TypeNode> getType()
 	{
 		assert isResolved();
-		return externalProcedureDecl.getReturnTypes();
+		return externalProcedureDecl.getResultTypes();
 	}
 
 	public int getNumReturnTypes()
 	{
-		return externalProcedureDecl.returnTypes.size();
+		return externalProcedureDecl.resultTypesCollectNode.size();
 	}
 
 	@Override
@@ -156,7 +156,7 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 		for(ExprNode expr : arguments.getChildren()) {
 			epi.addArgument(expr.checkIR(Expression.class));
 		}
-		for(TypeNode type : externalProcedureDecl.returnTypes.getChildren()) {
+		for(TypeNode type : externalProcedureDecl.resultTypesCollectNode.getChildren()) {
 			epi.addReturnType(type.checkIR(Type.class));
 		}
 		return epi;

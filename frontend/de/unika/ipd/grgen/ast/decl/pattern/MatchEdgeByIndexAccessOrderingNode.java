@@ -15,11 +15,11 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
-import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
@@ -144,14 +144,14 @@ public class MatchEdgeByIndexAccessOrderingNode extends MatchEdgeByIndexNode
 					+ "\" to pattern element type \"" + expTypeName + "\" in match edge by index access");
 			return false;
 		}
-		if(comp == OperatorSignature.LT || comp == OperatorSignature.LE) {
-			if(expr2 != null && (comp2 == OperatorSignature.LT || comp2 == OperatorSignature.LE)) {
+		if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE) {
+			if(expr2 != null && (comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)) {
 				reportError("Match edge by index does not support two lower bounds");
 				return false;
 			}
 		}
-		if(comp == OperatorSignature.GT || comp == OperatorSignature.GE) {
-			if(expr2 != null && (comp2 == OperatorSignature.GT || comp2 == OperatorSignature.GE)) {
+		if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE) {
+			if(expr2 != null && (comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)) {
 				reportError("Match edge by index does not support two upper bounds");
 				return false;
 			}

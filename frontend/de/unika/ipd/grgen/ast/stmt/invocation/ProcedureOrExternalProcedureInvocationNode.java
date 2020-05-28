@@ -113,15 +113,15 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	public Vector<TypeNode> getType()
 	{
 		assert isResolved();
-		return procedureDecl != null ? procedureDecl.getReturnTypes() : externalProcedureDecl.getReturnTypes();
+		return procedureDecl != null ? procedureDecl.getResultTypes() : externalProcedureDecl.getResultTypes();
 	}
 
 	public int getNumReturnTypes()
 	{
 		if(procedureDecl != null)
-			return procedureDecl.returnTypes.size();
+			return procedureDecl.resultTypesCollectNode.size();
 		else
-			return externalProcedureDecl.returnTypes.size();
+			return externalProcedureDecl.resultTypesCollectNode.size();
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 			for(ExprNode expr : arguments.getChildren()) {
 				pi.addArgument(expr.checkIR(Expression.class));
 			}
-			for(TypeNode type : procedureDecl.returnTypes.getChildren()) {
+			for(TypeNode type : procedureDecl.resultTypesCollectNode.getChildren()) {
 				pi.addReturnType(type.checkIR(Type.class));
 			}
 			return pi;
@@ -142,7 +142,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 			for(ExprNode expr : arguments.getChildren()) {
 				epi.addArgument(expr.checkIR(Expression.class));
 			}
-			for(TypeNode type : externalProcedureDecl.returnTypes.getChildren()) {
+			for(TypeNode type : externalProcedureDecl.resultTypesCollectNode.getChildren()) {
 				epi.addReturnType(type.checkIR(Type.class));
 			}
 			return epi;

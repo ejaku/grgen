@@ -343,7 +343,7 @@ seqExprUnary [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	| (n=NOT {t=n; xg.append("!");})? exp=seqExprBasic[xg] { if(t!=null) res = makeUnOp(t, exp); else res = exp; }
 	| m=MINUS {xg.append("-");} exp=seqExprBasic[xg]
 		{
-			OpNode neg = new ArithmeticOpNode(getCoords(m), OperatorSignature.NEG);
+			OpNode neg = new ArithmeticOpNode(getCoords(m), OperatorDeclNode.NEG);
 			neg.addChild(exp);
 			res = neg;
 		}

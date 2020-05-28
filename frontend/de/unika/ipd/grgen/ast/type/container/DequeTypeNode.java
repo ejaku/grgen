@@ -15,8 +15,8 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -78,26 +78,26 @@ public class DequeTypeNode extends ContainerTypeNode
 			return false;
 
 		if(valueType instanceof InheritanceTypeNode) {
-			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
-					BasicTypeNode.typeType, this, OperatorSignature.dequeEvaluator);
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.IN, BasicTypeNode.booleanType,
+					BasicTypeNode.typeType, this, OperatorDeclNode.dequeEvaluator);
 		} else {
-			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
-					valueType, this, OperatorSignature.dequeEvaluator);
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.IN, BasicTypeNode.booleanType,
+					valueType, this, OperatorDeclNode.dequeEvaluator);
 		}
-		OperatorSignature.makeBinOp(OperatorSignature.EQ, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.dequeEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.NE, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.dequeEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.GT, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.dequeEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.GE, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.dequeEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.LT, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.dequeEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType,
-				this, this, OperatorSignature.dequeEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.ADD, this,
-				this, this, OperatorSignature.dequeEvaluator);
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.EQ, BasicTypeNode.booleanType,
+				this, this, OperatorDeclNode.dequeEvaluator);
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.NE, BasicTypeNode.booleanType,
+				this, this, OperatorDeclNode.dequeEvaluator);
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.GT, BasicTypeNode.booleanType,
+				this, this, OperatorDeclNode.dequeEvaluator);
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.GE, BasicTypeNode.booleanType,
+				this, this, OperatorDeclNode.dequeEvaluator);
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.LT, BasicTypeNode.booleanType,
+				this, this, OperatorDeclNode.dequeEvaluator);
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.LE, BasicTypeNode.booleanType,
+				this, this, OperatorDeclNode.dequeEvaluator);
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.ADD, this,
+				this, this, OperatorDeclNode.dequeEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 

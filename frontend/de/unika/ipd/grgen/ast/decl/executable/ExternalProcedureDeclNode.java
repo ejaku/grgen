@@ -33,21 +33,22 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 		setName(ExternalProcedureDeclNode.class, "external procedure declaration");
 	}
 
-	protected CollectNode<BaseNode> paramTypesUnresolved;
-	protected CollectNode<TypeNode> paramTypes;
+	protected CollectNode<BaseNode> parameterTypesUnresolved;
+	protected CollectNode<TypeNode> parameterTypesCollectNode;
+
+	boolean isMethod;
 
 	private static final ExternalProcedureTypeNode externalProcedureType = new ExternalProcedureTypeNode();
 
-	boolean isMethod;
 
 	public ExternalProcedureDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved,
 			CollectNode<BaseNode> rets, boolean isMethod)
 	{
 		super(id, externalProcedureType);
-		this.paramTypesUnresolved = paramTypesUnresolved;
-		becomeParent(this.paramTypesUnresolved);
-		this.retsUnresolved = rets;
-		becomeParent(this.retsUnresolved);
+		this.parameterTypesUnresolved = paramTypesUnresolved;
+		becomeParent(this.parameterTypesUnresolved);
+		this.resultsUnresolved = rets;
+		becomeParent(this.resultsUnresolved);
 		this.isMethod = isMethod;
 	}
 
@@ -57,8 +58,8 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(getValidVersion(paramTypesUnresolved, paramTypes));
-		children.add(getValidVersion(retsUnresolved, returnTypes));
+		children.add(getValidVersion(parameterTypesUnresolved, parameterTypesCollectNode));
+		children.add(getValidVersion(resultsUnresolved, resultTypesCollectNode));
 		return children;
 	}
 
@@ -73,15 +74,18 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 		return childrenNames;
 	}
 
-	private static final CollectResolver<TypeNode> paramsTypeResolver =
+	private static final CollectResolver<TypeNode> parametersTypeResolver =
 			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(TypeNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal()
 	{
-		paramTypes = paramsTypeResolver.resolve(paramTypesUnresolved, this);
-		return paramTypes != null && super.resolveLocal();
+		parameterTypesCollectNode = parametersTypeResolver.resolve(parameterTypesUnresolved, this);
+		
+		parameterTypes = parameterTypesCollectNode.getChildrenAsVector();
+		
+		return parameterTypesCollectNode != null & super.resolveLocal();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -99,23 +103,16 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 		return externalProcedureType;
 	}
 
-	public Vector<TypeNode> getParameterTypes()
-	{
-		assert isResolved();
-
-		return paramTypes.getChildrenAsVector();
-	}
-
 	@Override
 	protected IR constructIR()
 	{
 		ExternalProcedure externalProc = isMethod
 				? new ExternalProcedureMethod(getIdentNode().toString(), getIdentNode().getIdent())
 				: new ExternalProcedure(getIdentNode().toString(), getIdentNode().getIdent());
-		for(TypeNode retType : returnTypes.getChildren()) {
+		for(TypeNode retType : resultTypesCollectNode.getChildren()) {
 			externalProc.addReturnType(retType.checkIR(Type.class));
 		}
-		for(TypeNode param : paramTypes.getChildren()) {
+		for(TypeNode param : parameterTypesCollectNode.getChildren()) {
 			externalProc.addParameterType(param.checkIR(Type.class));
 		}
 		return externalProc;

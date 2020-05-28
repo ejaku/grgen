@@ -11,79 +11,34 @@
 
 package de.unika.ipd.grgen.ast.type.executable;
 
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.util.Base;
 
 /**
  * Function abstraction.
- * TODO: use it or remove it
  */
-public class FunctionSignature extends Base
+public interface FunctionSignature
 {
-	/** Result type of the function. */
-	private TypeNode resultType;
-
-	/** Parameter types. */
-	private TypeNode[] parameterTypes;
+	/**
+	 * Get the result(/return) type of this function signature.
+	 * @return The result(/return) type.
+	 */
+	public TypeNode getResultType();
 
 	/**
-	 * Make a new function signature.
-	 * @param resType The result type.
-	 * @param opTypes The operand types.
+	 * Get the parameter(/operand) types of this function signature.
+	 * @return The parameter(/operand) types.
 	 */
-	public FunctionSignature(TypeNode resType, TypeNode[] opTypes)
-	{
-		this.resultType = resType;
-		this.parameterTypes = opTypes;
-	}
-
-	/**
-	 * Get the result type of this function signature.
-	 * @return The result type.
-	 */
-	public TypeNode getResultType()
-	{
-		return resultType;
-	}
-
-	/**
-	 * Get the operand types of this function signature.
-	 * @return The operand types.
-	 */
-	public TypeNode[] getOperandTypes()
-	{
-		return parameterTypes;
-	}
+	public Vector<TypeNode> getParameterTypes();
 
 	/**
 	 * Get the number of implicit type casts needed for calling this
-	 * function signature with the given operands.
-	 * @param argumentTypes The operands
-	 * @return The number of implicit type casts needed to apply the operands
+	 * function signature with the given arguments(/operands).
+	 * @param argumentTypes The types of the arguments(/operands)
+	 * @return The number of implicit type casts needed to apply the arguments(/operands)
 	 * to this function signature. <code>Integer.MAX_VALUE</code> is returned,
-	 * if the operands cannot be applied to this functions signature.
+	 * if the arguments(/operands) cannot be applied to this functions signature.
 	 */
-	protected int getDistance(TypeNode[] argumentTypes)
-	{
-		if(argumentTypes.length != parameterTypes.length)
-			return Integer.MAX_VALUE;
-
-		int distance = 0;
-		for(int i = 0; i < parameterTypes.length; i++) {
-			debug.report(NOTE, "" + i + ": arg type: " + argumentTypes[i] + ", operand type: " + parameterTypes[i]);
-
-			boolean equal = argumentTypes[i].isEqual(parameterTypes[i]);
-			boolean compatible = argumentTypes[i].isCompatibleTo(parameterTypes[i]);
-			debug.report(NOTE, "equal: " + equal + ", compatible: " + compatible);
-
-			int compatibilityDistance = argumentTypes[i].compatibilityDistance(parameterTypes[i]);
-
-			if(compatibilityDistance == Integer.MAX_VALUE)
-				return Integer.MAX_VALUE;
-
-			distance += compatibilityDistance;
-		}
-
-		return distance;
-	}
+	int getDistance(Vector<TypeNode> argumentTypes);
 }

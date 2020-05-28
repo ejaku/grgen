@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclBaseNode;
+import de.unika.ipd.grgen.ast.decl.executable.FunctionOrOperatorDeclBaseNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -92,7 +92,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 	@Override
 	protected boolean checkLocal()
 	{
-		FunctionDeclBaseNode fb = functionDecl != null ? functionDecl : externalFunctionDecl;
+		FunctionOrOperatorDeclBaseNode fb = functionDecl != null ? functionDecl : externalFunctionDecl;
 		return checkSignatureAdhered(fb, functionOrExternalFunctionUnresolved, false);
 	}
 
@@ -100,7 +100,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 	public TypeNode getType()
 	{
 		assert isResolved();
-		return functionDecl != null ? functionDecl.getReturnType() : externalFunctionDecl.getReturnType();
+		return functionDecl != null ? functionDecl.getResultType() : externalFunctionDecl.getResultType();
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 	{
 		if(functionDecl != null) {
 			FunctionInvocationExpr fi = new FunctionInvocationExpr(
-					functionDecl.ret.checkIR(Type.class),
+					functionDecl.resultType.checkIR(Type.class),
 					functionDecl.checkIR(Function.class));
 			for(ExprNode expr : arguments.getChildren()) {
 				fi.addArgument(expr.checkIR(Expression.class));
@@ -116,7 +116,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 			return fi;
 		} else {
 			ExternalFunctionInvocationExpr efi = new ExternalFunctionInvocationExpr(
-					externalFunctionDecl.ret.checkIR(Type.class),
+					externalFunctionDecl.resultType.checkIR(Type.class),
 					externalFunctionDecl.checkIR(ExternalFunction.class));
 			for(ExprNode expr : arguments.getChildren()) {
 				efi.addArgument(expr.checkIR(Expression.class));

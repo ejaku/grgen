@@ -8,14 +8,18 @@
 /**
  * @author Sebastian Hack
  */
-package de.unika.ipd.grgen.ast.type;
+package de.unika.ipd.grgen.ast.decl.executable;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.expr.ArithmeticOpNode;
 import de.unika.ipd.grgen.ast.expr.BoolConstNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
@@ -32,15 +36,17 @@ import de.unika.ipd.grgen.ast.expr.string.StringConstNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
-import de.unika.ipd.grgen.ast.type.executable.FunctionSignature;
+import de.unika.ipd.grgen.ast.type.executable.OperatorTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.parser.Symbol;
 
 /**
- * Operator Description class.
+ * Operator description / pseudo-declaration class.
  */
-public class OperatorSignature extends FunctionSignature
+public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 {
 	public static final int ERROR = 0;
 	public static final int LOG_OR = 1;
@@ -72,6 +78,8 @@ public class OperatorSignature extends FunctionSignature
 	public static final int SE = 27;
 
 	private static final int OPERATORS = SE + 1;
+
+	private static final OperatorTypeNode operatorType = new OperatorTypeNode();
 
 	/** Arity map of the operators. */
 	private static final Map<Integer, Integer> arities = new HashMap<Integer, Integer>();
@@ -145,7 +153,7 @@ public class OperatorSignature extends FunctionSignature
 	/**
 	 * Each generic operator is mapped by its ID to a set of concrete operator signatures.
 	 */
-	private static final Map<Integer, HashSet<OperatorSignature>> operators = new HashMap<Integer, HashSet<OperatorSignature>>();
+	private static final Map<Integer, HashSet<OperatorDeclNode>> operators = new HashMap<Integer, HashSet<OperatorDeclNode>>();
 
 	/**
 	 * Makes an entry in the {@link #operators} map.
@@ -164,13 +172,13 @@ public class OperatorSignature extends FunctionSignature
 	{
 		Integer operatorId = new Integer(id);
 
-		HashSet<OperatorSignature> typeMap = operators.get(operatorId);
+		HashSet<OperatorDeclNode> typeMap = operators.get(operatorId);
 		if(typeMap == null) {
-			typeMap = new LinkedHashSet<OperatorSignature>();
+			typeMap = new LinkedHashSet<OperatorDeclNode>();
 			operators.put(operatorId, typeMap);
 		}
 
-		OperatorSignature newOpSig = new OperatorSignature(id, resultType,
+		OperatorDeclNode newOpSig = new OperatorDeclNode(id, resultType,
 				operandTypes, evaluator);
 		typeMap.add(newOpSig);
 	}
@@ -200,7 +208,7 @@ public class OperatorSignature extends FunctionSignature
 	 */
 	static class Evaluator
 	{
-		public ExprNode evaluate(ExprNode expr, OperatorSignature operator, ExprNode[] arguments)
+		public ExprNode evaluate(ExprNode expr, OperatorDeclNode operator, ExprNode[] arguments)
 		{
 			debug.report(NOTE, "id: " + operator.id + ", name: " + names.get(new Integer(operator.id)));
 
@@ -277,7 +285,7 @@ public class OperatorSignature extends FunctionSignature
 			}
 		}
 
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			return null;
 		}
@@ -294,7 +302,7 @@ public class OperatorSignature extends FunctionSignature
 			return v;
 		}
 
-		protected Object getArgValue(ExprNode[] args, OperatorSignature op, int pos) throws ValueException
+		protected Object getArgValue(ExprNode[] args, OperatorDeclNode op, int pos) throws ValueException
 		{
 			TypeNode[] paramTypes = op.getOperandTypes();
 
@@ -308,7 +316,7 @@ public class OperatorSignature extends FunctionSignature
 	}
 
 	public static final Evaluator objectEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			ObjectTypeNode.Value a0, a1;
 
@@ -335,14 +343,14 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	private static final Evaluator subgraphEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			throw new NotEvaluatableException(coords);
 		}
 	};
 
 	private static final Evaluator nullEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 
 			if(getArity(op.getOpId()) != 2)
@@ -368,7 +376,7 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	private static final Evaluator stringEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			String a0;
 			Object aobj1;
@@ -403,7 +411,7 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	private static final Evaluator intEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			int a0, a1;
 
@@ -464,7 +472,7 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	private static final Evaluator longEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			long a0, a1;
 
@@ -525,7 +533,7 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	private static final Evaluator floatEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			float a0, a1;
 
@@ -570,7 +578,7 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	private static final Evaluator doubleEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			double a0, a1;
 
@@ -615,7 +623,7 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	private static final Evaluator typeEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			boolean is_node1, is_node2;
 
@@ -656,7 +664,7 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	private static final Evaluator booleanEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			boolean a0, a1;
 
@@ -694,7 +702,7 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	public static final Evaluator condEvaluator = new Evaluator() {
-		public ExprNode evaluate(ExprNode expr, OperatorSignature op, ExprNode[] args)
+		public ExprNode evaluate(ExprNode expr, OperatorDeclNode op, ExprNode[] args)
 		{
 			try {
 				return (Boolean)getArgValue(args, op, 0) ? args[1] : args[2];
@@ -705,14 +713,14 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	public static final Evaluator mapEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			throw new NotEvaluatableException(coords); // MAP TODO: evaluate in, map access if map const
 		}
 	};
 
 	public static final Evaluator setEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			switch(op.id) {
 			case IN: {
@@ -758,21 +766,21 @@ public class OperatorSignature extends FunctionSignature
 	};
 
 	public static final Evaluator arrayEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			throw new NotEvaluatableException(coords); // MAP TODO: evaluate
 		}
 	};
 
 	public static final Evaluator dequeEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			throw new NotEvaluatableException(coords); // MAP TODO: evaluate
 		}
 	};
 
 	public static final Evaluator untypedEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			throw new NotEvaluatableException(coords);
 		}
@@ -974,6 +982,16 @@ public class OperatorSignature extends FunctionSignature
 	}
 
 	/**
+	 * Get the operand types of this operator signature.
+	 * @return The operand types.
+	 */
+	public TypeNode[] getOperandTypes()
+	{
+		TypeNode[] array = new TypeNode[parameterTypes.size()];
+		return parameterTypes.toArray(array);
+	}
+
+	/**
 	 * Get the arity of an operator.
 	 *
 	 * @param id
@@ -1020,10 +1038,10 @@ public class OperatorSignature extends FunctionSignature
 	 *            The operands.
 	 * @return The "nearest" operator.
 	 */
-	public static OperatorSignature getNearestOperator(int id, TypeNode[] operandTypes)
+	public static OperatorDeclNode getNearestOperator(int id, Vector<TypeNode> operandTypes)
 	{
 		Integer operatorId = new Integer(id);
-		OperatorSignature resultingOperator = INVALID;
+		OperatorDeclNode resultingOperator = INVALID;
 		int nearestDistance = Integer.MAX_VALUE;
 
 		boolean hasVoid = false;
@@ -1031,27 +1049,30 @@ public class OperatorSignature extends FunctionSignature
 		boolean checkEnums = false;
 		boolean[] isEnum = null;
 
-		for(int i = 0; i < operandTypes.length; i++) {
-			if(operandTypes[i] == BasicTypeNode.voidType)
+		for(int i = 0; i < operandTypes.size(); i++) {
+			if(operandTypes.get(i) == BasicTypeNode.voidType)
 				hasVoid = true;
-			else if(operandTypes[i] == BasicTypeNode.untypedType)
+			else if(operandTypes.get(i) == BasicTypeNode.untypedType)
 				hasUntyped = true;
-			else if(operandTypes[i] instanceof EnumTypeNode) {
+			else if(operandTypes.get(i) instanceof EnumTypeNode) {
 				if(isEnum == null) {
-					isEnum = new boolean[operandTypes.length]; // initialized to false
+					isEnum = new boolean[operandTypes.size()]; // initialized to false
 					checkEnums = true;
 				}
 				isEnum[i] = true;
 			}
 		}
 
-		HashSet<OperatorSignature> operatorCandidates = operators.get(operatorId);
+		HashSet<OperatorDeclNode> operatorCandidates = operators.get(operatorId);
 		if(operatorCandidates == null)
 			return INVALID;
 
-		Iterator<OperatorSignature> it = operatorCandidates.iterator();
+		Iterator<OperatorDeclNode> it = operatorCandidates.iterator();
 		while(it.hasNext()) {
-			OperatorSignature operatorCandidate = it.next();
+			OperatorDeclNode operatorCandidate = it.next();
+			
+			operatorCandidate.resolve();
+			
 			int distance = operatorCandidate.getDistance(operandTypes);
 
 			String arguments = "";
@@ -1068,7 +1089,7 @@ public class OperatorSignature extends FunctionSignature
 				distance *= 2;
 
 				TypeNode[] candidateOperandTypes = operatorCandidate.getOperandTypes();
-				for(int i = 0; i < operandTypes.length; i++) {
+				for(int i = 0; i < operandTypes.size(); i++) {
 					if(isEnum[i] && candidateOperandTypes[i] == BasicTypeNode.intType)
 						distance--;
 				}
@@ -1088,11 +1109,13 @@ public class OperatorSignature extends FunctionSignature
 		if(!hasVoid && (checkEnums && nearestDistance >= 4 // costs doubled
 				|| !checkEnums && nearestDistance >= 2)) {
 			resultingOperator = INVALID;
+			resultingOperator.resolve();
 		}
 
 		// Don't allow untyped to get introduced on type mismatches (one argument untyped -> untyped as result ok)
 		if(resultingOperator.getResultType() == BasicTypeNode.untypedType && !hasUntyped) {
 			resultingOperator = INVALID;
+			resultingOperator.resolve();
 		}
 
 		debug.report(NOTE, "selected: " + resultingOperator);
@@ -1103,7 +1126,7 @@ public class OperatorSignature extends FunctionSignature
 	/**
 	 * An invalid operator signature.
 	 */
-	private static final OperatorSignature INVALID = new OperatorSignature(ERROR, BasicTypeNode.errorType,
+	private static final OperatorDeclNode INVALID = new OperatorDeclNode(ERROR, BasicTypeNode.errorType,
 			new TypeNode[] {}, emptyEvaluator) {
 		public boolean isValid()
 		{
@@ -1130,13 +1153,61 @@ public class OperatorSignature extends FunctionSignature
 	 * @param evaluator
 	 *            The evaluator for this operator signature.
 	 */
-	private OperatorSignature(int id, TypeNode resultType, TypeNode[] operandTypes, Evaluator evaluator)
+	private OperatorDeclNode(int id, TypeNode resultType, TypeNode[] operandTypes, Evaluator evaluator)
 	{
-		super(resultType, operandTypes);
+		super(new IdentNode(Symbol.Definition.getInvalid()), operatorType);
+
+		this.resultType = resultType;
+		this.parameterTypes = new Vector<TypeNode>();
+		for(TypeNode operandType : operandTypes) {
+			this.parameterTypes.add(operandType);
+		}
+		
 		this.id = id;
 		this.evaluator = evaluator;
 
 		assert isValidId(id) : "need a valid operator id: " + id;
+	}
+
+	/** returns children of this node */
+	@Override
+	public Collection<BaseNode> getChildren()
+	{
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		return children;
+	}
+
+	/** returns names of the children, same order as in getChildren */
+	@Override
+	public Collection<String> getChildrenNames()
+	{
+		Vector<String> childrenNames = new Vector<String>();
+		return childrenNames;
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
+	protected boolean resolveLocal()
+	{
+		boolean res = resultType.resolve();
+		for(TypeNode parameterType : parameterTypes) {
+			res &= parameterType.resolve();
+		}
+		return res;
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
+	protected boolean checkLocal()
+	{
+		return true;
+	}
+
+	@Override
+	public TypeNode getDeclType()
+	{
+		assert isResolved();
+		return operatorType;
 	}
 
 	/**

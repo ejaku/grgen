@@ -110,7 +110,7 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionInvocation
 	public TypeNode getType()
 	{
 		assert isResolved();
-		return externalFunctionDecl.getReturnType();
+		return externalFunctionDecl.getResultType();
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionInvocation
 	{
 		ExternalFunctionMethodInvocationExpr efi = new ExternalFunctionMethodInvocationExpr(
 				owner.checkIR(Expression.class),
-				externalFunctionDecl.ret.checkIR(Type.class),
+				externalFunctionDecl.resultType.checkIR(Type.class),
 				externalFunctionDecl.checkIR(ExternalFunction.class));
 		for(ExprNode expr : arguments.getChildren()) {
 			efi.addArgument(expr.checkIR(Expression.class));

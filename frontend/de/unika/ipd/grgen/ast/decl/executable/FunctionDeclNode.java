@@ -22,7 +22,10 @@ import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
 import de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
 import de.unika.ipd.grgen.ast.type.executable.FunctionTypeNode;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.Entity;
@@ -33,19 +36,23 @@ import de.unika.ipd.grgen.ir.executable.FunctionMethod;
 /**
  * AST node class representing function declarations
  */
-public class FunctionDeclNode extends FunctionDeclBaseNode
+public class FunctionDeclNode extends FunctionOrOperatorDeclBaseNode
 {
 	static {
 		setName(FunctionDeclNode.class, "function declaration");
 	}
 
-	protected CollectNode<BaseNode> paramsUnresolved;
-	protected CollectNode<DeclNode> params;
+	protected BaseNode resultUnresolved;
+
+	protected CollectNode<BaseNode> parametersUnresolved;
+	protected CollectNode<DeclNode> parameters;
 
 	public CollectNode<EvalStatementNode> evalStatements;
-	static final FunctionTypeNode functionType = new FunctionTypeNode();
 
 	boolean isMethod;
+
+	protected static final FunctionTypeNode functionType = new FunctionTypeNode();
+
 
 	public FunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params,
 			BaseNode ret, boolean isMethod)
@@ -53,10 +60,10 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		super(id, functionType);
 		this.evalStatements = evals;
 		becomeParent(this.evalStatements);
-		this.paramsUnresolved = params;
-		becomeParent(this.paramsUnresolved);
-		this.retUnresolved = ret;
-		becomeParent(this.retUnresolved);
+		this.parametersUnresolved = params;
+		becomeParent(this.parametersUnresolved);
+		this.resultUnresolved = ret;
+		becomeParent(this.resultUnresolved);
 		this.isMethod = isMethod;
 	}
 
@@ -67,8 +74,8 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(evalStatements);
-		children.add(paramsUnresolved);
-		children.add(getValidVersion(retUnresolved, ret));
+		children.add(parametersUnresolved);
+		children.add(getValidVersion(resultUnresolved, resultType));
 		return children;
 	}
 
@@ -84,25 +91,47 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		return childrenNames;
 	}
 
+	private static final Resolver<TypeNode> resultTypeResolver =
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
+	protected boolean resolveLocal()
+	{
+		resultType = resultTypeResolver.resolve(resultUnresolved, this);
+		return resultType != null;
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean checkLocal()
 	{
-		params = new CollectNode<DeclNode>();
-		for(BaseNode param : paramsUnresolved.getChildren()) {
+		parameters = new CollectNode<DeclNode>();
+		for(BaseNode param : parametersUnresolved.getChildren()) {
 			if(param instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode)param;
-				params.addChild(conn.getEdge().getDecl());
+				parameters.addChild(conn.getEdge().getDecl());
 			} else if(param instanceof SingleNodeConnNode) {
 				NodeDeclNode node = ((SingleNodeConnNode)param).getNode();
-				params.addChild(node);
+				parameters.addChild(node);
 			} else if(param instanceof VarDeclNode) {
-				params.addChild((VarDeclNode)param);
+				parameters.addChild((VarDeclNode)param);
 			} else
 				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
 		}
 
-		return true;
+		parameterTypes = new Vector<TypeNode>();
+		for(DeclNode decl : parameters.getChildren()) {
+			parameterTypes.add(decl.getDeclType());
+		}
+		boolean res = true;
+		for(TypeNode parameterType : parameterTypes) {
+			if(parameterType == null || parameterType instanceof ErrorTypeNode) {
+				res = false;
+			}
+		}
+
+		return res;
 	}
 
 	/** Returns the IR object for this function node. */
@@ -115,20 +144,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 	public TypeNode getDeclType()
 	{
 		assert isResolved();
-
 		return functionType;
-	}
-
-	public Vector<TypeNode> getParameterTypes()
-	{
-		assert isChecked();
-
-		Vector<TypeNode> types = new Vector<TypeNode>();
-		for(DeclNode decl : params.getChildren()) {
-			types.add(decl.getDeclType());
-		}
-
-		return types;
 	}
 
 	@Override
@@ -141,14 +157,14 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		}
 
 		Function function = isMethod
-				? new FunctionMethod(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class))
-				: new Function(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class));
+				? new FunctionMethod(getIdentNode().toString(), getIdentNode().getIdent(), resultType.checkIR(Type.class))
+				: new Function(getIdentNode().toString(), getIdentNode().getIdent(), resultType.checkIR(Type.class));
 
 		// mark this node as already visited
 		setIR(function);
 
 		// add Params to the IR
-		for(DeclNode decl : params.getChildren()) {
+		for(DeclNode decl : parameters.getChildren()) {
 			function.addParameter(decl.checkIR(Entity.class));
 		}
 

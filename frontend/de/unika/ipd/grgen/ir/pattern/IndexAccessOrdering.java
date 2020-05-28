@@ -7,7 +7,7 @@
 
 package de.unika.ipd.grgen.ir.pattern;
 
-import de.unika.ipd.grgen.ast.type.OperatorSignature;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.Index;
@@ -38,20 +38,20 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) {
-				if(comp == OperatorSignature.GT || comp == OperatorSignature.GE)
+				if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE)
 					return expr;
 				if(expr2 != null) {
-					if(comp2 == OperatorSignature.GT || comp2 == OperatorSignature.GE)
+					if(comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)
 						return expr2;
 				}
 			}
 			return null;
 		} else {
 			if(expr != null) {
-				if(comp == OperatorSignature.LT || comp == OperatorSignature.LE)
+				if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE)
 					return expr;
 				if(expr2 != null) {
-					if(comp2 == OperatorSignature.LT || comp2 == OperatorSignature.LE)
+					if(comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)
 						return expr2;
 				}
 			}
@@ -63,20 +63,20 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) {
-				if(comp == OperatorSignature.LT || comp == OperatorSignature.LE)
+				if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE)
 					return expr;
 				if(expr2 != null) {
-					if(comp2 == OperatorSignature.LT || comp2 == OperatorSignature.LE)
+					if(comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)
 						return expr2;
 				}
 			}
 			return null;
 		} else {
 			if(expr != null) {
-				if(comp == OperatorSignature.GT || comp == OperatorSignature.GE)
+				if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE)
 					return expr;
 				if(expr2 != null) {
-					if(comp2 == OperatorSignature.GT || comp2 == OperatorSignature.GE)
+					if(comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)
 						return expr2;
 				}
 			}
@@ -88,21 +88,21 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) {
-				if(comp == OperatorSignature.GT || comp == OperatorSignature.GE)
-					return comp == OperatorSignature.GE;
+				if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE)
+					return comp == OperatorDeclNode.GE;
 				if(expr2 != null) {
-					if(comp2 == OperatorSignature.GT || comp2 == OperatorSignature.GE)
-						return comp2 == OperatorSignature.GE;
+					if(comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)
+						return comp2 == OperatorDeclNode.GE;
 				}
 			}
 			return false; // dummy/don't care
 		} else {
 			if(expr != null) {
-				if(comp == OperatorSignature.LT || comp == OperatorSignature.LE)
-					return comp == OperatorSignature.LE;
+				if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE)
+					return comp == OperatorDeclNode.LE;
 				if(expr2 != null) {
-					if(comp2 == OperatorSignature.LT || comp2 == OperatorSignature.LE)
-						return comp2 == OperatorSignature.LE;
+					if(comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)
+						return comp2 == OperatorDeclNode.LE;
 				}
 			}
 			return false; // dummy/don't care
@@ -113,21 +113,21 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) {
-				if(comp == OperatorSignature.LT || comp == OperatorSignature.LE)
-					return comp == OperatorSignature.LE;
+				if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE)
+					return comp == OperatorDeclNode.LE;
 				if(expr2 != null) {
-					if(comp2 == OperatorSignature.LT || comp2 == OperatorSignature.LE)
-						return comp2 == OperatorSignature.LE;
+					if(comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)
+						return comp2 == OperatorDeclNode.LE;
 				}
 			}
 			return false; // dummy/don't care
 		} else {
 			if(expr != null) {
-				if(comp == OperatorSignature.GT || comp == OperatorSignature.GE)
-					return comp == OperatorSignature.GE;
+				if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE)
+					return comp == OperatorDeclNode.GE;
 				if(expr2 != null) {
-					if(comp2 == OperatorSignature.GT || comp2 == OperatorSignature.GE)
-						return comp2 == OperatorSignature.GE;
+					if(comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)
+						return comp2 == OperatorDeclNode.GE;
 				}
 			}
 			return false; // dummy/don't care

@@ -24,12 +24,12 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ModelTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.OperatorSignature;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
@@ -157,14 +157,14 @@ public class ModelNode extends DeclNode
 	protected boolean resolveLocal()
 	{
 		if(isLowerClassDefined) {
-			OperatorSignature.makeBinOp(OperatorSignature.GE, BasicTypeNode.booleanType,
-					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
-			OperatorSignature.makeBinOp(OperatorSignature.GT, BasicTypeNode.booleanType,
-					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
-			OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType,
-					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
-			OperatorSignature.makeBinOp(OperatorSignature.LT, BasicTypeNode.booleanType,
-					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.GE, BasicTypeNode.booleanType,
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorDeclNode.objectEvaluator);
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.GT, BasicTypeNode.booleanType,
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorDeclNode.objectEvaluator);
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.LE, BasicTypeNode.booleanType,
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorDeclNode.objectEvaluator);
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.LT, BasicTypeNode.booleanType,
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorDeclNode.objectEvaluator);
 		}
 
 		packages = packagesResolver.resolve(packagesUnresolved, this);

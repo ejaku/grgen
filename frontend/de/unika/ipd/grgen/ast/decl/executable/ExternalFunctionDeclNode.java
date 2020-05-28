@@ -16,6 +16,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.ExternalFunctionTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.ExternalFunction;
 import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
@@ -27,27 +28,30 @@ import java.util.Vector;
 /**
  * AST node class representing external function declarations
  */
-public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
+public class ExternalFunctionDeclNode extends FunctionOrOperatorDeclBaseNode
 {
 	static {
 		setName(ExternalFunctionDeclNode.class, "external function declaration");
 	}
 
-	protected CollectNode<BaseNode> paramTypesUnresolved;
-	protected CollectNode<TypeNode> paramTypes;
+	protected BaseNode resultUnresolved;
+
+	protected CollectNode<BaseNode> parameterTypesUnresolved;
+	protected CollectNode<TypeNode> parameterTypesCollectNode;
+
+	boolean isMethod;
 
 	private static final ExternalFunctionTypeNode externalFunctionType = new ExternalFunctionTypeNode();
 
-	boolean isMethod;
 
 	public ExternalFunctionDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved, BaseNode ret,
 			boolean isMethod)
 	{
 		super(id, externalFunctionType);
-		this.paramTypesUnresolved = paramTypesUnresolved;
-		becomeParent(this.paramTypesUnresolved);
-		this.retUnresolved = ret;
-		becomeParent(this.retUnresolved);
+		this.parameterTypesUnresolved = paramTypesUnresolved;
+		becomeParent(this.parameterTypesUnresolved);
+		this.resultUnresolved = ret;
+		becomeParent(this.resultUnresolved);
 		this.isMethod = isMethod;
 	}
 
@@ -57,8 +61,8 @@ public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(getValidVersion(paramTypesUnresolved, paramTypes));
-		children.add(getValidVersion(retUnresolved, ret));
+		children.add(getValidVersion(parameterTypesUnresolved, parameterTypesCollectNode));
+		children.add(getValidVersion(resultUnresolved, resultType));
 		return children;
 	}
 
@@ -73,15 +77,22 @@ public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
 		return childrenNames;
 	}
 
-	private static final CollectResolver<TypeNode> paramsTypeResolver =
+	private static final Resolver<TypeNode> resultTypeResolver =
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+	private static final CollectResolver<TypeNode> parametersTypeResolver =
 			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(TypeNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal()
 	{
-		paramTypes = paramsTypeResolver.resolve(paramTypesUnresolved, this);
-		return paramTypes != null && super.resolveLocal();
+		resultType = resultTypeResolver.resolve(resultUnresolved, this);
+
+		parameterTypesCollectNode = parametersTypeResolver.resolve(parameterTypesUnresolved, this);
+		
+		parameterTypes = parameterTypesCollectNode.getChildrenAsVector();
+		
+		return parameterTypesCollectNode != null & resultType != null;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -95,24 +106,16 @@ public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
 	public TypeNode getDeclType()
 	{
 		assert isResolved();
-
 		return externalFunctionType;
-	}
-
-	public Vector<TypeNode> getParameterTypes()
-	{
-		assert isResolved();
-
-		return paramTypes.getChildrenAsVector();
 	}
 
 	@Override
 	protected IR constructIR()
 	{
 		ExternalFunction externalFunc = isMethod
-				? new ExternalFunctionMethod(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class))
-				: new ExternalFunction(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class));
-		for(TypeNode param : paramTypes.getChildren()) {
+				? new ExternalFunctionMethod(getIdentNode().toString(), getIdentNode().getIdent(), resultType.checkIR(Type.class))
+				: new ExternalFunction(getIdentNode().toString(), getIdentNode().getIdent(), resultType.checkIR(Type.class));
+		for(TypeNode param : parameterTypesCollectNode.getChildren()) {
 			externalFunc.addParameterType(param.checkIR(Type.class));
 		}
 		return externalFunc;

@@ -115,32 +115,32 @@ tokens {
 	}
 
 	static {
-		putOpId(QUESTION, OperatorSignature.COND);
-		putOpId(EQUAL, OperatorSignature.EQ);
-		putOpId(NOT_EQUAL, OperatorSignature.NE);
-		putOpId(STRUCTURAL_EQUAL, OperatorSignature.SE);
-		putOpId(NOT, OperatorSignature.LOG_NOT);
-		putOpId(TILDE, OperatorSignature.BIT_NOT);
-		putOpId(SL, OperatorSignature.SHL);
-		putOpId(SR, OperatorSignature.SHR);
-		putOpId(BSR, OperatorSignature.BIT_SHR);
-		putOpId(DIV, OperatorSignature.DIV);
-		putOpId(STAR, OperatorSignature.MUL);
-		putOpId(MOD, OperatorSignature.MOD);
-		putOpId(PLUS, OperatorSignature.ADD);
-		putOpId(MINUS, OperatorSignature.SUB);
-		putOpId(GE, OperatorSignature.GE);
-		putOpId(GT, OperatorSignature.GT);
-		putOpId(LE, OperatorSignature.LE);
-		putOpId(LT, OperatorSignature.LT);
-		putOpId(BAND, OperatorSignature.BIT_AND);
-		putOpId(BOR, OperatorSignature.BIT_OR);
-		putOpId(BXOR, OperatorSignature.BIT_XOR);
-		putOpId(BXOR, OperatorSignature.BIT_XOR);
-		putOpId(LAND, OperatorSignature.LOG_AND);
-		putOpId(LOR, OperatorSignature.LOG_OR);
-		putOpId(IN, OperatorSignature.IN);
-		putOpId(BACKSLASH, OperatorSignature.EXCEPT);
+		putOpId(QUESTION, OperatorDeclNode.COND);
+		putOpId(EQUAL, OperatorDeclNode.EQ);
+		putOpId(NOT_EQUAL, OperatorDeclNode.NE);
+		putOpId(STRUCTURAL_EQUAL, OperatorDeclNode.SE);
+		putOpId(NOT, OperatorDeclNode.LOG_NOT);
+		putOpId(TILDE, OperatorDeclNode.BIT_NOT);
+		putOpId(SL, OperatorDeclNode.SHL);
+		putOpId(SR, OperatorDeclNode.SHR);
+		putOpId(BSR, OperatorDeclNode.BIT_SHR);
+		putOpId(DIV, OperatorDeclNode.DIV);
+		putOpId(STAR, OperatorDeclNode.MUL);
+		putOpId(MOD, OperatorDeclNode.MOD);
+		putOpId(PLUS, OperatorDeclNode.ADD);
+		putOpId(MINUS, OperatorDeclNode.SUB);
+		putOpId(GE, OperatorDeclNode.GE);
+		putOpId(GT, OperatorDeclNode.GT);
+		putOpId(LE, OperatorDeclNode.LE);
+		putOpId(LT, OperatorDeclNode.LT);
+		putOpId(BAND, OperatorDeclNode.BIT_AND);
+		putOpId(BOR, OperatorDeclNode.BIT_OR);
+		putOpId(BXOR, OperatorDeclNode.BIT_XOR);
+		putOpId(BXOR, OperatorDeclNode.BIT_XOR);
+		putOpId(LAND, OperatorDeclNode.LOG_AND);
+		putOpId(LOR, OperatorDeclNode.LOG_OR);
+		putOpId(IN, OperatorDeclNode.IN);
+		putOpId(BACKSLASH, OperatorDeclNode.EXCEPT);
 	};
 
 	public OpNode makeOp(org.antlr.runtime.Token t) {
@@ -1182,11 +1182,11 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 		}
 	;
 
-relOS returns [ int os = OperatorSignature.ERROR ]
-	: lt=LT { os = OperatorSignature.LT; }
-	| le=LE { os = OperatorSignature.LE; }
-	| gt=GT { os = OperatorSignature.GT; }
-	| ge=GE { os = OperatorSignature.GE; }
+relOS returns [ int os = OperatorDeclNode.ERROR ]
+	: lt=LT { os = OperatorDeclNode.LT; }
+	| le=LE { os = OperatorDeclNode.LE; }
+	| gt=GT { os = OperatorDeclNode.GT; }
+	| ge=GE { os = OperatorDeclNode.GE; }
 	;
 
 anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, 
@@ -2675,7 +2675,7 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemDeclNode> coll, ExprNode defI
 			EnumItemDeclNode memberDecl = new EnumItemDeclNode(id, type, value, pos);
 			id.setDecl(memberDecl);
 			coll.addChild(memberDecl);
-			OpNode add = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
+			OpNode add = new ArithmeticOpNode(id.getCoords(), OperatorDeclNode.ADD);
 			add.addChild(value);
 			add.addChild(env.getOne());
 			res = add;
@@ -3756,7 +3756,7 @@ unaryExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initE
 		 { res = makeUnOp(n, op); }
 	| m=MINUS op=unaryExpr[context, inEnumInit]
 		{
-			OpNode neg = new ArithmeticOpNode(getCoords(m), OperatorSignature.NEG);
+			OpNode neg = new ArithmeticOpNode(getCoords(m), OperatorDeclNode.NEG);
 			neg.addChild(op);
 			res = neg;
 		}

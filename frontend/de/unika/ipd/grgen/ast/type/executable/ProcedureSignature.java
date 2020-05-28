@@ -11,79 +11,34 @@
 
 package de.unika.ipd.grgen.ast.type.executable;
 
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.util.Base;
 
 /**
  * Procedure abstraction.
- * TODO: use it or remove it
  */
-public class ProcedureSignature extends Base
+public interface ProcedureSignature
 {
-	/** Result types. */
-	private TypeNode[] resultTypes;
-
-	/** Parameter types. */
-	private TypeNode[] parameterTypes;
+	/**
+	 * Get the result(/return) types of this procedure signature.
+	 * @return The result(/return) type.
+	 */
+	Vector<TypeNode> getResultTypes();
 
 	/**
-	 * Make a new procedure signature.
-	 * @param resTypes The result types.
-	 * @param opTypes The operand types.
+	 * Get the parameter(/operand) types of this procedure signature.
+	 * @return The parameter(/operand) types.
 	 */
-	public ProcedureSignature(TypeNode[] resTypes, TypeNode[] opTypes)
-	{
-		this.resultTypes = resTypes;
-		this.parameterTypes = opTypes;
-	}
-
-	/**
-	 * Get the result types of this procedure signature.
-	 * @return The result type.
-	 */
-	protected TypeNode[] getResultTypes()
-	{
-		return resultTypes;
-	}
-
-	/**
-	 * Get the operand types of this procedure signature.
-	 * @return The operand types.
-	 */
-	protected TypeNode[] getOperandTypes()
-	{
-		return parameterTypes;
-	}
+	Vector<TypeNode> getParameterTypes();
 
 	/**
 	 * Get the number of implicit type casts needed for calling this
-	 * procedure signature with the given operands.
-	 * @param argumentTypes The operands
-	 * @return The number of implicit type casts needed to apply the operands
+	 * procedure signature with the given arguments(/operands).
+	 * @param argumentTypes The types of the arguments(/operands)
+	 * @return The number of implicit type casts needed to apply the arguments(/operands)
 	 * to this procedure signature. <code>Integer.MAX_VALUE</code> is returned,
-	 * if the operands cannot be applied to this procedure signature.
+	 * if the arguments(/operands) cannot be applied to this procedure signature.
 	 */
-	protected int getDistance(TypeNode[] argumentTypes)
-	{
-		if(argumentTypes.length == parameterTypes.length)
-			return Integer.MAX_VALUE;
-
-		int distance = 0;
-		for(int i = 0; i < parameterTypes.length; i++) {
-			debug.report(NOTE, "" + i + ": arg type: " + argumentTypes[i] + ", op type: " + parameterTypes[i]);
-
-			boolean equal = argumentTypes[i].isEqual(parameterTypes[i]);
-			boolean compatible = argumentTypes[i].isCompatibleTo(parameterTypes[i]);
-			debug.report(NOTE, "equal: " + equal + ", compatible: " + compatible);
-
-			int compatibilityDistance = argumentTypes[i].compatibilityDistance(parameterTypes[i]);
-
-			if(compatibilityDistance == Integer.MAX_VALUE)
-				return Integer.MAX_VALUE;
-
-			distance += compatibilityDistance;
-		}
-
-		return distance;
-	}
+	int getDistance(Vector<TypeNode> argumentTypes);
 }

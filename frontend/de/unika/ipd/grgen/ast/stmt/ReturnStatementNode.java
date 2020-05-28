@@ -95,10 +95,10 @@ public class ReturnStatementNode extends EvalStatementNode
 			isFunctionReturn = true;
 			FunctionDeclNode function = (FunctionDeclNode)root;
 			retTypes = new Vector<TypeNode>();
-			retTypes.add(function.getReturnType());
+			retTypes.add(function.getResultType());
 		} else {
 			ProcedureDeclNode procedure = (ProcedureDeclNode)root;
-			retTypes = procedure.getReturnTypes();
+			retTypes = procedure.getResultTypes();
 		}
 		return checkReturns(retTypes, root);
 	}

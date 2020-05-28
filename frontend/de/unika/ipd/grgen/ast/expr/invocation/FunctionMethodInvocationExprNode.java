@@ -132,14 +132,14 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 	public TypeNode getType()
 	{
 		assert isResolved();
-		return functionDecl.getReturnType();
+		return functionDecl.getResultType();
 	}
 
 	@Override
 	protected IR constructIR()
 	{
 		FunctionMethodInvocationExpr ci = new FunctionMethodInvocationExpr(owner.checkIR(Entity.class),
-				functionDecl.ret.checkIR(Type.class),
+				functionDecl.resultType.checkIR(Type.class),
 				functionDecl.checkIR(Function.class));
 		for(ExprNode expr : arguments.getChildren()) {
 			ci.addArgument(expr.checkIR(Expression.class));
