@@ -16,7 +16,6 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.ExternalFunctionTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.ExternalFunction;
 import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
@@ -28,13 +27,11 @@ import java.util.Vector;
 /**
  * AST node class representing external function declarations
  */
-public class ExternalFunctionDeclNode extends FunctionOrOperatorDeclBaseNode
+public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
 {
 	static {
 		setName(ExternalFunctionDeclNode.class, "external function declaration");
 	}
-
-	protected BaseNode resultUnresolved;
 
 	protected CollectNode<BaseNode> parameterTypesUnresolved;
 	protected CollectNode<TypeNode> parameterTypesCollectNode;
@@ -77,8 +74,6 @@ public class ExternalFunctionDeclNode extends FunctionOrOperatorDeclBaseNode
 		return childrenNames;
 	}
 
-	private static final Resolver<TypeNode> resultTypeResolver =
-			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 	private static final CollectResolver<TypeNode> parametersTypeResolver =
 			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(TypeNode.class));
 
@@ -86,13 +81,11 @@ public class ExternalFunctionDeclNode extends FunctionOrOperatorDeclBaseNode
 	@Override
 	protected boolean resolveLocal()
 	{
-		resultType = resultTypeResolver.resolve(resultUnresolved, this);
-
 		parameterTypesCollectNode = parametersTypeResolver.resolve(parameterTypesUnresolved, this);
 		
 		parameterTypes = parameterTypesCollectNode.getChildrenAsVector();
 		
-		return parameterTypesCollectNode != null & resultType != null;
+		return parameterTypesCollectNode != null & super.resolveLocal();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */

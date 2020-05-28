@@ -24,8 +24,6 @@ import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
 import de.unika.ipd.grgen.ast.type.executable.FunctionTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.Entity;
@@ -36,13 +34,11 @@ import de.unika.ipd.grgen.ir.executable.FunctionMethod;
 /**
  * AST node class representing function declarations
  */
-public class FunctionDeclNode extends FunctionOrOperatorDeclBaseNode
+public class FunctionDeclNode extends FunctionDeclBaseNode
 {
 	static {
 		setName(FunctionDeclNode.class, "function declaration");
 	}
-
-	protected BaseNode resultUnresolved;
 
 	protected CollectNode<BaseNode> parametersUnresolved;
 	protected CollectNode<DeclNode> parameters;
@@ -89,17 +85,6 @@ public class FunctionDeclNode extends FunctionOrOperatorDeclBaseNode
 		childrenNames.add("params");
 		childrenNames.add("ret");
 		return childrenNames;
-	}
-
-	private static final Resolver<TypeNode> resultTypeResolver =
-			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
-	{
-		resultType = resultTypeResolver.resolve(resultUnresolved, this);
-		return resultType != null;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
