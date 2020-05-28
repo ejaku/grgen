@@ -205,8 +205,7 @@ public class DefinedMatchTypeNode extends DeclaredTypeNode implements MemberAcce
 							+ " is not applicable to the type " + filterAccumulationVariableType
 							+ " of the accumulation variable " + filter.entities.get(1)
 							+ " / its result cannot be assigned to the accumulation variable."
-							+ " (Accumulatable are: " + TypeNode.getAccumulatableTypesAsString()
-							+ "; a valid target type for all accumulation methods is double)");
+							+ " (Allowed are: " + accumulationMethod.getValidTargetTypesOfAccumulation() + ")");
 					return false;
 				}
 				return true;
