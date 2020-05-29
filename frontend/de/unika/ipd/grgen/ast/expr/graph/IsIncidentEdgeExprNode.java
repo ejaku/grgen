@@ -12,8 +12,6 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BooleanTypeNode;
 import de.unika.ipd.grgen.ir.IR;
@@ -25,23 +23,19 @@ import de.unika.ipd.grgen.util.Direction;
 /**
  * Am ast node telling whether an end edge is incident to a start node, via incoming/outgoing/incident edges of given type, from/to a node of given type.
  */
-public class IsIncidentEdgeExprNode extends NeighborhoodQueryExprNode
+public class IsIncidentEdgeExprNode extends IsInEdgeNeighborhoodQueryExprNode
 {
 	static {
 		setName(IsIncidentEdgeExprNode.class, "is incident edge expr");
 	}
 
-	private ExprNode endEdgeExpr;
-
 
 	public IsIncidentEdgeExprNode(Coords coords, 
-			ExprNode startNodeExpr, ExprNode endNodeExpr,
+			ExprNode startNodeExpr, ExprNode endEdgeExpr,
 			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
-		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
-		this.endEdgeExpr = endNodeExpr;
-		becomeParent(this.endEdgeExpr);
+		super(coords, startNodeExpr, endEdgeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
 	}
 
 	/** returns children of this node */
@@ -75,27 +69,10 @@ public class IsIncidentEdgeExprNode extends NeighborhoodQueryExprNode
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal()
+	protected String shortSignature()
 	{
-		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("first argument of isIncidentEdge(.,.,.,.) must be a node");
-			return false;
-		}
-		if(!(endEdgeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("second argument of isIncidentEdge(.,.,.,.) must be an edge");
-			return false;
-		}
-		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("third argument of isIncidentEdge(.,.,.,.) must be an edge type");
-			return false;
-		}
-		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("fourth argument of isIncidentEdge(.,.,.,.) must be a node type");
-			return false;
-		}
-		return true;
+		return "isIncidentEdge(.,.,.,.)";
 	}
 
 	@Override

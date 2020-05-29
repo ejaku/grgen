@@ -12,8 +12,6 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ir.IR;
@@ -33,6 +31,7 @@ public class ReachableNodeExprNode extends NeighborhoodQueryExprNode
 
 	private SetTypeNode setTypeNode;
 
+	
 	public ReachableNodeExprNode(Coords coords,
 			ExprNode startNodeExpr,
 			ExprNode incidentTypeExpr, Direction direction,
@@ -71,23 +70,10 @@ public class ReachableNodeExprNode extends NeighborhoodQueryExprNode
 		return setTypeNode.resolve();
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal()
+	protected String shortSignature()
 	{
-		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("first argument of reachableNodes(.,.,.) must be a node");
-			return false;
-		}
-		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("second argument of reachableNodes(.,.,.) must be an edge type");
-			return false;
-		}
-		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("third argument of reachableNodes(.,.,.) must be a node type");
-			return false;
-		}
-		return true;
+		return "reachableNodes(.,.,.)";
 	}
 
 	@Override

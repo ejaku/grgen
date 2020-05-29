@@ -5,13 +5,8 @@
  * www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-
 package de.unika.ipd.grgen.ast.expr.graph;
 
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
@@ -19,35 +14,27 @@ import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.util.Direction;
 
 /**
- * Base class for neighborhood graph queries (with members shared by all these queries).
+ * Base class for is in edge neighborhood graph queries (with members shared by all these queries).
  */
-public abstract class NeighborhoodQueryExprNode extends BuiltinFunctionInvocationBaseNode
+public abstract class IsInEdgeNeighborhoodQueryExprNode extends NeighborhoodQueryExprNode
 {
 	static {
-		setName(NeighborhoodQueryExprNode.class, "neighborhood query expr");
+		setName(IsInEdgeNeighborhoodQueryExprNode.class, "is in edge neighborhood query expr");
 	}
 
-	protected ExprNode startNodeExpr;
-	protected ExprNode incidentTypeExpr;
-	protected ExprNode adjacentTypeExpr;
+	protected ExprNode endEdgeExpr;
 
-	protected Direction direction;
 
-	protected NeighborhoodQueryExprNode(Coords coords,
-			ExprNode startNodeExpr,
+	protected IsInEdgeNeighborhoodQueryExprNode(Coords coords, 
+			ExprNode startNodeExpr, ExprNode endEdgeExpr,
 			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
-		super(coords);
-		this.startNodeExpr = startNodeExpr;
-		becomeParent(this.startNodeExpr);
-		this.incidentTypeExpr = incidentTypeExpr;
-		becomeParent(this.incidentTypeExpr);
-		this.direction = direction;
-		this.adjacentTypeExpr = adjacentTypeExpr;
-		becomeParent(this.adjacentTypeExpr);
+		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
+		this.endEdgeExpr = endEdgeExpr;
+		becomeParent(this.endEdgeExpr);
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal()
@@ -56,16 +43,18 @@ public abstract class NeighborhoodQueryExprNode extends BuiltinFunctionInvocatio
 			reportError("first argument of " + shortSignature() + " must be a node");
 			return false;
 		}
+		if(!(endEdgeExpr.getType() instanceof EdgeTypeNode)) {
+			reportError("second argument of " + shortSignature() + " must be an edge");
+			return false;
+		}
 		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("second argument of " + shortSignature() + " must be an edge type");
+			reportError("third argument of " + shortSignature() + " must be an edge type");
 			return false;
 		}
 		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("third argument of " + shortSignature() + " must be a node type");
+			reportError("fourth argument of " + shortSignature() + " must be a node type");
 			return false;
 		}
 		return true;
 	}
-	
-	protected abstract String shortSignature();
 }

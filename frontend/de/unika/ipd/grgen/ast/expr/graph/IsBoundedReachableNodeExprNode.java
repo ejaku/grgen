@@ -26,6 +26,7 @@ import de.unika.ipd.grgen.util.Direction;
 /**
  * An ast node telling whether an end node can be reached from a start node within a given number of steps into depth,
  * via incoming/outgoing/incident edges of given type, from/to a node of given type.
+ * Should extend IsInNodeNeighborhoodQueryExprNode and BoundedNeighborhoodQueryExprNode, but Java does not support multiple inheritance...
  */
 public class IsBoundedReachableNodeExprNode extends NeighborhoodQueryExprNode
 {
@@ -87,26 +88,32 @@ public class IsBoundedReachableNodeExprNode extends NeighborhoodQueryExprNode
 	protected boolean checkLocal()
 	{
 		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("first argument of isBoundedReachableNode(.,.,.,.,.) must be a node");
+			reportError("first argument of " + shortSignature() + " must be a node");
 			return false;
 		}
 		if(!(endNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("second argument of isBoundedReachableNode(.,.,.,.,.) must be a node");
+			reportError("second argument of " + shortSignature() + " must be a node");
 			return false;
 		}
 		if(!(depthExpr.getType() instanceof IntTypeNode)) {
-			reportError("third argument of isBoundedReachableEdge(.,.,.,.,.,.) must be an int");
+			reportError("third argument of " + shortSignature() + " must be an int");
 			return false;
 		}
 		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("fourth argument of isBoundedReachableNode(.,.,.,.,.) must be an edge type");
+			reportError("fourth argument of " + shortSignature() + " must be an edge type");
 			return false;
 		}
 		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("fifth argument of isBoundedReachableNode(.,.,.,.,.) must be a node type");
+			reportError("fifth argument of " + shortSignature() + " must be a node type");
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	protected String shortSignature()
+	{
+		return "isBoundedReachableNode(.,.,.,.,.)";
 	}
 
 	@Override

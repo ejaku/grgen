@@ -12,8 +12,6 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ir.IR;
@@ -72,26 +70,10 @@ public class IncidentEdgeExprNode extends NeighborhoodQueryExprNode
 		return setTypeNode.resolve();
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal()
+	protected String shortSignature()
 	{
-		TypeNode startNodeType = startNodeExpr.getType();
-		if(!(startNodeType instanceof NodeTypeNode)) {
-			reportError("first argument of incidentEdges(.,.,.) must be a node");
-			return false;
-		}
-		TypeNode incidentType = incidentTypeExpr.getType();
-		if(!(incidentType instanceof EdgeTypeNode)) {
-			reportError("second argument of incidentEdges(.,.,.) must be an edge type");
-			return false;
-		}
-		TypeNode adjacentType = adjacentTypeExpr.getType();
-		if(!(adjacentType instanceof NodeTypeNode)) {
-			reportError("third argument of incidentEdges(.,.,.) must be a node type");
-			return false;
-		}
-		return true;
+		return "incidentEdges(.,.,.)";
 	}
 
 	@Override

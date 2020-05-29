@@ -12,8 +12,6 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BooleanTypeNode;
 import de.unika.ipd.grgen.ir.IR;
@@ -25,13 +23,11 @@ import de.unika.ipd.grgen.util.Direction;
 /**
  * An ast node telling whether an end edge can be reached from a start node, via incoming/outgoing/incident edges of given type, from/to a node of given type.
  */
-public class IsReachableEdgeExprNode extends NeighborhoodQueryExprNode
+public class IsReachableEdgeExprNode extends IsInEdgeNeighborhoodQueryExprNode
 {
 	static {
 		setName(IsReachableEdgeExprNode.class, "is reachable edge expr");
 	}
-
-	private ExprNode endEdgeExpr;
 
 
 	public IsReachableEdgeExprNode(Coords coords, 
@@ -39,9 +35,7 @@ public class IsReachableEdgeExprNode extends NeighborhoodQueryExprNode
 			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
-		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
-		this.endEdgeExpr = endEdgeExpr;
-		becomeParent(this.endEdgeExpr);
+		super(coords, startNodeExpr, endEdgeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
 	}
 
 	/** returns children of this node */
@@ -75,27 +69,10 @@ public class IsReachableEdgeExprNode extends NeighborhoodQueryExprNode
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal()
+	protected String shortSignature()
 	{
-		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("first argument of isReachableEdge(.,.,.,.) must be a node");
-			return false;
-		}
-		if(!(endEdgeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("second argument of isReachableEdge(.,.,.,.) must be an edge");
-			return false;
-		}
-		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("third argument of isReachableEdge(.,.,.,.) must be an edge type");
-			return false;
-		}
-		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("fourth argument of isReachableEdge(.,.,.,.) must be a node type");
-			return false;
-		}
-		return true;
+		return "isReachableEdge(.,.,.,.)";
 	}
 
 	@Override

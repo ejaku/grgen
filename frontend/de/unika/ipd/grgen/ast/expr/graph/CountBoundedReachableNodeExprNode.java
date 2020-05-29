@@ -12,11 +12,8 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.CountBoundedReachableNodeExpr;
@@ -26,13 +23,11 @@ import de.unika.ipd.grgen.util.Direction;
 /**
  * A node yielding the count of the depth-bounded reachable nodes/reachable nodes via incoming edges/reachable nodes via outgoing edges of a node.
  */
-public class CountBoundedReachableNodeExprNode extends NeighborhoodQueryExprNode
+public class CountBoundedReachableNodeExprNode extends BoundedNeighborhoodQueryExprNode
 {
 	static {
 		setName(CountBoundedReachableNodeExprNode.class, "count bounded reachable node expr");
 	}
-
-	private ExprNode depthExpr;
 
 	
 	public CountBoundedReachableNodeExprNode(Coords coords,
@@ -40,9 +35,7 @@ public class CountBoundedReachableNodeExprNode extends NeighborhoodQueryExprNode
 			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
-		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
-		this.depthExpr = depthExpr;
-		becomeParent(this.depthExpr);
+		super(coords, startNodeExpr, depthExpr, incidentTypeExpr, direction, adjacentTypeExpr);
 	}
 
 	/** returns children of this node */
@@ -76,27 +69,10 @@ public class CountBoundedReachableNodeExprNode extends NeighborhoodQueryExprNode
 		return getType().resolve();
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal()
+	protected String shortSignature()
 	{
-		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("first argument of countBoundedReachableNodes(.,.,.,.) must be a node");
-			return false;
-		}
-		if(!(depthExpr.getType() instanceof IntTypeNode)) {
-			reportError("second argument of countBoundedReachableNodes(.,.,.,.) must be an int");
-			return false;
-		}
-		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("third argument of countBoundedReachableNodes(.,.,.,.) must be an edge type");
-			return false;
-		}
-		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("fourth argument of countBoundedReachableNodes(.,.,.,.) must be a node type");
-			return false;
-		}
-		return true;
+		return "countBoundedReachableNodes(.,.,.,.)";
 	}
 
 	@Override
