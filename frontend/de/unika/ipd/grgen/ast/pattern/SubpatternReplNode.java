@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageNode;
+import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
@@ -40,7 +40,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 	}
 
 	private IdentNode subpatternUnresolved;
-	private SubpatternUsageNode subpattern;
+	private SubpatternUsageDeclNode subpattern;
 	private CollectNode<ExprNode> replConnections;
 
 	public SubpatternReplNode(IdentNode n, CollectNode<ExprNode> c)
@@ -69,8 +69,8 @@ public class SubpatternReplNode extends OrderedReplacementNode
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<SubpatternUsageNode> subpatternResolver =
-			new DeclarationResolver<SubpatternUsageNode>(SubpatternUsageNode.class);
+	private static final DeclarationResolver<SubpatternUsageDeclNode> subpatternResolver =
+			new DeclarationResolver<SubpatternUsageDeclNode>(SubpatternUsageDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override

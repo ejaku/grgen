@@ -30,13 +30,13 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeNode;
+import de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageNode;
+import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.BoolConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
@@ -87,8 +87,8 @@ public class PatternGraphNode extends GraphNode
 	private int modifiers = 0;
 
 	private CollectNode<ExprNode> conditions;
-	public CollectNode<AlternativeNode> alts;
-	public CollectNode<IteratedNode> iters;
+	public CollectNode<AlternativeDeclNode> alts;
+	public CollectNode<IteratedDeclNode> iters;
 	public CollectNode<PatternGraphNode> negs; // NACs
 	public CollectNode<PatternGraphNode> idpts; // PACs
 	private CollectNode<HomNode> homs;
@@ -165,8 +165,8 @@ public class PatternGraphNode extends GraphNode
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
-			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
-			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters,
+			CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
+			CollectNode<AlternativeDeclNode> alts, CollectNode<IteratedDeclNode> iters,
 			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
 			CollectNode<ExprNode> conditions, 
 			CollectNode<ExprNode> returns,
@@ -543,15 +543,15 @@ public class PatternGraphNode extends GraphNode
 	{
 		boolean result = true;
 		for(PatternGraphNode pattern : negs.getChildren()) {
-			for(IteratedNode iter : pattern.iters.getChildren()) {
+			for(IteratedDeclNode iter : pattern.iters.getChildren()) {
 				if(iter.right != null) {
 					iter.right.reportError("An iterated contained within a negative can't possess a rewrite part"
 							+ " (the negative is a pure negative application condition)");
 					result = false;
 				}
 			}
-			for(AlternativeNode alt : pattern.alts.getChildren()) {
-				for(AlternativeCaseNode altCase : alt.getChildren()) {
+			for(AlternativeDeclNode alt : pattern.alts.getChildren()) {
+				for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 					if(altCase.right != null) {
 						altCase.right.reportError("An alternative case contained within a negative can't possess a rewrite part"
 								+ " (the negative is a pure negative application condition)");
@@ -561,15 +561,15 @@ public class PatternGraphNode extends GraphNode
 			}
 		}
 		for(PatternGraphNode pattern : idpts.getChildren()) {
-			for(IteratedNode iter : pattern.iters.getChildren()) {
+			for(IteratedDeclNode iter : pattern.iters.getChildren()) {
 				if(iter.right != null) {
 					iter.right.reportError("An iterated contained within an independent can't possess a rewrite part"
 								+ " (the independent is a pure positive application condition)");
 					result = false;
 				}
 			}
-			for(AlternativeNode alt : pattern.alts.getChildren()) {
-				for(AlternativeCaseNode altCase : alt.getChildren()) {
+			for(AlternativeDeclNode alt : pattern.alts.getChildren()) {
+				for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 					if(altCase.right != null) {
 						altCase.right.reportError("An alternative case contained within an independent can't possess a rewrite part"
 								+ " (the independent is a pure positive application condition)");
@@ -584,15 +584,15 @@ public class PatternGraphNode extends GraphNode
 	boolean noExecStatementInEvalsOfIteratedOrAlternative()
 	{
 		boolean result = true;
-		for(IteratedNode iter : iters.getChildren()) {
+		for(IteratedDeclNode iter : iters.getChildren()) {
 			if(iter.right != null) {
 				for(EvalStatementsNode evalStmts : iter.right.getRHSGraph().yieldsEvals.getChildren()) {
 					evalStmts.noExecStatement();
 				}
 			}
 		}
-		for(AlternativeNode alt : alts.getChildren()) {
-			for(AlternativeCaseNode altCase : alt.getChildren()) {
+		for(AlternativeDeclNode alt : alts.getChildren()) {
+			for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 				if(altCase.right != null) {
 					for(EvalStatementsNode evalStmts : altCase.right.getRHSGraph().yieldsEvals.getChildren()) {
 						evalStmts.noExecStatement();
@@ -659,17 +659,17 @@ public class PatternGraphNode extends GraphNode
 	private boolean iteratedNameIsNotAccessedInNestedPattern()
 	{
 		boolean res = true;
-		for(IteratedNode iterForNameToCheck : iters.getChildren()) {
+		for(IteratedDeclNode iterForNameToCheck : iters.getChildren()) {
 			String iterName = iterForNameToCheck.getIdentNode().toString();
-			for(IteratedNode iter : iters.getChildren()) {
+			for(IteratedDeclNode iter : iters.getChildren()) {
 				res &= iter.pattern.iteratedNotReferenced(iterName);
 				if(iter.right != null) {
 					res &= iter.right.graph.iteratedNotReferenced(iterName);
 					res &= iter.right.graph.iteratedNotReferencedInDefElementInitialization(iterName);
 				}
 			}
-			for(AlternativeNode alt : alts.getChildren()) {
-				for(AlternativeCaseNode altCase : alt.getChildren()) {
+			for(AlternativeDeclNode alt : alts.getChildren()) {
+				for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 					res &= altCase.pattern.iteratedNotReferenced(iterName);
 					if(altCase.right != null) {
 						res &= altCase.right.graph.iteratedNotReferenced(iterName);
@@ -793,11 +793,11 @@ public class PatternGraphNode extends GraphNode
 			patternGraph.addSubpatternUsage(subpatternUsage.checkIR(SubpatternUsage.class));
 		}
 
-		for(AlternativeNode alternativeNode : alts.getChildren()) {
+		for(AlternativeDeclNode alternativeNode : alts.getChildren()) {
 			patternGraph.addAlternative(alternativeNode.checkIR(Alternative.class));
 		}
 
-		for(IteratedNode iteratedNode : iters.getChildren()) {
+		for(IteratedDeclNode iteratedNode : iters.getChildren()) {
 			patternGraph.addIterated(iteratedNode.checkIR(Rule.class));
 		}
 
@@ -857,13 +857,13 @@ public class PatternGraphNode extends GraphNode
 	{
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
-		for(SubpatternUsageNode subpatternUsageNode : subpatterns.getChildren()) {
+		for(SubpatternUsageDeclNode subpatternUsageNode : subpatterns.getChildren()) {
 			addSubpatternUsageArgument(patternGraph, subpatternUsageNode);
 		}
 
 		// add subpattern usage yield elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage yield)
-		for(SubpatternUsageNode subpatternUsageNode : subpatterns.getChildren()) {
+		for(SubpatternUsageDeclNode subpatternUsageNode : subpatterns.getChildren()) {
 			addSubpatternUsageYieldArgument(patternGraph, subpatternUsageNode);
 		}
 
@@ -937,7 +937,7 @@ public class PatternGraphNode extends GraphNode
 		addNeededEntities(patternGraph, needs);
 	}
 
-	void addSubpatternUsageArgument(PatternGraph patternGraph, SubpatternUsageNode subpatternUsageNode)
+	void addSubpatternUsageArgument(PatternGraph patternGraph, SubpatternUsageDeclNode subpatternUsageNode)
 	{
 		List<Expression> subpatternConnections = subpatternUsageNode.checkIR(SubpatternUsage.class).getSubpatternConnections();
 		for(Expression expr : subpatternConnections) {
@@ -962,7 +962,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	void addSubpatternUsageYieldArgument(PatternGraph patternGraph, SubpatternUsageNode subpatternUsageNode)
+	void addSubpatternUsageYieldArgument(PatternGraph patternGraph, SubpatternUsageDeclNode subpatternUsageNode)
 	{
 		List<Expression> subpatternYields = subpatternUsageNode.checkIR(SubpatternUsage.class).getSubpatternYields();
 		for(Expression expr : subpatternYields) {

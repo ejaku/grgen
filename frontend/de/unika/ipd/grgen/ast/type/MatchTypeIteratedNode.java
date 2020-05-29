@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -82,7 +82,7 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 	private SubpatternDeclNode subpattern;
 
 	private IdentNode iteratedUnresolved;
-	private IteratedNode iterated;
+	private IteratedDeclNode iterated;
 
 	// the match type node instances are created in ParserEnvironment as needed
 	public MatchTypeIteratedNode(IdentNode actionIdent, IdentNode iteratedIdent)
@@ -113,8 +113,8 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 
 	private static final DeclarationPairResolver<TestDeclNode, SubpatternDeclNode> actionOrSubpatternResolver =
 			new DeclarationPairResolver<TestDeclNode, SubpatternDeclNode>(TestDeclNode.class, SubpatternDeclNode.class);
-	private static final DeclarationResolver<IteratedNode> iteratedResolver =
-			new DeclarationResolver<IteratedNode>(IteratedNode.class);
+	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
 
 	@Override
 	protected boolean resolveLocal()
@@ -133,7 +133,7 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 		return iterated != null;
 	}
 
-	public IteratedNode getIterated()
+	public IteratedDeclNode getIterated()
 	{
 		assert(isResolved());
 		return iterated;

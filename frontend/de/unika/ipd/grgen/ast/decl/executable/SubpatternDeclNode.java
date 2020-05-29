@@ -17,12 +17,12 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ModifyDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageNode;
+import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.pattern.GraphNode;
@@ -104,7 +104,7 @@ public class SubpatternDeclNode extends ActionDeclNode
 		if(right == null && rewritePartRequired()) {
 			CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 			CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
-			CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
+			CollectNode<SubpatternUsageDeclNode> subpatterns = new CollectNode<SubpatternUsageDeclNode>();
 			CollectNode<OrderedReplacementsNode> orderedReplacements = new CollectNode<OrderedReplacementsNode>();
 			CollectNode<EvalStatementsNode> evalStatments = new CollectNode<EvalStatementsNode>();
 			CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
@@ -124,15 +124,15 @@ public class SubpatternDeclNode extends ActionDeclNode
 
 	private boolean rewritePartRequired()
 	{
-		for(AlternativeNode alt : pattern.alts.getChildren()) {
-			for(AlternativeCaseNode altCase : alt.getChildren()) {
+		for(AlternativeDeclNode alt : pattern.alts.getChildren()) {
+			for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 				if(altCase.right != null) {
 					return true;
 				}
 			}
 		}
 
-		for(IteratedNode iter : pattern.iters.getChildren()) {
+		for(IteratedDeclNode iter : pattern.iters.getChildren()) {
 			if(iter.right != null) {
 				return true;
 			}

@@ -24,23 +24,23 @@ import de.unika.ipd.grgen.ir.pattern.Alternative;
 /**
  * AST node that represents an alternative, containing the alternative graph patterns
  */
-public class AlternativeNode extends DeclNode
+public class AlternativeDeclNode extends DeclNode
 {
 	static {
-		setName(AlternativeNode.class, "alternative");
+		setName(AlternativeDeclNode.class, "alternative");
 	}
 
 	/** Type for this declaration. */
 	private static AlternativeTypeNode alternativeType = new AlternativeTypeNode();
 
-	private Vector<AlternativeCaseNode> children = new Vector<AlternativeCaseNode>();
+	private Vector<AlternativeCaseDeclNode> children = new Vector<AlternativeCaseDeclNode>();
 
-	public AlternativeNode(IdentNode id)
+	public AlternativeDeclNode(IdentNode id)
 	{
 		super(id, alternativeType);
 	}
 
-	public void addChild(AlternativeCaseNode n)
+	public void addChild(AlternativeCaseDeclNode n)
 	{
 		assert(!isResolved());
 		becomeParent(n);
@@ -49,7 +49,7 @@ public class AlternativeNode extends DeclNode
 
 	/** returns children of this node */
 	@Override
-	public Collection<AlternativeCaseNode> getChildren()
+	public Collection<AlternativeCaseDeclNode> getChildren()
 	{
 		return children;
 	}
@@ -87,7 +87,7 @@ public class AlternativeNode extends DeclNode
 	protected IR constructIR()
 	{
 		Alternative alternative = new Alternative(ident.getIdent());
-		for(AlternativeCaseNode alternativeCaseNode : children) {
+		for(AlternativeCaseDeclNode alternativeCaseNode : children) {
 			Rule alternativeCaseRule = alternativeCaseNode.checkIR(Rule.class);
 			alternative.addAlternativeCase(alternativeCaseRule);
 		}

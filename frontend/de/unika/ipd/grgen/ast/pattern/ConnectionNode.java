@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.DummyNodeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeTypeChangeNode;
+import de.unika.ipd.grgen.ast.decl.pattern.EdgeTypeChangeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.model.type.ArbitraryEdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
@@ -243,7 +243,7 @@ public class ConnectionNode extends ConnectionCharacter
 		if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 			return true; // edge was declared in the pattern
 		}
-		if(edge instanceof EdgeTypeChangeNode) {
+		if(edge instanceof EdgeTypeChangeDeclNode) {
 			return true; // edge is a type change edge of an edge declared within the pattern
 		}
 		if(edge.defEntityToBeYieldedTo) {

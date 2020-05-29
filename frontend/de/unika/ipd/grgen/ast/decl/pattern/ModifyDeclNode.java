@@ -90,16 +90,16 @@ public class ModifyDeclNode extends RhsDeclNode
 		return childrenNames;
 	}
 
-	private static final CollectTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageNode> deleteResolver =
-		new CollectTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageNode>(
-			new DeclarationTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageNode>(
-				NodeDeclNode.class, EdgeDeclNode.class, SubpatternUsageNode.class));
+	private static final CollectTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageDeclNode> deleteResolver =
+		new CollectTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageDeclNode>(
+			new DeclarationTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageDeclNode>(
+				NodeDeclNode.class, EdgeDeclNode.class, SubpatternUsageDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal()
 	{
-		Triple<CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<SubpatternUsageNode>> resolve =
+		Triple<CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<SubpatternUsageDeclNode>> resolve =
 			deleteResolver.resolve(deleteUnresolved);
 
 		if(resolve != null) {
@@ -116,7 +116,7 @@ public class ModifyDeclNode extends RhsDeclNode
 			}
 
 			if(resolve.third != null) {
-				for(SubpatternUsageNode sub : resolve.third.getChildren()) {
+				for(SubpatternUsageDeclNode sub : resolve.third.getChildren()) {
 					delete.addChild(sub);
 				}
 			}
@@ -134,7 +134,7 @@ public class ModifyDeclNode extends RhsDeclNode
 
 		Collection<Entity> deleteSet = new HashSet<Entity>();
 		for(BaseNode del : delete.getChildren()) {
-			if(!(del instanceof SubpatternUsageNode)) {
+			if(!(del instanceof SubpatternUsageDeclNode)) {
 				ConstraintDeclNode element = (ConstraintDeclNode)del;
 				Entity entity = element.checkIR(Entity.class);
 				deleteSet.add(entity);
@@ -207,7 +207,7 @@ public class ModifyDeclNode extends RhsDeclNode
 			}
 			boolean subInDeleteSet = false;
 			for(BaseNode del : delete.getChildren()) {
-				if(del instanceof SubpatternUsageNode) {
+				if(del instanceof SubpatternUsageDeclNode) {
 					SubpatternUsage delSub = del.checkIR(SubpatternUsage.class);
 					if(sub == delSub) {
 						subInDeleteSet = true;
@@ -276,8 +276,8 @@ public class ModifyDeclNode extends RhsDeclNode
 			if(connectionCharacter instanceof ConnectionNode) {
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
 				EdgeDeclNode edge = connection.getEdge();
-				while(edge instanceof EdgeTypeChangeNode) {
-					edge = ((EdgeTypeChangeNode)edge).getOldEdge();
+				while(edge instanceof EdgeTypeChangeDeclNode) {
+					edge = ((EdgeTypeChangeDeclNode)edge).getOldEdge();
 				}
 
 				// add connection only if source and target are reused
@@ -291,8 +291,8 @@ public class ModifyDeclNode extends RhsDeclNode
 			if(connectionCharacter instanceof ConnectionNode) {
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
 				EdgeDeclNode edge = connection.getEdge();
-				while(edge instanceof EdgeTypeChangeNode) {
-					edge = ((EdgeTypeChangeNode)edge).getOldEdge();
+				while(edge instanceof EdgeTypeChangeDeclNode) {
+					edge = ((EdgeTypeChangeDeclNode)edge).getOldEdge();
 				}
 
 				// add connection only if source and target are reused

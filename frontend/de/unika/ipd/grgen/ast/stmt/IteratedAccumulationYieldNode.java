@@ -17,7 +17,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -41,7 +41,7 @@ public class IteratedAccumulationYieldNode extends NestingStatementNode
 	IdentNode iteratedUnresolved;
 
 	VarDeclNode iterationVariable;
-	IteratedNode iterated;
+	IteratedDeclNode iterated;
 
 	public IteratedAccumulationYieldNode(Coords coords, BaseNode iterationVariable, IdentNode iterated,
 			CollectNode<EvalStatementNode> accumulationStatements)
@@ -75,8 +75,8 @@ public class IteratedAccumulationYieldNode extends NestingStatementNode
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<IteratedNode> iteratedResolver =
-			new DeclarationResolver<IteratedNode>(IteratedNode.class);
+	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override

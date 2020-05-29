@@ -19,21 +19,21 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.UniqueLookup;
+import de.unika.ipd.grgen.ir.pattern.Edge;
+import de.unika.ipd.grgen.ir.pattern.NameLookup;
 
-public class MatchNodeByUniqueLookupNode extends NodeDeclNode
+public class MatchEdgeByNameLookupDeclNode extends EdgeDeclNode
 {
 	static {
-		setName(MatchNodeByUniqueLookupNode.class, "match node by unique lookup decl");
+		setName(MatchEdgeByNameLookupDeclNode.class, "match edge by name lookup decl");
 	}
 
 	private ExprNode expr;
 
-	public MatchNodeByUniqueLookupNode(IdentNode id, BaseNode type, int context,
+	public MatchEdgeByNameLookupDeclNode(IdentNode id, BaseNode type, int context,
 			ExprNode expr, PatternGraphNode directlyNestingLHSGraph)
 	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
@@ -47,7 +47,7 @@ public class MatchNodeByUniqueLookupNode extends NodeDeclNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
+		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
 		children.add(constraints);
 		children.add(expr);
 		return children;
@@ -80,16 +80,16 @@ public class MatchNodeByUniqueLookupNode extends NodeDeclNode
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Can't employ match node by unique lookup on RHS");
+			reportError("Can't employ match edge by index on RHS");
 			return false;
 		}
-		TypeNode expectedLookupType = IntTypeNode.intType;
+		TypeNode expectedLookupType = StringTypeNode.stringType;
 		TypeNode lookupType = expr.getType();
 		if(!lookupType.isCompatibleTo(expectedLookupType)) {
 			String expTypeName = expectedLookupType.getTypeName();
 			String typeName = lookupType.getTypeName();
-			ident.reportError("Cannot convert type used in accessing unique index from \"" + typeName
-					+ "\" to \"" + expTypeName + "\" in match node by unique lookup");
+			ident.reportError("Cannot convert type used in accessing name map from \"" + typeName
+					+ "\" to \"" + expTypeName + "\" in match edge by name lookup");
 			return false;
 		}
 		return res;
@@ -103,11 +103,11 @@ public class MatchNodeByUniqueLookupNode extends NodeDeclNode
 			return getIR();
 		}
 
-		Node node = (Node)super.constructIR();
+		Edge edge = (Edge)super.constructIR();
 
-		setIR(node);
+		setIR(edge);
 
-		node.setUniqueIndexAccess(new UniqueLookup(expr.checkIR(Expression.class)));
-		return node;
+		edge.setNameMapAccess(new NameLookup(expr.checkIR(Expression.class)));
+		return edge;
 	}
 }

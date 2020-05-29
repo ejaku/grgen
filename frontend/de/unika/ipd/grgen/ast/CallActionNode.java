@@ -20,8 +20,8 @@ import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SequenceDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeInterfaceTypeChangeNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeInterfaceTypeChangeNode;
+import de.unika.ipd.grgen.ast.decl.pattern.EdgeInterfaceTypeChangeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.NodeInterfaceTypeChangeDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
@@ -299,11 +299,11 @@ public class CallActionNode extends BaseNode
 	private boolean checkParam(int paramPos, DeclNode formalParam, ExprNode actualParam)
 	{
 		TypeNode formalParameterType;
-		if(formalParam instanceof EdgeInterfaceTypeChangeNode) {
-			EdgeInterfaceTypeChangeNode typeChangeFormalParam = (EdgeInterfaceTypeChangeNode)formalParam;
+		if(formalParam instanceof EdgeInterfaceTypeChangeDeclNode) {
+			EdgeInterfaceTypeChangeDeclNode typeChangeFormalParam = (EdgeInterfaceTypeChangeDeclNode)formalParam;
 			formalParameterType = typeChangeFormalParam.interfaceType.getDeclType();
-		} else if(formalParam instanceof NodeInterfaceTypeChangeNode) {
-			NodeInterfaceTypeChangeNode typeChangeFormalParam = (NodeInterfaceTypeChangeNode)formalParam;
+		} else if(formalParam instanceof NodeInterfaceTypeChangeDeclNode) {
+			NodeInterfaceTypeChangeDeclNode typeChangeFormalParam = (NodeInterfaceTypeChangeDeclNode)formalParam;
 			formalParameterType = typeChangeFormalParam.interfaceType.getDeclType();
 		} else {
 			formalParameterType = formalParam.getDecl().getDeclType();

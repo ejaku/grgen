@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
@@ -25,21 +26,33 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
+import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
 
-public class MatchEdgeByIndexAccessEqualityNode extends MatchEdgeByIndexNode
+public class MatchEdgeByIndexAccessOrderingDeclNode extends MatchEdgeByIndexDeclNode
 {
 	static {
-		setName(MatchEdgeByIndexAccessEqualityNode.class, "match edge by index access equality decl");
+		setName(MatchEdgeByIndexAccessOrderingDeclNode.class, "match edge by index access ordering decl");
 	}
 
+	private boolean ascending;
+	private int comp;
 	private ExprNode expr;
+	private int comp2;
+	private ExprNode expr2;
 
-	public MatchEdgeByIndexAccessEqualityNode(IdentNode id, BaseNode type, int context,
-			IdentNode index, ExprNode expr, PatternGraphNode directlyNestingLHSGraph)
+	public MatchEdgeByIndexAccessOrderingDeclNode(IdentNode id, BaseNode type, int context,
+			boolean ascending, IdentNode index,
+			int comp, ExprNode expr,
+			int comp2, ExprNode expr2,
+			PatternGraphNode directlyNestingLHSGraph)
 	{
 		super(id, type, context, index, directlyNestingLHSGraph);
+		this.ascending = ascending;
+		this.comp = comp;
 		this.expr = expr;
+		becomeParent(this.expr);
+		this.comp2 = comp2;
+		this.expr2 = expr2;
 		becomeParent(this.expr);
 	}
 
@@ -52,7 +65,10 @@ public class MatchEdgeByIndexAccessEqualityNode extends MatchEdgeByIndexNode
 		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
 		children.add(constraints);
 		children.add(getValidVersion(indexUnresolved, index));
-		children.add(expr);
+		if(expr != null)
+			children.add(expr);
+		if(expr2 != null)
+			children.add(expr2);
 		return children;
 	}
 
@@ -65,7 +81,10 @@ public class MatchEdgeByIndexAccessEqualityNode extends MatchEdgeByIndexNode
 		childrenNames.add("type");
 		childrenNames.add("constraints");
 		childrenNames.add("index");
-		childrenNames.add("expression");
+		if(expr != null)
+			childrenNames.add("expression");
+		if(expr2 != null)
+			childrenNames.add("expression2");
 		return childrenNames;
 	}
 
@@ -79,7 +98,10 @@ public class MatchEdgeByIndexAccessEqualityNode extends MatchEdgeByIndexNode
 		boolean successfullyResolved = super.resolveLocal();
 		index = indexResolver.resolve(indexUnresolved, this);
 		successfullyResolved &= index != null;
-		successfullyResolved &= expr.resolve();
+		if(expr != null)
+			successfullyResolved &= expr.resolve();
+		if(expr2 != null)
+			successfullyResolved &= expr2.resolve();
 		return successfullyResolved;
 	}
 
@@ -92,14 +114,26 @@ public class MatchEdgeByIndexAccessEqualityNode extends MatchEdgeByIndexNode
 			reportError("Can't employ match edge by index on RHS");
 			return false;
 		}
-		TypeNode expectedIndexAccessType = index.getExpectedAccessType();
-		TypeNode indexAccessType = expr.getType();
-		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
-			String expTypeName = expectedIndexAccessType.getTypeName();
-			String typeName = indexAccessType.getTypeName();
-			ident.reportError("Cannot convert type used in accessing index from \"" + typeName
-					+ "\" to \"" + expTypeName + "\" in match edge by index access");
-			return false;
+		if(expr != null) {
+			TypeNode expectedIndexAccessType = index.getExpectedAccessType();
+			TypeNode indexAccessType = expr.getType();
+			if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
+				String expTypeName = expectedIndexAccessType.getTypeName();
+				String typeName = indexAccessType.getTypeName();
+				ident.reportError("Cannot convert type used in accessing index from \"" + typeName
+						+ "\" to \"" + expTypeName + "\" in match edge by index access");
+				return false;
+			}
+			if(expr2 != null) {
+				TypeNode indexAccessType2 = expr2.getType();
+				if(!indexAccessType2.isCompatibleTo(expectedIndexAccessType)) {
+					String expTypeName = expectedIndexAccessType.getTypeName();
+					String typeName = indexAccessType2.getTypeName();
+					ident.reportError("Cannot convert type used in accessing index from \"" + typeName
+							+ "\" to \"" + expTypeName + "\" in match edge by index access");
+					return false;
+				}
+			}
 		}
 		TypeNode expectedEntityType = getDeclType();
 		InheritanceTypeNode entityType = index.getType();
@@ -109,6 +143,18 @@ public class MatchEdgeByIndexAccessEqualityNode extends MatchEdgeByIndexNode
 			ident.reportError("Cannot convert index type from \"" + typeName
 					+ "\" to pattern element type \"" + expTypeName + "\" in match edge by index access");
 			return false;
+		}
+		if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE) {
+			if(expr2 != null && (comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)) {
+				reportError("Match edge by index does not support two lower bounds");
+				return false;
+			}
+		}
+		if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE) {
+			if(expr2 != null && (comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)) {
+				reportError("Match edge by index does not support two upper bounds");
+				return false;
+			}
 		}
 		return res;
 	}
@@ -125,7 +171,9 @@ public class MatchEdgeByIndexAccessEqualityNode extends MatchEdgeByIndexNode
 
 		setIR(edge);
 
-		edge.setIndex(new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)));
+		edge.setIndex(new IndexAccessOrdering(index.checkIR(Index.class), ascending,
+				comp, expr != null ? expr.checkIR(Expression.class) : null,
+				comp2, expr2 != null ? expr2.checkIR(Expression.class) : null));
 		return edge;
 	}
 }

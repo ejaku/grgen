@@ -143,8 +143,8 @@ public abstract class RhsDeclNode extends DeclNode
 		// especially the deleted ones :-)
 		for(ConnectionNode conn : conns) {
 			EdgeDeclNode edge = conn.getEdge();
-			while(edge instanceof EdgeTypeChangeNode) {
-				edge = ((EdgeTypeChangeNode)edge).getOldEdge();
+			while(edge instanceof EdgeTypeChangeDeclNode) {
+				edge = ((EdgeTypeChangeDeclNode)edge).getOldEdge();
 			}
 			boolean srcIsDummy = true;
 			boolean tgtIsDummy = true;

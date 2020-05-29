@@ -17,17 +17,17 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.FilterFunctionTypeNode;
 
 /**
- * AST node class representing auto-supplied and auto-generated filters
+ * AST node class representing auto-supplied and auto-generated filter declarations
  */
-public abstract class FilterAutoNode extends DeclNode
+public abstract class FilterAutoDeclNode extends DeclNode
 {
 	static {
-		setName(FilterAutoNode.class, "auto filter");
+		setName(FilterAutoDeclNode.class, "auto filter");
 	}
 
 	static final FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode(); // dummy type
 
-	public FilterAutoNode(IdentNode ident)
+	public FilterAutoDeclNode(IdentNode ident)
 	{
 		super(ident, filterFunctionType);
 	}

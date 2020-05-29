@@ -24,9 +24,9 @@ import de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SequenceDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.ModelNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.PackageTypeNode;
@@ -310,14 +310,14 @@ public class UnitNode extends BaseNode
 		boolean res = true;
 
 		// traverse graph structure
-		for(AlternativeNode alt : curPattern.alts.getChildren()) {
-			for(AlternativeCaseNode altCase : alt.getChildren()) {
+		for(AlternativeDeclNode alt : curPattern.alts.getChildren()) {
+			for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 				res &= checkStatementsLHS(root, altCase.pattern);
 				if(altCase.right != null)
 					res &= checkStatementsRHS(root, altCase.right.graph);
 			}
 		}
-		for(IteratedNode iter : curPattern.iters.getChildren()) {
+		for(IteratedDeclNode iter : curPattern.iters.getChildren()) {
 			res &= checkStatementsLHS(root, iter.pattern);
 			if(iter.right != null)
 				res &= checkStatementsRHS(root, iter.right.graph);

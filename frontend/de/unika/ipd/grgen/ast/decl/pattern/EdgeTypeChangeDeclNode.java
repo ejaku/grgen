@@ -35,16 +35,16 @@ import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
 /**
  * An edge which is created by retyping, with the old edge
  */
-public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
+public class EdgeTypeChangeDeclNode extends EdgeDeclNode implements EdgeCharacter
 {
 	static {
-		setName(EdgeTypeChangeNode.class, "edge type change decl");
+		setName(EdgeTypeChangeDeclNode.class, "edge type change decl");
 	}
 
 	private BaseNode oldUnresolved;
 	private EdgeDeclNode old = null;
 
-	public EdgeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid,
+	public EdgeTypeChangeDeclNode(IdentNode id, BaseNode newType, int context, BaseNode oldid,
 			PatternGraphNode directlyNestingLHSGraph)
 	{
 		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
@@ -121,7 +121,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		while(!(curr instanceof RuleDeclNode
 				|| curr instanceof TestDeclNode
 				|| curr instanceof SubpatternDeclNode
-				|| curr instanceof AlternativeCaseNode)) {
+				|| curr instanceof AlternativeCaseDeclNode)) {
 			prev = curr;
 			// doesn't matter which parent you choose, in the end you reach RuleDeclNode/SubpatternDeclNode/AlternativeCaseNode
 			curr = curr.getParents().iterator().next();
@@ -129,7 +129,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 
 		if(curr instanceof RuleDeclNode && prev == ((RuleDeclNode)curr).right
 				|| curr instanceof SubpatternDeclNode && prev == ((SubpatternDeclNode)curr).right
-				|| curr instanceof AlternativeCaseNode && prev == ((AlternativeCaseNode)curr).right) {
+				|| curr instanceof AlternativeCaseDeclNode && prev == ((AlternativeCaseDeclNode)curr).right) {
 			if(!old.defEntityToBeYieldedTo) {
 				reportError("Source edge of retype may not be declared in replace/modify part");
 				res = false;
@@ -141,7 +141,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		BaseNode currCase = this;
 
 		while(!currCase.isRoot()) {
-			if(currCase instanceof AlternativeCaseNode || currCase instanceof RuleDeclNode)
+			if(currCase instanceof AlternativeCaseDeclNode || currCase instanceof RuleDeclNode)
 				cases.add(currCase);
 
 			currCase = currCase.getParents().iterator().next();
@@ -151,11 +151,11 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		Collection<BaseNode> parents = old.getParents();
 		for(BaseNode parent : parents) {
 			// to be erroneous there must be another EdgeTypeChangeNode with the same OLD-child
-			if(parent != this && parent instanceof EdgeTypeChangeNode && ((EdgeTypeChangeNode)parent).old == old) {
+			if(parent != this && parent instanceof EdgeTypeChangeDeclNode && ((EdgeTypeChangeDeclNode)parent).old == old) {
 				BaseNode alternativeCase = parent;
 
 				while(!alternativeCase.isRoot()) {
-					if(alternativeCase instanceof AlternativeCaseNode || alternativeCase instanceof RuleDeclNode) {
+					if(alternativeCase instanceof AlternativeCaseDeclNode || alternativeCase instanceof RuleDeclNode) {
 						if(cases.contains(alternativeCase)) {
 							reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
 									+ " previous retype statement at " + parent.getCoords());

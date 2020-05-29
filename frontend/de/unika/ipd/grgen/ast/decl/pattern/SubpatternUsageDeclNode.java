@@ -32,10 +32,10 @@ import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 
-public class SubpatternUsageNode extends DeclNode
+public class SubpatternUsageDeclNode extends DeclNode
 {
 	static {
-		setName(SubpatternUsageNode.class, "subpattern node");
+		setName(SubpatternUsageDeclNode.class, "subpattern node");
 	}
 
 	private CollectNode<ExprNode> connections;
@@ -43,7 +43,7 @@ public class SubpatternUsageNode extends DeclNode
 	public SubpatternDeclNode type = null;
 	public int context;
 
-	public SubpatternUsageNode(IdentNode n, BaseNode t, int context, CollectNode<ExprNode> c)
+	public SubpatternUsageDeclNode(IdentNode n, BaseNode t, int context, CollectNode<ExprNode> c)
 	{
 		super(n, t);
 		this.context = context;

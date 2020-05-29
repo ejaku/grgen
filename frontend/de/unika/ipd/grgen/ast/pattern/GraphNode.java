@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.DummyNodeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageNode;
+import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
@@ -70,7 +70,7 @@ public class GraphNode extends BaseNode
 
 	protected CollectNode<BaseNode> connectionsUnresolved;
 	protected CollectNode<ConnectionCharacter> connections = new CollectNode<ConnectionCharacter>();
-	protected CollectNode<SubpatternUsageNode> subpatterns;
+	protected CollectNode<SubpatternUsageDeclNode> subpatterns;
 	protected CollectNode<SubpatternReplNode> subpatternRepls;
 	protected CollectNode<OrderedReplacementsNode> orderedReplacements;
 	public CollectNode<EvalStatementsNode> yieldsEvals;
@@ -98,7 +98,7 @@ public class GraphNode extends BaseNode
 	 */
 	public GraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
-			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
+			CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
 			CollectNode<OrderedReplacementsNode> orderedReplacements, CollectNode<ExprNode> returns,
 			CollectNode<BaseNode> imperativeStmts, int context, PatternGraphNode directlyNestingLHSGraph)
 	{
@@ -272,7 +272,7 @@ public class GraphNode extends BaseNode
 		boolean subUsagesOK = true;
 		
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			for(SubpatternUsageNode subUsage : subpatterns.getChildren()) {
+			for(SubpatternUsageDeclNode subUsage : subpatterns.getChildren()) {
 				if(subUsage.resolve()) {
 					PatternGraphNode pattern = subUsage.getSubpatternDeclNode().getPattern();
 					if(pattern.hasAbstractElements) {
@@ -473,7 +473,7 @@ public class GraphNode extends BaseNode
 			gr.addVariable(n.checkIR(Variable.class));
 		}
 
-		for(SubpatternUsageNode n : subpatterns.getChildren()) {
+		for(SubpatternUsageDeclNode n : subpatterns.getChildren()) {
 			gr.addSubpatternUsage(n.checkIR(SubpatternUsage.class));
 		}
 

@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
@@ -30,7 +30,7 @@ public class IteratedQueryExprNode extends ExprNode
 	}
 
 	private IdentNode iteratedUnresolved;
-	private IteratedNode iterated;
+	private IteratedDeclNode iterated;
 
 	private TypeNode arrayOfMatchTypeUnresolved;
 	private TypeNode arrayOfMatchType;
@@ -61,8 +61,8 @@ public class IteratedQueryExprNode extends ExprNode
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<IteratedNode> iteratedResolver =
-			new DeclarationResolver<IteratedNode>(IteratedNode.class);
+	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
 
 	@Override
 	protected boolean resolveLocal()

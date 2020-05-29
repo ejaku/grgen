@@ -27,15 +27,15 @@ import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
 import de.unika.ipd.grgen.ir.pattern.Node;
 
-public class MatchNodeByIndexAccessEqualityNode extends MatchNodeByIndexNode
+public class MatchNodeByIndexAccessEqualityDeclNode extends MatchNodeByIndexDeclNode
 {
 	static {
-		setName(MatchNodeByIndexAccessEqualityNode.class, "match node by index access equality decl");
+		setName(MatchNodeByIndexAccessEqualityDeclNode.class, "match node by index access equality decl");
 	}
 
 	private ExprNode expr;
 
-	public MatchNodeByIndexAccessEqualityNode(IdentNode id, BaseNode type, int context,
+	public MatchNodeByIndexAccessEqualityDeclNode(IdentNode id, BaseNode type, int context,
 			IdentNode index, ExprNode expr, PatternGraphNode directlyNestingLHSGraph)
 	{
 		super(id, type, context, index, directlyNestingLHSGraph);

@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.IR;
@@ -24,21 +24,21 @@ import de.unika.ipd.grgen.ir.executable.FilterAutoSupplied;
 import de.unika.ipd.grgen.ir.executable.Rule;
 
 /**
- * AST node class representing auto supplied filters
+ * AST node class representing auto supplied filters (automatically declared)
  */
-public class FilterAutoSuppliedNode extends FilterAutoNode
+public class FilterAutoSuppliedDeclNode extends FilterAutoDeclNode
 {
 	static {
-		setName(FilterAutoSuppliedNode.class, "auto supplied filter");
+		setName(FilterAutoSuppliedDeclNode.class, "auto supplied filter");
 	}
 
 	IdentNode ident;
 
 	protected IdentNode actionUnresolved;
 	protected TestDeclNode action;
-	protected IteratedNode iterated;
+	protected IteratedDeclNode iterated;
 
-	public FilterAutoSuppliedNode(IdentNode ident, IdentNode action)
+	public FilterAutoSuppliedDeclNode(IdentNode ident, IdentNode action)
 	{
 		super(ident);
 
@@ -64,14 +64,14 @@ public class FilterAutoSuppliedNode extends FilterAutoNode
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<TestDeclNode, IteratedNode> actionOrIteratedResolver =
-			new DeclarationPairResolver<TestDeclNode, IteratedNode>(TestDeclNode.class, IteratedNode.class);
+	private static final DeclarationPairResolver<TestDeclNode, IteratedDeclNode> actionOrIteratedResolver =
+			new DeclarationPairResolver<TestDeclNode, IteratedDeclNode>(TestDeclNode.class, IteratedDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal()
 	{
-		Pair<TestDeclNode, IteratedNode> actionOrIterated = actionOrIteratedResolver.resolve(actionUnresolved, this);
+		Pair<TestDeclNode, IteratedDeclNode> actionOrIterated = actionOrIteratedResolver.resolve(actionUnresolved, this);
 		if(actionOrIterated == null)
 			return false;
 		action = actionOrIterated.fst;

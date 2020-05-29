@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -30,7 +30,7 @@ public class CountNode extends ExprNode
 	}
 
 	private IdentNode iteratedUnresolved;
-	private IteratedNode iterated;
+	private IteratedDeclNode iterated;
 
 	public CountNode(Coords coords, IdentNode iterated)
 	{
@@ -57,8 +57,8 @@ public class CountNode extends ExprNode
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<IteratedNode> iteratedResolver =
-			new DeclarationResolver<IteratedNode>(IteratedNode.class);
+	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override

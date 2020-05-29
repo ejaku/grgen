@@ -17,10 +17,10 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 
-public abstract class MatchEdgeFromByStorageNode extends EdgeDeclNode
+public abstract class MatchEdgeFromByStorageDeclNode extends EdgeDeclNode
 {
 	static {
-		setName(MatchEdgeFromByStorageNode.class, "match edge from by storage decl");
+		setName(MatchEdgeFromByStorageDeclNode.class, "match edge from by storage decl");
 	}
 
 	protected BaseNode storageUnresolved;
@@ -28,7 +28,7 @@ public abstract class MatchEdgeFromByStorageNode extends EdgeDeclNode
 	protected QualIdentNode storageAttribute = null;
 	protected EdgeDeclNode storageGlobalVariable = null;
 
-	protected MatchEdgeFromByStorageNode(IdentNode id, BaseNode type, int context, BaseNode storage,
+	protected MatchEdgeFromByStorageDeclNode(IdentNode id, BaseNode type, int context, BaseNode storage,
 			PatternGraphNode directlyNestingLHSGraph)
 	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);

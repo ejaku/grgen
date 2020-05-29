@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.Rule;
@@ -29,7 +29,7 @@ public class IteratedReplNode extends OrderedReplacementNode
 	}
 
 	private IdentNode iteratedUnresolved;
-	private IteratedNode iterated;
+	private IteratedDeclNode iterated;
 
 	public IteratedReplNode(IdentNode n)
 	{
@@ -53,8 +53,8 @@ public class IteratedReplNode extends OrderedReplacementNode
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<IteratedNode> iteratedResolver =
-			new DeclarationResolver<IteratedNode>(IteratedNode.class);
+	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override

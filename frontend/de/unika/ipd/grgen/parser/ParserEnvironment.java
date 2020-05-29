@@ -21,9 +21,9 @@ import org.antlr.runtime.Lexer;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FilterAutoNode;
-import de.unika.ipd.grgen.ast.decl.executable.FilterAutoSuppliedNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.executable.FilterAutoDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.FilterAutoSuppliedDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
@@ -903,9 +903,9 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public ArrayList<FilterAutoNode> getFiltersAutoSupplied(IteratedNode iterated)
+	public ArrayList<FilterAutoDeclNode> getFiltersAutoSupplied(IteratedDeclNode iterated)
 	{
-		ArrayList<FilterAutoNode> autoSuppliedFilters = new ArrayList<FilterAutoNode>();
+		ArrayList<FilterAutoDeclNode> autoSuppliedFilters = new ArrayList<FilterAutoDeclNode>();
 
 		if(iterated != null) // may happen due to syntactic predicate / backtracking peek ahead
 		{
@@ -922,10 +922,10 @@ public abstract class ParserEnvironment extends Base
 		return autoSuppliedFilters;
 	}
 
-	public FilterAutoNode getFilterAutoSupplied(String ident, IteratedNode iterated)
+	public FilterAutoDeclNode getFilterAutoSupplied(String ident, IteratedDeclNode iterated)
 	{
 		IdentNode filterIdent = new IdentNode(define(ParserEnvironment.ACTIONS, ident, iterated.getCoords()));
-		return new FilterAutoSuppliedNode(filterIdent, iterated.getIdentNode());
+		return new FilterAutoSuppliedDeclNode(filterIdent, iterated.getIdentNode());
 	}
 
 	public abstract UnitNode parseActions(File inputFile);

@@ -19,21 +19,21 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.NameLookup;
 import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.UniqueLookup;
 
-public class MatchNodeByNameLookupNode extends NodeDeclNode
+public class MatchNodeByUniqueLookupDeclNode extends NodeDeclNode
 {
 	static {
-		setName(MatchNodeByNameLookupNode.class, "match node by name lookup decl");
+		setName(MatchNodeByUniqueLookupDeclNode.class, "match node by unique lookup decl");
 	}
 
 	private ExprNode expr;
 
-	public MatchNodeByNameLookupNode(IdentNode id, BaseNode type, int context,
+	public MatchNodeByUniqueLookupDeclNode(IdentNode id, BaseNode type, int context,
 			ExprNode expr, PatternGraphNode directlyNestingLHSGraph)
 	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
@@ -80,16 +80,16 @@ public class MatchNodeByNameLookupNode extends NodeDeclNode
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Can't employ match node by name lookup on RHS");
+			reportError("Can't employ match node by unique lookup on RHS");
 			return false;
 		}
-		TypeNode expectedLookupType = StringTypeNode.stringType;
+		TypeNode expectedLookupType = IntTypeNode.intType;
 		TypeNode lookupType = expr.getType();
 		if(!lookupType.isCompatibleTo(expectedLookupType)) {
 			String expTypeName = expectedLookupType.getTypeName();
 			String typeName = lookupType.getTypeName();
-			ident.reportError("Cannot convert type used in accessing name map from \"" + typeName
-					+ "\" to \"" + expTypeName + "\" in match node by name lookup");
+			ident.reportError("Cannot convert type used in accessing unique index from \"" + typeName
+					+ "\" to \"" + expTypeName + "\" in match node by unique lookup");
 			return false;
 		}
 		return res;
@@ -107,7 +107,7 @@ public class MatchNodeByNameLookupNode extends NodeDeclNode
 
 		setIR(node);
 
-		node.setNameMapAccess(new NameLookup(expr.checkIR(Expression.class)));
+		node.setUniqueIndexAccess(new UniqueLookup(expr.checkIR(Expression.class)));
 		return node;
 	}
 }

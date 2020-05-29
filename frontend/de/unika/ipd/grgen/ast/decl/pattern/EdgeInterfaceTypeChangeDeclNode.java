@@ -27,16 +27,16 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 
-public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
+public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode implements EdgeCharacter
 {
 	static {
-		setName(EdgeTypeChangeNode.class, "edge interface type change decl");
+		setName(EdgeInterfaceTypeChangeDeclNode.class, "edge interface type change decl");
 	}
 
 	private IdentNode interfaceTypeUnresolved;
 	public TypeDeclNode interfaceType = null;
 
-	public EdgeInterfaceTypeChangeNode(IdentNode id, BaseNode newType, int context, IdentNode interfaceType,
+	public EdgeInterfaceTypeChangeDeclNode(IdentNode id, BaseNode newType, int context, IdentNode interfaceType,
 			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull)
 	{
 		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull, false);

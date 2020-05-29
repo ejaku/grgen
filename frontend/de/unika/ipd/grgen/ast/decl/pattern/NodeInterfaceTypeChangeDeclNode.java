@@ -27,16 +27,16 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Node;
 
-public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCharacter
+public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode implements NodeCharacter
 {
 	static {
-		setName(NodeTypeChangeNode.class, "node interface type change decl");
+		setName(NodeInterfaceTypeChangeDeclNode.class, "node interface type change decl");
 	}
 
 	private IdentNode interfaceTypeUnresolved;
 	public TypeDeclNode interfaceType = null;
 
-	public NodeInterfaceTypeChangeNode(IdentNode id, BaseNode type, int context, IdentNode interfaceType,
+	public NodeInterfaceTypeChangeDeclNode(IdentNode id, BaseNode type, int context, IdentNode interfaceType,
 			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull)
 	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull, false);

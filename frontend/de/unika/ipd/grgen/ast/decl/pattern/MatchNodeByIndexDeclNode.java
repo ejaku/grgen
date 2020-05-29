@@ -16,16 +16,16 @@ import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 
-public abstract class MatchNodeByIndexNode extends NodeDeclNode
+public abstract class MatchNodeByIndexDeclNode extends NodeDeclNode
 {
 	static {
-		setName(MatchNodeByIndexNode.class, "match node by index");
+		setName(MatchNodeByIndexDeclNode.class, "match node by index");
 	}
 
 	protected IdentNode indexUnresolved;
 	protected IndexDeclNode index;
 
-	protected MatchNodeByIndexNode(IdentNode id, BaseNode type, int context,
+	protected MatchNodeByIndexDeclNode(IdentNode id, BaseNode type, int context,
 			IdentNode index, PatternGraphNode directlyNestingLHSGraph)
 	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);

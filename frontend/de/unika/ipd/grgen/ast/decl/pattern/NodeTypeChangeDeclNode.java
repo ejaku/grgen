@@ -37,10 +37,10 @@ import de.unika.ipd.grgen.ir.pattern.RetypedNode;
 /**
  * A node which is created by retyping, with the old node (old nodes in case of a merge)
  */
-public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
+public class NodeTypeChangeDeclNode extends NodeDeclNode implements NodeCharacter
 {
 	static {
-		setName(NodeTypeChangeNode.class, "node type change decl");
+		setName(NodeTypeChangeDeclNode.class, "node type change decl");
 	}
 
 	private BaseNode oldUnresolved;
@@ -48,7 +48,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	private CollectNode<IdentNode> mergeesUnresolved;
 	private CollectNode<NodeDeclNode> mergees;
 
-	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid,
+	public NodeTypeChangeDeclNode(IdentNode id, BaseNode newType, int context, BaseNode oldid,
 			CollectNode<IdentNode> mergees, PatternGraphNode directlyNestingLHSGraph)
 	{
 		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
@@ -136,7 +136,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		while(!(curr instanceof RuleDeclNode
 					|| curr instanceof TestDeclNode
 					|| curr instanceof SubpatternDeclNode
-					|| curr instanceof AlternativeCaseNode))
+					|| curr instanceof AlternativeCaseDeclNode))
 		{
 			prev = curr;
 			// doesn't matter which parent you choose, in the end you reach RuleDeclNode/SubpatternDeclNode/AlternativeCaseNode
@@ -144,7 +144,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		}
 		if(curr instanceof RuleDeclNode && prev == ((RuleDeclNode)curr).right
 				|| curr instanceof SubpatternDeclNode && prev == ((SubpatternDeclNode)curr).right
-				|| curr instanceof AlternativeCaseNode && prev == ((AlternativeCaseNode)curr).right) {
+				|| curr instanceof AlternativeCaseDeclNode && prev == ((AlternativeCaseDeclNode)curr).right) {
 			if(!old.defEntityToBeYieldedTo) {
 				reportError("Source node of retype may not be declared in replace/modify part");
 				res = false;
@@ -158,7 +158,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		BaseNode currCase = this;
 
 		while(!currCase.isRoot()) {
-			if(currCase instanceof AlternativeCaseNode || currCase instanceof RuleDeclNode)
+			if(currCase instanceof AlternativeCaseDeclNode || currCase instanceof RuleDeclNode)
 				cases.add(currCase);
 
 			currCase = currCase.getParents().iterator().next();
@@ -168,11 +168,11 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		Collection<BaseNode> parents = old.getParents();
 		for(BaseNode parent : parents) {
 			// to be erroneous there must be another NodeTypeChangeNode with the same OLD-child
-			if(parent != this && parent instanceof NodeTypeChangeNode && ((NodeTypeChangeNode)parent).old == old) {
+			if(parent != this && parent instanceof NodeTypeChangeDeclNode && ((NodeTypeChangeDeclNode)parent).old == old) {
 				BaseNode alternativeCase = parent;
 
 				while(!alternativeCase.isRoot()) {
-					if(alternativeCase instanceof AlternativeCaseNode || alternativeCase instanceof RuleDeclNode) {
+					if(alternativeCase instanceof AlternativeCaseDeclNode || alternativeCase instanceof RuleDeclNode) {
 						if(cases.contains(alternativeCase)) {
 							reportError("Two (and hence ambiguous) retype statements for the same node are forbidden,"
 									+ " previous retype statement at " + parent.getCoords());

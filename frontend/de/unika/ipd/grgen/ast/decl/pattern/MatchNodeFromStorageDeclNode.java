@@ -20,32 +20,23 @@ import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.StorageAccess;
-import de.unika.ipd.grgen.ir.pattern.StorageAccessIndex;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 
-public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
+public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 {
 	static {
-		setName(MatchNodeByStorageAccessNode.class, "match node by storage access decl");
+		setName(MatchNodeFromStorageDeclNode.class, "match node from storage decl");
 	}
 
-	private IdentExprNode accessorUnresolved;
-	private ConstraintDeclNode accessor = null;
-	// TODO: auch vardeclnode für int et al, und qualidentnode für attribute zulassen
-
-	public MatchNodeByStorageAccessNode(IdentNode id, BaseNode type, int context,
-			BaseNode storage, IdentExprNode accessor,
+	public MatchNodeFromStorageDeclNode(IdentNode id, BaseNode type, int context, BaseNode storage,
 			PatternGraphNode directlyNestingLHSGraph)
 	{
 		super(id, type, context, storage, directlyNestingLHSGraph);
-		this.accessorUnresolved = accessor;
-		becomeParent(this.accessorUnresolved);
 	}
 
 	/** returns children of this node */
@@ -57,7 +48,6 @@ public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
 		children.add(constraints);
 		children.add(getValidVersion(storageUnresolved, storage, storageAttribute, storageGlobalVariable));
-		children.add(getValidVersion(accessorUnresolved, accessor));
 		return children;
 	}
 
@@ -70,7 +60,6 @@ public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
 		childrenNames.add("type");
 		childrenNames.add("constraints");
 		childrenNames.add("storage");
-		childrenNames.add("accessor");
 		return childrenNames;
 	}
 
@@ -87,11 +76,11 @@ public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
 				} else if(unresolved.decl instanceof NodeDeclNode) {
 					storageGlobalVariable = (NodeDeclNode)unresolved.decl;
 				} else {
-					reportError("match node by storage access expects a parameter or global variable as storage.");
+					reportError("match node from storage expects a parameter or global variable.");
 					successfullyResolved = false;
 				}
 			} else {
-				reportError("match node by storage access expects a parameter or global variable as storage.");
+				reportError("match node from storage expects a parameter or global variable.");
 				successfullyResolved = false;
 			}
 		} else if(storageUnresolved instanceof QualIdentNode) {
@@ -99,18 +88,11 @@ public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
 			if(unresolved.resolve()) {
 				storageAttribute = unresolved;
 			} else {
-				reportError("match node by storage attribute access expects a storage attribute.");
+				reportError("match node from storage attribute expects a storage attribute.");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("internal error - invalid match node by storage attribute");
-			successfullyResolved = false;
-		}
-
-		if(accessorUnresolved.resolve() && accessorUnresolved.decl instanceof ConstraintDeclNode) {
-			accessor = (ConstraintDeclNode)accessorUnresolved.decl;
-		} else {
-			reportError("match node by storage access expects a pattern element as accessor.");
+			reportError("internal error - invalid match node from storage attribute");
 			successfullyResolved = false;
 		}
 		return successfullyResolved;
@@ -122,27 +104,30 @@ public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Can't employ match node by storage on RHS");
+			reportError("Can't employ match node from storage on RHS");
 			return false;
 		}
 		TypeNode storageType = getStorageType();
-		if(!(storageType instanceof MapTypeNode)) { // TODO: allow array/deque
-			reportError("match node by storage access expects a parameter variable of map type.");
-			return false;
+		if(!(storageType instanceof ContainerTypeNode)) {
+			if(storageGlobalVariable == null) {
+				reportError("match node from storage expects a parameter variable of container type (set|map|array|deque).");
+				return false;
+			}
 		}
-		TypeNode expectedStorageKeyType = ((MapTypeNode)storageType).keyType;
-		TypeNode storageKeyType = accessor.getDeclType();
-		if(!storageKeyType.isCompatibleTo(expectedStorageKeyType)) {
-			String expTypeName = expectedStorageKeyType.getTypeName();
-			String typeName = storageKeyType.getTypeName();
-			ident.reportError("Cannot convert storage element type from \"" + typeName
-					+ "\" to \"" + expTypeName + "\" in match node by storage access");
-			return false;
+		TypeNode storageElementType = null;
+		if(storageType instanceof ContainerTypeNode) {
+			storageElementType = ((ContainerTypeNode)storageType).getElementType();
+		} else {
+			storageElementType = storageGlobalVariable.getDeclType();
 		}
-		TypeNode storageElementType = ((MapTypeNode)storageType).valueType;
 		if(!(storageElementType instanceof NodeTypeNode)) {
-			reportError("match node by storage access expects the target type to be a node type.");
-			return false;
+			if(storageGlobalVariable == null) {
+				reportError("match node from storage expects the element type to be a node type.");
+				return false;
+			} else {
+				reportError("match node from storage global variable expects a node type.");
+				return false;
+			}
 		}
 		NodeTypeNode storageElemType = (NodeTypeNode)storageElementType;
 		NodeTypeNode expectedStorageElemType = getDeclType();
@@ -150,7 +135,7 @@ public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
 			String expTypeName = expectedStorageElemType.getTypeName();
 			String typeName = storageElemType.getTypeName();
 			ident.reportError("Cannot convert storage element type from \"" + typeName
-					+ "\" to \"" + expTypeName + "\" in match node by storage access");
+					+ "\" to \"" + expTypeName + "\" in match node from storage");
 			return false;
 		}
 		return res;
@@ -160,20 +145,12 @@ public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
 	@Override
 	protected IR constructIR()
 	{
-		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
-			return getIR();
-		}
-
 		Node node = (Node)super.constructIR();
-
-		setIR(node);
-
 		if(storage != null)
 			node.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
 		else if(storageAttribute != null)
 			node.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
 		//else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
-		node.setStorageIndex(new StorageAccessIndex(accessor.checkIR(GraphEntity.class)));
 		return node;
 	}
 }

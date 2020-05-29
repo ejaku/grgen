@@ -13,7 +13,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageNode;
+import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 
@@ -31,7 +31,7 @@ public class SingleGraphEntityNode extends BaseNode
 {
 	private IdentNode entityUnresolved;
 	private NodeDeclNode entityNode;
-	private SubpatternUsageNode entitySubpattern;
+	private SubpatternUsageDeclNode entitySubpattern;
 
 	public SingleGraphEntityNode(IdentNode ent)
 	{
@@ -63,8 +63,8 @@ public class SingleGraphEntityNode extends BaseNode
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<NodeDeclNode, SubpatternUsageNode> entityResolver =
-			new DeclarationPairResolver<NodeDeclNode, SubpatternUsageNode>(NodeDeclNode.class, SubpatternUsageNode.class);
+	private static final DeclarationPairResolver<NodeDeclNode, SubpatternUsageDeclNode> entityResolver =
+			new DeclarationPairResolver<NodeDeclNode, SubpatternUsageDeclNode>(NodeDeclNode.class, SubpatternUsageDeclNode.class);
 
 	@Override
 	protected boolean resolveLocal()
@@ -72,7 +72,7 @@ public class SingleGraphEntityNode extends BaseNode
 		if(!fixupDefinition(entityUnresolved, entityUnresolved.getScope()))
 			return false;
 
-		Pair<NodeDeclNode, SubpatternUsageNode> pair = entityResolver.resolve(entityUnresolved, this);
+		Pair<NodeDeclNode, SubpatternUsageDeclNode> pair = entityResolver.resolve(entityUnresolved, this);
 
 		if(pair != null) {
 			entityNode = pair.fst;
@@ -82,7 +82,7 @@ public class SingleGraphEntityNode extends BaseNode
 		return entityNode != null || entitySubpattern != null;
 	}
 
-	protected SubpatternUsageNode getEntitySubpattern()
+	protected SubpatternUsageDeclNode getEntitySubpattern()
 	{
 		assert isResolved();
 

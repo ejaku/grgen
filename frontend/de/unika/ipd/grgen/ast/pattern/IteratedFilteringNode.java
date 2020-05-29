@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedNode;
+import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -43,7 +43,7 @@ public class IteratedFilteringNode extends EvalStatementNode
 	private SubpatternDeclNode subpattern;
 
 	private IdentNode iteratedUnresolved;
-	private IteratedNode iterated;
+	private IteratedDeclNode iterated;
 
 	private CollectNode<FilterInvocationNode> filters;
 
@@ -76,8 +76,8 @@ public class IteratedFilteringNode extends EvalStatementNode
 
 	private static final DeclarationPairResolver<TestDeclNode, SubpatternDeclNode> actionOrSubpatternResolver =
 			new DeclarationPairResolver<TestDeclNode, SubpatternDeclNode>(TestDeclNode.class, SubpatternDeclNode.class);
-	private static final DeclarationResolver<IteratedNode> iteratedResolver =
-			new DeclarationResolver<IteratedNode>(IteratedNode.class);
+	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
