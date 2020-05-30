@@ -211,7 +211,7 @@ public class ModifyDeclNode extends RhsDeclNode
 			if(node.inheritsType()) {
 				Node nodeFromTypeof = (Node)node.getTypeof();
 				if(!deleteSet.contains(nodeFromTypeof)) {
-					graph.addNodeIfNotYetContained(right, nodeFromTypeof);
+					right.addNodeIfNotYetContained(nodeFromTypeof);
 				}
 			}
 		}
@@ -219,7 +219,7 @@ public class ModifyDeclNode extends RhsDeclNode
 			if(edge.inheritsType()) {
 				Edge edgeFromTypeof = (Edge)edge.getTypeof();
 				if(!deleteSet.contains(edgeFromTypeof)) {
-					graph.addEdgeIfNotYetContained(right, edgeFromTypeof);
+					right.addEdgeIfNotYetContained(edgeFromTypeof);
 				}
 			}
 		}

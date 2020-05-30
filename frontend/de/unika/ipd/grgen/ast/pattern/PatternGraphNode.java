@@ -906,7 +906,7 @@ public class PatternGraphNode extends GraphNode
 		for(Node node : patternGraph.getNodes()) {
 			// add old node of lhs retype
 			if(node instanceof RetypedNode && !node.isRHSEntity()) {
-				addNodeIfNotYetContained(patternGraph, ((RetypedNode)node).getOldNode());
+				patternGraph.addNodeIfNotYetContained(((RetypedNode)node).getOldNode());
 			}
 		}
 
@@ -917,7 +917,7 @@ public class PatternGraphNode extends GraphNode
 		for(Edge edge : patternGraph.getEdges()) {
 			// add old edge of lhs retype
 			if(edge instanceof RetypedEdge && !edge.isRHSEntity()) {
-				addEdgeIfNotYetContained(patternGraph, ((RetypedEdge)edge).getOldEdge());
+				patternGraph.addEdgeIfNotYetContained(((RetypedEdge)edge).getOldEdge());
 			}
 		}
 
@@ -944,9 +944,9 @@ public class PatternGraphNode extends GraphNode
 			if(expr instanceof GraphEntityExpression) {
 				GraphEntity connection = ((GraphEntityExpression)expr).getGraphEntity();
 				if(connection instanceof Node) {
-					addNodeIfNotYetContained(patternGraph, (Node)connection);
+					patternGraph.addNodeIfNotYetContained((Node)connection);
 				} else if(connection instanceof Edge) {
-					addEdgeIfNotYetContained(patternGraph, (Edge)connection);
+					patternGraph.addEdgeIfNotYetContained((Edge)connection);
 				} else {
 					assert(false);
 				}
@@ -969,9 +969,9 @@ public class PatternGraphNode extends GraphNode
 			if(expr instanceof GraphEntityExpression) {
 				GraphEntity connection = ((GraphEntityExpression)expr).getGraphEntity();
 				if(connection instanceof Node) {
-					addNodeIfNotYetContained(patternGraph, (Node)connection);
+					patternGraph.addNodeIfNotYetContained((Node)connection);
 				} else if(connection instanceof Edge) {
-					addEdgeIfNotYetContained(patternGraph, (Edge)connection);
+					patternGraph.addEdgeIfNotYetContained((Edge)connection);
 				} else {
 					assert(false);
 				}
@@ -990,14 +990,14 @@ public class PatternGraphNode extends GraphNode
 	void addNodeFromTypeof(PatternGraph patternGraph, Node node)
 	{
 		if(node.inheritsType()) {
-			addNodeIfNotYetContained(patternGraph, (Node)node.getTypeof());
+			patternGraph.addNodeIfNotYetContained((Node)node.getTypeof());
 		}
 	}
 
 	void addEdgeFromTypeof(PatternGraph patternGraph, Edge edge)
 	{
 		if(edge.inheritsType()) {
-			addEdgeIfNotYetContained(patternGraph, (Edge)edge.getTypeof());
+			patternGraph.addEdgeIfNotYetContained((Edge)edge.getTypeof());
 		}
 	}
 
@@ -1005,9 +1005,9 @@ public class PatternGraphNode extends GraphNode
 	{
 		for(GraphEntity homEntity : homEntities) {
 			if(homEntity instanceof Node) {
-				addNodeIfNotYetContained(patternGraph, (Node)homEntity);
+				patternGraph.addNodeIfNotYetContained((Node)homEntity);
 			} else {
-				addEdgeIfNotYetContained(patternGraph, (Edge)homEntity);
+				patternGraph.addEdgeIfNotYetContained((Edge)homEntity);
 			}
 		}
 	}
@@ -1023,9 +1023,9 @@ public class PatternGraphNode extends GraphNode
 			} else if(node.storageAccess.storageAttribute != null) {
 				Qualification storageAttributeAccess = node.storageAccess.storageAttribute;
 				if(storageAttributeAccess.getOwner() instanceof Node) {
-					addNodeIfNotYetContained(patternGraph, (Node)storageAttributeAccess.getOwner());
+					patternGraph.addNodeIfNotYetContained((Node)storageAttributeAccess.getOwner());
 				} else if(storageAttributeAccess.getOwner() instanceof Edge) {
-					addEdgeIfNotYetContained(patternGraph, (Edge)storageAttributeAccess.getOwner());
+					patternGraph.addEdgeIfNotYetContained((Edge)storageAttributeAccess.getOwner());
 				}
 			}
 		}
@@ -1034,9 +1034,9 @@ public class PatternGraphNode extends GraphNode
 			if(node.storageAccessIndex.indexGraphEntity != null) {
 				GraphEntity indexGraphEntity = node.storageAccessIndex.indexGraphEntity;
 				if(indexGraphEntity instanceof Node) {
-					addNodeIfNotYetContained(patternGraph, (Node)indexGraphEntity);
+					patternGraph.addNodeIfNotYetContained((Node)indexGraphEntity);
 				} else if(indexGraphEntity instanceof Edge) {
-					addEdgeIfNotYetContained(patternGraph, (Edge)indexGraphEntity);
+					patternGraph.addEdgeIfNotYetContained((Edge)indexGraphEntity);
 				}
 			}
 		}
@@ -1053,9 +1053,9 @@ public class PatternGraphNode extends GraphNode
 			} else if(edge.storageAccess.storageAttribute != null) {
 				Qualification storageAttributeAccess = edge.storageAccess.storageAttribute;
 				if(storageAttributeAccess.getOwner() instanceof Node) {
-					addNodeIfNotYetContained(patternGraph, (Node)storageAttributeAccess.getOwner());
+					patternGraph.addNodeIfNotYetContained((Node)storageAttributeAccess.getOwner());
 				} else if(storageAttributeAccess.getOwner() instanceof Edge) {
-					addEdgeIfNotYetContained(patternGraph, (Edge)storageAttributeAccess.getOwner());
+					patternGraph.addEdgeIfNotYetContained((Edge)storageAttributeAccess.getOwner());
 				}
 			}
 		}
@@ -1064,9 +1064,9 @@ public class PatternGraphNode extends GraphNode
 			if(edge.storageAccessIndex.indexGraphEntity != null) {
 				GraphEntity indexGraphEntity = edge.storageAccessIndex.indexGraphEntity;
 				if(indexGraphEntity instanceof Node) {
-					addNodeIfNotYetContained(patternGraph, (Node)indexGraphEntity);
+					patternGraph.addNodeIfNotYetContained((Node)indexGraphEntity);
 				} else if(indexGraphEntity instanceof Edge) {
-					addEdgeIfNotYetContained(patternGraph, (Edge)indexGraphEntity);
+					patternGraph.addEdgeIfNotYetContained((Edge)indexGraphEntity);
 				}
 			}
 		}
@@ -1075,10 +1075,10 @@ public class PatternGraphNode extends GraphNode
 	protected void addNeededEntities(PatternGraph patternGraph, NeededEntities needs)
 	{
 		for(Node neededNode : needs.nodes) {
-			addNodeIfNotYetContained(patternGraph, neededNode);
+			patternGraph.addNodeIfNotYetContained(neededNode);
 		}
 		for(Edge neededEdge : needs.edges) {
-			addEdgeIfNotYetContained(patternGraph, neededEdge);
+			patternGraph.addEdgeIfNotYetContained(neededEdge);
 		}
 		for(Variable neededVariable : needs.variables) {
 			if(!patternGraph.hasVar(neededVariable)) {

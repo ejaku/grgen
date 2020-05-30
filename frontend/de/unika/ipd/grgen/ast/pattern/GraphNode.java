@@ -497,11 +497,11 @@ public class GraphNode extends BaseNode
 		Set<Edge> edgesToAdd = new HashSet<Edge>();
 
 		// add elements which we could not be added before because their container was iterated over
-		for(Node n : nodesToAdd) {
-			addNodeIfNotYetContained(gr, n);
+		for(Node node : nodesToAdd) {
+			gr.addNodeIfNotYetContained(node);
 		}
-		for(Edge e : edgesToAdd) {
-			addEdgeIfNotYetContained(gr, e);
+		for(Edge edge : edgesToAdd) {
+			gr.addEdgeIfNotYetContained(edge);
 		}
 
 		for(BaseNode imperativeStmt : imperativeStmts.getChildren()) {
@@ -548,9 +548,9 @@ public class GraphNode extends BaseNode
 		if(expr instanceof GraphEntityExpression) {
 			GraphEntity connection = ((GraphEntityExpression)expr).getGraphEntity();
 			if(connection instanceof Node) {
-				addNodeIfNotYetContained(gr, (Node)connection);
+				gr.addNodeIfNotYetContained((Node)connection);
 			} else if(connection instanceof Edge) {
-				addEdgeIfNotYetContained(gr, (Edge)connection);
+				gr.addEdgeIfNotYetContained((Edge)connection);
 			} else {
 				assert(false);
 			}
@@ -571,31 +571,15 @@ public class GraphNode extends BaseNode
 			Set<Entity> neededEntities = ((Exec)impStmt).getNeededEntities(false);
 			for(Entity entity : neededEntities) {
 				if(entity instanceof Node) {
-					addNodeIfNotYetContained(gr, (Node)entity);
+					gr.addNodeIfNotYetContained((Node)entity);
 				} else if(entity instanceof Edge) {
-					addEdgeIfNotYetContained(gr, (Edge)entity);
+					gr.addEdgeIfNotYetContained((Edge)entity);
 				} else {
 					if(!gr.hasVar((Variable)entity)) {
 						gr.addVariable((Variable)entity);
 					}
 				}
 			}
-		}
-	}
-
-	public void addNodeIfNotYetContained(PatternGraph gr, Node neededNode)
-	{
-		if(!gr.hasNode(neededNode)) {
-			gr.addSingleNode(neededNode);
-			gr.addHomToAll(neededNode);
-		}
-	}
-
-	public void addEdgeIfNotYetContained(PatternGraph gr, Edge neededEdge)
-	{
-		if(!gr.hasEdge(neededEdge)) {
-			gr.addSingleEdge(neededEdge); // TODO: maybe we lose context here
-			gr.addHomToAll(neededEdge);
 		}
 	}
 

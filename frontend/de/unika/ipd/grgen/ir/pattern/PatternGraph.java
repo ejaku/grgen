@@ -191,6 +191,24 @@ public class PatternGraph extends Graph
 		yields.add(a);
 	}
 
+	public void addNodeIfNotYetContained(Node node)
+	{
+		if(hasNode(node))
+			return;
+		
+		addSingleNode(node);
+		addHomToAll(node);
+	}
+
+	public void addEdgeIfNotYetContained(Edge edge)
+	{
+		if(hasEdge(edge))
+			return;
+		
+		addSingleEdge(edge); // TODO: maybe we lose context here
+		addHomToAll(edge);
+	}
+
 	/** Add a potentially homomorphic set to the graph. */
 	public void addHomomorphicNodes(Collection<Node> hom)
 	{
