@@ -14,21 +14,16 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.DequeType;
 
-public class DequeSubdequeExpr extends Expression
+public class DequeSubdequeExpr extends DequeFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr, startExpr, lengthExpr;
+	private Expression startExpr;
+	private Expression lengthExpr;
 
 	public DequeSubdequeExpr(Expression targetExpr, Expression startExpr, Expression lengthExpr)
 	{
-		super("deque subdeque expr", (DequeType)targetExpr.getType());
-		this.targetExpr = targetExpr;
+		super("deque subdeque expr", (DequeType)targetExpr.getType(), targetExpr);
 		this.startExpr = startExpr;
 		this.lengthExpr = lengthExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getStartExpr()

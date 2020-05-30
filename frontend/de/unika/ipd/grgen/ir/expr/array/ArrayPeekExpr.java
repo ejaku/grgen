@@ -14,20 +14,14 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayPeekExpr extends Expression
+public class ArrayPeekExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr, numberExpr;
+	private Expression numberExpr;
 
 	public ArrayPeekExpr(Expression targetExpr, Expression numberExpr)
 	{
-		super("array peek expr", ((ArrayType)(targetExpr.getType())).valueType);
-		this.targetExpr = targetExpr;
+		super("array peek expr", ((ArrayType)(targetExpr.getType())).valueType, targetExpr);
 		this.numberExpr = numberExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getNumberExpr()

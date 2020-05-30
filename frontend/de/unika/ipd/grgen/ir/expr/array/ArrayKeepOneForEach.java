@@ -14,19 +14,11 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayKeepOneForEach extends Expression
+public class ArrayKeepOneForEach extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr;
-
 	public ArrayKeepOneForEach(Expression targetExpr)
 	{
-		super("array keep one for each expr", (ArrayType)targetExpr.getType());
-		this.targetExpr = targetExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
+		super("array keep one for each expr", (ArrayType)targetExpr.getType(), targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

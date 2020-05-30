@@ -14,30 +14,22 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class DequeIndexOfExpr extends Expression
+public class DequeIndexOfExpr extends DequeFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr;
 	private Expression valueExpr;
 	private Expression startIndexExpr;
 
 	public DequeIndexOfExpr(Expression targetExpr, Expression valueExpr)
 	{
-		super("deque indexOf expr", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("deque indexOf expr", IntType.getType(), targetExpr);
 		this.valueExpr = valueExpr;
 	}
 
 	public DequeIndexOfExpr(Expression targetExpr, Expression valueExpr, Expression startIndexExpr)
 	{
-		super("deque indexOf expr", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("deque indexOf expr", IntType.getType(), targetExpr);
 		this.valueExpr = valueExpr;
 		this.startIndexExpr = startIndexExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getValueExpr()

@@ -14,20 +14,14 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class DequeLastIndexOfExpr extends Expression
+public class DequeLastIndexOfExpr extends DequeFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr, valueExpr;
+	private Expression valueExpr;
 
 	public DequeLastIndexOfExpr(Expression targetExpr, Expression valueExpr)
 	{
-		super("deque lastIndexOf expr", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("deque lastIndexOf expr", IntType.getType(), targetExpr);
 		this.valueExpr = valueExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getValueExpr()

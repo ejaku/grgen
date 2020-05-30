@@ -1203,7 +1203,7 @@ public abstract class CSharpBase
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aib));
 			} else {
 				sb.append("GRGEN_MODEL.Comparer_"
-						+ ((ArrayType)aib.getTargetExpr().getType()).getValueType().getIdent().toString() + "_"
+						+ aib.getTargetType().getValueType().getIdent().toString() + "_"
 						+ formatIdentifiable(aib.getMember()) + ".IndexOfBy(");
 				genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -1231,7 +1231,7 @@ public abstract class CSharpBase
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aiob));
 			} else {
 				sb.append("GRGEN_MODEL.Comparer_"
-						+ ((ArrayType)aiob.getTargetExpr().getType()).getValueType().getIdent().toString() + "_"
+						+ aiob.getTargetType().getValueType().getIdent().toString() + "_"
 						+ formatIdentifiable(aiob.getMember()) + ".IndexOfOrderedBy(");
 				genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -1259,7 +1259,7 @@ public abstract class CSharpBase
 				sb.append(modifyGenerationState.mapExprToTempVar().get(alib));
 			} else {
 				sb.append("GRGEN_MODEL.Comparer_"
-						+ ((ArrayType)alib.getTargetExpr().getType()).getValueType().getIdent().toString() + "_"
+						+ alib.getTargetType().getValueType().getIdent().toString() + "_"
 						+ formatIdentifiable(alib.getMember()) + ".LastIndexOfBy(");
 				genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -1312,7 +1312,7 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayOrderAscendingBy) {
 			ArrayOrderAscendingBy aoab = (ArrayOrderAscendingBy)expr;
-			Type arrayValueType = ((ArrayType)aoab.getTargetExpr().getType()).getValueType();
+			Type arrayValueType = aoab.getTargetType().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aoab));
 			} else {
@@ -1355,7 +1355,7 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayOrderDescendingBy) {
 			ArrayOrderDescendingBy aodb = (ArrayOrderDescendingBy)expr;
-			Type arrayValueType = ((ArrayType)aodb.getTargetExpr().getType()).getValueType();
+			Type arrayValueType = aodb.getTargetType().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aodb));
 			} else {
@@ -1398,7 +1398,7 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayKeepOneForEachBy) {
 			ArrayKeepOneForEachBy akob = (ArrayKeepOneForEachBy)expr;
-			Type arrayValueType = ((ArrayType)akob.getTargetExpr().getType()).getValueType();
+			Type arrayValueType = akob.getTargetType().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(akob));
 			} else {
@@ -1453,7 +1453,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ae));
 			} else {
-				Type arrayValueType = ((ArrayType)ae.getTargetExpr().getType()).getValueType();
+				Type arrayValueType = ae.getTargetType().getValueType();
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
 					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_"

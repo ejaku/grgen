@@ -8,31 +8,30 @@
 /**
  * @author Edgar Jakumeit
  */
+
 package de.unika.ipd.grgen.ir.expr.array;
 
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayExtract extends ArrayFunctionMethodInvocationBaseExpr
+public abstract class ArrayFunctionMethodInvocationBaseExpr extends Expression
 {
-	private Entity member;
+	protected Expression targetExpr;
 
-	public ArrayExtract(Expression targetExpr, ArrayType resultingType, Entity member)
+	protected ArrayFunctionMethodInvocationBaseExpr(String name, Type type, Expression targetExpr)
 	{
-		super("array extract", resultingType, targetExpr);
-		this.member = member;
+		super(name, type);
+		this.targetExpr = targetExpr;
 	}
 
-	public Entity getMember()
+	public Expression getTargetExpr()
 	{
-		return member;
+		return targetExpr;
 	}
-
-	public void collectNeededEntities(NeededEntities needs)
+	
+	public ArrayType getTargetType()
 	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
+		return (ArrayType)type;
 	}
 }

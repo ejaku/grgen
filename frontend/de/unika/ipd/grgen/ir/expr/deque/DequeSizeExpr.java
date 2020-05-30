@@ -15,24 +15,16 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class DequeSizeExpr extends Expression
+public class DequeSizeExpr extends DequeFunctionMethodInvocationBaseExpr
 {
-	Expression targetExpr;
-
 	public DequeSizeExpr(Expression targetExpr)
 	{
-		super("deque size expression", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("deque size expression", IntType.getType(), targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 }

@@ -15,24 +15,16 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
-public class ArrayAsSetExpr extends Expression
+public class ArrayAsSetExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	Expression targetExpr;
-
 	public ArrayAsSetExpr(Expression targetExpr, Type targetType)
 	{
-		super("array as set expression", targetType);
-		this.targetExpr = targetExpr;
+		super("array as set expression", targetType, targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 }

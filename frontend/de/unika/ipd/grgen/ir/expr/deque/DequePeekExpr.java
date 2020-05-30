@@ -14,20 +14,14 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.DequeType;
 
-public class DequePeekExpr extends Expression
+public class DequePeekExpr extends DequeFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr, numberExpr;
+	private Expression numberExpr;
 
 	public DequePeekExpr(Expression targetExpr, Expression numberExpr)
 	{
-		super("deque peek expr", ((DequeType)(targetExpr.getType())).valueType);
-		this.targetExpr = targetExpr;
+		super("deque peek expr", ((DequeType)(targetExpr.getType())).valueType, targetExpr);
 		this.numberExpr = numberExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getNumberExpr()

@@ -15,24 +15,16 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class MapSizeExpr extends Expression
+public class MapSizeExpr extends MapFunctionMethodInvocationBaseExpr
 {
-	Expression targetExpr;
-
 	public MapSizeExpr(Expression targetExpr)
 	{
-		super("map size expression", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("map size expression", IntType.getType(), targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 }

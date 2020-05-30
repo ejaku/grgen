@@ -15,24 +15,16 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class ArraySizeExpr extends Expression
+public class ArraySizeExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	Expression targetExpr;
-
 	public ArraySizeExpr(Expression targetExpr)
 	{
-		super("array size expression", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("array size expression", IntType.getType(), targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 }

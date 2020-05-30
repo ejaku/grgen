@@ -15,33 +15,25 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class ArrayLastIndexOfByExpr extends Expression
+public class ArrayLastIndexOfByExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr;
 	private Entity member;
 	private Expression valueExpr;
 	private Expression startIndexExpr;
 
 	public ArrayLastIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr)
 	{
-		super("array lastIndexOfBy expr", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("array lastIndexOfBy expr", IntType.getType(), targetExpr);
 		this.member = member;
 		this.valueExpr = valueExpr;
 	}
 
 	public ArrayLastIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr, Expression startIndexExpr)
 	{
-		super("array indexOfBy expr", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("array indexOfBy expr", IntType.getType(), targetExpr);
 		this.member = member;
 		this.valueExpr = valueExpr;
 		this.startIndexExpr = startIndexExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Entity getMember()

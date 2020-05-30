@@ -14,30 +14,22 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class ArrayIndexOfExpr extends Expression
+public class ArrayIndexOfExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr;
 	private Expression valueExpr;
 	private Expression startIndexExpr;
 
 	public ArrayIndexOfExpr(Expression targetExpr, Expression valueExpr)
 	{
-		super("array indexOf expr", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("array indexOf expr", IntType.getType(), targetExpr);
 		this.valueExpr = valueExpr;
 	}
 
 	public ArrayIndexOfExpr(Expression targetExpr, Expression valueExpr, Expression startIndexExpr)
 	{
-		super("array indexOf expr", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("array indexOf expr", IntType.getType(), targetExpr);
 		this.valueExpr = valueExpr;
 		this.startIndexExpr = startIndexExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getValueExpr()

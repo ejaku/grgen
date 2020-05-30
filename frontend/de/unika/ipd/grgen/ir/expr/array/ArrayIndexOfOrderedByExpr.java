@@ -15,23 +15,16 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class ArrayIndexOfOrderedByExpr extends Expression
+public class ArrayIndexOfOrderedByExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr;
 	private Entity member;
 	private Expression valueExpr;
 
 	public ArrayIndexOfOrderedByExpr(Expression targetExpr, Entity member, Expression valueExpr)
 	{
-		super("array indexOfOrderedBy expr", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("array indexOfOrderedBy expr", IntType.getType(), targetExpr);
 		this.member = member;
 		this.valueExpr = valueExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Entity getMember()

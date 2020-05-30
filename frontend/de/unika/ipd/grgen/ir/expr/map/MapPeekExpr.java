@@ -15,20 +15,14 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 
-public class MapPeekExpr extends Expression
+public class MapPeekExpr extends MapFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr, numberExpr;
+	private Expression numberExpr;
 
 	public MapPeekExpr(Expression targetExpr, Expression numberExpr)
 	{
-		super("map peek expr", ((MapType)(targetExpr.getType())).keyType);
-		this.targetExpr = targetExpr;
+		super("map peek expr", ((MapType)(targetExpr.getType())).keyType, targetExpr);
 		this.numberExpr = numberExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getNumberExpr()

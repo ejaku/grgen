@@ -14,19 +14,11 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayMaxExpr extends Expression
+public class ArrayMaxExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr;
-
 	public ArrayMaxExpr(Expression targetExpr)
 	{
-		super("array max expr", ((ArrayType)(targetExpr.getType())).valueType);
-		this.targetExpr = targetExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
+		super("array max expr", ((ArrayType)(targetExpr.getType())).valueType, targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

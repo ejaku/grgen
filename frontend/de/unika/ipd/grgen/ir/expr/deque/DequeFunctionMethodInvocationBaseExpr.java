@@ -11,20 +11,27 @@
 
 package de.unika.ipd.grgen.ir.expr.deque;
 
-import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.container.DequeType;
 
-public class DequeAsArrayExpr extends DequeFunctionMethodInvocationBaseExpr
+public abstract class DequeFunctionMethodInvocationBaseExpr extends Expression
 {
-	public DequeAsArrayExpr(Expression targetExpr, Type targetType)
+	protected Expression targetExpr;
+
+	protected DequeFunctionMethodInvocationBaseExpr(String name, Type type, Expression targetExpr)
 	{
-		super("deque as array expression", targetType, targetExpr);
+		super(name, type);
+		this.targetExpr = targetExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs)
+	public Expression getTargetExpr()
 	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
+		return targetExpr;
+	}
+	
+	public DequeType getTargetType()
+	{
+		return (DequeType)type;
 	}
 }

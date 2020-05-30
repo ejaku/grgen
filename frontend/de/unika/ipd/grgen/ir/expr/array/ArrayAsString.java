@@ -14,20 +14,14 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.StringType;
 
-public class ArrayAsString extends Expression
+public class ArrayAsString extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr, valueExpr;
+	private Expression valueExpr;
 
 	public ArrayAsString(Expression targetExpr, Expression valueExpr)
 	{
-		super("array asString expr", StringType.getType());
-		this.targetExpr = targetExpr;
+		super("array asString expr", StringType.getType(), targetExpr);
 		this.valueExpr = valueExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getValueExpr()

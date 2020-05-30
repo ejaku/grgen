@@ -14,21 +14,14 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class ArrayIndexOfOrderedExpr extends Expression
+public class ArrayIndexOfOrderedExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr;
 	private Expression valueExpr;
 
 	public ArrayIndexOfOrderedExpr(Expression targetExpr, Expression valueExpr)
 	{
-		super("array indexOfOrdered expr", IntType.getType());
-		this.targetExpr = targetExpr;
+		super("array indexOfOrdered expr", IntType.getType(), targetExpr);
 		this.valueExpr = valueExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getValueExpr()

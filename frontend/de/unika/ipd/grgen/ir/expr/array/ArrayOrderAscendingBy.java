@@ -15,21 +15,14 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayOrderAscendingBy extends Expression
+public class ArrayOrderAscendingBy extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr;
 	private Entity member;
 
 	public ArrayOrderAscendingBy(Expression targetExpr, Entity member)
 	{
-		super("array order ascending by expr", (ArrayType)targetExpr.getType());
-		this.targetExpr = targetExpr;
+		super("array order ascending by expr", (ArrayType)targetExpr.getType(), targetExpr);
 		this.member = member;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Entity getMember()

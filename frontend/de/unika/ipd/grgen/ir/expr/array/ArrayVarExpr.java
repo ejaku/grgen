@@ -14,19 +14,11 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayVarExpr extends Expression
+public class ArrayVarExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr;
-
 	public ArrayVarExpr(Expression targetExpr)
 	{
-		super("array var expr", ((ArrayType)(targetExpr.getType())).valueType);
-		this.targetExpr = targetExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
+		super("array var expr", ((ArrayType)(targetExpr.getType())).valueType, targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

@@ -15,24 +15,16 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-public class ArrayEmptyExpr extends Expression
+public class ArrayEmptyExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	Expression targetExpr;
-
 	public ArrayEmptyExpr(Expression targetExpr)
 	{
-		super("array empty expression", BooleanType.getType());
-		this.targetExpr = targetExpr;
+		super("array empty expression", BooleanType.getType(), targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 }

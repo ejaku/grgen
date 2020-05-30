@@ -14,21 +14,16 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArraySubarrayExpr extends Expression
+public class ArraySubarrayExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr, startExpr, lengthExpr;
+	private Expression startExpr;
+	private Expression lengthExpr;
 
 	public ArraySubarrayExpr(Expression targetExpr, Expression startExpr, Expression lengthExpr)
 	{
-		super("array subarray expr", (ArrayType)targetExpr.getType());
-		this.targetExpr = targetExpr;
+		super("array subarray expr", (ArrayType)targetExpr.getType(), targetExpr);
 		this.startExpr = startExpr;
 		this.lengthExpr = lengthExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getStartExpr()

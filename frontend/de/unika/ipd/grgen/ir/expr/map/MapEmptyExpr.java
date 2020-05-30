@@ -15,24 +15,16 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-public class MapEmptyExpr extends Expression
+public class MapEmptyExpr extends MapFunctionMethodInvocationBaseExpr
 {
-	Expression targetExpr;
-
 	public MapEmptyExpr(Expression targetExpr)
 	{
-		super("map empty expression", BooleanType.getType());
-		this.targetExpr = targetExpr;
+		super("map empty expression", BooleanType.getType(), targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 }

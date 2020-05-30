@@ -15,20 +15,14 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.SetType;
 
-public class SetPeekExpr extends Expression
+public class SetPeekExpr extends SetFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr, numberExpr;
+	private Expression numberExpr;
 
 	public SetPeekExpr(Expression targetExpr, Expression numberExpr)
 	{
-		super("set peek expr", ((SetType)(targetExpr.getType())).valueType);
-		this.targetExpr = targetExpr;
+		super("set peek expr", ((SetType)(targetExpr.getType())).valueType, targetExpr);
 		this.numberExpr = numberExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 
 	public Expression getNumberExpr()

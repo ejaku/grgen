@@ -642,7 +642,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			ArrayIndexOfByExpr aib = (ArrayIndexOfByExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayIndexOfBy(");
 			genExpressionTree(sb, aib.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(", \"" + ((ArrayType)aib.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
+			sb.append(", \"" + aib.getTargetType().getValueType().getIdent().toString() + "\"");
 			sb.append(", \"" + formatIdentifiable(aib.getMember()) + "\", ");
 			genExpressionTree(sb, aib.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			if(aib.getStartIndexExpr() != null) {
@@ -661,7 +661,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			ArrayIndexOfOrderedByExpr aiob = (ArrayIndexOfOrderedByExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayIndexOfOrderedBy(");
 			genExpressionTree(sb, aiob.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(", \"" + ((ArrayType)aiob.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
+			sb.append(", \"" + aiob.getTargetType().getValueType().getIdent().toString() + "\"");
 			sb.append(", \"" + formatIdentifiable(aiob.getMember()) + "\", ");
 			genExpressionTree(sb, aiob.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
@@ -680,7 +680,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			ArrayLastIndexOfByExpr alib = (ArrayLastIndexOfByExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayLastIndexOfBy(");
 			genExpressionTree(sb, alib.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(", \"" + ((ArrayType)alib.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
+			sb.append(", \"" + alib.getTargetType().getValueType().getIdent().toString() + "\"");
 			sb.append(", \"" + formatIdentifiable(alib.getMember()) + "\", ");
 			genExpressionTree(sb, alib.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			if(alib.getStartIndexExpr() != null) {
@@ -716,7 +716,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append(")");
 		} else if(expr instanceof ArrayOrderAscendingBy) {
 			ArrayOrderAscendingBy aoab = (ArrayOrderAscendingBy)expr;
-			Type arrayValueType = ((ArrayType)aoab.getTargetExpr().getType()).getValueType();
+			Type arrayValueType = aoab.getTargetType().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				InheritanceType graphElementType = (InheritanceType)arrayValueType;
 				ContainedInPackage cip = (ContainedInPackage)arrayValueType;
@@ -761,7 +761,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			}
 		} else if(expr instanceof ArrayOrderDescendingBy) {
 			ArrayOrderDescendingBy aodb = (ArrayOrderDescendingBy)expr;
-			Type arrayValueType = ((ArrayType)aodb.getTargetExpr().getType()).getValueType();
+			Type arrayValueType = aodb.getTargetType().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				InheritanceType graphElementType = (InheritanceType)arrayValueType;
 				ContainedInPackage cip = (ContainedInPackage)arrayValueType;
@@ -806,7 +806,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			}
 		} else if(expr instanceof ArrayKeepOneForEachBy) {
 			ArrayKeepOneForEachBy akob = (ArrayKeepOneForEachBy)expr;
-			Type arrayValueType = ((ArrayType)akob.getTargetExpr().getType()).getValueType();
+			Type arrayValueType = akob.getTargetType().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				InheritanceType graphElementType = (InheritanceType)arrayValueType;
 				ContainedInPackage cip = (ContainedInPackage)arrayValueType;
@@ -856,7 +856,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append(")");
 		} else if(expr instanceof ArrayExtract) {
 			ArrayExtract ae = (ArrayExtract)expr;
-			Type arrayValueType = ((ArrayType)ae.getTargetExpr().getType()).getValueType();
+			Type arrayValueType = ae.getTargetType().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				InheritanceType graphElementType = (InheritanceType)arrayValueType;
 				ContainedInPackage cip = (ContainedInPackage)graphElementType;

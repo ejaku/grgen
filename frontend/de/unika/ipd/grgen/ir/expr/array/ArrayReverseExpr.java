@@ -14,19 +14,11 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayReverseExpr extends Expression
+public class ArrayReverseExpr extends ArrayFunctionMethodInvocationBaseExpr
 {
-	private Expression targetExpr;
-
 	public ArrayReverseExpr(Expression targetExpr)
 	{
-		super("array reverse expr", (ArrayType)targetExpr.getType());
-		this.targetExpr = targetExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
+		super("array reverse expr", (ArrayType)targetExpr.getType(), targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

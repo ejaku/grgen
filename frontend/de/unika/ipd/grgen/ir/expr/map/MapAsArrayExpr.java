@@ -15,24 +15,16 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
-public class MapAsArrayExpr extends Expression
+public class MapAsArrayExpr extends MapFunctionMethodInvocationBaseExpr
 {
-	Expression targetExpr;
-
 	public MapAsArrayExpr(Expression targetExpr, Type targetType)
 	{
-		super("map as array expression", targetType);
-		this.targetExpr = targetExpr;
+		super("map as array expression", targetType, targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 }

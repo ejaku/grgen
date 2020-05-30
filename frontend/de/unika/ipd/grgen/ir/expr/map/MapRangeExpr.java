@@ -15,24 +15,16 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
-public class MapRangeExpr extends Expression
+public class MapRangeExpr extends MapFunctionMethodInvocationBaseExpr
 {
-	Expression targetExpr;
-
 	public MapRangeExpr(Expression targetExpr, Type targetType)
 	{
-		super("map range expression", targetType);
-		this.targetExpr = targetExpr;
+		super("map range expression", targetType, targetExpr);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
 	}
 }
