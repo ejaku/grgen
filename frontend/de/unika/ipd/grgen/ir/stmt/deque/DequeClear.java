@@ -14,30 +14,16 @@ package de.unika.ipd.grgen.ir.stmt.deque;
 import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
-public class DequeClear extends ProcedureInvocationBase
+public class DequeClear extends ContainerQualProcedureMethodInvocationBase
 {
-	Qualification target;
-
 	public DequeClear(Qualification target)
 	{
-		super("deque clear");
-		this.target = target;
-	}
-
-	public Qualification getTarget()
-	{
-		return target;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
+		super("deque clear", target);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

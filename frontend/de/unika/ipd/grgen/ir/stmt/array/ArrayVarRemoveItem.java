@@ -12,36 +12,23 @@
 package de.unika.ipd.grgen.ir.stmt.array;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class ArrayVarRemoveItem extends ProcedureInvocationBase
+public class ArrayVarRemoveItem extends ContainerVarProcedureMethodInvocationBase
 {
-	Variable target;
 	Expression indexExpr;
 
 	public ArrayVarRemoveItem(Variable target, Expression indexExpr)
 	{
-		super("array var remove item");
-		this.target = target;
+		super("array var remove item", target);
 		this.indexExpr = indexExpr;
-	}
-
-	public Variable getTarget()
-	{
-		return target;
 	}
 
 	public Expression getIndexExpr()
 	{
 		return indexExpr;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

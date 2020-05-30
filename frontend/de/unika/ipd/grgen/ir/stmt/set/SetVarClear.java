@@ -12,28 +12,14 @@
 package de.unika.ipd.grgen.ir.stmt.set;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class SetVarClear extends ProcedureInvocationBase
+public class SetVarClear extends ContainerVarProcedureMethodInvocationBase
 {
-	Variable target;
-
 	public SetVarClear(Variable target)
 	{
-		super("set var clear");
-		this.target = target;
-	}
-
-	public Variable getTarget()
-	{
-		return target;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
+		super("set var clear", target);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

@@ -14,30 +14,22 @@ package de.unika.ipd.grgen.ir.stmt.array;
 import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
-public class ArrayAddItem extends ProcedureInvocationBase
+public class ArrayAddItem extends ContainerQualProcedureMethodInvocationBase
 {
-	Qualification target;
 	Expression valueExpr;
 	Expression indexExpr;
 
 	public ArrayAddItem(Qualification target, Expression valueExpr, Expression indexExpr)
 	{
-		super("array add item");
-		this.target = target;
+		super("array add item", target);
 		this.valueExpr = valueExpr;
 		this.indexExpr = indexExpr;
-	}
-
-	public Qualification getTarget()
-	{
-		return target;
 	}
 
 	public Expression getValueExpr()
@@ -48,11 +40,6 @@ public class ArrayAddItem extends ProcedureInvocationBase
 	public Expression getIndexExpr()
 	{
 		return indexExpr;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

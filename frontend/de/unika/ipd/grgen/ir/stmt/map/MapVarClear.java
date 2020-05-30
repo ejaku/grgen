@@ -12,28 +12,14 @@
 package de.unika.ipd.grgen.ir.stmt.map;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class MapVarClear extends ProcedureInvocationBase
+public class MapVarClear extends ContainerVarProcedureMethodInvocationBase
 {
-	Variable target;
-
 	public MapVarClear(Variable target)
 	{
-		super("map var clear");
-		this.target = target;
-	}
-
-	public Variable getTarget()
-	{
-		return target;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
+		super("map var clear", target);
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

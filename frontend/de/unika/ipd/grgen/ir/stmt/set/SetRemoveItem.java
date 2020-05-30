@@ -13,38 +13,25 @@ package de.unika.ipd.grgen.ir.stmt.set;
 
 import java.util.HashSet;
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
-public class SetRemoveItem extends ProcedureInvocationBase
+public class SetRemoveItem extends ContainerQualProcedureMethodInvocationBase
 {
-	Qualification target;
 	Expression valueExpr;
 
 	public SetRemoveItem(Qualification target, Expression valueExpr)
 	{
-		super("set remove item");
-		this.target = target;
+		super("set remove item", target);
 		this.valueExpr = valueExpr;
-	}
-
-	public Qualification getTarget()
-	{
-		return target;
 	}
 
 	public Expression getValueExpr()
 	{
 		return valueExpr;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

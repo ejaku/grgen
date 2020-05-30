@@ -12,28 +12,20 @@
 package de.unika.ipd.grgen.ir.stmt.deque;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class DequeVarAddItem extends ProcedureInvocationBase
+public class DequeVarAddItem extends ContainerVarProcedureMethodInvocationBase
 {
-	Variable target;
 	Expression valueExpr;
 	Expression indexExpr;
 
 	public DequeVarAddItem(Variable target, Expression valueExpr, Expression indexExpr)
 	{
-		super("deque var add item");
-		this.target = target;
+		super("deque var add item", target);
 		this.valueExpr = valueExpr;
 		this.indexExpr = indexExpr;
-	}
-
-	public Variable getTarget()
-	{
-		return target;
 	}
 
 	public Expression getValueExpr()
@@ -44,11 +36,6 @@ public class DequeVarAddItem extends ProcedureInvocationBase
 	public Expression getIndexExpr()
 	{
 		return indexExpr;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
