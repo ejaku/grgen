@@ -49,8 +49,8 @@ public class ModifyDeclNode extends RhsDeclNode
 		setName(ModifyDeclNode.class, "modify declaration");
 	}
 
-	private CollectNode<IdentNode> deleteUnresolved;
-	private CollectNode<DeclNode> delete = new CollectNode<DeclNode>();
+	private CollectNode<IdentNode> deletesUnresolved;
+	private CollectNode<DeclNode> deletes = new CollectNode<DeclNode>();
 
 	// Cache variables
 	private Set<DeclNode> deletedElements;
@@ -64,8 +64,8 @@ public class ModifyDeclNode extends RhsDeclNode
 	public ModifyDeclNode(IdentNode id, GraphNode graph, CollectNode<IdentNode> dels)
 	{
 		super(id, graph);
-		this.deleteUnresolved = dels;
-		becomeParent(this.deleteUnresolved);
+		this.deletesUnresolved = dels;
+		becomeParent(this.deletesUnresolved);
 	}
 
 	/** returns children of this node */
@@ -75,7 +75,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(graph);
-		children.add(getValidVersion(deleteUnresolved, delete));
+		children.add(getValidVersion(deletesUnresolved, deletes));
 		return children;
 	}
 
@@ -100,28 +100,28 @@ public class ModifyDeclNode extends RhsDeclNode
 	protected boolean resolveLocal()
 	{
 		Triple<CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<SubpatternUsageDeclNode>> resolve =
-			deleteResolver.resolve(deleteUnresolved);
+			deleteResolver.resolve(deletesUnresolved);
 
 		if(resolve != null) {
 			if(resolve.first != null) {
 				for(NodeDeclNode node : resolve.first.getChildren()) {
-					delete.addChild(node);
+					deletes.addChild(node);
 				}
 			}
 
 			if(resolve.second != null) {
 				for(EdgeDeclNode edge : resolve.second.getChildren()) {
-					delete.addChild(edge);
+					deletes.addChild(edge);
 				}
 			}
 
 			if(resolve.third != null) {
 				for(SubpatternUsageDeclNode sub : resolve.third.getChildren()) {
-					delete.addChild(sub);
+					deletes.addChild(sub);
 				}
 			}
 
-			becomeParent(delete);
+			becomeParent(deletes);
 		}
 
 		return super.resolveLocal() && resolve != null;
@@ -132,30 +132,60 @@ public class ModifyDeclNode extends RhsDeclNode
 	{
 		PatternGraph right = graph.getGraph();
 
-		Collection<Entity> deleteSet = new HashSet<Entity>();
-		for(BaseNode del : delete.getChildren()) {
-			if(!(del instanceof SubpatternUsageDeclNode)) {
-				ConstraintDeclNode element = (ConstraintDeclNode)del;
-				Entity entity = element.checkIR(Entity.class);
-				deleteSet.add(entity);
-				if(element.defEntityToBeYieldedTo)
-					entity.setPatternGraphDefYieldedIsToBeDeleted(right);
-				if(entity instanceof Node) {
-					Node node = element.checkIR(Node.class);
-					if(!left.hasNode(node) && node.directlyNestingLHSGraph != left) {
-						left.addSingleNode(node);
-						left.addHomToAll(node);
-					}
-				} else {
-					Edge edge = element.checkIR(Edge.class);
-					if(!left.hasEdge(edge) && edge.directlyNestingLHSGraph != left) {
-						left.addSingleEdge(edge);
-						left.addHomToAll(edge);
-					}
-				}
+		HashSet<Entity> deleteSet = insertToBeDeletedElementsToLhsIfNotFromLhs(left, right);
+
+		insertLhsElementsToRhs(left, deleteSet, right);
+
+		insertElementsFromTypeofToRhsIfNotYetContained(right, deleteSet);
+
+		for(SubpatternUsage sub : left.getSubpatternUsages()) {
+			if(!isSubpatternRewritePartUsed(sub, right) && !isSubpatternDeleted(sub)) {
+				right.addSubpatternUsage(sub); // keep subpattern
 			}
 		}
 
+		insertElementsFromEvalIntoRhs(left, right);
+		insertElementsFromOrderedReplacementsIntoRhs(left, right);
+
+		return right;
+	}
+
+	private HashSet<Entity> insertToBeDeletedElementsToLhsIfNotFromLhs(PatternGraph left, PatternGraph right)
+	{
+		HashSet<Entity> deleteSet = new HashSet<Entity>();
+		
+		for(DeclNode del : deletes.getChildren()) {
+			if(del instanceof SubpatternUsageDeclNode)
+				continue;
+
+			ConstraintDeclNode element = (ConstraintDeclNode)del;
+			Entity entity = element.checkIR(Entity.class);
+			deleteSet.add(entity);
+			
+			if(element.defEntityToBeYieldedTo)
+				entity.setPatternGraphDefYieldedIsToBeDeleted(right);
+			
+			if(entity instanceof Node) {
+				Node node = element.checkIR(Node.class);
+				if(!left.hasNode(node) && node.directlyNestingLHSGraph != left) {
+					left.addSingleNode(node);
+					left.addHomToAll(node);
+				}
+			} else {
+				Edge edge = element.checkIR(Edge.class);
+				if(!left.hasEdge(edge) && edge.directlyNestingLHSGraph != left) {
+					left.addSingleEdge(edge);
+					left.addHomToAll(edge);
+				}
+			}
+		}
+		
+		return deleteSet;
+	}
+
+	// inserts to be kept nodes/edges and to be deleted nodes/edges, to be created nodes/edges are already contained
+	private void insertLhsElementsToRhs(PatternGraph left, HashSet<Entity> deleteSet, PatternGraph right)
+	{
 		for(Node node : left.getNodes()) {
 			if(!deleteSet.contains(node)) {
 				right.addSingleNode(node);
@@ -173,8 +203,10 @@ public class ModifyDeclNode extends RhsDeclNode
 				right.addDeletedElement(edge);
 			}
 		}
+	}
 
-		// add elements only mentioned in typeof to the pattern
+	private void insertElementsFromTypeofToRhsIfNotYetContained(PatternGraph right, HashSet<Entity> deleteSet)
+	{
 		for(Node node : right.getNodes()) {
 			if(node.inheritsType()) {
 				Node nodeFromTypeof = (Node)node.getTypeof();
@@ -191,39 +223,34 @@ public class ModifyDeclNode extends RhsDeclNode
 				}
 			}
 		}
+	}
 
-		for(SubpatternUsage sub : left.getSubpatternUsages()) {
-			boolean subHasDepModify = false;
-			for(OrderedReplacements orderedRepls : right.getOrderedReplacements()) {
-				for(OrderedReplacement orderedRepl : orderedRepls.orderedReplacements) {
-					if(!(orderedRepl instanceof SubpatternDependentReplacement))
-						continue;
-					SubpatternDependentReplacement subRepl = (SubpatternDependentReplacement)orderedRepl;
-					if(sub == subRepl.getSubpatternUsage()) {
-						subHasDepModify = true;
-						break;
-					}
-				}
-			}
-			boolean subInDeleteSet = false;
-			for(BaseNode del : delete.getChildren()) {
-				if(del instanceof SubpatternUsageDeclNode) {
-					SubpatternUsage delSub = del.checkIR(SubpatternUsage.class);
-					if(sub == delSub) {
-						subInDeleteSet = true;
-					}
-				}
-			}
-
-			if(!subHasDepModify && !subInDeleteSet) {
-				right.addSubpatternUsage(sub);
+	private boolean isSubpatternRewritePartUsed(SubpatternUsage sub, PatternGraph right)
+	{
+		for(OrderedReplacements orderedRepls : right.getOrderedReplacements()) {
+			for(OrderedReplacement orderedRepl : orderedRepls.orderedReplacements) {
+				if(!(orderedRepl instanceof SubpatternDependentReplacement))
+					continue;
+				
+				SubpatternDependentReplacement subRepl = (SubpatternDependentReplacement)orderedRepl;
+				if(sub == subRepl.getSubpatternUsage())
+					return true;
 			}
 		}
+		return false;
+	}
 
-		insertElementsFromEvalIntoRhs(left, right);
-		insertElementsFromOrderedReplacementsIntoRhs(left, right);
+	private boolean isSubpatternDeleted(SubpatternUsage sub)
+	{
+		for(DeclNode del : deletes.getChildren()) {
+			if(!(del instanceof SubpatternUsageDeclNode))
+				continue;
 
-		return right;
+			SubpatternUsage delSub = del.checkIR(SubpatternUsage.class);
+			if(sub == delSub)
+				return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -236,7 +263,7 @@ public class ModifyDeclNode extends RhsDeclNode
 
 		LinkedHashSet<DeclNode> deleted = new LinkedHashSet<DeclNode>();
 
-		for(DeclNode del : delete.getChildren()) {
+		for(DeclNode del : deletes.getChildren()) {
 			if(!(del instanceof SubpatternDeclNode))
 				deleted.add(del);
 		}
@@ -281,7 +308,7 @@ public class ModifyDeclNode extends RhsDeclNode
 				}
 
 				// add connection only if source and target are reused
-				if(lhs.contains(edge) && !sourceOrTargetNodeIncluded(pattern, delete.getChildren(), edge)) {
+				if(lhs.contains(edge) && !sourceOrTargetNodeIncluded(pattern, deletes.getChildren(), edge)) {
 					res.add(connection);
 				}
 			}
@@ -296,8 +323,8 @@ public class ModifyDeclNode extends RhsDeclNode
 				}
 
 				// add connection only if source and target are reused
-				if(!delete.getChildren().contains(edge)
-						&& !sourceOrTargetNodeIncluded(pattern, delete.getChildren(), edge)) {
+				if(!deletes.getChildren().contains(edge)
+						&& !sourceOrTargetNodeIncluded(pattern, deletes.getChildren(), edge)) {
 					res.add(connection);
 				}
 			}
@@ -320,7 +347,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		Set<NodeDeclNode> rhsNodes = graph.getNodes();
 
 		for(NodeDeclNode node : patternNodes) {
-			if(rhsNodes.contains(node) || !delete.getChildren().contains(node))
+			if(rhsNodes.contains(node) || !deletes.getChildren().contains(node))
 				coll.add(node);
 		}
 
