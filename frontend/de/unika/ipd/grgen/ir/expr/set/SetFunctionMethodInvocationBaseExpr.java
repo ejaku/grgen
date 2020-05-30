@@ -11,27 +11,21 @@
 
 package de.unika.ipd.grgen.ir.expr.set;
 
+import de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.container.SetType;
 
-public abstract class SetFunctionMethodInvocationBaseExpr extends Expression
+public abstract class SetFunctionMethodInvocationBaseExpr extends ContainerFunctionMethodInvocationBaseExpr
 {
-	protected Expression targetExpr;
-
 	protected SetFunctionMethodInvocationBaseExpr(String name, Type type, Expression targetExpr)
 	{
-		super(name, type);
-		this.targetExpr = targetExpr;
+		super(name, type, targetExpr);
 	}
 
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
-	}
-	
+	@Override
 	public SetType getTargetType()
 	{
-		return (SetType)type;
+		return (SetType)super.getTargetType();
 	}
 }

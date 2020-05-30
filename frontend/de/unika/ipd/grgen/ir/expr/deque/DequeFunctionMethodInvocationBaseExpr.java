@@ -11,27 +11,21 @@
 
 package de.unika.ipd.grgen.ir.expr.deque;
 
+import de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.container.DequeType;
 
-public abstract class DequeFunctionMethodInvocationBaseExpr extends Expression
+public abstract class DequeFunctionMethodInvocationBaseExpr extends ContainerFunctionMethodInvocationBaseExpr
 {
-	protected Expression targetExpr;
-
 	protected DequeFunctionMethodInvocationBaseExpr(String name, Type type, Expression targetExpr)
 	{
-		super(name, type);
-		this.targetExpr = targetExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
+		super(name, type, targetExpr);
 	}
 	
+	@Override
 	public DequeType getTargetType()
 	{
-		return (DequeType)type;
+		return (DequeType)super.getTargetType();
 	}
 }

@@ -535,9 +535,9 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append(")");
 		} else if(expr instanceof IndexedAccessExpr) {
 			IndexedAccessExpr ia = (IndexedAccessExpr)expr;
-			if(ia.getTargetExpr().getType() instanceof MapType)
+			if(ia.getTargetType() instanceof MapType)
 				sb.append("new GRGEN_EXPR.MapAccess(");
-			else if(ia.getTargetExpr().getType() instanceof ArrayType)
+			else if(ia.getTargetType() instanceof ArrayType)
 				sb.append("new GRGEN_EXPR.ArrayAccess(");
 			else
 				sb.append("new GRGEN_EXPR.DequeAccess(");

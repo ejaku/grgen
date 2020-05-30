@@ -11,27 +11,21 @@
 
 package de.unika.ipd.grgen.ir.expr.map;
 
+import de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 
-public abstract class MapFunctionMethodInvocationBaseExpr extends Expression
+public abstract class MapFunctionMethodInvocationBaseExpr extends ContainerFunctionMethodInvocationBaseExpr
 {
-	protected Expression targetExpr;
-
 	protected MapFunctionMethodInvocationBaseExpr(String name, Type type, Expression targetExpr)
 	{
-		super(name, type);
-		this.targetExpr = targetExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
+		super(name, type, targetExpr);
 	}
 	
+	@Override
 	public MapType getTargetType()
 	{
-		return (MapType)type;
+		return (MapType)super.getTargetType();
 	}
 }

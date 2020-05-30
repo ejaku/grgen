@@ -11,27 +11,21 @@
 
 package de.unika.ipd.grgen.ir.expr.array;
 
+import de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public abstract class ArrayFunctionMethodInvocationBaseExpr extends Expression
+public abstract class ArrayFunctionMethodInvocationBaseExpr extends ContainerFunctionMethodInvocationBaseExpr
 {
-	protected Expression targetExpr;
-
 	protected ArrayFunctionMethodInvocationBaseExpr(String name, Type type, Expression targetExpr)
 	{
-		super(name, type);
-		this.targetExpr = targetExpr;
-	}
-
-	public Expression getTargetExpr()
-	{
-		return targetExpr;
+		super(name, type, targetExpr);
 	}
 	
+	@Override
 	public ArrayType getTargetType()
 	{
-		return (ArrayType)type;
+		return (ArrayType)super.getTargetType();
 	}
 }
