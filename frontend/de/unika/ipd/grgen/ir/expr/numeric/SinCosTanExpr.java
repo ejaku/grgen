@@ -13,8 +13,9 @@ package de.unika.ipd.grgen.ir.expr.numeric;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 
-public class SinCosTanExpr extends Expression
+public class SinCosTanExpr extends BuiltinFunctionInvocationExpr
 {
 	public enum TrigonometryFunctionType
 	{

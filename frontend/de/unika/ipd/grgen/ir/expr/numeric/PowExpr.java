@@ -13,8 +13,9 @@ package de.unika.ipd.grgen.ir.expr.numeric;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 
-public class PowExpr extends Expression
+public class PowExpr extends BuiltinFunctionInvocationExpr
 {
 	private Expression leftExpr;
 	private Expression rightExpr;

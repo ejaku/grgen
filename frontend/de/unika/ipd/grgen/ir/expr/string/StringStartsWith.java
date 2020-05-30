@@ -13,9 +13,10 @@ package de.unika.ipd.grgen.ir.expr.string;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-public class StringStartsWith extends Expression
+public class StringStartsWith extends BuiltinFunctionInvocationExpr
 {
 	private Expression stringExpr, stringToSearchForExpr;
 

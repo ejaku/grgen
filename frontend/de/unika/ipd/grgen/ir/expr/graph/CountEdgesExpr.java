@@ -9,9 +9,10 @@ package de.unika.ipd.grgen.ir.expr.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class CountEdgesExpr extends Expression
+public class CountEdgesExpr extends BuiltinFunctionInvocationExpr
 {
 	private final Expression edgeType;
 

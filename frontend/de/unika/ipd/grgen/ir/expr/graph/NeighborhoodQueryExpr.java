@@ -8,10 +8,11 @@
 package de.unika.ipd.grgen.ir.expr.graph;
 
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.util.Direction;
 
-public abstract class NeighborhoodQueryExpr extends Expression
+public abstract class NeighborhoodQueryExpr extends BuiltinFunctionInvocationExpr
 {
 	protected final Expression startNodeExpr;
 	protected final Expression incidentEdgeTypeExpr;

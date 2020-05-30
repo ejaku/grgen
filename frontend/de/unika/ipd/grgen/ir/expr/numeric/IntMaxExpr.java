@@ -8,10 +8,10 @@
 package de.unika.ipd.grgen.ir.expr.numeric;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class IntMaxExpr extends Expression
+public class IntMaxExpr extends BuiltinFunctionInvocationExpr
 {
 	public IntMaxExpr()
 	{

@@ -12,10 +12,11 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.container.ContainerType;
 
-public abstract class ContainerFunctionMethodInvocationBaseExpr extends Expression
+public abstract class ContainerFunctionMethodInvocationBaseExpr extends BuiltinFunctionInvocationExpr
 {
 	protected Expression targetExpr;
 

@@ -9,8 +9,9 @@ package de.unika.ipd.grgen.ir.expr.numeric;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 
-public class TruncateExpr extends Expression
+public class TruncateExpr extends BuiltinFunctionInvocationExpr
 {
 	private Expression expr;
 

@@ -8,9 +8,10 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.Type;
 
-public class CopyExpr extends Expression
+public class CopyExpr extends BuiltinFunctionInvocationExpr
 {
 	private final Expression sourceExpr;
 

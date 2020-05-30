@@ -11,23 +11,14 @@
 
 package de.unika.ipd.grgen.ir.expr.invocation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.executable.ExternalFunction;
-import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**
  * An external function invocation is an expression.
  */
-public class ExternalFunctionInvocationExpr extends Expression
+public class ExternalFunctionInvocationExpr extends FunctionInvocationBaseExpr
 {
-	/** The arguments of the function invocation expression. */
-	protected List<Expression> arguments = new ArrayList<Expression>();
-
 	/** The function of the function invocation expression. */
 	protected ExternalFunction externalFunction;
 
@@ -38,43 +29,8 @@ public class ExternalFunctionInvocationExpr extends Expression
 		this.externalFunction = externalFunction;
 	}
 
-	/** @return The number of arguments. */
-	public int arity()
-	{
-		return arguments.size();
-	}
-
 	public ExternalFunction getExternalFunc()
 	{
 		return externalFunction;
-	}
-
-	/**
-	 * Get the ith argument.
-	 * @param index The index of the argument
-	 * @return The argument, if <code>index</code> was valid, <code>null</code> if not.
-	 */
-	public Expression getArgument(int index)
-	{
-		return index >= 0 || index < arguments.size() ? arguments.get(index) : null;
-	}
-
-	/** Adds an argument e to the expression. */
-	public void addArgument(Expression e)
-	{
-		arguments.add(e);
-	}
-
-	public Collection<Expression> getWalkableChildren()
-	{
-		return arguments;
-	}
-
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		for(Expression child : getWalkableChildren()) {
-			child.collectNeededEntities(needs);
-		}
 	}
 }

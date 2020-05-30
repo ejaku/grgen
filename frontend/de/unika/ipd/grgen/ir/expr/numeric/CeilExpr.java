@@ -9,8 +9,9 @@ package de.unika.ipd.grgen.ir.expr.numeric;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 
-public class CeilExpr extends Expression
+public class CeilExpr extends BuiltinFunctionInvocationExpr
 {
 	private Expression expr;
 

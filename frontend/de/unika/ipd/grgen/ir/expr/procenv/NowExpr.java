@@ -12,10 +12,10 @@
 package de.unika.ipd.grgen.ir.expr.procenv;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.basic.LongType;
 
-public class NowExpr extends Expression
+public class NowExpr extends BuiltinFunctionInvocationExpr
 {
 	public NowExpr()
 	{

@@ -13,9 +13,10 @@ package de.unika.ipd.grgen.ir.expr.string;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class StringIndexOf extends Expression
+public class StringIndexOf extends BuiltinFunctionInvocationExpr
 {
 	private Expression stringExpr;
 	private Expression stringToSearchForExpr;

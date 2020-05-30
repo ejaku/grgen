@@ -13,9 +13,10 @@ package de.unika.ipd.grgen.ir.expr.string;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.basic.StringType;
 
-public class StringReplace extends Expression
+public class StringReplace extends BuiltinFunctionInvocationExpr
 {
 	private Expression stringExpr, startExpr, lengthExpr, replaceStrExpr;
 

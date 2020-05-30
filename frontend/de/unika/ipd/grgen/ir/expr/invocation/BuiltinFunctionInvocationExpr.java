@@ -14,12 +14,12 @@ package de.unika.ipd.grgen.ir.expr.invocation;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**
- * An untyped function method invocation is an expression.
+ * Base class for builtin function calls.
  */
-public class UntypedFunctionMethodInvocationExpr extends FunctionInvocationBaseExpr
+public abstract class BuiltinFunctionInvocationExpr extends FunctionOrBuiltinFunctionInvocationExpr
 {
-	public UntypedFunctionMethodInvocationExpr(Type type)
+	protected BuiltinFunctionInvocationExpr(String name, Type type)
 	{
-		super("untyped function method invocation expr", type);
+		super(name, type);
 	}
 }

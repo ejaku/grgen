@@ -8,10 +8,10 @@
 package de.unika.ipd.grgen.ir.expr.numeric;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.basic.ShortType;
 
-public class ShortMinExpr extends Expression
+public class ShortMinExpr extends BuiltinFunctionInvocationExpr
 {
 	public ShortMinExpr()
 	{

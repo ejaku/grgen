@@ -9,9 +9,10 @@ package de.unika.ipd.grgen.ir.expr.graph;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.Type;
 
-public class NodesExpr extends Expression
+public class NodesExpr extends BuiltinFunctionInvocationExpr
 {
 	private final Expression nodeType;
 
