@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 /**
  * An external procedure invocation.
  */
-public class ExternalProcedureInvocation extends ProcedureOrBuiltinProcedureInvocationBase
+public class ExternalProcedureInvocation extends ProcedureInvocationBase
 {
 	/** The procedure of the procedure invocation expression. */
 	protected ExternalProcedure externalProcedure;

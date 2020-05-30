@@ -8,20 +8,23 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.type.Type;
 
-public class InsertCopyProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class InsertCopyProc extends BuiltinProcedureInvocationBase
 {
 	private final Expression graphExpr;
 	private final Expression nodeExpr;
+	
+	private final Type returnType;
 
-	public InsertCopyProc(Expression graphExpr, Expression nodeExpr)
+	public InsertCopyProc(Expression graphExpr, Expression nodeExpr, Type returnType)
 	{
 		super("insert copy procedure");
 		this.graphExpr = graphExpr;
 		this.nodeExpr = nodeExpr;
+		this.returnType = returnType;
 	}
 
 	public Expression getGraphExpr()
@@ -34,16 +37,24 @@ public class InsertCopyProc extends ProcedureOrBuiltinProcedureInvocationBase
 		return nodeExpr;
 	}
 
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
-	}
-
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();
 		graphExpr.collectNeededEntities(needs);
 		nodeExpr.collectNeededEntities(needs);
+	}
+	
+	@Override
+	public int returnArity()
+	{
+		return 1;
+	}
+	
+	@Override
+	public Type getReturnType(int index)
+	{
+		assert(index == 0);
+		return returnType;
 	}
 }

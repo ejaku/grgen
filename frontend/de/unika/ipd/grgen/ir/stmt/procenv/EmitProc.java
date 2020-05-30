@@ -10,11 +10,10 @@ package de.unika.ipd.grgen.ir.stmt.procenv;
 import java.util.Collection;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class EmitProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class EmitProc extends BuiltinProcedureInvocationBase
 {
 	private Collection<Expression> exprs;
 	private boolean isDebug;
@@ -34,11 +33,6 @@ public class EmitProc extends ProcedureOrBuiltinProcedureInvocationBase
 	public boolean isDebug()
 	{
 		return isDebug;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

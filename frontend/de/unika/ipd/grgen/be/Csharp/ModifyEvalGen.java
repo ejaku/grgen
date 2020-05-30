@@ -27,6 +27,7 @@ import de.unika.ipd.grgen.ir.stmt.AssignmentMember;
 import de.unika.ipd.grgen.ir.stmt.AssignmentVar;
 import de.unika.ipd.grgen.ir.stmt.AssignmentVarIndexed;
 import de.unika.ipd.grgen.ir.stmt.BreakStatement;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.stmt.CaseStatement;
 import de.unika.ipd.grgen.ir.stmt.CompoundAssignment;
 import de.unika.ipd.grgen.ir.stmt.CompoundAssignmentChanged;
@@ -94,6 +95,7 @@ import de.unika.ipd.grgen.ir.stmt.graph.VResetProc;
 import de.unika.ipd.grgen.ir.stmt.invocation.ExternalProcedureInvocation;
 import de.unika.ipd.grgen.ir.stmt.invocation.ExternalProcedureMethodInvocation;
 import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureInvocation;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureMethodInvocation;
 import de.unika.ipd.grgen.ir.stmt.map.MapAddItem;
@@ -2446,7 +2448,7 @@ public class ModifyEvalGen extends CSharpBase
 		ProcedureOrBuiltinProcedureInvocationBase procedure = ra.getProcedureInvocation();
 		Collection<AssignmentBase> targets = ra.getTargets();
 		Vector<String> outParams = new Vector<String>();
-		for(int i = 0; i < procedure.getNumReturnTypes(); ++i) {
+		for(int i = 0; i < procedure.returnArity(); ++i) {
 			String outParam = "outvar_" + tmpVarID;
 			outParams.add(outParam);
 			++tmpVarID;
@@ -2469,13 +2471,14 @@ public class ModifyEvalGen extends CSharpBase
 		if(ra.getProcedureInvocation() instanceof ProcedureInvocation
 				|| ra.getProcedureInvocation() instanceof ExternalProcedureInvocation) {
 			genReturnAssignmentProcedureOrExternalProcedureInvocation(sb, state,
-					ra.getProcedureInvocation(), outParams);
+					(ProcedureInvocationBase)ra.getProcedureInvocation(), outParams);
 		} else if(ra.getProcedureInvocation() instanceof ProcedureMethodInvocation
 				|| ra.getProcedureInvocation() instanceof ExternalProcedureMethodInvocation) {
 			genReturnAssignmentProcedureMethodOrExternalProcedureMethodInvocation(sb, state,
-					ra.getProcedureInvocation(), outParams);
+					(ProcedureInvocationBase)ra.getProcedureInvocation(), outParams);
 		} else {
-			genReturnAssignmentBuiltinProcedureOrMethodInvocation(sb, state, ra.getProcedureInvocation(), outParams);
+			genReturnAssignmentBuiltinProcedureOrMethodInvocation(sb, state,
+					(BuiltinProcedureInvocationBase)ra.getProcedureInvocation(), outParams);
 		}
 
 		// assign out variables to the real targets
@@ -2485,7 +2488,7 @@ public class ModifyEvalGen extends CSharpBase
 	}
 
 	private void genReturnAssignmentProcedureOrExternalProcedureInvocation(SourceBuilder sb,
-			ModifyGenerationStateConst state, ProcedureOrBuiltinProcedureInvocationBase procedure, Vector<String> outParams)
+			ModifyGenerationStateConst state, ProcedureInvocationBase procedure, Vector<String> outParams)
 	{
 		// call the procedure with out variables  
 		if(procedure instanceof ProcedureInvocation) {
@@ -2512,7 +2515,7 @@ public class ModifyEvalGen extends CSharpBase
 	}
 
 	private void genReturnAssignmentProcedureMethodOrExternalProcedureMethodInvocation(SourceBuilder sb,
-			ModifyGenerationStateConst state, ProcedureOrBuiltinProcedureInvocationBase procedure, Vector<String> outParams)
+			ModifyGenerationStateConst state, ProcedureInvocationBase procedure, Vector<String> outParams)
 	{
 		// call the procedure method with out variables  
 		if(procedure instanceof ProcedureMethodInvocation) {
@@ -2552,7 +2555,7 @@ public class ModifyEvalGen extends CSharpBase
 	}
 
 	private void genReturnAssignmentBuiltinProcedureOrMethodInvocation(SourceBuilder sb,
-			ModifyGenerationStateConst state, ProcedureOrBuiltinProcedureInvocationBase procedure, Vector<String> outParams)
+			ModifyGenerationStateConst state, BuiltinProcedureInvocationBase procedure, Vector<String> outParams)
 	{
 		// call the procedure or procedure method, either without return value, or with one return value, more not supported as of now
 		if(outParams.size() == 0) {

@@ -8,11 +8,10 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class GraphRedirectSourceAndTargetProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class GraphRedirectSourceAndTargetProc extends BuiltinProcedureInvocationBase
 {
 	private Expression edge;
 	private Expression newSource;
@@ -54,11 +53,6 @@ public class GraphRedirectSourceAndTargetProc extends ProcedureOrBuiltinProcedur
 	public Expression getOldTargetName()
 	{
 		return oldTargetName;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

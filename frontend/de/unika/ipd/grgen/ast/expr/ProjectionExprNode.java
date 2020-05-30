@@ -11,12 +11,13 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureInvocationDecisionNode;
 import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.ProjectionExpr;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureInvocationBase;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ProjectionExprNode extends ExprNode
@@ -63,7 +64,8 @@ public class ProjectionExprNode extends ExprNode
 	protected IR constructIR()
 	{
 		return new ProjectionExpr(index,
-				procedure.checkIR(ProcedureOrBuiltinProcedureInvocationBase.class).getProcedureBase(),
+				procedure instanceof ProcedureInvocationDecisionNode ? null
+						: procedure.checkIR(ProcedureInvocationBase.class).getProcedureBase(),
 				procedure.getType().get(index).getType());
 	}
 

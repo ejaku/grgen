@@ -94,11 +94,9 @@ public class InsertInducedSubgraphProcNode extends BuiltinProcedureInvocationBas
 	@Override
 	protected IR constructIR()
 	{
-		InsertInducedSubgraphProc insertInduced = new InsertInducedSubgraphProc(nodeSetExpr.checkIR(Expression.class),
-				nodeExpr.checkIR(Expression.class));
-		for(TypeNode type : getType()) {
-			insertInduced.addReturnType(type.getType());
-		}
+		InsertInducedSubgraphProc insertInduced = new InsertInducedSubgraphProc(
+				nodeSetExpr.checkIR(Expression.class), nodeExpr.checkIR(Expression.class),
+				nodeExpr.getType().getType());
 		return insertInduced;
 	}
 

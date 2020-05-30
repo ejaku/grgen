@@ -12,19 +12,13 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class GraphClearProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class GraphClearProc extends BuiltinProcedureInvocationBase
 {
 	public GraphClearProc()
 	{
 		super("graph clear procedure");
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

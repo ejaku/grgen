@@ -8,11 +8,10 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class GraphMergeProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class GraphMergeProc extends BuiltinProcedureInvocationBase
 {
 	private Expression target;
 	private Expression source;
@@ -39,11 +38,6 @@ public class GraphMergeProc extends ProcedureOrBuiltinProcedureInvocationBase
 	public Expression getSourceName()
 	{
 		return sourceName;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

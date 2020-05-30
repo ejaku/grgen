@@ -9,7 +9,7 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ir.stmt;
+package de.unika.ipd.grgen.ir.stmt.invocation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,9 +22,9 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**
- * A base class for procedure invocations.
+ * A base class for procedure or builtin procedure invocations.
  */
-public abstract class ProcedureInvocationBase extends EvalStatement
+public abstract class ProcedureInvocationBase extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	/** The arguments of the procedure invocation. */
 	protected List<Expression> arguments = new ArrayList<Expression>();
@@ -59,17 +59,11 @@ public abstract class ProcedureInvocationBase extends EvalStatement
 		arguments.add(e);
 	}
 
-	/** @return The number of return arguments. */
 	public int returnArity()
 	{
 		return returnTypes.size();
 	}
 
-	/**
-	 * Get the ith return type.
-	 * @param index The index of the return type
-	 * @return The return type, if <code>index</code> was valid, <code>null</code> if not.
-	 */
 	public Type getReturnType(int index)
 	{
 		return index >= 0 || index < returnTypes.size() ? returnTypes.get(index) : null;
@@ -80,12 +74,7 @@ public abstract class ProcedureInvocationBase extends EvalStatement
 	{
 		returnTypes.add(t);
 	}
-
-	public int getNumReturnTypes()
-	{
-		return returnTypes.size();
-	}
-
+	
 	public Collection<Expression> getWalkableChildren()
 	{
 		return arguments;

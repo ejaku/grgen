@@ -12,11 +12,10 @@
 package de.unika.ipd.grgen.ir.stmt.procenv;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class RecordProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class RecordProc extends BuiltinProcedureInvocationBase
 {
 	private Expression toRecordExpr;
 
@@ -29,11 +28,6 @@ public class RecordProc extends ProcedureOrBuiltinProcedureInvocationBase
 	public Expression getToRecordExpr()
 	{
 		return toRecordExpr;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

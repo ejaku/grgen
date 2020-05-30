@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 /**
  * A procedure method invocation.
  */
-public class ProcedureMethodInvocation extends ProcedureOrBuiltinProcedureInvocationBase
+public class ProcedureMethodInvocation extends ProcedureInvocationBase
 {
 	/** The owner of the procedure method. */
 	private Entity owner;

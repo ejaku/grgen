@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 /**
  * An external procedure method invocation.
  */
-public class ExternalProcedureMethodInvocation extends ProcedureOrBuiltinProcedureInvocationBase
+public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase
 {
 	/** The owner of the procedure method. */
 	private Qualification ownerQual;

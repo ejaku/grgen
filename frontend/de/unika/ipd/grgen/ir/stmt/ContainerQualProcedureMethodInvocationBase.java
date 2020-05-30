@@ -11,11 +11,9 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 
-public abstract class ContainerQualProcedureMethodInvocationBase extends ProcedureOrBuiltinProcedureInvocationBase
+public abstract class ContainerQualProcedureMethodInvocationBase extends BuiltinProcedureInvocationBase
 {
 	protected Qualification target;
 
@@ -28,10 +26,5 @@ public abstract class ContainerQualProcedureMethodInvocationBase extends Procedu
 	public Qualification getTarget()
 	{
 		return target;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 }

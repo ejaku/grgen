@@ -9,37 +9,30 @@
  * @author Edgar Jakumeit
  */
 
-package de.unika.ipd.grgen.ir.stmt.procenv;
+package de.unika.ipd.grgen.ir.stmt;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.type.Type;
 
-public class StartTransactionProc extends BuiltinProcedureInvocationBase
+/**
+ * A base class for builtin procedure invocations.
+ */
+public abstract class BuiltinProcedureInvocationBase extends ProcedureOrBuiltinProcedureInvocationBase
 {
-	Type returnType;
-	
-	public StartTransactionProc(Type returnType)
+	protected BuiltinProcedureInvocationBase(String name)
 	{
-		super("start transaction procedure");
-		this.returnType = returnType;
+		super(name);
 	}
 
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		needs.needsGraph();
-	}
-	
 	@Override
 	public int returnArity()
 	{
-		return 1;
+		return 0;
 	}
 	
 	@Override
 	public Type getReturnType(int index)
 	{
-		assert(index == 0);
-		return returnType;
+		return null;
 	}
 }

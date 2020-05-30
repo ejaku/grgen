@@ -8,24 +8,28 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.type.Type;
 
-public class GraphAddCopyEdgeProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class GraphAddCopyEdgeProc extends BuiltinProcedureInvocationBase
 {
 	private final Expression sourceNode;
 	private final Expression targetNode;
 	private final Expression oldEdge;
+	
+	private final Type returnType;
 
 	public GraphAddCopyEdgeProc(Expression edgeType,
 			Expression sourceNode,
-			Expression targetNode)
+			Expression targetNode,
+			Type returnType)
 	{
 		super("graph add copy edge procedure");
 		this.oldEdge = edgeType;
 		this.sourceNode = sourceNode;
 		this.targetNode = targetNode;
+		this.returnType = returnType;
 	}
 
 	public Expression getOldEdgeExpr()
@@ -43,11 +47,6 @@ public class GraphAddCopyEdgeProc extends ProcedureOrBuiltinProcedureInvocationB
 		return targetNode;
 	}
 
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
-	}
-
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs)
 	{
@@ -55,5 +54,18 @@ public class GraphAddCopyEdgeProc extends ProcedureOrBuiltinProcedureInvocationB
 		oldEdge.collectNeededEntities(needs);
 		sourceNode.collectNeededEntities(needs);
 		targetNode.collectNeededEntities(needs);
+	}
+	
+	@Override
+	public int returnArity()
+	{
+		return 1;
+	}
+	
+	@Override
+	public Type getReturnType(int index)
+	{
+		assert(index == 0);
+		return returnType;
 	}
 }

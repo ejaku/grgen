@@ -12,11 +12,10 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class VFreeProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class VFreeProc extends BuiltinProcedureInvocationBase
 {
 	private Expression visFlagExpr;
 
@@ -29,11 +28,6 @@ public class VFreeProc extends ProcedureOrBuiltinProcedureInvocationBase
 	public Expression getVisitedFlagExpr()
 	{
 		return visFlagExpr;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

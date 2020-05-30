@@ -91,17 +91,11 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		if(entityType.getType() instanceof NodeTypeNode) {
 			GraphRetypeNodeProc retypeNode = new GraphRetypeNodeProc(entity.checkIR(Expression.class),
-					entityType.checkIR(Expression.class));
-			for(TypeNode type : getType()) {
-				retypeNode.addReturnType(type.getType());
-			}
+					entityType.checkIR(Expression.class), entityType.getType().getType());
 			return retypeNode;
 		} else {
 			GraphRetypeEdgeProc retypeEdge = new GraphRetypeEdgeProc(entity.checkIR(Expression.class),
-					entityType.checkIR(Expression.class));
-			for(TypeNode type : getType()) {
-				retypeEdge.addReturnType(type.getType());
-			}
+					entityType.checkIR(Expression.class), entityType.getType().getType());
 			return retypeEdge;
 		}
 	}

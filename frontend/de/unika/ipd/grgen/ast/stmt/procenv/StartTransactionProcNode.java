@@ -65,10 +65,7 @@ public class StartTransactionProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		StartTransactionProc startTransaction = new StartTransactionProc();
-		for(TypeNode type : getType()) {
-			startTransaction.addReturnType(type.getType());
-		}
+		StartTransactionProc startTransaction = new StartTransactionProc(BasicTypeNode.intType.getType());
 		return startTransaction;
 	}
 

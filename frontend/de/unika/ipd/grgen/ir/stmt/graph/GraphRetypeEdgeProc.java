@@ -8,20 +8,23 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.type.Type;
 
-public class GraphRetypeEdgeProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class GraphRetypeEdgeProc extends BuiltinProcedureInvocationBase
 {
 	private final Expression edge;
 	private final Expression newEdgeType;
+	
+	private final Type returnType;
 
-	public GraphRetypeEdgeProc(Expression edge, Expression newEdgeType)
+	public GraphRetypeEdgeProc(Expression edge, Expression newEdgeType, Type returnType)
 	{
 		super("graph retype edge procedure");
 		this.edge = edge;
 		this.newEdgeType = newEdgeType;
+		this.returnType = returnType;
 	}
 
 	public Expression getEdgeExpr()
@@ -34,16 +37,24 @@ public class GraphRetypeEdgeProc extends ProcedureOrBuiltinProcedureInvocationBa
 		return newEdgeType;
 	}
 
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
-	}
-
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();
 		edge.collectNeededEntities(needs);
 		newEdgeType.collectNeededEntities(needs);
+	}
+	
+	@Override
+	public int returnArity()
+	{
+		return 1;
+	}
+	
+	@Override
+	public Type getReturnType(int index)
+	{
+		assert(index == 0);
+		return returnType;
 	}
 }

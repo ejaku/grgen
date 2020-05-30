@@ -99,10 +99,8 @@ public class GraphAddEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 	protected IR constructIR()
 	{
 		GraphAddEdgeProc addEdge = new GraphAddEdgeProc(edgeType.checkIR(Expression.class),
-				sourceNode.checkIR(Expression.class), targetNode.checkIR(Expression.class));
-		for(TypeNode type : getType()) {
-			addEdge.addReturnType(type.getType());
-		}
+				sourceNode.checkIR(Expression.class), targetNode.checkIR(Expression.class),
+				edgeType.getType().getType());
 		return addEdge;
 	}
 

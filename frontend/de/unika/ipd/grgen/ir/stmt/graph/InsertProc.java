@@ -8,11 +8,10 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class InsertProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class InsertProc extends BuiltinProcedureInvocationBase
 {
 	private final Expression graphExpr;
 
@@ -25,11 +24,6 @@ public class InsertProc extends ProcedureOrBuiltinProcedureInvocationBase
 	public Expression getGraphExpr()
 	{
 		return graphExpr;
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */

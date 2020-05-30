@@ -8,20 +8,23 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.type.Type;
 
-public class InsertDefinedSubgraphProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class InsertDefinedSubgraphProc extends BuiltinProcedureInvocationBase
 {
 	private final Expression edgeSetExpr;
 	private final Expression edgeExpr;
+	
+	private final Type returnType;
 
-	public InsertDefinedSubgraphProc(Expression var, Expression edge)
+	public InsertDefinedSubgraphProc(Expression var, Expression edge, Type returnType)
 	{
 		super("insert defined subgraph procedure");
 		this.edgeSetExpr = var;
 		this.edgeExpr = edge;
+		this.returnType = returnType;
 	}
 
 	public Expression getSetExpr()
@@ -34,16 +37,24 @@ public class InsertDefinedSubgraphProc extends ProcedureOrBuiltinProcedureInvoca
 		return edgeExpr;
 	}
 
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
-	}
-
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();
 		edgeSetExpr.collectNeededEntities(needs);
 		edgeExpr.collectNeededEntities(needs);
+	}
+	
+	@Override
+	public int returnArity()
+	{
+		return 1;
+	}
+	
+	@Override
+	public Type getReturnType(int index)
+	{
+		assert(index == 0);
+		return returnType;
 	}
 }

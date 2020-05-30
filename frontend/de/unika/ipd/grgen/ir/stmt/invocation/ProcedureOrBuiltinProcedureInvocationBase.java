@@ -11,14 +11,6 @@
 
 package de.unika.ipd.grgen.ir.stmt.invocation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Vector;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
-import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.type.Type;
 
@@ -27,78 +19,18 @@ import de.unika.ipd.grgen.ir.type.Type;
  */
 public abstract class ProcedureOrBuiltinProcedureInvocationBase extends EvalStatement
 {
-	/** The arguments of the procedure invocation. */
-	protected List<Expression> arguments = new ArrayList<Expression>();
-
-	/** The return types of the procedure invocation. */
-	protected Vector<Type> returnTypes = new Vector<Type>();
-
 	protected ProcedureOrBuiltinProcedureInvocationBase(String name)
 	{
 		super(name);
 	}
 
-	/** @return The number of arguments. */
-	public int arity()
-	{
-		return arguments.size();
-	}
-
-	/**
-	 * Get the ith argument.
-	 * @param index The index of the argument
-	 * @return The argument, if <code>index</code> was valid, <code>null</code> if not.
-	 */
-	public Expression getArgument(int index)
-	{
-		return index >= 0 || index < arguments.size() ? arguments.get(index) : null;
-	}
-
-	/** Adds an argument e to the expression. */
-	public void addArgument(Expression e)
-	{
-		arguments.add(e);
-	}
-
 	/** @return The number of return arguments. */
-	public int returnArity()
-	{
-		return returnTypes.size();
-	}
-
+	public abstract int returnArity();
+	
 	/**
 	 * Get the ith return type.
 	 * @param index The index of the return type
 	 * @return The return type, if <code>index</code> was valid, <code>null</code> if not.
 	 */
-	public Type getReturnType(int index)
-	{
-		return index >= 0 || index < returnTypes.size() ? returnTypes.get(index) : null;
-	}
-
-	/** Adds a return type t to the procedure. */
-	public void addReturnType(Type t)
-	{
-		returnTypes.add(t);
-	}
-
-	public int getNumReturnTypes()
-	{
-		return returnTypes.size();
-	}
-
-	public Collection<Expression> getWalkableChildren()
-	{
-		return arguments;
-	}
-
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		for(Expression child : getWalkableChildren()) {
-			child.collectNeededEntities(needs);
-		}
-	}
-
-	public abstract ProcedureBase getProcedureBase();
+	public abstract Type getReturnType(int index);
 }

@@ -12,23 +12,34 @@
 package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.type.Type;
 
-public class VAllocProc extends ProcedureOrBuiltinProcedureInvocationBase
+public class VAllocProc extends BuiltinProcedureInvocationBase
 {
-	public VAllocProc()
+	Type returnType;
+	
+	public VAllocProc(Type returnType)
 	{
 		super("valloc procedure");
-	}
-
-	public ProcedureBase getProcedureBase()
-	{
-		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
+		this.returnType = returnType;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();
+	}
+	
+	@Override
+	public int returnArity()
+	{
+		return 1;
+	}
+	
+	@Override
+	public Type getReturnType(int index)
+	{
+		assert(index == 0);
+		return returnType;
 	}
 }
