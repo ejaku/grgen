@@ -37,6 +37,7 @@ public class IsBoundedReachableEdgeExprNode extends NeighborhoodQueryExprNode
 	private ExprNode endEdgeExpr;
 	private ExprNode depthExpr;
 
+	
 	public IsBoundedReachableEdgeExprNode(Coords coords, 
 			ExprNode startNodeExpr, ExprNode endEdgeExpr, ExprNode depthExpr,
 			ExprNode incidentTypeExpr, Direction direction,

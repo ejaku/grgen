@@ -11,6 +11,10 @@
 
 package de.unika.ipd.grgen.ast.expr.graph;
 
+import java.util.Collection;
+import java.util.Vector;
+
+import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
@@ -33,6 +37,7 @@ public abstract class NeighborhoodQueryExprNode extends BuiltinFunctionInvocatio
 
 	protected Direction direction;
 
+	
 	protected NeighborhoodQueryExprNode(Coords coords,
 			ExprNode startNodeExpr,
 			ExprNode incidentTypeExpr, Direction direction,
@@ -48,6 +53,28 @@ public abstract class NeighborhoodQueryExprNode extends BuiltinFunctionInvocatio
 		becomeParent(this.adjacentTypeExpr);
 	}
 	
+	/** returns children of this node */
+	@Override
+	public Collection<BaseNode> getChildren()
+	{
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(startNodeExpr);
+		children.add(incidentTypeExpr);
+		children.add(adjacentTypeExpr);
+		return children;
+	}
+
+	/** returns names of the children, same order as in getChildren */
+	@Override
+	public Collection<String> getChildrenNames()
+	{
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("start node expr");
+		childrenNames.add("incident type expr");
+		childrenNames.add("adjacent type expr");
+		return childrenNames;
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal()

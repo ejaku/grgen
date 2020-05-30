@@ -7,10 +7,6 @@
 
 package de.unika.ipd.grgen.ast.expr.graph;
 
-import java.util.Collection;
-import java.util.Vector;
-
-import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BooleanTypeNode;
@@ -29,37 +25,12 @@ public class IsReachableEdgeExprNode extends IsInEdgeNeighborhoodQueryExprNode
 		setName(IsReachableEdgeExprNode.class, "is reachable edge expr");
 	}
 
-
 	public IsReachableEdgeExprNode(Coords coords, 
 			ExprNode startNodeExpr, ExprNode endEdgeExpr,
 			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
 	{
 		super(coords, startNodeExpr, endEdgeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
-	}
-
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
-	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(startNodeExpr);
-		children.add(endEdgeExpr);
-		children.add(incidentTypeExpr);
-		children.add(adjacentTypeExpr);
-		return children;
-	}
-
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("start node expr");
-		childrenNames.add("end edge expr");
-		childrenNames.add("incident type expr");
-		childrenNames.add("adjacent type expr");
-		return childrenNames;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
