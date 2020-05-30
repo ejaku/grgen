@@ -54,8 +54,8 @@ public class MapAddItem extends ContainerQualProcedureMethodInvocationBase
 		target.collectNeededEntities(needs);
 		needs.variables = varSet;
 
-		getKeyExpr().collectNeededEntities(needs);
-		getValueExpr().collectNeededEntities(needs);
+		keyExpr.collectNeededEntities(needs);
+		valueExpr.collectNeededEntities(needs);
 
 		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);

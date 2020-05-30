@@ -43,10 +43,10 @@ public class ArrayVarAddItem extends ContainerVarProcedureMethodInvocationBase
 		if(!isGlobalVariable(target))
 			needs.add(target);
 
-		getValueExpr().collectNeededEntities(needs);
+		valueExpr.collectNeededEntities(needs);
 
-		if(getIndexExpr() != null)
-			getIndexExpr().collectNeededEntities(needs);
+		if(indexExpr != null)
+			indexExpr.collectNeededEntities(needs);
 
 		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);

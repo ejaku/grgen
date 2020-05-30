@@ -46,7 +46,7 @@ public class SetAddItem extends ContainerQualProcedureMethodInvocationBase
 		target.collectNeededEntities(needs);
 		needs.variables = varSet;
 
-		getValueExpr().collectNeededEntities(needs);
+		valueExpr.collectNeededEntities(needs);
 
 		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);

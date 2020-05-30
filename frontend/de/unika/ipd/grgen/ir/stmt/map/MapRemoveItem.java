@@ -47,7 +47,7 @@ public class MapRemoveItem extends ContainerQualProcedureMethodInvocationBase
 		target.collectNeededEntities(needs);
 		needs.variables = varSet;
 
-		getKeyExpr().collectNeededEntities(needs);
+		keyExpr.collectNeededEntities(needs);
 
 		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);

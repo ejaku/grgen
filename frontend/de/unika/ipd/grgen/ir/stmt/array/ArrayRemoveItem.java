@@ -47,8 +47,8 @@ public class ArrayRemoveItem extends ContainerQualProcedureMethodInvocationBase
 		target.collectNeededEntities(needs);
 		needs.variables = varSet;
 
-		if(getIndexExpr() != null)
-			getIndexExpr().collectNeededEntities(needs);
+		if(indexExpr != null)
+			indexExpr.collectNeededEntities(needs);
 
 		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);

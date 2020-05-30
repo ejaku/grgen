@@ -43,8 +43,8 @@ public class MapVarAddItem extends ContainerVarProcedureMethodInvocationBase
 		if(!isGlobalVariable(target))
 			needs.add(target);
 
-		getKeyExpr().collectNeededEntities(needs);
-		getValueExpr().collectNeededEntities(needs);
+		keyExpr.collectNeededEntities(needs);
+		valueExpr.collectNeededEntities(needs);
 
 		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);

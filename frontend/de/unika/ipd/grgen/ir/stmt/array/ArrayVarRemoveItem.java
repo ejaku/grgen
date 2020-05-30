@@ -36,8 +36,8 @@ public class ArrayVarRemoveItem extends ContainerVarProcedureMethodInvocationBas
 		if(!isGlobalVariable(target))
 			needs.add(target);
 
-		if(getIndexExpr() != null)
-			getIndexExpr().collectNeededEntities(needs);
+		if(indexExpr != null)
+			indexExpr.collectNeededEntities(needs);
 
 		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);

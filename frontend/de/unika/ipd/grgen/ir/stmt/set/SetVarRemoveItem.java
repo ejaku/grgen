@@ -36,7 +36,7 @@ public class SetVarRemoveItem extends ContainerVarProcedureMethodInvocationBase
 		if(!isGlobalVariable(target))
 			needs.add(target);
 
-		getValueExpr().collectNeededEntities(needs);
+		valueExpr.collectNeededEntities(needs);
 
 		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);

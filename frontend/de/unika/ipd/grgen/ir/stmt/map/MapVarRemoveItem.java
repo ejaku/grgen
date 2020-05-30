@@ -36,7 +36,7 @@ public class MapVarRemoveItem extends ContainerVarProcedureMethodInvocationBase
 		if(!isGlobalVariable(target))
 			needs.add(target);
 
-		getKeyExpr().collectNeededEntities(needs);
+		keyExpr.collectNeededEntities(needs);
 
 		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);
