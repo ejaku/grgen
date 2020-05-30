@@ -16,13 +16,13 @@ import de.unika.ipd.grgen.ir.type.Type;
 //TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque 
 //should be unified in abstract base classes and algorithms working on them
 
-public class DequeType extends Type
+public class DequeType extends ContainerType
 {
 	public Type valueType;
 
 	public DequeType(Type valueType)
 	{
-		super("deque type", null);
+		super("deque type");
 		this.valueType = valueType;
 	}
 
@@ -40,5 +40,11 @@ public class DequeType extends Type
 	public int classify()
 	{
 		return IS_DEQUE;
+	}
+
+	@Override
+	public Type getElementType()
+	{
+		return valueType;
 	}
 }
