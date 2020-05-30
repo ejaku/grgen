@@ -13,22 +13,35 @@ package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.container.ContainerType;
 
-public class IndexedAccessExpr extends ContainerFunctionMethodInvocationBaseExpr
+public class IndexedAccessExpr extends Expression
 {
+	Expression targetExpr;
 	Expression keyExpr;
 
 	public IndexedAccessExpr(Expression targetExpr, Expression keyExpr, Type type)
 	{
-		super("indexed access expression", type, targetExpr);
+		super("indexed access expression", type);
+		this.targetExpr = targetExpr;
 		this.keyExpr = keyExpr;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
-		keyExpr.collectNeededEntities(needs);
 		targetExpr.collectNeededEntities(needs);
+		keyExpr.collectNeededEntities(needs);
+	}
+
+	public Expression getTargetExpr()
+	{
+		return targetExpr;
+	}
+
+	public ContainerType getTargetType()
+	{
+		return (ContainerType)targetExpr.getType();
 	}
 
 	public Expression getKeyExpr()
