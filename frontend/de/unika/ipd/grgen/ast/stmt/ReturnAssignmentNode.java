@@ -19,8 +19,8 @@ import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureInvocationDecisionNode;
 import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureMethodInvocationDecisionNode;
 import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrExternalProcedureInvocationNode;
 import de.unika.ipd.grgen.ir.stmt.AssignmentBase;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.stmt.ReturnAssignment;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -144,11 +144,11 @@ public class ReturnAssignmentNode extends EvalStatementNode
 	{
 		ReturnAssignment retAssign;
 		if(procedure != null) {
-			retAssign = new ReturnAssignment(procedure.checkIR(ProcedureInvocationBase.class));
+			retAssign = new ReturnAssignment(procedure.checkIR(ProcedureOrBuiltinProcedureInvocationBase.class));
 		} else if(builtinProcedure != null) {
-			retAssign = new ReturnAssignment(builtinProcedure.checkIR(ProcedureInvocationBase.class));
+			retAssign = new ReturnAssignment(builtinProcedure.checkIR(ProcedureOrBuiltinProcedureInvocationBase.class));
 		} else {
-			retAssign = new ReturnAssignment(procedureMethod.checkIR(ProcedureInvocationBase.class));
+			retAssign = new ReturnAssignment(procedureMethod.checkIR(ProcedureOrBuiltinProcedureInvocationBase.class));
 		}
 		for(EvalStatementNode target : targets.getChildren()) {
 			retAssign.addAssignment(target.checkIR(AssignmentBase.class));

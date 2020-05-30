@@ -13,9 +13,9 @@ package de.unika.ipd.grgen.ir.stmt;
 
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 
-public abstract class ContainerVarProcedureMethodInvocationBase extends ProcedureInvocationBase
+public abstract class ContainerVarProcedureMethodInvocationBase extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	protected Variable target;
 

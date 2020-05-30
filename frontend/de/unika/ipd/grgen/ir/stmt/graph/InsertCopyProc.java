@@ -10,9 +10,9 @@ package de.unika.ipd.grgen.ir.stmt.graph;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 
-public class InsertCopyProc extends ProcedureInvocationBase
+public class InsertCopyProc extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	private final Expression graphExpr;
 	private final Expression nodeExpr;

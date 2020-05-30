@@ -17,12 +17,11 @@ import de.unika.ipd.grgen.ir.executable.Procedure;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 
 /**
  * A procedure method invocation.
  */
-public class ProcedureMethodInvocation extends ProcedureInvocationBase
+public class ProcedureMethodInvocation extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	/** The owner of the procedure method. */
 	private Entity owner;

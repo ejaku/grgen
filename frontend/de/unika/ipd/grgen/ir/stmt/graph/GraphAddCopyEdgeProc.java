@@ -10,9 +10,9 @@ package de.unika.ipd.grgen.ir.stmt.graph;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 
-public class GraphAddCopyEdgeProc extends ProcedureInvocationBase
+public class GraphAddCopyEdgeProc extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	private final Expression sourceNode;
 	private final Expression targetNode;

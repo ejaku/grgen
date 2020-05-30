@@ -13,16 +13,17 @@ package de.unika.ipd.grgen.ir.stmt;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 
 /**
  * Represents an assignment of procedure invocation return values statement in the IR.
  */
 public class ReturnAssignment extends EvalStatement
 {
-	ProcedureInvocationBase procedureInvocation;
+	ProcedureOrBuiltinProcedureInvocationBase procedureInvocation;
 	Vector<AssignmentBase> targets = new Vector<AssignmentBase>();
 
-	public ReturnAssignment(ProcedureInvocationBase procedureInvocation)
+	public ReturnAssignment(ProcedureOrBuiltinProcedureInvocationBase procedureInvocation)
 	{
 		super("return assignment");
 
@@ -34,7 +35,7 @@ public class ReturnAssignment extends EvalStatement
 		targets.add(target);
 	}
 
-	public ProcedureInvocationBase getProcedureInvocation()
+	public ProcedureOrBuiltinProcedureInvocationBase getProcedureInvocation()
 	{
 		return procedureInvocation;
 	}

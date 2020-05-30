@@ -48,7 +48,6 @@ import de.unika.ipd.grgen.ir.stmt.ExecStatement;
 import de.unika.ipd.grgen.ir.stmt.IntegerRangeIterationYield;
 import de.unika.ipd.grgen.ir.stmt.MatchesAccumulationYield;
 import de.unika.ipd.grgen.ir.stmt.MultiStatement;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.stmt.ReturnAssignment;
 import de.unika.ipd.grgen.ir.stmt.ReturnStatement;
 import de.unika.ipd.grgen.ir.stmt.ReturnStatementFilter;
@@ -95,6 +94,7 @@ import de.unika.ipd.grgen.ir.stmt.graph.VResetProc;
 import de.unika.ipd.grgen.ir.stmt.invocation.ExternalProcedureInvocation;
 import de.unika.ipd.grgen.ir.stmt.invocation.ExternalProcedureMethodInvocation;
 import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureInvocation;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureMethodInvocation;
 import de.unika.ipd.grgen.ir.stmt.map.MapAddItem;
 import de.unika.ipd.grgen.ir.stmt.map.MapClear;
@@ -2443,7 +2443,7 @@ public class ModifyEvalGen extends CSharpBase
 	private void genReturnAssignment(SourceBuilder sb, ModifyGenerationStateConst state, ReturnAssignment ra)
 	{
 		// declare temporary out variables
-		ProcedureInvocationBase procedure = ra.getProcedureInvocation();
+		ProcedureOrBuiltinProcedureInvocationBase procedure = ra.getProcedureInvocation();
 		Collection<AssignmentBase> targets = ra.getTargets();
 		Vector<String> outParams = new Vector<String>();
 		for(int i = 0; i < procedure.getNumReturnTypes(); ++i) {
@@ -2485,7 +2485,7 @@ public class ModifyEvalGen extends CSharpBase
 	}
 
 	private void genReturnAssignmentProcedureOrExternalProcedureInvocation(SourceBuilder sb,
-			ModifyGenerationStateConst state, ProcedureInvocationBase procedure, Vector<String> outParams)
+			ModifyGenerationStateConst state, ProcedureOrBuiltinProcedureInvocationBase procedure, Vector<String> outParams)
 	{
 		// call the procedure with out variables  
 		if(procedure instanceof ProcedureInvocation) {
@@ -2512,7 +2512,7 @@ public class ModifyEvalGen extends CSharpBase
 	}
 
 	private void genReturnAssignmentProcedureMethodOrExternalProcedureMethodInvocation(SourceBuilder sb,
-			ModifyGenerationStateConst state, ProcedureInvocationBase procedure, Vector<String> outParams)
+			ModifyGenerationStateConst state, ProcedureOrBuiltinProcedureInvocationBase procedure, Vector<String> outParams)
 	{
 		// call the procedure method with out variables  
 		if(procedure instanceof ProcedureMethodInvocation) {
@@ -2552,7 +2552,7 @@ public class ModifyEvalGen extends CSharpBase
 	}
 
 	private void genReturnAssignmentBuiltinProcedureOrMethodInvocation(SourceBuilder sb,
-			ModifyGenerationStateConst state, ProcedureInvocationBase procedure, Vector<String> outParams)
+			ModifyGenerationStateConst state, ProcedureOrBuiltinProcedureInvocationBase procedure, Vector<String> outParams)
 	{
 		// call the procedure or procedure method, either without return value, or with one return value, more not supported as of now
 		if(outParams.size() == 0) {
@@ -2569,7 +2569,7 @@ public class ModifyEvalGen extends CSharpBase
 	// Procedure call generation //
 	///////////////////////////////
 
-	public void genEvalComp(SourceBuilder sb, ModifyGenerationStateConst state, ProcedureInvocationBase evalProc)
+	public void genEvalComp(SourceBuilder sb, ModifyGenerationStateConst state, ProcedureOrBuiltinProcedureInvocationBase evalProc)
 	{
 		if(evalProc instanceof EmitProc) {
 			genEmitProc(sb, state, (EmitProc)evalProc);

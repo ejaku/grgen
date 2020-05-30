@@ -13,9 +13,9 @@ package de.unika.ipd.grgen.ir.stmt.procenv;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 
-public class StartTransactionProc extends ProcedureInvocationBase
+public class StartTransactionProc extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	public StartTransactionProc()
 	{

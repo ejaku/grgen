@@ -13,9 +13,9 @@ package de.unika.ipd.grgen.ir.stmt.graph;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 
-public class GraphClearProc extends ProcedureInvocationBase
+public class GraphClearProc extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	public GraphClearProc()
 	{

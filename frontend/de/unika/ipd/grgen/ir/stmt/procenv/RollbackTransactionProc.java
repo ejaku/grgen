@@ -14,9 +14,9 @@ package de.unika.ipd.grgen.ir.stmt.procenv;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 
-public class RollbackTransactionProc extends ProcedureInvocationBase
+public class RollbackTransactionProc extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	private Expression transactionIdExpr;
 

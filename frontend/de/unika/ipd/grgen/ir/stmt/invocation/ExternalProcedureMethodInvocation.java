@@ -21,12 +21,11 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 
 /**
  * An external procedure method invocation.
  */
-public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase
+public class ExternalProcedureMethodInvocation extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	/** The owner of the procedure method. */
 	private Qualification ownerQual;

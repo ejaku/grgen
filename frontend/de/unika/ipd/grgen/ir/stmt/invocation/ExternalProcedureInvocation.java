@@ -13,12 +13,11 @@ package de.unika.ipd.grgen.ir.stmt.invocation;
 
 import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 
 /**
  * An external procedure invocation.
  */
-public class ExternalProcedureInvocation extends ProcedureInvocationBase
+public class ExternalProcedureInvocation extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	/** The procedure of the procedure invocation expression. */
 	protected ExternalProcedure externalProcedure;

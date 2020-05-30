@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.ProjectionExpr;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ProjectionExprNode extends ExprNode
@@ -63,7 +63,7 @@ public class ProjectionExprNode extends ExprNode
 	protected IR constructIR()
 	{
 		return new ProjectionExpr(index,
-				procedure.checkIR(ProcedureInvocationBase.class).getProcedureBase(),
+				procedure.checkIR(ProcedureOrBuiltinProcedureInvocationBase.class).getProcedureBase(),
 				procedure.getType().get(index).getType());
 	}
 

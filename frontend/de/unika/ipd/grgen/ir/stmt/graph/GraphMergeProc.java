@@ -10,9 +10,9 @@ package de.unika.ipd.grgen.ir.stmt.graph;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 
-public class GraphMergeProc extends ProcedureInvocationBase
+public class GraphMergeProc extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	private Expression target;
 	private Expression source;

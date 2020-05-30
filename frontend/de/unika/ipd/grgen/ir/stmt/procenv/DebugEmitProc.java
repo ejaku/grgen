@@ -12,9 +12,9 @@ import java.util.Collection;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
 
-public class DebugEmitProc extends ProcedureInvocationBase
+public class DebugEmitProc extends ProcedureOrBuiltinProcedureInvocationBase
 {
 	private Collection<Expression> exprs;
 
