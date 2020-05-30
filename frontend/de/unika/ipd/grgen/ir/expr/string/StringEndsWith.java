@@ -18,7 +18,8 @@ import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
 public class StringEndsWith extends BuiltinFunctionInvocationExpr
 {
-	private Expression stringExpr, stringToSearchForExpr;
+	private Expression stringExpr;
+	private Expression stringToSearchForExpr;
 
 	public StringEndsWith(Expression stringExpr, Expression stringToSearchForExpr)
 	{

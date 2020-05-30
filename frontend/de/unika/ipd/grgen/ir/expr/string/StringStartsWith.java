@@ -18,7 +18,8 @@ import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
 public class StringStartsWith extends BuiltinFunctionInvocationExpr
 {
-	private Expression stringExpr, stringToSearchForExpr;
+	private Expression stringExpr;
+	private Expression stringToSearchForExpr;
 
 	public StringStartsWith(Expression stringExpr, Expression stringToSearchForExpr)
 	{

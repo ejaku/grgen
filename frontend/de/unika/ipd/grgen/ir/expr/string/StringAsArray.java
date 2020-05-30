@@ -18,7 +18,8 @@ import de.unika.ipd.grgen.ir.type.Type;
 
 public class StringAsArray extends BuiltinFunctionInvocationExpr
 {
-	private Expression stringExpr, stringToSplitAtExpr;
+	private Expression stringExpr;
+	private Expression stringToSplitAtExpr;
 
 	public StringAsArray(Expression stringExpr, Expression stringToSplitAtExpr, Type targetType)
 	{

@@ -18,7 +18,9 @@ import de.unika.ipd.grgen.ir.type.basic.StringType;
 
 public class StringSubstring extends BuiltinFunctionInvocationExpr
 {
-	private Expression stringExpr, startExpr, lengthExpr;
+	private Expression stringExpr;
+	private Expression startExpr;
+	private Expression lengthExpr;
 
 	public StringSubstring(Expression stringExpr, Expression startExpr, Expression lengthExpr)
 	{

@@ -18,7 +18,10 @@ import de.unika.ipd.grgen.ir.type.basic.StringType;
 
 public class StringReplace extends BuiltinFunctionInvocationExpr
 {
-	private Expression stringExpr, startExpr, lengthExpr, replaceStrExpr;
+	private Expression stringExpr;
+	private Expression startExpr;
+	private Expression lengthExpr;
+	private Expression replaceStrExpr;
 
 	public StringReplace(Expression stringExpr,
 			Expression startExpr, Expression lengthExpr, Expression replaceStrExpr)
