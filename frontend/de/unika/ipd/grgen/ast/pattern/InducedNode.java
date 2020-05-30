@@ -13,6 +13,8 @@ package de.unika.ipd.grgen.ast.pattern;
 
 import java.awt.Color;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
@@ -84,7 +86,26 @@ public class InducedNode extends BaseNode
 			return false;
 		}
 
+		Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
+		for(NodeDeclNode inducedNode : children) {
+			// coords of occurrence are not available
+			if(nodes.contains(inducedNode)) {
+				reportWarning("Multiple occurrence of " + inducedNode.getUseString() + " "
+						+ inducedNode.getIdentNode().getSymbol().getText() + " in a single induced statement");
+			}
+			nodes.add(inducedNode);
+		}
+
 		return true;
+	}
+
+	public Set<NodeDeclNode> getInducedNodesSet()
+	{
+		Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
+		for(NodeDeclNode inducedNode : children) {
+			nodes.add(inducedNode);
+		}
+		return nodes;
 	}
 
 	@Override

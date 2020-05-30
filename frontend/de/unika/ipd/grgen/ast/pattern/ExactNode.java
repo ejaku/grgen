@@ -87,6 +87,11 @@ public class ExactNode extends BaseNode
 		return true;
 	}
 
+	public Collection<NodeDeclNode> getExactNodes()
+	{
+		return children;
+	}
+
 	@Override
 	public Color getNodeColor()
 	{

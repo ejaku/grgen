@@ -93,8 +93,8 @@ public class PatternGraphNode extends GraphNode
 	public CollectNode<PatternGraphNode> idpts; // PACs
 	private CollectNode<HomNode> homs;
 	private CollectNode<TotallyHomNode> totallyHoms;
-	private CollectNode<ExactNode> exact;
-	private CollectNode<InducedNode> induced;
+	private CollectNode<ExactNode> exacts;
+	private CollectNode<InducedNode> induceds;
 
 	// Cache variable
 	private Collection<Set<ConstraintDeclNode>> homSets = null;
@@ -171,7 +171,7 @@ public class PatternGraphNode extends GraphNode
 			CollectNode<ExprNode> conditions, 
 			CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<TotallyHomNode> totallyHoms, 
-			CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
+			CollectNode<ExactNode> exacts, CollectNode<InducedNode> induceds,
 			int modifiers, int context) {
 		super(nameOfGraph, coords, connections, params, subpatterns, subpatternRepls,
 				new CollectNode<OrderedReplacementsNode>(), returns, null, context, null);
@@ -189,10 +189,10 @@ public class PatternGraphNode extends GraphNode
 		becomeParent(this.homs);
 		this.totallyHoms = totallyHoms;
 		becomeParent(this.totallyHoms);
-		this.exact = exact;
-		becomeParent(this.exact);
-		this.induced = induced;
-		becomeParent(this.induced);
+		this.exacts = exacts;
+		becomeParent(this.exacts);
+		this.induceds = induceds;
+		becomeParent(this.induceds);
 		this.modifiers = modifiers;
 
 		directlyNestingLHSGraph = this;
@@ -226,8 +226,8 @@ public class PatternGraphNode extends GraphNode
 		children.add(conditions);
 		children.add(homs);
 		children.add(totallyHoms);
-		children.add(exact);
-		children.add(induced);
+		children.add(exacts);
+		children.add(induceds);
 		return children;
 	}
 
@@ -251,8 +251,8 @@ public class PatternGraphNode extends GraphNode
 		childrenNames.add("conditions");
 		childrenNames.add("homs");
 		childrenNames.add("totallyHoms");
-		childrenNames.add("exact");
-		childrenNames.add("induced");
+		childrenNames.add("exacts");
+		childrenNames.add("induceds");
 		return childrenNames;
 	}
 
@@ -1279,53 +1279,29 @@ public class PatternGraphNode extends GraphNode
 
 	private void initDoubleNodeNegMap()
 	{
-		Collection<InducedNode> inducedNodes = induced.getChildren();
 		if(isInduced()) {
 			addToDoubleNodeMap(getNodes());
 
-			for(InducedNode inducedNode : inducedNodes) {
-				inducedNode.reportWarning("Induced statement occurs in induced pattern");
+			for(InducedNode induced : induceds.getChildren()) {
+				induced.reportWarning("Induced statement occurs in induced pattern");
 			}
 			return;
 		}
 
-		Map<Set<NodeDeclNode>, Integer> genInducedSets = new LinkedHashMap<Set<NodeDeclNode>, Integer>();
-
-		for(int i = 0; i < induced.getChildren().size(); i++) {
-			BaseNode inducedNode = induced.get(i);
-			
-			Set<NodeDeclNode> nodes = getInducedNodes(inducedNode);
-
-			if(genInducedSets.containsKey(nodes)) {
-				BaseNode oldOcc = induced.get(genInducedSets.get(nodes));
-				inducedNode.reportWarning("Same induced statement also occurs at " + oldOcc.getCoords());
+		Map<Set<NodeDeclNode>, Integer> generatedInducedSets = new LinkedHashMap<Set<NodeDeclNode>, Integer>();
+		for(int i = 0; i < induceds.getChildren().size(); i++) {
+			InducedNode induced = induceds.get(i);
+			Set<NodeDeclNode> inducedNodes = induced.getInducedNodesSet();
+			if(generatedInducedSets.containsKey(inducedNodes)) {
+				InducedNode oldOcc = induceds.get(generatedInducedSets.get(inducedNodes));
+				induced.reportWarning("Same induced statement also occurs at " + oldOcc.getCoords());
 			} else {
-				addToDoubleNodeMap(nodes);
-				genInducedSets.put(nodes, i);
+				addToDoubleNodeMap(inducedNodes);
+				generatedInducedSets.put(inducedNodes, i);
 			}
 		}
 
-		warnRedundantInducedStatement(genInducedSets);
-	}
-
-	private Set<NodeDeclNode> getInducedNodes(BaseNode inducedNode)
-	{
-		Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
-
-		for(BaseNode inducedChild : inducedNode.getChildren()) {
-			// This cast must be ok after checking.
-			NodeDeclNode nodeDeclNode = (NodeDeclNode)inducedChild;
-
-			// coords of occurrence are not available
-			if(nodes.contains(nodeDeclNode)) {
-				inducedNode.reportWarning("Multiple occurrence of " + nodeDeclNode.getUseString() + " "
-						+ nodeDeclNode.getIdentNode().getSymbol().getText() + " in a single induced statement");
-			} else {
-				nodes.add(nodeDeclNode);
-			}
-		}
-		
-		return nodes;
+		warnRedundantInducedStatement(generatedInducedSets);
 	}
 
 	/**
@@ -1341,15 +1317,15 @@ public class PatternGraphNode extends GraphNode
 	 *       if k_i \in K_j: mark k_i
 	 *   if all k_i marked: warn
 	 *
-	 * @param genInducedSets Set of all induced statements
+	 * @param generatedInducedSets Set of all induced statements
 	 */
-	private void warnRedundantInducedStatement(Map<Set<NodeDeclNode>, Integer> genInducedSets)
+	private void warnRedundantInducedStatement(Map<Set<NodeDeclNode>, Integer> generatedInducedSets)
 	{
 		Map<Map<List<NodeDeclNode>, Boolean>, Integer> inducedEdgeMap =
 				new LinkedHashMap<Map<List<NodeDeclNode>, Boolean>, Integer>();
 
 		// create all pairs of nodes (->edges)
-		for(Map.Entry<Set<NodeDeclNode>, Integer> nodeMapEntry : genInducedSets.entrySet()) {
+		for(Map.Entry<Set<NodeDeclNode>, Integer> nodeMapEntry : generatedInducedSets.entrySet()) {
 			fillInducedEdgeMap(inducedEdgeMap, nodeMapEntry);
 		}
 
@@ -1360,10 +1336,10 @@ public class PatternGraphNode extends GraphNode
 			if(allMarked(candidate)) {
 				String witnessesLoc = "";
 				for(Integer index : witnesses) {
-					witnessesLoc += induced.get(index).getCoords() + " ";
+					witnessesLoc += induceds.get(index).getCoords() + " ";
 				}
 				witnessesLoc = witnessesLoc.trim();
-				induced.get(candidate.getValue()).reportWarning(
+				induceds.get(candidate.getValue()).reportWarning(
 						"Induced statement is redundant, since covered by statement(s) at " + witnessesLoc);
 			}
 		}
@@ -1426,8 +1402,6 @@ public class PatternGraphNode extends GraphNode
 
 	private void initSingleNodeNegMap()
 	{
-		Collection<ExactNode> exactNodes = exact.getChildren();
-
 		if(isExact()) {
 			addToSingleNodeMap(getNodes());
 
@@ -1435,8 +1409,8 @@ public class PatternGraphNode extends GraphNode
 				reportWarning("The keyword \"dangling\" is redundant for exact patterns");
 			}
 
-			for(ExactNode node : exactNodes) {
-				node.reportWarning("Exact statement occurs in exact pattern");
+			for(ExactNode exact : exacts.getChildren()) {
+				exact.reportWarning("Exact statement occurs in exact pattern");
 			}
 
 			return;
@@ -1446,39 +1420,34 @@ public class PatternGraphNode extends GraphNode
 			Set<DeclNode> deletedNodes = getRule().getDeleted();
 			addToSingleNodeMap(getDpoPatternNodes(deletedNodes));
 
-			for(BaseNode exactNode : exactNodes) {
-				for(BaseNode exactChild : exactNode.getChildren()) {
-					// This cast must be ok after checking.
-					NodeDeclNode nodeDeclNode = (NodeDeclNode)exactChild;
-					if(deletedNodes.contains(nodeDeclNode)) {
-						exactNode.reportWarning("Exact statement for " + nodeDeclNode.getUseString() + " "
-								+ nodeDeclNode.getIdentNode().getSymbol().getText()
+			for(ExactNode exact : exacts.getChildren()) {
+				for(NodeDeclNode exactNode : exact.getExactNodes()) {
+					if(deletedNodes.contains(exactNode)) {
+						exact.reportWarning("Exact statement for " + exactNode.getUseString() + " "
+								+ exactNode.getIdentNode().getSymbol().getText()
 								+ " is redundant, since the pattern is declared \"dangling\" or \"dpo\"");
 					}
 				}
 			}
 		}
 
-		Map<NodeDeclNode, Integer> genExactNodes = new LinkedHashMap<NodeDeclNode, Integer>();
-		// exact Statements
-		for(int i = 0; i < exact.getChildren().size(); i++) {
-			BaseNode exactNode = exact.get(i);
-			for(BaseNode exactChild : exactNode.getChildren()) {
-				// This cast must be ok after checking.
-				NodeDeclNode nodeDeclNode = (NodeDeclNode)exactChild;
+		Map<NodeDeclNode, Integer> generatedExactNodes = new LinkedHashMap<NodeDeclNode, Integer>();		
+		for(int i = 0; i < exacts.getChildren().size(); i++) { // exact Statements
+			ExactNode exact = exacts.get(i);
+			for(NodeDeclNode exactNode : exact.getExactNodes()) {
 				// coords of occurrence are not available
-				if(genExactNodes.containsKey(nodeDeclNode)) {
-					exactNode.reportWarning(nodeDeclNode.getUseString() + " "
-							+ nodeDeclNode.getIdentNode().getSymbol().getText()
+				if(generatedExactNodes.containsKey(exactNode)) {
+					exact.reportWarning(exactNode.getUseString() + " "
+							+ exactNode.getIdentNode().getSymbol().getText()
 							+ " already occurs in exact statement at "
-							+ exact.get(genExactNodes.get(nodeDeclNode)).getCoords());
+							+ exacts.get(generatedExactNodes.get(exactNode)).getCoords());
 				} else {
-					genExactNodes.put(nodeDeclNode, i);
+					generatedExactNodes.put(exactNode, i);
 				}
 			}
 		}
 
-		addToSingleNodeMap(genExactNodes.keySet());
+		addToSingleNodeMap(generatedExactNodes.keySet());
 	}
 
 	/**
