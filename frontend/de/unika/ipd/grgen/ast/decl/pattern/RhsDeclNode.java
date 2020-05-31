@@ -6,12 +6,13 @@
  */
 
 /**
- * @author Sebastian Buchwald
+ * @author Sebastian Buchwald, Edgar Jakumeit
  */
 
 package de.unika.ipd.grgen.ast.decl.pattern;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -53,6 +54,12 @@ public abstract class RhsDeclNode extends DeclNode
 	/** Type for this declaration. */
 	protected static final TypeNode rhsType = new RhsTypeNode();
 
+	// Cache variables
+	private Set<ConstraintDeclNode> deletedElements;
+	private Set<NodeDeclNode> reusedNodes;
+	private Set<ConnectionNode> reusedConnections; // reusedEdges in connection form
+
+	
 	/**
 	 * Make a new right-hand side.
 	 * @param id The identifier of this RHS.
@@ -92,45 +99,45 @@ public abstract class RhsDeclNode extends DeclNode
 		return graph;
 	}
 
-	public Collection<DeclNode> getMaybeDeleted(PatternGraphNode pattern)
+	public Set<ConstraintDeclNode> getMaybeDeleted(PatternGraphNode pattern)
 	{
 		// add deleted entities
-		Collection<DeclNode> ret = new LinkedHashSet<DeclNode>();
-		ret.addAll(getDeleted(pattern));
+		Set<ConstraintDeclNode> maybeDeleted = new LinkedHashSet<ConstraintDeclNode>();
+		maybeDeleted.addAll(getDeleted(pattern));
 
 		// extract deleted nodes, then add homomorphic nodes
-		Collection<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
-		for(DeclNode declNode : ret) {
+		Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
+		for(DeclNode declNode : maybeDeleted) {
 			if(declNode instanceof NodeDeclNode) {
 				nodes.add((NodeDeclNode)declNode);
 			}
 		}
 		for(NodeDeclNode node : nodes) {
-			ret.addAll(pattern.getHomomorphic(node));
+			maybeDeleted.addAll(pattern.getHomomorphic(node));
 		}
 
 		// add edges resulting from deleted nodes (only needed if a deleted node exists)
 		if(nodes.size() > 0) {
-			addEdgesResultingFromDeletedNodes(ret, pattern);
+			addEdgesResultingFromDeletedNodes(maybeDeleted, pattern);
 		}
 
 		// extract deleted edges, then add homomorphic edges
-		Collection<EdgeDeclNode> edges = new LinkedHashSet<EdgeDeclNode>();
-		for(DeclNode declNode : ret) {
+		Set<EdgeDeclNode> edges = new LinkedHashSet<EdgeDeclNode>();
+		for(DeclNode declNode : maybeDeleted) {
 			if(declNode instanceof EdgeDeclNode) {
 				edges.add((EdgeDeclNode)declNode);
 			}
 		}
 		for(EdgeDeclNode edge : edges) {
-			ret.addAll(pattern.getHomomorphic(edge));
+			maybeDeleted.addAll(pattern.getHomomorphic(edge));
 		}
 
-		return ret;
+		return maybeDeleted;
 	}
 
-	private void addEdgesResultingFromDeletedNodes(Collection<DeclNode> ret, PatternGraphNode pattern)
+	private void addEdgesResultingFromDeletedNodes(Set<ConstraintDeclNode> ret, PatternGraphNode pattern)
 	{
-		Collection<ConnectionNode> conns = getResultingConnections(pattern);
+		Set<ConnectionNode> conns = getResultingConnections(pattern);
 
 		// edges of deleted nodes are deleted, too --> add them
 		for(ConnectionNode conn : conns) {
@@ -163,7 +170,7 @@ public abstract class RhsDeclNode extends DeclNode
 	}
 
 	/** only used in checks against usage of deleted elements */
-	protected abstract Collection<ConnectionNode> getResultingConnections(PatternGraphNode pattern);
+	protected abstract Set<ConnectionNode> getResultingConnections(PatternGraphNode pattern);
 
 	protected static final DeclarationTypeResolver<RhsTypeNode> typeResolver =
 			new DeclarationTypeResolver<RhsTypeNode>(RhsTypeNode.class);
@@ -314,19 +321,46 @@ public abstract class RhsDeclNode extends DeclNode
 		return type;
 	}
 
-	/** only used in checks against usage of deleted elements */
-	public abstract Set<DeclNode> getDeleted(PatternGraphNode pattern);
+	/**
+	 * Returns all deleted elements.
+	 */
+	public Set<ConstraintDeclNode> getDeleted(PatternGraphNode pattern)
+	{
+		if(deletedElements == null) {
+			deletedElements = Collections.unmodifiableSet(getDeletedImpl(pattern));
+		}
+		return deletedElements;
+	}
+
+	protected abstract Set<ConstraintDeclNode> getDeletedImpl(PatternGraphNode pattern);
 
 	/**
-	 * Return all reused edges (with their nodes), that excludes new edges of
-	 * the right-hand side.
+	 * Returns all reused edges (with their nodes, in the form of a connection),
+	 * that excludes new edges of the right-hand side.
 	 */
-	public abstract Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern);
+	public Set<ConnectionNode> getReusedConnections(PatternGraphNode pattern)
+	{
+		if(reusedConnections == null) {
+			reusedConnections = Collections.unmodifiableSet(getReusedConnectionsImpl(pattern));
+		}
+		return reusedConnections;
+	}
+	
+	protected abstract Set<ConnectionNode> getReusedConnectionsImpl(PatternGraphNode pattern);
 
 	/**
-	 * Return all reused nodes, that excludes new nodes of the right-hand side.
+	 * Returns all reused nodes, that excludes new nodes of the right-hand side.
 	 */
-	public abstract Set<BaseNode> getReusedNodes(PatternGraphNode pattern);
+	public Set<NodeDeclNode> getReusedNodes(PatternGraphNode pattern)
+	{
+		if(reusedNodes == null) {
+			reusedNodes = Collections.unmodifiableSet(getReusedNodesImpl(pattern));
+		}
+		return reusedNodes;
+	}
+
+	protected abstract Set<NodeDeclNode> getReusedNodesImpl(PatternGraphNode pattern);
+
 
 	public abstract void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern);
 

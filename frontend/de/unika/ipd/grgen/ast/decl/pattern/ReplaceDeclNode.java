@@ -6,7 +6,7 @@
  */
 
 /**
- * @author Sebastian Buchwald
+ * @author Sebastian Buchwald, Edgar Jakumeit
  */
 
 package de.unika.ipd.grgen.ast.decl.pattern;
@@ -16,14 +16,12 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
 import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
 import de.unika.ipd.grgen.ast.pattern.GraphNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -36,10 +34,6 @@ public class ReplaceDeclNode extends RhsDeclNode
 	static {
 		setName(ReplaceDeclNode.class, "replace declaration");
 	}
-
-	// Cache variables
-	private Set<DeclNode> deletedElements;
-	private Set<BaseNode> reusedNodes;
 
 	/**
 	 * Make a new replace right-hand side.
@@ -82,12 +76,9 @@ public class ReplaceDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public Set<DeclNode> getDeleted(PatternGraphNode pattern)
+	public Set<ConstraintDeclNode> getDeletedImpl(PatternGraphNode pattern)
 	{
-		if(deletedElements != null)
-			return deletedElements;
-
-		LinkedHashSet<DeclNode> coll = new LinkedHashSet<DeclNode>();
+		LinkedHashSet<ConstraintDeclNode> deletedElements = new LinkedHashSet<ConstraintDeclNode>();
 
 		Set<EdgeDeclNode> rhsEdges = new LinkedHashSet<EdgeDeclNode>();
 		Set<NodeDeclNode> rhsNodes = new LinkedHashSet<NodeDeclNode>();
@@ -100,7 +91,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 		}
 		for(EdgeDeclNode edge : pattern.getEdges()) {
 			if(!rhsEdges.contains(edge)) {
-				coll.add(edge);
+				deletedElements.add(edge);
 			}
 		}
 
@@ -112,26 +103,21 @@ public class ReplaceDeclNode extends RhsDeclNode
 		}
 		for(NodeDeclNode node : pattern.getNodes()) {
 			if(!rhsNodes.contains(node) && !node.isDummy()) {
-				coll.add(node);
+				deletedElements.add(node);
 			}
 		}
 		// parameters are no special case, since they are treat like normal
 		// graph elements
 
-		deletedElements = Collections.unmodifiableSet(coll);
 		return deletedElements;
 	}
 
-	/**
-	 * Return all reused edges (with their nodes), that excludes new edges of
-	 * the right-hand side.
-	 */
 	@Override
-	public Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern)
+	public Set<ConnectionNode> getReusedConnectionsImpl(PatternGraphNode pattern)
 	{
-		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
-		Collection<EdgeDeclNode> lhs = pattern.getEdges();
+		Set<ConnectionNode> reusedConnections = new LinkedHashSet<ConnectionNode>();
 
+		Set<EdgeDeclNode> lhs = pattern.getEdges();
 		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
 			if(connectionCharacter instanceof ConnectionNode) {
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
@@ -140,33 +126,26 @@ public class ReplaceDeclNode extends RhsDeclNode
 					edge = ((EdgeTypeChangeDeclNode)edge).getOldEdge();
 				}
 				if(lhs.contains(edge)) {
-					res.add(connection);
+					reusedConnections.add(connection);
 				}
 			}
 		}
 
-		return res;
+		return reusedConnections;
 	}
 
-	/**
-	 * Return all reused nodes, that excludes new nodes of the right-hand side.
-	 */
 	@Override
-	public Set<BaseNode> getReusedNodes(PatternGraphNode pattern)
+	public Set<NodeDeclNode> getReusedNodesImpl(PatternGraphNode pattern)
 	{
-		if(reusedNodes != null)
-			return reusedNodes;
-
-		LinkedHashSet<BaseNode> coll = new LinkedHashSet<BaseNode>();
+		LinkedHashSet<NodeDeclNode> reusedNodes = new LinkedHashSet<NodeDeclNode>();
+		
 		Set<NodeDeclNode> patternNodes = pattern.getNodes();
 		Set<NodeDeclNode> rhsNodes = graph.getNodes();
-
 		for(NodeDeclNode node : patternNodes) {
 			if(rhsNodes.contains(node))
-				coll.add(node);
+				reusedNodes.add(node);
 		}
 
-		reusedNodes = Collections.unmodifiableSet(coll);
 		return reusedNodes;
 	}
 
@@ -177,9 +156,9 @@ public class ReplaceDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	protected Collection<ConnectionNode> getResultingConnections(PatternGraphNode pattern)
+	protected Set<ConnectionNode> getResultingConnections(PatternGraphNode pattern)
 	{
-		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
+		Set<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
 
 		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
 			if(connectionCharacter instanceof ConnectionNode) {

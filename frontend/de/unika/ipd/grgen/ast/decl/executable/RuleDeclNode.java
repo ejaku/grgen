@@ -137,7 +137,7 @@ public class RuleDeclNode extends TestDeclNode
 				& filtersOk;
 	}
 
-	public Set<DeclNode> getDeleted()
+	public Set<ConstraintDeclNode> getDeleted()
 	{
 		return right.getDeleted(pattern);
 	}
@@ -153,8 +153,8 @@ public class RuleDeclNode extends TestDeclNode
 		assert isResolved();
 
 		boolean valid = true;
-		Set<DeclNode> deleted = right.getDeleted(pattern);
-		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
+		Set<ConstraintDeclNode> deleted = right.getDeleted(pattern);
+		Set<ConstraintDeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
 
 		for(ExprNode expr : right.graph.returns.getChildren()) {
 			valid &= checkReturnedElemNotDeleted(expr, deleted, maybeDeleted);
@@ -163,7 +163,8 @@ public class RuleDeclNode extends TestDeclNode
 		return valid;
 	}
 
-	private boolean checkReturnedElemNotDeleted(ExprNode expr, Set<DeclNode> deleted, Collection<DeclNode> maybeDeleted)
+	private boolean checkReturnedElemNotDeleted(ExprNode expr,
+			Set<ConstraintDeclNode> deleted, Set<ConstraintDeclNode> maybeDeleted)
 	{
 		boolean valid = true;
 
@@ -335,8 +336,8 @@ public class RuleDeclNode extends TestDeclNode
 		assert isResolved();
 
 		boolean valid = true;
-		Set<DeclNode> delete = right.getDeleted(pattern);
-		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
+		Set<ConstraintDeclNode> delete = right.getDeleted(pattern);
+		Set<ConstraintDeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
 
 		for(BaseNode imperativeStmt : right.graph.imperativeStmts.getChildren()) {
 			if(!(imperativeStmt instanceof EmitNode))
@@ -355,7 +356,7 @@ public class RuleDeclNode extends TestDeclNode
 	}
 
 	private boolean checkEmitElemNotDeleted(ConstraintDeclNode declNode, ExprNode expr,
-			Set<DeclNode> delete, Collection<DeclNode> maybeDeleted)
+			Set<ConstraintDeclNode> delete, Set<ConstraintDeclNode> maybeDeleted)
 	{
 		if(delete.contains(declNode)) {
 			expr.reportError("The deleted " + declNode.getUseString() + " \"" + declNode.ident

@@ -519,8 +519,8 @@ public abstract class ActionDeclNode extends DeclNode
 
 		boolean valid = true;
 
-		Set<DeclNode> deleted = right.getDeleted(pattern);
-		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
+		Set<ConstraintDeclNode> deleted = right.getDeleted(pattern);
+		Collection<ConstraintDeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
 
 		for(BaseNode imperativeStatement : right.graph.imperativeStmts.getChildren()) {
 			if(!(imperativeStatement instanceof ExecNode))
@@ -542,7 +542,7 @@ public abstract class ActionDeclNode extends DeclNode
 	}
 
 	private boolean checkExecParamNotDeleted(ConstraintDeclNode declNode,
-			Set<DeclNode> deleted, Collection<DeclNode> maybeDeleted)
+			Set<ConstraintDeclNode> deleted, Collection<ConstraintDeclNode> maybeDeleted)
 	{
 		boolean valid = true;
 

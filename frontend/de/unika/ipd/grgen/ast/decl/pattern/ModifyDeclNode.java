@@ -6,7 +6,7 @@
  */
 
 /**
- * @author Sebastian Buchwald
+ * @author Sebastian Buchwald, Edgar Jakumeit
  */
 
 package de.unika.ipd.grgen.ast.decl.pattern;
@@ -15,7 +15,6 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
 import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
 import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
 import de.unika.ipd.grgen.ast.pattern.GraphNode;
@@ -34,7 +33,6 @@ import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -52,9 +50,6 @@ public class ModifyDeclNode extends RhsDeclNode
 	private CollectNode<IdentNode> deletesUnresolved;
 	private CollectNode<DeclNode> deletes = new CollectNode<DeclNode>();
 
-	// Cache variables
-	private Set<DeclNode> deletedElements;
-	private Set<BaseNode> reusedNodes;
 
 	/**
 	 * Make a new modify right-hand side.
@@ -132,7 +127,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	{
 		PatternGraph right = graph.getGraph();
 
-		HashSet<Entity> deleteSet = insertToBeDeletedElementsToLhsIfNotFromLhs(left, right);
+		Set<Entity> deleteSet = insertToBeDeletedElementsToLhsIfNotFromLhs(left, right);
 
 		insertLhsElementsToRhs(left, deleteSet, right);
 
@@ -150,7 +145,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		return right;
 	}
 
-	private HashSet<Entity> insertToBeDeletedElementsToLhsIfNotFromLhs(PatternGraph left, PatternGraph right)
+	private Set<Entity> insertToBeDeletedElementsToLhsIfNotFromLhs(PatternGraph left, PatternGraph right)
 	{
 		HashSet<Entity> deleteSet = new HashSet<Entity>();
 		
@@ -184,7 +179,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	// inserts to be kept nodes/edges and to be deleted nodes/edges, to be created nodes/edges are already contained
-	private void insertLhsElementsToRhs(PatternGraph left, HashSet<Entity> deleteSet, PatternGraph right)
+	private void insertLhsElementsToRhs(PatternGraph left, Set<Entity> deleteSet, PatternGraph right)
 	{
 		for(Node node : left.getNodes()) {
 			if(!deleteSet.contains(node)) {
@@ -205,7 +200,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		}
 	}
 
-	private void insertElementsFromTypeofToRhsIfNotYetContained(PatternGraph right, HashSet<Entity> deleteSet)
+	private void insertElementsFromTypeofToRhsIfNotYetContained(PatternGraph right, Set<Entity> deleteSet)
 	{
 		for(Node node : right.getNodes()) {
 			if(node.inheritsType()) {
@@ -254,156 +249,146 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public Set<DeclNode> getDeleted(PatternGraphNode pattern)
+	public Set<ConstraintDeclNode> getDeletedImpl(PatternGraphNode pattern)
 	{
 		assert isResolved();
 
-		if(deletedElements != null)
-			return deletedElements;
-
-		LinkedHashSet<DeclNode> deleted = new LinkedHashSet<DeclNode>();
+		LinkedHashSet<ConstraintDeclNode> deletedElements = new LinkedHashSet<ConstraintDeclNode>();
 
 		for(DeclNode del : deletes.getChildren()) {
-			if(!(del instanceof SubpatternDeclNode))
-				deleted.add(del);
+			if(!(del instanceof SubpatternUsageDeclNode))
+				deletedElements.add((ConstraintDeclNode)del);
 		}
 
 		// add edges with deleted source or target
 		for(ConnectionCharacter connectionCharacter : pattern.getConnections()) {
-			if(connectionCharacter instanceof ConnectionNode) {
-				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				if(deleted.contains(connection.getSrc()) || deleted.contains(connection.getTgt()))
-					deleted.add(connection.getEdge());
-			}
+			if(!(connectionCharacter instanceof ConnectionNode))
+				continue;
+			
+			ConnectionNode connection = (ConnectionNode)connectionCharacter;
+			if(deletedElements.contains(connection.getSrc()) || deletedElements.contains(connection.getTgt()))
+				deletedElements.add(connection.getEdge());
 		}
 		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
-			if(connectionCharacter instanceof ConnectionNode) {
-				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				if(deleted.contains(connection.getSrc()) || deleted.contains(connection.getTgt()))
-					deleted.add(connection.getEdge());
-			}
+			if(!(connectionCharacter instanceof ConnectionNode))
+				continue;
+			
+			ConnectionNode connection = (ConnectionNode)connectionCharacter;
+			if(deletedElements.contains(connection.getSrc()) || deletedElements.contains(connection.getTgt()))
+				deletedElements.add(connection.getEdge());
 		}
-
-		deletedElements = Collections.unmodifiableSet(deleted);
 
 		return deletedElements;
 	}
 
-	/**
-	 * Return all reused edges (with their nodes), that excludes new edges of
-	 * the right-hand side.
-	 */
 	@Override
-	public Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern)
+	public Set<ConnectionNode> getReusedConnectionsImpl(PatternGraphNode pattern)
 	{
-		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
-		Collection<EdgeDeclNode> lhs = pattern.getEdges();
+		Set<ConnectionNode> reusedConnections = new LinkedHashSet<ConnectionNode>();
 
+		Set<EdgeDeclNode> lhs = pattern.getEdges();
 		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
-			if(connectionCharacter instanceof ConnectionNode) {
-				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				EdgeDeclNode edge = connection.getEdge();
-				while(edge instanceof EdgeTypeChangeDeclNode) {
-					edge = ((EdgeTypeChangeDeclNode)edge).getOldEdge();
-				}
+			if(!(connectionCharacter instanceof ConnectionNode))
+				continue;
 
-				// add connection only if source and target are reused
-				if(lhs.contains(edge) && !sourceOrTargetNodeIncluded(pattern, deletes.getChildren(), edge)) {
-					res.add(connection);
-				}
+			ConnectionNode connection = (ConnectionNode)connectionCharacter;
+			EdgeDeclNode edge = connection.getEdge();
+			while(edge instanceof EdgeTypeChangeDeclNode) {
+				edge = ((EdgeTypeChangeDeclNode)edge).getOldEdge();
+			}
+
+			// add connection only if source and target are reused
+			if(lhs.contains(edge) && !sourceOrTargetNodeIncluded(pattern, deletes.getChildren(), edge)) {
+				reusedConnections.add(connection);
 			}
 		}
 
 		for(ConnectionCharacter connectionCharacter : pattern.getConnections()) {
-			if(connectionCharacter instanceof ConnectionNode) {
-				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				EdgeDeclNode edge = connection.getEdge();
-				while(edge instanceof EdgeTypeChangeDeclNode) {
-					edge = ((EdgeTypeChangeDeclNode)edge).getOldEdge();
-				}
+			if(!(connectionCharacter instanceof ConnectionNode))
+				continue;
+			
+			ConnectionNode connection = (ConnectionNode)connectionCharacter;
+			EdgeDeclNode edge = connection.getEdge();
+			while(edge instanceof EdgeTypeChangeDeclNode) {
+				edge = ((EdgeTypeChangeDeclNode)edge).getOldEdge();
+			}
 
-				// add connection only if source and target are reused
-				if(!deletes.getChildren().contains(edge)
-						&& !sourceOrTargetNodeIncluded(pattern, deletes.getChildren(), edge)) {
-					res.add(connection);
-				}
+			// add connection only if source and target are reused
+			if(!deletes.getChildren().contains(edge)
+					&& !sourceOrTargetNodeIncluded(pattern, deletes.getChildren(), edge)) {
+				reusedConnections.add(connection);
 			}
 		}
 
-		return res;
+		return reusedConnections;
 	}
 
-	/**
-	 * Return all reused nodes, that excludes new nodes of the right-hand side.
-	 */
 	@Override
-	public Set<BaseNode> getReusedNodes(PatternGraphNode pattern)
+	public Set<NodeDeclNode> getReusedNodesImpl(PatternGraphNode pattern)
 	{
-		if(reusedNodes != null)
-			return reusedNodes;
-
-		LinkedHashSet<BaseNode> coll = new LinkedHashSet<BaseNode>();
+		LinkedHashSet<NodeDeclNode> reusedNodes = new LinkedHashSet<NodeDeclNode>();
+		
 		Set<NodeDeclNode> patternNodes = pattern.getNodes();
 		Set<NodeDeclNode> rhsNodes = graph.getNodes();
-
 		for(NodeDeclNode node : patternNodes) {
 			if(rhsNodes.contains(node) || !deletes.getChildren().contains(node))
-				coll.add(node);
+				reusedNodes.add(node);
 		}
-
-		reusedNodes = Collections.unmodifiableSet(coll);
+		
 		return reusedNodes;
 	}
 
 	@Override
 	public void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern)
 	{
-		Set<DeclNode> deletes = getDeleted(pattern);
+		Set<ConstraintDeclNode> deletes = getDeleted(pattern);
 
 		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
 		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
-			BaseNode elem = BaseNode.getErrorNode();
+			ConstraintDeclNode element = null;
 			if(connectionCharacter instanceof SingleNodeConnNode) {
 				SingleNodeConnNode singleNodeConnection = (SingleNodeConnNode)connectionCharacter;
-				elem = singleNodeConnection.getNode();
-			} else if(connectionCharacter instanceof ConnectionNode) {
+				element = singleNodeConnection.getNode();
+			} else { //if(connectionCharacter instanceof ConnectionNode)
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				elem = connection.getEdge();
+				element = connection.getEdge();
 			}
 
-			if(alreadyReported.contains(elem)) {
+			if(alreadyReported.contains(element)) {
 				continue;
 			}
 
-			for(DeclNode del : deletes) {
-				if(elem.equals(del)) {
-					if(elem instanceof ConstraintDeclNode && ((ConstraintDeclNode)elem).defEntityToBeYieldedTo)
+			for(ConstraintDeclNode del : deletes) {
+				if(element.equals(del)) {
+					if(element.defEntityToBeYieldedTo)
 						continue;
+					
 					connectionCharacter.reportWarning("\"" + del + "\" appears inside as well as outside a delete statement");
-					alreadyReported.add(elem);
+					alreadyReported.add(element);
 				}
 			}
 		}
 	}
 
 	@Override
-	protected Collection<ConnectionNode> getResultingConnections(PatternGraphNode pattern)
+	protected Set<ConnectionNode> getResultingConnections(PatternGraphNode pattern)
 	{
-		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
+		Set<ConnectionNode> notDeletedConnections = new LinkedHashSet<ConnectionNode>();
 
-		Collection<DeclNode> delete = getDeleted(pattern);
+		Set<ConstraintDeclNode> deleted = getDeleted(pattern);
 
 		for(ConnectionCharacter connectionCharacter : pattern.getConnections()) {
-			if(connectionCharacter instanceof ConnectionNode) {
-				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				if(!delete.contains(connection.getEdge())
-						&& !delete.contains(connection.getSrc())
-						&& !delete.contains(connection.getTgt())) {
-					res.add(connection);
-				}
+			if(!(connectionCharacter instanceof ConnectionNode))
+				continue;
+			
+			ConnectionNode connection = (ConnectionNode)connectionCharacter;
+			if(!deleted.contains(connection.getEdge())
+					&& !deleted.contains(connection.getSrc())
+					&& !deleted.contains(connection.getTgt())) {
+				notDeletedConnections.add(connection);
 			}
 		}
 
-		return res;
+		return notDeletedConnections;
 	}
 }
