@@ -69,117 +69,116 @@ public class ReplaceDeclNode extends RhsDeclNode
 	public PatternGraph getPatternGraph(PatternGraph left)
 	{
 		PatternGraph right = graph.getGraph();
-		insertElementsFromEvalIntoRhs(left, right);
+		insertElementsFromEvalsIntoRhs(left, right);
 		insertElementsFromOrderedReplacementsIntoRhs(left, right);
 		insertElementsFromLeftToRightIfTheyAreFromNestingPattern(left, right);
 		return right;
 	}
 
 	@Override
-	public Set<ConstraintDeclNode> getDeletedImpl(PatternGraphNode pattern)
+	public boolean checkAgainstLhsPattern(PatternGraphNode pattern)
 	{
-		LinkedHashSet<ConstraintDeclNode> deletedElements = new LinkedHashSet<ConstraintDeclNode>();
+		return true; // nothing to do as of now
+	}
+
+	@Override
+	public Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphNode pattern)
+	{
+		LinkedHashSet<ConstraintDeclNode> elementsToDelete = new LinkedHashSet<ConstraintDeclNode>();
 
 		Set<EdgeDeclNode> rhsEdges = new LinkedHashSet<EdgeDeclNode>();
 		Set<NodeDeclNode> rhsNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for(EdgeDeclNode decl : graph.getEdges()) {
-			while(decl instanceof EdgeTypeChangeDeclNode) {
-				decl = ((EdgeTypeChangeDeclNode)decl).getOldEdge();
+		for(EdgeDeclNode rhsEdge : graph.getEdges()) {
+			while(rhsEdge instanceof EdgeTypeChangeDeclNode) {
+				rhsEdge = ((EdgeTypeChangeDeclNode)rhsEdge).getOldEdge();
 			}
-			rhsEdges.add(decl);
+			rhsEdges.add(rhsEdge);
 		}
-		for(EdgeDeclNode edge : pattern.getEdges()) {
-			if(!rhsEdges.contains(edge)) {
-				deletedElements.add(edge);
-			}
-		}
-
-		for(NodeDeclNode decl : graph.getNodes()) {
-			while(decl instanceof NodeTypeChangeDeclNode) {
-				decl = ((NodeTypeChangeDeclNode)decl).getOldNode();
-			}
-			rhsNodes.add(decl);
-		}
-		for(NodeDeclNode node : pattern.getNodes()) {
-			if(!rhsNodes.contains(node) && !node.isDummy()) {
-				deletedElements.add(node);
-			}
-		}
-		// parameters are no special case, since they are treat like normal
-		// graph elements
-
-		return deletedElements;
-	}
-
-	@Override
-	public Set<ConnectionNode> getReusedConnectionsImpl(PatternGraphNode pattern)
-	{
-		Set<ConnectionNode> reusedConnections = new LinkedHashSet<ConnectionNode>();
-
-		Set<EdgeDeclNode> lhs = pattern.getEdges();
-		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
-			if(connectionCharacter instanceof ConnectionNode) {
-				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				EdgeDeclNode edge = connection.getEdge();
-				while(edge instanceof EdgeTypeChangeDeclNode) {
-					edge = ((EdgeTypeChangeDeclNode)edge).getOldEdge();
-				}
-				if(lhs.contains(edge)) {
-					reusedConnections.add(connection);
-				}
+		for(EdgeDeclNode lhsEdge : pattern.getEdges()) {
+			if(!rhsEdges.contains(lhsEdge)) {
+				elementsToDelete.add(lhsEdge);
 			}
 		}
 
-		return reusedConnections;
-	}
-
-	@Override
-	public Set<NodeDeclNode> getReusedNodesImpl(PatternGraphNode pattern)
-	{
-		LinkedHashSet<NodeDeclNode> reusedNodes = new LinkedHashSet<NodeDeclNode>();
+		for(NodeDeclNode rhsNode : graph.getNodes()) {
+			while(rhsNode instanceof NodeTypeChangeDeclNode) {
+				rhsNode = ((NodeTypeChangeDeclNode)rhsNode).getOldNode();
+			}
+			rhsNodes.add(rhsNode);
+		}
+		for(NodeDeclNode lhsNode : pattern.getNodes()) {
+			if(!rhsNodes.contains(lhsNode) && !lhsNode.isDummy()) {
+				elementsToDelete.add(lhsNode);
+			}
+		}
 		
-		Set<NodeDeclNode> patternNodes = pattern.getNodes();
-		Set<NodeDeclNode> rhsNodes = graph.getNodes();
-		for(NodeDeclNode node : patternNodes) {
-			if(rhsNodes.contains(node))
-				reusedNodes.add(node);
+		// parameters are no special case, since they are treat like normal graph elements
+		return elementsToDelete;
+	}
+
+	@Override
+	public Set<ConnectionNode> getConnectionsToReuseImpl(PatternGraphNode pattern)
+	{
+		Set<ConnectionNode> connectionsToReuse = new LinkedHashSet<ConnectionNode>();
+
+		Set<EdgeDeclNode> lhsEdges = pattern.getEdges();
+		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
+			if(connectionCharacter instanceof ConnectionNode) {
+				ConnectionNode connection = (ConnectionNode)connectionCharacter;
+				EdgeDeclNode rhsEdge = connection.getEdge();
+				while(rhsEdge instanceof EdgeTypeChangeDeclNode) {
+					rhsEdge = ((EdgeTypeChangeDeclNode)rhsEdge).getOldEdge();
+				}
+				if(lhsEdges.contains(rhsEdge)) {
+					connectionsToReuse.add(connection);
+				}
+			}
 		}
 
-		return reusedNodes;
+		return connectionsToReuse;
 	}
 
 	@Override
-	public void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern)
+	public Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphNode pattern)
 	{
-		// nothing to do
+		LinkedHashSet<NodeDeclNode> nodesToReuse = new LinkedHashSet<NodeDeclNode>();
+		
+		Set<NodeDeclNode> lhsNodes = pattern.getNodes();
+		Set<NodeDeclNode> rhsNodes = graph.getNodes();
+		for(NodeDeclNode lhsNode : lhsNodes) {
+			if(rhsNodes.contains(lhsNode))
+				nodesToReuse.add(lhsNode);
+		}
+
+		return nodesToReuse;
 	}
 
 	@Override
-	protected Set<ConnectionNode> getResultingConnections(PatternGraphNode pattern)
+	protected Set<ConnectionNode> getConnectionsNotDeleted(PatternGraphNode pattern)
 	{
-		Set<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
+		Set<ConnectionNode> connectionsNotDeleted = new LinkedHashSet<ConnectionNode>();
 
 		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
 			if(connectionCharacter instanceof ConnectionNode) {
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				res.add(connection);
+				connectionsNotDeleted.add(connection);
 			}
 		}
 
-		return res;
+		return connectionsNotDeleted;
 	}
 
 	private void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraph left, PatternGraph right)
 	{
-		for(Node node : left.getNodes()) {
-			if(node.directlyNestingLHSGraph != left && !right.hasNode(node)) {
-				right.addSingleNode(node);
+		for(Node lhsNode : left.getNodes()) {
+			if(lhsNode.directlyNestingLHSGraph != left && !right.hasNode(lhsNode)) {
+				right.addSingleNode(lhsNode);
 			}
 		}
-		for(Edge edge : left.getEdges()) {
-			if(edge.directlyNestingLHSGraph != left && !right.hasEdge(edge)) {
-				right.addSingleEdge(edge);
+		for(Edge lhsEdge : left.getEdges()) {
+			if(lhsEdge.directlyNestingLHSGraph != left && !right.hasEdge(lhsEdge)) {
+				right.addSingleEdge(lhsEdge);
 			}
 		}
 	}

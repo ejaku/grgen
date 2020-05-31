@@ -319,7 +319,7 @@ public abstract class ActionDeclNode extends DeclNode
 		HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo = new HashMap<EdgeDeclNode, NodeDeclNode>();
 
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for(ConnectionNode rightConnection : right.getReusedConnections(pattern)) {
+		for(ConnectionNode rightConnection : right.getConnectionsToReuse(pattern)) {
 			EdgeDeclNode rightEdge = rightConnection.getEdge();
 
 			if(rightEdge instanceof EdgeTypeChangeDeclNode) {
@@ -363,7 +363,7 @@ public abstract class ActionDeclNode extends DeclNode
 		NodeDeclNode rTgt = rightConnection.getTgt();
 
 		HashSet<BaseNode> rhsNodes = new HashSet<BaseNode>();
-		rhsNodes.addAll(right.getReusedNodes(pattern));
+		rhsNodes.addAll(right.getNodesToReuse(pattern));
 
 		if(rSrc instanceof NodeTypeChangeDeclNode) {
 			rSrc = ((NodeTypeChangeDeclNode)rSrc).getOldNode();
@@ -519,8 +519,8 @@ public abstract class ActionDeclNode extends DeclNode
 
 		boolean valid = true;
 
-		Set<ConstraintDeclNode> deleted = right.getDeleted(pattern);
-		Collection<ConstraintDeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
+		Set<ConstraintDeclNode> deletedElements = right.getElementsToDelete(pattern);
+		Set<ConstraintDeclNode> maybeDeletedElements = right.getMaybeDeletedElements(pattern);
 
 		for(BaseNode imperativeStatement : right.graph.imperativeStmts.getChildren()) {
 			if(!(imperativeStatement instanceof ExecNode))
@@ -533,7 +533,7 @@ public abstract class ActionDeclNode extends DeclNode
 						continue;
 
 					ConstraintDeclNode declNode = ((DeclExprNode)arg).getConstraintDeclNode();
-					valid &= checkExecParamNotDeleted(declNode, deleted, maybeDeleted);
+					valid &= checkExecParamNotDeleted(declNode, deletedElements, maybeDeletedElements);
 				}
 			}
 		}
@@ -542,16 +542,16 @@ public abstract class ActionDeclNode extends DeclNode
 	}
 
 	private boolean checkExecParamNotDeleted(ConstraintDeclNode declNode,
-			Set<ConstraintDeclNode> deleted, Collection<ConstraintDeclNode> maybeDeleted)
+			Set<ConstraintDeclNode> deletedElements, Set<ConstraintDeclNode> maybeDeletedElements)
 	{
 		boolean valid = true;
 
 		if(declNode != null) {
-			if(deleted.contains(declNode)) {
+			if(deletedElements.contains(declNode)) {
 				declNode.reportError("The deleted " + declNode.getUseString() + " \"" + declNode.ident
 						+ "\" must not be passed to an exec statement");
 				valid = false;
-			} else if(maybeDeleted.contains(declNode)) {
+			} else if(maybeDeletedElements.contains(declNode)) {
 				declNode.maybeDeleted = true;
 
 				if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {

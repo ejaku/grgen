@@ -137,9 +137,9 @@ public class RuleDeclNode extends TestDeclNode
 				& filtersOk;
 	}
 
-	public Set<ConstraintDeclNode> getDeleted()
+	public Set<ConstraintDeclNode> getDeletedElements()
 	{
-		return right.getDeleted(pattern);
+		return right.getElementsToDelete(pattern);
 	}
 
 	/**
@@ -148,23 +148,23 @@ public class RuleDeclNode extends TestDeclNode
 	 * The check also consider the case that a node is returned and homomorphic
 	 * matching is allowed with a deleted node.
 	 */
-	private boolean checkReturnedElemsNotDeleted()
+	private boolean checkReturnedElementsNotDeleted()
 	{
 		assert isResolved();
 
 		boolean valid = true;
-		Set<ConstraintDeclNode> deleted = right.getDeleted(pattern);
-		Set<ConstraintDeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
+		Set<ConstraintDeclNode> deletedElements = right.getElementsToDelete(pattern);
+		Set<ConstraintDeclNode> maybeDeletedElements = right.getMaybeDeletedElements(pattern);
 
 		for(ExprNode expr : right.graph.returns.getChildren()) {
-			valid &= checkReturnedElemNotDeleted(expr, deleted, maybeDeleted);
+			valid &= checkReturnedElementNotDeleted(expr, deletedElements, maybeDeletedElements);
 		}
 
 		return valid;
 	}
 
-	private boolean checkReturnedElemNotDeleted(ExprNode expr,
-			Set<ConstraintDeclNode> deleted, Set<ConstraintDeclNode> maybeDeleted)
+	private boolean checkReturnedElementNotDeleted(ExprNode expr,
+			Set<ConstraintDeclNode> deletedElements, Set<ConstraintDeclNode> maybeDeletedElements)
 	{
 		boolean valid = true;
 
@@ -175,12 +175,12 @@ public class RuleDeclNode extends TestDeclNode
 		if(retElem == null)
 			return valid;
 
-		if(deleted.contains(retElem)) {
+		if(deletedElements.contains(retElem)) {
 			valid = false;
 
 			expr.reportError("The deleted " + retElem.getUseString()
 					+ " \"" + retElem.ident + "\" must not be returned");
-		} else if(maybeDeleted.contains(retElem)) {
+		} else if(maybeDeletedElements.contains(retElem)) {
 			retElem.maybeDeleted = true;
 
 			if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
@@ -207,7 +207,7 @@ public class RuleDeclNode extends TestDeclNode
 	 * The check also consider the case that a node is returned and homomorphic
 	 * matching is allowed with a retyped node.
 	 */
-	private boolean checkReturnedElemsNotRetyped()
+	private boolean checkReturnedElementsNotRetyped()
 	{
 		assert isResolved();
 
@@ -235,20 +235,20 @@ public class RuleDeclNode extends TestDeclNode
 	/**
 	 * Check that every graph element is retyped to at most one type.
 	 */
-	private boolean checkElemsNotRetypedToDifferentTypes()
+	private boolean checkElementsNotRetypedToDifferentTypes()
 	{
 		assert isResolved();
 
 		boolean valid = true;
 
 		for(Set<ConstraintDeclNode> homSet : pattern.getHoms()) {
-			valid &= checkElemsInHomSetNotRetypedToDifferentTypes(homSet);
+			valid &= checkElementsInHomSetNotRetypedToDifferentTypes(homSet);
 		}
 
 		return valid;
 	}
 
-	private boolean checkElemsInHomSetNotRetypedToDifferentTypes(Set<ConstraintDeclNode> homSet)
+	private boolean checkElementsInHomSetNotRetypedToDifferentTypes(Set<ConstraintDeclNode> homSet)
 	{
 		boolean multipleRetypes = false;
 
@@ -285,13 +285,13 @@ public class RuleDeclNode extends TestDeclNode
 	/**
 	 * Check that only graph elements are retyped, that are not deleted.
 	 */
-	private boolean checkRetypedElemsNotDeleted()
+	private boolean checkRetypedElementsNotDeleted()
 	{
 		assert isResolved();
 
 		boolean valid = true;
 
-		for(DeclNode decl : getDeleted()) {
+		for(DeclNode decl : getDeletedElements()) {
 			if(!(decl instanceof ConstraintDeclNode))
 				continue;
 
@@ -328,16 +328,16 @@ public class RuleDeclNode extends TestDeclNode
 	}
 
 	/**
-	 * Check that emit elems are not deleted.
+	 * Check that emit elements are not deleted.
 	 * The check considers the case that parameters are deleted due to homomorphic matching.
 	 */
-	private boolean checkEmitElemsNotDeleted()
+	private boolean checkEmitElementsNotDeleted()
 	{
 		assert isResolved();
 
 		boolean valid = true;
-		Set<ConstraintDeclNode> delete = right.getDeleted(pattern);
-		Set<ConstraintDeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
+		Set<ConstraintDeclNode> delete = right.getElementsToDelete(pattern);
+		Set<ConstraintDeclNode> maybeDeleted = right.getMaybeDeletedElements(pattern);
 
 		for(BaseNode imperativeStmt : right.graph.imperativeStmts.getChildren()) {
 			if(!(imperativeStmt instanceof EmitNode))
@@ -347,7 +347,7 @@ public class RuleDeclNode extends TestDeclNode
 			for(BaseNode child : emit.getChildren()) {
 				ExprNode expr = (ExprNode)child;
 				for(ConstraintDeclNode declNode : collectNeededElements(expr)) {
-					valid &= checkEmitElemNotDeleted(declNode, expr, delete, maybeDeleted);
+					valid &= checkEmitElementNotDeleted(declNode, expr, delete, maybeDeleted);
 				}
 			}
 		}
@@ -355,7 +355,7 @@ public class RuleDeclNode extends TestDeclNode
 		return valid;
 	}
 
-	private boolean checkEmitElemNotDeleted(ConstraintDeclNode declNode, ExprNode expr,
+	private boolean checkEmitElementNotDeleted(ConstraintDeclNode declNode, ExprNode expr,
 			Set<ConstraintDeclNode> delete, Set<ConstraintDeclNode> maybeDeleted)
 	{
 		if(delete.contains(declNode)) {
@@ -419,9 +419,11 @@ public class RuleDeclNode extends TestDeclNode
 	 */
 	protected boolean checkLocal()
 	{
-		right.warnElemAppearsInsideAndOutsideDelete(pattern);
-
 		boolean leftHandGraphsOk = super.checkLocal();
+
+		boolean rightHandGraphsOk = true;
+		if(right != null)
+			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
 
 		GraphNode right = this.right.graph;
 
@@ -444,16 +446,17 @@ public class RuleDeclNode extends TestDeclNode
 		calcMaybeRetyped();
 
 		return leftHandGraphsOk
+				& rightHandGraphsOk
 				& checkRhsReuse(this.right)
 				& sameNumberOfRewriteParts(this.right, "rule")
 				& noReturnInPatternOk
 				& noAbstractElementInstantiated(this.right)
-				& checkRetypedElemsNotDeleted()
-				& checkReturnedElemsNotDeleted()
-				& checkElemsNotRetypedToDifferentTypes()
-				& checkReturnedElemsNotRetyped()
+				& checkRetypedElementsNotDeleted()
+				& checkReturnedElementsNotDeleted()
+				& checkElementsNotRetypedToDifferentTypes()
+				& checkReturnedElementsNotRetyped()
 				& checkExecParamsNotDeleted(this.right)
-				& checkEmitElemsNotDeleted()
+				& checkEmitElementsNotDeleted()
 				& checkReturns(right.returns);
 	}
 
@@ -547,7 +550,7 @@ public class RuleDeclNode extends TestDeclNode
 		constructIRaux(rule, this.right.graph.returns);
 
 		// add eval statements to the IR
-		for(EvalStatements evalStatement : this.right.getRHSGraph().getYieldEvalStatements()) {
+		for(EvalStatements evalStatement : this.right.getRhsGraph().getYieldEvalStatements()) {
 			rule.addEval(evalStatement);
 		}
 

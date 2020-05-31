@@ -118,10 +118,11 @@ public class IteratedDeclNode extends ActionDeclNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(right != null)
-			right.warnElemAppearsInsideAndOutsideDelete(pattern);
-
 		boolean leftHandGraphsOk = checkLeft();
+
+		boolean rightHandGraphsOk = true;
+		if(right != null)
+			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
 
 		boolean noReturnInPatternOk = true;
 		if(pattern.returns.size() > 0) {
@@ -150,6 +151,7 @@ public class IteratedDeclNode extends ActionDeclNode
 		}
 
 		return leftHandGraphsOk
+				& rightHandGraphsOk
 				& checkFilters(pattern, filters)
 				& sameNumberOfRewriteParts
 				& noNestedRewriteParameters
@@ -205,7 +207,7 @@ public class IteratedDeclNode extends ActionDeclNode
 
 		// add Eval statements to the IR
 		if(this.right != null) {
-			for(EvalStatements evalStatements : this.right.getRHSGraph().getYieldEvalStatements()) {
+			for(EvalStatements evalStatements : this.right.getRhsGraph().getYieldEvalStatements()) {
 				iteratedRule.addEval(evalStatements);
 			}
 		}

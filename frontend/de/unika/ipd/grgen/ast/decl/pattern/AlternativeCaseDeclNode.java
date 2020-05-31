@@ -102,10 +102,11 @@ public class AlternativeCaseDeclNode extends ActionDeclNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(right != null)
-			right.warnElemAppearsInsideAndOutsideDelete(pattern);
-
 		boolean leftHandGraphsOk = checkLeft();
+
+		boolean rightHandGraphsOk = true;
+		if(right != null)
+			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
 
 		boolean noReturnInPatternOk = true;
 		if(pattern.returns.size() > 0) {
@@ -134,6 +135,7 @@ public class AlternativeCaseDeclNode extends ActionDeclNode
 		}
 
 		return leftHandGraphsOk
+				& rightHandGraphsOk
 				& sameNumberOfRewriteParts
 				& noNestedRewriteParameters
 				& rhsReuseOk
@@ -174,7 +176,7 @@ public class AlternativeCaseDeclNode extends ActionDeclNode
 
 		// add Eval statements to the IR
 		if(right != null) {
-			for(EvalStatements evalStatement : right.getRHSGraph().getYieldEvalStatements()) {
+			for(EvalStatements evalStatement : right.getRhsGraph().getYieldEvalStatements()) {
 				altCaseRule.addEval(evalStatement);
 			}
 		}

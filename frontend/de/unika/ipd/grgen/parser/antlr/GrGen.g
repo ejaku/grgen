@@ -911,14 +911,14 @@ replacePart [ CollectNode<BaseNode> params, AnonymousScopeNamer namer,
 		b=replaceBody[getCoords(r), params, connections, defVariablesToBeYieldedTo, evals, orderedReplacements, imperativeStmts, returnz,
 						namer, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		defEntitiesOrEvals[connections, defVariablesToBeYieldedTo, evals, orderedReplacements, imperativeStmts, returnz,
-						namer, context, b.getRHSGraph(), directlyNestingLHSGraph]
+						namer, context, b.getRhsGraph(), directlyNestingLHSGraph]
 		RBRACE
 	| LBRACEMINUS 
 		{ params = new CollectNode<BaseNode>(); }
 		b=replaceBody[getCoords(r), params, connections, defVariablesToBeYieldedTo, evals, orderedReplacements, imperativeStmts, returnz,
 						namer, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		defEntitiesOrEvals[connections, defVariablesToBeYieldedTo, evals, orderedReplacements, imperativeStmts, returnz, 
-						namer, context, b.getRHSGraph(), directlyNestingLHSGraph]
+						namer, context, b.getRhsGraph(), directlyNestingLHSGraph]
 	  RBRACE
 	;
 
@@ -939,14 +939,14 @@ modifyPart [ CollectNode<IdentNode> dels, CollectNode<BaseNode> params, Anonymou
 		b=modifyBody[getCoords(m), dels, params, connections, defVariablesToBeYieldedTo, evals, orderedReplacements, imperativeStmts, returnz, 
 						namer, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		defEntitiesOrEvals[connections, defVariablesToBeYieldedTo, evals, orderedReplacements, imperativeStmts, returnz,
-						namer, context, b.getRHSGraph(), directlyNestingLHSGraph]
+						namer, context, b.getRhsGraph(), directlyNestingLHSGraph]
 		RBRACE
 	| LBRACEPLUS 
 		{ params = new CollectNode<BaseNode>(); }
 		b=modifyBody[getCoords(m), dels, params, connections, defVariablesToBeYieldedTo, evals, orderedReplacements, imperativeStmts, returnz,
 						namer, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		defEntitiesOrEvals[connections, defVariablesToBeYieldedTo, evals, orderedReplacements, imperativeStmts, returnz,
-						namer, context, b.getRHSGraph(), directlyNestingLHSGraph]
+						namer, context, b.getRhsGraph(), directlyNestingLHSGraph]
 	  RBRACE
 	;
 

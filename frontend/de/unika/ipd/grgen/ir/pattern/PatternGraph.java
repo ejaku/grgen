@@ -81,7 +81,8 @@ public class PatternGraph extends Graph
 	 *  to the isomorphy exceptions, requested by independent(edge); */
 	private final HashMap<Edge, HashSet<Edge>> totallyHomEdges = new HashMap<Edge, HashSet<Edge>>();
 
-	/** A set of the graph elements clearly deleted (in contrast to not mentioned ones) */
+	/** A set of the graph elements clearly deleted (in contrast to not mentioned ones) 
+	 * This means explicitly deleted, or for edges deleted because their source/target node is explicitly deleted*/
 	private final HashSet<GraphEntity> deletedElements = new HashSet<GraphEntity>();
 
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();

@@ -586,7 +586,7 @@ public class PatternGraphNode extends GraphNode
 		boolean result = true;
 		for(IteratedDeclNode iter : iters.getChildren()) {
 			if(iter.right != null) {
-				for(EvalStatementsNode evalStmts : iter.right.getRHSGraph().yieldsEvals.getChildren()) {
+				for(EvalStatementsNode evalStmts : iter.right.getRhsGraph().yieldsEvals.getChildren()) {
 					evalStmts.noExecStatement();
 				}
 			}
@@ -594,7 +594,7 @@ public class PatternGraphNode extends GraphNode
 		for(AlternativeDeclNode alt : alts.getChildren()) {
 			for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 				if(altCase.right != null) {
-					for(EvalStatementsNode evalStmts : altCase.right.getRHSGraph().yieldsEvals.getChildren()) {
+					for(EvalStatementsNode evalStmts : altCase.right.getRhsGraph().yieldsEvals.getChildren()) {
 						evalStmts.noExecStatement();
 					}
 				}
@@ -1210,7 +1210,7 @@ public class PatternGraphNode extends GraphNode
 			for(BaseNode homChild : homChildren) {
 				ConstraintDeclNode decl = (ConstraintDeclNode)homChild;
 
-				Set<ConstraintDeclNode> deletedEntities = getRule().getDeleted();
+				Set<ConstraintDeclNode> deletedEntities = getRule().getDeletedElements();
 				if(deletedEntities.contains(decl)) {
 					deleteHomSet.add(decl);
 				} else {
@@ -1417,7 +1417,7 @@ public class PatternGraphNode extends GraphNode
 		}
 
 		if(isDangling()) {
-			Set<ConstraintDeclNode> deletedNodes = getRule().getDeleted();
+			Set<ConstraintDeclNode> deletedNodes = getRule().getDeletedElements();
 			addToSingleNodeMap(getDpoPatternNodes(deletedNodes));
 
 			for(ExactNode exact : exacts.getChildren()) {

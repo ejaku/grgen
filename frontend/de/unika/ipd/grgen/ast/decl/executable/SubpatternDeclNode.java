@@ -151,10 +151,11 @@ public class SubpatternDeclNode extends ActionDeclNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(right != null)
-			right.warnElemAppearsInsideAndOutsideDelete(pattern);
-
 		boolean leftHandGraphsOk = checkLeft();
+
+		boolean rightHandGraphsOk = true;
+		if(right != null)
+			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
 
 		boolean noReturnInPatternOk = true;
 		if(pattern.returns.size() > 0) {
@@ -175,6 +176,7 @@ public class SubpatternDeclNode extends ActionDeclNode
 		}
 
 		return leftHandGraphsOk
+				& rightHandGraphsOk
 				& sameNumberOfRewriteParts 
 				& noNestedRewriteParameters
 				& rhsReuseOk
@@ -220,7 +222,7 @@ public class SubpatternDeclNode extends ActionDeclNode
 
 		// add Eval statements to the IR
 		if(this.right != null) {
-			for(EvalStatements n : this.right.getRHSGraph().getYieldEvalStatements()) {
+			for(EvalStatements n : this.right.getRhsGraph().getYieldEvalStatements()) {
 				rule.addEval(n);
 			}
 		}
