@@ -13,4 +13,23 @@ public class Pair<R extends BaseNode, S extends BaseNode>
 {
 	public R fst = null;
 	public S snd = null;
+	
+	@Override
+	public int hashCode()
+	{
+		return fst.hashCode() * 31 + snd.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object that)
+	{
+		if(that == null)
+			return false;
+		if(this == that)
+			return true;
+		if(!(that instanceof Pair<?,?>))
+			return false;
+		Pair<?,?> that_ = (Pair<?,?>)that;
+		return fst.equals(that_.fst) && snd.equals(that_.snd);
+	}
 }

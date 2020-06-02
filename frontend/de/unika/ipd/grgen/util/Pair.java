@@ -24,9 +24,28 @@ public class Pair<T, S>
 		second = null;
 	}
 
-	public Pair(T f, S s)
+	public Pair(T first, S second)
 	{
-		first = f;
-		second = s;
+		this.first = first;
+		this.second = second;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return first.hashCode() * 31 + second.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object that)
+	{
+		if(that == null)
+			return false;
+		if(this == that)
+			return true;
+		if(!(that instanceof Pair<?,?>))
+			return false;
+		Pair<?,?> that_ = (Pair<?,?>)that;
+		return first.equals(that_.first) && second.equals(that_.second);
 	}
 }
