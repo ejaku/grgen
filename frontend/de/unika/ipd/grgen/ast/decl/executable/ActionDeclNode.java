@@ -32,6 +32,7 @@ import de.unika.ipd.grgen.ast.expr.array.ArrayAccumulationMethodNode;
 import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
 import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
 import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
+import de.unika.ipd.grgen.ast.pattern.ImplicitNegComputer;
 import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -801,7 +802,8 @@ edgeAbstrLoop:
 	protected void constructImplicitNegs(PatternGraph left)
 	{
 		PatternGraphNode leftNode = pattern;
-		for(PatternGraph neg : leftNode.getImplicitNegGraphs()) {
+		ImplicitNegComputer implicitNegComputer = new ImplicitNegComputer(leftNode);
+		for(PatternGraph neg : implicitNegComputer.getImplicitNegGraphs()) {
 			left.addNegGraph(neg);
 		}
 	}

@@ -8,7 +8,7 @@
 /**
  * PatternGraphNode.java
  *
- * @author Sebastian Hack
+ * @author Sebastian Hack, Edgar Jakumeit
  */
 
 package de.unika.ipd.grgen.ast.pattern;
@@ -16,11 +16,8 @@ package de.unika.ipd.grgen.ast.pattern;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -64,7 +61,6 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.SymbolTable;
-import de.unika.ipd.grgen.util.Pair;
 
 /**
  * AST node that represents a graph pattern as it appears within the pattern
@@ -92,50 +88,13 @@ public class PatternGraphNode extends GraphNode
 	public CollectNode<IteratedDeclNode> iters;
 	public CollectNode<PatternGraphNode> negs; // NACs
 	public CollectNode<PatternGraphNode> idpts; // PACs
-	private CollectNode<HomNode> homs;
+	public CollectNode<HomNode> homs;
 	private CollectNode<TotallyHomNode> totallyHoms;
-	private CollectNode<ExactNode> exacts;
-	private CollectNode<InducedNode> induceds;
+	public CollectNode<ExactNode> exacts;
+	public CollectNode<InducedNode> induceds;
 
-	// Cache variable
-	private Collection<Set<ConstraintDeclNode>> homSets = null;
-
-	/**
-	 *  Map an edge to its homomorphic set.
-	 *
-	 *  NOTE: Use getCorrespondentHomSet() to get the homomorphic set.
-	 */
-	private Map<EdgeDeclNode, Set<EdgeDeclNode>> edgeToHomEdges =
-		new LinkedHashMap<EdgeDeclNode, Set<EdgeDeclNode>>();
-
-	/**
-	 *  Map a node to its homomorphic set.
-	 *
-	 *  NOTE: Use getCorrespondentHomSet() to get the homomorphic set.
-	 */
-	private Map<NodeDeclNode, Set<NodeDeclNode>> nodeToHomNodes =
-		new LinkedHashMap<NodeDeclNode, Set<NodeDeclNode>>();
-
-	/** All nodes that needed a single node NAC. */
-	private Set<NodeDeclNode> singleNodeNegNodes =
-		new LinkedHashSet<NodeDeclNode>();
-
-	/** All node pairs that needed a double node NAC. */
-	private Set<Pair<NodeDeclNode, NodeDeclNode>> doubleNodeNegPairs =
-		new LinkedHashSet<Pair<NodeDeclNode, NodeDeclNode>>();
-
-	/** Map a homomorphic set to a set of edges (of the NAC). */
-	private Map<Set<NodeDeclNode>, Set<ConnectionNode>> singleNodeNegMap =
-		new LinkedHashMap<Set<NodeDeclNode>, Set<ConnectionNode>>();
-
-	/** Map each pair of homomorphic sets of nodes to a set of edges (of the NAC). */
-	private Map<Pair<Set<NodeDeclNode>, Set<NodeDeclNode>>, Set<ConnectionNode>> doubleNodeNegMap =
-		new LinkedHashMap<Pair<Set<NodeDeclNode>, Set<NodeDeclNode>>, Set<ConnectionNode>>();
-
-	// counts number of implicit single and double node negative patterns
-	// created from pattern modifiers, in order to get unique negative names
-	int implicitNegCounter = 0;
-
+	private HomStorage homStorage;
+	
 	// if this pattern graph is a negative or independent nested inside an iterated
 	// it might break the iterated instead of only the current iterated case, if specified
 	public boolean iterationBreaking = false;
@@ -372,56 +331,7 @@ public class PatternGraphNode extends GraphNode
 		return tryGetVar(name);
 	}
 
-	private void initHomMaps()
-	{
-		Collection<Set<ConstraintDeclNode>> homSets = getHoms();
-
-		// Each node is homomorphic to itself.
-		for(NodeDeclNode node : getNodes()) {
-			Set<NodeDeclNode> homSet = new LinkedHashSet<NodeDeclNode>();
-			homSet.add(node);
-			nodeToHomNodes.put(node, homSet);
-		}
-
-		// Each edge is homomorphic to itself.
-		for(EdgeDeclNode edge : getEdges()) {
-			Set<EdgeDeclNode> homSet = new LinkedHashSet<EdgeDeclNode>();
-			homSet.add(edge);
-			edgeToHomEdges.put(edge, homSet);
-		}
-
-		for(Set<ConstraintDeclNode> homSet : homSets) {
-			if(homSet.iterator().next() instanceof NodeDeclNode) {
-				initNodeHomSet(homSet);
-			} else {//if(homSet.iterator().next() instanceof EdgeDeclNode)
-				initEdgeHomSet(homSet);
-			}
-		}
-	}
-
-	private void initNodeHomSet(Set<ConstraintDeclNode> homSet)
-	{
-		for(ConstraintDeclNode elem : homSet) {
-			NodeDeclNode node = (NodeDeclNode)elem;
-			Set<NodeDeclNode> mapEntry = nodeToHomNodes.get(node);
-			for(ConstraintDeclNode homomorphicNode : homSet) {
-				mapEntry.add((NodeDeclNode)homomorphicNode);
-			}
-		}
-	}
-
-	private void initEdgeHomSet(Set<ConstraintDeclNode> homSet)
-	{
-		for(ConstraintDeclNode elem : homSet) {
-			EdgeDeclNode edge = (EdgeDeclNode)elem;
-			Set<EdgeDeclNode> mapEntry = edgeToHomEdges.get(edge);
-			for(ConstraintDeclNode homomorphicEdge : homSet) {
-				mapEntry.add((EdgeDeclNode)homomorphicEdge);
-			}
-		}
-	}
-
-	private PatternGraphNode getParentPatternGraph()
+	public PatternGraphNode getParentPatternGraph()
 	{
 		for(BaseNode parent : getParents()) {
 			if(!(parent instanceof CollectNode<?>))
@@ -437,59 +347,63 @@ public class PatternGraphNode extends GraphNode
 		return null;
 	}
 
-	private void initHomSets()
+	public boolean isInduced()
 	{
-		homSets = new LinkedHashSet<Set<ConstraintDeclNode>>();
-
-		// Own homomorphic sets.
-		for(HomNode homNode : homs.getChildren()) {
-			homSets.addAll(splitHoms(homNode.getChildren()));
-		}
-
-		Set<NodeDeclNode> nodes = getNodes();
-		Set<EdgeDeclNode> edges = getEdges();
-
-		// Inherited homomorphic sets.
-		for(PatternGraphNode parent = getParentPatternGraph(); parent != null;
-				parent = parent.getParentPatternGraph()) {
-			for(Set<ConstraintDeclNode> parentHomSet : parent.getHoms()) {
-				addInheritedHomSet(parentHomSet, nodes, edges);
-			}
-		}
+		return (modifiers & MOD_INDUCED) != 0;
 	}
 
-	private void addInheritedHomSet(Set<ConstraintDeclNode> parentHomSet,
-			Set<NodeDeclNode> nodes, Set<EdgeDeclNode> edges)
+	public boolean isDangling()
 	{
-		Set<ConstraintDeclNode> inheritedHomSet = new LinkedHashSet<ConstraintDeclNode>();
-		if(parentHomSet.iterator().next() instanceof NodeDeclNode) {
-			for(ConstraintDeclNode homNode : parentHomSet) {
-				if(nodes.contains(homNode)) {
-					inheritedHomSet.add(homNode);
-				}
-			}
-			if(inheritedHomSet.size() > 1) {
-				homSets.add(inheritedHomSet);
-			}
-		} else {
-			for(ConstraintDeclNode homEdge : parentHomSet) {
-				if(edges.contains(homEdge)) {
-					inheritedHomSet.add(homEdge);
-				}
-			}
-			if(inheritedHomSet.size() > 1) {
-				homSets.add(inheritedHomSet);
-			}
-		}
+		return (modifiers & MOD_DANGLING) != 0;
+	}
+
+	public boolean isIdentification()
+	{
+		return (modifiers & MOD_IDENTIFICATION) != 0;
+	}
+
+	public boolean isExact()
+	{
+		return (modifiers & MOD_EXACT) != 0;
+	}
+
+	public NodeDeclNode getAnonymousDummyNode(TypeDeclNode nodeRoot, int context)
+	{
+		IdentNode nodeName = new IdentNode(
+				getScope().defineAnonymous("dummy_node", SymbolTable.getInvalid(), Coords.getBuiltin()));
+		NodeDeclNode dummyNode = NodeDeclNode.getDummy(nodeName, nodeRoot, context, this);
+		return dummyNode;
+	}
+
+	public EdgeDeclNode getAnonymousEdgeDecl(TypeDeclNode edgeRoot, int context)
+	{
+		IdentNode edgeName = new IdentNode(
+				getScope().defineAnonymous("edge", SymbolTable.getInvalid(), Coords.getBuiltin()));
+		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, context, this, this);
+		return edge;
 	}
 
 	public Collection<Set<ConstraintDeclNode>> getHoms()
 	{
-		if(homSets == null) {
-			initHomSets();
-		}
+		if(homStorage == null)
+			homStorage = new HomStorage(this);
+		return homStorage.getHoms();
+	}
 
-		return homSets;
+	/** Return the correspondent homomorphic set. */
+	public Set<NodeDeclNode> getHomomorphic(NodeDeclNode node)
+	{
+		if(homStorage == null)
+			homStorage = new HomStorage(this);
+		return homStorage.getHomomorphic(node);
+	}
+
+	/** Return the correspondent homomorphic set. */
+	public Set<EdgeDeclNode> getHomomorphic(EdgeDeclNode edge)
+	{
+		if(homStorage == null)
+			homStorage = new HomStorage(this);
+		return homStorage.getHomomorphic(edge);
 	}
 
 	/**
@@ -729,7 +643,7 @@ public class PatternGraphNode extends GraphNode
 	}
 
 	/** NOTE: Use this only in DPO-Mode,i.e. if the pattern is part of a rule */
-	private RuleDeclNode getRule()
+	public RuleDeclNode getRule()
 	{
 		for(BaseNode parent : getParents()) {
 			if(parent instanceof RuleDeclNode) {
@@ -1183,563 +1097,6 @@ public class PatternGraphNode extends GraphNode
 			homEdges.add(edge);
 			homEdges.add(((RetypedEdge)edge).getOldEdge());
 			patternGraph.addHomomorphicEdges(homEdges);
-		}
-	}
-
-	/**
-	 * Split one hom statement into two parts, so deleted and reuse nodes/edges
-	 * can't be matched homomorphically.
-	 *
-	 * This behavior is required for DPO-semantic.
-	 * If the rule is not DPO the (casted) original homomorphic set is returned.
-	 * Only homomorphic set with two or more entities will returned.
-	 *
-	 * @param homChildren Children of a HomNode
-	 */
-	private Set<Set<ConstraintDeclNode>> splitHoms(Collection<? extends BaseNode> homChildren)
-	{
-		Set<Set<ConstraintDeclNode>> ret = new LinkedHashSet<Set<ConstraintDeclNode>>();
-		if(isIdentification()) {
-			// homs between deleted entities
-			HashSet<ConstraintDeclNode> deleteHomSet = new HashSet<ConstraintDeclNode>();
-			// homs between reused entities
-			HashSet<ConstraintDeclNode> reuseHomSet = new HashSet<ConstraintDeclNode>();
-
-			for(BaseNode homChild : homChildren) {
-				ConstraintDeclNode decl = (ConstraintDeclNode)homChild;
-
-				Set<ConstraintDeclNode> deletedEntities = getRule().getDeletedElements();
-				if(deletedEntities.contains(decl)) {
-					deleteHomSet.add(decl);
-				} else {
-					reuseHomSet.add(decl);
-				}
-			}
-			if(deleteHomSet.size() > 1) {
-				ret.add(deleteHomSet);
-			}
-			if(reuseHomSet.size() > 1) {
-				ret.add(reuseHomSet);
-			}
-			return ret;
-		}
-
-		Set<ConstraintDeclNode> homSet = new LinkedHashSet<ConstraintDeclNode>();
-
-		for(BaseNode homChild : homChildren) {
-			ConstraintDeclNode decl = (ConstraintDeclNode)homChild;
-
-			homSet.add(decl);
-		}
-		if(homSet.size() > 1) {
-			ret.add(homSet);
-		}
-		return ret;
-	}
-
-	private boolean isInduced()
-	{
-		return (modifiers & MOD_INDUCED) != 0;
-	}
-
-	private boolean isDangling()
-	{
-		return (modifiers & MOD_DANGLING) != 0;
-	}
-
-	private boolean isIdentification()
-	{
-		return (modifiers & MOD_IDENTIFICATION) != 0;
-	}
-
-	private boolean isExact()
-	{
-		return (modifiers & MOD_EXACT) != 0;
-	}
-
-	/**
-	 * Get all implicit NACs.
-	 *
-	 * @return The Collection for the NACs.
-	 */
-	public LinkedList<PatternGraph> getImplicitNegGraphs()
-	{
-		LinkedList<PatternGraph> implicitNegGraphs = new LinkedList<PatternGraph>();
-
-		initDoubleNodeNegMap();
-		implicitNegGraphs.addAll(getDoubleNodeNegGraphs());
-
-		initSingleNodeNegMap();
-		implicitNegGraphs.addAll(getSingleNodeNegGraphs());
-
-		return implicitNegGraphs;
-	}
-
-	private void initDoubleNodeNegMap()
-	{
-		if(isInduced()) {
-			addToDoubleNodeMap(getNodes());
-
-			for(InducedNode induced : induceds.getChildren()) {
-				induced.reportWarning("Induced statement occurs in induced pattern");
-			}
-			return;
-		}
-
-		Map<Set<NodeDeclNode>, Integer> generatedInducedSets = new LinkedHashMap<Set<NodeDeclNode>, Integer>();
-		for(int i = 0; i < induceds.getChildren().size(); i++) {
-			InducedNode induced = induceds.get(i);
-			Set<NodeDeclNode> inducedNodes = induced.getInducedNodesSet();
-			if(generatedInducedSets.containsKey(inducedNodes)) {
-				InducedNode oldOcc = induceds.get(generatedInducedSets.get(inducedNodes));
-				induced.reportWarning("Same induced statement also occurs at " + oldOcc.getCoords());
-			} else {
-				addToDoubleNodeMap(inducedNodes);
-				generatedInducedSets.put(inducedNodes, i);
-			}
-		}
-
-		warnRedundantInducedStatement(generatedInducedSets);
-	}
-
-	/**
-	 * warn if an induced statement is redundant.
-	 *
-	 * Algorithm:
-	 * Input: Sets V_i of nodes
-	 * for each V_i
-	 *   K_i = all pairs of nodes of V_i
-	 * for each i
-	 *   for each k_i of K_i
-	 *     for each K_j
-	 *       if k_i \in K_j: mark k_i
-	 *   if all k_i marked: warn
-	 *
-	 * @param generatedInducedSets Set of all induced statements
-	 */
-	private void warnRedundantInducedStatement(Map<Set<NodeDeclNode>, Integer> generatedInducedSets)
-	{
-		Map<Map<List<NodeDeclNode>, Boolean>, Integer> inducedEdgeMap =
-				new LinkedHashMap<Map<List<NodeDeclNode>, Boolean>, Integer>();
-
-		// create all pairs of nodes (->edges)
-		for(Map.Entry<Set<NodeDeclNode>, Integer> nodeMapEntry : generatedInducedSets.entrySet()) {
-			fillInducedEdgeMap(inducedEdgeMap, nodeMapEntry);
-		}
-
-		for(Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> candidate : inducedEdgeMap.entrySet()) {
-			Set<Integer> witnesses = getWitnessesAndMarkEdge(inducedEdgeMap, candidate);
-
-			// all edges marked?
-			if(allMarked(candidate)) {
-				String witnessesLoc = "";
-				for(Integer index : witnesses) {
-					witnessesLoc += induceds.get(index).getCoords() + " ";
-				}
-				witnessesLoc = witnessesLoc.trim();
-				induceds.get(candidate.getValue()).reportWarning(
-						"Induced statement is redundant, since covered by statement(s) at " + witnessesLoc);
-			}
-		}
-	}
-
-	private void fillInducedEdgeMap(Map<Map<List<NodeDeclNode>, Boolean>, Integer> inducedEdgeMap,
-			Map.Entry<Set<NodeDeclNode>, Integer> nodeMapEntry)
-	{
-		// if the Boolean in markedMap is true -> edge is marked
-		Map<List<NodeDeclNode>, Boolean> markedMap = new LinkedHashMap<List<NodeDeclNode>, Boolean>();
-
-		for(NodeDeclNode src : nodeMapEntry.getKey()) {
-			for(NodeDeclNode tgt : nodeMapEntry.getKey()) {
-				List<NodeDeclNode> edge = new LinkedList<NodeDeclNode>();
-				edge.add(src);
-				edge.add(tgt);
-
-				markedMap.put(edge, false);
-			}
-		}
-
-		inducedEdgeMap.put(markedMap, nodeMapEntry.getValue());
-	}
-
-	private Set<Integer> getWitnessesAndMarkEdge(Map<Map<List<NodeDeclNode>, Boolean>, Integer> inducedEdgeMap,
-			Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> candidate)
-	{
-		Set<Integer> witnesses = new LinkedHashSet<Integer>();
-
-		for(Map.Entry<List<NodeDeclNode>, Boolean> candidateMarkedMap : candidate.getKey().entrySet()) {
-			// TODO also mark witness edge (and candidate as witness)
-			if(!candidateMarkedMap.getValue().booleanValue()) {
-				for(Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> witness : inducedEdgeMap.entrySet()) {
-					if(candidate != witness) {
-						// if witness contains edge
-						if(witness.getKey().containsKey(candidateMarkedMap.getKey())) {
-							// mark Edge
-							candidateMarkedMap.setValue(true);
-							// add witness
-							witnesses.add(witness.getValue());
-						}
-					}
-				}
-			}
-		}
-		
-		return witnesses;
-	}
-
-	private boolean allMarked(Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> candidate)
-	{
-		boolean allMarked = true;
-		
-		for(boolean edgeMarked : candidate.getKey().values()) {
-			allMarked &= edgeMarked;
-		}
-		
-		return allMarked;
-	}
-
-	private void initSingleNodeNegMap()
-	{
-		if(isExact()) {
-			addToSingleNodeMap(getNodes());
-
-			if(isDangling() && !isIdentification()) {
-				reportWarning("The keyword \"dangling\" is redundant for exact patterns");
-			}
-
-			for(ExactNode exact : exacts.getChildren()) {
-				exact.reportWarning("Exact statement occurs in exact pattern");
-			}
-
-			return;
-		}
-
-		if(isDangling()) {
-			Set<ConstraintDeclNode> deletedNodes = getRule().getDeletedElements();
-			addToSingleNodeMap(getDpoPatternNodes(deletedNodes));
-
-			for(ExactNode exact : exacts.getChildren()) {
-				for(NodeDeclNode exactNode : exact.getExactNodes()) {
-					if(deletedNodes.contains(exactNode)) {
-						exact.reportWarning("Exact statement for " + exactNode.getUseString() + " "
-								+ exactNode.getIdentNode().getSymbol().getText()
-								+ " is redundant, since the pattern is declared \"dangling\" or \"dpo\"");
-					}
-				}
-			}
-		}
-
-		Map<NodeDeclNode, Integer> generatedExactNodes = new LinkedHashMap<NodeDeclNode, Integer>();		
-		for(int i = 0; i < exacts.getChildren().size(); i++) { // exact Statements
-			ExactNode exact = exacts.get(i);
-			for(NodeDeclNode exactNode : exact.getExactNodes()) {
-				// coords of occurrence are not available
-				if(generatedExactNodes.containsKey(exactNode)) {
-					exact.reportWarning(exactNode.getUseString() + " "
-							+ exactNode.getIdentNode().getSymbol().getText()
-							+ " already occurs in exact statement at "
-							+ exacts.get(generatedExactNodes.get(exactNode)).getCoords());
-				} else {
-					generatedExactNodes.put(exactNode, i);
-				}
-			}
-		}
-
-		addToSingleNodeMap(generatedExactNodes.keySet());
-	}
-
-	/**
-	 * Return the set of nodes needed for the singleNodeNegMap if the whole
-	 * pattern is dpo.
-	 */
-	private Set<NodeDeclNode> getDpoPatternNodes(Set<ConstraintDeclNode> deletedEntities)
-	{
-		Set<NodeDeclNode> deletedNodes = new LinkedHashSet<NodeDeclNode>();
-
-		for(DeclNode declNode : deletedEntities) {
-			if(declNode instanceof NodeDeclNode) {
-				NodeDeclNode node = (NodeDeclNode)declNode;
-				if(!node.isDummy()) {
-					deletedNodes.add(node);
-				}
-			}
-		}
-
-		return deletedNodes;
-	}
-
-	private LinkedList<PatternGraph> getSingleNodeNegGraphs()
-	{
-		assert isResolved();
-
-		LinkedList<PatternGraph> implicitNegGraphs = new LinkedList<PatternGraph>();
-
-		// add existing edges to the corresponding sets
-		for(BaseNode connection : connections.getChildren()) {
-			if(connection instanceof ConnectionNode) {
-				ConnectionNode cn = (ConnectionNode)connection;
-				NodeDeclNode src = cn.getSrc();
-				if(singleNodeNegNodes.contains(src)) {
-					Set<NodeDeclNode> homSet = getHomomorphic(src);
-					Set<ConnectionNode> edges = singleNodeNegMap.get(homSet);
-					edges.add(cn);
-					singleNodeNegMap.put(homSet, edges);
-				}
-				NodeDeclNode tgt = cn.getTgt();
-				if(singleNodeNegNodes.contains(tgt)) {
-					Set<NodeDeclNode> homSet = getHomomorphic(tgt);
-					Set<ConnectionNode> edges = singleNodeNegMap.get(homSet);
-					edges.add(cn);
-					singleNodeNegMap.put(homSet, edges);
-				}
-			}
-		}
-
-		TypeDeclNode edgeRoot = getArbitraryEdgeRootTypeDecl();
-		TypeDeclNode nodeRoot = getNodeRootTypeDecl();
-
-		// generate and add pattern graphs
-		for(NodeDeclNode singleNodeNegNode : singleNodeNegNodes) {
-			//for (int direction = INCOMING; direction <= OUTGOING; direction++) {
-			Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
-			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
-			Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getHomomorphic(singleNodeNegNode));
-			PatternGraph neg = new PatternGraph("implneg_" + implicitNegCounter, 0);
-			++implicitNegCounter;
-			neg.setDirectlyNestingLHSGraph(neg);
-
-			// add edges to NAC
-			for(ConnectionNode conn : edgeSet) {
-				conn.addToGraph(neg);
-
-				allNegEdges.add(conn.getEdge());
-				allNegNodes.add(conn.getSrc());
-				allNegNodes.add(conn.getTgt());
-			}
-
-			addInheritedHomSet(neg, allNegEdges, allNegNodes);
-
-			// add another edge of type edgeRoot to the NAC
-			EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot, context);
-			NodeDeclNode dummyNode = getAnonymousDummyNode(nodeRoot, context);
-
-			ConnectionNode conn = new ConnectionNode(singleNodeNegNode, edge, dummyNode, ConnectionNode.ARBITRARY, this);
-			conn.addToGraph(neg);
-
-			implicitNegGraphs.add(neg);
-			//}
-		}
-		
-		return implicitNegGraphs;
-	}
-
-	/**
-	 * Add a set of nodes to the singleNodeMap.
-	 *
-	 * @param nodes Set of Nodes.
-	 */
-	private void addToSingleNodeMap(Set<NodeDeclNode> nodes)
-	{
-		for(NodeDeclNode node : nodes) {
-			if(node.isDummy())
-				continue;
-
-			singleNodeNegNodes.add(node);
-			Set<NodeDeclNode> homSet = getHomomorphic(node);
-			if(!singleNodeNegMap.containsKey(homSet)) {
-				Set<ConnectionNode> edgeSet = new HashSet<ConnectionNode>();
-				singleNodeNegMap.put(homSet, edgeSet);
-			}
-		}
-	}
-
-	/** Return the correspondent homomorphic set. */
-	public Set<NodeDeclNode> getHomomorphic(NodeDeclNode node)
-	{
-		if(!nodeToHomNodes.containsKey(node)) {
-			initHomMaps();
-		}
-
-		Set<NodeDeclNode> homSet = nodeToHomNodes.get(node);
-
-		if(homSet == null) {
-			// If the node isn't part of the pattern, return empty set.
-			homSet = new LinkedHashSet<NodeDeclNode>();
-		}
-
-		return homSet;
-	}
-
-	/** Return the correspondent homomorphic set. */
-	public Set<EdgeDeclNode> getHomomorphic(EdgeDeclNode edge)
-	{
-		if(!edgeToHomEdges.containsKey(edge)) {
-			initHomMaps();
-		}
-
-		Set<EdgeDeclNode> homSet = edgeToHomEdges.get(edge);
-
-		if(homSet == null) {
-			// If the edge isn't part of the pattern, return empty set.
-			homSet = new LinkedHashSet<EdgeDeclNode>();
-		}
-
-		return homSet;
-	}
-
-	private NodeDeclNode getAnonymousDummyNode(TypeDeclNode nodeRoot, int context)
-	{
-		IdentNode nodeName = new IdentNode(
-				getScope().defineAnonymous("dummy_node", SymbolTable.getInvalid(), Coords.getBuiltin()));
-		NodeDeclNode dummyNode = NodeDeclNode.getDummy(nodeName, nodeRoot, context, this);
-		return dummyNode;
-	}
-
-	private EdgeDeclNode getAnonymousEdgeDecl(TypeDeclNode edgeRoot, int context)
-	{
-		IdentNode edgeName = new IdentNode(
-				getScope().defineAnonymous("edge", SymbolTable.getInvalid(), Coords.getBuiltin()));
-		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, context, this, this);
-		return edge;
-	}
-
-	private LinkedList<PatternGraph> getDoubleNodeNegGraphs()
-	{
-		assert isResolved();
-		
-		LinkedList<PatternGraph> implicitNegGraphs = new LinkedList<PatternGraph>();
-
-		// add existing edges to the corresponding pattern graph
-		for(BaseNode connection : connections.getChildren()) {
-			if(connection instanceof ConnectionNode) {
-				ConnectionNode cn = (ConnectionNode)connection;
-
-				Pair<Set<NodeDeclNode>, Set<NodeDeclNode>> key = new Pair<Set<NodeDeclNode>, Set<NodeDeclNode>>();
-				key.first = getHomomorphic(cn.getSrc());
-				key.second = getHomomorphic(cn.getTgt());
-
-				Set<ConnectionNode> edges = doubleNodeNegMap.get(key);
-				// edges == null if conn is a dangling edge or one of the nodes
-				// is not induced
-				if(edges != null) {
-					edges.add(cn);
-					doubleNodeNegMap.put(key, edges);
-				}
-			}
-		}
-
-		TypeDeclNode edgeRoot = getArbitraryEdgeRootTypeDecl();
-
-		for(Pair<NodeDeclNode, NodeDeclNode> pair : doubleNodeNegPairs) {
-			NodeDeclNode src = pair.first;
-			NodeDeclNode tgt = pair.second;
-
-			if(src.getId().compareTo(tgt.getId()) > 0) {
-				continue;
-			}
-
-			Pair<Set<NodeDeclNode>, Set<NodeDeclNode>> key = new Pair<Set<NodeDeclNode>, Set<NodeDeclNode>>();
-			key.first = getHomomorphic(src);
-			key.second = getHomomorphic(tgt);
-			Pair<Set<NodeDeclNode>, Set<NodeDeclNode>> key2 = new Pair<Set<NodeDeclNode>, Set<NodeDeclNode>>();
-			key2.first = getHomomorphic(tgt);
-			key2.second = getHomomorphic(src);
-			Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
-			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
-			Set<ConnectionNode> edgeSet = doubleNodeNegMap.get(key);
-			edgeSet.addAll(doubleNodeNegMap.get(key2));
-
-			PatternGraph neg = new PatternGraph("implneg_" + implicitNegCounter, 0);
-			++implicitNegCounter;
-			neg.setDirectlyNestingLHSGraph(neg);
-
-			// add edges to the NAC
-			for(ConnectionNode conn : edgeSet) {
-				conn.addToGraph(neg);
-
-				allNegEdges.add(conn.getEdge());
-				allNegNodes.add(conn.getSrc());
-				allNegNodes.add(conn.getTgt());
-			}
-
-			addInheritedHomSet(neg, allNegEdges, allNegNodes);
-
-			// add another edge of type edgeRoot to the NAC
-			EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot, context);
-
-			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, ConnectionNode.ARBITRARY, this);
-
-			conn.addToGraph(neg);
-
-			implicitNegGraphs.add(neg);
-		}
-		
-		return implicitNegGraphs;
-	}
-
-	/**
-	 * Add all necessary homomorphic sets to a NAC.
-	 *
-	 * If an edge a-e->b is homomorphic to another edge c-f->d f only added if
-	 * a is homomorphic to c and b is homomorphic to d.
-	 */
-	private void addInheritedHomSet(PatternGraph neg, Set<EdgeDeclNode> allNegEdges, Set<NodeDeclNode> allNegNodes)
-	{
-		// inherit homomorphic nodes
-		for(NodeDeclNode node : allNegNodes) {
-			Set<Node> homSet = new LinkedHashSet<Node>();
-			Set<NodeDeclNode> homNodes = getHomomorphic(node);
-
-			for(NodeDeclNode homNode : homNodes) {
-				if(allNegNodes.contains(homNode)) {
-					homSet.add(homNode.checkIR(Node.class));
-				}
-			}
-			if(homSet.size() > 1) {
-				neg.addHomomorphicNodes(homSet);
-			}
-		}
-
-		// inherit homomorphic edges
-		for(EdgeDeclNode edge : allNegEdges) {
-			Set<Edge> homSet = new LinkedHashSet<Edge>();
-			Set<EdgeDeclNode> homEdges = getHomomorphic(edge);
-
-			for(EdgeDeclNode homEdge : homEdges) {
-				if(allNegEdges.contains(homEdge)) {
-					homSet.add(homEdge.checkIR(Edge.class));
-				}
-			}
-			if(homSet.size() > 1) {
-				neg.addHomomorphicEdges(homSet);
-			}
-		}
-	}
-
-	private void addToDoubleNodeMap(Set<NodeDeclNode> nodes)
-	{
-		for(NodeDeclNode src : nodes) {
-			if(src.isDummy())
-				continue;
-
-			for(NodeDeclNode tgt : nodes) {
-				if(tgt.isDummy())
-					continue;
-
-				Pair<NodeDeclNode, NodeDeclNode> pair = new Pair<NodeDeclNode, NodeDeclNode>();
-				pair.first = src;
-				pair.second = tgt;
-				doubleNodeNegPairs.add(pair);
-
-				Pair<Set<NodeDeclNode>, Set<NodeDeclNode>> key = new Pair<Set<NodeDeclNode>, Set<NodeDeclNode>>();
-				key.first = getHomomorphic(src);
-				key.second = getHomomorphic(tgt);
-
-				if(!doubleNodeNegMap.containsKey(key)) {
-					Set<ConnectionNode> edges = new LinkedHashSet<ConnectionNode>();
-					doubleNodeNegMap.put(key, edges);
-				}
-			}
 		}
 	}
 }

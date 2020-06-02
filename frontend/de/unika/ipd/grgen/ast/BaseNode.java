@@ -486,11 +486,14 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	{
 		Vector<T> result = new Vector<T>();
 		if(isResolved()) {
-			for(int i = 0; i < firstResolved.size(); ++i) {
-				result.add(firstResolved.get(i));
-			}
-			for(int i = 0; i < secondResolved.size(); ++i) {
-				result.add(secondResolved.get(i));
+			if(!firstResolved.isEmpty()) {
+				for(int i = 0; i < firstResolved.size(); ++i) {
+					result.add(firstResolved.get(i));
+				}
+			} else {
+				for(int i = 0; i < secondResolved.size(); ++i) {
+					result.add(secondResolved.get(i));
+				}
 			}
 		} else {
 			for(int i = 0; i < unresolved.size(); ++i) {
@@ -589,7 +592,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/** Returns whether this node has been resolved already. */
-	protected final boolean isResolved()
+	public final boolean isResolved()
 	{
 		return resolved;
 	}
@@ -955,22 +958,22 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		return rootType;
 	}
 
-	protected final TypeDeclNode getNodeRootTypeDecl()
+	public final TypeDeclNode getNodeRootTypeDecl()
 	{
 		return findType("Node");
 	}
 
-	protected final TypeDeclNode getArbitraryEdgeRootTypeDecl()
+	public final TypeDeclNode getArbitraryEdgeRootTypeDecl()
 	{
 		return findType("AEdge");
 	}
 
-	protected final TypeDeclNode getDirectedEdgeRootTypeDecl()
+	public final TypeDeclNode getDirectedEdgeRootTypeDecl()
 	{
 		return findType("Edge");
 	}
 
-	protected final TypeDeclNode getUndirectedEdgeRootTypeDecl()
+	public final TypeDeclNode getUndirectedEdgeRootTypeDecl()
 	{
 		return findType("UEdge");
 	}
