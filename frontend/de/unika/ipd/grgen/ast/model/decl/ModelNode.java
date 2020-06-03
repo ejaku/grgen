@@ -25,6 +25,7 @@ import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
@@ -158,13 +159,13 @@ public class ModelNode extends DeclNode
 	{
 		if(isLowerClassDefined) {
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.GE, BasicTypeNode.booleanType,
-					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorDeclNode.objectEvaluator);
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.GT, BasicTypeNode.booleanType,
-					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorDeclNode.objectEvaluator);
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.LE, BasicTypeNode.booleanType,
-					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorDeclNode.objectEvaluator);
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.LT, BasicTypeNode.booleanType,
-					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorDeclNode.objectEvaluator);
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
 		}
 
 		packages = packagesResolver.resolve(packagesUnresolved, this);

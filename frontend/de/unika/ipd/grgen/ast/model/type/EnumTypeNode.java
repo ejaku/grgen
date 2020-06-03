@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
 import de.unika.ipd.grgen.ast.type.CompoundTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -60,7 +61,7 @@ public class EnumTypeNode extends CompoundTypeNode
 
 		//enumerations can be used with the conditional operator
 		OperatorDeclNode.makeOp(OperatorDeclNode.COND, this,
-				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorDeclNode.condEvaluator);
+				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
 
 		//the compatibility of the this enum type
 		addCompatibility(this, BasicTypeNode.byteType);

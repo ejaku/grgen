@@ -21,26 +21,11 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.expr.ArithmeticOperatorNode;
-import de.unika.ipd.grgen.ast.expr.BoolConstNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.MemberAccessExprNode;
-import de.unika.ipd.grgen.ast.expr.TypeConstNode;
-import de.unika.ipd.grgen.ast.expr.TypeofNode;
-import de.unika.ipd.grgen.ast.expr.numeric.DoubleConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.FloatConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.IntConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.LongConstNode;
-import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
-import de.unika.ipd.grgen.ast.expr.string.StringConstNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
 import de.unika.ipd.grgen.ast.type.executable.OperatorTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Symbol;
 
 /**
@@ -168,7 +153,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 *            an Evaluator
 	 */
 	public static final void makeOp(int id, TypeNode resultType,
-			TypeNode[] operandTypes, Evaluator evaluator)
+			TypeNode[] operandTypes, OperatorEvaluator evaluator)
 	{
 		Integer operatorId = new Integer(id);
 
@@ -188,7 +173,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
 	public static final void makeBinOp(int id, TypeNode resultType,
-			TypeNode leftType, TypeNode rightType, Evaluator evaluator)
+			TypeNode leftType, TypeNode rightType, OperatorEvaluator evaluator)
 	{
 		makeOp(id, resultType, new TypeNode[] { leftType, rightType }, evaluator);
 	}
@@ -198,787 +183,202 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
 	public static final void makeUnOp(int id, TypeNode resultType,
-			TypeNode operandType, Evaluator evaluator)
+			TypeNode operandType, OperatorEvaluator evaluator)
 	{
 		makeOp(id, resultType, new TypeNode[] { operandType }, evaluator);
 	}
 
-	/**
-	 * A class that represents an evaluator for constant expressions.
-	 */
-	static class Evaluator
-	{
-		public ExprNode evaluate(ExprNode expr, OperatorDeclNode operator, ExprNode[] arguments)
-		{
-			debug.report(NOTE, "id: " + operator.id + ", name: " + names.get(new Integer(operator.id)));
-
-			ExprNode resExpr = expr;
-			TypeNode[] paramTypes = operator.getOperandTypes();
-
-			// Check, if the arity matches.
-			if(arguments.length == paramTypes.length) {
-				// Check the types of the arguments.
-				for(int i = 0; i < arguments.length; i++) {
-					debug.report(NOTE, "parameter type: " + paramTypes[i]
-							+ " argument type: " + arguments[i].getType());
-					if(!paramTypes[i].isEqual(arguments[i].getType()))
-						return resExpr;
-				}
-
-				// If we're here, all checks succeeded.
-				try {
-					resExpr = eval(expr.getCoords(), operator, arguments);
-				} catch(NotEvaluatableException e) {
-					debug.report(NOTE, e.toString());
-				}
-			}
-
-			if(debug.willReport(NOTE)) {
-				ConstNode c = (resExpr instanceof ConstNode) ? (ConstNode)resExpr : ConstNode.getInvalid();
-				debug.report(NOTE, "result: " + resExpr.getClass() + ", value: " + c.getValue());
-			}
-
-			return resExpr;
-		}
-
-		/**
-		 * NOTE: recalculate the serialVersionUID if you change the class.
-		 */
-		class NotEvaluatableException extends Exception
-		{
-			private static final long serialVersionUID = -4866769730405704919L;
-
-			private Coords coords;
-
-			public NotEvaluatableException(Coords coords)
-			{
-				super();
-				this.coords = coords;
-			}
-
-			@Override
-			public String getMessage()
-			{
-				return "Expression not evaluatable at " + coords.toString();
-			}
-		}
-
-		/**
-		 * NOTE: recalculate the serialVersionUID if you change the class.
-		 */
-		class ValueException extends Exception
-		{
-			private static final long serialVersionUID = 991159946682342406L;
-
-			private Coords coords;
-
-			public ValueException(Coords coords)
-			{
-				super();
-				this.coords = coords;
-			}
-
-			@Override
-			public String getMessage()
-			{
-				return "Expression not constant or value has wrong type at " + coords.toString();
-			}
-		}
-
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			return null;
-		}
-
-		private Object checkValue(ExprNode e, Class<?> type) throws ValueException
-		{
-			if(!(e instanceof ConstNode))
-				throw new ValueException(e.getCoords());
-
-			Object v = ((ConstNode)e).getValue();
-			if(!type.isInstance(v))
-				throw new ValueException(e.getCoords());
-
-			return v;
-		}
-
-		protected Object getArgValue(ExprNode[] args, OperatorDeclNode op, int pos) throws ValueException
-		{
-			TypeNode[] paramTypes = op.getOperandTypes();
-
-			if(paramTypes[pos].isBasic()) {
-				BasicTypeNode paramType = (BasicTypeNode)paramTypes[pos];
-
-				return checkValue(args[pos], paramType.getValueType());
-			} else
-				throw new ValueException(args[pos].getCoords());
-		}
-	}
-
-	public static final Evaluator objectEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			ObjectTypeNode.Value a0, a1;
-
-			if(getArity(op.getOpId()) != 2)
-				throw new NotEvaluatableException(coords);
-
-			try {
-				a0 = (ObjectTypeNode.Value)getArgValue(e, op, 0);
-				a1 = (ObjectTypeNode.Value)getArgValue(e, op, 1);
-			} catch(ValueException x) {
-				throw new NotEvaluatableException(coords);
-			}
-
-			switch(op.id) {
-			case EQ:
-				return new BoolConstNode(coords, a0.equals(a1));
-			case NE:
-				return new BoolConstNode(coords, !a0.equals(a1));
-
-			default:
-				throw new NotEvaluatableException(coords);
-			}
-		}
-	};
-
-	private static final Evaluator subgraphEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			throw new NotEvaluatableException(coords);
-		}
-	};
-
-	private static final Evaluator nullEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-
-			if(getArity(op.getOpId()) != 2)
-				throw new NotEvaluatableException(coords);
-
-			try {
-				getArgValue(e, op, 0);
-				getArgValue(e, op, 1);
-			} catch(ValueException x) {
-				throw new NotEvaluatableException(coords);
-			}
-
-			switch(op.id) {
-			case EQ:
-				return new BoolConstNode(coords, true);
-			case NE:
-				return new BoolConstNode(coords, false);
-
-			default:
-				throw new NotEvaluatableException(coords);
-			}
-		}
-	};
-
-	private static final Evaluator stringEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			String a0;
-			Object aobj1;
-
-			try {
-				a0 = (String)getArgValue(e, op, 0);
-				aobj1 = getArgValue(e, op, 1);
-			} catch(ValueException x) {
-				throw new NotEvaluatableException(coords);
-			}
-
-			if(op.id == ADD)
-				return new StringConstNode(coords, a0 + aobj1);
-
-			String a1 = (String)aobj1;
-
-			switch(op.id) {
-			case EQ:
-				return new BoolConstNode(coords, a0.equals(a1));
-			case NE:
-				return new BoolConstNode(coords, !a0.equals(a1));
-			//case GE:  return new BoolConstNode(coords, a0.compareTo(a1) >= 0);
-			//case GT:  return new BoolConstNode(coords, a0.compareTo(a1) > 0);
-			//case LE:  return new BoolConstNode(coords, a0.compareTo(a1) <= 0);
-			//case LT:  return new BoolConstNode(coords, a0.compareTo(a1) < 0);
-			//case IN:  return new BoolConstNode(coords, a1.contains(a0));
-
-			default:
-				throw new NotEvaluatableException(coords);
-			}
-		}
-	};
-
-	private static final Evaluator intEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			int a0, a1;
-
-			try {
-				a0 = (Integer)getArgValue(e, op, 0);
-				a1 = 0;
-				if(getArity(op.getOpId()) > 1)
-					a1 = (Integer)getArgValue(e, op, 1);
-			} catch(ValueException x) {
-				throw new NotEvaluatableException(coords);
-			}
-
-			switch(op.id) {
-			case EQ:
-				return new BoolConstNode(coords, a0 == a1);
-			case NE:
-				return new BoolConstNode(coords, a0 != a1);
-			case LT:
-				return new BoolConstNode(coords, a0 < a1);
-			case LE:
-				return new BoolConstNode(coords, a0 <= a1);
-			case GT:
-				return new BoolConstNode(coords, a0 > a1);
-			case GE:
-				return new BoolConstNode(coords, a0 >= a1);
-
-			case ADD:
-				return new IntConstNode(coords, a0 + a1);
-			case SUB:
-				return new IntConstNode(coords, a0 - a1);
-			case MUL:
-				return new IntConstNode(coords, a0 * a1);
-			case DIV:
-				return new IntConstNode(coords, a0 / a1);
-			case MOD:
-				return new IntConstNode(coords, a0 % a1);
-			case SHL:
-				return new IntConstNode(coords, a0 << a1);
-			case SHR:
-				return new IntConstNode(coords, a0 >> a1);
-			case BIT_SHR:
-				return new IntConstNode(coords, a0 >>> a1);
-			case BIT_OR:
-				return new IntConstNode(coords, a0 | a1);
-			case BIT_AND:
-				return new IntConstNode(coords, a0 & a1);
-			case BIT_XOR:
-				return new IntConstNode(coords, a0 ^ a1);
-			case BIT_NOT:
-				return new IntConstNode(coords, ~a0);
-			case NEG:
-				return new IntConstNode(coords, -a0);
-
-			default:
-				throw new NotEvaluatableException(coords);
-			}
-		}
-	};
-
-	private static final Evaluator longEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			long a0, a1;
-
-			try {
-				a0 = (Long)getArgValue(e, op, 0);
-				a1 = 0;
-				if(getArity(op.getOpId()) > 1)
-					a1 = (Long)getArgValue(e, op, 1);
-			} catch(ValueException x) {
-				throw new NotEvaluatableException(coords);
-			}
-
-			switch(op.id) {
-			case EQ:
-				return new BoolConstNode(coords, a0 == a1);
-			case NE:
-				return new BoolConstNode(coords, a0 != a1);
-			case LT:
-				return new BoolConstNode(coords, a0 < a1);
-			case LE:
-				return new BoolConstNode(coords, a0 <= a1);
-			case GT:
-				return new BoolConstNode(coords, a0 > a1);
-			case GE:
-				return new BoolConstNode(coords, a0 >= a1);
-
-			case ADD:
-				return new LongConstNode(coords, a0 + a1);
-			case SUB:
-				return new LongConstNode(coords, a0 - a1);
-			case MUL:
-				return new LongConstNode(coords, a0 * a1);
-			case DIV:
-				return new LongConstNode(coords, a0 / a1);
-			case MOD:
-				return new LongConstNode(coords, a0 % a1);
-			case SHL:
-				return new LongConstNode(coords, a0 << a1);
-			case SHR:
-				return new LongConstNode(coords, a0 >> a1);
-			case BIT_SHR:
-				return new LongConstNode(coords, a0 >>> a1);
-			case BIT_OR:
-				return new LongConstNode(coords, a0 | a1);
-			case BIT_AND:
-				return new LongConstNode(coords, a0 & a1);
-			case BIT_XOR:
-				return new LongConstNode(coords, a0 ^ a1);
-			case BIT_NOT:
-				return new LongConstNode(coords, ~a0);
-			case NEG:
-				return new LongConstNode(coords, -a0);
-
-			default:
-				throw new NotEvaluatableException(coords);
-			}
-		}
-	};
-
-	private static final Evaluator floatEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			float a0, a1;
-
-			try {
-				a0 = (Float)getArgValue(e, op, 0);
-				a1 = 0;
-				if(getArity(op.getOpId()) > 1)
-					a1 = (Float)getArgValue(e, op, 1);
-			} catch(ValueException x) {
-				throw new NotEvaluatableException(coords);
-			}
-
-			switch(op.id) {
-			case EQ:
-				return new BoolConstNode(coords, a0 == a1);
-			case NE:
-				return new BoolConstNode(coords, a0 != a1);
-			case LT:
-				return new BoolConstNode(coords, a0 < a1);
-			case LE:
-				return new BoolConstNode(coords, a0 <= a1);
-			case GT:
-				return new BoolConstNode(coords, a0 > a1);
-			case GE:
-				return new BoolConstNode(coords, a0 >= a1);
-
-			case ADD:
-				return new FloatConstNode(coords, a0 + a1);
-			case SUB:
-				return new FloatConstNode(coords, a0 - a1);
-			case MUL:
-				return new FloatConstNode(coords, a0 * a1);
-			case DIV:
-				return new FloatConstNode(coords, a0 / a1);
-			case MOD:
-				return new FloatConstNode(coords, a0 % a1);
-
-			default:
-				throw new NotEvaluatableException(coords);
-			}
-		}
-	};
-
-	private static final Evaluator doubleEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			double a0, a1;
-
-			try {
-				a0 = (Double)getArgValue(e, op, 0);
-				a1 = 0;
-				if(getArity(op.getOpId()) > 1)
-					a1 = (Double)getArgValue(e, op, 1);
-			} catch(ValueException x) {
-				throw new NotEvaluatableException(coords);
-			}
-
-			switch(op.id) {
-			case EQ:
-				return new BoolConstNode(coords, a0 == a1);
-			case NE:
-				return new BoolConstNode(coords, a0 != a1);
-			case LT:
-				return new BoolConstNode(coords, a0 < a1);
-			case LE:
-				return new BoolConstNode(coords, a0 <= a1);
-			case GT:
-				return new BoolConstNode(coords, a0 > a1);
-			case GE:
-				return new BoolConstNode(coords, a0 >= a1);
-
-			case ADD:
-				return new DoubleConstNode(coords, a0 + a1);
-			case SUB:
-				return new DoubleConstNode(coords, a0 - a1);
-			case MUL:
-				return new DoubleConstNode(coords, a0 * a1);
-			case DIV:
-				return new DoubleConstNode(coords, a0 / a1);
-			case MOD:
-				return new DoubleConstNode(coords, a0 % a1);
-
-			default:
-				throw new NotEvaluatableException(coords);
-			}
-		}
-	};
-
-	private static final Evaluator typeEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			boolean is_node1, is_node2;
-
-			if(e[0] instanceof TypeConstNode) {
-				TypeNode type = (TypeNode)((TypeConstNode)e[0]).getValue();
-				is_node1 = type instanceof NodeTypeNode;
-			} else if(e[0] instanceof TypeofNode) {
-				TypeNode type = ((TypeofNode)e[0]).getEntity().getDeclType();
-				is_node1 = type instanceof NodeTypeNode;
-			} else
-				throw new NotEvaluatableException(coords);
-
-			if(e[1] instanceof TypeConstNode) {
-				TypeNode type = (TypeNode)((TypeConstNode)e[1]).getValue();
-				is_node2 = type instanceof NodeTypeNode;
-			} else if(e[0] instanceof TypeofNode) {
-				TypeNode type = ((TypeofNode)e[1]).getEntity().getDeclType();
-				is_node2 = type instanceof NodeTypeNode;
-			} else
-				throw new NotEvaluatableException(coords);
-
-			if(is_node1 != is_node2) {
-				error.warning(coords, "comparison between node and edge types will always fail");
-				switch(op.id) {
-				case EQ:
-				case LT:
-				case GT:
-				case LE:
-				case GE:
-					return new BoolConstNode(coords, false);
-
-				case NE:
-					return new BoolConstNode(coords, true);
-				}
-			}
-			throw new NotEvaluatableException(coords);
-		}
-	};
-
-	private static final Evaluator booleanEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			boolean a0, a1;
-
-			try {
-				a0 = (Boolean)getArgValue(e, op, 0);
-				a1 = false;
-				if(getArity(op.getOpId()) > 1)
-					a1 = (Boolean)getArgValue(e, op, 1);
-			} catch(ValueException x) {
-				throw new NotEvaluatableException(coords);
-			}
-
-			switch(op.id) {
-			case EQ:
-				return new BoolConstNode(coords, a0 == a1);
-			case NE:
-				return new BoolConstNode(coords, a0 != a1);
-			case LOG_AND:
-				return new BoolConstNode(coords, a0 && a1);
-			case LOG_OR:
-				return new BoolConstNode(coords, a0 || a1);
-			case LOG_NOT:
-				return new BoolConstNode(coords, !a0);
-			case BIT_OR:
-				return new BoolConstNode(coords, a0 | a1);
-			case BIT_AND:
-				return new BoolConstNode(coords, a0 & a1);
-			case BIT_XOR:
-				return new BoolConstNode(coords, a0 ^ a1);
-
-			default:
-				throw new NotEvaluatableException(coords);
-			}
-		}
-	};
-
-	public static final Evaluator condEvaluator = new Evaluator() {
-		public ExprNode evaluate(ExprNode expr, OperatorDeclNode op, ExprNode[] args)
-		{
-			try {
-				return (Boolean)getArgValue(args, op, 0) ? args[1] : args[2];
-			} catch(ValueException x) {
-				return expr;
-			}
-		}
-	};
-
-	public static final Evaluator mapEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			throw new NotEvaluatableException(coords); // MAP TODO: evaluate in, map access if map const
-		}
-	};
-
-	public static final Evaluator setEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			switch(op.id) {
-			case IN: {
-				if(e[1] instanceof ArithmeticOperatorNode) {
-					ArithmeticOperatorNode opNode = (ArithmeticOperatorNode)e[1];
-					if(opNode.getOpId() == BIT_AND) {
-						ExprNode set1 = opNode.children.get(0);
-						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), LOG_AND, in1, in2).evaluate();
-					} else if(opNode.getOpId() == BIT_OR) {
-						ExprNode set1 = opNode.children.get(0);
-						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), LOG_OR, in1, in2).evaluate();
-					}
-				} else if(e[0] instanceof ConstNode) {
-					ConstNode val = (ConstNode)e[0];
-
-					SetInitNode setInit = null;
-					if(e[1] instanceof SetInitNode) {
-						setInit = (SetInitNode)e[1];
-					} else if(e[1] instanceof MemberAccessExprNode) {
-						MemberDeclNode member = ((MemberAccessExprNode)e[1]).getDecl();
-						if(member.isConst() && member.getConstInitializer() != null)
-							setInit = (SetInitNode)member.getConstInitializer();
-					}
-					if(setInit != null) {
-						if(setInit.contains(val))
-							return new BoolConstNode(coords, true);
-						else if(setInit.isConstant())
-							return new BoolConstNode(coords, false);
-						// Otherwise not decideable because of non-constant entries in set
-					}
-				}
-				break;
-			}
-			}
-			throw new NotEvaluatableException(coords);
-		}
-	};
-
-	public static final Evaluator arrayEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			throw new NotEvaluatableException(coords); // MAP TODO: evaluate
-		}
-	};
-
-	public static final Evaluator dequeEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			throw new NotEvaluatableException(coords); // MAP TODO: evaluate
-		}
-	};
-
-	public static final Evaluator untypedEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
-		{
-			throw new NotEvaluatableException(coords);
-		}
-	};
-
-	private static final Evaluator emptyEvaluator = new Evaluator();
-
 	// Initialize the operators map.
 	static {
 		// String operators
-		makeBinOp(EQ, BOOLEAN, STRING, STRING, stringEvaluator);
-		makeBinOp(NE, BOOLEAN, STRING, STRING, stringEvaluator);
-		makeBinOp(GE, BOOLEAN, STRING, STRING, stringEvaluator);
-		makeBinOp(GT, BOOLEAN, STRING, STRING, stringEvaluator);
-		makeBinOp(LE, BOOLEAN, STRING, STRING, stringEvaluator);
-		makeBinOp(LT, BOOLEAN, STRING, STRING, stringEvaluator);
-		makeBinOp(IN, BOOLEAN, STRING, STRING, stringEvaluator);
+		makeBinOp(EQ, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(NE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(GE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(GT, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(LE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(LT, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(IN, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
 
 		// object operators
-		makeBinOp(EQ, BOOLEAN, OBJECT, OBJECT, objectEvaluator);
-		makeBinOp(NE, BOOLEAN, OBJECT, OBJECT, objectEvaluator);
+		makeBinOp(EQ, BOOLEAN, OBJECT, OBJECT, OperatorEvaluator.objectEvaluator);
+		makeBinOp(NE, BOOLEAN, OBJECT, OBJECT, OperatorEvaluator.objectEvaluator);
 
 		// null operators
-		makeBinOp(EQ, BOOLEAN, NULL, NULL, nullEvaluator);
-		makeBinOp(NE, BOOLEAN, NULL, NULL, nullEvaluator);
+		makeBinOp(EQ, BOOLEAN, NULL, NULL, OperatorEvaluator.nullEvaluator);
+		makeBinOp(NE, BOOLEAN, NULL, NULL, OperatorEvaluator.nullEvaluator);
 
 		// subgraph operators
-		makeBinOp(EQ, BOOLEAN, GRAPH, GRAPH, subgraphEvaluator);
-		makeBinOp(NE, BOOLEAN, GRAPH, GRAPH, subgraphEvaluator);
-		makeBinOp(SE, BOOLEAN, GRAPH, GRAPH, subgraphEvaluator);
+		makeBinOp(EQ, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
+		makeBinOp(NE, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
+		makeBinOp(SE, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
 
 		// Integer comparison
-		makeBinOp(EQ, BOOLEAN, INT, INT, intEvaluator);
-		makeBinOp(NE, BOOLEAN, INT, INT, intEvaluator);
-		makeBinOp(GE, BOOLEAN, INT, INT, intEvaluator);
-		makeBinOp(GT, BOOLEAN, INT, INT, intEvaluator);
-		makeBinOp(LE, BOOLEAN, INT, INT, intEvaluator);
-		makeBinOp(LT, BOOLEAN, INT, INT, intEvaluator);
+		makeBinOp(EQ, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(NE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(GE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(GT, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(LE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(LT, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
 
 		// Long comparison
-		makeBinOp(EQ, BOOLEAN, LONG, LONG, longEvaluator);
-		makeBinOp(NE, BOOLEAN, LONG, LONG, longEvaluator);
-		makeBinOp(GE, BOOLEAN, LONG, LONG, longEvaluator);
-		makeBinOp(GT, BOOLEAN, LONG, LONG, longEvaluator);
-		makeBinOp(LE, BOOLEAN, LONG, LONG, longEvaluator);
-		makeBinOp(LT, BOOLEAN, LONG, LONG, longEvaluator);
+		makeBinOp(EQ, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(NE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(GE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(GT, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(LE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(LT, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
 
 		// Float comparison
-		makeBinOp(EQ, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
-		makeBinOp(NE, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
-		makeBinOp(GE, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
-		makeBinOp(GT, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
-		makeBinOp(LE, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
-		makeBinOp(LT, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(EQ, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(NE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(GE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(GT, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(LE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(LT, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
 
 		// Double comparison
-		makeBinOp(EQ, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
-		makeBinOp(NE, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
-		makeBinOp(GE, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
-		makeBinOp(GT, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
-		makeBinOp(LE, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
-		makeBinOp(LT, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(EQ, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(NE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(GE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(GT, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(LE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(LT, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
 
 		// Boolean operators
-		makeBinOp(LOG_AND, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
-		makeBinOp(LOG_OR, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
-		makeUnOp(LOG_NOT, BOOLEAN, BOOLEAN, booleanEvaluator);
+		makeBinOp(LOG_AND, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(LOG_OR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeUnOp(LOG_NOT, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
 
-		makeBinOp(BIT_AND, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
-		makeBinOp(BIT_OR, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
-		makeBinOp(BIT_XOR, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
+		makeBinOp(BIT_AND, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(BIT_OR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(BIT_XOR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
 
 		// Boolean comparison
-		makeBinOp(EQ, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
-		makeBinOp(NE, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
+		makeBinOp(EQ, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(NE, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
 
 		// Integer arithmetic (byte and short are casted to integer)
-		makeBinOp(ADD, INT, INT, INT, intEvaluator);
-		makeBinOp(SUB, INT, INT, INT, intEvaluator);
-		makeBinOp(MUL, INT, INT, INT, intEvaluator);
-		makeBinOp(DIV, INT, INT, INT, intEvaluator);
-		makeBinOp(MOD, INT, INT, INT, intEvaluator);
-		makeBinOp(SHL, INT, INT, INT, intEvaluator);
-		makeBinOp(SHR, INT, INT, INT, intEvaluator);
-		makeBinOp(BIT_SHR, INT, INT, INT, intEvaluator);
-		makeBinOp(BIT_OR, INT, INT, INT, intEvaluator);
-		makeBinOp(BIT_AND, INT, INT, INT, intEvaluator);
-		makeBinOp(BIT_XOR, INT, INT, INT, intEvaluator);
+		makeBinOp(ADD, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(SUB, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(MUL, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(DIV, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(MOD, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(SHL, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(SHR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(BIT_SHR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(BIT_OR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(BIT_AND, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(BIT_XOR, INT, INT, INT, OperatorEvaluator.intEvaluator);
 
-		makeUnOp(NEG, INT, INT, intEvaluator);
-		makeUnOp(BIT_NOT, INT, INT, intEvaluator);
+		makeUnOp(NEG, INT, INT, OperatorEvaluator.intEvaluator);
+		makeUnOp(BIT_NOT, INT, INT, OperatorEvaluator.intEvaluator);
 
 		// Long arithmetic
-		makeBinOp(ADD, LONG, LONG, LONG, longEvaluator);
-		makeBinOp(SUB, LONG, LONG, LONG, longEvaluator);
-		makeBinOp(MUL, LONG, LONG, LONG, longEvaluator);
-		makeBinOp(DIV, LONG, LONG, LONG, longEvaluator);
-		makeBinOp(MOD, LONG, LONG, LONG, longEvaluator);
-		makeBinOp(SHL, LONG, LONG, INT, longEvaluator);
-		makeBinOp(SHR, LONG, LONG, INT, longEvaluator);
-		makeBinOp(BIT_SHR, LONG, LONG, INT, longEvaluator);
-		makeBinOp(BIT_OR, LONG, LONG, LONG, longEvaluator);
-		makeBinOp(BIT_AND, LONG, LONG, LONG, longEvaluator);
-		makeBinOp(BIT_XOR, LONG, LONG, LONG, longEvaluator);
+		makeBinOp(ADD, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(SUB, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(MUL, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(DIV, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(MOD, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(SHL, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
+		makeBinOp(SHR, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
+		makeBinOp(BIT_SHR, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
+		makeBinOp(BIT_OR, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(BIT_AND, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(BIT_XOR, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
 
-		makeUnOp(NEG, LONG, LONG, longEvaluator);
-		makeUnOp(BIT_NOT, LONG, LONG, longEvaluator);
+		makeUnOp(NEG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeUnOp(BIT_NOT, LONG, LONG, OperatorEvaluator.longEvaluator);
 
 		// Float arithmetic
-		makeBinOp(ADD, FLOAT, FLOAT, FLOAT, floatEvaluator);
-		makeBinOp(SUB, FLOAT, FLOAT, FLOAT, floatEvaluator);
-		makeBinOp(MUL, FLOAT, FLOAT, FLOAT, floatEvaluator);
-		makeBinOp(DIV, FLOAT, FLOAT, FLOAT, floatEvaluator);
-		makeBinOp(MOD, FLOAT, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(ADD, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(SUB, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(MUL, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(DIV, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(MOD, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
 
-		makeUnOp(NEG, FLOAT, FLOAT, floatEvaluator);
+		makeUnOp(NEG, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
 
 		// Double arithmetic
-		makeBinOp(ADD, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
-		makeBinOp(SUB, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
-		makeBinOp(MUL, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
-		makeBinOp(DIV, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
-		makeBinOp(MOD, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(ADD, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(SUB, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(MUL, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(DIV, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(MOD, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
 
-		makeUnOp(NEG, DOUBLE, DOUBLE, doubleEvaluator);
+		makeUnOp(NEG, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
 
 		// "String arithmetic"
-		makeBinOp(ADD, STRING, STRING, STRING, stringEvaluator);
+		makeBinOp(ADD, STRING, STRING, STRING, OperatorEvaluator.stringEvaluator);
 
 		// Type comparison
-		makeBinOp(EQ, BOOLEAN, TYPE, TYPE, typeEvaluator);
-		makeBinOp(NE, BOOLEAN, TYPE, TYPE, typeEvaluator);
-		makeBinOp(GE, BOOLEAN, TYPE, TYPE, typeEvaluator);
-		makeBinOp(GT, BOOLEAN, TYPE, TYPE, typeEvaluator);
-		makeBinOp(LE, BOOLEAN, TYPE, TYPE, typeEvaluator);
-		makeBinOp(LT, BOOLEAN, TYPE, TYPE, typeEvaluator);
+		makeBinOp(EQ, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(NE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(GE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(GT, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(LE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(LT, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
 
 		// And of course the ternary COND operator
-		makeOp(COND, BYTE, new TypeNode[] { BOOLEAN, BYTE, BYTE }, condEvaluator);
-		makeOp(COND, SHORT, new TypeNode[] { BOOLEAN, SHORT, SHORT }, condEvaluator);
-		makeOp(COND, INT, new TypeNode[] { BOOLEAN, INT, INT }, condEvaluator);
-		makeOp(COND, LONG, new TypeNode[] { BOOLEAN, LONG, LONG }, condEvaluator);
-		makeOp(COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT }, condEvaluator);
-		makeOp(COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, condEvaluator);
-		makeOp(COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING }, condEvaluator);
-		makeOp(COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN }, condEvaluator);
-		makeOp(COND, TYPE, new TypeNode[] { BOOLEAN, TYPE, TYPE }, condEvaluator);
-		makeOp(COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, condEvaluator);
-		// makeOp(COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM }, condEvaluator);
+		makeOp(COND, BYTE, new TypeNode[] { BOOLEAN, BYTE, BYTE }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, SHORT, new TypeNode[] { BOOLEAN, SHORT, SHORT }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, INT, new TypeNode[] { BOOLEAN, INT, INT }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, LONG, new TypeNode[] { BOOLEAN, LONG, LONG }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, TYPE, new TypeNode[] { BOOLEAN, TYPE, TYPE }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, OperatorEvaluator.condEvaluator);
+		// makeOp(COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM }, OperatorEvaluator.condEvaluator);
 
 		/////////////////////////////////////////////////////////////////////////////////////////
 		// Operators to handle the untyped type that may appear in the sequence expressions due to untyped graph global variables
 
 		// Comparison operators
-		makeBinOp(EQ, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(NE, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(GE, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(GT, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(LE, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(LT, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(IN, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(SE, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(EQ, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(NE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(GE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(GT, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(LE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(LT, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(IN, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(SE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
 		// Boolean (and set) operators
-		makeBinOp(LOG_AND, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(LOG_OR, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
-		makeUnOp(LOG_NOT, BOOLEAN, UNTYPED, untypedEvaluator);
+		makeBinOp(LOG_AND, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(LOG_OR, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeUnOp(LOG_NOT, BOOLEAN, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
-		makeBinOp(BIT_AND, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(BIT_OR, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(BIT_XOR, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(BIT_AND, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(BIT_OR, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(BIT_XOR, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
-		makeBinOp(EXCEPT, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(EXCEPT, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
 		// Arithmetic (and string or array/deque concatenation) operators
-		makeBinOp(ADD, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(SUB, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(MUL, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(DIV, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(MOD, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(ADD, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(SUB, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(MUL, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(DIV, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(MOD, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
-		makeUnOp(NEG, UNTYPED, UNTYPED, untypedEvaluator);
+		makeUnOp(NEG, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
 		// Condition operator ?:
-		makeOp(COND, BYTE, new TypeNode[] { UNTYPED, BYTE, BYTE }, condEvaluator);
-		makeOp(COND, SHORT, new TypeNode[] { UNTYPED, SHORT, SHORT }, condEvaluator);
-		makeOp(COND, INT, new TypeNode[] { UNTYPED, INT, INT }, condEvaluator);
-		makeOp(COND, LONG, new TypeNode[] { UNTYPED, LONG, LONG }, condEvaluator);
-		makeOp(COND, FLOAT, new TypeNode[] { UNTYPED, FLOAT, FLOAT }, condEvaluator);
-		makeOp(COND, DOUBLE, new TypeNode[] { UNTYPED, DOUBLE, DOUBLE }, condEvaluator);
-		makeOp(COND, STRING, new TypeNode[] { UNTYPED, STRING, STRING }, condEvaluator);
-		makeOp(COND, BOOLEAN, new TypeNode[] { UNTYPED, BOOLEAN, BOOLEAN }, condEvaluator);
-		makeOp(COND, TYPE, new TypeNode[] { UNTYPED, TYPE, TYPE }, condEvaluator);
-		makeOp(COND, OBJECT, new TypeNode[] { UNTYPED, OBJECT, OBJECT }, condEvaluator);
+		makeOp(COND, BYTE, new TypeNode[] { UNTYPED, BYTE, BYTE }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, SHORT, new TypeNode[] { UNTYPED, SHORT, SHORT }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, INT, new TypeNode[] { UNTYPED, INT, INT }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, LONG, new TypeNode[] { UNTYPED, LONG, LONG }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, FLOAT, new TypeNode[] { UNTYPED, FLOAT, FLOAT }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, DOUBLE, new TypeNode[] { UNTYPED, DOUBLE, DOUBLE }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, STRING, new TypeNode[] { UNTYPED, STRING, STRING }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, BOOLEAN, new TypeNode[] { UNTYPED, BOOLEAN, BOOLEAN }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, TYPE, new TypeNode[] { UNTYPED, TYPE, TYPE }, OperatorEvaluator.condEvaluator);
+		makeOp(COND, OBJECT, new TypeNode[] { UNTYPED, OBJECT, OBJECT }, OperatorEvaluator.condEvaluator);
 
-		makeOp(COND, UNTYPED, new TypeNode[] { BOOLEAN, UNTYPED, UNTYPED }, untypedEvaluator);
+		makeOp(COND, UNTYPED, new TypeNode[] { BOOLEAN, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
 
-		makeOp(COND, UNTYPED, new TypeNode[] { UNTYPED, UNTYPED, UNTYPED }, untypedEvaluator);
+		makeOp(COND, UNTYPED, new TypeNode[] { UNTYPED, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
 	}
 
 	/**
@@ -1127,7 +527,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 * An invalid operator signature.
 	 */
 	private static final OperatorDeclNode INVALID = new OperatorDeclNode(ERROR, BasicTypeNode.errorType,
-			new TypeNode[] {}, emptyEvaluator) {
+			new TypeNode[] {}, OperatorEvaluator.emptyEvaluator) {
 		public boolean isValid()
 		{
 			return false;
@@ -1135,10 +535,10 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	};
 
 	/** id of the operator. */
-	private int id;
+	int id;
 
 	/** The evaluator for constant expressions for this operator. */
-	private Evaluator evaluator;
+	private OperatorEvaluator evaluator;
 
 	/**
 	 * Make a new operator. This is used exclusively in this class, so it's
@@ -1153,7 +553,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 * @param evaluator
 	 *            The evaluator for this operator signature.
 	 */
-	private OperatorDeclNode(int id, TypeNode resultType, TypeNode[] operandTypes, Evaluator evaluator)
+	private OperatorDeclNode(int id, TypeNode resultType, TypeNode[] operandTypes, OperatorEvaluator evaluator)
 	{
 		super(new IdentNode(Symbol.Definition.getInvalid()), operatorType);
 

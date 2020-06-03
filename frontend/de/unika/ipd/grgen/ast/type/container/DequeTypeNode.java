@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -79,25 +80,25 @@ public class DequeTypeNode extends ContainerTypeNode
 
 		if(valueType instanceof InheritanceTypeNode) {
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.IN, BasicTypeNode.booleanType,
-					BasicTypeNode.typeType, this, OperatorDeclNode.dequeEvaluator);
+					BasicTypeNode.typeType, this, OperatorEvaluator.dequeEvaluator);
 		} else {
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.IN, BasicTypeNode.booleanType,
-					valueType, this, OperatorDeclNode.dequeEvaluator);
+					valueType, this, OperatorEvaluator.dequeEvaluator);
 		}
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.EQ, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.dequeEvaluator);
+				this, this, OperatorEvaluator.dequeEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.NE, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.dequeEvaluator);
+				this, this, OperatorEvaluator.dequeEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.GT, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.dequeEvaluator);
+				this, this, OperatorEvaluator.dequeEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.GE, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.dequeEvaluator);
+				this, this, OperatorEvaluator.dequeEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.LT, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.dequeEvaluator);
+				this, this, OperatorEvaluator.dequeEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.LE, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.dequeEvaluator);
+				this, this, OperatorEvaluator.dequeEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.ADD, this,
-				this, this, OperatorDeclNode.dequeEvaluator);
+				this, this, OperatorEvaluator.dequeEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 

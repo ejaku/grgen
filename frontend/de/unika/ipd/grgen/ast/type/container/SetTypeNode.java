@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -79,29 +80,29 @@ public class SetTypeNode extends ContainerTypeNode
 
 		if(valueType instanceof InheritanceTypeNode) {
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.IN, BasicTypeNode.booleanType,
-					BasicTypeNode.typeType, this, OperatorDeclNode.setEvaluator);
+					BasicTypeNode.typeType, this, OperatorEvaluator.setEvaluator);
 		} else {
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.IN, BasicTypeNode.booleanType,
-					valueType, this, OperatorDeclNode.setEvaluator);
+					valueType, this, OperatorEvaluator.setEvaluator);
 		}
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.EQ, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.setEvaluator);
+				this, this, OperatorEvaluator.setEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.NE, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.setEvaluator);
+				this, this, OperatorEvaluator.setEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.GT, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.setEvaluator);
+				this, this, OperatorEvaluator.setEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.GE, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.setEvaluator);
+				this, this, OperatorEvaluator.setEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.LT, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.setEvaluator);
+				this, this, OperatorEvaluator.setEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.LE, BasicTypeNode.booleanType,
-				this, this, OperatorDeclNode.setEvaluator);
+				this, this, OperatorEvaluator.setEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.BIT_OR, this,
-				this, this, OperatorDeclNode.setEvaluator);
+				this, this, OperatorEvaluator.setEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.BIT_AND, this,
-				this, this, OperatorDeclNode.setEvaluator);
+				this, this, OperatorEvaluator.setEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.EXCEPT, this,
-				this, this, OperatorDeclNode.setEvaluator);
+				this, this, OperatorEvaluator.setEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 

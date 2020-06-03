@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
@@ -55,7 +56,7 @@ public class ExternalTypeNode extends InheritanceTypeNode
 
 		// allow the conditional operator on the external type
 		OperatorDeclNode.makeOp(OperatorDeclNode.COND, this,
-				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorDeclNode.condEvaluator);
+				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
 	}
 
 	/** returns children of this node */
