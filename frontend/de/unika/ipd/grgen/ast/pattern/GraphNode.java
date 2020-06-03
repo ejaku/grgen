@@ -401,17 +401,22 @@ public class GraphNode extends BaseNode
 
 	/**
 	 * Get a set of all nodes in this pattern.
-	 * Use this function after this node has been checked with {@link #checkLocal()}
-	 * to ensure, that the children have the right type.
+	 * (Use this function after this node has been checked with {@link #checkLocal()}
+	 * to ensure, that the children have the right type.)
 	 * @return A set containing the declarations of all nodes occurring
 	 * in this graph pattern.
 	 */
 	public Set<NodeDeclNode> getNodes()
 	{
-		assert isResolved();
+		if(nodes == null) {
+			nodes = Collections.unmodifiableSet(getNodesImpl());
+		}
+		return nodes;
+	}
 
-		if(nodes != null)
-			return nodes;
+	protected Set<NodeDeclNode> getNodesImpl()
+	{
+		assert isResolved();
 
 		LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
 
@@ -419,16 +424,21 @@ public class GraphNode extends BaseNode
 			connection.addNodes(tempNodes);
 		}
 
-		nodes = Collections.unmodifiableSet(tempNodes);
-		return nodes;
+		return tempNodes;
 	}
 
+	/** Get a set of all edges in this pattern. */
 	public Set<EdgeDeclNode> getEdges()
 	{
-		assert isResolved();
+		if(edges == null) {
+			edges = Collections.unmodifiableSet(getEdgesImpl());
+		}
+		return edges;
+	}
 
-		if(edges != null)
-			return edges;
+	protected Set<EdgeDeclNode> getEdgesImpl()
+	{
+		assert isResolved();
 
 		LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
 
@@ -436,8 +446,7 @@ public class GraphNode extends BaseNode
 			connection.addEdge(tempEdges);
 		}
 
-		edges = Collections.unmodifiableSet(tempEdges);
-		return edges;
+		return tempEdges;
 	}
 
 	public CollectNode<VarDeclNode> getDefVariablesToBeYieldedTo()

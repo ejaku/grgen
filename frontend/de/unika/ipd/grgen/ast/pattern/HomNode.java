@@ -67,6 +67,16 @@ public class HomNode extends BaseNode
 		return childrenNames;
 	}
 
+	public Vector<NodeDeclNode> getHomNodes()
+	{
+		return childrenNode;
+	}
+
+	public Vector<EdgeDeclNode> getHomEdges()
+	{
+		return childrenEdge;
+	}
+
 	private static final DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> declResolver =
 			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
 

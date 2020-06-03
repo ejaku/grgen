@@ -14,7 +14,6 @@
 package de.unika.ipd.grgen.ast.pattern;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -213,16 +212,10 @@ public class PatternGraphNode extends GraphNode
 		return childrenNames;
 	}
 
-	/**
-	 * @see GraphNode#getNodes()
-	 */
 	@Override
-	public Set<NodeDeclNode> getNodes()
+	protected Set<NodeDeclNode> getNodesImpl()
 	{
 		assert isResolved();
-
-		if(nodes != null)
-			return nodes;
 
 		LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
 
@@ -230,28 +223,22 @@ public class PatternGraphNode extends GraphNode
 			connection.addNodes(tempNodes);
 		}
 
-		for(HomNode homNode : homs.getChildren()) {
-			for(BaseNode homChild : homNode.getChildren()) {
-				if(homChild instanceof NodeDeclNode) {
-					tempNodes.add((NodeDeclNode)homChild);
-				}
+		for(HomNode hom : homs.getChildren()) {
+			for(NodeDeclNode homNode : hom.getHomNodes()) {
+				tempNodes.add(homNode);
 			}
 		}
 
-		nodes = Collections.unmodifiableSet(tempNodes);
-		return nodes;
+		return tempNodes;
 	}
 
 	/**
 	 * @see GraphNode#getEdges()
 	 */
 	@Override
-	public Set<EdgeDeclNode> getEdges()
+	protected Set<EdgeDeclNode> getEdgesImpl()
 	{
 		assert isResolved();
-
-		if(edges != null)
-			return edges;
 
 		LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
 
@@ -259,16 +246,13 @@ public class PatternGraphNode extends GraphNode
 			connection.addEdge(tempEdges);
 		}
 
-		for(HomNode homNode : homs.getChildren()) {
-			for(BaseNode homChild : homNode.getChildren()) {
-				if(homChild instanceof EdgeDeclNode) {
-					tempEdges.add((EdgeDeclNode)homChild);
-				}
+		for(HomNode hom : homs.getChildren()) {
+			for(EdgeDeclNode homEdge : hom.getHomEdges()) {
+				tempEdges.add(homEdge);
 			}
 		}
 
-		edges = Collections.unmodifiableSet(tempEdges);
-		return edges;
+		return tempEdges;
 	}
 
 	public VarDeclNode getVariable(String name)
