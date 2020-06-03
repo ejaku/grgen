@@ -232,9 +232,6 @@ public class PatternGraphNode extends GraphNode
 		return tempNodes;
 	}
 
-	/**
-	 * @see GraphNode#getEdges()
-	 */
 	@Override
 	protected Set<EdgeDeclNode> getEdgesImpl()
 	{
@@ -253,21 +250,6 @@ public class PatternGraphNode extends GraphNode
 		}
 
 		return tempEdges;
-	}
-
-	public VarDeclNode getVariable(String name)
-	{
-		for(VarDeclNode var : getDefVariablesToBeYieldedTo().getChildren()) {
-			if(var.getIdentNode().toString().equals(name))
-				return var;
-		}
-		for(DeclNode varCand : getParamDecls()) {
-			if(!(varCand instanceof VarDeclNode))
-				continue;
-			VarDeclNode var = (VarDeclNode)varCand;
-			return var;
-		}
-		return null;
 	}
 
 	public NodeDeclNode tryGetNode(String name)
@@ -642,7 +624,7 @@ public class PatternGraphNode extends GraphNode
 	 * Generates a type condition if the given graph entity inherits its type
 	 * from another element via a typeof expression (dynamic type checks).
 	 */
-	private void genTypeConditionsFromTypeof(PatternGraph gr, GraphEntity elem)
+	private static void genTypeConditionsFromTypeof(PatternGraph gr, GraphEntity elem)
 	{
 		if(elem.inheritsType()) {
 			assert !elem.isCopy(); // must extend this function and lgsp nodes if left hand side copy/copyof are wanted
@@ -698,11 +680,19 @@ public class PatternGraphNode extends GraphNode
 		}
 
 		for(PatternGraphNode negativeNode : negs.getChildren()) {
-			addNegatives(patternGraph, negativeNode);
+			PatternGraph negative = negativeNode.getPatternGraph();
+			patternGraph.addNegGraph(negative);
+			if(negative.isIterationBreaking()) {
+				patternGraph.setIterationBreaking(true);
+			}
 		}
 
 		for(PatternGraphNode independentNode : idpts.getChildren()) {
-			addIndependents(patternGraph, independentNode);
+			PatternGraph independent = independentNode.getPatternGraph();
+			patternGraph.addIdptGraph(independent);
+			if(independent.isIterationBreaking()) {
+				patternGraph.setIterationBreaking(true);
+			}
 		}
 
 		for(ExprNode condition : conditions.getChildren()) {
@@ -749,7 +739,7 @@ public class PatternGraphNode extends GraphNode
 		return patternGraph;
 	}
 
-	void addElementsHiddenInUsedConstructs(PatternGraph patternGraph)
+	private void addElementsHiddenInUsedConstructs(PatternGraph patternGraph)
 	{
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
@@ -833,7 +823,7 @@ public class PatternGraphNode extends GraphNode
 		addNeededEntities(patternGraph, needs);
 	}
 
-	void addSubpatternUsageArgument(PatternGraph patternGraph, SubpatternUsageDeclNode subpatternUsageNode)
+	private static void addSubpatternUsageArgument(PatternGraph patternGraph, SubpatternUsageDeclNode subpatternUsageNode)
 	{
 		List<Expression> subpatternConnections = subpatternUsageNode.checkIR(SubpatternUsage.class).getSubpatternConnections();
 		for(Expression expr : subpatternConnections) {
@@ -858,7 +848,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	void addSubpatternUsageYieldArgument(PatternGraph patternGraph, SubpatternUsageDeclNode subpatternUsageNode)
+	private static void addSubpatternUsageYieldArgument(PatternGraph patternGraph, SubpatternUsageDeclNode subpatternUsageNode)
 	{
 		List<Expression> subpatternYields = subpatternUsageNode.checkIR(SubpatternUsage.class).getSubpatternYields();
 		for(Expression expr : subpatternYields) {
@@ -883,21 +873,21 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	void addNodeFromTypeof(PatternGraph patternGraph, Node node)
+	private static void addNodeFromTypeof(PatternGraph patternGraph, Node node)
 	{
 		if(node.inheritsType()) {
 			patternGraph.addNodeIfNotYetContained((Node)node.getTypeof());
 		}
 	}
 
-	void addEdgeFromTypeof(PatternGraph patternGraph, Edge edge)
+	private static void addEdgeFromTypeof(PatternGraph patternGraph, Edge edge)
 	{
 		if(edge.inheritsType()) {
 			patternGraph.addEdgeIfNotYetContained((Edge)edge.getTypeof());
 		}
 	}
 
-	void addHomElements(PatternGraph patternGraph, Collection<? extends GraphEntity> homEntities)
+	private static void addHomElements(PatternGraph patternGraph, Collection<? extends GraphEntity> homEntities)
 	{
 		for(GraphEntity homEntity : homEntities) {
 			if(homEntity instanceof Node) {
@@ -908,7 +898,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	void addElementsFromStorageAccess(PatternGraph patternGraph, Node node)
+	private static void addElementsFromStorageAccess(PatternGraph patternGraph, Node node)
 	{
 		if(node.storageAccess != null) {
 			if(node.storageAccess.storageVariable != null) {
@@ -938,7 +928,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	void addElementsFromStorageAccess(PatternGraph patternGraph, Edge edge)
+	private static void addElementsFromStorageAccess(PatternGraph patternGraph, Edge edge)
 	{
 		if(edge.storageAccess != null) {
 			if(edge.storageAccess.storageVariable != null) {
@@ -968,7 +958,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	protected void addNeededEntities(PatternGraph patternGraph, NeededEntities needs)
+	protected static void addNeededEntities(PatternGraph patternGraph, NeededEntities needs)
 	{
 		for(Node neededNode : needs.nodes) {
 			patternGraph.addNodeIfNotYetContained(neededNode);
@@ -983,7 +973,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	void warnIfConditionIsConstant(ExprNode expr)
+	private static void warnIfConditionIsConstant(ExprNode expr)
 	{
 		if(expr instanceof BoolConstNode) {
 			if((Boolean)((BoolConstNode)expr).getValue()) {
@@ -994,7 +984,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	void addHoms(PatternGraph patternGraph, Set<ConstraintDeclNode> homEntityNodes)
+	private static void addHoms(PatternGraph patternGraph, Set<ConstraintDeclNode> homEntityNodes)
 	{
 		// homSet is not empty, first element defines type of all elements
 		if(homEntityNodes.iterator().next() instanceof NodeDeclNode) {
@@ -1012,7 +1002,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	void addTotallyHom(PatternGraph patternGraph, TotallyHomNode totallyHomNode)
+	private static void addTotallyHom(PatternGraph patternGraph, TotallyHomNode totallyHomNode)
 	{
 		if(totallyHomNode.node != null) {
 			HashSet<Node> totallyHomNodes = new HashSet<Node>();
@@ -1029,34 +1019,16 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	void addNegatives(PatternGraph patternGraph, PatternGraphNode negativeNode)
-	{
-		PatternGraph negative = negativeNode.getPatternGraph();
-		patternGraph.addNegGraph(negative);
-		if(negative.isIterationBreaking()) {
-			patternGraph.setIterationBreaking(true);
-		}
-	}
-
-	void addIndependents(PatternGraph patternGraph, PatternGraphNode independentNode)
-	{
-		PatternGraph independent = independentNode.getPatternGraph();
-		patternGraph.addIdptGraph(independent);
-		if(independent.isIterationBreaking()) {
-			patternGraph.setIterationBreaking(true);
-		}
-	}
-
 	// ensure def to be yielded to elements are hom to all others
 	// so backend doing some fake search planning for them is not scheduling checks for them
-	void ensureDefNodesAreHomToAllOthers(PatternGraph patternGraph, Node node)
+	private static void ensureDefNodesAreHomToAllOthers(PatternGraph patternGraph, Node node)
 	{
 		if(node.isDefToBeYieldedTo()) {
 			patternGraph.addHomToAll(node);
 		}
 	}
 
-	void ensureDefEdgesAreHomToAllOthers(PatternGraph patternGraph, Edge edge)
+	private static void ensureDefEdgesAreHomToAllOthers(PatternGraph patternGraph, Edge edge)
 	{
 		if(edge.isDefToBeYieldedTo()) {
 			patternGraph.addHomToAll(edge);
@@ -1064,7 +1036,7 @@ public class PatternGraphNode extends GraphNode
 	}
 
 	// ensure lhs retype elements are hom to their old element
-	void ensureRetypedNodeHomToOldNode(PatternGraph patternGraph, Node node)
+	private static void ensureRetypedNodeHomToOldNode(PatternGraph patternGraph, Node node)
 	{
 		if(node instanceof RetypedNode && !node.isRHSEntity()) {
 			Vector<Node> homNodes = new Vector<Node>();
@@ -1074,7 +1046,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	void ensureRetypedEdgeHomToOldEdge(PatternGraph patternGraph, Edge edge)
+	private static void ensureRetypedEdgeHomToOldEdge(PatternGraph patternGraph, Edge edge)
 	{
 		if(edge instanceof RetypedEdge && !edge.isRHSEntity()) {
 			Vector<Edge> homEdges = new Vector<Edge>();

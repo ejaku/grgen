@@ -537,7 +537,7 @@ public class GraphNode extends BaseNode
 		return gr;
 	}
 
-	void addSubpatternReplacementUsageArguments(PatternGraph gr, OrderedReplacementsNode ors)
+	private static void addSubpatternReplacementUsageArguments(PatternGraph gr, OrderedReplacementsNode ors)
 	{
 		for(OrderedReplacementNode orderedReplNode : ors.getChildren()) {
 			// TODO: what's with all the other ordered replacement operations containing entitites?
@@ -552,7 +552,7 @@ public class GraphNode extends BaseNode
 		}
 	}
 
-	private void addSubpatternReplacementUsageArgument(PatternGraph gr, Expression expr)
+	private static void addSubpatternReplacementUsageArgument(PatternGraph gr, Expression expr)
 	{
 		if(expr instanceof GraphEntityExpression) {
 			GraphEntity connection = ((GraphEntityExpression)expr).getGraphEntity();
@@ -574,7 +574,7 @@ public class GraphNode extends BaseNode
 		}
 	}
 
-	void addElementsUsedInDeferredExec(PatternGraph gr, ImperativeStmt impStmt)
+	private static void addElementsUsedInDeferredExec(PatternGraph gr, ImperativeStmt impStmt)
 	{
 		if(impStmt instanceof Exec) {
 			Set<Entity> neededEntities = ((Exec)impStmt).getNeededEntities(false);
