@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
  * Constant expressions.
  * A constant is 0-ary operator.
  */
-public abstract class ConstNode extends OpNode
+public abstract class ConstNode extends OperatorNode
 {
 	/** The value of the constant. */
 	protected Object value;

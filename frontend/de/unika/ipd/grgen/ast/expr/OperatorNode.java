@@ -26,12 +26,12 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * Expression operators.
  */
-public abstract class OpNode extends ExprNode
+public abstract class OperatorNode extends ExprNode
 {
 	/** The ID of the operator. */
 	private int opId;
 
-	/** The corresponding operator. */
+	/** The corresponding operator declaration. */
 	private OperatorDeclNode operator;
 
 	public Vector<ExprNode> children = new Vector<ExprNode>();
@@ -41,7 +41,7 @@ public abstract class OpNode extends ExprNode
 	 * @param coords The source coordinates of that node.
 	 * @param opId The operator ID.
 	 */
-	public OpNode(Coords coords, int opId)
+	public OperatorNode(Coords coords, int opId)
 	{
 		super(coords);
 		this.opId = opId;

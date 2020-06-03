@@ -20,7 +20,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.expr.ArithmeticOpNode;
+import de.unika.ipd.grgen.ast.expr.ArithmeticOperatorNode;
 import de.unika.ipd.grgen.ast.expr.BoolConstNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
@@ -724,20 +724,20 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 		{
 			switch(op.id) {
 			case IN: {
-				if(e[1] instanceof ArithmeticOpNode) {
-					ArithmeticOpNode opNode = (ArithmeticOpNode)e[1];
+				if(e[1] instanceof ArithmeticOperatorNode) {
+					ArithmeticOperatorNode opNode = (ArithmeticOperatorNode)e[1];
 					if(opNode.getOpId() == BIT_AND) {
 						ExprNode set1 = opNode.children.get(0);
 						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOpNode(set1.getCoords(), IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOpNode(set2.getCoords(), IN, e[0], set2).evaluate();
-						return new ArithmeticOpNode(opNode.getCoords(), LOG_AND, in1, in2).evaluate();
+						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), IN, e[0], set2).evaluate();
+						return new ArithmeticOperatorNode(opNode.getCoords(), LOG_AND, in1, in2).evaluate();
 					} else if(opNode.getOpId() == BIT_OR) {
 						ExprNode set1 = opNode.children.get(0);
 						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOpNode(set1.getCoords(), IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOpNode(set2.getCoords(), IN, e[0], set2).evaluate();
-						return new ArithmeticOpNode(opNode.getCoords(), LOG_OR, in1, in2).evaluate();
+						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), IN, e[0], set2).evaluate();
+						return new ArithmeticOperatorNode(opNode.getCoords(), LOG_OR, in1, in2).evaluate();
 					}
 				} else if(e[0] instanceof ConstNode) {
 					ConstNode val = (ConstNode)e[0];
@@ -1220,7 +1220,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 * @return
 	 *            The possibly simplified value of the expression.
 	 */
-	public ExprNode evaluate(ArithmeticOpNode expr, ExprNode[] arguments)
+	public ExprNode evaluate(ArithmeticOperatorNode expr, ExprNode[] arguments)
 	{
 		return evaluator.evaluate(expr, this, arguments);
 	}

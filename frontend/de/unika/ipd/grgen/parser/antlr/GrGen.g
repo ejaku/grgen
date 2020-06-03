@@ -143,21 +143,21 @@ tokens {
 		putOpId(BACKSLASH, OperatorDeclNode.EXCEPT);
 	};
 
-	public OpNode makeOp(org.antlr.runtime.Token t) {
+	public OperatorNode makeOp(org.antlr.runtime.Token t) {
 		Integer opId = opIds.get(new Integer(t.getType()));
 		assert opId != null : "Invalid operator ID";
-		return new ArithmeticOpNode(getCoords(t), opId.intValue());
+		return new ArithmeticOperatorNode(getCoords(t), opId.intValue());
 	}
 
-	public OpNode makeBinOp(org.antlr.runtime.Token t, ExprNode op0, ExprNode op1) {
-		OpNode res = makeOp(t);
+	public OperatorNode makeBinOp(org.antlr.runtime.Token t, ExprNode op0, ExprNode op1) {
+		OperatorNode res = makeOp(t);
 		res.addChild(op0);
 		res.addChild(op1);
 		return res;
 	}
 
-	public OpNode makeUnOp(org.antlr.runtime.Token t, ExprNode op) {
-		OpNode res = makeOp(t);
+	public OperatorNode makeUnOp(org.antlr.runtime.Token t, ExprNode op) {
+		OperatorNode res = makeOp(t);
 		res.addChild(op);
 		return res;
 	}
@@ -2690,7 +2690,7 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemDeclNode> coll, ExprNode defI
 			EnumItemDeclNode memberDecl = new EnumItemDeclNode(id, type, value, pos);
 			id.setDecl(memberDecl);
 			coll.addChild(memberDecl);
-			OpNode add = new ArithmeticOpNode(id.getCoords(), OperatorDeclNode.ADD);
+			OperatorNode add = new ArithmeticOperatorNode(id.getCoords(), OperatorDeclNode.ADD);
 			add.addChild(value);
 			add.addChild(env.getOne());
 			res = add;
@@ -3646,7 +3646,7 @@ condExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initEx
 	: op0=logOrExpr[context, inEnumInit] { res=op0; }
 		( t=QUESTION op1=expr[context, inEnumInit] COLON op2=condExpr[context, inEnumInit]
 			{
-				OpNode cond=makeOp(t);
+				OperatorNode cond=makeOp(t);
 				cond.addChild(op0);
 				cond.addChild(op1);
 				cond.addChild(op2);
@@ -3771,7 +3771,7 @@ unaryExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initE
 		 { res = makeUnOp(n, op); }
 	| m=MINUS op=unaryExpr[context, inEnumInit]
 		{
-			OpNode neg = new ArithmeticOpNode(getCoords(m), OperatorDeclNode.NEG);
+			OperatorNode neg = new ArithmeticOperatorNode(getCoords(m), OperatorDeclNode.NEG);
 			neg.addChild(op);
 			res = neg;
 		}

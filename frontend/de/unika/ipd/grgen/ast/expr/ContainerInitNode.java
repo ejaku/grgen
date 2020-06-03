@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ast.expr;
 
-import de.unika.ipd.grgen.ast.expr.DeclExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;

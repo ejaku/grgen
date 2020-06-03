@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ArithmeticOpNode;
+import de.unika.ipd.grgen.ast.expr.ArithmeticOperatorNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
@@ -448,8 +448,8 @@ public class AssignNode extends EvalStatementNode
 		// descend and check if constraints are fulfilled which allow breakup
 		ExprNode curLoc = rhs; // current location in the expression tree, more exactly: left-deep list
 		while(curLoc != null) {
-			if(curLoc instanceof ArithmeticOpNode) {
-				ArithmeticOpNode operator = (ArithmeticOpNode)curLoc;
+			if(curLoc instanceof ArithmeticOperatorNode) {
+				ArithmeticOperatorNode operator = (ArithmeticOperatorNode)curLoc;
 				if(!(operator.getOperator().getOpId() == OperatorDeclNode.BIT_OR)
 						&& !(operator.getOperator().getOpId() == OperatorDeclNode.EXCEPT)) {
 					return false;
@@ -497,8 +497,8 @@ public class AssignNode extends EvalStatementNode
 	{
 		ExprNode curLoc = rhs;
 		while(curLoc != null) {
-			if(curLoc instanceof ArithmeticOpNode) {
-				ArithmeticOpNode operator = (ArithmeticOpNode)curLoc;
+			if(curLoc instanceof ArithmeticOperatorNode) {
+				ArithmeticOperatorNode operator = (ArithmeticOperatorNode)curLoc;
 				operator.markToBreakUpIntoStateChangingOperations(lhsQual);
 				ExprNode left = operator.getChildren().iterator().next();
 				curLoc = left;

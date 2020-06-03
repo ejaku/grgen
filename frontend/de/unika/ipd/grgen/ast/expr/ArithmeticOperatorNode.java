@@ -36,10 +36,10 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * An arithmetic operator.
  */
-public class ArithmeticOpNode extends OpNode
+public class ArithmeticOperatorNode extends OperatorNode
 {
 	static {
-		setName(ArithmeticOpNode.class, "arithmetic operator");
+		setName(ArithmeticOperatorNode.class, "arithmetic operator");
 	}
 
 	/** maps an operator id to IR opcode, filled with code beyond */
@@ -80,12 +80,12 @@ public class ArithmeticOpNode extends OpNode
 	 * @param coords Source code coordinates.
 	 * @param opId ID of the operator.
 	 */
-	public ArithmeticOpNode(Coords coords, int opId)
+	public ArithmeticOperatorNode(Coords coords, int opId)
 	{
 		super(coords, opId);
 	}
 
-	public ArithmeticOpNode(Coords coords, int opId, ExprNode op1, ExprNode op2)
+	public ArithmeticOperatorNode(Coords coords, int opId, ExprNode op1, ExprNode op2)
 	{
 		super(coords, opId);
 		children.add(op1);

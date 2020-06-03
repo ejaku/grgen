@@ -14,15 +14,15 @@
 parser grammar EmbeddedExec;
 
 @members {
-	private OpNode makeOp(org.antlr.runtime.Token t) {
+	private OperatorNode makeOp(org.antlr.runtime.Token t) {
 		return gParent.makeOp(t);
 	}
 
-	private OpNode makeBinOp(org.antlr.runtime.Token t, ExprNode op0, ExprNode op1) {
+	private OperatorNode makeBinOp(org.antlr.runtime.Token t, ExprNode op0, ExprNode op1) {
 		return gParent.makeBinOp(t, op0, op1);
 	}
 
-	private OpNode makeUnOp(org.antlr.runtime.Token t, ExprNode op) {
+	private OperatorNode makeUnOp(org.antlr.runtime.Token t, ExprNode op) {
 		return gParent.makeUnOp(t, op);
 	}
 
@@ -260,7 +260,7 @@ seqExpression [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 		( 
 			q=QUESTION { xg.append("?"); } op1=seqExpression[xg] COLON { xg.append(" : "); } op2=seqExpression[xg]
 			{
-				OpNode cond=makeOp(q);
+				OperatorNode cond=makeOp(q);
 				cond.addChild(exp);
 				cond.addChild(op1);
 				cond.addChild(op2);
@@ -343,7 +343,7 @@ seqExprUnary [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	| (n=NOT {t=n; xg.append("!");})? exp=seqExprBasic[xg] { if(t!=null) res = makeUnOp(t, exp); else res = exp; }
 	| m=MINUS {xg.append("-");} exp=seqExprBasic[xg]
 		{
-			OpNode neg = new ArithmeticOpNode(getCoords(m), OperatorDeclNode.NEG);
+			OperatorNode neg = new ArithmeticOperatorNode(getCoords(m), OperatorDeclNode.NEG);
 			neg.addChild(exp);
 			res = neg;
 		}
