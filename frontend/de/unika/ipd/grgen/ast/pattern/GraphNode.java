@@ -29,20 +29,13 @@ import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
-import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.parser.Coords;
@@ -52,7 +45,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -493,7 +485,7 @@ public class GraphNode extends BaseNode
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
 		for(OrderedReplacementsNode ors : orderedReplacements.getChildren()) {
-			addSubpatternReplacementUsageArguments(gr, ors);
+			PatternGraphBuilder.addSubpatternReplacementUsageArguments(gr, ors);
 		}
 
 		// don't add elements only mentioned in ordered replacements here to the pattern, it prevents them from being deleted
@@ -520,7 +512,7 @@ public class GraphNode extends BaseNode
 		// add deferred exec elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the deferred exec)
 		for(ImperativeStmt impStmt : gr.getImperativeStmts()) {
-			addElementsUsedInDeferredExec(gr, impStmt);
+			PatternGraphBuilder.addElementsUsedInDeferredExec(gr, impStmt);
 		}
 
 		// ensure def to be yielded to elements are hom to all others
@@ -535,61 +527,6 @@ public class GraphNode extends BaseNode
 		}
 
 		return gr;
-	}
-
-	private static void addSubpatternReplacementUsageArguments(PatternGraph gr, OrderedReplacementsNode ors)
-	{
-		for(OrderedReplacementNode orderedReplNode : ors.getChildren()) {
-			// TODO: what's with all the other ordered replacement operations containing entitites?
-			if(!(orderedReplNode instanceof SubpatternReplNode))
-				continue;
-			SubpatternReplNode subpatternReplNode = (SubpatternReplNode)orderedReplNode;
-			SubpatternDependentReplacement subpatternDepRepl = subpatternReplNode.checkIR(SubpatternDependentReplacement.class); 
-			List<Expression> connections = subpatternDepRepl.getReplConnections();
-			for(Expression expr : connections) {
-				addSubpatternReplacementUsageArgument(gr, expr);
-			}
-		}
-	}
-
-	private static void addSubpatternReplacementUsageArgument(PatternGraph gr, Expression expr)
-	{
-		if(expr instanceof GraphEntityExpression) {
-			GraphEntity connection = ((GraphEntityExpression)expr).getGraphEntity();
-			if(connection instanceof Node) {
-				gr.addNodeIfNotYetContained((Node)connection);
-			} else if(connection instanceof Edge) {
-				gr.addEdgeIfNotYetContained((Edge)connection);
-			} else {
-				assert(false);
-			}
-		} else {
-			NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
-			expr.collectNeededEntities(needs);
-			for(Variable neededVariable : needs.variables) {
-				if(!gr.hasVar(neededVariable)) {
-					gr.addVariable(neededVariable);
-				}
-			}
-		}
-	}
-
-	private static void addElementsUsedInDeferredExec(PatternGraph gr, ImperativeStmt impStmt)
-	{
-		if(impStmt instanceof Exec) {
-			Set<Entity> neededEntities = ((Exec)impStmt).getNeededEntities(false);
-			for(Entity entity : neededEntities) {
-				if(entity instanceof Node) {
-					gr.addNodeIfNotYetContained((Node)entity);
-				} else if(entity instanceof Edge) {
-					gr.addEdgeIfNotYetContained((Edge)entity);
-				} else {
-					if(!gr.hasVar((Variable)entity)) {
-						gr.addVariable((Variable)entity);
-					}
-				}
-			}
-		}
 	}
 
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
