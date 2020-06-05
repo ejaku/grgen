@@ -1,6 +1,6 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 4.5
- * Copyright (C) 2003-2017 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 5.0
+ * Copyright (C) 2003-2020 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
@@ -3322,8 +3322,13 @@ options { k = 5; }
 					}
 					if(env.isKnownProcedure(pack, i, params))
 					{
-						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? pack.getText() + "::" + i.getText() : i.getText(), getCoords(i)));
-						ProcedureInvocationDecisionNode proc = new ProcedureInvocationDecisionNode(procIdent, params, context, env);
+						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+						ProcedureInvocationDecisionNode proc;
+						if(packPrefix) {
+							proc = new PackageProcedureInvocationDecisionNode(pack.getText(), procIdent, params, context, env);
+						} else {
+							proc = new ProcedureInvocationDecisionNode(procIdent, params, context, env);
+						}
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
 							proj.setProcedure(proc);
@@ -3959,8 +3964,12 @@ externalFunctionInvocationExpr [ int context, boolean inEnumInit ] returns [ Exp
 	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY) params=paramExprs[context, inEnumInit]
 		{
 			if(env.isKnownFunction(pack, i, params)) {
-				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? pack.getText() + "::" + i.getText() : i.getText(), getCoords(i)));
-				res = new FunctionInvocationDecisionNode(funcIdent, params, env);
+				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
+				if(packPrefix) {
+					res = new PackageFunctionInvocationDecisionNode(pack.getText(), funcIdent, params, env);
+				} else {
+					res = new FunctionInvocationDecisionNode(funcIdent, params, env);
+				}
 			} else {
 				IdentNode funcIdent;
 				if(packPrefix) {

@@ -1,6 +1,6 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 4.5
- * Copyright (C) 2003-2017 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 5.0
+ * Copyright (C) 2003-2020 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
@@ -8,7 +8,6 @@
 /*
  * GrGen sequence in rule specification language grammar for ANTLR 3
  * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski, Veit Batz, Edgar Jakumeit, Sebastian Buchwald, Moritz Kroll
- * @version $Id: base.g 20237 2008-06-24 15:59:24Z eja $
 */
 
 parser grammar EmbeddedExec;
@@ -420,15 +419,20 @@ seqProcedureCall [ExecNode xg]
 seqFunctionCall [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	@init{
 		boolean inPackage = false;
+		boolean packPrefix = false;
 	}
 	// built-in function or user defined function, backend has to decide whether the call is valid
-	: ( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); } )?
+	: ( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); packPrefix=true; } )?
 	  ( i=IDENT | i=COPY | i=NAMEOF | i=TYPEOF ) LPAREN { xg.append(i.getText()); xg.append("("); } params=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
 			if(i.getText().equals("now") && params.getChildren().size()==0
 				|| env.isGlobalFunction(null, i, params)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
-				res = new FunctionInvocationDecisionNode(funcIdent, params, env);
+				if(packPrefix) {
+					res = new PackageFunctionInvocationDecisionNode(p.getText(), funcIdent, params, env);
+				} else {
+					res = new FunctionInvocationDecisionNode(funcIdent, params, env);
+				}
 			} else {
 				IdentNode funcIdent = inPackage ? 
 					new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 

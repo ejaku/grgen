@@ -38,20 +38,8 @@ import de.unika.ipd.grgen.ast.stmt.graph.VAllocProcNode;
 import de.unika.ipd.grgen.ast.stmt.graph.VFreeNonResetProcNode;
 import de.unika.ipd.grgen.ast.stmt.graph.VFreeProcNode;
 import de.unika.ipd.grgen.ast.stmt.graph.VResetProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.CommitTransactionProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DebugAddProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DebugEmitProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DebugHaltProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DebugHighlightProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DebugRemProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DeleteFileProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.EmitProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.ExportProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.PauseTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.RecordProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.ResumeTransactionProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.RollbackTransactionProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.StartTransactionProcNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.ProcedureTypeNode;
 import de.unika.ipd.grgen.ir.IR;
@@ -65,13 +53,13 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 
 	static TypeNode procedureTypeNode = new ProcedureTypeNode();
 
-	private IdentNode procedureIdent;
+	protected IdentNode procedureIdent;
 	private BuiltinProcedureInvocationBaseNode result;
 
 	ParserEnvironment env;
 
-	public ProcedureInvocationDecisionNode(IdentNode procedureIdent, CollectNode<ExprNode> arguments, int context,
-			ParserEnvironment env)
+	public ProcedureInvocationDecisionNode(IdentNode procedureIdent,
+			CollectNode<ExprNode> arguments, int context, ParserEnvironment env)
 	{
 		super(procedureIdent.getCoords(), arguments, context);
 		this.procedureIdent = becomeParent(procedureIdent);
@@ -102,12 +90,13 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 
 	protected boolean resolveLocal()
 	{
-		result = decide(procedureIdent.toString());
+		result = decide();
 		return result != null;
 	}
 	
-	private BuiltinProcedureInvocationBaseNode decide(String procedureName)
+	protected BuiltinProcedureInvocationBaseNode decide()
 	{
+		String procedureName = procedureIdent.toString();
 		switch(procedureName) {
 		case "add":
 			if(arguments.size() == 1) {
@@ -155,12 +144,6 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				return null;
 			} else
 				return new VAllocProcNode(getCoords());
-		case "Transaction::start":
-			if(arguments.size() != 0) {
-				reportError("Transaction::start() takes no parameters.");
-				return null;
-			} else
-				return new StartTransactionProcNode(getCoords());
 		case "rem":
 			if(arguments.size() != 1) {
 				reportError("rem(value) takes one parameter.");
@@ -225,77 +208,6 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("emitdebug() takes at least one parameter.");
 				return null;
 			}
-		case "File::export":
-			if(arguments.size() == 1) {
-				return new ExportProcNode(getCoords(), arguments.get(0), null);
-			} else if(arguments.size() == 2) {
-				return new ExportProcNode(getCoords(), arguments.get(1), arguments.get(0));
-			} else {
-				reportError("File::export() takes 1 (filepath) or 2 (graph, filepath) parameters.");
-				return null;
-			}
-		case "File::delete":
-			if(arguments.size() == 1) {
-				return new DeleteFileProcNode(getCoords(), arguments.get(0));
-			} else {
-				reportError("File::delete() takes 1 (filepath) parameters.");
-				return null;
-			}
-		case "Debug::add":
-			if(arguments.size() >= 1) {
-				DebugAddProcNode add = new DebugAddProcNode(getCoords());
-				for(ExprNode param : arguments.getChildren()) {
-					add.addExpression(param);
-				}
-				return add;
-			} else {
-				reportError("Debug::add() takes at least one parameter, the message/computation entered.");
-				return null;
-			}
-		case "Debug::rem":
-			if(arguments.size() >= 1) {
-				DebugRemProcNode rem = new DebugRemProcNode(getCoords());
-				for(ExprNode param : arguments.getChildren()) {
-					rem.addExpression(param);
-				}
-				return rem;
-			} else {
-				reportError("Debug::rem() takes at least one parameter, the message/computation left.");
-				return null;
-			}
-		case "Debug::emit":
-			if(arguments.size() >= 1) {
-				DebugEmitProcNode emit = new DebugEmitProcNode(getCoords());
-				for(ExprNode param : arguments.getChildren()) {
-					emit.addExpression(param);
-				}
-				return emit;
-			} else {
-				reportError("Debug::emit() takes at least one parameter, the message to report.");
-				return null;
-			}
-		case "Debug::halt":
-			if(arguments.size() >= 1) {
-				DebugHaltProcNode halt = new DebugHaltProcNode(getCoords());
-				for(ExprNode param : arguments.getChildren()) {
-					halt.addExpression(param);
-				}
-				return halt;
-			} else {
-				reportError("Debug::halt() takes at least one parameter, the message to report.");
-				return null;
-			}
-		case "Debug::highlight":
-			if(arguments.size() % 2 == 1) {
-				DebugHighlightProcNode highlight = new DebugHighlightProcNode(getCoords());
-				for(ExprNode param : arguments.getChildren()) {
-					highlight.addExpression(param);
-				}
-				return highlight;
-			} else {
-				reportError("Debug::highlight() takes an odd number of parameters, first the message, then a series of pairs of the value to highlight followed by its annotation.");
-				return null;
-			}
 		case "addCopy":
 			if(arguments.size() == 1) {
 				return new GraphAddCopyNodeProcNode(getCoords(), arguments.get(0));
@@ -347,34 +259,6 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 					return new GraphRedirectSourceAndTargetProcNode(getCoords(), arguments.get(0), arguments.get(1),
 							arguments.get(2), arguments.get(3), arguments.get(4));
 			}
-		case "Transaction::pause":
-			if(arguments.size() != 0) {
-				reportError("Transaction::pause() takes no parameters.");
-				return null;
-			} else {
-				return new PauseTransactionProcNode(getCoords());
-			}
-		case "Transaction::resume":
-			if(arguments.size() != 0) {
-				reportError("Transaction::resume() takes no parameters.");
-				return null;
-			} else {
-				return new ResumeTransactionProcNode(getCoords());
-			}
-		case "Transaction::commit":
-			if(arguments.size() != 1) {
-				reportError("Transaction::commit(transactionId) takes one parameter.");
-				return null;
-			} else {
-				return new CommitTransactionProcNode(getCoords(), arguments.get(0));
-			}
-		case "Transaction::rollback":
-			if(arguments.size() != 1) {
-				reportError("Transaction::rollback(transactionId) takes one parameter.");
-				return null;
-			} else {
-				return new RollbackTransactionProcNode(getCoords(), arguments.get(0));
-			}
 		default:
 			reportError("no computation " + procedureName + " known");
 			return null;
@@ -385,7 +269,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			if(isEmitOrDebugProcedure()) { // allowed exceptions
+			if(isEmitProcedure()) { // allowed exceptions
 				return true;
 			} else {
 				reportError("procedure call not allowed in function or lhs context (built-in-procedure)");
@@ -398,14 +282,14 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	// procedures for debugging purpose, allowed also on lhs
 	public boolean isEmitOrDebugProcedure()
 	{
+		return isEmitProcedure();
+	}
+
+	protected boolean isEmitProcedure()
+	{
 		switch(procedureIdent.toString()) {
 		case "emit":
 		case "emitdebug":
-		case "Debug::add":
-		case "Debug::rem":
-		case "Debug::emit":
-		case "Debug::halt":
-		case "Debug::highlight":
 			return true;
 		default:
 			return false;
