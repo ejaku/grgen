@@ -3322,7 +3322,7 @@ options { k = 5; }
 					}
 					if(env.isKnownProcedure(pack, i, params))
 					{
-						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? i.getText() + pack.getText() : i.getText(), getCoords(i)));
+						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? pack.getText() + "::" + i.getText() : i.getText(), getCoords(i)));
 						ProcedureInvocationDecisionNode proc = new ProcedureInvocationDecisionNode(procIdent, params, context, env);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
@@ -3959,7 +3959,7 @@ externalFunctionInvocationExpr [ int context, boolean inEnumInit ] returns [ Exp
 	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY) params=paramExprs[context, inEnumInit]
 		{
 			if(env.isKnownFunction(pack, i, params)) {
-				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? i.getText() + pack.getText() : i.getText(), getCoords(i)));
+				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? pack.getText() + "::" + i.getText() : i.getText(), getCoords(i)));
 				res = new FunctionInvocationDecisionNode(funcIdent, params, env);
 			} else {
 				IdentNode funcIdent;

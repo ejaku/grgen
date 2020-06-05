@@ -155,7 +155,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				return null;
 			} else
 				return new VAllocProcNode(getCoords());
-		case "startTransaction":
+		case "Transaction::start":
 			if(arguments.size() != 0) {
 				reportError("Transaction::start() takes no parameters.");
 				return null;
@@ -225,7 +225,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("emitdebug() takes at least one parameter.");
 				return null;
 			}
-		case "exportFile":
+		case "File::export":
 			if(arguments.size() == 1) {
 				return new ExportProcNode(getCoords(), arguments.get(0), null);
 			} else if(arguments.size() == 2) {
@@ -234,14 +234,14 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("File::export() takes 1 (filepath) or 2 (graph, filepath) parameters.");
 				return null;
 			}
-		case "deleteFile":
+		case "File::delete":
 			if(arguments.size() == 1) {
 				return new DeleteFileProcNode(getCoords(), arguments.get(0));
 			} else {
 				reportError("File::delete() takes 1 (filepath) parameters.");
 				return null;
 			}
-		case "addDebug":
+		case "Debug::add":
 			if(arguments.size() >= 1) {
 				DebugAddProcNode add = new DebugAddProcNode(getCoords());
 				for(ExprNode param : arguments.getChildren()) {
@@ -252,7 +252,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("Debug::add() takes at least one parameter, the message/computation entered.");
 				return null;
 			}
-		case "remDebug":
+		case "Debug::rem":
 			if(arguments.size() >= 1) {
 				DebugRemProcNode rem = new DebugRemProcNode(getCoords());
 				for(ExprNode param : arguments.getChildren()) {
@@ -263,7 +263,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("Debug::rem() takes at least one parameter, the message/computation left.");
 				return null;
 			}
-		case "emitDebug":
+		case "Debug::emit":
 			if(arguments.size() >= 1) {
 				DebugEmitProcNode emit = new DebugEmitProcNode(getCoords());
 				for(ExprNode param : arguments.getChildren()) {
@@ -274,7 +274,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("Debug::emit() takes at least one parameter, the message to report.");
 				return null;
 			}
-		case "haltDebug":
+		case "Debug::halt":
 			if(arguments.size() >= 1) {
 				DebugHaltProcNode halt = new DebugHaltProcNode(getCoords());
 				for(ExprNode param : arguments.getChildren()) {
@@ -285,7 +285,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				reportError("Debug::halt() takes at least one parameter, the message to report.");
 				return null;
 			}
-		case "highlightDebug":
+		case "Debug::highlight":
 			if(arguments.size() % 2 == 1) {
 				DebugHighlightProcNode highlight = new DebugHighlightProcNode(getCoords());
 				for(ExprNode param : arguments.getChildren()) {
@@ -347,28 +347,28 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 					return new GraphRedirectSourceAndTargetProcNode(getCoords(), arguments.get(0), arguments.get(1),
 							arguments.get(2), arguments.get(3), arguments.get(4));
 			}
-		case "pauseTransaction":
+		case "Transaction::pause":
 			if(arguments.size() != 0) {
 				reportError("Transaction::pause() takes no parameters.");
 				return null;
 			} else {
 				return new PauseTransactionProcNode(getCoords());
 			}
-		case "resumeTransaction":
+		case "Transaction::resume":
 			if(arguments.size() != 0) {
 				reportError("Transaction::resume() takes no parameters.");
 				return null;
 			} else {
 				return new ResumeTransactionProcNode(getCoords());
 			}
-		case "commitTransaction":
+		case "Transaction::commit":
 			if(arguments.size() != 1) {
 				reportError("Transaction::commit(transactionId) takes one parameter.");
 				return null;
 			} else {
 				return new CommitTransactionProcNode(getCoords(), arguments.get(0));
 			}
-		case "rollbackTransaction":
+		case "Transaction::rollback":
 			if(arguments.size() != 1) {
 				reportError("Transaction::rollback(transactionId) takes one parameter.");
 				return null;
@@ -401,11 +401,11 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		switch(procedureIdent.toString()) {
 		case "emit":
 		case "emitdebug":
-		case "addDebug":
-		case "remDebug":
-		case "emitDebug":
-		case "haltDebug":
-		case "highlightDebug":
+		case "Debug::add":
+		case "Debug::rem":
+		case "Debug::emit":
+		case "Debug::halt":
+		case "Debug::highlight":
 			return true;
 		default:
 			return false;
