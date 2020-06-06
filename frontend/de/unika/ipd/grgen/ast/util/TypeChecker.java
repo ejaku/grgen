@@ -66,7 +66,7 @@ public class TypeChecker implements Checker
 		return res;
 	}
 
-	protected String getExpection(Class<?> cls)
+	protected static String getExpection(Class<?> cls)
 	{
 		String res = "";
 
@@ -79,7 +79,7 @@ public class TypeChecker implements Checker
 		return res;
 	}
 
-	protected String getExpectionList(Class<?>[] classes)
+	protected static String getExpectionList(Class<?>[] classes)
 	{
 		StringBuffer list = new StringBuffer();
 		for(int i = 0; i < classes.length; i++) {
@@ -92,7 +92,7 @@ public class TypeChecker implements Checker
 		return list.toString();
 	}
 
-	protected String getErrorMsg(Class<?>[] classes, BaseNode bn)
+	protected static String getErrorMsg(Class<?>[] classes, BaseNode bn)
 	{
 		return "expected a " + getExpectionList(classes);
 	}

@@ -221,17 +221,17 @@ public abstract class CSharpBase
 	 * @param filename The filename.
 	 * @param cs A character sequence.
 	 */
-	public void writeFile(File path, String filename, CharSequence cs)
+	public static void writeFile(File path, String filename, CharSequence cs)
 	{
 		Util.writeFile(new File(path, filename), cs, Base.error);
 	}
 
-	public boolean existsFile(File path, String filename)
+	public static boolean existsFile(File path, String filename)
 	{
 		return new File(path, filename).exists();
 	}
 
-	public void copyFile(File sourcePath, File targetPath)
+	public static void copyFile(File sourcePath, File targetPath)
 	{
 		try {
 			Util.copyFile(sourcePath, targetPath);
@@ -243,7 +243,7 @@ public abstract class CSharpBase
 	/**
 	 * Dumps a C-like set representation.
 	 */
-	public void genSet(SourceBuilder sb, Collection<? extends Identifiable> set, String pre, String post,
+	public static void genSet(SourceBuilder sb, Collection<? extends Identifiable> set, String pre, String post,
 			boolean brackets)
 	{
 		if(brackets)
@@ -258,7 +258,7 @@ public abstract class CSharpBase
 			sb.append(" }");
 	}
 
-	public void genEntitySet(SourceBuilder sb, Collection<? extends Entity> set, String pre, String post,
+	public static void genEntitySet(SourceBuilder sb, Collection<? extends Entity> set, String pre, String post,
 			boolean brackets, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		if(brackets)
@@ -287,7 +287,7 @@ public abstract class CSharpBase
 			sb.append(" }");
 	}
 
-	public void genSubpatternUsageSet(SourceBuilder sb, Collection<? extends SubpatternUsage> set, String pre,
+	public static void genSubpatternUsageSet(SourceBuilder sb, Collection<? extends SubpatternUsage> set, String pre,
 			String post,
 			boolean brackets, String pathPrefix,
 			HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName)
@@ -304,7 +304,7 @@ public abstract class CSharpBase
 			sb.append(" }");
 	}
 
-	public void genAlternativesSet(SourceBuilder sb, Collection<? extends Rule> set,
+	public static void genAlternativesSet(SourceBuilder sb, Collection<? extends Rule> set,
 			String pre, String post, boolean brackets)
 	{
 		if(brackets)
@@ -320,13 +320,13 @@ public abstract class CSharpBase
 			sb.append(" }");
 	}
 
-	public String formatIdentifiable(Identifiable id)
+	public static String formatIdentifiable(Identifiable id)
 	{
 		String res = id.getIdent().toString();
 		return res.replace('$', '_');
 	}
 
-	public String getPackagePrefixDot(Identifiable id)
+	public static String getPackagePrefixDot(Identifiable id)
 	{
 		if(id instanceof ContainedInPackage) {
 			ContainedInPackage cip = (ContainedInPackage)id;
@@ -337,7 +337,7 @@ public abstract class CSharpBase
 		return "";
 	}
 
-	public String getPackagePrefixDoubleColon(Identifiable id)
+	public static String getPackagePrefixDoubleColon(Identifiable id)
 	{
 		if(id instanceof ContainedInPackage) {
 			ContainedInPackage cip = (ContainedInPackage)id;
@@ -348,7 +348,7 @@ public abstract class CSharpBase
 		return "";
 	}
 
-	public String getPackagePrefix(Identifiable id)
+	public static String getPackagePrefix(Identifiable id)
 	{
 		if(id instanceof ContainedInPackage) {
 			ContainedInPackage cip = (ContainedInPackage)id;
@@ -359,13 +359,13 @@ public abstract class CSharpBase
 		return "";
 	}
 
-	public String formatIdentifiable(Identifiable id, String pathPrefix)
+	public static String formatIdentifiable(Identifiable id, String pathPrefix)
 	{
 		String ident = id.getIdent().toString();
 		return pathPrefix + ident.replace('$', '_');
 	}
 
-	public String formatIdentifiable(Identifiable id, String pathPrefix,
+	public static String formatIdentifiable(Identifiable id, String pathPrefix,
 			HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName)
 	{
 		if(alreadyDefinedIdentifiableToName != null && alreadyDefinedIdentifiableToName.get(id) != null)
@@ -374,12 +374,12 @@ public abstract class CSharpBase
 		return pathPrefix + ident.replace('$', '_');
 	}
 
-	public String formatNodeOrEdge(boolean isNode)
+	public static String formatNodeOrEdge(boolean isNode)
 	{
 		return isNode ? "Node" : "Edge";
 	}
 
-	public String formatNodeOrEdge(Type type)
+	public static String formatNodeOrEdge(Type type)
 	{
 		if(type instanceof NodeType)
 			return "Node";
@@ -389,7 +389,7 @@ public abstract class CSharpBase
 			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
 	}
 
-	public String formatNodeOrEdge(Entity ent)
+	public static String formatNodeOrEdge(Entity ent)
 	{
 		if(ent instanceof Node)
 			return "Node";
@@ -419,7 +419,7 @@ public abstract class CSharpBase
 			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
 	}
 
-	String matchType(PatternGraph patternGraph, Rule subpattern, boolean isSubpattern, String pathPrefix)
+	static String matchType(PatternGraph patternGraph, Rule subpattern, boolean isSubpattern, String pathPrefix)
 	{
 		String matchClassContainer;
 		if(isSubpattern) {
@@ -433,17 +433,17 @@ public abstract class CSharpBase
 		return matchClassContainer + "." + nameOfMatchClass;
 	}
 
-	public String formatTypeClassName(Type type)
+	public static String formatTypeClassName(Type type)
 	{
 		return formatNodeOrEdge(type) + "Type_" + formatIdentifiable(type);
 	}
 
-	public String formatTypeClassRef(Type type)
+	public static String formatTypeClassRef(Type type)
 	{
 		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatTypeClassName(type);
 	}
 
-	public String formatTypeClassRefInstance(Type type)
+	public static String formatTypeClassRefInstance(Type type)
 	{
 		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatTypeClassName(type) + ".typeVar";
 	}
@@ -486,7 +486,7 @@ public abstract class CSharpBase
 		return "GRGEN_MODEL." + getPackagePrefixDot(type) + "I" + formatElementClassRaw(type);
 	}
 
-	public String getRootElementInterfaceRef(InheritanceType nodeOrEdgeType)
+	public static String getRootElementInterfaceRef(InheritanceType nodeOrEdgeType)
 	{
 		if(nodeOrEdgeType instanceof NodeType) {
 			return "GRGEN_LIBGR.INode";
@@ -501,7 +501,7 @@ public abstract class CSharpBase
 		}
 	}
 
-	public String getDirectedness(Type type)
+	public static String getDirectedness(Type type)
 	{
 		SetType setType = (SetType)type;
 		EdgeType edgeType = (EdgeType)setType.getValueType();
@@ -513,7 +513,7 @@ public abstract class CSharpBase
 			return "GRGEN_LIBGR.Directedness.Arbitrary";
 	}
 
-	public String getDirectednessSuffix(Type type)
+	public static String getDirectednessSuffix(Type type)
 	{
 		SetType setType = (SetType)type;
 		EdgeType edgeType = (EdgeType)setType.getValueType();
@@ -525,7 +525,7 @@ public abstract class CSharpBase
 			return "";
 	}
 
-	public String formatVarDeclWithCast(String type, String varName)
+	public static String formatVarDeclWithCast(String type, String varName)
 	{
 		return type + " " + varName + " = (" + type + ") ";
 	}
@@ -677,27 +677,27 @@ public abstract class CSharpBase
 		return formatAttributeType(e.getType());
 	}
 
-	public String formatAttributeTypeName(Entity e)
+	public static String formatAttributeTypeName(Entity e)
 	{
 		return "AttributeType_" + formatIdentifiable(e);
 	}
 
-	public String formatFunctionMethodInfoName(FunctionMethod fm, InheritanceType type)
+	public static String formatFunctionMethodInfoName(FunctionMethod fm, InheritanceType type)
 	{
 		return "FunctionMethodInfo_" + formatIdentifiable(fm) + "_" + formatIdentifiable(type);
 	}
 
-	public String formatProcedureMethodInfoName(ProcedureMethod pm, InheritanceType type)
+	public static String formatProcedureMethodInfoName(ProcedureMethod pm, InheritanceType type)
 	{
 		return "ProcedureMethodInfo_" + formatIdentifiable(pm) + "_" + formatIdentifiable(type);
 	}
 
-	public String formatExternalFunctionMethodInfoName(ExternalFunctionMethod efm, ExternalType type)
+	public static String formatExternalFunctionMethodInfoName(ExternalFunctionMethod efm, ExternalType type)
 	{
 		return "FunctionMethodInfo_" + formatIdentifiable(efm) + "_" + formatIdentifiable(type);
 	}
 
-	public String formatExternalProcedureMethodInfoName(ExternalProcedureMethod epm, ExternalType type)
+	public static String formatExternalProcedureMethodInfoName(ExternalProcedureMethod epm, ExternalType type)
 	{
 		return "ProcedureMethodInfo_" + formatIdentifiable(epm) + "_" + formatIdentifiable(type);
 	}
@@ -711,12 +711,12 @@ public abstract class CSharpBase
 		}
 	}
 
-	public String formatEntity(Entity entity)
+	public static String formatEntity(Entity entity)
 	{
 		return formatEntity(entity, "");
 	}
 
-	public String formatEntity(Entity entity, String pathPrefix)
+	public static String formatEntity(Entity entity, String pathPrefix)
 	{
 		if(entity.getIdent().toString() == "this") {
 			if(entity.getType() instanceof ArrayType)
@@ -734,7 +734,7 @@ public abstract class CSharpBase
 		}
 	}
 
-	public String formatEntity(Entity entity, String pathPrefix,
+	public static String formatEntity(Entity entity, String pathPrefix,
 			HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		if(alreadyDefinedEntityToName != null && alreadyDefinedEntityToName.get(entity) != null)
@@ -742,17 +742,17 @@ public abstract class CSharpBase
 		return formatEntity(entity, pathPrefix);
 	}
 
-	public String formatInt(int i)
+	public static String formatInt(int i)
 	{
 		return (i == Integer.MAX_VALUE) ? "int.MaxValue" : new Integer(i).toString();
 	}
 
-	public String formatLong(long l)
+	public static String formatLong(long l)
 	{
 		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
 	}
 
-	public Entity getAtMostOneNeededNodeOrEdge(NeededEntities needs, List<Entity> parameters)
+	public static Entity getAtMostOneNeededNodeOrEdge(NeededEntities needs, List<Entity> parameters)
 	{
 		HashSet<GraphEntity> neededEntities = new HashSet<GraphEntity>();
 		for(Node node : needs.nodes) {
@@ -2962,7 +2962,7 @@ public abstract class CSharpBase
 				+ formatIdentifiable(globalVar) + "\", (" + formatType(globalVar.getType()) + ")(" + value + "))";
 	}
 
-	protected String getValueAsCSSharpString(Constant constant)
+	protected static String getValueAsCSSharpString(Constant constant)
 	{
 		Type type = constant.getType();
 
@@ -3003,7 +3003,7 @@ public abstract class CSharpBase
 		}
 	}
 
-	protected String getInitializationValue(Type type)
+	protected static String getInitializationValue(Type type)
 	{
 		if(type instanceof ByteType || type instanceof ShortType || type instanceof IntType
 				|| type instanceof EnumType || type instanceof DoubleType) {
@@ -3103,7 +3103,7 @@ public abstract class CSharpBase
 		}
 	}
 
-	protected String escapeBackslashAndDoubleQuotes(String input)
+	protected static String escapeBackslashAndDoubleQuotes(String input)
 	{
 		return input.replace("\\", "\\\\").replace("\"", "\\\"");
 	}
@@ -3112,7 +3112,7 @@ public abstract class CSharpBase
 
 	protected abstract void genMemberAccess(SourceBuilder sb, Entity member);
 
-	protected void addAnnotations(SourceBuilder sb, Identifiable ident, String targetName)
+	protected static void addAnnotations(SourceBuilder sb, Identifiable ident, String targetName)
 	{
 		for(String annotationKey : ident.getAnnotations().keySet()) {
 			String annotationValue = ident.getAnnotations().get(annotationKey).toString();
@@ -3120,7 +3120,7 @@ public abstract class CSharpBase
 		}
 	}
 
-	protected void forceNotConstant(List<EvalStatement> statements)
+	protected static void forceNotConstant(List<EvalStatement> statements)
 	{
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
 		for(EvalStatement eval : statements) {
@@ -3129,7 +3129,7 @@ public abstract class CSharpBase
 		forceNotConstant(needs);
 	}
 
-	protected void forceNotConstant(NeededEntities needs)
+	protected static void forceNotConstant(NeededEntities needs)
 	{
 		// todo: more fine-grained never assigned, the important thing is that the constant constructor is temporary, not assigned to a variable
 		for(Expression containerExpr : needs.containerExprs) {
@@ -3389,7 +3389,7 @@ public abstract class CSharpBase
 		}
 	}
 
-	protected void genCompareMethod(SourceBuilder sb, String typeName,
+	protected static void genCompareMethod(SourceBuilder sb, String typeName,
 			String attributeOrMemberName, Type attributeOrMemberType, boolean ascending)
 	{
 		if(ascending)
@@ -3414,7 +3414,7 @@ public abstract class CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	protected void generateArrayKeepOneForEach(SourceBuilder sb, String arrayFunctionName, String matchInterfaceName,
+	protected static void generateArrayKeepOneForEach(SourceBuilder sb, String arrayFunctionName, String matchInterfaceName,
 			String attributeOrMemberName, String attributeOrMemberType)
 	{
 		sb.appendFront("public static List<" + matchInterfaceName + "> " + arrayFunctionName
@@ -3449,7 +3449,7 @@ public abstract class CSharpBase
 	/* binary operator symbols of the C-language */
 	// The first two shift operations are signed shifts, the second right shift is unsigned.
 	// THIS ARRAY MUST BE IN THE SAME ORDER AS Operator.opNames and the corresponding constants!
-	private String[] opSymbols = {
+	private static final String[] opSymbols = {
 			null, "||", "&&", "|", "^", "&",
 			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
 			"-", "*", "/", "%", "!", "~", "-"

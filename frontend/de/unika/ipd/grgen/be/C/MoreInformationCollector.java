@@ -720,7 +720,7 @@ public class MoreInformationCollector extends InformationCollector
 		}
 	}
 
-	private Node getFarEndNode(Edge e, Node fromNode, Graph graph)
+	private static Node getFarEndNode(Edge e, Node fromNode, Graph graph)
 	{
 		Node farEndNode = null;
 		if(graph.getTarget(e) == fromNode)

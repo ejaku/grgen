@@ -253,7 +253,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 	 * @param ty The inheritance type to get the id for.
 	 * @return The type id for this type.
 	 */
-	protected final int getTypeId(Map<? extends Identifiable, Integer> map, IR obj)
+	protected static final int getTypeId(Map<? extends Identifiable, Integer> map, IR obj)
 	{
 		Integer res = map.get(obj);
 		return res.intValue();

@@ -12,8 +12,6 @@
 package de.unika.ipd.grgen.ir;
 
 import java.awt.Color;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
 import de.unika.ipd.grgen.util.Base;
@@ -87,12 +85,6 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	protected void setChildrenNames(String[] names)
 	{
 		this.childrenNames = names;
-	}
-
-	/** @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Collection<? extends IR> getWalkableChildren()
-	{
-		return Collections.emptySet();
 	}
 
 	/**

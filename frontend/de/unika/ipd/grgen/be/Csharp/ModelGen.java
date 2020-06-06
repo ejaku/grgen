@@ -599,7 +599,7 @@ public class ModelGen extends CSharpBase
 		sb.appendFront("public static " + typeref + " TypeInstance { get { return " + typeref + ".typeVar; } }\n");
 	}
 
-	private void genElementCloneMethod(InheritanceType type, SourceBuilder routedSB, String routedDeclName)
+	private static void genElementCloneMethod(InheritanceType type, SourceBuilder routedSB, String routedDeclName)
 	{
 		boolean isNode = type instanceof NodeType;
 		if(isNode) {
@@ -897,7 +897,7 @@ public class ModelGen extends CSharpBase
 		}
 	}
 
-	private int initializationOperationsCount(InheritanceType targetType)
+	private static int initializationOperationsCount(InheritanceType targetType)
 	{
 		int initializationOperations = 0;
 
@@ -1338,7 +1338,7 @@ deque_init_loop:
 		}
 	}
 
-	boolean generateInitializationOfTypeAtCreatingTargetTypeInitialization(
+	static boolean generateInitializationOfTypeAtCreatingTargetTypeInitialization(
 			Entity member, InheritanceType type, InheritanceType targetType)
 	{
 		// to decide on generating targetType initialization:
@@ -2093,7 +2093,7 @@ deque_init_loop:
 		}
 	}
 
-	private String getAttributeKind(Type t)
+	private static String getAttributeKind(Type t)
 	{
 		if(t instanceof ByteType)
 			return "GRGEN_LIBGR.AttributeKind.ByteAttr";

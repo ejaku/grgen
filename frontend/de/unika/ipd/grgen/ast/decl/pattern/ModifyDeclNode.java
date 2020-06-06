@@ -186,7 +186,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	// inserts to be kept nodes/edges and to be deleted nodes/edges, to be created nodes/edges are already contained
-	private void insertLhsElementsToRhs(PatternGraph left, Set<Entity> elementsToDelete, PatternGraph right)
+	private static void insertLhsElementsToRhs(PatternGraph left, Set<Entity> elementsToDelete, PatternGraph right)
 	{
 		for(Node lhsNode : left.getNodes()) {
 			if(!elementsToDelete.contains(lhsNode)) {
@@ -207,7 +207,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		}
 	}
 
-	private void insertElementsFromTypeofToRhsIfNotYetContained(PatternGraph right, Set<Entity> elementsToDelete)
+	private static void insertElementsFromTypeofToRhsIfNotYetContained(PatternGraph right, Set<Entity> elementsToDelete)
 	{
 		for(Node rhsNode : right.getNodes()) {
 			if(rhsNode.inheritsType()) {
@@ -227,7 +227,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		}
 	}
 
-	private boolean isSubpatternRewritePartUsed(SubpatternUsage sub, PatternGraph right)
+	private static boolean isSubpatternRewritePartUsed(SubpatternUsage sub, PatternGraph right)
 	{
 		for(OrderedReplacements orderedRepls : right.getOrderedReplacements()) {
 			for(OrderedReplacement orderedRepl : orderedRepls.orderedReplacements) {

@@ -66,7 +66,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param id The identifier.
 	 * @return A mangled name.
 	 */
-	protected String mangle(Identifiable id)
+	protected static String mangle(Identifiable id)
 	{
 		String s = id.getIdent().toString();
 
@@ -91,7 +91,7 @@ public abstract class CBackend extends IDBase implements Backend
 		return Util.openFile(new File(path, filename), error);
 	}
 
-	protected final void closeFile(PrintStream ps)
+	protected static final void closeFile(PrintStream ps)
 	{
 		Util.closeFile(ps);
 	}
@@ -104,7 +104,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param typeMap The type map containing the types to dump.
 	 * @param labelAdd The string that should be added to the define.
 	 */
-	protected void makeTypeDefines(PrintStream ps, Map<? extends InheritanceType, Integer> typeMap,
+	protected static void makeTypeDefines(PrintStream ps, Map<? extends InheritanceType, Integer> typeMap,
 			String labelAdd)
 	{
 		ps.print("/** Use this macro to check, if an id is a valid type */\n");
@@ -130,7 +130,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param attrMap The attribute map to use.
 	 * @param labelAdd The string to add to the define's name.
 	 */
-	protected void makeAttrDefines(PrintStream ps, Map<Entity, Integer> attrMap,
+	protected static void makeAttrDefines(PrintStream ps, Map<Entity, Integer> attrMap,
 			String labelAdd)
 	{
 		ps.print("/** Number of attributes macro for " + labelAdd + " */\n");
@@ -157,7 +157,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param sb The string buffer to add the code to.
 	 * @param map The enum type map.
 	 */
-	protected void makeEnumDefines(PrintStream ps, Map<EnumType, Integer> map)
+	protected static void makeEnumDefines(PrintStream ps, Map<EnumType, Integer> map)
 	{
 		ps.print("/** Number of enum types. */\n");
 		ps.print("#define GR_DEF_ENUMS " + map.size() + "\n\n");
@@ -174,7 +174,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param map The type map which contains the types.
 	 * @param add A string which shall prepend the name of the array.
 	 */
-	protected void makeTypeMap(PrintStream ps, Map<? extends InheritanceType, Integer> map, String add)
+	protected static void makeTypeMap(PrintStream ps, Map<? extends InheritanceType, Integer> map, String add)
 	{
 		String[] names = new String[map.size()];
 
@@ -200,7 +200,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param enumMap The enum type map.
 	 * @param add A string to add to the identifier of the map.
 	 */
-	protected void makeAttrMap(PrintStream ps, Map<Entity, Integer> attrMap,
+	protected static void makeAttrMap(PrintStream ps, Map<Entity, Integer> attrMap,
 			Map<? extends InheritanceType, Integer> typeMap,
 			Map<EnumType, Integer> enumMap, String add)
 	{
@@ -325,7 +325,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param attrMap The map of all attributes.
 	 * @param typeMap The type map to use.
 	 */
-	protected void makeAttrMatrix(PrintStream ps, String add,
+	protected static void makeAttrMatrix(PrintStream ps, String add,
 			Map<Entity, Integer> attrMap, Map<? extends InheritanceType, Integer> typeMap)
 	{
 
@@ -351,7 +351,7 @@ public abstract class CBackend extends IDBase implements Backend
 		ps.print("};\n");
 	}
 
-	protected void makeActionMap(PrintStream ps, Map<Rule, Integer> map)
+	protected static void makeActionMap(PrintStream ps, Map<Rule, Integer> map)
 	{
 		Action[] actions = new Action[map.size()];
 
@@ -399,7 +399,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param ending the end of the XML tag, either ">" or "/>"
 	 * @param inh    the type
 	 */
-	protected void dumpXMLTag(int depth, PrintStream ps, String ending, Type inh)
+	protected static void dumpXMLTag(int depth, PrintStream ps, String ending, Type inh)
 	{
 		for(int i = 0; i < depth; ++i)
 			ps.print("  ");
@@ -414,7 +414,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param sb    the string buffer
 	 * @param inh   the type
 	 */
-	protected void dumpXMLEndTag(int depth, PrintStream ps, Type inh)
+	protected static void dumpXMLEndTag(int depth, PrintStream ps, Type inh)
 	{
 		for(int i = 0; i < depth; ++i)
 			ps.print("  ");
@@ -429,7 +429,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param ending the end of the XML tag, either ">" or "/>"
 	 * @param ent    the entity
 	 */
-	protected void dumpXMLTag(int depth, PrintStream ps, String ending, Entity ent)
+	protected static void dumpXMLTag(int depth, PrintStream ps, String ending, Entity ent)
 	{
 		for(int i = 0; i < depth; ++i)
 			ps.print("  ");
@@ -445,7 +445,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param sb    the string buffer.
 	 * @param ent   the entity.
 	 */
-	protected void dumpXMLEndTag(int depth, PrintStream ps, Entity ent)
+	protected static void dumpXMLEndTag(int depth, PrintStream ps, Entity ent)
 	{
 		for(int i = 0; i < depth; ++i) {
 			ps.print("  ");
@@ -461,7 +461,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param ending the end of the XML tag, either ">" or "/>".
 	 * @param ev     the enum item.
 	 */
-	protected void dumpXMLTag(int depth, PrintStream ps, String ending, EnumItem ev)
+	protected static void dumpXMLTag(int depth, PrintStream ps, String ending, EnumItem ev)
 	{
 		for(int i = 0; i < depth; ++i) {
 			ps.print("  ");
@@ -540,7 +540,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * in the generated code.
 	 * @param sb The string buffer to the stuff to.
 	 */
-	protected void makeCTypes(PrintStream ps)
+	protected static void makeCTypes(PrintStream ps)
 	{
 		ps.print("/** The attribute type classification. */\n");
 		ps.print("typedef enum _attribute_type {\n");
@@ -593,7 +593,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param sb   The string buffer.
 	 * @param map  A map containing all enum types.
 	 */
-	protected void makeEnumDeclarations(PrintStream ps, Map<EnumType, Integer> map)
+	protected static void makeEnumDeclarations(PrintStream ps, Map<EnumType, Integer> map)
 	{
 		// build the description of all enum types
 		for(EnumType type : map.keySet()) {
@@ -741,7 +741,7 @@ public abstract class CBackend extends IDBase implements Backend
 	/**
 	 * @see de.unika.ipd.grgen.be.C.Formatter#formatId(java.lang.String)
 	 */
-	public String formatId(String id)
+	public static String formatId(String id)
 	{
 		return id;
 	}

@@ -370,17 +370,17 @@ public abstract class ParserEnvironment extends Base
 	 * This defaults to the error node.
 	 * @return An initialization AST node.
 	 */
-	public BaseNode initNode()
+	public static BaseNode initNode()
 	{
 		return BaseNode.getErrorNode();
 	}
 
-	public ExprNode initExprNode()
+	public static ExprNode initExprNode()
 	{
 		return ExprNode.getInvalid();
 	}
 
-	public VarDeclNode initVarNode(PatternGraphNode directlyNestingLHSGraph, int context)
+	public static VarDeclNode initVarNode(PatternGraphNode directlyNestingLHSGraph, int context)
 	{
 		return VarDeclNode.getInvalidVar(directlyNestingLHSGraph, context);
 	}
@@ -396,17 +396,17 @@ public abstract class ParserEnvironment extends Base
 	 * This defaults to the invalid identifier.
 	 * @return An initialization AST identifier node.
 	 */
-	public IdentNode getDummyIdent()
+	public static IdentNode getDummyIdent()
 	{
 		return IdentNode.getInvalid();
 	}
 
-	public Annotations getEmptyAnnotations()
+	public static Annotations getEmptyAnnotations()
 	{
 		return EmptyAnnotations.get();
 	}
 
-	public Coords getInvalidCoords()
+	public static Coords getInvalidCoords()
 	{
 		return Coords.getInvalid();
 	}
@@ -496,7 +496,7 @@ public abstract class ParserEnvironment extends Base
 		keywords.add("yield");
 	}
 
-	public boolean isKnownPackage(String packageName)
+	public static boolean isKnownPackage(String packageName)
 	{
 		switch(packageName) {
 		case "Math":
@@ -510,7 +510,7 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public boolean isKnownFunction(Token pack, Token i, CollectNode<ExprNode> params)
+	public static boolean isKnownFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		if(isMathFunction(pack, i, params)
 				|| isFileFunction(pack, i, params)
@@ -521,7 +521,7 @@ public abstract class ParserEnvironment extends Base
 		return false;
 	}
 
-	boolean isMathFunction(Token pack, Token i, CollectNode<ExprNode> params)
+	static boolean isMathFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		if(pack == null || !pack.getText().equals("Math"))
 			return false;
@@ -565,7 +565,7 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	boolean isFileFunction(Token pack, Token i, CollectNode<ExprNode> params)
+	static boolean isFileFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		if(pack == null || !pack.getText().equals("File"))
 			return false;
@@ -579,7 +579,7 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	boolean isTimeFunction(Token pack, Token i, CollectNode<ExprNode> params)
+	static boolean isTimeFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		if(pack == null || !pack.getText().equals("Time"))
 			return false;
@@ -592,12 +592,12 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public boolean isGlobalFunction(Token pack, Token i, CollectNode<ExprNode> params)
+	public static boolean isGlobalFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		return isGlobalFunction(i.getText(), params.getChildren().size());
 	}
 
-	public boolean isGlobalFunction(String functionName, int numParams)
+	public static boolean isGlobalFunction(String functionName, int numParams)
 	{
 		switch(functionName) {
 		case "nodes":
@@ -717,7 +717,7 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public boolean isKnownForFunction(String name)
+	public static boolean isKnownForFunction(String name)
 	{
 		switch(name) {
 		case "adjacent":
@@ -746,7 +746,7 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public boolean isKnownProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	public static boolean isKnownProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		if(isFileProcedure(pack, i, params)
 				|| isTransactionProcedure(pack, i, params)
@@ -757,7 +757,7 @@ public abstract class ParserEnvironment extends Base
 		return false;
 	}
 
-	boolean isFileProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	static boolean isFileProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		if(pack == null || !pack.getText().equals("File"))
 			return false;
@@ -771,7 +771,7 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	boolean isTransactionProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	static boolean isTransactionProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		if(pack == null || !pack.getText().equals("Transaction"))
 			return false;
@@ -788,7 +788,7 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	boolean isDebugProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	static boolean isDebugProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		if(pack == null || !pack.getText().equals("Debug"))
 			return false;
@@ -805,12 +805,12 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public boolean isGlobalProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	public static boolean isGlobalProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		return isGlobalProcedure(i.getText(), params.getChildren().size());
 	}
 
-	public boolean isGlobalProcedure(String procedureName, int numParams)
+	public static boolean isGlobalProcedure(String procedureName, int numParams)
 	{
 		switch(procedureName) {
 		case "valloc":
@@ -854,7 +854,7 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public boolean isArrayAttributeAccessMethodName(String name)
+	public static boolean isArrayAttributeAccessMethodName(String name)
 	{
 		switch(name) {
 		case "indexOfBy":
@@ -870,7 +870,7 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public boolean isAutoSuppliedFilterName(String name)
+	public static boolean isAutoSuppliedFilterName(String name)
 	{
 		switch(name) {
 		case "keepFirst":
@@ -887,7 +887,7 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public boolean isAutoGeneratedBaseFilterName(String name)
+	public static boolean isAutoGeneratedBaseFilterName(String name)
 	{
 		switch(name) {
 		case "orderAscendingBy":

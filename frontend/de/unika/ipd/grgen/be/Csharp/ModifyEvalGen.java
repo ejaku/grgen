@@ -1430,7 +1430,7 @@ public class ModifyEvalGen extends CSharpBase
 		}
 	}
 
-	private void genReturnStatementFilter(SourceBuilder sb, ModifyGenerationStateConst state, ReturnStatementFilter rsf)
+	private static void genReturnStatementFilter(SourceBuilder sb, ModifyGenerationStateConst state, ReturnStatementFilter rsf)
 	{
 		if(state.matchClassName() != null)
 			sb.appendFront("GRGEN_LIBGR.MatchListHelper.FromList(matches, this_matches);\n");
@@ -2432,12 +2432,12 @@ public class ModifyEvalGen extends CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	private void genBreakStatement(SourceBuilder sb, ModifyGenerationStateConst state, BreakStatement bs)
+	private static void genBreakStatement(SourceBuilder sb, ModifyGenerationStateConst state, BreakStatement bs)
 	{
 		sb.appendFront("break;\n");
 	}
 
-	private void genContinueStatement(SourceBuilder sb, ModifyGenerationStateConst state, ContinueStatement cs)
+	private static void genContinueStatement(SourceBuilder sb, ModifyGenerationStateConst state, ContinueStatement cs)
 	{
 		sb.appendFront("continue;\n");
 	}
@@ -2875,7 +2875,7 @@ public class ModifyEvalGen extends CSharpBase
 		sb.append(")");
 	}
 
-	private void genGraphClearProc(SourceBuilder sb, ModifyGenerationStateConst state, GraphClearProc gcp)
+	private static void genGraphClearProc(SourceBuilder sb, ModifyGenerationStateConst state, GraphClearProc gcp)
 	{
 		sb.appendFront("graph.Clear();\n");
 	}
@@ -3060,7 +3060,7 @@ public class ModifyEvalGen extends CSharpBase
 		sb.append(", graph))");
 	}
 
-	private void genVAllocProc(SourceBuilder sb, ModifyGenerationStateConst state, VAllocProc vap)
+	private static void genVAllocProc(SourceBuilder sb, ModifyGenerationStateConst state, VAllocProc vap)
 	{
 		sb.append("graph.AllocateVisitedFlag()");
 	}
@@ -3086,17 +3086,17 @@ public class ModifyEvalGen extends CSharpBase
 		sb.append(");\n");
 	}
 
-	private void genStartTransactionProc(SourceBuilder sb, ModifyGenerationStateConst state, StartTransactionProc stp)
+	private static void genStartTransactionProc(SourceBuilder sb, ModifyGenerationStateConst state, StartTransactionProc stp)
 	{
 		sb.append("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Start()");
 	}
 
-	private void genPauseTransactionProc(SourceBuilder sb, ModifyGenerationStateConst state, PauseTransactionProc ptp)
+	private static void genPauseTransactionProc(SourceBuilder sb, ModifyGenerationStateConst state, PauseTransactionProc ptp)
 	{
 		sb.appendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Pause();\n");
 	}
 
-	private void genResumeTransactionProc(SourceBuilder sb, ModifyGenerationStateConst state, ResumeTransactionProc rtp)
+	private static void genResumeTransactionProc(SourceBuilder sb, ModifyGenerationStateConst state, ResumeTransactionProc rtp)
 	{
 		sb.appendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).TransactionManager.Resume();\n");
 	}
@@ -3340,7 +3340,7 @@ public class ModifyEvalGen extends CSharpBase
 		sb.append("@" + formatIdentifiable(member));
 	}
 
-	private boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
+	private static boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
 	{
 		HashSet<Entity> forcedAttrs = state.forceAttributeToVar().get(elem);
 		return forcedAttrs != null && forcedAttrs.contains(attr);

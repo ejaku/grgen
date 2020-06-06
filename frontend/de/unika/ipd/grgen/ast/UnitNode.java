@@ -293,7 +293,7 @@ public class UnitNode extends BaseNode
 		return res;
 	}
 
-	private boolean checkModelTypes(boolean res, CollectNode<TypeDeclNode> typeDecls)
+	private static boolean checkModelTypes(boolean res, CollectNode<TypeDeclNode> typeDecls)
 	{
 		for(TypeDeclNode typeDecl : typeDecls.getChildren()) {
 			DeclaredTypeNode declType = typeDecl.getDeclType();

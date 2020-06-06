@@ -17,6 +17,8 @@ import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
@@ -48,5 +50,17 @@ class ModifyGenerationTask
 		returns = null;
 		isSubpattern = false;
 		mightThereBeDeferredExecs = false;
+	}
+	
+	public boolean isEmitHereNeeded()
+	{
+		for(OrderedReplacements orderedReps : right.getOrderedReplacements()) {
+			for(OrderedReplacement orderedRep : orderedReps.orderedReplacements) {
+				if(orderedRep instanceof Emit) { // emithere
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

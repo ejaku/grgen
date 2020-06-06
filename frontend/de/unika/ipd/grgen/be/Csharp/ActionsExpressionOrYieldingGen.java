@@ -2078,7 +2078,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		assert mvri.getNext() == null;
 	}
 
-	private void genMapVarClear(SourceBuilder sb, MapVarClear mvc,
+	private static void genMapVarClear(SourceBuilder sb, MapVarClear mvc,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		Variable target = mvc.getTarget();
@@ -2137,7 +2137,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		assert svri.getNext() == null;
 	}
 
-	private void genSetVarClear(SourceBuilder sb, SetVarClear svc,
+	private static void genSetVarClear(SourceBuilder sb, SetVarClear svc,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		Variable target = svc.getTarget();
@@ -2188,7 +2188,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		assert avri.getNext() == null;
 	}
 
-	private void genArrayVarClear(SourceBuilder sb, ArrayVarClear avc,
+	private static void genArrayVarClear(SourceBuilder sb, ArrayVarClear avc,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		Variable target = avc.getTarget();
@@ -2246,7 +2246,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		assert dvri.getNext() == null;
 	}
 
-	private void genDequeVarClear(SourceBuilder sb, DequeVarClear dvc,
+	private static void genDequeVarClear(SourceBuilder sb, DequeVarClear dvc,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		Variable target = dvc.getTarget();
@@ -2628,13 +2628,13 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		sb.append(")");
 	}
 
-	private void genBreakStatement(SourceBuilder sb, BreakStatement bs,
+	private static void genBreakStatement(SourceBuilder sb, BreakStatement bs,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		sb.appendFront("new GRGEN_EXPR.BreakStatement()");
 	}
 
-	private void genContinueStatement(SourceBuilder sb, ContinueStatement cs,
+	private static void genContinueStatement(SourceBuilder sb, ContinueStatement cs,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		sb.appendFront("new GRGEN_EXPR.ContinueStatement()");

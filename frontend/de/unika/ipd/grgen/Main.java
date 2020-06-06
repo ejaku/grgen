@@ -152,7 +152,7 @@ public class Main extends Base implements Sys
 		return errorReporter;
 	}
 
-	private void printUsage()
+	private static void printUsage()
 	{
 		System.out.println("usage: grgen [options] filenames");
 		System.out.println("filenames may consist of one .grg and multiple .gm files");
@@ -190,7 +190,7 @@ public class Main extends Base implements Sys
 	 return panel;
 	 }*/
 
-	private JPanel getTablePanel(TableHandler tableHandler)
+	private static JPanel getTablePanel(TableHandler tableHandler)
 	{
 		JComponent table = new JTable(tableHandler);
 		JPanel panel = new JPanel();
@@ -451,7 +451,7 @@ public class Main extends Base implements Sys
 		return res;
 	}
 
-	private String getFileExt(String filename)
+	private static String getFileExt(String filename)
 	{
 		int lastDot = filename.lastIndexOf('.');
 		int lastDirSep = filename.lastIndexOf(File.separatorChar);

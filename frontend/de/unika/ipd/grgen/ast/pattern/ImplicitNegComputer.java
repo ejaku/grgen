@@ -121,7 +121,7 @@ public class ImplicitNegComputer
 	/**
 	 * Return the set of nodes needed for the singleNodeNegMap if the whole pattern is dpo.
 	 */
-	private Set<NodeDeclNode> getDpoPatternNodes(Set<ConstraintDeclNode> deletedEntities)
+	private static Set<NodeDeclNode> getDpoPatternNodes(Set<ConstraintDeclNode> deletedEntities)
 	{
 		Set<NodeDeclNode> deletedNodes = new LinkedHashSet<NodeDeclNode>();
 

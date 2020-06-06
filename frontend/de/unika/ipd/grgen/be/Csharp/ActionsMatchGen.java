@@ -169,7 +169,7 @@ public class ActionsMatchGen extends CSharpBase
 		sb.append("\n");
 	}
 
-	private void genAlternativeMatchInterface(SourceBuilder sb, String name)
+	private static void genAlternativeMatchInterface(SourceBuilder sb, String name)
 	{
 		String interfaceName = "IMatch_" + name;
 		sb.appendFront("public interface " + interfaceName + " : GRGEN_LIBGR.IMatch\n");
@@ -235,7 +235,7 @@ public class ActionsMatchGen extends CSharpBase
 		sb.append("\n");
 	}
 
-	private void genCleanNextWithSameHash(SourceBuilder sb, String className)
+	private static void genCleanNextWithSameHash(SourceBuilder sb, String className)
 	{
 		sb.appendFront("public void CleanNextWithSameHash() {\n");
 		sb.indent();

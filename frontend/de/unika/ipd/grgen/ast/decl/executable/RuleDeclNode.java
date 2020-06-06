@@ -163,7 +163,7 @@ public class RuleDeclNode extends TestDeclNode
 		return valid;
 	}
 
-	private boolean checkReturnedElementNotDeleted(ExprNode expr,
+	private static boolean checkReturnedElementNotDeleted(ExprNode expr,
 			Set<ConstraintDeclNode> deletedElements, Set<ConstraintDeclNode> maybeDeletedElements)
 	{
 		boolean valid = true;
@@ -248,7 +248,7 @@ public class RuleDeclNode extends TestDeclNode
 		return valid;
 	}
 
-	private boolean checkElementsInHomSetNotRetypedToDifferentTypes(Set<ConstraintDeclNode> homSet)
+	private static boolean checkElementsInHomSetNotRetypedToDifferentTypes(Set<ConstraintDeclNode> homSet)
 	{
 		boolean multipleRetypes = false;
 
@@ -355,7 +355,7 @@ public class RuleDeclNode extends TestDeclNode
 		return valid;
 	}
 
-	private boolean checkEmitElementNotDeleted(ConstraintDeclNode declNode, ExprNode expr,
+	private static boolean checkEmitElementNotDeleted(ConstraintDeclNode declNode, ExprNode expr,
 			Set<ConstraintDeclNode> delete, Set<ConstraintDeclNode> maybeDeleted)
 	{
 		if(delete.contains(declNode)) {

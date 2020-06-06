@@ -489,7 +489,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 *
 	 * Generates code to register an eval function to the pattern matcher
 	 * ------------------------------------------------------------------ */
-	private void registerEvalFunctions(StringBuffer sb, String indent, Rule rule)
+	private static void registerEvalFunctions(StringBuffer sb, String indent, Rule rule)
 	{
 		for(EvalStatements evalStmts : rule.getEvals()) {
 			for(EvalStatement evalStmt : evalStmts.evalStatements) {
@@ -589,7 +589,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	}
 
-	private void genHom(StringBuffer sb, PatternGraph graph,
+	private static void genHom(StringBuffer sb, PatternGraph graph,
 			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds, Rule rule)
 	{
 		for(Node n1 : graph.getNodes()) {
@@ -730,7 +730,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		}
 	}
 
-	private int getModifiedFlags(Rule rule, Node node)
+	private static int getModifiedFlags(Rule rule, Node node)
 	{
 		int flags = 0;
 		if(node.isRetyped() || node.getRetypedEntity(rule.getRight()) != null) {
@@ -927,7 +927,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @param    sb		  a  StringBuffer
 	 * @param    set		 a  Set
 	 * ---------------------------------------------- */
-	private void genSet(StringBuffer sb, Set<? extends Entity> set)
+	private static void genSet(StringBuffer sb, Set<? extends Entity> set)
 	{
 		sb.append('{');
 

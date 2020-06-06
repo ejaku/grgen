@@ -365,7 +365,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 		return changed;
 	}
 
-	void reportMultipleDeleteOrRetype(Entity entity, Rule first, Rule second)
+	static void reportMultipleDeleteOrRetype(Entity entity, Rule first, Rule second)
 	{
 		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent() + " (or a hom entity)"
 				+ " may get deleted or retyped in pattern " + first.getIdent() + " starting at "

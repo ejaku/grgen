@@ -80,7 +80,7 @@ public abstract class ActionDeclNode extends DeclNode
 		return checkIR(Rule.class);
 	}
 
-	protected PatternGraphNode getParentPatternGraph(PatternGraphNode pattern)
+	protected static PatternGraphNode getParentPatternGraph(PatternGraphNode pattern)
 	{
 		if(pattern == null) {
 			return null;
@@ -102,7 +102,7 @@ public abstract class ActionDeclNode extends DeclNode
 		return null;
 	}
 
-	protected boolean resolveFilters(ArrayList<FilterAutoDeclNode> filters)
+	protected static boolean resolveFilters(ArrayList<FilterAutoDeclNode> filters)
 	{
 		boolean filtersOk = true;
 		for(FilterAutoDeclNode filter : filters) {
@@ -267,7 +267,7 @@ public abstract class ActionDeclNode extends DeclNode
 		return isLhsEdgeReuseOk;
 	}
 
-	private boolean isLhsEdgeReuseOk(Collection<EdgeCharacter> alreadyReported,
+	private static boolean isLhsEdgeReuseOk(Collection<EdgeCharacter> alreadyReported,
 			ConnectionNode iConnection, ConnectionNode jConnection)
 	{
 		boolean edgeReuse = true;
@@ -385,7 +385,7 @@ public abstract class ActionDeclNode extends DeclNode
 		return res;
 	}
 
-	private boolean isLhsRhsSourceReuseOk(Collection<EdgeDeclNode> alreadyReported,
+	private static boolean isLhsRhsSourceReuseOk(Collection<EdgeDeclNode> alreadyReported,
 			HashMap<EdgeDeclNode, NodeDeclNode> redirectedFrom,
 			ConnectionNode leftConnection, ConnectionNode rightConnection, 
 			NodeDeclNode rSrc, HashSet<BaseNode> rhsNodes)
@@ -447,7 +447,7 @@ public abstract class ActionDeclNode extends DeclNode
 		return res;
 	}
 
-	private boolean isLhsRhsTargetReuseOk(Collection<EdgeDeclNode> alreadyReported,
+	private static boolean isLhsRhsTargetReuseOk(Collection<EdgeDeclNode> alreadyReported,
 			HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo,
 			ConnectionNode leftConnection, ConnectionNode rightConnection, 
 			NodeDeclNode rTgt, HashSet<BaseNode> rhsNodes)
@@ -543,7 +543,7 @@ public abstract class ActionDeclNode extends DeclNode
 		return valid;
 	}
 
-	private boolean checkExecParamNotDeleted(ConstraintDeclNode declNode,
+	private static boolean checkExecParamNotDeleted(ConstraintDeclNode declNode,
 			Set<ConstraintDeclNode> deletedElements, Set<ConstraintDeclNode> maybeDeletedElements)
 	{
 		boolean valid = true;
@@ -754,7 +754,7 @@ edgeAbstrLoop:
 		}
 	}
 
-	protected void addReplacementParamsToNestedAlternativesAndIterateds(Rule constructedRule, RhsDeclNode right)
+	protected static void addReplacementParamsToNestedAlternativesAndIterateds(Rule constructedRule, RhsDeclNode right)
 	{
 		// add replacement parameters to the nested alternatives and iterateds
 		PatternGraph patternGraph = constructedRule.getPattern();
@@ -769,7 +769,7 @@ edgeAbstrLoop:
 		}
 	}
 
-	private void addReplacementNodeParamToNestedAlternativesAndIterateds(NodeDeclNode decl, PatternGraph patternGraph)
+	private static void addReplacementNodeParamToNestedAlternativesAndIterateds(NodeDeclNode decl, PatternGraph patternGraph)
 	{
 		for(Alternative alt : patternGraph.getAlts()) {
 			for(Rule altCase : alt.getAlternativeCases()) {
@@ -783,7 +783,7 @@ edgeAbstrLoop:
 		}
 	}
 
-	private void addReplacementVarParamToNestedAlternativesAndIterateds(VarDeclNode decl, PatternGraph patternGraph)
+	private static void addReplacementVarParamToNestedAlternativesAndIterateds(VarDeclNode decl, PatternGraph patternGraph)
 	{
 		for(Alternative alt : patternGraph.getAlts()) {
 			for(Rule altCase : alt.getAlternativeCases()) {

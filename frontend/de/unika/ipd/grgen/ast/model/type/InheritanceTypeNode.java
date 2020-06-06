@@ -389,7 +389,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	}
 
 	/** Check whether the override adheres to the signature of the base declaration */
-	protected boolean checkSignatureAdhered(FunctionOrOperatorDeclBaseNode base, FunctionOrOperatorDeclBaseNode override)
+	protected static boolean checkSignatureAdhered(FunctionOrOperatorDeclBaseNode base, FunctionOrOperatorDeclBaseNode override)
 	{
 		String functionName = base.ident.toString();
 
@@ -427,7 +427,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	}
 
 	/** Check whether the override adheres to the signature of the base declaration */
-	protected boolean checkSignatureAdhered(ProcedureDeclBaseNode base, ProcedureDeclBaseNode override)
+	protected static boolean checkSignatureAdhered(ProcedureDeclBaseNode base, ProcedureDeclBaseNode override)
 	{
 		String procedureName = base.ident.toString();
 
@@ -494,7 +494,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		}
 	}
 
-	private void constructAndAddIRChild(InheritanceType inhType, BaseNode child)
+	private static void constructAndAddIRChild(InheritanceType inhType, BaseNode child)
 	{
 		if(child instanceof ConstructorDeclNode) {
 			ConstructorDeclNode cd = (ConstructorDeclNode)child;

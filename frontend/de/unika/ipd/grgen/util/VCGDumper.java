@@ -130,7 +130,7 @@ public class VCGDumper implements GraphDumper
 		return res;
 	}
 
-	private String getPrefix()
+	private static String getPrefix()
 	{
 		return prefix;
 	}

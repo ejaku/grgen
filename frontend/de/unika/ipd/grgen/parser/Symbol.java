@@ -273,7 +273,7 @@ public class Symbol
 	 */
 	public boolean isKeyword()
 	{
-		return false;
+		return false; // TODO: remove or use as intended
 	}
 
 	/**

@@ -785,7 +785,7 @@ public class PatternGraph extends Graph
 		checkThatEvalhereIsNotAccessingCreatedEdges(right);
 	}
 
-	public void checkThatEvalhereIsNotAccessingCreatedEdges(PatternGraph right)
+	public static void checkThatEvalhereIsNotAccessingCreatedEdges(PatternGraph right)
 	{
 		if(right == null) {
 			return;

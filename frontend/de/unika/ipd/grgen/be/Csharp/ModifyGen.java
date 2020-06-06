@@ -189,7 +189,7 @@ public class ModifyGen extends CSharpBase
 	/**
 	 * Checks whether the given pattern contains abstract elements.
 	 */
-	private boolean hasAbstractElements(PatternGraph left)
+	private static boolean hasAbstractElements(PatternGraph left)
 	{
 		for(Node node : left.getNodes()) {
 			if(node.getNodeType().isAbstract())
@@ -204,7 +204,7 @@ public class ModifyGen extends CSharpBase
 		return false;
 	}
 
-	private boolean hasDanglingEdges(PatternGraph left)
+	private static boolean hasDanglingEdges(PatternGraph left)
 	{
 		for(Edge edge : left.getEdges()) {
 			if(left.getSource(edge) == null || left.getTarget(edge) == null)
@@ -289,7 +289,7 @@ public class ModifyGen extends CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	private void getUnionOfReplaceParametersOfAlternativeCases(Alternative alt, Collection<Entity> replaceParameters)
+	private static void getUnionOfReplaceParametersOfAlternativeCases(Alternative alt, Collection<Entity> replaceParameters)
 	{
 		for(Rule altCase : alt.getAlternativeCases()) {
 			List<Entity> replParams = altCase.getRight().getReplParameters();
@@ -301,7 +301,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genModifyAlternativeDelete(SourceBuilder sb, Alternative alt, String pathPrefix, String altName,
+	private static void genModifyAlternativeDelete(SourceBuilder sb, Alternative alt, String pathPrefix, String altName,
 			boolean isSubpattern)
 	{
 		// Emit function header
@@ -399,7 +399,7 @@ public class ModifyGen extends CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	private void genModifyIteratedDelete(SourceBuilder sb, Rule iter, String pathPrefix, String iterName,
+	private static void genModifyIteratedDelete(SourceBuilder sb, Rule iter, String pathPrefix, String iterName,
 			boolean isSubpattern)
 	{
 		// Emit function header
@@ -621,7 +621,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genEvalProfilingStart(SourceBuilder sb, boolean declareVariable)
+	private static void genEvalProfilingStart(SourceBuilder sb, boolean declareVariable)
 	{
 		if(declareVariable)
 			sb.appendFront("long searchStepsAtBeginEval = actionEnv.PerformanceInfo.SearchSteps;\n");
@@ -629,7 +629,7 @@ public class ModifyGen extends CSharpBase
 			sb.appendFront("searchStepsAtBeginEval = actionEnv.PerformanceInfo.SearchSteps;\n");
 	}
 
-	private void genEvalProfilingStop(SourceBuilder sb, String packagePrefixedActionName)
+	private static void genEvalProfilingStop(SourceBuilder sb, String packagePrefixedActionName)
 	{
 		sb.appendFront("actionEnv.PerformanceInfo.ActionProfiles[\"" + packagePrefixedActionName
 				+ "\"].searchStepsDuringEvalTotal");
@@ -721,7 +721,7 @@ public class ModifyGen extends CSharpBase
 		return replParametersBuilder.toString();
 	}
 
-	private String parameters(ModifyGenerationTask task)
+	private static String parameters(ModifyGenerationTask task)
 	{
 		StringBuffer parametersBuilder = new StringBuffer();
 		for(Entity entity : task.parameters) {
@@ -737,7 +737,7 @@ public class ModifyGen extends CSharpBase
 		return parametersBuilder.toString();
 	}
 
-	private void collectNewOrRetypedElements(ModifyGenerationTask task, ModifyGenerationStateConst stateConst,
+	private static void collectNewOrRetypedElements(ModifyGenerationTask task, ModifyGenerationStateConst stateConst,
 			HashSet<Node> newOrRetypedNodes, HashSet<Edge> newOrRetypedEdges)
 	{
 		newOrRetypedNodes.addAll(stateConst.newNodes());
@@ -756,7 +756,7 @@ public class ModifyGen extends CSharpBase
 		newOrRetypedEdges.removeAll(stateConst.yieldedEdges());
 	}
 
-	private void removeAgainFromNeededWhatIsNotReallyNeeded(
+	private static void removeAgainFromNeededWhatIsNotReallyNeeded(
 			ModifyGenerationTask task, ModifyGenerationStateConst state,
 			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
 			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes,
@@ -788,7 +788,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void collectYieldedElements(ModifyGenerationTask task,
+	private static void collectYieldedElements(ModifyGenerationTask task,
 			ModifyGenerationStateConst stateConst, HashSet<Node> yieldedNodes,
 			HashSet<Edge> yieldedEdges, HashSet<Variable> yieldedVariables)
 	{
@@ -814,7 +814,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void collectDeletedElements(ModifyGenerationTask task,
+	private static void collectDeletedElements(ModifyGenerationTask task,
 			ModifyGenerationStateConst stateConst, HashSet<Node> delNodes, HashSet<Edge> delEdges,
 			HashSet<SubpatternUsage> delSubpatternUsages)
 	{
@@ -837,7 +837,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void collectNewElements(ModifyGenerationTask task,
+	private static void collectNewElements(ModifyGenerationTask task,
 			ModifyGenerationStateConst stateConst, HashSet<Node> newNodes, HashSet<Edge> newEdges,
 			HashSet<SubpatternUsage> newSubpatternUsages)
 	{
@@ -862,7 +862,7 @@ public class ModifyGen extends CSharpBase
 		newEdges.removeAll(stateConst.yieldedEdges());
 	}
 
-	private void collectCommonElements(ModifyGenerationTask task,
+	private static void collectCommonElements(ModifyGenerationTask task,
 			HashSet<Node> commonNodes, HashSet<Edge> commonEdges, HashSet<SubpatternUsage> commonSubpatternUsages)
 	{
 		// Common elements are elements of the LHS which are unmodified by RHS
@@ -874,7 +874,7 @@ public class ModifyGen extends CSharpBase
 		commonSubpatternUsages.retainAll(task.right.getSubpatternUsages());
 	}
 
-	private void collectElementsAccessedByInterface(ModifyGenerationTask task,
+	private static void collectElementsAccessedByInterface(ModifyGenerationTask task,
 			HashSet<GraphEntity> accessViaInterface)
 	{
 		accessViaInterface.addAll(task.left.getNodes());
@@ -901,7 +901,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void collectElementsAndAttributesNeededByImperativeStatements(ModifyGenerationTask task,
+	private static void collectElementsAndAttributesNeededByImperativeStatements(ModifyGenerationTask task,
 			NeededEntities needs)
 	{
 		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
@@ -935,7 +935,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void collectElementsAndAttributesNeededByEvals(ModifyGenerationTask task, NeededEntities needs)
+	private static void collectElementsAndAttributesNeededByEvals(ModifyGenerationTask task, NeededEntities needs)
 	{
 		for(EvalStatements evalStmts : task.evals) {
 			evalStmts.collectNeededEntities(needs);
@@ -949,7 +949,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void collectElementsAndAttributesNeededByDefVarToBeYieldedToInitialization(ModifyGenerationStateConst state,
+	private static void collectElementsAndAttributesNeededByDefVarToBeYieldedToInitialization(ModifyGenerationStateConst state,
 			NeededEntities needs)
 	{
 		for(Variable var : state.yieldedVariables()) {
@@ -958,7 +958,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void collectElementsAndAttributesNeededByReturns(ModifyGenerationTask task,
+	private static void collectElementsAndAttributesNeededByReturns(ModifyGenerationTask task,
 			NeededEntities needs)
 	{
 		for(Expression expr : task.returns) {
@@ -966,7 +966,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void collectElementsNeededBySubpatternCreation(ModifyGenerationTask task,
+	private static void collectElementsNeededBySubpatternCreation(ModifyGenerationTask task,
 			NeededEntities needs)
 	{
 		for(SubpatternUsage subUsage : task.right.getSubpatternUsages()) {
@@ -976,7 +976,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void collectElementsNeededByNameOrAttributeInitialization(ModifyGenerationState state,
+	private static void collectElementsNeededByNameOrAttributeInitialization(ModifyGenerationState state,
 			NeededEntities needs)
 	{
 		for(Node node : state.newNodes()) {
@@ -991,7 +991,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genNeededTypes(SourceBuilder sb, ModifyGenerationStateConst state)
+	private static void genNeededTypes(SourceBuilder sb, ModifyGenerationStateConst state)
 	{
 		for(Node node : state.nodesNeededAsTypes()) {
 			String name = formatEntity(node);
@@ -1031,7 +1031,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(
+	private static void genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(
 			SourceBuilder sb, ModifyGenerationTask task)
 	{
 		for(Expression expr : task.returns) {
@@ -1075,7 +1075,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genCheckDeletedElementsForRetypingThroughHomomorphy(SourceBuilder sb, ModifyGenerationStateConst state)
+	private static void genCheckDeletedElementsForRetypingThroughHomomorphy(SourceBuilder sb, ModifyGenerationStateConst state)
 	{
 		for(Edge edge : state.delEdges()) {
 			if(!edge.isMaybeRetyped())
@@ -1095,7 +1095,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genDelNodes(SourceBuilder sb, ModifyGenerationStateConst state,
+	private static void genDelNodes(SourceBuilder sb, ModifyGenerationStateConst state,
 			HashSet<Node> nodesNeededAsElements, PatternGraph right)
 	{
 		for(Node node : state.delNodes()) {
@@ -1112,7 +1112,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genDelEdges(SourceBuilder sb, ModifyGenerationStateConst state,
+	private static void genDelEdges(SourceBuilder sb, ModifyGenerationStateConst state,
 			HashSet<Edge> edgesNeededAsElements, PatternGraph right)
 	{
 		for(Edge edge : state.delEdges()) {
@@ -1127,7 +1127,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genRedirectEdges(SourceBuilder sb, ModifyGenerationTask task, ModifyGenerationStateConst state,
+	private static void genRedirectEdges(SourceBuilder sb, ModifyGenerationTask task, ModifyGenerationStateConst state,
 			HashSet<Edge> edgesNeededAsElements, HashSet<Node> nodesNeededAsElements)
 	{
 		for(Edge edge : task.right.getEdges()) {
@@ -1141,7 +1141,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genRedirectEdgeSourceAndTarget(SourceBuilder sb, ModifyGenerationTask task,
+	private static void genRedirectEdgeSourceAndTarget(SourceBuilder sb, ModifyGenerationTask task,
 			ModifyGenerationStateConst state, HashSet<Edge> edgesNeededAsElements, HashSet<Node> nodesNeededAsElements,
 			Edge edge)
 	{
@@ -1162,7 +1162,7 @@ public class ModifyGen extends CSharpBase
 			nodesNeededAsElements.add(redirectedTarget);
 	}
 
-	private void genRedirectEdgeSource(SourceBuilder sb, ModifyGenerationTask task, ModifyGenerationStateConst state,
+	private static void genRedirectEdgeSource(SourceBuilder sb, ModifyGenerationTask task, ModifyGenerationStateConst state,
 			HashSet<Edge> edgesNeededAsElements, HashSet<Node> nodesNeededAsElements, Edge edge)
 	{
 		Node redirectedSource = edge.getRedirectedSource(task.right);
@@ -1176,7 +1176,7 @@ public class ModifyGen extends CSharpBase
 			nodesNeededAsElements.add(redirectedSource);
 	}
 
-	private void genRedirectEdgeTarget(SourceBuilder sb, ModifyGenerationTask task, ModifyGenerationStateConst state,
+	private static void genRedirectEdgeTarget(SourceBuilder sb, ModifyGenerationTask task, ModifyGenerationStateConst state,
 			HashSet<Edge> edgesNeededAsElements, HashSet<Node> nodesNeededAsElements, Edge edge)
 	{
 		Node redirectedTarget = edge.getRedirectedTarget(task.right);
@@ -1271,7 +1271,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genAddedGraphElementsArray(SourceBuilder sb, ModifyGenerationStateConst state, String pathPrefix,
+	private static void genAddedGraphElementsArray(SourceBuilder sb, ModifyGenerationStateConst state, String pathPrefix,
 			int typeOfTask)
 	{
 		if(typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY
@@ -1281,7 +1281,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genAlternativeModificationCalls(SourceBuilder sb, ModifyGenerationTask task, String pathPrefix)
+	private static void genAlternativeModificationCalls(SourceBuilder sb, ModifyGenerationTask task, String pathPrefix)
 	{
 		if(task.right == task.left) { // test needs top-level-modify due to interface, but not more
 			return;
@@ -1306,7 +1306,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genAlternativeModificationCall(Alternative alt, SourceBuilder sb, ModifyGenerationTask task,
+	private static void genAlternativeModificationCall(Alternative alt, SourceBuilder sb, ModifyGenerationTask task,
 			String pathPrefix)
 	{
 		String altName = alt.getNameOfGraph();
@@ -1323,7 +1323,7 @@ public class ModifyGen extends CSharpBase
 		sb.append(");\n");
 	}
 
-	private void genIteratedModificationCalls(SourceBuilder sb, ModifyGenerationTask task, String pathPrefix)
+	private static void genIteratedModificationCalls(SourceBuilder sb, ModifyGenerationTask task, String pathPrefix)
 	{
 		if(task.right == task.left) { // test needs top-level-modify due to interface, but not more
 			return;
@@ -1348,7 +1348,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genIteratedModificationCall(Rule iter, SourceBuilder sb, ModifyGenerationTask task, String pathPrefix)
+	private static void genIteratedModificationCall(Rule iter, SourceBuilder sb, ModifyGenerationTask task, String pathPrefix)
 	{
 		String iterName = iter.getLeft().getNameOfGraph();
 		sb.appendFront(pathPrefix + task.left.getNameOfGraph() + "_" + iterName + "_" +
@@ -1372,7 +1372,7 @@ public class ModifyGen extends CSharpBase
 			return;
 		}
 
-		if(execGen.isEmitHereNeeded(task) || task.mightThereBeDeferredExecs) {
+		if(task.isEmitHereNeeded() || task.mightThereBeDeferredExecs) {
 			sb.appendFront("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;\n");
 		}
 
@@ -1471,7 +1471,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genAddedGraphElementsArray(SourceBuilder sb, String pathPrefix, boolean isNode,
+	private static void genAddedGraphElementsArray(SourceBuilder sb, String pathPrefix, boolean isNode,
 			Collection<? extends GraphEntity> set)
 	{
 		String NodesOrEdges = isNode ? "Node" : "Edge";
@@ -1561,7 +1561,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genExtractSubmatchesFromMatch(SourceBuilder sb, String pathPrefix, PatternGraph pattern)
+	private static void genExtractSubmatchesFromMatch(SourceBuilder sb, String pathPrefix, PatternGraph pattern)
 	{
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			String subName = formatIdentifiable(sub);
@@ -1649,7 +1649,7 @@ public class ModifyGen extends CSharpBase
 	 * Returns the iterated inherited type element for a given element
 	 * or null, if the given element does not inherit its type from another element.
 	 */
-	private GraphEntity getConcreteTypeofElem(GraphEntity elem)
+	private static GraphEntity getConcreteTypeofElem(GraphEntity elem)
 	{
 		GraphEntity typeofElem = elem;
 		while(typeofElem.inheritsType()) {
@@ -1759,7 +1759,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genDelSubpatternCalls(SourceBuilder sb, ModifyGenerationStateConst state)
+	private static void genDelSubpatternCalls(SourceBuilder sb, ModifyGenerationStateConst state)
 	{
 		for(SubpatternUsage subUsage : state.delSubpatternUsages()) {
 			String subName = formatIdentifiable(subUsage);
@@ -1819,7 +1819,7 @@ public class ModifyGen extends CSharpBase
 		sb.append("@" + formatIdentifiable(member));
 	}
 
-	private boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
+	private static boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
 	{
 		HashSet<Entity> forcedAttrs = state.forceAttributeToVar().get(elem);
 		return forcedAttrs != null && forcedAttrs.contains(attr);

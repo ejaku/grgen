@@ -40,7 +40,7 @@ public abstract class ContainerInitNode extends ExprNode
 
 	public abstract boolean isInitInModel();
 
-	protected boolean isEnumValue(ExprNode expr)
+	protected static boolean isEnumValue(ExprNode expr)
 	{
 		if(!(expr instanceof DeclExprNode))
 			return false;

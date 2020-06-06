@@ -169,7 +169,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 		return connectionsNotDeleted;
 	}
 
-	private void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraph left, PatternGraph right)
+	private static void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraph left, PatternGraph right)
 	{
 		for(Node lhsNode : left.getNodes()) {
 			if(lhsNode.directlyNestingLHSGraph != left && !right.hasNode(lhsNode)) {

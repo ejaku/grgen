@@ -24,8 +24,6 @@ import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
-import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
 import de.unika.ipd.grgen.ir.stmt.ExecStatement;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
@@ -124,12 +122,12 @@ public class ModifyExecGen extends CSharpBase
 			genExecProfilingStop(sb, packagePrefixedActionName);
 	}
 
-	private void genExecProfilingStart(SourceBuilder sb)
+	private static void genExecProfilingStart(SourceBuilder sb)
 	{
 		sb.appendFront("long searchStepsAtBeginExec = actionEnv.PerformanceInfo.SearchSteps;\n");
 	}
 
-	private void collectContainerExprsNeededByImperativeStatements(ModifyGenerationTask task,
+	private static void collectContainerExprsNeededByImperativeStatements(ModifyGenerationTask task,
 			NeededEntities needs)
 	{
 		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
@@ -159,7 +157,7 @@ public class ModifyExecGen extends CSharpBase
 		if(!task.mightThereBeDeferredExecs) { // procEnv was already emitted in case of deferred execs
 			if(!task.right.getImperativeStmts().isEmpty()) { // we need it?
 				// see genSubpatternModificationCalls why not simply emitting in case of !task.right.getImperativeStmts().isEmpty()
-				if(!isEmitHereNeeded(task)) { // it was not already emitted?
+				if(!task.isEmitHereNeeded()) { // it was not already emitted?
 					sb.appendFront("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;\n");
 				}
 			}
@@ -181,23 +179,11 @@ public class ModifyExecGen extends CSharpBase
 		}
 	}
 
-	private void genExecProfilingStop(SourceBuilder sb, String packagePrefixedActionName)
+	private static void genExecProfilingStop(SourceBuilder sb, String packagePrefixedActionName)
 	{
 		sb.appendFront("actionEnv.PerformanceInfo.ActionProfiles[\"" + packagePrefixedActionName
 				+ "\"].searchStepsDuringExecTotal");
 		sb.append(" += actionEnv.PerformanceInfo.SearchSteps - searchStepsAtBeginExec;\n");
-	}
-
-	public boolean isEmitHereNeeded(ModifyGenerationTask task)
-	{
-		for(OrderedReplacements orderedReps : task.right.getOrderedReplacements()) {
-			for(OrderedReplacement orderedRep : orderedReps.orderedReplacements) {
-				if(orderedRep instanceof Emit) { // emithere
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public void genEmit(SourceBuilder sb, ModifyGenerationStateConst state, Emit emit)
@@ -337,7 +323,7 @@ public class ModifyExecGen extends CSharpBase
 		sb.append("@" + formatIdentifiable(member));
 	}
 
-	private boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
+	private static boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
 	{
 		HashSet<Entity> forcedAttrs = state.forceAttributeToVar().get(elem);
 		return forcedAttrs != null && forcedAttrs.contains(attr);

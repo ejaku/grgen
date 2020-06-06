@@ -176,7 +176,7 @@ public class Dumper
 		gd.endSubgraph();
 	}
 
-	public final void dump(final String id, final String s, GraphDumper gd)
+	public static final void dump(final String id, final String s, GraphDumper gd)
 	{
 		gd.node(
 			new GraphDumpable() {
@@ -213,7 +213,7 @@ public class Dumper
 		);
 	}
 
-	public final void dump(final String s, final String fromId,
+	public static final void dump(final String s, final String fromId,
 			final String toId, GraphDumper gd)
 	{
 		gd.edge(

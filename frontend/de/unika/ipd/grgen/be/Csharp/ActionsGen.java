@@ -1349,7 +1349,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	void generateComparerAndArrayOrderBy(SourceBuilder sb, Identifiable memberBearer,
+	static void generateComparerAndArrayOrderBy(SourceBuilder sb, Identifiable memberBearer,
 			MemberBearerType memberBearerType, Rule iteratedRule, Variable var, boolean ascending)
 	{
 		String name = formatIdentifiable(memberBearer);
@@ -1678,7 +1678,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(aux.toString());
 	}
 
-	private void genEnums(SourceBuilder sb, PatternGraph pattern, String pathPrefixForElements)
+	private static void genEnums(SourceBuilder sb, PatternGraph pattern, String pathPrefixForElements)
 	{
 		sb.appendFront("public enum " + pathPrefixForElements + "NodeNums { ");
 		for(Node node : pattern.getNodes()) {
@@ -1717,7 +1717,7 @@ public class ActionsGen extends CSharpBase
 		sb.append("};\n");
 	}
 
-	private void genCaseEnum(SourceBuilder sb, Alternative alt, String pathPrefixForElements)
+	private static void genCaseEnum(SourceBuilder sb, Alternative alt, String pathPrefixForElements)
 	{
 		sb.appendFront("public enum " + pathPrefixForElements + "CaseNums { ");
 		for(Rule altCase : alt.getAlternativeCases()) {
@@ -1984,7 +1984,7 @@ public class ActionsGen extends CSharpBase
 		sb.append("\n");
 	}
 
-	private void genNodeHomMatrix(SourceBuilder sb, PatternGraph pattern)
+	private static void genNodeHomMatrix(SourceBuilder sb, PatternGraph pattern)
 	{
 		if(pattern.getNodes().size() > 0) {
 			sb.append("{\n");
@@ -2004,7 +2004,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void genEdgeHomMatrix(SourceBuilder sb, PatternGraph pattern)
+	private static void genEdgeHomMatrix(SourceBuilder sb, PatternGraph pattern)
 	{
 		if(pattern.getEdges().size() > 0) {
 			sb.append("{\n");
@@ -2024,7 +2024,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void linkEdgesToNodes(SourceBuilder sb, PatternGraph pattern, String patGraphVarName,
+	private static void linkEdgesToNodes(SourceBuilder sb, PatternGraph pattern, String patGraphVarName,
 			HashMap<Entity, String> alreadyDefinedEntityToName, String pathPrefixForElements)
 	{
 		for(Edge edge : pattern.getEdges()) {
@@ -2046,7 +2046,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void setEmbeddingGraph(SourceBuilder sb, PatternGraph pattern, String patGraphVarName,
+	private static void setEmbeddingGraph(SourceBuilder sb, PatternGraph pattern, String patGraphVarName,
 			String pathPrefixForElements)
 	{
 		for(Alternative alt : pattern.getAlts()) {
@@ -2251,7 +2251,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void genNodeGlobalHomMatrix(SourceBuilder sb, PatternGraph pattern,
+	private static void genNodeGlobalHomMatrix(SourceBuilder sb, PatternGraph pattern,
 			HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		if(pattern.getNodes().size() > 0) {
@@ -2272,7 +2272,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void genEdgeGlobalHomMatrix(SourceBuilder sb, PatternGraph pattern,
+	private static void genEdgeGlobalHomMatrix(SourceBuilder sb, PatternGraph pattern,
 			HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		if(pattern.getEdges().size() > 0) {
@@ -2293,7 +2293,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void genNodeTotallyHomArray(SourceBuilder sb, PatternGraph pattern)
+	private static void genNodeTotallyHomArray(SourceBuilder sb, PatternGraph pattern)
 	{
 		if(pattern.getNodes().size() > 0) {
 			sb.append(" { ");
@@ -2307,7 +2307,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void genEdgeTotallyHomArray(SourceBuilder sb, PatternGraph pattern)
+	private static void genEdgeTotallyHomArray(SourceBuilder sb, PatternGraph pattern)
 	{
 		if(pattern.getEdges().size() > 0) {
 			sb.append(" { ");
@@ -2587,7 +2587,7 @@ public class ActionsGen extends CSharpBase
 		sb.unindent();
 	}
 
-	private void getPatternAlternative(SourceBuilder sb, String pathPrefixForElements, Alternative alt)
+	private static void getPatternAlternative(SourceBuilder sb, String pathPrefixForElements, Alternative alt)
 	{
 		String altName = alt.getNameOfGraph();
 		sb.appendFront("GRGEN_LGSP.Alternative " + pathPrefixForElements + altName + " = new GRGEN_LGSP.Alternative( ");
@@ -2630,7 +2630,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront(");\n");
 	}
 
-	private void genStorageAccess(SourceBuilder sb, String pathPrefix,
+	private static void genStorageAccess(SourceBuilder sb, String pathPrefix,
 			HashMap<Entity, String> alreadyDefinedEntityToName,
 			String pathPrefixForElements, GraphEntity entity)
 	{
@@ -2844,7 +2844,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("},\n");
 	}
 
-	private void genRuleMatchClassInfo(SourceBuilder sb, Rule rule, String packageName)
+	private static void genRuleMatchClassInfo(SourceBuilder sb, Rule rule, String packageName)
 	{
 		sb.appendFront("new GRGEN_LIBGR.MatchClassInfo[] { ");
 		for(DefinedMatchType implementedMatchClass : rule.getImplementedMatchClasses()) {
@@ -2855,7 +2855,7 @@ public class ActionsGen extends CSharpBase
 		sb.append("}");
 	}
 
-	private void genFilterAutoSupplied(SourceBuilder sb, String filterName, String packageName, String parameterType)
+	private static void genFilterAutoSupplied(SourceBuilder sb, String filterName, String packageName, String parameterType)
 	{
 		sb.appendFront("new GRGEN_LGSP.LGSPFilterAutoSupplied(\"" + filterName + "\", ");
 		sb.append("null, ");
@@ -2936,7 +2936,7 @@ public class ActionsGen extends CSharpBase
 		sb.append("),\n ");
 	}
 
-	private void genMatchClassFilterAutoSupplied(SourceBuilder sb, String filterName, String packageName,
+	private static void genMatchClassFilterAutoSupplied(SourceBuilder sb, String filterName, String packageName,
 			String parameterType)
 	{
 		sb.appendFront("new GRGEN_LGSP.LGSPFilterAutoSupplied(\"" + filterName + "\", ");
@@ -3046,7 +3046,7 @@ public class ActionsGen extends CSharpBase
 		return max;
 	}
 
-	private double computePriosMax(Collection<? extends Entity> nodesOrEdges, double max)
+	private static double computePriosMax(Collection<? extends Entity> nodesOrEdges, double max)
 	{
 		for(Entity noe : nodesOrEdges) {
 			Object prioO = noe.getAnnotations().get("prio");
@@ -3062,7 +3062,7 @@ public class ActionsGen extends CSharpBase
 		return max;
 	}
 
-	private void appendPrio(SourceBuilder sb, Entity entity, double max)
+	private static void appendPrio(SourceBuilder sb, Entity entity, double max)
 	{
 		Object prioO = entity.getAnnotations().get("prio");
 
@@ -3104,7 +3104,7 @@ public class ActionsGen extends CSharpBase
 	// Static constructor calling static inits //
 	/////////////////////////////////////////////
 
-	protected void genStaticConstructor(SourceBuilder sb, String className, List<String> staticInitializers)
+	protected static void genStaticConstructor(SourceBuilder sb, String className, List<String> staticInitializers)
 	{
 		sb.append("\n");
 		sb.appendFront("static " + className + "() {\n");
