@@ -44,6 +44,7 @@ public class EmptyAnnotations implements Annotations
 	@Override
 	public void put(String key, Object value)
 	{
+		// nothing to do
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isInteger(java.lang.String) */

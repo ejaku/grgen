@@ -169,4 +169,10 @@ public abstract class Type extends Identifiable
 			return true;
 		return false;
 	}
+	
+	/** Add this type to the digest. */
+	public void addToDigest(StringBuffer sb)
+	{
+		// sensible base implementation, to be overwritten selectively
+	}
 }

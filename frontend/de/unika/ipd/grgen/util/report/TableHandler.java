@@ -19,8 +19,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 /**
- * A reporter that is a table model. So reported messages can be viewed
- * using a JTable.
+ * A reporter that is a table model.
+ * So reported messages can be viewed using a JTable.
  */
 public class TableHandler implements TableModel, Handler
 {
@@ -128,12 +128,10 @@ public class TableHandler implements TableModel, Handler
 		return false;
 	}
 
-	/**
-	 * Editing is not allowed, so empty body here.
-	 */
 	@Override
 	public void setValueAt(Object arg0, int arg1, int arg2)
 	{
+		// editing is not allowed, so empty body here.
 	}
 
 	/**

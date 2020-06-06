@@ -11,8 +11,6 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
-
 /**
  * Represents a break statement in the IR.
  */
@@ -21,10 +19,5 @@ public class BreakStatement extends EvalStatement
 	public BreakStatement()
 	{
 		super("break statement");
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }

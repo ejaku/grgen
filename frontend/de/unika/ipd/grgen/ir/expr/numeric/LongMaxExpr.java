@@ -7,7 +7,6 @@
 
 package de.unika.ipd.grgen.ir.expr.numeric;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.basic.LongType;
 
@@ -16,10 +15,5 @@ public class LongMaxExpr extends BuiltinFunctionInvocationExpr
 	public LongMaxExpr()
 	{
 		super("longmax expr", LongType.getType());
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }

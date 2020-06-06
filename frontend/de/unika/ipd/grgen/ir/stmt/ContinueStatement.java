@@ -11,8 +11,6 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
-
 /**
  * Represents a continue statement in the IR.
  */
@@ -21,10 +19,5 @@ public class ContinueStatement extends EvalStatement
 	public ContinueStatement()
 	{
 		super("continue statement");
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }

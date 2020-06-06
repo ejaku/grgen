@@ -11,8 +11,6 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
-
 /**
  * Represents a relict from an assignment statement of the form x=x optimized away.
  */
@@ -27,10 +25,5 @@ public class AssignmentIdentical extends EvalStatement
 	public String toString()
 	{
 		return ". = .";
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }

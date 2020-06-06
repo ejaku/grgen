@@ -27,6 +27,7 @@ public class PostWalker extends PrePostWalker
 					@Override
 					public void visit(Walkable w)
 					{
+						// nothing to do
 					}
 				},
 				post);

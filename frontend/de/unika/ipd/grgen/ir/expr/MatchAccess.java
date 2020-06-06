@@ -34,10 +34,4 @@ public class MatchAccess extends Expression
 	{
 		return entity;
 	}
-
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-	}
 }

@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.expr;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.type.Type;
 
@@ -46,10 +45,5 @@ public class ProjectionExpr extends Expression
 	public void setProjectedValueVarName(String projectedValueVarName)
 	{
 		this.projectedValueVarName = projectedValueVarName;
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }

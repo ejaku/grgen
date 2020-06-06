@@ -45,7 +45,10 @@ public abstract class EvalStatement extends IR implements OrderedReplacement
 	 * We don't collect global variables (::-prefixed), as no entities and no processing are needed for them at all, they are only accessed.
 	 * @param needs A NeededEntities instance aggregating the needed elements.
 	 */
-	public abstract void collectNeededEntities(NeededEntities needs);
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		// default implementation for statements without children that need to be collected
+	}
 
 	public static boolean isGlobalVariable(Entity entity)
 	{

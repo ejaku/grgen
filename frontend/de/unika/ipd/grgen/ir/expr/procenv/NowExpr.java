@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.expr.procenv;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.basic.LongType;
 
@@ -20,10 +19,5 @@ public class NowExpr extends BuiltinFunctionInvocationExpr
 	public NowExpr()
 	{
 		super("now expr", LongType.getType());
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }

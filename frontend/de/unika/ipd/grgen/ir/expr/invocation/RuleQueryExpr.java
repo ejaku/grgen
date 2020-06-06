@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.expr.invocation;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
@@ -21,10 +20,5 @@ public class RuleQueryExpr extends Expression
 	public RuleQueryExpr(Type targetType)
 	{
 		super("rule query", targetType);
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }

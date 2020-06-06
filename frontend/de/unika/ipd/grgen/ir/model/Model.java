@@ -283,7 +283,6 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		}
 	}
 
-	@Override
 	public void addToDigest(StringBuffer sb)
 	{
 		sb.append(this);

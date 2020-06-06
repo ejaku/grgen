@@ -7,7 +7,6 @@
 
 package de.unika.ipd.grgen.ir.expr;
 
-import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.type.Type;
 
@@ -24,11 +23,5 @@ public class Count extends Expression
 	public Rule getIterated()
 	{
 		return iterated;
-	}
-
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }

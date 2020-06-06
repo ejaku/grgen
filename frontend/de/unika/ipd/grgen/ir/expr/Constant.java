@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.expr;
 
-import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.type.Type;
 
 public class Constant extends Expression
@@ -40,10 +39,5 @@ public class Constant extends Expression
 	public String getNodeLabel()
 	{
 		return getName() + " " + value;
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }

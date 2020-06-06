@@ -244,7 +244,6 @@ public class Unit extends IR implements ActionsBearer
 		}
 	}
 
-	@Override
 	public void addToDigest(StringBuffer sb)
 	{
 		for(Iterator<Model> it = models.iterator(); it.hasNext();) {

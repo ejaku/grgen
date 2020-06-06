@@ -13,4 +13,5 @@ package de.unika.ipd.grgen.ir.stmt;
  */
 public interface ImperativeStmt
 {
+	// only used for grouping as of now
 }

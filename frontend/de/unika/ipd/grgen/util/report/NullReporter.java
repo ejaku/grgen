@@ -17,36 +17,36 @@ package de.unika.ipd.grgen.util.report;
 public class NullReporter extends Reporter
 {
 	/**
-	 * Do nothing here
 	 * @see de.unika.ipd.grgen.util.report.Reporter#entering(String)
 	 */
 	public void entering(String s)
 	{
+		// nothing to do
 	}
 
 	/**
-	 * Do nothing here
 	 * @see de.unika.ipd.grgen.util.report.Reporter#leaving()
 	 */
 	public void leaving()
 	{
+		// nothing to do
 	}
 
 	/**
-	 * Do nothing here
 	 * @see de.unika.ipd.grgen.util.report.Reporter#report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)
 	 */
 	@Override
 	public void report(int channel, Location loc, String msg)
 	{
+		// nothing to do
 	}
 
 	/**
-	 * Do nothing here
 	 * @see de.unika.ipd.grgen.util.report.Reporter#report(int, java.lang.String)
 	 */
 	@Override
 	public void report(int channel, String msg)
 	{
+		// nothing to do
 	}
 }

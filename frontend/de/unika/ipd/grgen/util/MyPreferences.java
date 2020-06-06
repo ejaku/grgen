@@ -118,6 +118,7 @@ public class MyPreferences extends AbstractPreferences
 	@Override
 	protected void syncSpi() throws BackingStoreException
 	{
+		// empty
 	}
 
 	/**
@@ -126,6 +127,7 @@ public class MyPreferences extends AbstractPreferences
 	@Override
 	protected void flushSpi() throws BackingStoreException
 	{
+		// empty
 	}
 
 	/**

@@ -7,7 +7,6 @@
 
 package de.unika.ipd.grgen.ir.expr.numeric;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
@@ -16,10 +15,5 @@ public class IntMinExpr extends BuiltinFunctionInvocationExpr
 	public IntMinExpr()
 	{
 		super("intmin expr", IntType.getType());
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }

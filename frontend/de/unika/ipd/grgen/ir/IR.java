@@ -94,6 +94,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	 */
 	protected void canonicalizeLocal()
 	{
+		// default implementation for IR objects without named members
 	}
 
 	public final void canonicalize()
@@ -107,11 +108,6 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	protected final void invalidateCanonical()
 	{
 		canonicalValid = false;
-	}
-
-	/** Add this type to the digest. */
-	public void addToDigest(StringBuffer sb)
-	{
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -139,6 +135,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	@Override
 	public void addFields(Map<String, Object> fields)
 	{
+		// empty
 	}
 
 	/** @return A unique ID for this object. */

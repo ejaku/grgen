@@ -109,6 +109,7 @@ public class SingleNodeConnNode extends ConnectionCharacter
 	@Override
 	public void addEdge(Set<EdgeDeclNode> set)
 	{
+		// no edge available
 	}
 
 	@Override
@@ -128,6 +129,7 @@ public class SingleNodeConnNode extends ConnectionCharacter
 	@Override
 	public void setSrc(NodeDeclNode src)
 	{
+		// no edge available a source could be set
 	}
 
 	@Override
@@ -139,6 +141,7 @@ public class SingleNodeConnNode extends ConnectionCharacter
 	@Override
 	public void setTgt(NodeDeclNode tgt)
 	{
+		// no edge available a target could be set
 	}
 
 	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addNodes(java.util.Set) */

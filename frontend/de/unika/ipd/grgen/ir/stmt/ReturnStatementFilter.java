@@ -11,8 +11,6 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
-
 /**
  * Represents a return statement of a filter function in the IR.
  */
@@ -21,10 +19,5 @@ public class ReturnStatementFilter extends EvalStatement
 	public ReturnStatementFilter()
 	{
 		super("return statement filter");
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
 	}
 }
