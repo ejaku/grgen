@@ -110,6 +110,7 @@ public abstract class GraphEntity extends Entity
 	}
 
 	/** @return The annotations. */
+	@Override
 	public Annotations getAnnotations()
 	{
 		return annotations;
@@ -125,6 +126,7 @@ public abstract class GraphEntity extends Entity
 		return maybeRetyped;
 	}
 
+	@Override
 	public void addFields(Map<String, Object> fields)
 	{
 		super.addFields(fields);
@@ -134,6 +136,7 @@ public abstract class GraphEntity extends Entity
 	}
 
 	/** @return true, if this is a retyped entity, i.e. the result of a retype, else false */
+	@Override
 	public boolean isRetyped()
 	{
 		return false;
@@ -283,6 +286,7 @@ public abstract class GraphEntity extends Entity
 		return Collections.unmodifiableCollection(constraints);
 	}
 
+	@Override
 	public String getNodeInfo()
 	{
 		return super.getNodeInfo()

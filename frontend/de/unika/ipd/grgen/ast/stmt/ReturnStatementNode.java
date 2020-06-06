@@ -79,6 +79,7 @@ public class ReturnStatementNode extends EvalStatementNode
 		return true;
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		if(!(root instanceof FunctionDeclNode)

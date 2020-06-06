@@ -22,6 +22,7 @@ public class SizeExpr extends BuiltinFunctionInvocationExpr
 		super("size expr", IntType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

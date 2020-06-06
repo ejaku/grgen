@@ -34,6 +34,7 @@ public class DeclarationTypeResolver<T extends BaseNode> extends Resolver<T>
 	 * Resolves n to node of type R, via declaration type if n is an identifier, via simple cast otherwise
 	 * returns null if n's declaration or n can't be cast to R.
 	 */
+	@Override
 	public T resolve(BaseNode bn, BaseNode parent)
 	{
 		if(bn instanceof IdentNode) {

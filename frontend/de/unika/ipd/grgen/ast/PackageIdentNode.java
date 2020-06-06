@@ -106,6 +106,7 @@ public class PackageIdentNode extends IdentNode
 		return owningPackage.getSymbol();
 	}
 
+	@Override
 	public DeclNode getDecl()
 	{
 		Resolver.resolveOwner(this);

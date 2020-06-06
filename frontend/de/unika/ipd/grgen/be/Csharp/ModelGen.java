@@ -1384,6 +1384,7 @@ deque_init_loop:
 		return true;
 	}
 
+	@Override
 	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState)
 	{
 		Entity owner = qual.getOwner();
@@ -1392,6 +1393,7 @@ deque_init_loop:
 		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(qual.getMember()));
 	}
 
+	@Override
 	protected void genMemberAccess(SourceBuilder sb, Entity member)
 	{
 		if(curMemberOwner != null)
@@ -2387,6 +2389,7 @@ deque_init_loop:
 
 			TreeSet<InheritanceType> sortedCommonTypes = new TreeSet<InheritanceType>(
 					new Comparator<InheritanceType>() {
+						@Override
 						public int compare(InheritanceType o1, InheritanceType o2)
 						{
 							return o2.getMaxDist() - o1.getMaxDist();

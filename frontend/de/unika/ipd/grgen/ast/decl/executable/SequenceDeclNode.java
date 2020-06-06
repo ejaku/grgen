@@ -60,6 +60,7 @@ public class SequenceDeclNode extends DeclNode
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -71,6 +72,7 @@ public class SequenceDeclNode extends DeclNode
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
@@ -85,6 +87,7 @@ public class SequenceDeclNode extends DeclNode
 			new DeclarationTypeResolver<SequenceTypeNode>(SequenceTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal()
 	{
 		type = typeResolver.resolve(typeUnresolved, this);
@@ -93,6 +96,7 @@ public class SequenceDeclNode extends DeclNode
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal()
 	{
 		return true;
@@ -105,6 +109,7 @@ public class SequenceDeclNode extends DeclNode
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	@Override
 	protected IR constructIR()
 	{
 		Sequence sequence = new Sequence(getIdentNode().getIdent(), exec.checkIR(Exec.class));

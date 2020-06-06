@@ -31,6 +31,7 @@ public class IteratedQueryExpr extends Expression
 		return iteratedName;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

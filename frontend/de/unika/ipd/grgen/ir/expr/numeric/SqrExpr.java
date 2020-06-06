@@ -30,6 +30,7 @@ public class SqrExpr extends BuiltinFunctionInvocationExpr
 		return expr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		expr.collectNeededEntities(needs);

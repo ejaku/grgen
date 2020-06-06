@@ -30,6 +30,7 @@ public class VResetProc extends BuiltinProcedureInvocationBase
 		return visFlagExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

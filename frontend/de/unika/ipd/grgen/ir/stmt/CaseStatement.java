@@ -32,6 +32,7 @@ public class CaseStatement extends NestingStatement
 		return caseConstantExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(caseConstantExpr != null)

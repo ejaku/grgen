@@ -21,6 +21,7 @@ public class ArrayMinExpr extends ArrayFunctionMethodInvocationBaseExpr
 		super("array min expr", ((ArrayType)(targetExpr.getType())).valueType, targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

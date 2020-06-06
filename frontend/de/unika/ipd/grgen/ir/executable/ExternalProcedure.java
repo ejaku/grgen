@@ -42,6 +42,7 @@ public class ExternalProcedure extends ProcedureBase
 	}
 
 	/** Get all parameter types of this external procedure. */
+	@Override
 	public List<Type> getParameterTypes()
 	{
 		return Collections.unmodifiableList(paramTypes);

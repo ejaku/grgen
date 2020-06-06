@@ -60,6 +60,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 		subpatternRules.add(subpatternRule);
 	}
 
+	@Override
 	public Collection<Rule> getSubpatternRules()
 	{
 		return Collections.unmodifiableCollection(subpatternRules);
@@ -71,6 +72,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 		actionRules.add(actionRule);
 	}
 
+	@Override
 	public Collection<Rule> getActionRules()
 	{
 		return Collections.unmodifiableCollection(actionRules);
@@ -82,6 +84,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 		filterFunctions.add(filterFunction);
 	}
 
+	@Override
 	public Collection<FilterFunction> getFilterFunctions()
 	{
 		return Collections.unmodifiableCollection(filterFunctions);
@@ -93,6 +96,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 		matchClasses.add(matchClass);
 	}
 
+	@Override
 	public Collection<DefinedMatchType> getMatchClasses()
 	{
 		return Collections.unmodifiableCollection(matchClasses);
@@ -104,6 +108,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 		matchClassFilterFunctions.add(matchClassFilterFunction);
 	}
 
+	@Override
 	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions()
 	{
 		return Collections.unmodifiableCollection(matchClassFilterFunctions);
@@ -115,6 +120,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 		functions.add(function);
 	}
 
+	@Override
 	public Collection<Function> getFunctions()
 	{
 		return Collections.unmodifiableCollection(functions);
@@ -126,6 +132,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 		procedures.add(procedure);
 	}
 
+	@Override
 	public Collection<Procedure> getProcedures()
 	{
 		return Collections.unmodifiableCollection(procedures);
@@ -137,6 +144,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 		sequences.add(sequence);
 	}
 
+	@Override
 	public Collection<Sequence> getSequences()
 	{
 		return Collections.unmodifiableCollection(sequences);

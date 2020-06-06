@@ -59,11 +59,13 @@ public abstract class ProcedureInvocationBase extends ProcedureOrBuiltinProcedur
 		arguments.add(e);
 	}
 
+	@Override
 	public int returnArity()
 	{
 		return returnTypes.size();
 	}
 
+	@Override
 	public Type getReturnType(int index)
 	{
 		return index >= 0 || index < returnTypes.size() ? returnTypes.get(index) : null;
@@ -81,6 +83,7 @@ public abstract class ProcedureInvocationBase extends ProcedureOrBuiltinProcedur
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		for(Expression child : getWalkableChildren()) {

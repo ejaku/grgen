@@ -46,6 +46,7 @@ public class SwitchStatement extends EvalStatement
 		return statements;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		switchExpr.collectNeededEntities(needs);

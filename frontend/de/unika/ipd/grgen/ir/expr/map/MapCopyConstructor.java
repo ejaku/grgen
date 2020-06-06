@@ -27,6 +27,7 @@ public class MapCopyConstructor extends Expression
 		this.mapType = mapType;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

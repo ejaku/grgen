@@ -92,6 +92,7 @@ public class DebugReporter extends Reporter
 	 * @param channel The channel to check
 	 * @return true, if the message would be reported, false if not.
 	 */
+	@Override
 	public boolean willReport(int channel)
 	{
 		int res = inclusive ? 1 : 0;
@@ -104,12 +105,14 @@ public class DebugReporter extends Reporter
 		return (res == 0 || res == 2) && super.willReport(channel);
 	}
 
+	@Override
 	public void report(int level, Location loc, String msg)
 	{
 		makePrefix();
 		super.report(level, loc, prefix + ": " + msg);
 	}
 
+	@Override
 	public void report(int channel, String msg)
 	{
 		makePrefix();

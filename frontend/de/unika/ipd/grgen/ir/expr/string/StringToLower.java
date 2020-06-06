@@ -31,6 +31,7 @@ public class StringToLower extends BuiltinFunctionInvocationExpr
 		return stringExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		stringExpr.collectNeededEntities(needs);

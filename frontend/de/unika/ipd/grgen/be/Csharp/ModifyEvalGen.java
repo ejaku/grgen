@@ -3295,6 +3295,7 @@ public class ModifyEvalGen extends CSharpBase
 	// Expression stuff //
 	//////////////////////
 
+	@Override
 	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState)
 	{
 		genQualAccess(sb, qual, (ModifyGenerationStateConst)modifyGenerationState);
@@ -3334,6 +3335,7 @@ public class ModifyEvalGen extends CSharpBase
 		}
 	}
 
+	@Override
 	protected void genMemberAccess(SourceBuilder sb, Entity member)
 	{
 		// needed in implementing methods

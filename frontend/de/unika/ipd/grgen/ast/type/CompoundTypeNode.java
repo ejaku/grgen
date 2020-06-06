@@ -23,6 +23,7 @@ import de.unika.ipd.grgen.ast.ScopeOwner;
  */
 public abstract class CompoundTypeNode extends DeclaredTypeNode implements ScopeOwner
 {
+	@Override
 	public boolean fixupDefinition(IdentNode id)
 	{
 		return fixupDefinition(id, getScope(), true);

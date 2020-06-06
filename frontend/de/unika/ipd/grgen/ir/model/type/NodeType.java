@@ -33,11 +33,13 @@ public class NodeType extends InheritanceType implements ContainedInPackage
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_NODE;
 	}
 
+	@Override
 	public String getPackageContainedIn()
 	{
 		return packageContainedIn;

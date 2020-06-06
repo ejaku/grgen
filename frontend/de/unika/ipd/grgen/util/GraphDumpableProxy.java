@@ -38,6 +38,7 @@ public class GraphDumpableProxy implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
 	 */
+	@Override
 	public String getNodeId()
 	{
 		return gd.getNodeId();
@@ -46,6 +47,7 @@ public class GraphDumpableProxy implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
+	@Override
 	public Color getNodeColor()
 	{
 		return gd.getNodeColor();
@@ -54,6 +56,7 @@ public class GraphDumpableProxy implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeShape()
 	 */
+	@Override
 	public int getNodeShape()
 	{
 		return gd.getNodeShape();
@@ -62,6 +65,7 @@ public class GraphDumpableProxy implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
 	 */
+	@Override
 	public String getNodeLabel()
 	{
 		return gd.getNodeLabel();
@@ -70,6 +74,7 @@ public class GraphDumpableProxy implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
 	 */
+	@Override
 	public String getNodeInfo()
 	{
 		return gd.getNodeInfo();
@@ -78,6 +83,7 @@ public class GraphDumpableProxy implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
 	 */
+	@Override
 	public String getEdgeLabel(int edge)
 	{
 		return gd.getEdgeLabel(edge);

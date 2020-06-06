@@ -33,6 +33,7 @@ public class Visited extends Expression
 		return entity;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

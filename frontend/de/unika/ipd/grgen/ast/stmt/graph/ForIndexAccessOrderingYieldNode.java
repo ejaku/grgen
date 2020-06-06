@@ -173,6 +173,7 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 		return res;
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;

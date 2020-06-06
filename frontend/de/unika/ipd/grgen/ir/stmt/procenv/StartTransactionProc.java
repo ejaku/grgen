@@ -25,6 +25,7 @@ public class StartTransactionProc extends BuiltinProcedureInvocationBase
 		this.returnType = returnType;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

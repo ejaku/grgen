@@ -28,6 +28,7 @@ public class TypeExprConst extends TypeExpr
 		types.add(t);
 	}
 
+	@Override
 	public Collection<InheritanceType> evaluate()
 	{
 		return Collections.unmodifiableCollection(types);

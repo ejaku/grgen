@@ -31,11 +31,13 @@ public class DefDeclVarStatement extends EvalStatement
 		return target;
 	}
 
+	@Override
 	public String toString()
 	{
 		return target.getIdent().toString();
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		//needs.add(target); needed?

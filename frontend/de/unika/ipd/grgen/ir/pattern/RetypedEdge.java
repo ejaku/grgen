@@ -24,11 +24,13 @@ public class RetypedEdge extends Edge implements Retyped
 		super(ident, type, annots, null, maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 	}
 
+	@Override
 	public Entity getOldEntity()
 	{
 		return oldEdge;
 	}
 
+	@Override
 	public void setOldEntity(Entity old)
 	{
 		this.oldEdge = (Edge)old;
@@ -46,6 +48,7 @@ public class RetypedEdge extends Edge implements Retyped
 		this.oldEdge = old;
 	}
 
+	@Override
 	public boolean isRetyped()
 	{
 		return true;

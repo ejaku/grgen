@@ -45,6 +45,7 @@ public class ConstructorDeclNode extends DeclNode
 		parameters = becomeParent(params);
 	}
 
+	@Override
 	public TypeNode getDeclType()
 	{
 		return constructorType;

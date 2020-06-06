@@ -37,6 +37,7 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 
 	/** resolves n to node of type R, S or T, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R, S or T */
+	@Override
 	public Triple<R, S, T> resolve(BaseNode bn, BaseNode parent)
 	{
 		Triple<R, S, T> triple;

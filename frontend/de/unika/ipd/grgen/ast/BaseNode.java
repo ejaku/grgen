@@ -132,6 +132,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	 * Ordinary to string cast method
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		return getName();
@@ -334,6 +335,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 
 	/** implementation of Walkable by getChildren
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	@Override
 	public Collection<? extends BaseNode> getWalkableChildren()
 	{
 		return getChildren();
@@ -878,6 +880,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeColor()
 	 */
+	@Override
 	public Color getNodeColor()
 	{
 		return Color.WHITE;
@@ -886,6 +889,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeId()
 	 */
+	@Override
 	public final String getNodeId()
 	{
 		return getId();
@@ -894,6 +898,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeInfo()
 	 */
+	@Override
 	public String getNodeInfo()
 	{
 		String extra = extraNodeInfo();
@@ -903,6 +908,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeLabel()
 	 */
+	@Override
 	public String getNodeLabel()
 	{
 		return this.getName();
@@ -911,6 +917,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeShape()
 	 */
+	@Override
 	public int getNodeShape()
 	{
 		return GraphDumper.DEFAULT;
@@ -919,6 +926,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
 	 */
+	@Override
 	public final String getEdgeLabel(int edge)
 	{
 		Collection<String> childrenNames = getChildrenNames();

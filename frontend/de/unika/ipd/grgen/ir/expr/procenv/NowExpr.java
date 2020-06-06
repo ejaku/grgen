@@ -22,6 +22,7 @@ public class NowExpr extends BuiltinFunctionInvocationExpr
 		super("now expr", LongType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

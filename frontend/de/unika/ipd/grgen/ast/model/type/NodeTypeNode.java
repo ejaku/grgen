@@ -136,6 +136,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 		return nt;
 	}
 
+	@Override
 	protected CollectNode<? extends InheritanceTypeNode> getExtends()
 	{
 		return extend;

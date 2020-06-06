@@ -30,6 +30,7 @@ public class ArrayExtract extends ArrayFunctionMethodInvocationBaseExpr
 		return member;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

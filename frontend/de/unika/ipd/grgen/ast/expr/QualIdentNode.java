@@ -136,6 +136,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	}
 
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
+	@Override
 	public MemberDeclNode getDecl()
 	{
 		assert isResolved();

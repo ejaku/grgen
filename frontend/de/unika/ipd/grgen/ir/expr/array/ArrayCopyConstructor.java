@@ -27,6 +27,7 @@ public class ArrayCopyConstructor extends Expression
 		this.arrayType = arrayType;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

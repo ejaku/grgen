@@ -30,6 +30,7 @@ public class ArrayOrderDescendingBy extends ArrayFunctionMethodInvocationBaseExp
 		return member;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

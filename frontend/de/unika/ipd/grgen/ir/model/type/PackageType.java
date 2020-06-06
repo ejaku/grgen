@@ -65,22 +65,26 @@ public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer
 		return Collections.unmodifiableCollection(types);
 	}
 
+	@Override
 	public Collection<NodeType> getNodeTypes()
 	{
 		return Collections.unmodifiableCollection(nodeTypes);
 	}
 
+	@Override
 	public Collection<EdgeType> getEdgeTypes()
 	{
 		return Collections.unmodifiableCollection(edgeTypes);
 	}
 
+	@Override
 	public Collection<EnumType> getEnumTypes()
 	{
 		return Collections.unmodifiableCollection(enumTypes);
 	}
 
 	/** Canonicalize the type model. */
+	@Override
 	protected void canonicalizeLocal()
 	{
 		//Collections.sort(types, Identifiable.COMPARATOR);
@@ -93,6 +97,7 @@ public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer
 		}
 	}
 
+	@Override
 	public void addToDigest(StringBuffer sb)
 	{
 		sb.append(this);

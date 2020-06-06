@@ -36,6 +36,7 @@ public class RandomNode extends BuiltinFunctionInvocationBaseNode
 		becomeParent(numExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -44,6 +45,7 @@ public class RandomNode extends BuiltinFunctionInvocationBaseNode
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();

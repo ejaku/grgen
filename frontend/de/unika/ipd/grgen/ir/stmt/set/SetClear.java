@@ -26,6 +26,7 @@ public class SetClear extends ContainerQualProcedureMethodInvocationBase
 		super("set clear", target);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

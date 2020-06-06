@@ -48,11 +48,13 @@ public abstract class MatchClassFilterFunction extends Identifiable implements M
 		this.matchClass = matchClass;
 	}
 
+	@Override
 	public DefinedMatchType getMatchClass()
 	{
 		return matchClass;
 	}
 
+	@Override
 	public String getPackageContainedIn()
 	{
 		return packageContainedIn;

@@ -31,11 +31,13 @@ public class RetypedNode extends Node implements Retyped
 		super(ident, type, annots, null, maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 	}
 
+	@Override
 	public Entity getOldEntity()
 	{
 		return oldNode;
 	}
 
+	@Override
 	public void setOldEntity(Entity old)
 	{
 		this.oldNode = (Node)old;
@@ -53,6 +55,7 @@ public class RetypedNode extends Node implements Retyped
 		this.oldNode = old;
 	}
 
+	@Override
 	public boolean isRetyped()
 	{
 		return true;

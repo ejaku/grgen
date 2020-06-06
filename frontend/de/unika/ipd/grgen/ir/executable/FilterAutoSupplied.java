@@ -34,6 +34,7 @@ public class FilterAutoSupplied extends IR implements Filter
 		this.action = action;
 	}
 
+	@Override
 	public Rule getAction()
 	{
 		return action;

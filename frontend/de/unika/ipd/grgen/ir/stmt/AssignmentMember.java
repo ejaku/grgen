@@ -35,11 +35,13 @@ public class AssignmentMember extends AssignmentBase
 		return target;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getTarget() + " = " + getExpression();
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		getExpression().collectNeededEntities(needs);

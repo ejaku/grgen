@@ -18,6 +18,7 @@ public class PiExpr extends BuiltinFunctionInvocationExpr
 		super("pi expr", DoubleType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

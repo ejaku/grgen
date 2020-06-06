@@ -134,6 +134,7 @@ public class IndexAccessOrdering extends IndexAccess
 		}
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(expr != null)

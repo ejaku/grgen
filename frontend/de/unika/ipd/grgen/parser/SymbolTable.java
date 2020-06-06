@@ -53,6 +53,7 @@ public class SymbolTable
 	 * @return true, if both symbol tables denote the same namespace,
 	 * false if not.
 	 */
+	@Override
 	public boolean equals(Object obj)
 	{
 		if(obj instanceof SymbolTable)
@@ -75,6 +76,7 @@ public class SymbolTable
 	 * according to the equals method.
 	 * @return The hashcode.
 	 */
+	@Override
 	public int hashCode()
 	{
 		return name.hashCode();
@@ -84,6 +86,7 @@ public class SymbolTable
 	 * Get the textual representation of a symbol table.
 	 * @return The textual representation.
 	 */
+	@Override
 	public String toString()
 	{
 		return symbolMap.toString();
@@ -100,6 +103,7 @@ public class SymbolTable
 				+ "in the symbol table";
 
 		Symbol sym = new Symbol(text, this) {
+			@Override
 			public boolean isKeyword()
 			{
 				return true;

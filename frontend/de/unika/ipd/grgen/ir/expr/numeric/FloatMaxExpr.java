@@ -18,6 +18,7 @@ public class FloatMaxExpr extends BuiltinFunctionInvocationExpr
 		super("floatmax expr", FloatType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

@@ -18,6 +18,7 @@ public class ThisExpr extends Expression
 		super("this", GraphType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

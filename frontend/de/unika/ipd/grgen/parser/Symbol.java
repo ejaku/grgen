@@ -54,6 +54,7 @@ public class Symbol
 		/**
 		 * @see java.lang.Object#toString()
 		 */
+		@Override
 		public String toString()
 		{
 			return "" + symbol + "(" + coords + "," + scope + ")";
@@ -209,6 +210,7 @@ public class Symbol
 	 * @return true, if the both symbols represent the same symbol,
 	 * false if not.
 	 */
+	@Override
 	public boolean equals(Object obj)
 	{
 		if(obj instanceof Symbol) {
@@ -261,6 +263,7 @@ public class Symbol
 		return text != null ? text : "<invalid>";
 	}
 
+	@Override
 	public String toString()
 	{
 		return getText();

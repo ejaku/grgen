@@ -214,6 +214,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	 * Get the IR object correctly casted.
 	 * @return The edge IR object.
 	 */
+	@Override
 	public Edge getEdge()
 	{
 		return checkIR(Edge.class);

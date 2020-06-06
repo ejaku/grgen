@@ -51,6 +51,7 @@ public class ArrayIndexOfByExpr extends ArrayFunctionMethodInvocationBaseExpr
 		return startIndexExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

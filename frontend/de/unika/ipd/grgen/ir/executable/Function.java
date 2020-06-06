@@ -42,6 +42,7 @@ public class Function extends FunctionBase implements ContainedInPackage
 		super(name, ident, retType);
 	}
 
+	@Override
 	public String getPackageContainedIn()
 	{
 		return packageContainedIn;
@@ -77,6 +78,7 @@ public class Function extends FunctionBase implements ContainedInPackage
 	}
 
 	/** Get all parameter types of this external function. */
+	@Override
 	public List<Type> getParameterTypes()
 	{
 		if(parameterTypes == null) {

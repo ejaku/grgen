@@ -731,6 +731,7 @@ public class MoreInformationCollector extends InformationCollector
 		return farEndNode;
 	}
 
+	@Override
 	protected void collectActionInfo()
 	{
 		super.collectActionInfo();

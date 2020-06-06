@@ -21,6 +21,7 @@ public class ArrayVarExpr extends ArrayFunctionMethodInvocationBaseExpr
 		super("array var expr", ((ArrayType)(targetExpr.getType())).valueType, targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

@@ -37,6 +37,7 @@ public class ArrayIndexOfOrderedByExpr extends ArrayFunctionMethodInvocationBase
 		return valueExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

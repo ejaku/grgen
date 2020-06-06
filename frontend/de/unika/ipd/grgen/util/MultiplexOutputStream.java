@@ -47,6 +47,7 @@ public class MultiplexOutputStream extends OutputStream
 	 *             an <code>IOException</code> may be thrown if the
 	 *             output stream has been closed.
 	 */
+	@Override
 	public void write(int b) throws IOException
 	{
 		for(int i = 0; i < fill; i++) {
@@ -82,6 +83,7 @@ public class MultiplexOutputStream extends OutputStream
 	 *             an <code>IOException</code> is thrown if the output
 	 *             stream is closed.
 	 */
+	@Override
 	public void write(byte[] b, int off, int len) throws IOException
 	{
 		for(int i = 0; i < fill; i++) {
@@ -99,6 +101,7 @@ public class MultiplexOutputStream extends OutputStream
 	 * @exception  IOException  if an I/O error occurs.
 	 * @see        java.io.OutputStream#write(byte[], int, int)
 	 */
+	@Override
 	public void write(byte[] b) throws IOException
 	{
 		write(b, 0, b.length);
@@ -122,6 +125,7 @@ public class MultiplexOutputStream extends OutputStream
 	 *
 	 * @exception  IOException  if an I/O error occurs.
 	 */
+	@Override
 	public void flush() throws IOException
 	{
 		for(int i = 0; i < fill; i++) {
@@ -139,6 +143,7 @@ public class MultiplexOutputStream extends OutputStream
 	 *
 	 * @exception  IOException  if an I/O error occurs.
 	 */
+	@Override
 	public void close() throws IOException
 	{
 		for(int i = 0; i < fill; i++) {

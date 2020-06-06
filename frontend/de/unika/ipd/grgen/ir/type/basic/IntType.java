@@ -26,6 +26,7 @@ public class IntType extends PrimitiveType
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_INTEGER;

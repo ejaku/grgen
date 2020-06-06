@@ -47,11 +47,13 @@ public class Assignment extends AssignmentBase
 		return target;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getTarget() + " = " + getExpression();
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

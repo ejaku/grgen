@@ -58,12 +58,14 @@ public class CompoundAssignmentVar extends EvalStatement
 		return operation;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getTarget() + (operation == UNION ? " |= " : operation == INTERSECTION ? " &= " : " \\= ")
 				+ getExpression();
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(target))

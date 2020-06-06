@@ -91,6 +91,7 @@ public class Entity extends Identifiable
 		return owner != null;
 	}
 
+	@Override
 	public void addFields(Map<String, Object> fields)
 	{
 		super.addFields(fields);

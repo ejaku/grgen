@@ -18,6 +18,7 @@ public class ByteMaxExpr extends BuiltinFunctionInvocationExpr
 		super("bytemax expr", ByteType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

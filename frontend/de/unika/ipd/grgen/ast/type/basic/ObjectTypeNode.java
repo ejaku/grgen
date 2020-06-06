@@ -30,6 +30,7 @@ public class ObjectTypeNode extends BasicTypeNode
 	public static class Value
 	{
 		public static Value NULL = new Value() {
+			@Override
 			public String toString()
 			{
 				return "Const null";
@@ -40,6 +41,7 @@ public class ObjectTypeNode extends BasicTypeNode
 		{
 		}
 
+		@Override
 		public boolean equals(Object val)
 		{
 			return(this == val);

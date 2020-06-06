@@ -59,6 +59,7 @@ public class ReportTest extends JPanel
 		contentPane.add(test);
 
 		frame.addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e)
 			{
 				System.exit(0);

@@ -35,6 +35,7 @@ public class MapRemoveItem extends ContainerQualProcedureMethodInvocationBase
 		return keyExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

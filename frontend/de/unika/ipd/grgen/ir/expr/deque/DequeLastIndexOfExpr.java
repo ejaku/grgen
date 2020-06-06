@@ -29,6 +29,7 @@ public class DequeLastIndexOfExpr extends DequeFunctionMethodInvocationBaseExpr
 		return valueExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

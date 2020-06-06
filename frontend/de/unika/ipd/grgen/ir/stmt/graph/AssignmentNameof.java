@@ -35,11 +35,13 @@ public class AssignmentNameof extends AssignmentBase
 		return target;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "nameof(" + (getTarget() != null ? getTarget().toString() : "") + ") = " + getExpression();
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(target != null)

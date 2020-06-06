@@ -18,6 +18,7 @@ public class IntMaxExpr extends BuiltinFunctionInvocationExpr
 		super("intmax expr", IntType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

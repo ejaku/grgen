@@ -30,6 +30,7 @@ public class SetPeekExpr extends SetFunctionMethodInvocationBaseExpr
 		return numberExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

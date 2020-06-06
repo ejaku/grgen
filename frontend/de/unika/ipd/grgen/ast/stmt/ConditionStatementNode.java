@@ -88,6 +88,7 @@ public class ConditionStatementNode extends NestingStatementNode
 		return true;
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;

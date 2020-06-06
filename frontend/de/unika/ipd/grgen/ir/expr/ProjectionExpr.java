@@ -48,6 +48,7 @@ public class ProjectionExpr extends Expression
 		this.projectedValueVarName = projectedValueVarName;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

@@ -52,6 +52,7 @@ public class StringIndexOf extends BuiltinFunctionInvocationExpr
 		return startIndexExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		stringExpr.collectNeededEntities(needs);

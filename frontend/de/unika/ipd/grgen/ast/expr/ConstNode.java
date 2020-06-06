@@ -90,6 +90,7 @@ public abstract class ConstNode extends OperatorNode
 	 * Include the constants value in its string representation.
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		return OperatorDeclNode.getName(getOpId()) + " " + value.toString();

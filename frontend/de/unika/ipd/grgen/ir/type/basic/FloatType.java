@@ -22,6 +22,7 @@ public class FloatType extends PrimitiveType
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_FLOAT;

@@ -26,6 +26,7 @@ public class EmptyLocation implements Location
 	 * Return the empty string always.
 	 * @see de.unika.ipd.grgen.util.report.Location#getLocation()
 	 */
+	@Override
 	public String getLocation()
 	{
 		return "<nowhere>";
@@ -35,6 +36,7 @@ public class EmptyLocation implements Location
 	 * This location is never valid.
 	 * @see de.unika.ipd.grgen.util.report.Location#hasLocation()
 	 */
+	@Override
 	public boolean hasLocation()
 	{
 		return false;

@@ -98,6 +98,7 @@ public class MapRemoveItemNode extends MapProcedureMethodInvocationBaseNode
 		}
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;

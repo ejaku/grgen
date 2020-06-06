@@ -38,6 +38,7 @@ public class MapVarAddItem extends ContainerVarProcedureMethodInvocationBase
 		return valueExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(target))

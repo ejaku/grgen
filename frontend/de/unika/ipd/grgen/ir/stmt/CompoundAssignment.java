@@ -62,6 +62,7 @@ public class CompoundAssignment extends EvalStatement
 		return operation;
 	}
 
+	@Override
 	public String toString()
 	{
 		String res = getTarget().toString();
@@ -79,6 +80,7 @@ public class CompoundAssignment extends EvalStatement
 		return res;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

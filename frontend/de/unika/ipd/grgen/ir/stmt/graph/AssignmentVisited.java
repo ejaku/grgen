@@ -39,11 +39,13 @@ public class AssignmentVisited extends AssignmentBase
 		return target;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getTarget() + " = " + getExpression();
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		target.getEntity().collectNeededEntities(needs);

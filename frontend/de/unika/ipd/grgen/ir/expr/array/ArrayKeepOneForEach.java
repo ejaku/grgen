@@ -21,6 +21,7 @@ public class ArrayKeepOneForEach extends ArrayFunctionMethodInvocationBaseExpr
 		super("array keep one for each expr", (ArrayType)targetExpr.getType(), targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

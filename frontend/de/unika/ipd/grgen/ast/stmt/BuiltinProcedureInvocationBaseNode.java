@@ -43,6 +43,7 @@ public abstract class BuiltinProcedureInvocationBaseNode extends ProcedureOrBuil
 	}
 
 	// default is a procedure without returns, overwrite if return is not empty
+	@Override
 	public Vector<TypeNode> getType()
 	{
 		return emptyReturn;

@@ -59,12 +59,14 @@ public class Qualification extends Expression
 		return member;
 	}
 
+	@Override
 	public String getNodeLabel()
 	{
 		return "<" + owner + ">.<" + member + ">";
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(owner != null) {

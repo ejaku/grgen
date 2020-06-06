@@ -22,6 +22,7 @@ public class DequeAsSetExpr extends DequeFunctionMethodInvocationBaseExpr
 		super("deque as set expression", targetType, targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

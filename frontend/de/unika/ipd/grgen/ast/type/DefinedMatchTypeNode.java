@@ -231,6 +231,7 @@ public class DefinedMatchTypeNode extends DeclaredTypeNode implements MemberAcce
 		return pattern.tryGetVar(name);
 	}
 
+	@Override
 	public DeclNode tryGetMember(String name)
 	{
 		NodeDeclNode node = pattern.tryGetNode(name);

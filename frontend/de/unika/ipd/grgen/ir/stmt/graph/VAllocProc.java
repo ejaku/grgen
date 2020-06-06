@@ -25,6 +25,7 @@ public class VAllocProc extends BuiltinProcedureInvocationBase
 		this.returnType = returnType;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

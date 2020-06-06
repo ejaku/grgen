@@ -55,6 +55,7 @@ public class GraphRedirectSourceAndTargetProc extends BuiltinProcedureInvocation
 		return oldTargetName;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

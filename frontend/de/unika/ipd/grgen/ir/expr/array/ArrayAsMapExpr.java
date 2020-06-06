@@ -22,6 +22,7 @@ public class ArrayAsMapExpr extends ArrayFunctionMethodInvocationBaseExpr
 		super("array as map expression", targetType, targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

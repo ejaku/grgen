@@ -45,6 +45,7 @@ public class CompoundAssignmentVarChangedVar extends CompoundAssignmentVar
 		return changedOperation;
 	}
 
+	@Override
 	public String toString()
 	{
 		return super.toString()
@@ -52,6 +53,7 @@ public class CompoundAssignmentVarChangedVar extends CompoundAssignmentVar
 				+ changedTarget.toString();
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		super.collectNeededEntities(needs);

@@ -18,6 +18,7 @@ public class LongMaxExpr extends BuiltinFunctionInvocationExpr
 		super("longmax expr", LongType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

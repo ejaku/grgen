@@ -39,6 +39,7 @@ public class SetInit extends Expression
 		}
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

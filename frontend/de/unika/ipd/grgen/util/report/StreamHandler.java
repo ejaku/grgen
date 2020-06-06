@@ -44,6 +44,7 @@ public class StreamHandler implements Handler
 	/**
 	* @see de.unika.ipd.grgen.util.report.Handler#report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)
 	*/
+	@Override
 	public void report(int level, Location loc, String msg)
 	{
 		doIndent();

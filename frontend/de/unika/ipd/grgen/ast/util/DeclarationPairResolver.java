@@ -34,6 +34,7 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode> ext
 
 	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R or S */
+	@Override
 	public Pair<R, S> resolve(BaseNode bn, BaseNode parent)
 	{
 		if(bn instanceof IdentNode) {

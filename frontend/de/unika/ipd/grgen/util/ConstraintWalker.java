@@ -33,6 +33,7 @@ public class ConstraintWalker extends PostWalker
 		/**
 		 * @see de.unika.ipd.grgen.util.Visitor#visit(de.unika.ipd.grgen.util.Walkable)
 		 */
+		@Override
 		public void visit(Walkable n)
 		{
 			for(int i = 0; i < classes.length; i++) {

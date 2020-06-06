@@ -417,6 +417,7 @@ public abstract class InheritanceType extends CompoundType
 	 * This means, that this type must be a sub type <code>t</code>.
 	 * @see de.unika.ipd.grgen.ir.type.Type#castableTo(de.unika.ipd.grgen.ir.type.Type)
 	 */
+	@Override
 	protected boolean castableTo(Type t)
 	{
 		if(!(t instanceof InheritanceType))
@@ -482,6 +483,7 @@ public abstract class InheritanceType extends CompoundType
 		return (modifiers & CONST) != 0;
 	}
 
+	@Override
 	public void addFields(Map<String, Object> fields)
 	{
 		super.addFields(fields);

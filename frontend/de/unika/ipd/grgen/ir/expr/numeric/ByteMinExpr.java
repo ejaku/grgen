@@ -18,6 +18,7 @@ public class ByteMinExpr extends BuiltinFunctionInvocationExpr
 		super("bytemin expr", ByteType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

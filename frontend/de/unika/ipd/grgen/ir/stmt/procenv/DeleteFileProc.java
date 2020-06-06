@@ -30,6 +30,7 @@ public class DeleteFileProc extends BuiltinProcedureInvocationBase
 		return pathExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		pathExpr.collectNeededEntities(needs);

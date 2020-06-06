@@ -49,11 +49,13 @@ public class EnumType extends PrimitiveType implements ContainedInPackage
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_INTEGER;
 	}
 
+	@Override
 	public String getPackageContainedIn()
 	{
 		return packageContainedIn;
@@ -64,11 +66,13 @@ public class EnumType extends PrimitiveType implements ContainedInPackage
 		this.packageContainedIn = packageContainedIn;
 	}
 
+	@Override
 	protected void canonicalizeLocal()
 	{
 		Collections.sort(items, Identifiable.COMPARATOR);
 	}
 
+	@Override
 	public void addToDigest(StringBuffer sb)
 	{
 		sb.append(this);

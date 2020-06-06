@@ -37,6 +37,7 @@ public class MinExpr extends BuiltinFunctionInvocationExpr
 		return rightExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		leftExpr.collectNeededEntities(needs);

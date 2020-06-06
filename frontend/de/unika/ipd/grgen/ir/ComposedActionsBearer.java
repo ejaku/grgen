@@ -45,6 +45,7 @@ public class ComposedActionsBearer implements ActionsBearer
 		this.unit = unit;
 	}
 
+	@Override
 	public Collection<Rule> getSubpatternRules()
 	{
 		if(subpatRules == null) {
@@ -57,6 +58,7 @@ public class ComposedActionsBearer implements ActionsBearer
 		return subpatRules;
 	}
 
+	@Override
 	public Collection<Rule> getActionRules()
 	{
 		if(rules == null) {
@@ -69,6 +71,7 @@ public class ComposedActionsBearer implements ActionsBearer
 		return rules;
 	}
 
+	@Override
 	public Collection<FilterFunction> getFilterFunctions()
 	{
 		if(filterFunctions == null) {
@@ -81,6 +84,7 @@ public class ComposedActionsBearer implements ActionsBearer
 		return filterFunctions;
 	}
 
+	@Override
 	public Collection<DefinedMatchType> getMatchClasses()
 	{
 		if(matchClasses == null) {
@@ -93,6 +97,7 @@ public class ComposedActionsBearer implements ActionsBearer
 		return matchClasses;
 	}
 
+	@Override
 	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions()
 	{
 		if(matchClassFilterFunctions == null) {
@@ -106,6 +111,7 @@ public class ComposedActionsBearer implements ActionsBearer
 		return matchClassFilterFunctions;
 	}
 
+	@Override
 	public Collection<Function> getFunctions()
 	{
 		if(functions == null) {
@@ -118,6 +124,7 @@ public class ComposedActionsBearer implements ActionsBearer
 		return functions;
 	}
 
+	@Override
 	public Collection<Procedure> getProcedures()
 	{
 		if(procedures == null) {
@@ -130,6 +137,7 @@ public class ComposedActionsBearer implements ActionsBearer
 		return procedures;
 	}
 
+	@Override
 	public Collection<Sequence> getSequences()
 	{
 		if(sequences == null) {

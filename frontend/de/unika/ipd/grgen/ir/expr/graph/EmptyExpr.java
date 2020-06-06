@@ -22,6 +22,7 @@ public class EmptyExpr extends BuiltinFunctionInvocationExpr
 		super("empty expr", BooleanType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

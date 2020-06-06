@@ -98,6 +98,7 @@ public class PackageFunctionInvocationDecisionNode extends FunctionInvocationBas
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		result = decide(package_, functionIdent.toString());

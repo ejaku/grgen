@@ -21,18 +21,21 @@ public abstract class FunctionOrOperatorDeclBaseNode extends DeclNode implements
 		super(ident, type);
 	}
 	
+	@Override
 	public TypeNode getResultType()
 	{
 		assert isResolved();
 		return resultType;
 	}
 
+	@Override
 	public Vector<TypeNode> getParameterTypes()
 	{
 		assert isResolved();
 		return parameterTypes;
 	}
 	
+	@Override
 	public int getDistance(Vector<TypeNode> argumentTypes)
 	{
 		if(argumentTypes.size() != parameterTypes.size())

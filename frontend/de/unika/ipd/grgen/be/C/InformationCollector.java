@@ -165,6 +165,7 @@ public class InformationCollector extends CBackend
 
 	/* compares conditions by their condition numbers */
 	protected Comparator<Expression> conditionsComparator = new Comparator<Expression>() {
+		@Override
 		public int compare(Expression expr1, Expression expr2)
 		{
 			int cmp = conditionNumbers.get(expr1).compareTo(conditionNumbers.get(expr2));
@@ -175,6 +176,7 @@ public class InformationCollector extends CBackend
 	};
 
 	protected Comparator<Collection<InheritanceType>> typeConditionsComparator = new Comparator<Collection<InheritanceType>>() {
+		@Override
 		public int compare(Collection<InheritanceType> type_col1, Collection<InheritanceType> type_col2)
 		{
 			//if o1 and o2 are Collections, the the conditions represented
@@ -192,6 +194,7 @@ public class InformationCollector extends CBackend
 
 	/* compares integer objects */
 	protected Comparator<Integer> integerComparator = new Comparator<Integer>() {
+		@Override
 		public int compare(Integer i1, Integer i2)
 		{
 			return i1.compareTo(i2);
@@ -204,6 +207,7 @@ public class InformationCollector extends CBackend
 	 * @param    a                   a  MatchingAction
 	 * @param    id                  an int
 	 */
+	@Override
 	protected void genMatch(PrintStream sb, MatchingAction a, int id)
 	{
 		//TODO
@@ -215,6 +219,7 @@ public class InformationCollector extends CBackend
 	 * @param    a                   a  MatchingAction
 	 * @param    id                  an int
 	 */
+	@Override
 	protected void genFinish(PrintStream sb, MatchingAction a, int id)
 	{
 		// TODO
@@ -224,6 +229,7 @@ public class InformationCollector extends CBackend
 	 * Generate some extra stuff.
 	 * This function is called after everything else is generated.
 	 */
+	@Override
 	protected void genExtra()
 	{
 		// TODO

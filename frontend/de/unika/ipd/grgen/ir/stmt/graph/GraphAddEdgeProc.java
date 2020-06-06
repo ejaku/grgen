@@ -48,6 +48,7 @@ public class GraphAddEdgeProc extends BuiltinProcedureInvocationBase
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

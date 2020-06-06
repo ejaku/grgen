@@ -18,6 +18,7 @@ public class ShortMaxExpr extends BuiltinFunctionInvocationExpr
 		super("shortmax expr", ShortType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

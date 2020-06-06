@@ -22,6 +22,7 @@ public class MapSizeExpr extends MapFunctionMethodInvocationBaseExpr
 		super("map size expression", IntType.getType(), targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

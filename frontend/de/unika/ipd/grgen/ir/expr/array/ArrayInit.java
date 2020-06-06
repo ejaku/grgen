@@ -39,6 +39,7 @@ public class ArrayInit extends Expression
 		}
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

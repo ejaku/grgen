@@ -23,6 +23,7 @@ public class BreakStatement extends EvalStatement
 		super("break statement");
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

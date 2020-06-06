@@ -38,6 +38,7 @@ public class GraphDumpVisitor extends Base implements Visitor
 	/**
 	 * @see de.unika.ipd.grgen.ast.Visitor#visit(de.unika.ipd.grgen.ast.BaseNode)
 	 */
+	@Override
 	public void visit(Walkable n)
 	{
 		GraphDumpable gd = (GraphDumpable)n;

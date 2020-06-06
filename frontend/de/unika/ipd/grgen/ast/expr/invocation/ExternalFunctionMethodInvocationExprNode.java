@@ -71,6 +71,7 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionInvocation
 	private static final DeclarationResolver<ExternalFunctionDeclNode> resolver =
 			new DeclarationResolver<ExternalFunctionDeclNode>(ExternalFunctionDeclNode.class);
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		boolean successfullyResolved = true;

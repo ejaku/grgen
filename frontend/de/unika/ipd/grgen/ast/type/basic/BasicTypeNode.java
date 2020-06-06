@@ -50,6 +50,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 	}
 
 	private static Object invalidValueType = new Object() {
+		@Override
 		public String toString()
 		{
 			return "invalid value";
@@ -190,6 +191,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 	}
 
 	/** @see de.unika.ipd.grgen.ast.type.TypeNode#isBasic() */
+	@Override
 	public final boolean isBasic()
 	{
 		return true;

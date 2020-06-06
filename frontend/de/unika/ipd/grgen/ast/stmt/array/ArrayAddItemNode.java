@@ -116,6 +116,7 @@ public class ArrayAddItemNode extends ArrayProcedureMethodInvocationBaseNode
 		}
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;

@@ -26,6 +26,7 @@ public class GraphRemoveProc extends BuiltinProcedureInvocationBase
 		return entity;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

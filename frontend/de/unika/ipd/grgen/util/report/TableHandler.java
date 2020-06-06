@@ -58,6 +58,7 @@ public class TableHandler implements TableModel, Handler
 	 * Add a listener.
 	 * @param listener The listener.
 	 */
+	@Override
 	public void addTableModelListener(TableModelListener listener)
 	{
 		listeners.add(listener);
@@ -67,47 +68,37 @@ public class TableHandler implements TableModel, Handler
 	 * Remove a listener.
 	 * @param listener The listener.
 	 */
+	@Override
 	public void removeTableModelListener(TableModelListener listener)
 	{
 		listeners.remove(listener);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Class<String> getColumnClass(int arg0)
 	{
 		return String.class;
 	}
 
-	/**
-	 *
-	 */
-
+	@Override
 	public int getColumnCount()
 	{
 		return columnNames.length;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getColumnName(int col)
 	{
 		return columnNames[col];
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getRowCount()
 	{
 		return messages.size();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getValueAt(int row, int col)
 	{
 		Message m = messages.get(row);
@@ -131,6 +122,7 @@ public class TableHandler implements TableModel, Handler
 	 * @param col The column.
 	 * @return We always return false here.
 	 */
+	@Override
 	public boolean isCellEditable(int row, int col)
 	{
 		return false;
@@ -139,6 +131,7 @@ public class TableHandler implements TableModel, Handler
 	/**
 	 * Editing is not allowed, so empty body here.
 	 */
+	@Override
 	public void setValueAt(Object arg0, int arg1, int arg2)
 	{
 	}
@@ -159,6 +152,7 @@ public class TableHandler implements TableModel, Handler
 	/**
 	 * @see de.unika.ipd.grgen.util.report.Handler#report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)
 	 */
+	@Override
 	public void report(int level, Location loc, String msg)
 	{
 		messages.add(new Message(level, msg));

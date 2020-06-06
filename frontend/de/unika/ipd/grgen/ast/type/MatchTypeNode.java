@@ -125,6 +125,7 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 		return action;
 	}
 
+	@Override
 	public DeclNode tryGetMember(String name)
 	{
 		NodeDeclNode node = action.pattern.tryGetNode(name);

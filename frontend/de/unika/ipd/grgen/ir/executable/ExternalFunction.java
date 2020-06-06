@@ -42,6 +42,7 @@ public class ExternalFunction extends FunctionBase
 	}
 
 	/** Get all parameter types of this external function. */
+	@Override
 	public List<Type> getParameterTypes()
 	{
 		return Collections.unmodifiableList(paramTypes);

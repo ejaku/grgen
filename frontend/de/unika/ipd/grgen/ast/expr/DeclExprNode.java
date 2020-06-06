@@ -143,6 +143,7 @@ public class DeclExprNode extends ExprNode
 	}
 
 	/** @see de.unika.ipd.grgen.ast.expr.ExprNode#evaluate() */
+	@Override
 	public ExprNode evaluate()
 	{
 		ExprNode res = this;

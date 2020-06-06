@@ -18,6 +18,7 @@ public class ShortMinExpr extends BuiltinFunctionInvocationExpr
 		super("shortmin expr", ShortType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

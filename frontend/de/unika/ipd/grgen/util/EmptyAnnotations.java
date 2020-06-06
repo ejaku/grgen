@@ -27,45 +27,53 @@ public class EmptyAnnotations implements Annotations
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#containsKey(java.lang.String) */
+	@Override
 	public boolean containsKey(String key)
 	{
 		return false;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#get(java.lang.String) */
+	@Override
 	public Object get(String key)
 	{
 		return null;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#put(java.lang.String, java.lang.Object) */
+	@Override
 	public void put(String key, Object value)
 	{
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isInteger(java.lang.String) */
+	@Override
 	public boolean isInteger(String key)
 	{
 		return false;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isBoolean(java.lang.String) */
+	@Override
 	public boolean isBoolean(String key)
 	{
 		return false;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isString(java.lang.String) */
+	@Override
 	public boolean isString(String key)
 	{
 		return false;
 	}
 
+	@Override
 	public boolean isFlagSet(String key)
 	{
 		return false;
 	}
 
+	@Override
 	public Set<String> keySet()
 	{
 		return new HashSet<String>();

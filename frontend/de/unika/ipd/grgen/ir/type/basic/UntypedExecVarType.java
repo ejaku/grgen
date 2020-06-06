@@ -21,6 +21,7 @@ public class UntypedExecVarType extends Type
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_UNTYPED_EXEC_VAR_TYPE;

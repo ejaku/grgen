@@ -38,6 +38,7 @@ public class MultiStatement extends EvalStatement
 		return statements;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		for(EvalStatement statement : statements) {

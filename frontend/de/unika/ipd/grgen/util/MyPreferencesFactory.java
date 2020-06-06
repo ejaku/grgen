@@ -30,6 +30,7 @@ public class MyPreferencesFactory implements PreferencesFactory
 	/**
 	 * @see java.util.prefs.PreferencesFactory#systemRoot()
 	 */
+	@Override
 	public Preferences systemRoot()
 	{
 		return systemRoot;
@@ -38,6 +39,7 @@ public class MyPreferencesFactory implements PreferencesFactory
 	/**
 	 * @see java.util.prefs.PreferencesFactory#userRoot()
 	 */
+	@Override
 	public Preferences userRoot()
 	{
 		return userRoot;

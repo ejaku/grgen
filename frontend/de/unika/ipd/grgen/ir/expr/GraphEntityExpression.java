@@ -33,12 +33,14 @@ public class GraphEntityExpression extends Expression
 		return graphEntity;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(graphEntity))
 			needs.add(graphEntity);
 	}
 
+	@Override
 	public boolean equals(Object other)
 	{
 		if(!(other instanceof GraphEntityExpression))
@@ -46,6 +48,7 @@ public class GraphEntityExpression extends Expression
 		return graphEntity == ((GraphEntityExpression)other).getGraphEntity();
 	}
 
+	@Override
 	public int hashCode()
 	{
 		return graphEntity.hashCode();

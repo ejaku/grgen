@@ -21,6 +21,7 @@ public class PauseTransactionProc extends BuiltinProcedureInvocationBase
 		super("pause transaction procedure");
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

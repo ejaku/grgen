@@ -22,6 +22,7 @@ public class MapVarClear extends ContainerVarProcedureMethodInvocationBase
 		super("map var clear", target);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(target))

@@ -193,6 +193,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 		return retypedElem;
 	}
 
+	@Override
 	public abstract InheritanceTypeNode getDeclType();
 
 	public static String getKindStr()

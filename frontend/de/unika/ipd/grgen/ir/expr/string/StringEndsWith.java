@@ -38,6 +38,7 @@ public class StringEndsWith extends BuiltinFunctionInvocationExpr
 		return stringToSearchForExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		stringExpr.collectNeededEntities(needs);

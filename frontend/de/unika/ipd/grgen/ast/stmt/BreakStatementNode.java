@@ -62,6 +62,7 @@ public class BreakStatementNode extends EvalStatementNode
 		return true;
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		if(enclosingLoop == null) {

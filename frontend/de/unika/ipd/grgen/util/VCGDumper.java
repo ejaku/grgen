@@ -85,6 +85,7 @@ public class VCGDumper implements GraphDumper
 	/**
 	 * Dump graph preamble.
 	 */
+	@Override
 	public void begin()
 	{
 		ps.println("graph:{\nlate_edge_labels:yes\ndisplay_edge_labels:yes\n"
@@ -95,6 +96,7 @@ public class VCGDumper implements GraphDumper
 	 * Dump epilog.
 	 * @see de.unika.ipd.grgen.util.GraphDumper#finish()
 	 */
+	@Override
 	public void finish()
 	{
 		ps.println("}");
@@ -163,11 +165,13 @@ public class VCGDumper implements GraphDumper
 		return s;
 	}
 
+	@Override
 	public void node(GraphDumpable d)
 	{
 		ps.println("node:{" + getNodeAttributes(d) + "}");
 	}
 
+	@Override
 	public void edge(GraphDumpable from, GraphDumpable to, String label,
 			int style, Color color)
 	{
@@ -191,16 +195,19 @@ public class VCGDumper implements GraphDumper
 		}
 	}
 
+	@Override
 	public void edge(GraphDumpable from, GraphDumpable to, String label, int style)
 	{
 		edge(from, to, label, style, Color.BLACK);
 	}
 
+	@Override
 	public void edge(GraphDumpable from, GraphDumpable to, String label)
 	{
 		edge(from, to, label, DEFAULT, Color.BLACK);
 	}
 
+	@Override
 	public void edge(GraphDumpable from, GraphDumpable to)
 	{
 		edge(from, to, null, DEFAULT, Color.BLACK);
@@ -209,12 +216,14 @@ public class VCGDumper implements GraphDumper
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumper#beginSubgraph(java.lang.String)
 	 */
+	@Override
 	public void beginSubgraph(GraphDumpable d)
 	{
 		ps.println("graph:{" + getNodeAttributes(d)
 				+ " status:clustered");
 	}
 
+	@Override
 	public void beginSubgraph(String title)
 	{
 		ps.print("graph:{title:\"");
@@ -229,6 +238,7 @@ public class VCGDumper implements GraphDumper
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumper#endSubgraph()
 	 */
+	@Override
 	public void endSubgraph()
 	{
 		ps.println("}\n");

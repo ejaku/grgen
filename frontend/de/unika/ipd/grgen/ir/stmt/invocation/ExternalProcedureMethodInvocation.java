@@ -63,6 +63,7 @@ public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase
 		return ownerVar;
 	}
 
+	@Override
 	public ProcedureBase getProcedureBase()
 	{
 		return externalProcedure;
@@ -74,6 +75,7 @@ public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(ownerQual != null) {

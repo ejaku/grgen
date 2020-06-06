@@ -29,6 +29,7 @@ public class ExternalProcedureInvocation extends ProcedureInvocationBase
 		this.externalProcedure = externalProcedure;
 	}
 
+	@Override
 	public ProcedureBase getProcedureBase()
 	{
 		return externalProcedure;

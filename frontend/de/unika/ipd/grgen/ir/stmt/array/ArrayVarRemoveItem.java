@@ -31,6 +31,7 @@ public class ArrayVarRemoveItem extends ContainerVarProcedureMethodInvocationBas
 		return indexExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(target))

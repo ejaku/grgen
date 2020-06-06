@@ -22,6 +22,7 @@ public class ArraySizeExpr extends ArrayFunctionMethodInvocationBaseExpr
 		super("array size expression", IntType.getType(), targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

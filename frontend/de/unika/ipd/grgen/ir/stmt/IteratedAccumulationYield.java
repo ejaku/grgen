@@ -40,6 +40,7 @@ public class IteratedAccumulationYield extends NestingStatement
 		return iterated;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		for(EvalStatement accumulationStatement : statements) {

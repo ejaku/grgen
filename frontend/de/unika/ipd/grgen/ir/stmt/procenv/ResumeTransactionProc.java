@@ -21,6 +21,7 @@ public class ResumeTransactionProc extends BuiltinProcedureInvocationBase
 		super("resume transaction procedure");
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

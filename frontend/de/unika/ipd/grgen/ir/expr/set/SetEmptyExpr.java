@@ -22,6 +22,7 @@ public class SetEmptyExpr extends SetFunctionMethodInvocationBaseExpr
 		super("set empty expression", BooleanType.getType(), targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

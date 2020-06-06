@@ -47,6 +47,7 @@ public class EnumExpression extends Constant
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
+	@Override
 	public String getNodeLabel()
 	{
 		return item + " " + getValue();

@@ -42,6 +42,7 @@ public class ProcedureMethodInvocation extends ProcedureInvocationBase
 		return owner;
 	}
 
+	@Override
 	public ProcedureBase getProcedureBase()
 	{
 		return procedure;
@@ -53,6 +54,7 @@ public class ProcedureMethodInvocation extends ProcedureInvocationBase
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(owner))

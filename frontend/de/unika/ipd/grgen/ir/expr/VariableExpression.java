@@ -34,12 +34,14 @@ public class VariableExpression extends Expression
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(var))
 			needs.add(var);
 	}
 
+	@Override
 	public boolean equals(Object other)
 	{
 		if(!(other instanceof VariableExpression))
@@ -47,6 +49,7 @@ public class VariableExpression extends Expression
 		return var == ((VariableExpression)other).getVariable();
 	}
 
+	@Override
 	public int hashCode()
 	{
 		return var.hashCode();

@@ -20,6 +20,7 @@ public class NullOutputStream extends OutputStream
 {
 	public static final OutputStream STREAM = new NullOutputStream();
 
+	@Override
 	public void write(int p1) throws IOException
 	{
 		System.out.println("write to null stream");

@@ -18,6 +18,7 @@ public class EExpr extends BuiltinFunctionInvocationExpr
 		super("e expr", DoubleType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

@@ -88,6 +88,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		result = decide();
@@ -296,6 +297,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		}
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
@@ -306,6 +308,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		return result;
 	}
 
+	@Override
 	public Vector<TypeNode> getType()
 	{
 		return result.getType();

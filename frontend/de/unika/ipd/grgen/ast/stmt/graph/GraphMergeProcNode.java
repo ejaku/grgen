@@ -45,6 +45,7 @@ public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
 			becomeParent(sourceNameExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -55,6 +56,7 @@ public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
@@ -90,6 +92,7 @@ public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
 		return true;
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;

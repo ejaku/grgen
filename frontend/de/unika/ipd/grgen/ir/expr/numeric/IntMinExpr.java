@@ -18,6 +18,7 @@ public class IntMinExpr extends BuiltinFunctionInvocationExpr
 		super("intmin expr", IntType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

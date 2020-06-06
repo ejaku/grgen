@@ -22,6 +22,7 @@ public class DequeVarClear extends ContainerVarProcedureMethodInvocationBase
 		super("deque var clear", target);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(target))

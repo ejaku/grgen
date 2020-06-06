@@ -22,6 +22,7 @@ public class Bad extends IR
 		super("bad");
 	}
 
+	@Override
 	public boolean isBad()
 	{
 		return true;

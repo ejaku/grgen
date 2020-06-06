@@ -73,6 +73,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	 * The string of an IR object is its name.
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		return name;
@@ -118,12 +119,14 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	/** @return Name of the tag as string. */
+	@Override
 	public String getTagName()
 	{
 		return getName().replace(' ', '_');
 	}
 
 	/** @return Name of the tag that expresses a reference to this object. */
+	@Override
 	public String getRefTagName()
 	{
 		return getName().replace(' ', '_') + "_ref";
@@ -133,11 +136,13 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	 * Add the XML fields to a map.
 	 * @param fields The map to add the fields to.
 	 */
+	@Override
 	public void addFields(Map<String, Object> fields)
 	{
 	}
 
 	/** @return A unique ID for this object. */
+	@Override
 	public String getXMLId()
 	{
 		return getId();
@@ -148,30 +153,35 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId() */
+	@Override
 	public String getNodeId()
 	{
 		return getId();
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
+	@Override
 	public Color getNodeColor()
 	{
 		return Color.WHITE;
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeShape() */
+	@Override
 	public int getNodeShape()
 	{
 		return GraphDumper.DEFAULT;
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
+	@Override
 	public String getNodeLabel()
 	{
 		return name;
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo() */
+	@Override
 	public String getNodeInfo()
 	{
 		return "ID: " + getId();
@@ -181,6 +191,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	 * By default this object has the number of the edge as edge label.
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
 	 */
+	@Override
 	public String getEdgeLabel(int edge)
 	{
 		return edge < childrenNames.length ? childrenNames[edge] : "" + edge;

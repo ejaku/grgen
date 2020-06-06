@@ -35,6 +35,7 @@ public class EmitProc extends BuiltinProcedureInvocationBase
 		return isDebug;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

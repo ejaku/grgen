@@ -122,6 +122,7 @@ public class TotallyHomNode extends BaseNode
 	 * and additionally one entity may not be used in two different hom
 	 * statements
 	 */
+	@Override
 	protected boolean checkLocal()
 	{
 		if(node != null) {

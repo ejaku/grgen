@@ -32,6 +32,7 @@ public class ReturnStatement extends EvalStatement
 		return returnValueExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		returnValueExpr.collectNeededEntities(needs);

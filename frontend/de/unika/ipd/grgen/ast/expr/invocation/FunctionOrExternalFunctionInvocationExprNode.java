@@ -72,6 +72,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 	private static final DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode> resolver =
 			new DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode>(FunctionDeclNode.class, ExternalFunctionDeclNode.class);
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		if(!(functionOrExternalFunctionUnresolved instanceof PackageIdentNode)) {

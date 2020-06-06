@@ -22,6 +22,7 @@ public class DequeSizeExpr extends DequeFunctionMethodInvocationBaseExpr
 		super("deque size expression", IntType.getType(), targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

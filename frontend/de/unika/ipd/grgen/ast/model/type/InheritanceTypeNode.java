@@ -290,6 +290,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 	public abstract Collection<? extends InheritanceTypeNode> getDirectSuperTypes();
 
+	@Override
 	public DeclNode tryGetMember(String name)
 	{
 		return getAllMembers().get(name);

@@ -38,6 +38,7 @@ public class EnumItem extends Identifiable
 	}
 
 	/** @return The identifier of the enum item. */
+	@Override
 	public Ident getIdent()
 	{
 		return id;
@@ -45,6 +46,7 @@ public class EnumItem extends Identifiable
 
 	/** The string of an enum item is its identifier's text.
 	 * @see java.lang.Object#toString() */
+	@Override
 	public String toString()
 	{
 		return id.toString();

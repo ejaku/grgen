@@ -75,6 +75,7 @@ public class ConnAssert extends IR
 		return bothDirections;
 	}
 
+	@Override
 	public void addFields(Map<String, Object> fields)
 	{
 		super.addFields(fields);
@@ -119,6 +120,7 @@ public class ConnAssert extends IR
 		return 1;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName() +

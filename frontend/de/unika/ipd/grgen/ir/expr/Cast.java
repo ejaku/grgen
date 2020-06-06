@@ -27,6 +27,7 @@ public class Cast extends Expression
 		this.expr = expr;
 	}
 
+	@Override
 	public String getNodeLabel()
 	{
 		return "Cast to " + type;
@@ -44,6 +45,7 @@ public class Cast extends Expression
 		return vec;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		getExpression().collectNeededEntities(needs);

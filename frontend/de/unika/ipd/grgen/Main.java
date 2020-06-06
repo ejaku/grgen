@@ -142,11 +142,13 @@ public class Main extends Base implements Sys
 	/** A file containing a path where the graph model can be searched. */
 	private File modelPath = null;
 
+	@Override
 	public File getModelPath()
 	{
 		return modelPath;
 	}
 
+	@Override
 	public ErrorReporter getErrorReporter()
 	{
 		return errorReporter;
@@ -222,6 +224,7 @@ public class Main extends Base implements Sys
 
 		JButton expandButton = new JButton("Expand All");
 		expandButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				for(int i = 0; i < debugTree.getRowCount(); i++) {
@@ -232,6 +235,7 @@ public class Main extends Base implements Sys
 
 		JButton exitButton = new JButton("Exit");
 		exitButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				System.exit(0);
@@ -247,6 +251,7 @@ public class Main extends Base implements Sys
 		frame.setContentPane(panel);
 
 		frame.addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e)
 			{
 				System.exit(0);
@@ -367,21 +372,25 @@ public class Main extends Base implements Sys
 		}
 	}
 
+	@Override
 	public boolean mayFireEvents()
 	{
 		return !noEvents;
 	}
 
+	@Override
 	public boolean mayFireDebugEvents()
 	{
 		return !noDebugEvents && !noEvents;
 	}
 
+	@Override
 	public boolean emitProfilingInstrumentation()
 	{
 		return emitProfiling;
 	}
 
+	@Override
 	public OutputStream createDebugFile(File file)
 	{
 		debugPath.mkdirs();

@@ -127,11 +127,13 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 		return true;
 	}
 
+	@Override
 	public String getFilterName()
 	{
 		return getIdentNode().toString();
 	}
 
+	@Override
 	public DefinedMatchTypeNode getMatchTypeNode()
 	{
 		return matchType;

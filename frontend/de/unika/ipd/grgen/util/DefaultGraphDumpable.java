@@ -66,6 +66,7 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
 	 */
+	@Override
 	public String getNodeId()
 	{
 		return getId();
@@ -74,6 +75,7 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
+	@Override
 	public Color getNodeColor()
 	{
 		return color;
@@ -82,6 +84,7 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeShape()
 	 */
+	@Override
 	public int getNodeShape()
 	{
 		return shape;
@@ -90,6 +93,7 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
 	 */
+	@Override
 	public String getNodeLabel()
 	{
 		return label;
@@ -98,6 +102,7 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
 	 */
+	@Override
 	public String getNodeInfo()
 	{
 		return info;
@@ -106,6 +111,7 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
 	 */
+	@Override
 	public String getEdgeLabel(int edge)
 	{
 		return "" + edge;
@@ -114,6 +120,7 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
 	 */
+	@Override
 	public Collection<BaseNode> getWalkableChildren()
 	{
 		Collection<BaseNode> empty = Collections.emptySet();

@@ -21,6 +21,7 @@ public class ArrayOrderAscending extends ArrayFunctionMethodInvocationBaseExpr
 		super("array order ascending expr", (ArrayType)targetExpr.getType(), targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

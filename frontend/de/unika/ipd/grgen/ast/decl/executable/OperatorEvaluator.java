@@ -143,6 +143,7 @@ public class OperatorEvaluator
 	}
 
 	public static final OperatorEvaluator objectEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			ObjectTypeNode.Value a0, a1;
@@ -170,6 +171,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator subgraphEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			throw new NotEvaluatableException(coords);
@@ -177,9 +179,9 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator nullEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
-
 			if(OperatorDeclNode.getArity(op.getOpId()) != 2)
 				throw new NotEvaluatableException(coords);
 
@@ -203,6 +205,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator stringEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			String a0;
@@ -238,6 +241,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator intEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			int a0, a1;
@@ -299,6 +303,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator longEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			long a0, a1;
@@ -360,6 +365,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator floatEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			float a0, a1;
@@ -405,6 +411,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator doubleEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			double a0, a1;
@@ -450,6 +457,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator typeEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			boolean is_node1, is_node2;
@@ -491,6 +499,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator booleanEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			boolean a0, a1;
@@ -529,6 +538,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator condEvaluator = new OperatorEvaluator() {
+		@Override
 		public ExprNode evaluate(ExprNode expr, OperatorDeclNode op, ExprNode[] args)
 		{
 			try {
@@ -540,6 +550,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator mapEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			throw new NotEvaluatableException(coords); // MAP TODO: evaluate in, map access if map const
@@ -547,6 +558,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator setEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			switch(op.id) {
@@ -593,6 +605,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator arrayEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			throw new NotEvaluatableException(coords); // MAP TODO: evaluate
@@ -600,6 +613,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator dequeEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			throw new NotEvaluatableException(coords); // MAP TODO: evaluate
@@ -607,6 +621,7 @@ public class OperatorEvaluator
 	};
 
 	public static final OperatorEvaluator untypedEvaluator = new OperatorEvaluator() {
+		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
 			throw new NotEvaluatableException(coords);

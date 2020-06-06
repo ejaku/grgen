@@ -93,6 +93,7 @@ public class Coords implements Location
 		return line != -1 && col != -1;
 	}
 
+	@Override
 	public String toString()
 	{
 		if(valid())
@@ -105,6 +106,7 @@ public class Coords implements Location
 	/**
 	 * @see de.unika.ipd.grgen.util.report.Location#getLocation()
 	 */
+	@Override
 	public String getLocation()
 	{
 		return toString();
@@ -113,6 +115,7 @@ public class Coords implements Location
 	/**
 	 * @see de.unika.ipd.grgen.util.report.Location#hasLocation()
 	 */
+	@Override
 	public boolean hasLocation()
 	{
 		return valid();
@@ -124,6 +127,7 @@ public class Coords implements Location
 	 * the same line and column.
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object obj)
 	{
 		boolean res = false;

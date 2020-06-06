@@ -27,6 +27,7 @@ public class SetCopyConstructor extends Expression
 		this.setType = setType;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

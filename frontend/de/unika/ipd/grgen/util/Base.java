@@ -57,6 +57,7 @@ public class Base implements Id
 	/**
 	 * @see de.unika.ipd.grgen.util.ID#getId()
 	 */
+	@Override
 	public String getId()
 	{
 		return id;

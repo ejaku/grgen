@@ -78,6 +78,7 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 	private static final DeclarationResolver<ProcedureDeclNode> resolver =
 			new DeclarationResolver<ProcedureDeclNode>(ProcedureDeclNode.class);
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
@@ -133,11 +134,13 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 		return checkSignatureAdhered(procedureDecl, procedureUnresolved, true);
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
+	@Override
 	public Vector<TypeNode> getType()
 	{
 		assert isResolved();

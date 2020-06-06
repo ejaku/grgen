@@ -39,6 +39,7 @@ public class MatchesAccumulationYield extends NestingStatement
 		return matchesVar;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(matchesVar))

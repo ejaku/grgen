@@ -117,6 +117,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 		}
 	}
 
+	@Override
 	public String getPackageContainedIn()
 	{
 		return packageContainedIn;

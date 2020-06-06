@@ -42,6 +42,7 @@ public class VisitedNode extends ExprNode
 		becomeParent(entityExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -50,6 +51,7 @@ public class VisitedNode extends ExprNode
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();

@@ -28,6 +28,7 @@ public class VCGDumperFactory implements GraphDumperFactory
 		this.system = system;
 	}
 
+	@Override
 	public GraphDumper get(String fileNamePart)
 	{
 		String fileName = fileNamePart + ".vcg";

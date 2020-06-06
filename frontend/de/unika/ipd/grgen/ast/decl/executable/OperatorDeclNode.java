@@ -528,6 +528,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 */
 	private static final OperatorDeclNode INVALID = new OperatorDeclNode(ERROR, BasicTypeNode.errorType,
 			new TypeNode[] {}, OperatorEvaluator.emptyEvaluator) {
+		@Override
 		public boolean isValid()
 		{
 			return false;

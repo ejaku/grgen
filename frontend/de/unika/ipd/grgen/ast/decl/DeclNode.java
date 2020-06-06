@@ -76,6 +76,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	public abstract TypeNode getDeclType();
 
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
+	@Override
 	public DeclNode getDecl()
 	{
 		return this;

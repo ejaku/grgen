@@ -26,6 +26,7 @@ public class ArrayClear extends ContainerQualProcedureMethodInvocationBase
 		super("array clear", target);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

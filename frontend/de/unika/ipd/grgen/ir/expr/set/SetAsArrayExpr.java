@@ -22,6 +22,7 @@ public class SetAsArrayExpr extends SetFunctionMethodInvocationBaseExpr
 		super("set as array expression", targetType, targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

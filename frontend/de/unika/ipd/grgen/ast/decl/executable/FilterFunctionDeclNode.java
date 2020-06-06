@@ -125,11 +125,13 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 		return true;
 	}
 
+	@Override
 	public String getFilterName()
 	{
 		return getIdentNode().toString();
 	}
 
+	@Override
 	public TestDeclNode getActionNode()
 	{
 		return action;

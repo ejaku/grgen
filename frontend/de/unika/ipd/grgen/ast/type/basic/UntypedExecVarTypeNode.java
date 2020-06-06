@@ -29,6 +29,7 @@ public class UntypedExecVarTypeNode extends BasicTypeNode
 	public static class Value
 	{
 		public static Value NULL = new Value() {
+			@Override
 			public String toString()
 			{
 				return "Untyped null";
@@ -39,6 +40,7 @@ public class UntypedExecVarTypeNode extends BasicTypeNode
 		{
 		}
 
+		@Override
 		public boolean equals(Object val)
 		{
 			return(this == val);

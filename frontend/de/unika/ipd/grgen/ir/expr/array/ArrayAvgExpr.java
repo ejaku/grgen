@@ -21,6 +21,7 @@ public class ArrayAvgExpr extends ArrayFunctionMethodInvocationBaseExpr
 		super("array avg expr", ((ArrayType)(targetExpr.getType())).valueType, targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

@@ -3081,6 +3081,7 @@ public class ActionsGen extends CSharpBase
 	// Expression stuff //
 	//////////////////////
 
+	@Override
 	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState)
 	{
 		Entity owner = qual.getOwner();
@@ -3095,6 +3096,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(member));
 	}
 
+	@Override
 	protected void genMemberAccess(SourceBuilder sb, Entity member)
 	{
 		throw new UnsupportedOperationException("Member expressions not allowed in actions!");

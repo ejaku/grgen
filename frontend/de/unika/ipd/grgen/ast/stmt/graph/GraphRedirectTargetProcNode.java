@@ -47,6 +47,7 @@ public class GraphRedirectTargetProcNode extends BuiltinProcedureInvocationBaseN
 			becomeParent(oldTargetNameExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -57,6 +58,7 @@ public class GraphRedirectTargetProcNode extends BuiltinProcedureInvocationBaseN
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
@@ -92,6 +94,7 @@ public class GraphRedirectTargetProcNode extends BuiltinProcedureInvocationBaseN
 		return true;
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;

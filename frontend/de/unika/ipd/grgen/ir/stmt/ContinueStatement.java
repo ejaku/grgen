@@ -23,6 +23,7 @@ public class ContinueStatement extends EvalStatement
 		super("continue statement");
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

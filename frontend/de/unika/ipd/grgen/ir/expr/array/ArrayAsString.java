@@ -29,6 +29,7 @@ public class ArrayAsString extends ArrayFunctionMethodInvocationBaseExpr
 		return valueExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

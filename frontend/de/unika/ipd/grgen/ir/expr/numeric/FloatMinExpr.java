@@ -18,6 +18,7 @@ public class FloatMinExpr extends BuiltinFunctionInvocationExpr
 		super("floatmin expr", FloatType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

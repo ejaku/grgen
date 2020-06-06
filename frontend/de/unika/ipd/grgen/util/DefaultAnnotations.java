@@ -23,35 +23,41 @@ public class DefaultAnnotations implements Annotations
 	private final Map<String, Object> annots = new HashMap<String, Object>();
 
 	/** @see de.unika.ipd.grgen.util.Annotations#containsKey(java.lang.String) */
+	@Override
 	public boolean containsKey(String key)
 	{
 		return annots.containsKey(key);
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#get(java.lang.String) */
+	@Override
 	public Object get(String key)
 	{
 		return annots.get(key);
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isBoolean(java.lang.String) */
+	@Override
 	public boolean isBoolean(String key)
 	{
 		return containsKey(key) && get(key) instanceof Boolean;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isInteger(java.lang.String) */
+	@Override
 	public boolean isInteger(String key)
 	{
 		return containsKey(key) && get(key) instanceof Integer;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isString(java.lang.String) */
+	@Override
 	public boolean isString(String key)
 	{
 		return containsKey(key) && get(key) instanceof String;
 	}
 
+	@Override
 	public boolean isFlagSet(String key)
 	{
 		if(!containsKey(key))
@@ -61,11 +67,13 @@ public class DefaultAnnotations implements Annotations
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#put(java.lang.String, java.lang.Object) */
+	@Override
 	public void put(String key, Object value)
 	{
 		annots.put(key, value);
 	}
 
+	@Override
 	public Set<String> keySet()
 	{
 		return annots.keySet();

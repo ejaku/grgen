@@ -86,6 +86,7 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 	private static final DeclarationResolver<ExternalProcedureDeclNode> resolver =
 			new DeclarationResolver<ExternalProcedureDeclNode>(ExternalProcedureDeclNode.class);
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		boolean successfullyResolved = true;
@@ -125,11 +126,13 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 		return checkSignatureAdhered(externalProcedureDecl, externalProcedureUnresolved, true);
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
+	@Override
 	public Vector<TypeNode> getType()
 	{
 		assert isResolved();

@@ -47,6 +47,7 @@ public class ContainerAccumulationYield extends NestingStatement
 		return containerVar;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(containerVar))

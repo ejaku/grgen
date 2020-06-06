@@ -22,6 +22,7 @@ public class ArrayVarClear extends ContainerVarProcedureMethodInvocationBase
 		super("array var clear", target);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(target))

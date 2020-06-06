@@ -38,12 +38,14 @@ public class MapType extends ContainerType
 		return valueType;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "map<" + keyType + "," + valueType + ">";
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_MAP;

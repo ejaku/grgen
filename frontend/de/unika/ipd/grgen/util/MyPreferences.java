@@ -36,6 +36,7 @@ public class MyPreferences extends AbstractPreferences
 	/**
 	 * @see java.util.prefs.AbstractPreferences#putSpi(java.lang.String, java.lang.String)
 	 */
+	@Override
 	protected void putSpi(String key, String value)
 	{
 		prefs.put(key, value);
@@ -44,6 +45,7 @@ public class MyPreferences extends AbstractPreferences
 	/**
 	 * @see java.util.prefs.AbstractPreferences#getSpi(java.lang.String)
 	 */
+	@Override
 	protected String getSpi(String key)
 	{
 		return prefs.get(key);
@@ -52,6 +54,7 @@ public class MyPreferences extends AbstractPreferences
 	/**
 	 * @see java.util.prefs.AbstractPreferences#removeSpi(java.lang.String)
 	 */
+	@Override
 	protected void removeSpi(String key)
 	{
 		prefs.remove(key);
@@ -60,6 +63,7 @@ public class MyPreferences extends AbstractPreferences
 	/**
 	 * @see java.util.prefs.AbstractPreferences#removeNodeSpi()
 	 */
+	@Override
 	protected void removeNodeSpi() throws BackingStoreException
 	{
 		((MyPreferences)parent()).children.remove(name());
@@ -68,6 +72,7 @@ public class MyPreferences extends AbstractPreferences
 	/**
 	 * @see java.util.prefs.AbstractPreferences#keysSpi()
 	 */
+	@Override
 	protected String[] keysSpi() throws BackingStoreException
 	{
 		String[] res = new String[prefs.size()];
@@ -82,6 +87,7 @@ public class MyPreferences extends AbstractPreferences
 	/**
 	 * @see java.util.prefs.AbstractPreferences#childrenNamesSpi()
 	 */
+	@Override
 	protected String[] childrenNamesSpi() throws BackingStoreException
 	{
 		String[] res = new String[children.size()];
@@ -97,6 +103,7 @@ public class MyPreferences extends AbstractPreferences
 	/**
 	 * @see java.util.prefs.AbstractPreferences#childSpi(java.lang.String)
 	 */
+	@Override
 	protected AbstractPreferences childSpi(String child)
 	{
 		if(!children.containsKey(child))
@@ -108,6 +115,7 @@ public class MyPreferences extends AbstractPreferences
 	/**
 	 * @see java.util.prefs.AbstractPreferences#syncSpi()
 	 */
+	@Override
 	protected void syncSpi() throws BackingStoreException
 	{
 	}
@@ -115,6 +123,7 @@ public class MyPreferences extends AbstractPreferences
 	/**
 	 * @see java.util.prefs.AbstractPreferences#flushSpi()
 	 */
+	@Override
 	protected void flushSpi() throws BackingStoreException
 	{
 	}
@@ -122,6 +131,7 @@ public class MyPreferences extends AbstractPreferences
 	/**
 	 * @see java.util.prefs.Preferences#get(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public String get(String key, String value)
 	{
 		if(!prefs.containsKey(key))

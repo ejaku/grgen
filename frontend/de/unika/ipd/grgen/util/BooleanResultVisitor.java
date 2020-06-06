@@ -36,6 +36,7 @@ public abstract class BooleanResultVisitor implements ResultVisitor<Boolean>
 	/**
 	 * @see de.unika.ipd.grgen.util.ResultVisitor#getResult()
 	 */
+	@Override
 	public Boolean getResult()
 	{
 		return new Boolean(result);

@@ -30,6 +30,7 @@ public class RecordProc extends BuiltinProcedureInvocationBase
 		return toRecordExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

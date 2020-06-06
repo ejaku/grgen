@@ -26,6 +26,7 @@ public class ObjectType extends PrimitiveType
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_OBJECT;

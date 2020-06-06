@@ -40,6 +40,7 @@ public class GraphMergeProc extends BuiltinProcedureInvocationBase
 		return sourceName;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

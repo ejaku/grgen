@@ -22,6 +22,7 @@ public class SetSizeExpr extends SetFunctionMethodInvocationBaseExpr
 		super("set size expression", IntType.getType(), targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

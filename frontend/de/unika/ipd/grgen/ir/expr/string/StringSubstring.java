@@ -45,6 +45,7 @@ public class StringSubstring extends BuiltinFunctionInvocationExpr
 		return lengthExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		stringExpr.collectNeededEntities(needs);

@@ -47,11 +47,13 @@ public abstract class FilterFunction extends Identifiable implements Filter, Con
 		this.action = action;
 	}
 
+	@Override
 	public Rule getAction()
 	{
 		return action;
 	}
 
+	@Override
 	public String getPackageContainedIn()
 	{
 		return packageContainedIn;

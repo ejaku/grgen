@@ -18,6 +18,7 @@ public class DoubleMinExpr extends BuiltinFunctionInvocationExpr
 		super("doublemin expr", DoubleType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

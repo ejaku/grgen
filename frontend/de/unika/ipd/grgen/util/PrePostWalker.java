@@ -36,11 +36,13 @@ public class PrePostWalker extends Base implements Walker
 		visited = new HashSet<Walkable>();
 	}
 
+	@Override
 	public void reset()
 	{
 		visited.clear();
 	}
 
+	@Override
 	public void walk(Walkable node)
 	{
 		if(!visited.contains(node)) {

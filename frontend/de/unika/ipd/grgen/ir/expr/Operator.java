@@ -98,11 +98,13 @@ public class Operator extends Expression
 		operands.add(e);
 	}
 
+	@Override
 	public String getEdgeLabel(int edge)
 	{
 		return "op " + edge;
 	}
 
+	@Override
 	public String getNodeLabel()
 	{
 		return getType().getIdent() + " " + opNames[opCode].toLowerCase()
@@ -115,6 +117,7 @@ public class Operator extends Expression
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		for(Expression child : getWalkableChildren()) {

@@ -43,6 +43,7 @@ public class PowExpr extends BuiltinFunctionInvocationExpr
 		return rightExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(leftExpr != null)

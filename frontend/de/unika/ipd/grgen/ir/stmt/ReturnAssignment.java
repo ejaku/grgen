@@ -45,6 +45,7 @@ public class ReturnAssignment extends EvalStatement
 		return targets;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		for(EvalStatement target : targets) {

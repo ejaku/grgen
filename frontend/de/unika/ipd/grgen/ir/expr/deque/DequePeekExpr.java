@@ -29,6 +29,7 @@ public class DequePeekExpr extends DequeFunctionMethodInvocationBaseExpr
 		return numberExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

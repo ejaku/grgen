@@ -30,6 +30,7 @@ public class MapPeekExpr extends MapFunctionMethodInvocationBaseExpr
 		return numberExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

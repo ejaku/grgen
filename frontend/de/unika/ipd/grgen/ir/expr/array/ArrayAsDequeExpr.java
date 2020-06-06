@@ -22,6 +22,7 @@ public class ArrayAsDequeExpr extends ArrayFunctionMethodInvocationBaseExpr
 		super("array as deque expression", targetType, targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

@@ -26,6 +26,7 @@ public class MapClear extends ContainerQualProcedureMethodInvocationBase
 		super("map clear", target);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

@@ -149,6 +149,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated
 	 * @see #setDecl() for a detailed description.
 	 * @return The declaration this node represents
 	 */
+	@Override
 	public DeclNode getDecl()
 	{
 		Symbol.Definition def = getSymDef();
@@ -248,6 +249,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated
 	 * Get the annotations of this identifier.
 	 * @return The annotations of this identifier.
 	 */
+	@Override
 	public Annotations getAnnotations()
 	{
 		return annotations;

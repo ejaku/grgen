@@ -18,6 +18,7 @@ public class LongMinExpr extends BuiltinFunctionInvocationExpr
 		super("longmin expr", LongType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

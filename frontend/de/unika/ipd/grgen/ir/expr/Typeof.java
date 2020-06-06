@@ -27,12 +27,14 @@ public class Typeof extends Expression
 		return entity;
 	}
 
+	@Override
 	public String getNodeLabel()
 	{
 		return "typeof<" + entity + ">";
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(entity)) {

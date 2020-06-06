@@ -30,6 +30,7 @@ public class MatchType extends Type implements ContainedInPackage
 		this.action = action;
 	}
 
+	@Override
 	public String getPackageContainedIn()
 	{
 		return packageContainedIn;
@@ -46,6 +47,7 @@ public class MatchType extends Type implements ContainedInPackage
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_MATCH;

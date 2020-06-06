@@ -204,6 +204,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	}
 
 	/** @see de.unika.ipd.grgen.ast.pattern.NodeCharacter#getNode() */
+	@Override
 	public Node getNode()
 	{
 		return checkIR(Node.class);

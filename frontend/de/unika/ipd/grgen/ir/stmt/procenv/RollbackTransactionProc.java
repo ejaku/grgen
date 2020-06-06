@@ -30,6 +30,7 @@ public class RollbackTransactionProc extends BuiltinProcedureInvocationBase
 		return transactionIdExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

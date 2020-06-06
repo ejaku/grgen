@@ -29,6 +29,7 @@ public class ArrayPeekExpr extends ArrayFunctionMethodInvocationBaseExpr
 		return numberExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

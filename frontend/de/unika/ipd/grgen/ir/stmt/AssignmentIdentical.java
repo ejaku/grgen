@@ -23,11 +23,13 @@ public class AssignmentIdentical extends EvalStatement
 		super("assignment identical");
 	}
 
+	@Override
 	public String toString()
 	{
 		return ". = .";
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

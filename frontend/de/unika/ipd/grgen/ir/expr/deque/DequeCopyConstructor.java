@@ -27,6 +27,7 @@ public class DequeCopyConstructor extends Expression
 		this.dequeType = dequeType;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

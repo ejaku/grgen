@@ -25,6 +25,7 @@ public abstract class Identifiable extends IR implements Annotated, Comparable<I
 {
 	/** helper class for comparing objects of type Identifiable, used in compareTo */
 	protected static final Comparator<Identifiable> COMPARATOR = new Comparator<Identifiable>() {
+		@Override
 		public int compare(Identifiable lt, Identifiable rt)
 		{
 			return lt.getIdent().compareTo(rt.getIdent());
@@ -55,37 +56,44 @@ public abstract class Identifiable extends IR implements Annotated, Comparable<I
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
+	@Override
 	public String getNodeLabel()
 	{
 		return toString();
 	}
 
+	@Override
 	public String getNodeInfo()
 	{
 		return ident.getNodeInfo();
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName() + " " + ident;
 	}
 
+	@Override
 	public void addFields(Map<String, Object> fields)
 	{
 		fields.put("ident", ident.toString());
 	}
 
+	@Override
 	public int hashCode()
 	{
 		return getIdent().hashCode();
 	}
 
+	@Override
 	public int compareTo(Identifiable id)
 	{
 		return COMPARATOR.compare(this, id);
 	}
 
 	/** @return The annotations. */
+	@Override
 	public Annotations getAnnotations()
 	{
 		return getIdent().getAnnotations();

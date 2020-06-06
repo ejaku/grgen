@@ -27,6 +27,7 @@ public class IndexedAccessExpr extends Expression
 		this.keyExpr = keyExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

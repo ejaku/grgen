@@ -25,11 +25,13 @@ public class VoidType extends PrimitiveType
 		super("void type", ident);
 	}
 
+	@Override
 	public boolean isVoid()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean isEqual(Type t)
 	{
 		return t.isVoid();

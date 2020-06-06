@@ -56,6 +56,7 @@ public class ForIndexAccessEquality extends EvalStatement
 		return statements;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		iae.collectNeededEntities(needs);

@@ -417,6 +417,7 @@ public class RuleDeclNode extends TestDeclNode
 	 * 2) a pattern for the right side.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal()
 	{
 		boolean leftHandGraphsOk = super.checkLocal();
@@ -516,6 +517,7 @@ public class RuleDeclNode extends TestDeclNode
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR()
 	{
 		// return if the pattern graph already constructed the IR object

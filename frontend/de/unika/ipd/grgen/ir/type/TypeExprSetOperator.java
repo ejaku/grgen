@@ -41,6 +41,7 @@ public class TypeExprSetOperator extends TypeExpr
 		children.add(operand);
 	}
 
+	@Override
 	public Collection<InheritanceType> evaluate()
 	{
 		Collection<InheritanceType> res = new HashSet<InheritanceType>();

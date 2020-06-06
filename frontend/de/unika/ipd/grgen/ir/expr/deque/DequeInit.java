@@ -39,6 +39,7 @@ public class DequeInit extends Expression
 		}
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

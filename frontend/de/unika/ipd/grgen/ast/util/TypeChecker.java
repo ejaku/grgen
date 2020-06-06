@@ -41,6 +41,7 @@ public class TypeChecker implements Checker
 	 * if so check whether the declaration has the right type
 	 * @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
+	@Override
 	public boolean check(BaseNode bn, ErrorReporter reporter)
 	{
 		boolean res = (bn instanceof DeclNode);

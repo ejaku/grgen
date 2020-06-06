@@ -106,6 +106,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		result = decide(functionIdent.toString());

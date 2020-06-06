@@ -39,6 +39,7 @@ public class AmbiguousIdentNode extends IdentNode
 	 * @see Symbol#Definition
 	 * @return The symbol definition.
 	 */
+	@Override
 	public Symbol.Definition getSymDef()
 	{
 		if(occ.getDefinition() == null) {

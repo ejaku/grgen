@@ -88,6 +88,7 @@ public class SingleNodeConnNode extends ConnectionCharacter
 	}
 
 	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addToGraph(de.unika.ipd.grgen.ir.pattern.Graph) */
+	@Override
 	public void addToGraph(Graph gr)
 	{
 		assert isResolved();
@@ -105,15 +106,18 @@ public class SingleNodeConnNode extends ConnectionCharacter
 	}
 
 	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addEdge(java.util.Set) */
+	@Override
 	public void addEdge(Set<EdgeDeclNode> set)
 	{
 	}
 
+	@Override
 	public EdgeCharacter getEdge()
 	{
 		return null;
 	}
 
+	@Override
 	public NodeCharacter getSrc()
 	{
 		assert isResolved();
@@ -121,20 +125,24 @@ public class SingleNodeConnNode extends ConnectionCharacter
 		return node;
 	}
 
+	@Override
 	public void setSrc(NodeDeclNode src)
 	{
 	}
 
+	@Override
 	public NodeCharacter getTgt()
 	{
 		return null;
 	}
 
+	@Override
 	public void setTgt(NodeDeclNode tgt)
 	{
 	}
 
 	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addNodes(java.util.Set) */
+	@Override
 	public void addNodes(Set<NodeDeclNode> set)
 	{
 		assert isResolved();

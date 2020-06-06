@@ -35,6 +35,7 @@ public class ArrayRemoveItem extends ContainerQualProcedureMethodInvocationBase
 		return indexExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

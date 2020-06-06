@@ -43,6 +43,7 @@ public class LogExpr extends BuiltinFunctionInvocationExpr
 		return rightExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		leftExpr.collectNeededEntities(needs);

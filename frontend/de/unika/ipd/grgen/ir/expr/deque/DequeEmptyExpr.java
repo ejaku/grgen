@@ -22,6 +22,7 @@ public class DequeEmptyExpr extends DequeFunctionMethodInvocationBaseExpr
 		super("deque empty expression", BooleanType.getType(), targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

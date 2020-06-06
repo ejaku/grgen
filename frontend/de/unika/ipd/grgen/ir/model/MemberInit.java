@@ -40,6 +40,7 @@ public class MemberInit extends IR
 		return expr;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getMember() + " = " + getExpression();

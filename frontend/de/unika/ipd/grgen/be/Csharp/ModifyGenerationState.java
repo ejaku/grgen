@@ -35,166 +35,199 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 
 class ModifyGenerationState implements ModifyGenerationStateConst
 {
+	@Override
 	public String name()
 	{
 		return functionOrProcedureName != null ? functionOrProcedureName : actionName;
 	}
 
+	@Override
 	public Collection<Node> commonNodes()
 	{
 		return Collections.unmodifiableCollection(commonNodes);
 	}
 
+	@Override
 	public Collection<Edge> commonEdges()
 	{
 		return Collections.unmodifiableCollection(commonEdges);
 	}
 
+	@Override
 	public Collection<SubpatternUsage> commonSubpatternUsages()
 	{
 		return Collections.unmodifiableCollection(commonSubpatternUsages);
 	}
 
+	@Override
 	public Collection<Node> newNodes()
 	{
 		return Collections.unmodifiableCollection(newNodes);
 	}
 
+	@Override
 	public Collection<Edge> newEdges()
 	{
 		return Collections.unmodifiableCollection(newEdges);
 	}
 
+	@Override
 	public Collection<SubpatternUsage> newSubpatternUsages()
 	{
 		return Collections.unmodifiableCollection(newSubpatternUsages);
 	}
 
+	@Override
 	public Collection<Node> delNodes()
 	{
 		return Collections.unmodifiableCollection(delNodes);
 	}
 
+	@Override
 	public Collection<Edge> delEdges()
 	{
 		return Collections.unmodifiableCollection(delEdges);
 	}
 
+	@Override
 	public Collection<SubpatternUsage> delSubpatternUsages()
 	{
 		return Collections.unmodifiableCollection(delSubpatternUsages);
 	}
 
+	@Override
 	public Collection<Node> yieldedNodes()
 	{
 		return Collections.unmodifiableCollection(yieldedNodes);
 	}
 
+	@Override
 	public Collection<Edge> yieldedEdges()
 	{
 		return Collections.unmodifiableCollection(yieldedEdges);
 	}
 
+	@Override
 	public Collection<Variable> yieldedVariables()
 	{
 		return Collections.unmodifiableCollection(yieldedVariables);
 	}
 
+	@Override
 	public Collection<Node> newOrRetypedNodes()
 	{
 		return Collections.unmodifiableCollection(newOrRetypedNodes);
 	}
 
+	@Override
 	public Collection<Edge> newOrRetypedEdges()
 	{
 		return Collections.unmodifiableCollection(newOrRetypedEdges);
 	}
 
+	@Override
 	public Collection<GraphEntity> accessViaInterface()
 	{
 		return Collections.unmodifiableCollection(accessViaInterface);
 	}
 
+	@Override
 	public Map<GraphEntity, HashSet<Entity>> neededAttributes()
 	{
 		return Collections.unmodifiableMap(neededAttributes);
 	}
 
+	@Override
 	public Map<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete()
 	{
 		return Collections.unmodifiableMap(attributesStoredBeforeDelete);
 	}
 
+	@Override
 	public Collection<Variable> neededVariables()
 	{
 		return Collections.unmodifiableCollection(neededVariables);
 	}
 
+	@Override
 	public Collection<Node> nodesNeededAsElements()
 	{
 		return Collections.unmodifiableCollection(nodesNeededAsElements);
 	}
 
+	@Override
 	public Collection<Edge> edgesNeededAsElements()
 	{
 		return Collections.unmodifiableCollection(edgesNeededAsElements);
 	}
 
+	@Override
 	public Collection<Node> nodesNeededAsAttributes()
 	{
 		return Collections.unmodifiableCollection(nodesNeededAsAttributes);
 	}
 
+	@Override
 	public Collection<Edge> edgesNeededAsAttributes()
 	{
 		return Collections.unmodifiableCollection(edgesNeededAsAttributes);
 	}
 
+	@Override
 	public Collection<Node> nodesNeededAsTypes()
 	{
 		return Collections.unmodifiableCollection(nodesNeededAsTypes);
 	}
 
+	@Override
 	public Collection<Edge> edgesNeededAsTypes()
 	{
 		return Collections.unmodifiableCollection(edgesNeededAsTypes);
 	}
 
+	@Override
 	public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar()
 	{
 		return Collections.unmodifiableMap(forceAttributeToVar);
 	}
 
+	@Override
 	public String matchClassName()
 	{
 		return matchClassName;
 	}
 
+	@Override
 	public String packagePrefix()
 	{
 		return packagePrefix;
 	}
 
+	@Override
 	public Map<Expression, String> mapExprToTempVar()
 	{
 		return Collections.unmodifiableMap(mapExprToTempVar);
 	}
 
+	@Override
 	public boolean useVarForResult()
 	{
 		return useVarForResult;
 	}
 
+	@Override
 	public Model model()
 	{
 		return model;
 	}
 
+	@Override
 	public boolean isToBeParallelizedActionExisting()
 	{
 		return isToBeParallelizedActionExisting;
 	}
 
+	@Override
 	public boolean emitProfilingInstrumentation()
 	{
 		return emitProfiling;

@@ -39,6 +39,7 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 
 	/** resolves n to node of type R, S, T or U, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R, S, T or U */
+	@Override
 	public Quadruple<R, S, T, U> resolve(BaseNode bn, BaseNode parent)
 	{
 		Quadruple<R, S, T, U> quadruple;

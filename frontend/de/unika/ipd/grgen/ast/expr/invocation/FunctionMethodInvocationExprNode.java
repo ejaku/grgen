@@ -77,6 +77,7 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 	private static final DeclarationResolver<FunctionDeclNode> resolver =
 			new DeclarationResolver<FunctionDeclNode>(FunctionDeclNode.class);
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope

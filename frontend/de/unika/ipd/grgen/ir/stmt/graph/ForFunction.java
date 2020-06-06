@@ -55,6 +55,7 @@ public class ForFunction extends NestingStatement
 		return statements;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		function.collectNeededEntities(needs);

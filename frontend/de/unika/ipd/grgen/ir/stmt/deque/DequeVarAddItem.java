@@ -38,6 +38,7 @@ public class DequeVarAddItem extends ContainerVarProcedureMethodInvocationBase
 		return indexExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(target))

@@ -116,6 +116,7 @@ public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 		}
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;

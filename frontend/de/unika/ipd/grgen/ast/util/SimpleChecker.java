@@ -38,6 +38,7 @@ public class SimpleChecker implements Checker
 	 * Just check whether the node is an instance of one of the valid types
 	 * @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
+	@Override
 	public boolean check(BaseNode bn, ErrorReporter reporter)
 	{
 		boolean res = false;

@@ -42,12 +42,14 @@ public class ProjectionExprNode extends ExprNode
 		becomeParent(procedure);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();

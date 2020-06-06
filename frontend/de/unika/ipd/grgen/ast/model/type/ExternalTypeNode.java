@@ -145,6 +145,7 @@ public class ExternalTypeNode extends InheritanceTypeNode
 		}
 	}
 
+	@Override
 	protected CollectNode<? extends InheritanceTypeNode> getExtends()
 	{
 		return extend;

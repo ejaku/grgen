@@ -36,11 +36,13 @@ public class Constant extends Expression
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
+	@Override
 	public String getNodeLabel()
 	{
 		return getName() + " " + value;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

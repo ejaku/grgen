@@ -95,6 +95,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 	}
 
 	static TypeNode methodTypeNode = new TypeNode() {
+		@Override
 		public Collection<BaseNode> getChildren()
 		{
 			Vector<BaseNode> children = new Vector<BaseNode>();
@@ -102,6 +103,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 			return children;
 		}
 
+		@Override
 		public Collection<String> getChildrenNames()
 		{
 			Vector<String> childrenNames = new Vector<String>();
@@ -148,6 +150,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		if(!targetExpr.resolve())

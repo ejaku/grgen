@@ -35,11 +35,13 @@ public class AssignmentGraphEntity extends AssignmentBase
 		return target;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getTarget() + " = " + getExpression();
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(target))

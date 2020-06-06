@@ -37,6 +37,7 @@ public class ExportProc extends BuiltinProcedureInvocationBase
 		return graphExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

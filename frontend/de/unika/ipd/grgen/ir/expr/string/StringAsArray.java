@@ -38,6 +38,7 @@ public class StringAsArray extends BuiltinFunctionInvocationExpr
 		return stringToSplitAtExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		stringExpr.collectNeededEntities(needs);

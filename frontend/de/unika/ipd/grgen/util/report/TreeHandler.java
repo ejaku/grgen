@@ -38,41 +38,49 @@ public class TreeHandler extends DefaultTreeModel implements Handler
 			children.add(n);
 		}
 
+		@Override
 		public TreeNode getChildAt(int i)
 		{
 			return children.get(i);
 		}
 
+		@Override
 		public int getChildCount()
 		{
 			return children.size();
 		}
 
+		@Override
 		public TreeNode getParent()
 		{
 			return parent;
 		}
 
+		@Override
 		public int getIndex(TreeNode arg0)
 		{
 			return children.indexOf(arg0);
 		}
 
+		@Override
 		public boolean getAllowsChildren()
 		{
 			return true;
 		}
 
+		@Override
 		public boolean isLeaf()
 		{
 			return children.size() == 0;
 		}
 
+		@Override
 		public Enumeration<TreeNode> children()
 		{
 			return children.elements();
 		}
 
+		@Override
 		public String toString()
 		{
 			return text;
@@ -107,41 +115,49 @@ public class TreeHandler extends DefaultTreeModel implements Handler
 			// this.parent = parent;
 		}
 
+		@Override
 		public TreeNode getChildAt(int arg0)
 		{
 			return null;
 		}
 
+		@Override
 		public int getChildCount()
 		{
 			return 0;
 		}
 
+		@Override
 		public TreeNode getParent()
 		{
 			return null;
 		}
 
+		@Override
 		public int getIndex(TreeNode arg0)
 		{
 			return 0;
 		}
 
+		@Override
 		public boolean getAllowsChildren()
 		{
 			return false;
 		}
 
+		@Override
 		public boolean isLeaf()
 		{
 			return true;
 		}
 
+		@Override
 		public Enumeration<? extends TreeNode> children()
 		{
 			return null;
 		}
 
+		@Override
 		public String toString()
 		{
 			return msg;
@@ -164,6 +180,7 @@ public class TreeHandler extends DefaultTreeModel implements Handler
 	/**
 	 * @see de.unika.ipd.grgen.util.report.Handler#report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)
 	 */
+	@Override
 	public void report(int level, Location loc, String msg)
 	{
 		current.add(new MsgNode(current, level, loc, msg));

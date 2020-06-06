@@ -36,6 +36,7 @@ public class DebugHighlightProc extends BuiltinProcedureInvocationBase
 		return exprs;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

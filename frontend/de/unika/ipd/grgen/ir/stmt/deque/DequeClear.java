@@ -26,6 +26,7 @@ public class DequeClear extends ContainerQualProcedureMethodInvocationBase
 		super("deque clear", target);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

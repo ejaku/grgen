@@ -21,6 +21,7 @@ public class ArraySumExpr extends ArrayFunctionMethodInvocationBaseExpr
 		super("array sum expr", ((ArrayType)(targetExpr.getType())).valueType, targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

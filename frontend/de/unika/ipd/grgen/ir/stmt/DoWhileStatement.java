@@ -32,6 +32,7 @@ public class DoWhileStatement extends NestingStatement
 		return conditionExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		conditionExpr.collectNeededEntities(needs);

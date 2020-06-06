@@ -69,6 +69,7 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 	public void canonicalizeConnectionAsserts()
 	{
 		Collections.sort(connectionAsserts, new Comparator<ConnAssert>() {
+			@Override
 			public int compare(ConnAssert ca1, ConnAssert ca2)
 			{
 				return ca1.compareTo(ca2);
@@ -88,12 +89,14 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 		return Collections.unmodifiableCollection(connectionAsserts);
 	}
 
+	@Override
 	public void addFields(Map<String, Object> fields)
 	{
 		super.addFields(fields);
 		fields.put("conn_asserts", connectionAsserts.iterator());
 	}
 
+	@Override
 	public void addToDigest(StringBuffer sb)
 	{
 		super.addToDigest(sb);
@@ -110,11 +113,13 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_EDGE;
 	}
 
+	@Override
 	public String getPackageContainedIn()
 	{
 		return packageContainedIn;

@@ -38,6 +38,7 @@ public class GraphRemoveProcNode extends BuiltinProcedureInvocationBaseNode
 		becomeParent(entityExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -45,6 +46,7 @@ public class GraphRemoveProcNode extends BuiltinProcedureInvocationBaseNode
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
@@ -71,6 +73,7 @@ public class GraphRemoveProcNode extends BuiltinProcedureInvocationBaseNode
 		return false;
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;

@@ -314,6 +314,7 @@ public class ConnectionNode extends ConnectionCharacter
 	 * This method should only be used by {@link PatternGraphNode#constructIR()}.
 	 * @param gr The IR graph.
 	 */
+	@Override
 	public void addToGraph(Graph gr)
 	{
 		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == DIRECTED,
@@ -324,6 +325,7 @@ public class ConnectionNode extends ConnectionCharacter
 	/**
 	 * @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addEdges(java.util.Set)
 	 */
+	@Override
 	public void addEdge(Set<EdgeDeclNode> set)
 	{
 		assert isResolved();
@@ -340,17 +342,20 @@ public class ConnectionNode extends ConnectionCharacter
 	{
 		return redirectionKind;
 	}
-
+	
+	@Override
 	public EdgeDeclNode getEdge()
 	{
 		return edge;
 	}
 
+	@Override
 	public NodeDeclNode getSrc()
 	{
 		return left;
 	}
 
+	@Override
 	public void setSrc(NodeDeclNode n)
 	{
 		assert(n != null);
@@ -358,11 +363,13 @@ public class ConnectionNode extends ConnectionCharacter
 		left = n;
 	}
 
+	@Override
 	public NodeDeclNode getTgt()
 	{
 		return right;
 	}
 
+	@Override
 	public void setTgt(NodeDeclNode n)
 	{
 		assert(n != null);
@@ -373,6 +380,7 @@ public class ConnectionNode extends ConnectionCharacter
 	/**
 	 * @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addNodes(java.util.Set)
 	 */
+	@Override
 	public void addNodes(Set<NodeDeclNode> set)
 	{
 		assert isResolved();

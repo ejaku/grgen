@@ -46,6 +46,7 @@ public class CompoundAssignmentVarChangedVisited extends CompoundAssignmentVar
 		return changedOperation;
 	}
 
+	@Override
 	public String toString()
 	{
 		return super.toString()
@@ -53,6 +54,7 @@ public class CompoundAssignmentVarChangedVisited extends CompoundAssignmentVar
 				+ changedTarget.toString();
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		super.collectNeededEntities(needs);

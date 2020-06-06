@@ -33,11 +33,13 @@ public class AssignmentIndexed extends Assignment
 		return index;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getTarget() + "[" + getIndex() + "] = " + getExpression();
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		super.collectNeededEntities(needs);

@@ -21,6 +21,7 @@ public class ArrayMedExpr extends ArrayFunctionMethodInvocationBaseExpr
 		super("array med expr", ((ArrayType)(targetExpr.getType())).valueType, targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

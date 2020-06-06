@@ -80,17 +80,20 @@ public abstract class CompoundType extends Type
 		return Collections.unmodifiableCollection(procedureMethods);
 	}
 
+	@Override
 	protected void canonicalizeLocal()
 	{
 		Collections.sort(members, Identifiable.COMPARATOR);
 	}
 
+	@Override
 	public void addFields(Map<String, Object> fields)
 	{
 		super.addFields(fields);
 		fields.put("members", members.iterator());
 	}
 
+	@Override
 	public void addToDigest(StringBuffer sb)
 	{
 		sb.append(this);

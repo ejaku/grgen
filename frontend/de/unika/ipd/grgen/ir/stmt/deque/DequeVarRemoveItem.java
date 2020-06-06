@@ -31,6 +31,7 @@ public class DequeVarRemoveItem extends ContainerVarProcedureMethodInvocationBas
 		return indexExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(target))

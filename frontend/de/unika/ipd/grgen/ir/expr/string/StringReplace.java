@@ -53,6 +53,7 @@ public class StringReplace extends BuiltinFunctionInvocationExpr
 		return replaceStrExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		stringExpr.collectNeededEntities(needs);

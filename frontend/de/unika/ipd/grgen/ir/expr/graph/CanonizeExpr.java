@@ -27,6 +27,7 @@ public class CanonizeExpr extends BuiltinFunctionInvocationExpr
 		return graphExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		graphExpr.collectNeededEntities(needs);

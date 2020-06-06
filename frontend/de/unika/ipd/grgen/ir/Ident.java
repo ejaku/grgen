@@ -78,6 +78,7 @@ public class Ident extends IR implements Comparable<Ident>, Annotated
 
 	/** The string of an identifier is its text.
 	 *  @see java.lang.Object#toString() */
+	@Override
 	public String toString()
 	{
 		return text;
@@ -93,6 +94,7 @@ public class Ident extends IR implements Comparable<Ident>, Annotated
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 * Two identifiers are equal, if they have the same names and the same location of definition.
 	 */
+	@Override
 	public boolean equals(Object obj)
 	{
 		boolean res = false;
@@ -128,12 +130,14 @@ public class Ident extends IR implements Comparable<Ident>, Annotated
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo() */
+	@Override
 	public String getNodeInfo()
 	{
 		return super.getNodeInfo() + "\nCoords: " + def + "\nScope: " + scope.getPath();
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
+	@Override
 	public String getNodeLabel()
 	{
 		return getName() + " " + text;
@@ -144,11 +148,13 @@ public class Ident extends IR implements Comparable<Ident>, Annotated
 	 * @param obj The other identifier.
 	 * @return -1, 0, 1, respectively.
 	 */
+	@Override
 	public int compareTo(Ident id)
 	{
 		return toString().compareTo(id.toString());
 	}
 
+	@Override
 	public int hashCode()
 	{
 		return precomputedHashCode;
@@ -165,6 +171,7 @@ public class Ident extends IR implements Comparable<Ident>, Annotated
 	}
 
 	/** @return The annotations. */
+	@Override
 	public Annotations getAnnotations()
 	{
 		return annots;

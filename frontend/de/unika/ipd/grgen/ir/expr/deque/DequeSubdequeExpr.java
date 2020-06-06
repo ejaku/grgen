@@ -36,6 +36,7 @@ public class DequeSubdequeExpr extends DequeFunctionMethodInvocationBaseExpr
 		return lengthExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

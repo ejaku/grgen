@@ -31,12 +31,14 @@ public class DequeType extends ContainerType
 		return valueType;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "deque<" + valueType + ">";
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_DEQUE;

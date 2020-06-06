@@ -259,46 +259,55 @@ public abstract class IDBase extends Base implements IDTypeModel
 		return res.intValue();
 	}
 
+	@Override
 	public final int getId(EdgeType et)
 	{
 		return getTypeId(edgeTypeMap, et);
 	}
 
+	@Override
 	public final int getId(NodeType nt)
 	{
 		return getTypeId(nodeTypeMap, nt);
 	}
 
+	@Override
 	public final int getId(Type t, boolean forNode)
 	{
 		return forNode ? getTypeId(nodeTypeMap, t) : getTypeId(edgeTypeMap, t);
 	}
 
+	@Override
 	public final short[][] getIsAMatrix(boolean forNode)
 	{
 		return forNode ? nodeTypeIsAMatrix : edgeTypeIsAMatrix;
 	}
 
+	@Override
 	public final String getTypeName(boolean forNode, int obj)
 	{
 		return forNode ? nodeTypeNames[obj] : edgeTypeNames[obj];
 	}
 
+	@Override
 	public final int[] getSuperTypes(boolean forNode, int obj)
 	{
 		return forNode ? nodeTypeSuperTypes[obj] : edgeTypeSuperTypes[obj];
 	}
 
+	@Override
 	public final int[] getSubTypes(boolean forNode, int obj)
 	{
 		return forNode ? nodeTypeSubTypes[obj] : edgeTypeSubTypes[obj];
 	}
 
+	@Override
 	public final int getRootType(boolean forNode)
 	{
 		return forNode ? nodeRoot : edgeRoot;
 	}
 
+	@Override
 	public final int[] getIDs(boolean forNode)
 	{
 		Map<? extends Identifiable, Integer> map = forNode

@@ -29,6 +29,7 @@ public class ProcedureInvocation extends ProcedureInvocationBase
 		this.procedure = procedure;
 	}
 
+	@Override
 	public ProcedureBase getProcedureBase()
 	{
 		return procedure;

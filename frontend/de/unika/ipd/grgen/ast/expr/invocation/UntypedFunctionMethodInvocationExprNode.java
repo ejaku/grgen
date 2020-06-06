@@ -54,6 +54,7 @@ public class UntypedFunctionMethodInvocationExprNode extends FunctionInvocationB
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		return true;

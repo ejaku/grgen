@@ -25,6 +25,7 @@ public abstract class Type extends Identifiable
 {
 	/** helper class for comparing objects of type Type, used in compareTo, overwriting comparteTo of Identifiable */
 	private static final Comparator<Type> COMPARATOR = new Comparator<Type>() {
+		@Override
 		public int compare(Type t1, Type t2)
 		{
 			if(t1.isEqual(t2))
@@ -126,6 +127,7 @@ public abstract class Type extends Identifiable
 		return COMPARATOR;
 	}
 
+	@Override
 	public int compareTo(Identifiable id)
 	{
 		if(id instanceof Type) {

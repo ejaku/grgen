@@ -32,6 +32,7 @@ public class CollectChecker implements Checker
 
 	/** Check if the node is a collect node and if so apply the child checker to all children.
 	 *  @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter) */
+	@Override
 	public boolean check(BaseNode bn, ErrorReporter reporter)
 	{
 		if(bn instanceof CollectNode<?>) {

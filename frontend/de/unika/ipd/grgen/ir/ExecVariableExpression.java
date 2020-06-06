@@ -33,10 +33,12 @@ public class ExecVariableExpression extends Expression
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}
 
+	@Override
 	public boolean equals(Object other)
 	{
 		if(!(other instanceof ExecVariableExpression))
@@ -44,6 +46,7 @@ public class ExecVariableExpression extends Expression
 		return var == ((ExecVariableExpression)other).getVariable();
 	}
 
+	@Override
 	public int hashCode()
 	{
 		return var.hashCode();

@@ -37,6 +37,7 @@ public class NullConstNode extends ConstNode
 	public static class Value
 	{
 		public static Value NULL = new Value() {
+			@Override
 			public String toString()
 			{
 				return "Const null";
@@ -47,6 +48,7 @@ public class NullConstNode extends ConstNode
 		{
 		}
 
+		@Override
 		public boolean equals(Object val)
 		{
 			return(this == val);

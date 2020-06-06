@@ -21,6 +21,7 @@ public class GraphClearProc extends BuiltinProcedureInvocationBase
 		super("graph clear procedure");
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.needsGraph();

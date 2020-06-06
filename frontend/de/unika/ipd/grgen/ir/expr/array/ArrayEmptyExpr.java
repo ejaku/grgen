@@ -22,6 +22,7 @@ public class ArrayEmptyExpr extends ArrayFunctionMethodInvocationBaseExpr
 		super("array empty expression", BooleanType.getType(), targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

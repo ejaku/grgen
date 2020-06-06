@@ -57,6 +57,7 @@ public class IteratedFiltering extends EvalStatement
 		return filterInvocations.get(i);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		for(FilterInvocation filterInvocation : filterInvocations) {

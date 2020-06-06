@@ -23,6 +23,7 @@ public class MultiRuleQueryExpr extends Expression
 		super("multi rule query", targetType);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

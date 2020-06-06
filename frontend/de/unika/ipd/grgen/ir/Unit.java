@@ -101,6 +101,7 @@ public class Unit extends IR implements ActionsBearer
 		subpatternRules.add(subpatternRule);
 	}
 
+	@Override
 	public Collection<Rule> getSubpatternRules()
 	{
 		return Collections.unmodifiableCollection(subpatternRules);
@@ -112,6 +113,7 @@ public class Unit extends IR implements ActionsBearer
 		actionRules.add(actionRule);
 	}
 
+	@Override
 	public Collection<Rule> getActionRules()
 	{
 		return Collections.unmodifiableCollection(actionRules);
@@ -123,6 +125,7 @@ public class Unit extends IR implements ActionsBearer
 		filterFunctions.add(filterFunction);
 	}
 
+	@Override
 	public Collection<FilterFunction> getFilterFunctions()
 	{
 		return Collections.unmodifiableCollection(filterFunctions);
@@ -134,6 +137,7 @@ public class Unit extends IR implements ActionsBearer
 		matchClasses.add(matchClass);
 	}
 
+	@Override
 	public Collection<DefinedMatchType> getMatchClasses()
 	{
 		return Collections.unmodifiableCollection(matchClasses);
@@ -145,6 +149,7 @@ public class Unit extends IR implements ActionsBearer
 		matchClassFilterFunctions.add(matchClassFilterFunction);
 	}
 
+	@Override
 	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions()
 	{
 		return Collections.unmodifiableCollection(matchClassFilterFunctions);
@@ -156,6 +161,7 @@ public class Unit extends IR implements ActionsBearer
 		functions.add(function);
 	}
 
+	@Override
 	public Collection<Function> getFunctions()
 	{
 		return Collections.unmodifiableCollection(functions);
@@ -167,6 +173,7 @@ public class Unit extends IR implements ActionsBearer
 		procedures.add(procedure);
 	}
 
+	@Override
 	public Collection<Procedure> getProcedures()
 	{
 		return Collections.unmodifiableCollection(procedures);
@@ -178,6 +185,7 @@ public class Unit extends IR implements ActionsBearer
 		sequences.add(sequence);
 	}
 
+	@Override
 	public Collection<Sequence> getSequences()
 	{
 		return Collections.unmodifiableCollection(sequences);
@@ -216,12 +224,14 @@ public class Unit extends IR implements ActionsBearer
 		return filename;
 	}
 
+	@Override
 	public void addFields(Map<String, Object> fields)
 	{
 		super.addFields(fields);
 		fields.put("models", models.iterator());
 	}
 
+	@Override
 	protected void canonicalizeLocal()
 	{
 		//Collections.sort(models, Identifiable.COMPARATOR);
@@ -234,6 +244,7 @@ public class Unit extends IR implements ActionsBearer
 		}
 	}
 
+	@Override
 	public void addToDigest(StringBuffer sb)
 	{
 		for(Iterator<Model> it = models.iterator(); it.hasNext();) {

@@ -31,6 +31,7 @@ public class MapVarRemoveItem extends ContainerVarProcedureMethodInvocationBase
 		return keyExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		if(!isGlobalVariable(target))

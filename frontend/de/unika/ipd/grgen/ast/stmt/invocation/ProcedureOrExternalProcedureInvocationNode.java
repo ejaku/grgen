@@ -73,6 +73,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	private static final DeclarationPairResolver<ProcedureDeclNode, ExternalProcedureDeclNode> resolver =
 			new DeclarationPairResolver<ProcedureDeclNode, ExternalProcedureDeclNode>(ProcedureDeclNode.class, ExternalProcedureDeclNode.class);
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		if(!(procedureOrExternalProcedureUnresolved instanceof PackageIdentNode)) {
@@ -98,6 +99,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 		return checkSignatureAdhered();
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
@@ -110,6 +112,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 		return checkSignatureAdhered(pb, procedureOrExternalProcedureUnresolved, false);
 	}
 
+	@Override
 	public Vector<TypeNode> getType()
 	{
 		assert isResolved();

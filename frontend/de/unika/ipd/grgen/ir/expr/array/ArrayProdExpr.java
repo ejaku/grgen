@@ -21,6 +21,7 @@ public class ArrayProdExpr extends ArrayFunctionMethodInvocationBaseExpr
 		super("array prod expr", ((ArrayType)(targetExpr.getType())).valueType, targetExpr);
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);

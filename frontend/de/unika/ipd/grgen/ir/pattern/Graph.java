@@ -66,11 +66,13 @@ public abstract class Graph extends IR
 		}
 
 		/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId() */
+		@Override
 		public String getNodeId()
 		{
 			return nodeId;
 		}
 
+		@Override
 		public String getNodeInfo()
 		{
 			return node.getNodeInfo();
@@ -94,16 +96,19 @@ public abstract class Graph extends IR
 			this.fixedDirection = e.fixedDirection;
 		}
 
+		@Override
 		public String getNodeId()
 		{
 			return nodeId;
 		}
 
+		@Override
 		public int getNodeShape()
 		{
 			return GraphDumper.ELLIPSE;
 		}
 
+		@Override
 		public String getNodeInfo()
 		{
 			return edge.getNodeInfo();

@@ -119,6 +119,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @return A new backend.
 	 * ------------------------------------------ */
 
+	@Override
 	public Backend getBackend()
 	{
 		return this;
@@ -129,6 +130,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.Sys, java.io.File)
 	 * --------------------------------------------------------------------------------------------------------- */
 
+	@Override
 	public void init(Unit unit, Sys system, File outputPath)
 	{
 		super.init(unit, system, outputPath);
@@ -143,6 +145,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @see de.unika.ipd.grgen.be.Backend#generate()
 	 * ---------------------------------------------------- */
 
+	@Override
 	public void generate()
 	{
 		// Emit an include file for Makefiles

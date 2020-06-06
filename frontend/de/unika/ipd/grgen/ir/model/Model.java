@@ -150,6 +150,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		return Collections.unmodifiableCollection(types);
 	}
 
+	@Override
 	public Collection<NodeType> getNodeTypes()
 	{
 		return Collections.unmodifiableCollection(nodeTypes);
@@ -173,6 +174,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		return allNodeTypes;
 	}
 
+	@Override
 	public Collection<EdgeType> getEdgeTypes()
 	{
 		return Collections.unmodifiableCollection(edgeTypes);
@@ -196,6 +198,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		return allEdgeTypes;
 	}
 
+	@Override
 	public Collection<EnumType> getEnumTypes()
 	{
 		return Collections.unmodifiableCollection(enumTypes);
@@ -267,6 +270,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	}
 
 	/** Canonicalize the type model. */
+	@Override
 	protected void canonicalizeLocal()
 	{
 		//Collections.sort(types, Identifiable.COMPARATOR);
@@ -279,6 +283,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		}
 	}
 
+	@Override
 	public void addToDigest(StringBuffer sb)
 	{
 		sb.append(this);
@@ -294,6 +299,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		sb.append(']');
 	}
 
+	@Override
 	public void addFields(Map<String, Object> fields)
 	{
 		super.addFields(fields);

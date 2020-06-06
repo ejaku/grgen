@@ -47,6 +47,7 @@ public class IntegerRangeIterationYield extends NestingStatement
 		return rightExpr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		leftExpr.collectNeededEntities(needs);

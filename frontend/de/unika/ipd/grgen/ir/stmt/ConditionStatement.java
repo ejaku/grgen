@@ -48,6 +48,7 @@ public class ConditionStatement extends NestingStatement
 		return falseCaseStatements;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		conditionExpr.collectNeededEntities(needs);

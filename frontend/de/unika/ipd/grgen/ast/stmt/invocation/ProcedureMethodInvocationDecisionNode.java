@@ -85,6 +85,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean resolveLocal()
 	{
 		if(!target.resolve())
@@ -310,11 +311,13 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 		return true;
 	}
 
+	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
+	@Override
 	public Vector<TypeNode> getType()
 	{
 		return result.getType();

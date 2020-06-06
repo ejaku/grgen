@@ -37,6 +37,7 @@ public class DefinedMatchType extends CompoundType implements ContainedInPackage
 		matchClassFilters = new ArrayList<MatchClassFilter>();
 	}
 
+	@Override
 	public String getPackageContainedIn()
 	{
 		return packageContainedIn;
@@ -78,6 +79,7 @@ public class DefinedMatchType extends CompoundType implements ContainedInPackage
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
+	@Override
 	public int classify()
 	{
 		return IS_DEFINED_MATCH;

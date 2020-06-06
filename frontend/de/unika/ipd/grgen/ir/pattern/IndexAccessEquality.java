@@ -24,6 +24,7 @@ public class IndexAccessEquality extends IndexAccess
 		this.expr = expr;
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		expr.collectNeededEntities(needs);

@@ -36,6 +36,7 @@ public class NullReporter extends Reporter
 	 * Do nothing here
 	 * @see de.unika.ipd.grgen.util.report.Reporter#report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)
 	 */
+	@Override
 	public void report(int channel, Location loc, String msg)
 	{
 	}
@@ -44,6 +45,7 @@ public class NullReporter extends Reporter
 	 * Do nothing here
 	 * @see de.unika.ipd.grgen.util.report.Reporter#report(int, java.lang.String)
 	 */
+	@Override
 	public void report(int channel, String msg)
 	{
 	}

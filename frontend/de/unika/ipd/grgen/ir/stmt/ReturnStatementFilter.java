@@ -23,6 +23,7 @@ public class ReturnStatementFilter extends EvalStatement
 		super("return statement filter");
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

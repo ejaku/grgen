@@ -18,6 +18,7 @@ public class DoubleMaxExpr extends BuiltinFunctionInvocationExpr
 		super("doublemax expr", DoubleType.getType());
 	}
 
+	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}
