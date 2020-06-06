@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.ir.model.EnumItem;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
+public class EnumExprNode extends QualIdentNode
 {
 	static {
 		setName(EnumExprNode.class, "enum access expression");

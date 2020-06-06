@@ -77,7 +77,7 @@ public class DumpVisitor extends GraphDumpVisitor
 		Collection<Edge> edges = gr.getEdges();
 
 		for(Iterator<Edge> it = edges.iterator(); it.hasNext();) {
-			Edge edge = (Edge)it.next();
+			Edge edge = it.next();
 			PrefixNode from, to, e;
 
 			e = new PrefixNode(edge, prefix);

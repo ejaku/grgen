@@ -73,7 +73,7 @@ public class Formatter
 					sb.append(")");
 					break;
 				}
-				// FALL THROUGH
+				//$FALL-THROUGH$
 			default:
 				throw new UnsupportedOperationException("Unsupported Operation arrity (" + op.arity() + ")");
 			}

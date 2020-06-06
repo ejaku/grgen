@@ -2607,7 +2607,7 @@ public abstract class CSharpBase
 				sb.append("))");
 				break;
 			}
-			// FALLTHROUGH
+			//$FALL-THROUGH$
 		default:
 			throw new UnsupportedOperationException(
 					"Unsupported operation arity (" + op.arity() + ")");
@@ -2992,12 +2992,13 @@ public abstract class CSharpBase
 		case Type.IS_TYPE:
 			InheritanceType it = (InheritanceType)constant.getValue();
 			return formatTypeClassRef(it) + ".typeVar";
+		case Type.IS_GRAPH:
+			return "null"; // TODO: there is no graph constant - assert instead?
 		case Type.IS_OBJECT:
 			if(constant.getValue() == null) {
 				return "null";
 			}
-		case Type.IS_GRAPH:
-			return "null"; // there is no graph constant - assert instead?
+			//$FALL-THROUGH$
 		default:
 			throw new UnsupportedOperationException("unsupported type");
 		}

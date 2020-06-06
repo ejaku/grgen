@@ -104,24 +104,24 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 
 		if(startNodeTypeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)startNodeTypeUnresolved);
-		else if(startNodeTypeUnresolved instanceof IdentNode)
-			fixupDefinition((IdentNode)startNodeTypeUnresolved, startNodeTypeUnresolved.getScope());
+		else
+			fixupDefinition(startNodeTypeUnresolved, startNodeTypeUnresolved.getScope());
 		startNodeType = typeResolver.resolve(startNodeTypeUnresolved, this);
 		if(startNodeType == null)
 			return false;
 
 		if(incidentEdgeTypeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)incidentEdgeTypeUnresolved);
-		else if(incidentEdgeTypeUnresolved instanceof IdentNode)
-			fixupDefinition((IdentNode)incidentEdgeTypeUnresolved, incidentEdgeTypeUnresolved.getScope());
+		else
+			fixupDefinition(incidentEdgeTypeUnresolved, incidentEdgeTypeUnresolved.getScope());
 		incidentEdgeType = typeResolver.resolve(incidentEdgeTypeUnresolved, this);
 		if(incidentEdgeType == null)
 			return false;
 
 		if(adjacentNodeTypeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)adjacentNodeTypeUnresolved);
-		else if(adjacentNodeTypeUnresolved instanceof IdentNode)
-			fixupDefinition((IdentNode)adjacentNodeTypeUnresolved, adjacentNodeTypeUnresolved.getScope());
+		else
+			fixupDefinition(adjacentNodeTypeUnresolved, adjacentNodeTypeUnresolved.getScope());
 		adjacentNodeType = typeResolver.resolve(adjacentNodeTypeUnresolved, this);
 		if(adjacentNodeType == null)
 			return false;

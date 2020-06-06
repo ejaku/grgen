@@ -17,7 +17,6 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.Checker;
@@ -27,7 +26,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Node;
 
-public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode implements NodeCharacter
+public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode
 {
 	static {
 		setName(NodeInterfaceTypeChangeDeclNode.class, "node interface type change decl");

@@ -39,12 +39,6 @@ public class UntypedExecVarTypeNode extends BasicTypeNode
 		private Value()
 		{
 		}
-
-		@Override
-		public boolean equals(Object val)
-		{
-			return(this == val);
-		}
 	}
 
 	public UntypedExecVarTypeNode()

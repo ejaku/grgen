@@ -17,7 +17,6 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.Checker;
@@ -27,7 +26,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 
-public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode implements EdgeCharacter
+public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 {
 	static {
 		setName(EdgeInterfaceTypeChangeDeclNode.class, "edge interface type change decl");

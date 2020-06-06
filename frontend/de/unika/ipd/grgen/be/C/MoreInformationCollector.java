@@ -267,29 +267,24 @@ public class MoreInformationCollector extends InformationCollector
 			negative_node_num.set(act_id, new Vector<Map<Node, Integer>>(max_n_negative_patterns));
 
 			/* if action has negative pattern graphs, compute node/edge numbers */
-			if(act instanceof MatchingAction) {
-				for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
-					int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
-					negative_node_num.get(act_id).set(neg_num, new HashMap<Node, Integer>());
-					negative_edge_num.get(act_id).set(neg_num, new HashMap<Edge, Integer>());
+			for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
+				negative_node_num.get(act_id).set(neg_num, new HashMap<Node, Integer>());
+				negative_edge_num.get(act_id).set(neg_num, new HashMap<Edge, Integer>());
 
-					/* fill the map with pairs (node, node_num) */
-					int node_num = 0;
-					for(Node node : neg_pattern.getNodes()) {
-						negative_node_num.get(act_id).get(neg_num).put(node, new Integer(node_num++));
-					}
-					assert node_num == neg_pattern.getNodes().size() : "Wrong number of node_nums was created";
-
-					/* fill the map with pairs (edge, edge_num) */
-					int edge_num = 0;
-					for(Edge edge : neg_pattern.getEdges()) {
-						negative_edge_num.get(act_id).get(neg_num).put(edge, new Integer(edge_num++));
-					}
-					assert edge_num == neg_pattern.getEdges().size() : "Wrong number of edge_nums was created";
+				/* fill the map with pairs (node, node_num) */
+				int node_num = 0;
+				for(Node node : neg_pattern.getNodes()) {
+					negative_node_num.get(act_id).get(neg_num).put(node, new Integer(node_num++));
 				}
-			} else {
-				//negative_node_num[act_id][neg_num] = null;
-				//negative_edge_num[act_id][neg_num] = null;
+				assert node_num == neg_pattern.getNodes().size() : "Wrong number of node_nums was created";
+
+				/* fill the map with pairs (edge, edge_num) */
+				int edge_num = 0;
+				for(Edge edge : neg_pattern.getEdges()) {
+					negative_edge_num.get(act_id).get(neg_num).put(edge, new Integer(edge_num++));
+				}
+				assert edge_num == neg_pattern.getEdges().size() : "Wrong number of edge_nums was created";
 			}
 		}
 	}
@@ -347,20 +342,18 @@ public class MoreInformationCollector extends InformationCollector
 		for(Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
-			if(action instanceof MatchingAction) {
-				for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
-					int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
+			for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
-					Collection<Edge> negatives_also_in_pattern = new HashSet<Edge>();
-					negatives_also_in_pattern.addAll(neg_pattern.getEdges());
-					negatives_also_in_pattern.retainAll(action.getPattern().getEdges());
+				Collection<Edge> negatives_also_in_pattern = new HashSet<Edge>();
+				negatives_also_in_pattern.addAll(neg_pattern.getEdges());
+				negatives_also_in_pattern.retainAll(action.getPattern().getEdges());
 
-					for(Edge edge : negatives_also_in_pattern) {
-						int edge_num = pattern_edge_num.get(act_id).get(edge).intValue();
+				for(Edge edge : negatives_also_in_pattern) {
+					int edge_num = pattern_edge_num.get(act_id).get(edge).intValue();
 
-						patternEdgeIsNegativeEdge[act_id][neg_num][edge_num] =
-								negative_edge_num.get(act_id).get(neg_num).get(edge).intValue();
-					}
+					patternEdgeIsNegativeEdge[act_id][neg_num][edge_num] =
+							negative_edge_num.get(act_id).get(neg_num).get(edge).intValue();
 				}
 			}
 		}
@@ -454,63 +447,61 @@ public class MoreInformationCollector extends InformationCollector
 		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
-			if(act instanceof MatchingAction) {
-				//iterate over negative patterns
-				for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
-					int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
+			//iterate over negative patterns
+			for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
-					/* for all nodes of the current MatchingActions negative pattern graphs
-					 extract that nodes type constraints */
-					for(Node node : neg_pattern.getNodes()) {
-						//if node has type constraints, register the as conditions
-						if(!node.getConstraints().isEmpty()) {
-							//note that a type condition is the set of all types,
-							//the corresponding node/edge is not allowed to be of
-							Collection<InheritanceType> type_condition = node.getConstraints();
+				/* for all nodes of the current MatchingActions negative pattern graphs
+				 extract that nodes type constraints */
+				for(Node node : neg_pattern.getNodes()) {
+					//if node has type constraints, register the as conditions
+					if(!node.getConstraints().isEmpty()) {
+						//note that a type condition is the set of all types,
+						//the corresponding node/edge is not allowed to be of
+						Collection<InheritanceType> type_condition = node.getConstraints();
 
-							//...create condition numbers
-							typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
+						//...create condition numbers
+						typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
 
-							//...extract the pattern nodes and edges involved in the condition
-							Collection<Node> involvedNodes = new HashSet<Node>();
-							involvedNodes.add(node);
-							//and at these Collections to prepared Maps
-							typeConditionsInvolvedNodes.put(type_condition, involvedNodes);
-							Collection<Edge> empty = Collections.emptySet();
-							typeConditionsInvolvedEdges.put(type_condition, empty);
+						//...extract the pattern nodes and edges involved in the condition
+						Collection<Node> involvedNodes = new HashSet<Node>();
+						involvedNodes.add(node);
+						//and at these Collections to prepared Maps
+						typeConditionsInvolvedNodes.put(type_condition, involvedNodes);
+						Collection<Edge> empty = Collections.emptySet();
+						typeConditionsInvolvedEdges.put(type_condition, empty);
 
-							//..store the negative pattern num the conditions belongs to
-							typeConditionsPatternNum.put(type_condition, new Integer(neg_num + 1));
+						//..store the negative pattern num the conditions belongs to
+						typeConditionsPatternNum.put(type_condition, new Integer(neg_num + 1));
 
-							//store the subcondition in an ordered Collection
-							typeConditions.get(act_id).add(type_condition);
-						}
+						//store the subcondition in an ordered Collection
+						typeConditions.get(act_id).add(type_condition);
 					}
-					//do the same thing for all edges of the current pattern
-					for(Edge edge : neg_pattern.getEdges()) {
-						//if node has type constraints, register the as conditions
-						if(!edge.getConstraints().isEmpty()) {
-							//note that a type condition is the set of all types,
-							//the corresponding edge is not allowed to be of
-							Collection<InheritanceType> type_condition = edge.getConstraints();
+				}
+				//do the same thing for all edges of the current pattern
+				for(Edge edge : neg_pattern.getEdges()) {
+					//if node has type constraints, register the as conditions
+					if(!edge.getConstraints().isEmpty()) {
+						//note that a type condition is the set of all types,
+						//the corresponding edge is not allowed to be of
+						Collection<InheritanceType> type_condition = edge.getConstraints();
 
-							//...create condition numbers
-							typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
+						//...create condition numbers
+						typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
 
-							//...extract the pattern edges and edges involved in the condition
-							Collection<Edge> involvedEdges = new HashSet<Edge>();
-							involvedEdges.add(edge);
-							//and at these Collections to prepared Maps
-							Collection<Node> empty = Collections.emptySet();
-							typeConditionsInvolvedNodes.put(type_condition, empty);
-							typeConditionsInvolvedEdges.put(type_condition, involvedEdges);
+						//...extract the pattern edges and edges involved in the condition
+						Collection<Edge> involvedEdges = new HashSet<Edge>();
+						involvedEdges.add(edge);
+						//and at these Collections to prepared Maps
+						Collection<Node> empty = Collections.emptySet();
+						typeConditionsInvolvedNodes.put(type_condition, empty);
+						typeConditionsInvolvedEdges.put(type_condition, involvedEdges);
 
-							//..store the negative pattern num the conditions belongs to
-							typeConditionsPatternNum.put(type_condition, new Integer(neg_num + 1));
+						//..store the negative pattern num the conditions belongs to
+						typeConditionsPatternNum.put(type_condition, new Integer(neg_num + 1));
 
-							//store the subcondition in an ordered Collection
-							typeConditions.get(act_id).add(type_condition);
-						}
+						//store the subcondition in an ordered Collection
+						typeConditions.get(act_id).add(type_condition);
 					}
 				}
 			}
@@ -670,7 +661,7 @@ public class MoreInformationCollector extends InformationCollector
 						max_prio_node = node;
 					}
 				}
-				first_subgraph[act_id] = ((Integer)subgraphOfNode.get(max_prio_node)).intValue();
+				first_subgraph[act_id] = subgraphOfNode.get(max_prio_node).intValue();
 			} else {
 				first_subgraph[act_id] = 0;
 			}

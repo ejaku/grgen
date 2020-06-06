@@ -140,6 +140,12 @@ public class Coords implements Location
 		return res;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return ( (filename != null ? filename.hashCode() : 13) * 31 + line ) * 31 + col;
+	}
+	
 	/**
 	 * Get the line of the coordinates.
 	 * @return The line.

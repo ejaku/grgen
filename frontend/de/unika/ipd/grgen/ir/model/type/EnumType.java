@@ -80,7 +80,7 @@ public class EnumType extends PrimitiveType implements ContainedInPackage
 
 		int i = 0;
 		for(Iterator<EnumItem> it = items.iterator(); it.hasNext(); i++) {
-			EnumItem ent = (EnumItem)it.next();
+			EnumItem ent = it.next();
 			if(i > 0)
 				sb.append(',');
 			sb.append(ent);

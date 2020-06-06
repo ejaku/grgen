@@ -320,7 +320,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 					genExpressionTree(sb, op.getOperand(2), className, pathPrefix, alreadyDefinedEntityToName);
 					break;
 				}
-				// FALLTHROUGH
+				//$FALL-THROUGH$
 			default:
 				throw new UnsupportedOperationException(
 						"Unsupported operation arity (" + op.arity() + ")");

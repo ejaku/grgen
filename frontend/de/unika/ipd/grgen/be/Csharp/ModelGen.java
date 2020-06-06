@@ -3390,9 +3390,9 @@ commonLoop:
 		case INVALID:
 			throw new RuntimeException("Internal compiler error");
 		}
-		sb.append(formatTypeClassRefInstance(((IncidenceCountIndex)index).getStartNodeType()) + ", ");
-		sb.append(formatTypeClassRefInstance(((IncidenceCountIndex)index).getIncidentEdgeType()) + ", ");
-		sb.append(formatTypeClassRefInstance(((IncidenceCountIndex)index).getAdjacentNodeType()));
+		sb.append(formatTypeClassRefInstance(index.getStartNodeType()) + ", ");
+		sb.append(formatTypeClassRefInstance(index.getIncidentEdgeType()) + ", ");
+		sb.append(formatTypeClassRefInstance(index.getAdjacentNodeType()));
 		sb.append("),\n");
 	}
 

@@ -71,8 +71,8 @@ public class ArrayTypeNode extends ContainerTypeNode
 	{
 		if(valueTypeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)valueTypeUnresolved);
-		else if(valueTypeUnresolved instanceof IdentNode)
-			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
+		else
+			fixupDefinition(valueTypeUnresolved, valueTypeUnresolved.getScope());
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
 
 		if(valueType == null)

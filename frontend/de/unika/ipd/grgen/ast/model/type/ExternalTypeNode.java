@@ -30,7 +30,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
 import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
 import de.unika.ipd.grgen.ir.model.type.ExternalType;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
 /**
  * A class representing a node type
@@ -141,7 +140,7 @@ public class ExternalTypeNode extends InheritanceTypeNode
 			}
 		}
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {
-			extType.addDirectSuperType((InheritanceType)inh.getType());
+			extType.addDirectSuperType(inh.getType());
 		}
 	}
 

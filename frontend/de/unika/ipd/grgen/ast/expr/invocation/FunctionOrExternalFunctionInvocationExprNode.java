@@ -76,7 +76,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 	protected boolean resolveLocal()
 	{
 		if(!(functionOrExternalFunctionUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition((IdentNode)functionOrExternalFunctionUnresolved,
+			fixupDefinition(functionOrExternalFunctionUnresolved,
 					functionOrExternalFunctionUnresolved.getScope());
 		}
 		Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved =

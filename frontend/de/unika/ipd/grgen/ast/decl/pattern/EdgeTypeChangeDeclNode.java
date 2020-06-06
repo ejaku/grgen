@@ -21,7 +21,6 @@ import de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.Checker;
@@ -35,7 +34,7 @@ import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
 /**
  * An edge which is created by retyping, with the old edge
  */
-public class EdgeTypeChangeDeclNode extends EdgeDeclNode implements EdgeCharacter
+public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 {
 	static {
 		setName(EdgeTypeChangeDeclNode.class, "edge type change decl");

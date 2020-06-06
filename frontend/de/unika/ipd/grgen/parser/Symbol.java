@@ -198,30 +198,16 @@ public class Symbol
 	 */
 	public Symbol(String text, SymbolTable symbolTable)
 	{
+		assert(text != null);
 		this.text = text;
 		this.symbolTable = symbolTable;
 	}
 
-	/**
-	 * Compare two symbols.
-	 * Two symbols are equal, if they represent the same string and
-	 * are defined in the same symbol table.
-	 * @param obj Another symbol.
-	 * @return true, if the both symbols represent the same symbol,
-	 * false if not.
-	 */
-	@Override
-	public boolean equals(Object obj)
-	{
-		if(obj instanceof Symbol) {
-			Symbol sym = (Symbol)obj;
-			return text.equals(sym.getText())
-					&& symbolTable.equals(sym.getSymbolTable());
-		}
-
-		return false;
-	}
-
+	// Two symbols are equal, if they represent the same string and
+	// are defined in the same symbol table.
+	// This holds if they are compared for object/reference identity.
+	// Removed the equals implementation (previously available at this place).
+	
 	/**
 	 * Get the symbol table, the symbol was defined in.
 	 * @param The symbol table.
@@ -260,7 +246,7 @@ public class Symbol
 
 	public String getText()
 	{
-		return text != null ? text : "<invalid>";
+		return /*text != null ? */text/* : "<invalid>"*/;
 	}
 
 	@Override

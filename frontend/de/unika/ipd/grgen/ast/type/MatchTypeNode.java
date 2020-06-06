@@ -111,7 +111,7 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 	protected boolean resolveLocal()
 	{
 		if(!(actionUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition((IdentNode)actionUnresolved, actionUnresolved.getScope());
+			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
 		}
 		action = actionResolver.resolve(actionUnresolved, this);
 		if(action == null)

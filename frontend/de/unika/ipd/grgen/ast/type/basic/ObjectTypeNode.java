@@ -40,12 +40,6 @@ public class ObjectTypeNode extends BasicTypeNode
 		private Value()
 		{
 		}
-
-		@Override
-		public boolean equals(Object val)
-		{
-			return(this == val);
-		}
 	}
 
 	public ObjectTypeNode()

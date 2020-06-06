@@ -84,7 +84,7 @@ public class IteratedFilteringNode extends EvalStatementNode
 	protected boolean resolveLocal()
 	{
 		if(!(actionUnresolved instanceof PackageIdentNode))
-			fixupDefinition((IdentNode)actionUnresolved, actionUnresolved.getScope());
+			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
 
 		Pair<TestDeclNode, SubpatternDeclNode> actionOrSubpattern = actionOrSubpatternResolver.resolve(actionUnresolved, this);
 		if(actionOrSubpattern == null || actionOrSubpattern.fst == null && actionOrSubpattern.snd == null)

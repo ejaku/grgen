@@ -77,7 +77,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	protected boolean resolveLocal()
 	{
 		if(!(procedureOrExternalProcedureUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition((IdentNode)procedureOrExternalProcedureUnresolved, procedureOrExternalProcedureUnresolved.getScope());
+			fixupDefinition(procedureOrExternalProcedureUnresolved, procedureOrExternalProcedureUnresolved.getScope());
 		}
 		Pair<ProcedureDeclNode, ExternalProcedureDeclNode> resolved = resolver.resolve(procedureOrExternalProcedureUnresolved, this);
 		if(resolved == null) {

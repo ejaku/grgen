@@ -67,7 +67,7 @@ public class DeclExprNode extends ExprNode
 	{
 		super(declCharacter.getCoords());
 		this.declUnresolved = declCharacter;
-		this.decl = (DeclaredCharacter)declCharacter;
+		this.decl = declCharacter;
 		becomeParent(this.declUnresolved);
 	}
 

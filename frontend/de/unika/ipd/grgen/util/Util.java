@@ -303,8 +303,9 @@ public class Util
 				FileChannel targetChannel = targetStream.getChannel()) {
 			long count = 0;
 			long size = sourceChannel.size();
-			while((count += targetChannel.transferFrom(sourceChannel, count, size - count)) < size)
-				;
+			while((count += targetChannel.transferFrom(sourceChannel, count, size - count)) < size) {
+				// empty
+			}
 		}
 	}
 }

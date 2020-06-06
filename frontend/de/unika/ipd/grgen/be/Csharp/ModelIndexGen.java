@@ -1193,7 +1193,7 @@ public class ModelIndexGen extends CSharpBase
 	void genIndexImplementation(IncidenceCountIndex index, int indexNum)
 	{
 		String indexName = index.getIdent().toString();
-		String graphElementType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
 		String modelName = model.getIdent().toString() + "GraphModel";
 		sb.appendFront("public class Index" + indexName + "Impl : Index" + indexName + "\n");
 		sb.appendFront("{\n");
@@ -1403,7 +1403,7 @@ public class ModelIndexGen extends CSharpBase
 
 	void genEqual(IncidenceCountIndex index)
 	{
-		String graphElementType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
 
 		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup(TreeNode current, int fromto)\n");
 		sb.appendFront("{\n");
@@ -1464,7 +1464,7 @@ public class ModelIndexGen extends CSharpBase
 			boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = "int";
-		String graphElementType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
 
 		String lookupMethodNameAppendix = "Ascending";
 		if(fromConstrained) {
@@ -1572,7 +1572,7 @@ public class ModelIndexGen extends CSharpBase
 			boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = "int";
-		String graphElementType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
 
 		String lookupMethodNameAppendix = "Descending";
 		if(fromConstrained) {
@@ -1694,7 +1694,7 @@ public class ModelIndexGen extends CSharpBase
 
 	void genCheckDump(IncidenceCountIndex index)
 	{
-		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		String startNodeType = formatElementInterfaceRef(index.getStartNodeType());
 
 		sb.appendFront("protected void Check(TreeNode current)\n");
 		sb.appendFront("{\n");
@@ -1751,9 +1751,9 @@ public class ModelIndexGen extends CSharpBase
 
 	void genIndexMaintainingEventHandlers(IncidenceCountIndex index)
 	{
-		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
-		String incidentEdgeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getIncidentEdgeType());
-		String incidentEdgeTypeType = formatTypeClassRefInstance(((IncidenceCountIndex)index).getIncidentEdgeType());
+		String startNodeType = formatElementInterfaceRef(index.getStartNodeType());
+		String incidentEdgeType = formatElementInterfaceRef(index.getIncidentEdgeType());
+		String incidentEdgeTypeType = formatTypeClassRefInstance(index.getIncidentEdgeType());
 
 		sb.appendFront("void ClearingGraph()\n");
 		sb.appendFront("{\n");
@@ -1884,8 +1884,8 @@ public class ModelIndexGen extends CSharpBase
 
 	void genIndexMaintainingEdgeAdded(IncidenceCountIndex index)
 	{
-		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
-		String adjacentNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getAdjacentNodeType());
+		String startNodeType = formatElementInterfaceRef(index.getStartNodeType());
+		String adjacentNodeType = formatElementInterfaceRef(index.getAdjacentNodeType());
 
 		if(index.Direction() == Direction.OUTGOING) {
 			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
@@ -1935,8 +1935,8 @@ public class ModelIndexGen extends CSharpBase
 
 	void genIndexMaintainingRemovingEdge(IncidenceCountIndex index)
 	{
-		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
-		String adjacentNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getAdjacentNodeType());
+		String startNodeType = formatElementInterfaceRef(index.getStartNodeType());
+		String adjacentNodeType = formatElementInterfaceRef(index.getAdjacentNodeType());
 
 		if(index.Direction() == Direction.OUTGOING) {
 			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
@@ -1986,7 +1986,7 @@ public class ModelIndexGen extends CSharpBase
 
 	void genIndexAATreeBalancingInsertionDeletion(IncidenceCountIndex index)
 	{
-		String graphElementType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
 		String castForUnique = " as GRGEN_LGSP.LGSPNode";
 
 		sb.appendFront("private void Skew(ref TreeNode current)\n");

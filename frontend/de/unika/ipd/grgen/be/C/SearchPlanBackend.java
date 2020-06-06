@@ -46,7 +46,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.type.Type;
 
-public class SearchPlanBackend extends MoreInformationCollector implements Backend, BackendFactory
+public class SearchPlanBackend extends MoreInformationCollector implements BackendFactory
 {
 	private static final int nodesInUse = 1;
 	private static final int edgesInUse = 2;
@@ -396,8 +396,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 							| getUnusedEvalParams(op.getOperand(1))
 							| getUnusedEvalParams(op.getOperand(2));
 				}
+				//$FALL-THROUGH$
 			default:
-				/* nothing */;
+				// nothing to do
 			}
 		} else if(cond instanceof Qualification) {
 			Qualification qual = (Qualification)cond;
@@ -1002,6 +1003,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 					sb.append(")");
 					break;
 				}
+				//$FALL-THROUGH$
 			default:
 				throw new UnsupportedOperationException("Unsupported Operation arrity (" + op.arity() + ")");
 			}

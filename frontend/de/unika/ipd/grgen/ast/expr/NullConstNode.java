@@ -47,12 +47,6 @@ public class NullConstNode extends ConstNode
 		private Value()
 		{
 		}
-
-		@Override
-		public boolean equals(Object val)
-		{
-			return(this == val);
-		}
 	}
 
 	@Override

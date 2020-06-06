@@ -491,7 +491,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			constructAndAddIRChild(inhType, child);
 		}
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {
-			inhType.addDirectSuperType((InheritanceType)inh.getType());
+			inhType.addDirectSuperType(inh.getType());
 		}
 	}
 

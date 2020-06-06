@@ -22,7 +22,6 @@ import de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.Checker;
@@ -37,7 +36,7 @@ import de.unika.ipd.grgen.ir.pattern.RetypedNode;
 /**
  * A node which is created by retyping, with the old node (old nodes in case of a merge)
  */
-public class NodeTypeChangeDeclNode extends NodeDeclNode implements NodeCharacter
+public class NodeTypeChangeDeclNode extends NodeDeclNode
 {
 	static {
 		setName(NodeTypeChangeDeclNode.class, "node type change decl");

@@ -76,12 +76,12 @@ public class MapTypeNode extends ContainerTypeNode
 	{
 		if(keyTypeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)keyTypeUnresolved);
-		else if(keyTypeUnresolved instanceof IdentNode)
-			fixupDefinition((IdentNode)keyTypeUnresolved, keyTypeUnresolved.getScope());
+		else
+			fixupDefinition(keyTypeUnresolved, keyTypeUnresolved.getScope());
 		if(valueTypeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)valueTypeUnresolved);
-		else if(valueTypeUnresolved instanceof IdentNode)
-			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
+		else
+			fixupDefinition(valueTypeUnresolved, valueTypeUnresolved.getScope());
 
 		keyType = typeResolver.resolve(keyTypeUnresolved, this);
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
