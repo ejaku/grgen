@@ -24,7 +24,7 @@ public class EnumExpression extends Constant
 	// See EnumTypeNode.constructIR().
 	public EnumExpression(int value)
 	{
-		super(null, value);
+		super(null, Integer.valueOf(value));
 		setName("enum expression");
 	}
 

@@ -49,7 +49,7 @@ public class EnumConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type)
 	{
 		Integer value = (Integer)getValue();
-		int unboxed = (int)value;
+		int unboxed = value.intValue();
 
 		if(type.isEqual(BasicTypeNode.byteType)) {
 			return new ByteConstNode(getCoords(), (byte)unboxed);
@@ -87,6 +87,6 @@ public class EnumConstNode extends ConstNode
 	{
 		// The EnumExpression is initialized later in EnumTypeNode.constructIR()
 		// to break the circular dependency.
-		return new EnumExpression((int)(Integer)value);
+		return new EnumExpression(((Integer)value).intValue());
 	}
 }

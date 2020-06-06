@@ -247,10 +247,10 @@ public class OperatorEvaluator
 			int a0, a1;
 
 			try {
-				a0 = (Integer)getArgValue(e, op, 0);
+				a0 = ((Integer)getArgValue(e, op, 0)).intValue();
 				a1 = 0;
 				if(OperatorDeclNode.getArity(op.getOpId()) > 1)
-					a1 = (Integer)getArgValue(e, op, 1);
+					a1 = ((Integer)getArgValue(e, op, 1)).intValue();
 			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
@@ -309,10 +309,10 @@ public class OperatorEvaluator
 			long a0, a1;
 
 			try {
-				a0 = (Long)getArgValue(e, op, 0);
+				a0 = ((Long)getArgValue(e, op, 0)).longValue();
 				a1 = 0;
 				if(OperatorDeclNode.getArity(op.getOpId()) > 1)
-					a1 = (Long)getArgValue(e, op, 1);
+					a1 = ((Long)getArgValue(e, op, 1)).longValue();
 			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
@@ -371,10 +371,10 @@ public class OperatorEvaluator
 			float a0, a1;
 
 			try {
-				a0 = (Float)getArgValue(e, op, 0);
+				a0 = ((Float)getArgValue(e, op, 0)).floatValue();
 				a1 = 0;
 				if(OperatorDeclNode.getArity(op.getOpId()) > 1)
-					a1 = (Float)getArgValue(e, op, 1);
+					a1 = ((Float)getArgValue(e, op, 1)).floatValue();
 			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
@@ -417,10 +417,10 @@ public class OperatorEvaluator
 			double a0, a1;
 
 			try {
-				a0 = (Double)getArgValue(e, op, 0);
+				a0 = ((Double)getArgValue(e, op, 0)).doubleValue();
 				a1 = 0;
 				if(OperatorDeclNode.getArity(op.getOpId()) > 1)
-					a1 = (Double)getArgValue(e, op, 1);
+					a1 = ((Double)getArgValue(e, op, 1)).doubleValue();
 			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
@@ -505,10 +505,10 @@ public class OperatorEvaluator
 			boolean a0, a1;
 
 			try {
-				a0 = (Boolean)getArgValue(e, op, 0);
+				a0 = ((Boolean)getArgValue(e, op, 0)).booleanValue();
 				a1 = false;
 				if(OperatorDeclNode.getArity(op.getOpId()) > 1)
-					a1 = (Boolean)getArgValue(e, op, 1);
+					a1 = ((Boolean)getArgValue(e, op, 1)).booleanValue();
 			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
@@ -542,7 +542,7 @@ public class OperatorEvaluator
 		public ExprNode evaluate(ExprNode expr, OperatorDeclNode op, ExprNode[] args)
 		{
 			try {
-				return (Boolean)getArgValue(args, op, 0) ? args[1] : args[2];
+				return ((Boolean)getArgValue(args, op, 0)).booleanValue() ? args[1] : args[2];
 			} catch(ValueException x) {
 				return expr;
 			}

@@ -711,7 +711,7 @@ public class PatternGraphNode extends GraphNode
 	private static void warnIfConditionIsConstant(ExprNode expr)
 	{
 		if(expr instanceof BoolConstNode) {
-			if((Boolean)((BoolConstNode)expr).getValue()) {
+			if(((Boolean)((BoolConstNode)expr).getValue()).booleanValue()) {
 				expr.reportWarning("Condition is always true");
 			} else {
 				expr.reportWarning("Condition is always false, pattern will never match");

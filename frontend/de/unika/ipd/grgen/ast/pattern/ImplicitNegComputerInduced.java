@@ -69,11 +69,11 @@ public class ImplicitNegComputerInduced
 			InducedNode induced = patternGraph.induceds.get(i);
 			Set<NodeDeclNode> inducedNodes = induced.getInducedNodesSet();
 			if(generatedInducedSets.containsKey(inducedNodes)) {
-				InducedNode oldOcc = patternGraph.induceds.get(generatedInducedSets.get(inducedNodes));
+				InducedNode oldOcc = patternGraph.induceds.get(generatedInducedSets.get(inducedNodes).intValue());
 				induced.reportWarning("Same induced statement also occurs at " + oldOcc.getCoords());
 			} else {
 				nodesRequiringPairNeg(inducedNodes);
-				generatedInducedSets.put(inducedNodes, i);
+				generatedInducedSets.put(inducedNodes, Integer.valueOf(i));
 			}
 		}
 
@@ -251,10 +251,10 @@ public class ImplicitNegComputerInduced
 			if(allMarked(candidate)) {
 				String witnessesLoc = "";
 				for(Integer index : witnesses) {
-					witnessesLoc += induceds.get(index).getCoords() + " ";
+					witnessesLoc += induceds.get(index.intValue()).getCoords() + " ";
 				}
 				witnessesLoc = witnessesLoc.trim();
-				induceds.get(candidate.getValue()).reportWarning(
+				induceds.get(candidate.getValue().intValue()).reportWarning(
 						"Induced statement is redundant, since covered by statement(s) at " + witnessesLoc);
 			}
 		}
@@ -272,7 +272,7 @@ public class ImplicitNegComputerInduced
 				edge.add(src);
 				edge.add(tgt);
 
-				markedMap.put(edge, false);
+				markedMap.put(edge, Boolean.valueOf(false));
 			}
 		}
 
@@ -292,7 +292,7 @@ public class ImplicitNegComputerInduced
 						// if witness contains edge
 						if(witness.getKey().containsKey(candidateMarkedMap.getKey())) {
 							// mark Edge
-							candidateMarkedMap.setValue(true);
+							candidateMarkedMap.setValue(Boolean.valueOf(true));
 							// add witness
 							witnesses.add(witness.getValue());
 						}

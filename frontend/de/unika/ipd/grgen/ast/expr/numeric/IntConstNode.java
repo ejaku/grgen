@@ -37,7 +37,7 @@ public class IntConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type)
 	{
 		Integer value = (Integer)getValue();
-		int unboxed = (int)value;
+		int unboxed = value.intValue();
 
 		if(type.isEqual(BasicTypeNode.byteType)) {
 			return new ByteConstNode(getCoords(), (byte)unboxed);

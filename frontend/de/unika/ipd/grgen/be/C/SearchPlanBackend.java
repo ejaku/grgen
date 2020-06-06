@@ -98,9 +98,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		private int computeId(T elem)
 		{
 			if(!idMap.containsKey(elem)) {
-				idMap.put(elem, getMaxIndex() + 1);
+				idMap.put(elem, Integer.valueOf(getMaxIndex() + 1));
 			}
-			return idMap.get(elem);
+			return idMap.get(elem).intValue();
 		}
 
 		private boolean isKnown(T elem)

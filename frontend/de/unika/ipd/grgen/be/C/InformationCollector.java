@@ -340,7 +340,7 @@ public class InformationCollector extends CBackend
 		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
-			conditions.put(act_id, new TreeSet<Expression>(conditionsComparator));
+			conditions.put(Integer.valueOf(act_id), new TreeSet<Expression>(conditionsComparator));
 
 			//iterate over all conditions of the current action
 			for(Expression condition : act.getPattern().getConditions()) {
@@ -361,7 +361,7 @@ public class InformationCollector extends CBackend
 					conditionsInvolvedEdges.put(sub_condition, involvedEdges);
 
 					//store the subcondition in an ordered Collection
-					conditions.get(act_id).add(sub_condition);
+					conditions.get(Integer.valueOf(act_id)).add(sub_condition);
 				}
 			}
 		}
@@ -446,7 +446,7 @@ public class InformationCollector extends CBackend
 			int act_id = actionRuleMap.get(act).intValue();
 
 			//collect the attr ids in dependency of condition and the pattern node
-			for(Expression cond : conditions.get(act_id)) {
+			for(Expression cond : conditions.get(Integer.valueOf(act_id))) {
 				// TODO use or remove it
 				// int cond_num = conditionNumbers.get(cond).intValue();
 

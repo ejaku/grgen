@@ -969,7 +969,7 @@ edgeHom:
 			if(cond instanceof Constant) {
 				if(((Constant)cond).value instanceof Boolean) {
 					Constant constCond = (Constant)cond;
-					if(((Boolean)constCond.value) == true) {
+					if(((Boolean)constCond.value).booleanValue()) {
 						continue;
 					}
 				}

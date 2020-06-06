@@ -37,7 +37,7 @@ public class LongConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type)
 	{
 		Long value = (Long)getValue();
-		long unboxed = (long)value;
+		long unboxed = value.longValue();
 
 		if(type.isEqual(BasicTypeNode.byteType)) {
 			return new ByteConstNode(getCoords(), (byte)unboxed);

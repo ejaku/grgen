@@ -33,7 +33,7 @@ public class DoubleConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type)
 	{
 		Double value = (Double)getValue();
-		double unboxed = (double)value;
+		double unboxed = value.doubleValue();
 
 		if(type.isEqual(BasicTypeNode.byteType)) {
 			return new ByteConstNode(getCoords(), (byte)unboxed);

@@ -33,7 +33,7 @@ public class FloatConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type)
 	{
 		Float value = (Float)getValue();
-		float unboxed = (float)value;
+		float unboxed = value.floatValue();
 
 		if(type.isEqual(BasicTypeNode.byteType)) {
 			return new ByteConstNode(getCoords(), (byte)unboxed);

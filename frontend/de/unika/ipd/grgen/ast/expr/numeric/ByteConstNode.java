@@ -37,7 +37,7 @@ public class ByteConstNode extends ConstNode
 	protected ConstNode doCastTo(TypeNode type)
 	{
 		Byte value = (Byte)getValue();
-		byte unboxed = (byte)value;
+		byte unboxed = value.byteValue();
 
 		if(type.isEqual(BasicTypeNode.shortType)) {
 			return new ShortConstNode(getCoords(), unboxed);

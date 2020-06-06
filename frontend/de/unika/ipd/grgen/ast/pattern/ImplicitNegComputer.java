@@ -93,9 +93,9 @@ public class ImplicitNegComputer
 					exact.reportWarning(exactNode.getUseString() + " "
 							+ exactNode.getIdentNode().getSymbol().getText()
 							+ " already occurs in exact statement at "
-							+ patternGraph.exacts.get(generatedExactNodes.get(exactNode)).getCoords());
+							+ patternGraph.exacts.get(generatedExactNodes.get(exactNode).intValue()).getCoords());
 				} else {
-					generatedExactNodes.put(exactNode, i);
+					generatedExactNodes.put(exactNode, Integer.valueOf(i));
 				}
 			}
 		}
