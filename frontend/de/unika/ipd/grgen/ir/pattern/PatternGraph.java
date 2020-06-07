@@ -632,7 +632,7 @@ public class PatternGraph extends Graph
 					addSingleEdge(edge); // TODO: maybe we loose context here
 					addHomToAll(edge);
 					PatternGraph allReplacement = iterated.getRight();
-					if(iterated != null && !allReplacement.hasEdge(edge)) {
+					if(allReplacement != null && !allReplacement.hasEdge(edge)) {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleEdge(edge);
 					}

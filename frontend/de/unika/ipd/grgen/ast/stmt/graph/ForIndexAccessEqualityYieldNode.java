@@ -16,13 +16,10 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.decl.AttributeIndexDeclNode;
-import de.unika.ipd.grgen.ast.model.decl.IncidenceCountIndexDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -100,13 +97,7 @@ public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode
 			return false;
 
 		boolean res = true;
-		AttributeIndexDeclNode attributeIndex = index instanceof AttributeIndexDeclNode ? (AttributeIndexDeclNode)index : null;
-		IncidenceCountIndexDeclNode incidenceCountIndex = index instanceof IncidenceCountIndexDeclNode
-				? (IncidenceCountIndexDeclNode)index
-				: null;
-		TypeNode expectedIndexAccessType = attributeIndex != null
-				? attributeIndex.member.getDeclType()
-				: IntTypeNode.intType;
+		TypeNode expectedIndexAccessType = index.getExpectedAccessType();
 		TypeNode indexAccessType = expr.getType();
 		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 			String expTypeName = expectedIndexAccessType.getTypeName();
@@ -116,7 +107,7 @@ public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode
 			return false;
 		}
 		TypeNode expectedEntityType = iterationVariable.getDeclType();
-		TypeNode entityType = attributeIndex != null ? attributeIndex.type : incidenceCountIndex.getType();
+		TypeNode entityType = index.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
 			String expTypeName = expectedEntityType.getTypeName();
 			String typeName = entityType.getTypeName();

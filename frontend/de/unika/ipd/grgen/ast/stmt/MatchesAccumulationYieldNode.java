@@ -161,7 +161,7 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 						+ matchesContainerMatchType.toString());
 				return false;
 			}
-		} else /*if(matchesContainerDefinedMatchType!=null && iterationVariableDefinedMatchType!=null)*/ {
+		} else if(matchesContainerDefinedMatchType != null && iterationVariableDefinedMatchType != null) {
 			if(!iterationVariableDefinedMatchType.isEqual(matchesContainerDefinedMatchType)) {
 				reportError("The iteration variable of the for matches loop iterates a different match class type than the matches container (defined by the match class referenced by the match class filter function): "
 						+ iterationVariableDefinedMatchType.toString() + " vs. "

@@ -399,8 +399,10 @@ public class PatternGraphNode extends GraphNode
 					}
 				}
 
-				hom.reportWarning(elem1.ident + " and " + elem2.ident
-						+ " have no common subtype and thus can never match the same element");
+				if(hom != null) {
+					hom.reportWarning(elem1.ident + " and " + elem2.ident
+							+ " have no common subtype and thus can never match the same element");
+				}
 			}
 
 			alreadyProcessed.add(elem1);

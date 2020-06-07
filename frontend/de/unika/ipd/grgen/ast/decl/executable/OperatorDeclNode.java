@@ -447,7 +447,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 		boolean hasVoid = false;
 		boolean hasUntyped = false;
 		boolean checkEnums = false;
-		boolean[] isEnum = null;
+		boolean[] isEnum = new boolean[operandTypes.size()]; // initialized to false
 
 		for(int i = 0; i < operandTypes.size(); i++) {
 			if(operandTypes.get(i) == BasicTypeNode.voidType)
@@ -455,10 +455,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 			else if(operandTypes.get(i) == BasicTypeNode.untypedType)
 				hasUntyped = true;
 			else if(operandTypes.get(i) instanceof EnumTypeNode) {
-				if(isEnum == null) {
-					isEnum = new boolean[operandTypes.size()]; // initialized to false
-					checkEnums = true;
-				}
+				checkEnums = true;
 				isEnum[i] = true;
 			}
 		}

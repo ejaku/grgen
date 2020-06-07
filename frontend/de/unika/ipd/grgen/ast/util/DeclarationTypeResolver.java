@@ -61,14 +61,15 @@ public class DeclarationTypeResolver<T extends BaseNode> extends Resolver<T>
 		DeclNode decl = declResolver.resolve(n);
 		if(decl != null) {
 			decl.resolve();
-		}
 
-		TypeNode resolved = decl.getDeclType();
-		if(cls.isInstance(resolved)) {
-			return cls.cast(resolved);
+			TypeNode resolved = decl.getDeclType();
+			if(cls.isInstance(resolved)) {
+				return cls.cast(resolved);
+			}
+			n.reportError("\"" + n + "\" is a " + resolved.getUseString() +
+					" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
 		}
-		n.reportError("\"" + n + "\" is a " + resolved.getUseString() +
-				" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
+		
 		return null;
 	}
 }

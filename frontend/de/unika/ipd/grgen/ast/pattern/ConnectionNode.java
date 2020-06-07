@@ -211,7 +211,7 @@ public class ConnectionNode extends ConnectionCharacter
 			break;
 		}
 
-		DeclaredTypeNode rootType = rootDecl.getDeclType();
+		DeclaredTypeNode rootType = rootDecl != null ? rootDecl.getDeclType() : null;
 
 		if(!edge.getDeclType().isCompatibleTo(rootType)) {
 			reportError("Edge kind is incompatible with edge type");

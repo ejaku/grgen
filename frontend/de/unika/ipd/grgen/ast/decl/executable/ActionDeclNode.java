@@ -725,9 +725,7 @@ edgeAbstrLoop:
 		}
 
 		// and also to the nested alternatives and iterateds
-		if(right != null) {
-			addReplacementParamsToNestedAlternativesAndIterateds(constructedRule, right);
-		}
+		addReplacementParamsToNestedAlternativesAndIterateds(constructedRule, right);
 	}
 
 	protected void addParams(MatchingAction constructedMatchingAction)
