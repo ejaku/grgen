@@ -20,22 +20,26 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
  */
 public class CompoundAssignmentVar extends EvalStatement
 {
-	public static final int NONE = -1;
-	public static final int UNION = 0;
-	public static final int INTERSECTION = 2;
-	public static final int WITHOUT = 3;
-	public static final int ASSIGN = 4;
+	public enum CompoundAssignmentType
+	{
+		NONE,
+		UNION,
+		INTERSECTION,
+		WITHOUT,
+		CONCATENATE,
+		ASSIGN
+	}
 
 	/** The lhs of the assignment. */
 	private Variable target;
 
 	/** The operation of the compound assignment */
-	private int operation;
+	private CompoundAssignmentType operation;
 
 	/** The rhs of the assignment. */
 	private Expression expr;
 
-	public CompoundAssignmentVar(Variable target, int compoundAssignmentType, Expression expr)
+	public CompoundAssignmentVar(Variable target, CompoundAssignmentType compoundAssignmentType, Expression expr)
 	{
 		super("compound assignment var");
 		this.target = target;
@@ -53,7 +57,7 @@ public class CompoundAssignmentVar extends EvalStatement
 		return expr;
 	}
 
-	public int getOperation()
+	public CompoundAssignmentType getOperation()
 	{
 		return operation;
 	}
@@ -61,7 +65,8 @@ public class CompoundAssignmentVar extends EvalStatement
 	@Override
 	public String toString()
 	{
-		return getTarget() + (operation == UNION ? " |= " : operation == INTERSECTION ? " &= " : " \\= ")
+		return getTarget() + (operation == CompoundAssignmentType.UNION ?
+				" |= " : operation == CompoundAssignmentType.INTERSECTION ? " &= " : " \\= ")
 				+ getExpression();
 	}
 

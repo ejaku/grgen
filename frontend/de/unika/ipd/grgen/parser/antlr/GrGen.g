@@ -3233,8 +3233,8 @@ computations [ boolean onLHS, boolean isSimple, int context, PatternGraphNode di
 computation [ boolean onLHS, boolean isSimple, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 options { k = 5; }
 	@init{
-		int cat = -1; // compound assign type
-		int ccat = CompoundAssignNode.NONE; // changed compound assign type
+		CompoundAssignNode.CompoundAssignmentType cat = CompoundAssignNode.CompoundAssignmentType.NONE; // compound assign type
+		CompoundAssignNode.CompoundAssignmentType ccat = CompoundAssignNode.CompoundAssignmentType.NONE; // changed compound assign type
 		BaseNode tgtChanged = null;
 		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
 		boolean yielded = false, methodCall = false, attributeMethodCall = false, packPrefix = false;
@@ -3245,93 +3245,127 @@ options { k = 5; }
 	}
 
 	: (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[context, false] SEMI//'false' because this rule is not used for the assignments in enum item decls
-		{ res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, context); }
-		{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in yield, only yield assignment to a def variable allowed."); }
-		{ if(isSimple && dc!=null) reportError(getCoords(dc), "Assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, context); 
+			if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in yield, only yield assignment to a def variable allowed.");
+			if(isSimple && dc!=null) reportError(getCoords(dc), "Assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse a=ASSIGN e=expr[context, false] SEMI
-		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context, onLHS); }
-		{ if(isSimple && dc!=null) reportError(getCoords(dc), "Assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
-		{ if(isSimple && yielded) reportError(getCoords(y), "Yield assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context, onLHS);
+			if(isSimple && dc!=null) reportError(getCoords(dc), "Assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+			if(isSimple && yielded) reportError(getCoords(y), "Yield assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  vis=visited[context] a=ASSIGN e=expr[context, false] SEMI
-		{ res = new AssignVisitedNode(getCoords(a), vis, e, context); }
-		{ if(onLHS) reportError(getCoords(a), "Assignment to a visited flag is forbidden in yield."); }
+		{
+			res = new AssignVisitedNode(getCoords(a), vis, e, context);
+			if(onLHS) reportError(getCoords(a), "Assignment to a visited flag is forbidden in yield.");
+		}
 	|
 	  n=NAMEOF LPAREN (id=expr[context, false])? RPAREN a=ASSIGN e=expr[context, false] SEMI
-	    { res = new AssignNameofNode(getCoords(a), id, e, context); }
-		{ if(onLHS) reportError(getCoords(a), "Name assignment is forbidden in yield."); }
+		{
+			res = new AssignNameofNode(getCoords(a), id, e, context);
+			if(onLHS) reportError(getCoords(a), "Name assignment is forbidden in yield.");
+		}
 	|
 	  (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[context, false] RBRACK a=ASSIGN e=expr[context, false] SEMI //'false' because this rule is not used for the assignments in enum item decls
-		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx, context); }
-		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in yield, only yield indexed assignment to a def variable allowed."); }
-		{ if(isSimple && dc!=null) reportError(getCoords(dc), "Indexed assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx, context);
+			if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in yield, only yield indexed assignment to a def variable allowed.");
+			if(isSimple && dc!=null) reportError(getCoords(dc), "Indexed assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[context, false] RBRACK a=ASSIGN e=expr[context, false] SEMI
-		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx, context, onLHS); }
-		{ if(isSimple && dc!=null) reportError(getCoords(dc), "Indexed assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
-		{ if(isSimple && yielded) reportError(getCoords(y), "Yield indexed assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx, context, onLHS);
+			if(isSimple && dc!=null) reportError(getCoords(dc), "Indexed assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+			if(isSimple && yielded) reportError(getCoords(y), "Yield indexed assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	| 
 	  (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
-		(a=BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | a=BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
-			| a=BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | a=PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
+		(a=BOR_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.UNION; } | a=BAND_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.INTERSECTION; }
+			| a=BACKSLASH_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.WITHOUT; } | a=PLUS_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.CONCATENATE; })
 		e=expr[context, false] ( at=assignTo[context] { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
-			{ res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged); }
-			{ if(onLHS) reportError(getCoords(d), "Compound assignment to an attribute is forbidden in yield, only yield assignment to a def variable allowed."); }
-			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
-			{ if(isSimple && dc!=null) reportError(getCoords(dc), "Compound assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged);
+			if(onLHS) reportError(getCoords(d), "Compound assignment to an attribute is forbidden in yield, only yield assignment to a def variable allowed.");
+			if(cat==CompoundAssignNode.CompoundAssignmentType.CONCATENATE && ccat!=CompoundAssignNode.CompoundAssignmentType.NONE)
+				reportError(getCoords(d), "No change assignment allowed for array|deque concatenation.");
+			if(isSimple && dc!=null) reportError(getCoords(dc), "Compound assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse 
-		(a=BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | a=BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
-			| a=BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | a=PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
+		(a=BOR_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.UNION; } | a=BAND_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.INTERSECTION; } 
+			| a=BACKSLASH_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.WITHOUT; } | a=PLUS_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.CONCATENATE; })
 		e=expr[context, false] ( at=assignTo[context] { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
-			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, yielded), cat, e, ccat, tgtChanged); }
-			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
-			{ if(isSimple && dc!=null) reportError(getCoords(dc), "Compound assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
-			{ if(isSimple && yielded) reportError(getCoords(y), "Yield compound assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, yielded), cat, e, ccat, tgtChanged);
+			if(cat==CompoundAssignNode.CompoundAssignmentType.CONCATENATE && ccat!=CompoundAssignNode.CompoundAssignmentType.NONE)
+				reportError(getCoords(d), "No change assignment allowed for array|deque concatenation.");
+			if(isSimple && dc!=null) reportError(getCoords(dc), "Compound assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+			if(isSimple && yielded) reportError(getCoords(y), "Yield compound assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  de=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph] SEMI
-			{ res=new DefDeclStatementNode(de.getCoords(), de, context); }
+		{ res=new DefDeclStatementNode(de.getCoords(), de, context); }
 	|
 	  r=RETURN ( retValues=paramExprs[context, false] { returnValues = retValues; } )? SEMI
-			{ res=new ReturnStatementNode(getCoords(r), returnValues); }
-			{ if(onLHS) reportError(getCoords(r), "Return statement is forbidden in yield."); }
-			{ if(isSimple) reportError(getCoords(r), "Return statement is forbidden in simple eval."); }
+		{
+			res=new ReturnStatementNode(getCoords(r), returnValues);
+			if(onLHS) reportError(getCoords(r), "Return statement is forbidden in yield.");
+			if(isSimple) reportError(getCoords(r), "Return statement is forbidden in simple eval.");
+		}
 	|
 	  f=FOR LPAREN { env.pushScope("for", getCoords(f)); } fc=forContent[getCoords(f), onLHS, isSimple, context, directlyNestingLHSGraph]
-			{ res=fc; }
-			{ if(isSimple) reportError(getCoords(f), "For loop is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res=fc;
+			if(isSimple) reportError(getCoords(f), "For loop is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  c=CONTINUE SEMI
-			{ res=new ContinueStatementNode(getCoords(c)); }
-			{ if(isSimple) reportError(getCoords(c), "continue statement is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res=new ContinueStatementNode(getCoords(c));
+			if(isSimple) reportError(getCoords(c), "continue statement is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  b=BREAK SEMI
-			{ res=new BreakStatementNode(getCoords(b)); }
-			{ if(isSimple) reportError(getCoords(b), "break statement is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res=new BreakStatementNode(getCoords(b));
+			if(isSimple) reportError(getCoords(b), "break statement is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  ie=ifelse[onLHS, isSimple, context, directlyNestingLHSGraph]
-			{ res=ie; }
-			{ if(isSimple) reportError(ie.getCoords(), "if statement is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res=ie;
+			if(isSimple) reportError(ie.getCoords(), "if statement is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  sc=switchcase[onLHS, isSimple, context, directlyNestingLHSGraph]
-			{ res=sc; }
-			{ if(isSimple) reportError(sc.getCoords(), "switch statement is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res=sc;
+			if(isSimple) reportError(sc.getCoords(), "switch statement is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  w=WHILE LPAREN e=expr[context, false] RPAREN
 		LBRACE { env.pushScope("while", getCoords(w)); }
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
-			{ res=new WhileStatementNode(getCoords(w), e, cs); }
-			{ if(isSimple) reportError(getCoords(w), "while statement is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res=new WhileStatementNode(getCoords(w), e, cs);
+			if(isSimple) reportError(getCoords(w), "while statement is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  d=DO 
 		LBRACE { env.pushScope("do", getCoords(d)); }
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 	  WHILE LPAREN e=expr[context, false] RPAREN
-			{ res=new DoWhileStatementNode(getCoords(d), cs, e); }
-			{ if(isSimple) reportError(getCoords(d), "do while statement is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res=new DoWhileStatementNode(getCoords(d), cs, e);
+			if(isSimple) reportError(getCoords(d), "do while statement is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	|
 	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
 		( (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
@@ -3430,9 +3464,11 @@ options { k = 5; }
 			}
 	|
 	  exec=execStmt[null, context, directlyNestingLHSGraph] SEMI
-		{ res = new ExecStatementNode(exec, context); }
-		{ if(onLHS) reportError(exec.getCoords(), "exec statement is forbidden in yield."); }
-		{ if(isSimple) reportError(exec.getCoords(), "exec statement is forbidden in simple eval, move it to full eval after --- separator."); }
+		{
+			res = new ExecStatementNode(exec, context);
+			if(onLHS) reportError(exec.getCoords(), "exec statement is forbidden in yield.");
+			if(isSimple) reportError(exec.getCoords(), "exec statement is forbidden in simple eval, move it to full eval after --- separator.");
+		}
 	;
 
 targets	[boolean onLHS, Coords coords, MultiStatementNode ms, int context, PatternGraphNode directlyNestingLHSGraph] returns [ CollectNode<ProjectionExprNode> tgtProjs = new CollectNode<ProjectionExprNode>(), CollectNode<EvalStatementNode> tgts = new CollectNode<EvalStatementNode>() ]
@@ -3650,10 +3686,10 @@ options { k = *; }
 		}
 	;
 
-assignTo [int context] returns [ int ccat = CompoundAssignNode.NONE, BaseNode tgtChanged = null ]
-	: (ASSIGN_TO { $ccat = CompoundAssignNode.ASSIGN; }
-		| BOR_TO { $ccat = CompoundAssignNode.UNION; }
-		| BAND_TO { $ccat = CompoundAssignNode.INTERSECTION; })
+assignTo [int context] returns [ CompoundAssignNode.CompoundAssignmentType ccat = CompoundAssignNode.CompoundAssignmentType.NONE, BaseNode tgtChanged = null ]
+	: (ASSIGN_TO { $ccat = CompoundAssignNode.CompoundAssignmentType.ASSIGN; }
+		| BOR_TO { $ccat = CompoundAssignNode.CompoundAssignmentType.UNION; }
+		| BAND_TO { $ccat = CompoundAssignNode.CompoundAssignmentType.INTERSECTION; })
 	  tgtc=assignToTgt[context] { $tgtChanged = tgtc; }
 	;
 

@@ -48,18 +48,21 @@ public class CompoundAssignNode extends EvalStatementNode
 		setName(CompoundAssignNode.class, "compound assign statement");
 	}
 
-	public static final int NONE = -1;
-	public static final int UNION = 0;
-	public static final int INTERSECTION = 2;
-	public static final int WITHOUT = 3;
-	public static final int CONCATENATE = 4;
-	public static final int ASSIGN = 5;
+	public enum CompoundAssignmentType
+	{
+		NONE,
+		UNION,
+		INTERSECTION,
+		WITHOUT,
+		CONCATENATE,
+		ASSIGN
+	}
 
 	private BaseNode targetUnresolved; // QualIdentNode|IdentExprNode
-	private int compoundAssignmentType;
+	private CompoundAssignmentType compoundAssignmentType;
 	private ExprNode valueExpr;
 	private BaseNode targetChangedUnresolved; // QualIdentNode|IdentExprNode|VisitedNode|null
-	private int targetCompoundAssignmentType;
+	private CompoundAssignmentType targetCompoundAssignmentType;
 
 	private QualIdentNode targetQual;
 	private VarDeclNode targetVar;
@@ -67,8 +70,8 @@ public class CompoundAssignNode extends EvalStatementNode
 	private VarDeclNode targetChangedVar;
 	private VisitedNode targetChangedVis;
 
-	public CompoundAssignNode(Coords coords, BaseNode target, int compoundAssignmentType, ExprNode valueExpr,
-			int targetCompoundAssignmentType, BaseNode targetChanged)
+	public CompoundAssignNode(Coords coords, BaseNode target, CompoundAssignmentType compoundAssignmentType, ExprNode valueExpr,
+			CompoundAssignmentType targetCompoundAssignmentType, BaseNode targetChanged)
 	{
 		super(coords);
 		this.targetUnresolved = becomeParent(target);
@@ -165,12 +168,12 @@ public class CompoundAssignNode extends EvalStatementNode
 	protected boolean checkLocal()
 	{
 		TypeNode targetType = targetQual != null ? targetQual.getDecl().getDeclType() : targetVar.getDeclType();
-		if(compoundAssignmentType == CONCATENATE
+		if(compoundAssignmentType == CompoundAssignmentType.CONCATENATE
 				&& !(targetType instanceof ArrayTypeNode || targetType instanceof DequeTypeNode)) {
 			(targetQual != null ? targetQual : targetVar).reportError("compound assignment expects a target of array or deque type.");
 			return false;
 		}
-		if(compoundAssignmentType != CONCATENATE
+		if(compoundAssignmentType != CompoundAssignmentType.CONCATENATE
 				&& !(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {
 			(targetQual != null ? targetQual : targetVar).reportError("compound assignment expects a target of set or map type.");
 			return false;
@@ -210,35 +213,63 @@ public class CompoundAssignNode extends EvalStatementNode
 		if(targetQual != null) {
 			if(targetChangedQual != null)
 				return new CompoundAssignmentChanged(targetQual.checkIR(Qualification.class),
-						compoundAssignmentType, valueExpr.checkIR(Expression.class),
-						targetCompoundAssignmentType, targetChangedQual.checkIR(Qualification.class));
+						mapCompoundAssignmentType(compoundAssignmentType), valueExpr.checkIR(Expression.class),
+						mapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedQual.checkIR(Qualification.class));
 			else if(targetChangedVar != null)
 				return new CompoundAssignmentChangedVar(targetQual.checkIR(Qualification.class),
-						compoundAssignmentType, valueExpr.checkIR(Expression.class),
-						targetCompoundAssignmentType, targetChangedVar.checkIR(Variable.class));
+						mapCompoundAssignmentType(compoundAssignmentType), valueExpr.checkIR(Expression.class),
+						mapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedVar.checkIR(Variable.class));
 			else if(targetChangedVis != null)
 				return new CompoundAssignmentChangedVisited(targetQual.checkIR(Qualification.class),
-						compoundAssignmentType, valueExpr.checkIR(Expression.class),
-						targetCompoundAssignmentType, targetChangedVis.checkIR(Visited.class));
+						mapCompoundAssignmentType(compoundAssignmentType), valueExpr.checkIR(Expression.class),
+						mapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedVis.checkIR(Visited.class));
 			else
 				return new CompoundAssignment(targetQual.checkIR(Qualification.class),
-						compoundAssignmentType, valueExpr.checkIR(Expression.class));
+						mapCompoundAssignmentType(compoundAssignmentType), valueExpr.checkIR(Expression.class));
 		} else {
 			if(targetChangedQual != null)
 				return new CompoundAssignmentVarChanged(targetVar.checkIR(Variable.class),
-						compoundAssignmentType, valueExpr.checkIR(Expression.class),
-						targetCompoundAssignmentType, targetChangedQual.checkIR(Qualification.class));
+						mapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.checkIR(Expression.class),
+						mapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedQual.checkIR(Qualification.class));
 			else if(targetChangedVar != null)
 				return new CompoundAssignmentVarChangedVar(targetVar.checkIR(Variable.class),
-						compoundAssignmentType, valueExpr.checkIR(Expression.class),
-						targetCompoundAssignmentType, targetChangedVar.checkIR(Variable.class));
+						mapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.checkIR(Expression.class),
+						mapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedVar.checkIR(Variable.class));
 			else if(targetChangedVis != null)
 				return new CompoundAssignmentVarChangedVisited(targetVar.checkIR(Variable.class),
-						compoundAssignmentType, valueExpr.checkIR(Expression.class),
-						targetCompoundAssignmentType, targetChangedVis.checkIR(Visited.class));
+						mapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.checkIR(Expression.class),
+						mapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedVis.checkIR(Visited.class));
 			else
 				return new CompoundAssignmentVar(targetVar.checkIR(Variable.class),
-						compoundAssignmentType, valueExpr.checkIR(Expression.class));
+						mapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.checkIR(Expression.class));
+		}
+	}
+	
+	CompoundAssignment.CompoundAssignmentType mapCompoundAssignmentType(CompoundAssignmentType type)
+	{
+		switch(type)
+		{
+		case NONE: return CompoundAssignment.CompoundAssignmentType.NONE;
+		case UNION: return CompoundAssignment.CompoundAssignmentType.UNION;
+		case INTERSECTION: return CompoundAssignment.CompoundAssignmentType.INTERSECTION;
+		case WITHOUT: return CompoundAssignment.CompoundAssignmentType.WITHOUT;
+		case CONCATENATE: return CompoundAssignment.CompoundAssignmentType.CONCATENATE;
+		case ASSIGN: return CompoundAssignment.CompoundAssignmentType.ASSIGN;
+		default: throw new RuntimeException("Internal failure");
+		}
+	}
+	
+	CompoundAssignmentVar.CompoundAssignmentType mapCompoundAssignmentTypeVar(CompoundAssignmentType type)
+	{
+		switch(type)
+		{
+		case NONE: return CompoundAssignmentVar.CompoundAssignmentType.NONE;
+		case UNION: return CompoundAssignmentVar.CompoundAssignmentType.UNION;
+		case INTERSECTION: return CompoundAssignmentVar.CompoundAssignmentType.INTERSECTION;
+		case WITHOUT: return CompoundAssignmentVar.CompoundAssignmentType.WITHOUT;
+		case CONCATENATE: return CompoundAssignmentVar.CompoundAssignmentType.CONCATENATE;
+		case ASSIGN: return CompoundAssignmentVar.CompoundAssignmentType.ASSIGN;
+		default: throw new RuntimeException("Internal failure");
 		}
 	}
 }

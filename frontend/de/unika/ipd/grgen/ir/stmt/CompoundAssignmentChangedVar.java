@@ -25,11 +25,11 @@ public class CompoundAssignmentChangedVar extends CompoundAssignment
 	private Variable changedTarget;
 
 	/** The operation of the change assignment */
-	private int changedOperation;
+	private CompoundAssignmentType changedOperation;
 
 	public CompoundAssignmentChangedVar(Qualification target,
-			int compoundAssignmentType, Expression expr,
-			int changedAssignmentType, Variable changedTarget)
+			CompoundAssignmentType compoundAssignmentType, Expression expr,
+			CompoundAssignmentType changedAssignmentType, Variable changedTarget)
 	{
 		super(target, compoundAssignmentType, expr);
 		this.changedOperation = changedAssignmentType;
@@ -41,7 +41,7 @@ public class CompoundAssignmentChangedVar extends CompoundAssignment
 		return changedTarget;
 	}
 
-	public int getChangedOperation()
+	public CompoundAssignmentType getChangedOperation()
 	{
 		return changedOperation;
 	}
@@ -50,7 +50,8 @@ public class CompoundAssignmentChangedVar extends CompoundAssignment
 	public String toString()
 	{
 		return super.toString()
-				+ (changedOperation == UNION ? " |> " : changedOperation == INTERSECTION ? " &> " : " => ")
+				+ (changedOperation == CompoundAssignmentType.UNION ?
+						" |> " : changedOperation == CompoundAssignmentType.INTERSECTION ? " &> " : " => ")
 				+ changedTarget.toString();
 	}
 

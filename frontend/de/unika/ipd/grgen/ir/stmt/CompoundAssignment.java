@@ -23,23 +23,26 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
  */
 public class CompoundAssignment extends EvalStatement
 {
-	public static final int NONE = -1;
-	public static final int UNION = 0;
-	public static final int INTERSECTION = 2;
-	public static final int WITHOUT = 3;
-	public static final int CONCATENATE = 4;
-	public static final int ASSIGN = 5;
+	public enum CompoundAssignmentType
+	{
+		NONE,
+		UNION,
+		INTERSECTION,
+		WITHOUT,
+		CONCATENATE,
+		ASSIGN
+	}
 
 	/** The lhs of the assignment. */
 	private Qualification target;
 
 	/** The operation of the compound assignment */
-	private int operation;
+	private CompoundAssignmentType operation;
 
 	/** The rhs of the assignment. */
 	private Expression expr;
 
-	public CompoundAssignment(Qualification target, int compoundAssignmentType, Expression expr)
+	public CompoundAssignment(Qualification target, CompoundAssignmentType compoundAssignmentType, Expression expr)
 	{
 		super("compound assignment");
 		this.target = target;
@@ -57,7 +60,7 @@ public class CompoundAssignment extends EvalStatement
 		return expr;
 	}
 
-	public int getOperation()
+	public CompoundAssignmentType getOperation()
 	{
 		return operation;
 	}
@@ -66,13 +69,13 @@ public class CompoundAssignment extends EvalStatement
 	public String toString()
 	{
 		String res = getTarget().toString();
-		if(operation == UNION)
+		if(operation == CompoundAssignmentType.UNION)
 			res += " |= ";
-		else if(operation == INTERSECTION)
+		else if(operation == CompoundAssignmentType.INTERSECTION)
 			res += " &= ";
-		else if(operation == WITHOUT)
+		else if(operation == CompoundAssignmentType.WITHOUT)
 			res += " \\= ";
-		else if(operation == CONCATENATE)
+		else if(operation == CompoundAssignmentType.CONCATENATE)
 			res += " += ";
 		else
 			res += " = ";

@@ -654,11 +654,11 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Qualification changedTarget = cass.getChangedTarget();
 		String changedOperation;
-		if(cass.getChangedOperation() == CompoundAssignment.UNION)
+		if(cass.getChangedOperation() == CompoundAssignment.CompoundAssignmentType.UNION)
 			changedOperation = " |= ";
-		else if(cass.getChangedOperation() == CompoundAssignment.INTERSECTION)
+		else if(cass.getChangedOperation() == CompoundAssignment.CompoundAssignmentType.INTERSECTION)
 			changedOperation = " &= ";
-		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
+		else //if(cass.getChangedOperation()==CompoundAssignment.CompoundAssignmentType.ASSIGN)
 			changedOperation = " = ";
 
 		Entity owner = cass.getTarget().getOwner();
@@ -698,11 +698,11 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Variable changedTarget = cass.getChangedTarget();
 		String changedOperation;
-		if(cass.getChangedOperation() == CompoundAssignment.UNION)
+		if(cass.getChangedOperation() == CompoundAssignment.CompoundAssignmentType.UNION)
 			changedOperation = " |= ";
-		else if(cass.getChangedOperation() == CompoundAssignment.INTERSECTION)
+		else if(cass.getChangedOperation() == CompoundAssignment.CompoundAssignmentType.INTERSECTION)
 			changedOperation = " &= ";
-		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
+		else //if(cass.getChangedOperation()==CompoundAssignment.CompoundAssignmentType.ASSIGN)
 			changedOperation = " = ";
 
 		String prefix = sb.getIndent() + formatEntity(changedTarget) + changedOperation;
@@ -722,9 +722,9 @@ public class ModifyEvalGen extends CSharpBase
 
 		String prefix = sb.getIndent() + "graph.SetVisited("
 				+ changedTargetBuffer.toString() + ", ";
-		if(cass.getChangedOperation() != CompoundAssignment.ASSIGN) {
+		if(cass.getChangedOperation() != CompoundAssignment.CompoundAssignmentType.ASSIGN) {
 			prefix += "graph.IsVisited(" + changedTargetBuffer.toString() + ")"
-					+ (cass.getChangedOperation() == CompoundAssignment.UNION ? " | " : " & ");
+					+ (cass.getChangedOperation() == CompoundAssignment.CompoundAssignmentType.UNION ? " | " : " & ");
 		}
 
 		genCompoundAssignment(sb, state, cass, prefix, ");\n");
@@ -747,13 +747,13 @@ public class ModifyEvalGen extends CSharpBase
 				: state.delEdges().contains(element);
 		if(!isDeletedElem && be.system.mayFireEvents()) {
 			sb.append(prefix);
-			if(cass.getOperation() == CompoundAssignment.UNION)
+			if(cass.getOperation() == CompoundAssignment.CompoundAssignmentType.UNION)
 				sb.append("GRGEN_LIBGR.ContainerHelper.UnionChanged(");
-			else if(cass.getOperation() == CompoundAssignment.INTERSECTION)
+			else if(cass.getOperation() == CompoundAssignment.CompoundAssignmentType.INTERSECTION)
 				sb.append("GRGEN_LIBGR.ContainerHelper.IntersectChanged(");
-			else if(cass.getOperation() == CompoundAssignment.WITHOUT)
+			else if(cass.getOperation() == CompoundAssignment.CompoundAssignmentType.WITHOUT)
 				sb.append("GRGEN_LIBGR.ContainerHelper.ExceptChanged(");
-			else //if(cass.getOperation()==CompoundAssignment.CONCATENATE)
+			else //if(cass.getOperation()==CompoundAssignment.CompoundAssignmentType.CONCATENATE)
 				sb.append("GRGEN_LIBGR.ContainerHelper.ConcatenateChanged(");
 			genExpression(sb, target, state);
 			sb.append(", ");
@@ -772,11 +772,11 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Qualification changedTarget = cass.getChangedTarget();
 		String changedOperation;
-		if(cass.getChangedOperation() == CompoundAssignment.UNION)
+		if(cass.getChangedOperation() == CompoundAssignmentVar.CompoundAssignmentType.UNION)
 			changedOperation = " |= ";
-		else if(cass.getChangedOperation() == CompoundAssignment.INTERSECTION)
+		else if(cass.getChangedOperation() == CompoundAssignmentVar.CompoundAssignmentType.INTERSECTION)
 			changedOperation = " &= ";
-		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
+		else //if(cass.getChangedOperation()==CompoundAssignmentVar.CompoundAssignmentType.ASSIGN)
 			changedOperation = " = ";
 
 		Entity owner = changedTarget.getOwner();
@@ -812,11 +812,11 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Variable changedTarget = cass.getChangedTarget();
 		String changedOperation;
-		if(cass.getChangedOperation() == CompoundAssignment.UNION)
+		if(cass.getChangedOperation() == CompoundAssignmentVar.CompoundAssignmentType.UNION)
 			changedOperation = " |= ";
-		else if(cass.getChangedOperation() == CompoundAssignment.INTERSECTION)
+		else if(cass.getChangedOperation() == CompoundAssignmentVar.CompoundAssignmentType.INTERSECTION)
 			changedOperation = " &= ";
-		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
+		else //if(cass.getChangedOperation()==CompoundAssignmentVar.CompoundAssignmentType.ASSIGN)
 			changedOperation = " = ";
 
 		String prefix = sb.getIndent() + formatEntity(changedTarget) + changedOperation;
@@ -836,9 +836,9 @@ public class ModifyEvalGen extends CSharpBase
 
 		String prefix = sb.getIndent() + "graph.SetVisited("
 				+ changedTargetBuffer.toString() + ", ";
-		if(cass.getChangedOperation() != CompoundAssignment.ASSIGN) {
+		if(cass.getChangedOperation() != CompoundAssignmentVar.CompoundAssignmentType.ASSIGN) {
 			prefix += "graph.IsVisited(" + changedTargetBuffer.toString() + ")"
-					+ (cass.getChangedOperation() == CompoundAssignment.UNION ? " | " : " & ");
+					+ (cass.getChangedOperation() == CompoundAssignmentVar.CompoundAssignmentType.UNION ? " | " : " & ");
 		}
 
 		genCompoundAssignmentVar(sb, state, cass, prefix, ");\n");
@@ -853,13 +853,13 @@ public class ModifyEvalGen extends CSharpBase
 		Expression expr = cass.getExpression();
 
 		sb.append(prefix);
-		if(cass.getOperation() == CompoundAssignment.UNION)
+		if(cass.getOperation() == CompoundAssignmentVar.CompoundAssignmentType.UNION)
 			sb.append("GRGEN_LIBGR.ContainerHelper.UnionChanged(");
-		else if(cass.getOperation() == CompoundAssignment.INTERSECTION)
+		else if(cass.getOperation() == CompoundAssignmentVar.CompoundAssignmentType.INTERSECTION)
 			sb.append("GRGEN_LIBGR.ContainerHelper.IntersectChanged(");
-		else if(cass.getOperation() == CompoundAssignment.WITHOUT)
+		else if(cass.getOperation() == CompoundAssignmentVar.CompoundAssignmentType.WITHOUT)
 			sb.append("GRGEN_LIBGR.ContainerHelper.ExceptChanged(");
-		else //if(cass.getOperation()==CompoundAssignment.CONCATENATE)
+		else //if(cass.getOperation()==CompoundAssignmentVar.CompoundAssignmentType.CONCATENATE)
 			sb.append("GRGEN_LIBGR.ContainerHelper.ConcatenateChanged(");
 		sb.append(formatEntity(target));
 		sb.append(", ");

@@ -24,7 +24,6 @@ import de.unika.ipd.grgen.ir.stmt.AssignmentVar;
 import de.unika.ipd.grgen.ir.stmt.AssignmentVarIndexed;
 import de.unika.ipd.grgen.ir.stmt.BreakStatement;
 import de.unika.ipd.grgen.ir.stmt.CaseStatement;
-import de.unika.ipd.grgen.ir.stmt.CompoundAssignment;
 import de.unika.ipd.grgen.ir.stmt.CompoundAssignmentVar;
 import de.unika.ipd.grgen.ir.stmt.CompoundAssignmentVarChangedVar;
 import de.unika.ipd.grgen.ir.stmt.ConditionStatement;
@@ -2027,11 +2026,11 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		String changedOperation;
-		if(cass.getChangedOperation() == CompoundAssignment.UNION)
+		if(cass.getChangedOperation() == CompoundAssignmentVar.CompoundAssignmentType.UNION)
 			changedOperation = "GRGEN_EXPR.YieldChangeDisjunctionAssignment";
-		else if(cass.getChangedOperation() == CompoundAssignment.INTERSECTION)
+		else if(cass.getChangedOperation() == CompoundAssignmentVar.CompoundAssignmentType.INTERSECTION)
 			changedOperation = "GRGEN_EXPR.YieldChangeConjunctionAssignment";
-		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
+		else //if(cass.getChangedOperation()==CompoundAssignmentVar.CompoundAssignmentType.ASSIGN)
 			changedOperation = "GRGEN_EXPR.YieldChangeAssignment";
 
 		Variable changedTarget = cass.getChangedTarget();
@@ -2050,11 +2049,11 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		Expression expr = cass.getExpression();
 
 		sb.append(prefix + "new GRGEN_EXPR.");
-		if(cass.getOperation() == CompoundAssignment.UNION)
+		if(cass.getOperation() == CompoundAssignmentVar.CompoundAssignmentType.UNION)
 			sb.append("SetMapUnion(");
-		else if(cass.getOperation() == CompoundAssignment.INTERSECTION)
+		else if(cass.getOperation() == CompoundAssignmentVar.CompoundAssignmentType.INTERSECTION)
 			sb.append("SetMapIntersect(");
-		else //if(cass.getOperation()==CompoundAssignment.WITHOUT)
+		else //if(cass.getOperation()==CompoundAssignmentVar.CompoundAssignmentType.WITHOUT)
 			sb.append("SetMapExcept(");
 		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
 		sb.append(", ");
