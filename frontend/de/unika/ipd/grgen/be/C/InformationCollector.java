@@ -656,7 +656,7 @@ public class InformationCollector extends CBackend
 			Collection<Expression> col, Expression expr)
 	{
 		if(expr instanceof Operator &&
-				((Operator)expr).getOpCode() == Operator.LOG_AND) {
+				((Operator)expr).getOpCode() == Operator.OperatorCode.LOG_AND) {
 			//step into subexpressions
 			Operator andOp = (Operator)expr;
 			for(int i = 0; i < andOp.arity(); i++) {

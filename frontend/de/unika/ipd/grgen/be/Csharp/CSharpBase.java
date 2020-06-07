@@ -774,16 +774,16 @@ public abstract class CSharpBase
 
 	public void genBinOpDefault(SourceBuilder sb, Operator op, ExpressionGenerationState modifyGenerationState)
 	{
-		if(op.getOpCode() == Operator.BIT_SHR) {
+		if(op.getOpCode() == Operator.OperatorCode.BIT_SHR) {
 			sb.append("((int)(((uint)");
 			genExpression(sb, op.getOperand(0), modifyGenerationState);
-			sb.append(") " + opSymbols[op.getOpCode()] + " ");
+			sb.append(") " + getOperatorSymbol(op.getOpCode()) + " ");
 			genExpression(sb, op.getOperand(1), modifyGenerationState);
 			sb.append("))");
 		} else {
 			sb.append("(");
 			genExpression(sb, op.getOperand(0), modifyGenerationState);
-			sb.append(" " + opSymbols[op.getOpCode()] + " ");
+			sb.append(" " + getOperatorSymbol(op.getOpCode()) + " ");
 			genExpression(sb, op.getOperand(1), modifyGenerationState);
 			sb.append(")");
 		}
@@ -2589,7 +2589,7 @@ public abstract class CSharpBase
 	{
 		switch(op.arity()) {
 		case 1:
-			sb.append("(" + opSymbols[op.getOpCode()] + " ");
+			sb.append("(" + getOperatorSymbol(op.getOpCode()) + " ");
 			genExpression(sb, op.getOperand(0), modifyGenerationState);
 			sb.append(")");
 			break;
@@ -2597,7 +2597,7 @@ public abstract class CSharpBase
 			genBinaryOperator(sb, op, modifyGenerationState);
 			break;
 		case 3:
-			if(op.getOpCode() == Operator.COND) {
+			if(op.getOpCode() == Operator.OperatorCode.COND) {
 				sb.append("((");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(") ? (");
@@ -2618,7 +2618,7 @@ public abstract class CSharpBase
 			ExpressionGenerationState modifyGenerationState)
 	{
 		switch(op.getOpCode()) {
-		case Operator.IN: {
+		case IN: {
 			Type opType = op.getOperand(1).getType();
 			genExpression(sb, op.getOperand(1), modifyGenerationState);
 			boolean isDictionary = opType instanceof SetType || opType instanceof MapType;
@@ -2632,7 +2632,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.ADD: {
+		case ADD: {
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof ArrayType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.Concatenate(");
@@ -2651,7 +2651,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.BIT_OR: {
+		case BIT_OR: {
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof MapType || opType instanceof SetType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.Union(");
@@ -2664,7 +2664,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.BIT_AND: {
+		case BIT_AND: {
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof MapType || opType instanceof SetType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.Intersect(");
@@ -2677,7 +2677,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.EXCEPT: {
+		case EXCEPT: {
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof MapType || opType instanceof SetType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.Except(");
@@ -2690,7 +2690,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.EQ: {
+		case EQ: {
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof MapType || opType instanceof SetType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.Equal(");
@@ -2729,7 +2729,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.NE: {
+		case NE: {
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof MapType || opType instanceof SetType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
@@ -2768,7 +2768,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.SE: {
+		case SE: {
 			sb.append("((GRGEN_LIBGR.IGraph)");
 			genExpression(sb, op.getOperand(0), modifyGenerationState);
 			sb.append(").HasSameStructure((GRGEN_LIBGR.IGraph)");
@@ -2777,7 +2777,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.GT: {
+		case GT: {
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof MapType || opType instanceof SetType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
@@ -2821,7 +2821,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.GE: {
+		case GE: {
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof MapType || opType instanceof SetType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
@@ -2860,7 +2860,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.LT: {
+		case LT: {
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof MapType || opType instanceof SetType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.LessThan(");
@@ -2899,7 +2899,7 @@ public abstract class CSharpBase
 			break;
 		}
 
-		case Operator.LE: {
+		case LE: {
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof MapType || opType instanceof SetType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
@@ -3447,14 +3447,37 @@ public abstract class CSharpBase
 	// Private variables //
 	///////////////////////
 
-	/* binary operator symbols of the C-language */
+	/* (unary and binary) operator symbols (of the C-language) */
 	// The first two shift operations are signed shifts, the second right shift is unsigned.
-	// THIS ARRAY MUST BE IN THE SAME ORDER AS Operator.opNames and the corresponding constants!
-	private static final String[] opSymbols = {
-			null, "||", "&&", "|", "^", "&",
-			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
-			"-", "*", "/", "%", "!", "~", "-"
-	};
+	private static String getOperatorSymbol(Operator.OperatorCode opCode)
+	{
+		switch(opCode)
+		{
+		case LOG_OR: return "||";
+		case LOG_AND: return "&&";
+		case BIT_OR: return "|";
+		case BIT_XOR: return "^";
+		case BIT_AND: return "&";
+		case EQ: return "==";
+		case NE: return "!=";
+		case LT: return "<";
+		case LE: return "<=";
+		case GT: return ">";
+		case GE: return ">=";
+		case SHL: return "<<";
+		case SHR: return ">>";
+		case BIT_SHR: return ">>";
+		case ADD: return "+";
+		case SUB: return "-";
+		case MUL: return "*";
+		case DIV: return "/";
+		case MOD: return "%";
+		case LOG_NOT: return "!";
+		case BIT_NOT: return "~";
+		case NEG: return "-";
+		default: throw new RuntimeException("internal failure");
+		}
+	}
 
 	protected String nodeTypePrefix;
 	protected String edgeTypePrefix;

@@ -255,10 +255,10 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				opNamePrefix = "LIST_";
 			if(op.getType() instanceof DequeType)
 				opNamePrefix = "DEQUE_";
-			if(op.getOpCode() == Operator.EQ || op.getOpCode() == Operator.NE
-					|| op.getOpCode() == Operator.SE
-					|| op.getOpCode() == Operator.GT || op.getOpCode() == Operator.GE
-					|| op.getOpCode() == Operator.LT || op.getOpCode() == Operator.LE) {
+			if(op.getOpCode() == Operator.OperatorCode.EQ || op.getOpCode() == Operator.OperatorCode.NE
+					|| op.getOpCode() == Operator.OperatorCode.SE
+					|| op.getOpCode() == Operator.OperatorCode.GT || op.getOpCode() == Operator.OperatorCode.GE
+					|| op.getOpCode() == Operator.OperatorCode.LT || op.getOpCode() == Operator.OperatorCode.LE) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
 				if(opnd.getType() instanceof SetType || opnd.getType() instanceof MapType) {
 					opNamePrefix = "DICT_";
@@ -273,28 +273,30 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 					opNamePrefix = "GRAPH_";
 				}
 			}
-			if(op.getOpCode() == Operator.GT || op.getOpCode() == Operator.GE
-					|| op.getOpCode() == Operator.LT || op.getOpCode() == Operator.LE) {
+			if(op.getOpCode() == Operator.OperatorCode.GT || op.getOpCode() == Operator.OperatorCode.GE
+					|| op.getOpCode() == Operator.OperatorCode.LT || op.getOpCode() == Operator.OperatorCode.LE) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
 				if(opnd.getType() instanceof StringType) {
 					opNamePrefix = "STRING_";
 				}
 			}
-			if(model.isEqualClassDefined() && (op.getOpCode() == Operator.EQ || op.getOpCode() == Operator.NE)) {
+			if(model.isEqualClassDefined()
+					&& (op.getOpCode() == Operator.OperatorCode.EQ || op.getOpCode() == Operator.OperatorCode.NE)) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
 				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalType) {
 					opNamePrefix = "EXTERNAL_";
 				}
 			}
-			if(model.isLowerClassDefined() && (op.getOpCode() == Operator.GT || op.getOpCode() == Operator.GE
-					|| op.getOpCode() == Operator.LT || op.getOpCode() == Operator.LE)) {
+			if(model.isLowerClassDefined()
+					&& (op.getOpCode() == Operator.OperatorCode.GT || op.getOpCode() == Operator.OperatorCode.GE
+						|| op.getOpCode() == Operator.OperatorCode.LT || op.getOpCode() == Operator.OperatorCode.LE)) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
 				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalType) {
 					opNamePrefix = "EXTERNAL_";
 				}
 			}
 
-			sb.append("new GRGEN_EXPR." + opNamePrefix + Operator.opNames[op.getOpCode()] + "(");
+			sb.append("new GRGEN_EXPR." + opNamePrefix + op.getOpCode() + "(");
 			switch(op.arity()) {
 			case 1:
 				genExpressionTree(sb, op.getOperand(0), className, pathPrefix, alreadyDefinedEntityToName);
@@ -303,7 +305,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				genExpressionTree(sb, op.getOperand(0), className, pathPrefix, alreadyDefinedEntityToName);
 				sb.append(", ");
 				genExpressionTree(sb, op.getOperand(1), className, pathPrefix, alreadyDefinedEntityToName);
-				if(op.getOpCode() == Operator.IN) {
+				if(op.getOpCode() == Operator.OperatorCode.IN) {
 					if(op.getOperand(0) instanceof GraphEntityExpression)
 						sb.append(", \"" + formatElementInterfaceRef(op.getOperand(0).getType()) + "\"");
 					boolean isDictionary = op.getOperand(1).getType() instanceof SetType
@@ -312,7 +314,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				}
 				break;
 			case 3:
-				if(op.getOpCode() == Operator.COND) {
+				if(op.getOpCode() == Operator.OperatorCode.COND) {
 					genExpressionTree(sb, op.getOperand(0), className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
 					genExpressionTree(sb, op.getOperand(1), className, pathPrefix, alreadyDefinedEntityToName);

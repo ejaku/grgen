@@ -30,15 +30,42 @@ import de.unika.ipd.grgen.ir.type.Type;
 
 public class Formatter
 {
-	/* binary operator symbols of the C-language */
+	/* (binary and unary) operator symbols (of the C-language) */
 	// ATTENTION: the first two shift operations are signed shifts
 	// 		the second right shift is signed. This Backend simply gens
 	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
-	private static String[] opSymbols = {
-			"?:", "||", "&&", "|", "^", "&",
-			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
-			"-", "*", "/", "%", "!", "~", "-", "in", "\\"
-	};
+	private static String getOperatorSymbol(Operator.OperatorCode opCode)
+	{
+		switch(opCode)
+		{
+		case LOG_OR: return "||";
+		case LOG_AND: return "&&";
+		case BIT_OR: return "|";
+		case BIT_XOR: return "^";
+		case BIT_AND: return "&";
+		case EQ: return "==";
+		case NE: return "!=";
+		case LT: return "<";
+		case LE: return "<=";
+		case GT: return ">";
+		case GE: return ">=";
+		case SHL: return "<<";
+		case SHR: return ">>";
+		case BIT_SHR: return ">>";
+		case ADD: return "+";
+		case SUB: return "-";
+		case MUL: return "*";
+		case DIV: return "/";
+		case MOD: return "%";
+		case LOG_NOT: return "!";
+		case BIT_NOT: return "~";
+		case NEG: return "-";
+		case IN: return "in";
+		case EXCEPT: return "\\";
+		case SE: return "~~";
+		default: throw new RuntimeException("internal failure");
+		}
+	}
 
 	public static String formatConditionEval(Expression cond)
 	{
@@ -53,17 +80,17 @@ public class Formatter
 			Operator op = (Operator)cond;
 			switch(op.arity()) {
 			case 1:
-				sb.append("(" + opSymbols[op.getOpCode()] + " ");
+				sb.append("(" + getOperatorSymbol(op.getOpCode()) + " ");
 				formatConditionEvalAux(sb, op.getOperand(0));
 				sb.append(")");
 				break;
 			case 2:
 				formatConditionEvalAux(sb, op.getOperand(0));
-				sb.append(" " + opSymbols[op.getOpCode()] + " ");
+				sb.append(" " + getOperatorSymbol(op.getOpCode()) + " ");
 				formatConditionEvalAux(sb, op.getOperand(1));
 				break;
 			case 3:
-				if(op.getOpCode() == Operator.COND) {
+				if(op.getOpCode() == Operator.OperatorCode.COND) {
 					sb.append("(");
 					formatConditionEvalAux(sb, op.getOperand(0));
 					sb.append(") ? (");

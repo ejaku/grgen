@@ -68,15 +68,36 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		Replacement
 	}
 
-	/* binary operator symbols of the C-language */
+	/* (binary) operator symbols (of the C-language) */
 	// ATTENTION: the first two shift operations are signed shifts
 	// 		the second right shift is signed. This backend simply gens
 	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
-	private String[] opSymbols = {
-			null, "||", "&&", "|", "^", "&",
-			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
-			"-", "*", "/", "%", null, null, null, null
-	};
+	private static String getOperatorSymbol(Operator.OperatorCode opCode)
+	{
+		switch(opCode)
+		{
+		case LOG_OR: return "||";
+		case LOG_AND: return "&&";
+		case BIT_OR: return "|";
+		case BIT_XOR: return "^";
+		case BIT_AND: return "&";
+		case EQ: return "==";
+		case NE: return "!=";
+		case LT: return "<";
+		case LE: return "<=";
+		case GT: return ">";
+		case GE: return ">=";
+		case SHL: return "<<";
+		case SHR: return ">>";
+		case BIT_SHR: return ">>";
+		case ADD: return "+";
+		case SUB: return "-";
+		case MUL: return "*";
+		case DIV: return "/";
+		case MOD: return "%";
+		default: throw new RuntimeException("internal failure");
+		}
+	}
 
 	// --------------------------------------------------
 	// Generates a Id for a Pattern node and saves it for
@@ -391,7 +412,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				return getUnusedEvalParams(op.getOperand(0))
 						| getUnusedEvalParams(op.getOperand(1));
 			case 3:
-				if(op.getOpCode() == Operator.COND) {
+				if(op.getOpCode() == Operator.OperatorCode.COND) {
 					return getUnusedEvalParams(op.getOperand(0))
 							| getUnusedEvalParams(op.getOperand(1))
 							| getUnusedEvalParams(op.getOperand(2));
@@ -989,11 +1010,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				break;
 			case 2:
 				genConditionEval(sb, op.getOperand(0), nodeIds, edgeIds);
-				sb.append(" " + opSymbols[op.getOpCode()] + " ");
+				sb.append(" " + getOperatorSymbol(op.getOpCode()) + " ");
 				genConditionEval(sb, op.getOperand(1), nodeIds, edgeIds);
 				break;
 			case 3:
-				if(op.getOpCode() == Operator.COND) {
+				if(op.getOpCode() == Operator.OperatorCode.COND) {
 					sb.append("(");
 					genConditionEval(sb, op.getOperand(0), nodeIds, edgeIds);
 					sb.append(") ? (");

@@ -385,7 +385,7 @@ public class ModifyEvalGen extends CSharpBase
 
 				// For unions and intersections new maps/sets are already created,
 				// so we don't have to copy them again
-				if(op.getOpCode() == Operator.BIT_OR || op.getOpCode() == Operator.BIT_AND)
+				if(op.getOpCode() == Operator.OperatorCode.BIT_OR || op.getOpCode() == Operator.OperatorCode.BIT_AND)
 					mustCopy = false;
 			}
 

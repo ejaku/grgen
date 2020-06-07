@@ -105,7 +105,7 @@ public class MoreInformationCollector extends InformationCollector
 					Expression expr = eval.getExpression();
 
 					/* generate an expression that consists of both parts of the Assignment to use the already implemented methods for gathering InvolvedNodes/Edges etc. */
-					Operator op = new Operator((PrimitiveType)target.getType(), Operator.EQ);
+					Operator op = new Operator((PrimitiveType)target.getType(), Operator.OperatorCode.EQ);
 					op.addOperand(target);
 					op.addOperand(expr);
 

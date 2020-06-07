@@ -43,36 +43,36 @@ public class ArithmeticOperatorNode extends OperatorNode
 	}
 
 	/** maps an operator to an IR opcode, filled with code beyond */
-	private static Map<OperatorDeclNode.Operator, Integer> irOpCodeMap =
-			new HashMap<OperatorDeclNode.Operator, Integer>();
+	private static Map<OperatorDeclNode.Operator, Operator.OperatorCode> irOpCodeMap =
+			new HashMap<OperatorDeclNode.Operator, Operator.OperatorCode>();
 
 	static {
-		assocOpCode(OperatorDeclNode.Operator.COND, Operator.COND);
-		assocOpCode(OperatorDeclNode.Operator.LOG_OR, Operator.LOG_OR);
-		assocOpCode(OperatorDeclNode.Operator.LOG_AND, Operator.LOG_AND);
-		assocOpCode(OperatorDeclNode.Operator.BIT_OR, Operator.BIT_OR);
-		assocOpCode(OperatorDeclNode.Operator.BIT_XOR, Operator.BIT_XOR);
-		assocOpCode(OperatorDeclNode.Operator.BIT_AND, Operator.BIT_AND);
-		assocOpCode(OperatorDeclNode.Operator.EQ, Operator.EQ);
-		assocOpCode(OperatorDeclNode.Operator.NE, Operator.NE);
-		assocOpCode(OperatorDeclNode.Operator.SE, Operator.SE);
-		assocOpCode(OperatorDeclNode.Operator.LT, Operator.LT);
-		assocOpCode(OperatorDeclNode.Operator.LE, Operator.LE);
-		assocOpCode(OperatorDeclNode.Operator.GT, Operator.GT);
-		assocOpCode(OperatorDeclNode.Operator.GE, Operator.GE);
-		assocOpCode(OperatorDeclNode.Operator.SHL, Operator.SHL);
-		assocOpCode(OperatorDeclNode.Operator.SHR, Operator.SHR);
-		assocOpCode(OperatorDeclNode.Operator.BIT_SHR, Operator.BIT_SHR);
-		assocOpCode(OperatorDeclNode.Operator.ADD, Operator.ADD);
-		assocOpCode(OperatorDeclNode.Operator.SUB, Operator.SUB);
-		assocOpCode(OperatorDeclNode.Operator.MUL, Operator.MUL);
-		assocOpCode(OperatorDeclNode.Operator.DIV, Operator.DIV);
-		assocOpCode(OperatorDeclNode.Operator.MOD, Operator.MOD);
-		assocOpCode(OperatorDeclNode.Operator.LOG_NOT, Operator.LOG_NOT);
-		assocOpCode(OperatorDeclNode.Operator.BIT_NOT, Operator.BIT_NOT);
-		assocOpCode(OperatorDeclNode.Operator.NEG, Operator.NEG);
-		assocOpCode(OperatorDeclNode.Operator.IN, Operator.IN);
-		assocOpCode(OperatorDeclNode.Operator.EXCEPT, Operator.EXCEPT);
+		assocOpCode(OperatorDeclNode.Operator.COND, Operator.OperatorCode.COND);
+		assocOpCode(OperatorDeclNode.Operator.LOG_OR, Operator.OperatorCode.LOG_OR);
+		assocOpCode(OperatorDeclNode.Operator.LOG_AND, Operator.OperatorCode.LOG_AND);
+		assocOpCode(OperatorDeclNode.Operator.BIT_OR, Operator.OperatorCode.BIT_OR);
+		assocOpCode(OperatorDeclNode.Operator.BIT_XOR, Operator.OperatorCode.BIT_XOR);
+		assocOpCode(OperatorDeclNode.Operator.BIT_AND, Operator.OperatorCode.BIT_AND);
+		assocOpCode(OperatorDeclNode.Operator.EQ, Operator.OperatorCode.EQ);
+		assocOpCode(OperatorDeclNode.Operator.NE, Operator.OperatorCode.NE);
+		assocOpCode(OperatorDeclNode.Operator.SE, Operator.OperatorCode.SE);
+		assocOpCode(OperatorDeclNode.Operator.LT, Operator.OperatorCode.LT);
+		assocOpCode(OperatorDeclNode.Operator.LE, Operator.OperatorCode.LE);
+		assocOpCode(OperatorDeclNode.Operator.GT, Operator.OperatorCode.GT);
+		assocOpCode(OperatorDeclNode.Operator.GE, Operator.OperatorCode.GE);
+		assocOpCode(OperatorDeclNode.Operator.SHL, Operator.OperatorCode.SHL);
+		assocOpCode(OperatorDeclNode.Operator.SHR, Operator.OperatorCode.SHR);
+		assocOpCode(OperatorDeclNode.Operator.BIT_SHR, Operator.OperatorCode.BIT_SHR);
+		assocOpCode(OperatorDeclNode.Operator.ADD, Operator.OperatorCode.ADD);
+		assocOpCode(OperatorDeclNode.Operator.SUB, Operator.OperatorCode.SUB);
+		assocOpCode(OperatorDeclNode.Operator.MUL, Operator.OperatorCode.MUL);
+		assocOpCode(OperatorDeclNode.Operator.DIV, Operator.OperatorCode.DIV);
+		assocOpCode(OperatorDeclNode.Operator.MOD, Operator.OperatorCode.MOD);
+		assocOpCode(OperatorDeclNode.Operator.LOG_NOT, Operator.OperatorCode.LOG_NOT);
+		assocOpCode(OperatorDeclNode.Operator.BIT_NOT, Operator.OperatorCode.BIT_NOT);
+		assocOpCode(OperatorDeclNode.Operator.NEG, Operator.OperatorCode.NEG);
+		assocOpCode(OperatorDeclNode.Operator.IN, Operator.OperatorCode.IN);
+		assocOpCode(OperatorDeclNode.Operator.EXCEPT, Operator.OperatorCode.EXCEPT);
 	}
 
 	private QualIdentNode target = null; // if !null it's a set/map union/except which is to be broken up
@@ -238,15 +238,15 @@ public class ArithmeticOperatorNode extends OperatorNode
 		return first;
 	}
 
-	private static void assocOpCode(OperatorDeclNode.Operator operator, int opcode)
+	private static void assocOpCode(OperatorDeclNode.Operator operator, Operator.OperatorCode opcode)
 	{
-		irOpCodeMap.put(operator, new Integer(opcode));
+		irOpCodeMap.put(operator, opcode);
 	}
 
 	/** Maps an operator ID to an IR opcode. */
-	private static int getIROpCode(OperatorDeclNode.Operator operator)
+	private static Operator.OperatorCode getIROpCode(OperatorDeclNode.Operator operator)
 	{
-		return irOpCodeMap.get(operator).intValue();
+		return irOpCodeMap.get(operator);
 	}
 
 	@Override
