@@ -22,18 +22,20 @@ import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
 public class TypeExprSetOperator extends TypeExpr
 {
-	public static final int UNION = 0;
-	public static final int DIFFERENCE = 1;
-	public static final int INTERSECT = 2;
-
-	private final int op;
+	public enum SetOperator
+	{
+		UNION,
+		DIFFERENCE,
+		INTERSECT
+	}
+	
+	private final SetOperator op;
 
 	private final List<TypeExpr> children = new ArrayList<TypeExpr>();
 
-	public TypeExprSetOperator(int op)
+	public TypeExprSetOperator(SetOperator op)
 	{
 		this.op = op;
-		assert op >= 0 && op <= INTERSECT : "Illegal operand";
 	}
 
 	public final void addOperand(TypeExpr operand)

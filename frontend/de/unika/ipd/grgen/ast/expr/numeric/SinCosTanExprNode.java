@@ -32,7 +32,9 @@ public class SinCosTanExprNode extends BuiltinFunctionInvocationBaseNode
 
 	public enum TrigonometryFunctionType
 	{
-		sin, cos, tan
+		sin,
+		cos,
+		tan
 	}
 
 	TrigonometryFunctionType which;

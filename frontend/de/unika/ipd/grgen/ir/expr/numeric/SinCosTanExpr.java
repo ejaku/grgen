@@ -19,7 +19,9 @@ public class SinCosTanExpr extends BuiltinFunctionInvocationExpr
 {
 	public enum TrigonometryFunctionType
 	{
-		sin, cos, tan
+		sin,
+		cos,
+		tan
 	}
 
 	private TrigonometryFunctionType which;

@@ -28,7 +28,7 @@ public class TypeBinaryExprNode extends TypeExprNode
 	private TypeExprNode lhs;
 	private TypeExprNode rhs;
 
-	public TypeBinaryExprNode(Coords coords, int op, TypeExprNode op0, TypeExprNode op1)
+	public TypeBinaryExprNode(Coords coords, TypeOperator op, TypeExprNode op0, TypeExprNode op1)
 	{
 		super(coords, op);
 		this.lhs = op0;
@@ -76,10 +76,26 @@ public class TypeBinaryExprNode extends TypeExprNode
 		TypeExpr lhs = this.lhs.checkIR(TypeExpr.class);
 		TypeExpr rhs = this.rhs.checkIR(TypeExpr.class);
 
-		TypeExprSetOperator expr = new TypeExprSetOperator(irOp[op]);
+		TypeExprSetOperator expr = new TypeExprSetOperator(getSetOperator(op));
 		expr.addOperand(lhs);
 		expr.addOperand(rhs);
 
 		return expr;
+	}
+	
+	private static TypeExprSetOperator.SetOperator getSetOperator(TypeExprNode.TypeOperator op)
+	{
+		switch(op)
+		{
+		case UNION:
+			return TypeExprSetOperator.SetOperator.UNION;
+		case DIFFERENCE:
+			return TypeExprSetOperator.SetOperator.DIFFERENCE;
+		case INTERSECT:
+			return TypeExprSetOperator.SetOperator.INTERSECT;
+		default: // case SET - not used, only the set operators are mapped, internal error
+			assert(false);
+			return TypeExprSetOperator.SetOperator.UNION;
+		}
 	}
 }

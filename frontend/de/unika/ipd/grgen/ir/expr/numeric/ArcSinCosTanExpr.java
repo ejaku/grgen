@@ -19,7 +19,9 @@ public class ArcSinCosTanExpr extends BuiltinFunctionInvocationExpr
 {
 	public enum ArcusTrigonometryFunctionType
 	{
-		arcsin, arccos, arctan
+		arcsin,
+		arccos,
+		arctan
 	}
 
 	private ArcusTrigonometryFunctionType which;

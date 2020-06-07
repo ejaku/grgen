@@ -32,7 +32,9 @@ public class ArcSinCosTanExprNode extends BuiltinFunctionInvocationBaseNode
 
 	public enum ArcusTrigonometryFunctionType
 	{
-		arcsin, arccos, arctan
+		arcsin,
+		arccos,
+		arctan
 	}
 
 	ArcusTrigonometryFunctionType which;

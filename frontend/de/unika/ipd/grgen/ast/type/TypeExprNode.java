@@ -18,7 +18,6 @@ import java.awt.Color;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ir.type.TypeExprSetOperator;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -26,24 +25,16 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public abstract class TypeExprNode extends BaseNode
 {
-	public static final int SET = 0;
-	public static final int SUBTYPES = 1;
-	public static final int UNION = 2;
-	public static final int DIFFERENCE = 3;
-	public static final int INTERSECT = 4;
-	public static final int LAST = INTERSECT;
-
-	// TODO: opnames don't fit to the opcodes above - correct it
-	protected static final String[] opName = {
-		"const", "subtypes", "union", "diff", "intersect"
-	};
-
-	protected static final int[] irOp = {
-		-1, -1, TypeExprSetOperator.UNION, TypeExprSetOperator.DIFFERENCE, TypeExprSetOperator.INTERSECT
-	};
+	public enum TypeOperator
+	{
+		SET,
+		UNION,
+		DIFFERENCE,
+		INTERSECT,
+	}
 
 	/** Opcode of the set operation. */
-	protected final int op;
+	protected final TypeOperator op;
 
 	private static final TypeExprNode EMPTY = new TypeConstraintNode(Coords.getInvalid(), new CollectNode<IdentNode>());
 
@@ -52,11 +43,10 @@ public abstract class TypeExprNode extends BaseNode
 		return EMPTY;
 	}
 
-	protected TypeExprNode(Coords coords, int op)
+	protected TypeExprNode(Coords coords, TypeOperator op)
 	{
 		super(coords);
 		this.op = op;
-		assert op >= 0 && op <= LAST : "Illegal type constraint expr opcode";
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
@@ -69,6 +59,6 @@ public abstract class TypeExprNode extends BaseNode
 	@Override
 	public String getNodeLabel()
 	{
-		return "type expr " + opName[op];
+		return "type expr " + op;
 	}
 }

@@ -35,7 +35,9 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 
 	public enum Directedness
 	{
-		Arbitrary, Directed, Undirected
+		Arbitrary,
+		Directed,
+		Undirected
 	}
 
 	protected Directedness directedness;
