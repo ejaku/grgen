@@ -41,12 +41,15 @@ public class ConnectionNode extends ConnectionCharacter
 	}
 
 	/** possible connection kinds */
-	public static final int ARBITRARY = 0;
-	public static final int ARBITRARY_DIRECTED = 1;
-	public static final int DIRECTED = 2;
-	public static final int UNDIRECTED = 3;
+	public enum ConnectionKind
+	{
+		ARBITRARY,
+		ARBITRARY_DIRECTED,
+		DIRECTED,
+		UNDIRECTED
+	}
 
-	private int connectionKind;
+	private ConnectionKind connectionKind;
 
 	/** possible redirection kinds */
 	public static final int NO_REDIRECTION = 0;
@@ -72,7 +75,7 @@ public class ConnectionNode extends ConnectionCharacter
 	 *  @param direction Direction of the connection.
 	 *  @param redirection Potential redirection of the edge in the connection.
 	 */
-	public ConnectionNode(BaseNode left, BaseNode edge, BaseNode right, int direction, int redirection)
+	public ConnectionNode(BaseNode left, BaseNode edge, BaseNode right, ConnectionKind direction, int redirection)
 	{
 		super(edge.getCoords());
 		leftUnresolved = left;
@@ -92,7 +95,7 @@ public class ConnectionNode extends ConnectionCharacter
 	 *  @param right Second node.
 	 *  @param direction Direction of the connection.
 	 */
-	public ConnectionNode(NodeDeclNode left, EdgeDeclNode edge, NodeDeclNode right, int direction, BaseNode parent)
+	public ConnectionNode(NodeDeclNode left, EdgeDeclNode edge, NodeDeclNode right, ConnectionKind direction, BaseNode parent)
 	{
 		this(left, edge, right, direction, NO_REDIRECTION);
 		parent.becomeParent(this);
@@ -173,7 +176,7 @@ public class ConnectionNode extends ConnectionCharacter
 
 	private void warnArbitraryRootType()
 	{
-		if(connectionKind != ARBITRARY) {
+		if(connectionKind != ConnectionKind.ARBITRARY) {
 			return;
 		}
 
@@ -289,18 +292,18 @@ public class ConnectionNode extends ConnectionCharacter
 				edge.reportError("An edge to be redirected must have been declared on the left hand side (thus matched).");
 				return false;
 			}
-			if(connectionKind != DIRECTED) {
+			if(connectionKind != ConnectionKind.DIRECTED) {
 				edge.reportError("Only directed edges may be redirected (to other nodes).");
 				return false;
 			}
 		}
-		if(connectionKind == ConnectionNode.ARBITRARY) {
+		if(connectionKind == ConnectionKind.ARBITRARY) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 				reportError("New instances of ?--? are not allowed in RHS");
 				return false;
 			}
 		}
-		if(connectionKind == ConnectionNode.ARBITRARY_DIRECTED) {
+		if(connectionKind == ConnectionKind.ARBITRARY_DIRECTED) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 				reportError("New instances of <--> are not allowed in RHS");
 				return false;
@@ -317,7 +320,7 @@ public class ConnectionNode extends ConnectionCharacter
 	@Override
 	public void addToGraph(Graph gr)
 	{
-		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == DIRECTED,
+		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == ConnectionKind.DIRECTED,
 				(redirectionKind & REDIRECT_SOURCE) == REDIRECT_SOURCE,
 				(redirectionKind & REDIRECT_TARGET) == REDIRECT_TARGET);
 	}
@@ -333,7 +336,7 @@ public class ConnectionNode extends ConnectionCharacter
 		set.add(edge);
 	}
 
-	public int getConnectionKind()
+	public ConnectionKind getConnectionKind()
 	{
 		return connectionKind;
 	}

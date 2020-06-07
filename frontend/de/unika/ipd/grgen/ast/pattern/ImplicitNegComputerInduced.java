@@ -169,7 +169,8 @@ public class ImplicitNegComputerInduced
 			// add another edge of type edgeRoot to the NAC
 			EdgeDeclNode edge = patternGraph.getAnonymousEdgeDecl(edgeRoot, patternGraph.context);
 
-			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, ConnectionNode.ARBITRARY, patternGraph);
+			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt,
+					ConnectionNode.ConnectionKind.ARBITRARY, patternGraph);
 
 			conn.addToGraph(neg);
 

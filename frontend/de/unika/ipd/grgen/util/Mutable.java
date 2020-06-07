@@ -7,21 +7,21 @@
 
 package de.unika.ipd.grgen.util;
 
-public class MutableInteger
+public class Mutable<T>
 {
-	int value;
+	T value;
 
-	public MutableInteger(int v)
+	public Mutable(T v)
 	{
 		value = v;
 	}
 
-	public int getValue()
+	public T getValue()
 	{
 		return value;
 	}
 
-	public void setValue(int value)
+	public void setValue(T value)
 	{
 		this.value = value;
 	}
