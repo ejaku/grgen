@@ -47,7 +47,7 @@ public abstract class ConstNode extends OperatorNode
 	 */
 	public ConstNode(Coords coords, String name, Object value)
 	{
-		super(coords, OperatorDeclNode.CONST);
+		super(coords, OperatorDeclNode.Operator.CONST);
 		this.value = value;
 		this.name = name;
 	}
@@ -93,7 +93,7 @@ public abstract class ConstNode extends OperatorNode
 	@Override
 	public String toString()
 	{
-		return OperatorDeclNode.getName(getOpId()) + " " + value.toString();
+		return OperatorDeclNode.getName(getOperator()) + " " + value.toString();
 	}
 
 	@Override

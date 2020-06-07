@@ -18,13 +18,13 @@ import de.unika.ipd.grgen.ir.model.Index;
 public class IndexAccessOrdering extends IndexAccess
 {
 	public boolean ascending;
-	int comp;
+	OperatorDeclNode.Operator comp;
 	Expression expr;
-	int comp2;
+	OperatorDeclNode.Operator comp2;
 	Expression expr2;
 
 	public IndexAccessOrdering(Index index, boolean ascending,
-			int comp, Expression expr, int comp2, Expression expr2)
+			OperatorDeclNode.Operator comp, Expression expr, OperatorDeclNode.Operator comp2, Expression expr2)
 	{
 		super(index);
 		this.ascending = ascending;
@@ -38,20 +38,20 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE)
+				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
 					return expr;
 				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)
+					if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
 						return expr2;
 				}
 			}
 			return null;
 		} else {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE)
+				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
 					return expr;
 				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)
+					if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
 						return expr2;
 				}
 			}
@@ -63,20 +63,20 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE)
+				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
 					return expr;
 				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)
+					if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
 						return expr2;
 				}
 			}
 			return null;
 		} else {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE)
+				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
 					return expr;
 				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)
+					if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
 						return expr2;
 				}
 			}
@@ -88,21 +88,21 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE)
-					return comp == OperatorDeclNode.GE;
+				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
+					return comp == OperatorDeclNode.Operator.GE;
 				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)
-						return comp2 == OperatorDeclNode.GE;
+					if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
+						return comp2 == OperatorDeclNode.Operator.GE;
 				}
 			}
 			return false; // dummy/don't care
 		} else {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE)
-					return comp == OperatorDeclNode.LE;
+				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
+					return comp == OperatorDeclNode.Operator.LE;
 				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)
-						return comp2 == OperatorDeclNode.LE;
+					if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
+						return comp2 == OperatorDeclNode.Operator.LE;
 				}
 			}
 			return false; // dummy/don't care
@@ -113,21 +113,21 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE)
-					return comp == OperatorDeclNode.LE;
+				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
+					return comp == OperatorDeclNode.Operator.LE;
 				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)
-						return comp2 == OperatorDeclNode.LE;
+					if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
+						return comp2 == OperatorDeclNode.Operator.LE;
 				}
 			}
 			return false; // dummy/don't care
 		} else {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE)
-					return comp == OperatorDeclNode.GE;
+				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
+					return comp == OperatorDeclNode.Operator.GE;
 				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)
-						return comp2 == OperatorDeclNode.GE;
+					if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
+						return comp2 == OperatorDeclNode.Operator.GE;
 				}
 			}
 			return false; // dummy/don't care

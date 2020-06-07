@@ -79,25 +79,25 @@ public class ArrayTypeNode extends ContainerTypeNode
 			return false;
 
 		if(valueType instanceof InheritanceTypeNode) {
-			OperatorDeclNode.makeBinOp(OperatorDeclNode.IN, BasicTypeNode.booleanType,
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
 					BasicTypeNode.typeType, this, OperatorEvaluator.arrayEvaluator);
 		} else {
-			OperatorDeclNode.makeBinOp(OperatorDeclNode.IN, BasicTypeNode.booleanType,
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
 					valueType, this, OperatorEvaluator.arrayEvaluator);
 		}
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.EQ, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.NE, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.NE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.GT, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GT, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.GE, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.LT, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.LT, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.LE, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.LE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.ADD, this, this, this,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.ADD, this, this, this,
 				OperatorEvaluator.arrayEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);

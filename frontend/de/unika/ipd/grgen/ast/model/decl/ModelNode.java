@@ -158,13 +158,13 @@ public class ModelNode extends DeclNode
 	protected boolean resolveLocal()
 	{
 		if(isLowerClassDefined) {
-			OperatorDeclNode.makeBinOp(OperatorDeclNode.GE, BasicTypeNode.booleanType,
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GE, BasicTypeNode.booleanType,
 					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
-			OperatorDeclNode.makeBinOp(OperatorDeclNode.GT, BasicTypeNode.booleanType,
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GT, BasicTypeNode.booleanType,
 					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
-			OperatorDeclNode.makeBinOp(OperatorDeclNode.LE, BasicTypeNode.booleanType,
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.LE, BasicTypeNode.booleanType,
 					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
-			OperatorDeclNode.makeBinOp(OperatorDeclNode.LT, BasicTypeNode.booleanType,
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.LT, BasicTypeNode.booleanType,
 					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
 		}
 

@@ -28,11 +28,11 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public abstract class OperatorNode extends ExprNode
 {
-	/** The ID of the operator. */
-	private int opId;
+	/** The operator. */
+	private OperatorDeclNode.Operator operator;
 
 	/** The corresponding operator declaration. */
-	private OperatorDeclNode operator;
+	private OperatorDeclNode operatorDecl;
 
 	public Vector<ExprNode> children = new Vector<ExprNode>();
 
@@ -41,10 +41,10 @@ public abstract class OperatorNode extends ExprNode
 	 * @param coords The source coordinates of that node.
 	 * @param opId The operator ID.
 	 */
-	public OperatorNode(Coords coords, int opId)
+	public OperatorNode(Coords coords, OperatorDeclNode.Operator operator)
 	{
 		super(coords);
-		this.opId = opId;
+		this.operator = operator;
 	}
 
 	public void addChild(ExprNode n)
@@ -59,7 +59,7 @@ public abstract class OperatorNode extends ExprNode
 	{
 		boolean res = true;
 		TypeNode type = getType();
-		int arity = OperatorDeclNode.getArity(opId);
+		int arity = OperatorDeclNode.getArity(operator);
 
 		if(children.size() != arity) {
 			reportError("Wrong operator arity: " + children.size());
@@ -83,7 +83,7 @@ public abstract class OperatorNode extends ExprNode
 	 */
 	private OperatorDeclNode computeOperator()
 	{
-		OperatorDeclNode operator = null;
+		OperatorDeclNode operatorDecl = null;
 		Vector<TypeNode> argTypes = new Vector<TypeNode>();
 
 		for(int i = 0; i < children.size(); i++) {
@@ -99,8 +99,8 @@ public abstract class OperatorNode extends ExprNode
 			argTypes.add(type);
 		}
 
-		operator = OperatorDeclNode.getNearestOperator(opId, argTypes);
-		if(!operator.isValid()) {
+		operatorDecl = OperatorDeclNode.getNearestOperator(operator, argTypes);
+		if(!operatorDecl.isValid()) {
 			StringBuffer params = new StringBuffer();
 			boolean errorReported = false;
 
@@ -115,11 +115,11 @@ public abstract class OperatorNode extends ExprNode
 			params.append(')');
 
 			if(!errorReported) {
-				reportError("No such operator " + OperatorDeclNode.getName(opId) + params);
+				reportError("No such operator " + OperatorDeclNode.getName(operator) + params);
 			}
 		} else {
 			// Insert implicit type casts for the arguments that need them.
-			TypeNode[] opTypes = operator.getOperandTypes();
+			TypeNode[] opTypes = operatorDecl.getOperandTypes();
 			assert(opTypes.length == argTypes.size());
 			for(int i = 0; i < argTypes.size(); i++) {
 				if(!argTypes.get(i).isEqual(opTypes[i])) {
@@ -131,21 +131,21 @@ public abstract class OperatorNode extends ExprNode
 			}
 		}
 
-		return operator;
+		return operatorDecl;
 	}
 
-	public final OperatorDeclNode getOperator()
+	public final OperatorDeclNode getOperatorDecl()
 	{
-		if(operator == null) {
-			operator = computeOperator();
+		if(operatorDecl == null) {
+			operatorDecl = computeOperator();
 		}
 
-		return operator;
+		return operatorDecl;
 	}
 
-	public final int getOpId()
+	public final OperatorDeclNode.Operator getOperator()
 	{
-		return opId;
+		return operator;
 	}
 
 	/**
@@ -158,6 +158,6 @@ public abstract class OperatorNode extends ExprNode
 	@Override
 	public TypeNode getType()
 	{
-		return getOperator().getResultType();
+		return getOperatorDecl().getResultType();
 	}
 }

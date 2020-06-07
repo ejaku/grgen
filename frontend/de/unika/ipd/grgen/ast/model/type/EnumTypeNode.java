@@ -60,7 +60,7 @@ public class EnumTypeNode extends CompoundTypeNode
 		becomeParent(this.elements);
 
 		//enumerations can be used with the conditional operator
-		OperatorDeclNode.makeOp(OperatorDeclNode.COND, this,
+		OperatorDeclNode.makeOp(OperatorDeclNode.Operator.COND, this,
 				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
 
 		//the compatibility of the this enum type

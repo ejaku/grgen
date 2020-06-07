@@ -92,31 +92,31 @@ public class MapTypeNode extends ContainerTypeNode
 			return false;
 
 		if(keyType instanceof InheritanceTypeNode) {
-			OperatorDeclNode.makeBinOp(OperatorDeclNode.IN, BasicTypeNode.booleanType,
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
 					BasicTypeNode.typeType, this, OperatorEvaluator.mapEvaluator);
 		} else {
-			OperatorDeclNode.makeBinOp(OperatorDeclNode.IN, BasicTypeNode.booleanType,
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
 					keyType, this, OperatorEvaluator.mapEvaluator);
 		}
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.EQ, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.mapEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.NE, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.NE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.mapEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.GT, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GT, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.mapEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.GE, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.mapEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.LT, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.LT, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.mapEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.LE, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.LE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.mapEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.BIT_OR, this,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.BIT_OR, this,
 				this, this, OperatorEvaluator.mapEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.BIT_AND, this,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.BIT_AND, this,
 				this, this, OperatorEvaluator.mapEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.EXCEPT, this,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EXCEPT, this,
 				this, this, OperatorEvaluator.mapEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.EXCEPT, this,
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EXCEPT, this,
 				this, exceptCompatibleSetTyp, OperatorEvaluator.mapEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);

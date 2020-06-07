@@ -35,15 +35,15 @@ public class MatchEdgeByIndexAccessOrderingDeclNode extends MatchEdgeByIndexDecl
 	}
 
 	private boolean ascending;
-	private int comp;
+	private OperatorDeclNode.Operator comp;
 	private ExprNode expr;
-	private int comp2;
+	private OperatorDeclNode.Operator comp2;
 	private ExprNode expr2;
 
 	public MatchEdgeByIndexAccessOrderingDeclNode(IdentNode id, BaseNode type, int context,
 			boolean ascending, IdentNode index,
-			int comp, ExprNode expr,
-			int comp2, ExprNode expr2,
+			OperatorDeclNode.Operator comp, ExprNode expr,
+			OperatorDeclNode.Operator comp2, ExprNode expr2,
 			PatternGraphNode directlyNestingLHSGraph)
 	{
 		super(id, type, context, index, directlyNestingLHSGraph);
@@ -144,14 +144,14 @@ public class MatchEdgeByIndexAccessOrderingDeclNode extends MatchEdgeByIndexDecl
 					+ "\" to pattern element type \"" + expTypeName + "\" in match edge by index access");
 			return false;
 		}
-		if(comp == OperatorDeclNode.LT || comp == OperatorDeclNode.LE) {
-			if(expr2 != null && (comp2 == OperatorDeclNode.LT || comp2 == OperatorDeclNode.LE)) {
+		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {
+			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)) {
 				reportError("Match edge by index does not support two lower bounds");
 				return false;
 			}
 		}
-		if(comp == OperatorDeclNode.GT || comp == OperatorDeclNode.GE) {
-			if(expr2 != null && (comp2 == OperatorDeclNode.GT || comp2 == OperatorDeclNode.GE)) {
+		if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE) {
+			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)) {
 				reportError("Match edge by index does not support two upper bounds");
 				return false;
 			}

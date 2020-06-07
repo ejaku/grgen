@@ -42,36 +42,37 @@ public class ArithmeticOperatorNode extends OperatorNode
 		setName(ArithmeticOperatorNode.class, "arithmetic operator");
 	}
 
-	/** maps an operator id to IR opcode, filled with code beyond */
-	private static Map<Integer, Integer> irOpCodeMap = new HashMap<Integer, Integer>();
+	/** maps an operator to an IR opcode, filled with code beyond */
+	private static Map<OperatorDeclNode.Operator, Integer> irOpCodeMap =
+			new HashMap<OperatorDeclNode.Operator, Integer>();
 
 	static {
-		assocOpCode(OperatorDeclNode.COND, Operator.COND);
-		assocOpCode(OperatorDeclNode.LOG_OR, Operator.LOG_OR);
-		assocOpCode(OperatorDeclNode.LOG_AND, Operator.LOG_AND);
-		assocOpCode(OperatorDeclNode.BIT_OR, Operator.BIT_OR);
-		assocOpCode(OperatorDeclNode.BIT_XOR, Operator.BIT_XOR);
-		assocOpCode(OperatorDeclNode.BIT_AND, Operator.BIT_AND);
-		assocOpCode(OperatorDeclNode.EQ, Operator.EQ);
-		assocOpCode(OperatorDeclNode.NE, Operator.NE);
-		assocOpCode(OperatorDeclNode.SE, Operator.SE);
-		assocOpCode(OperatorDeclNode.LT, Operator.LT);
-		assocOpCode(OperatorDeclNode.LE, Operator.LE);
-		assocOpCode(OperatorDeclNode.GT, Operator.GT);
-		assocOpCode(OperatorDeclNode.GE, Operator.GE);
-		assocOpCode(OperatorDeclNode.SHL, Operator.SHL);
-		assocOpCode(OperatorDeclNode.SHR, Operator.SHR);
-		assocOpCode(OperatorDeclNode.BIT_SHR, Operator.BIT_SHR);
-		assocOpCode(OperatorDeclNode.ADD, Operator.ADD);
-		assocOpCode(OperatorDeclNode.SUB, Operator.SUB);
-		assocOpCode(OperatorDeclNode.MUL, Operator.MUL);
-		assocOpCode(OperatorDeclNode.DIV, Operator.DIV);
-		assocOpCode(OperatorDeclNode.MOD, Operator.MOD);
-		assocOpCode(OperatorDeclNode.LOG_NOT, Operator.LOG_NOT);
-		assocOpCode(OperatorDeclNode.BIT_NOT, Operator.BIT_NOT);
-		assocOpCode(OperatorDeclNode.NEG, Operator.NEG);
-		assocOpCode(OperatorDeclNode.IN, Operator.IN);
-		assocOpCode(OperatorDeclNode.EXCEPT, Operator.EXCEPT);
+		assocOpCode(OperatorDeclNode.Operator.COND, Operator.COND);
+		assocOpCode(OperatorDeclNode.Operator.LOG_OR, Operator.LOG_OR);
+		assocOpCode(OperatorDeclNode.Operator.LOG_AND, Operator.LOG_AND);
+		assocOpCode(OperatorDeclNode.Operator.BIT_OR, Operator.BIT_OR);
+		assocOpCode(OperatorDeclNode.Operator.BIT_XOR, Operator.BIT_XOR);
+		assocOpCode(OperatorDeclNode.Operator.BIT_AND, Operator.BIT_AND);
+		assocOpCode(OperatorDeclNode.Operator.EQ, Operator.EQ);
+		assocOpCode(OperatorDeclNode.Operator.NE, Operator.NE);
+		assocOpCode(OperatorDeclNode.Operator.SE, Operator.SE);
+		assocOpCode(OperatorDeclNode.Operator.LT, Operator.LT);
+		assocOpCode(OperatorDeclNode.Operator.LE, Operator.LE);
+		assocOpCode(OperatorDeclNode.Operator.GT, Operator.GT);
+		assocOpCode(OperatorDeclNode.Operator.GE, Operator.GE);
+		assocOpCode(OperatorDeclNode.Operator.SHL, Operator.SHL);
+		assocOpCode(OperatorDeclNode.Operator.SHR, Operator.SHR);
+		assocOpCode(OperatorDeclNode.Operator.BIT_SHR, Operator.BIT_SHR);
+		assocOpCode(OperatorDeclNode.Operator.ADD, Operator.ADD);
+		assocOpCode(OperatorDeclNode.Operator.SUB, Operator.SUB);
+		assocOpCode(OperatorDeclNode.Operator.MUL, Operator.MUL);
+		assocOpCode(OperatorDeclNode.Operator.DIV, Operator.DIV);
+		assocOpCode(OperatorDeclNode.Operator.MOD, Operator.MOD);
+		assocOpCode(OperatorDeclNode.Operator.LOG_NOT, Operator.LOG_NOT);
+		assocOpCode(OperatorDeclNode.Operator.BIT_NOT, Operator.BIT_NOT);
+		assocOpCode(OperatorDeclNode.Operator.NEG, Operator.NEG);
+		assocOpCode(OperatorDeclNode.Operator.IN, Operator.IN);
+		assocOpCode(OperatorDeclNode.Operator.EXCEPT, Operator.EXCEPT);
 	}
 
 	private QualIdentNode target = null; // if !null it's a set/map union/except which is to be broken up
@@ -80,14 +81,14 @@ public class ArithmeticOperatorNode extends OperatorNode
 	 * @param coords Source code coordinates.
 	 * @param opId ID of the operator.
 	 */
-	public ArithmeticOperatorNode(Coords coords, int opId)
+	public ArithmeticOperatorNode(Coords coords, OperatorDeclNode.Operator operator)
 	{
-		super(coords, opId);
+		super(coords, operator);
 	}
 
-	public ArithmeticOperatorNode(Coords coords, int opId, ExprNode op1, ExprNode op2)
+	public ArithmeticOperatorNode(Coords coords, OperatorDeclNode.Operator operator, ExprNode op1, ExprNode op2)
 	{
-		super(coords, opId);
+		super(coords, operator);
 		children.add(op1);
 		children.add(op2);
 	}
@@ -128,7 +129,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 			children.set(i, args[i]);
 		}
 
-		return getOperator().evaluate(this, args);
+		return getOperatorDecl().evaluate(this, args);
 	}
 
 	/** mark to break set/map assignment of set/map expression up into set/map add/remove to/from target statements */
@@ -159,7 +160,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 		}
 
 		DeclaredTypeNode type = (DeclaredTypeNode)getType();
-		Operator op = new Operator(type.getType(), getIROpCode(getOpId()));
+		Operator op = new Operator(type.getType(), getIROpCode(getOperator()));
 
 		for(ExprNode child : children) {
 			Expression ir = child.checkIR(Expression.class);
@@ -172,7 +173,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 	private EvalStatement replaceSetMapOrExceptByAddRemove(Qualification qual,
 			EvalStatement previous, EvalStatement first)
 	{
-		if(getOperator().getOpId() == OperatorDeclNode.BIT_OR) {
+		if(getOperatorDecl().getOperator() == OperatorDeclNode.Operator.BIT_OR) {
 			if(children.get(1).getType() instanceof SetTypeNode) {
 				SetInitNode initNode = (SetInitNode)children.get(1);
 				for(ExprNode item : initNode.getItems().getChildren()) {
@@ -237,20 +238,20 @@ public class ArithmeticOperatorNode extends OperatorNode
 		return first;
 	}
 
-	private static void assocOpCode(int id, int opcode)
+	private static void assocOpCode(OperatorDeclNode.Operator operator, int opcode)
 	{
-		irOpCodeMap.put(new Integer(id), new Integer(opcode));
+		irOpCodeMap.put(operator, new Integer(opcode));
 	}
 
 	/** Maps an operator ID to an IR opcode. */
-	private static int getIROpCode(int opId)
+	private static int getIROpCode(OperatorDeclNode.Operator operator)
 	{
-		return irOpCodeMap.get(new Integer(opId)).intValue();
+		return irOpCodeMap.get(operator).intValue();
 	}
 
 	@Override
 	public String toString()
 	{
-		return OperatorDeclNode.getName(getOpId());
+		return OperatorDeclNode.getName(getOperator());
 	}
 }

@@ -33,90 +33,91 @@ import de.unika.ipd.grgen.parser.Symbol;
  */
 public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 {
-	public static final int ERROR = 0;
-	public static final int LOG_OR = 1;
-	public static final int LOG_AND = 2;
-	public static final int BIT_OR = 3;
-	public static final int BIT_XOR = 4;
-	public static final int BIT_AND = 5;
-	public static final int EQ = 6;
-	public static final int NE = 7;
-	public static final int LT = 8;
-	public static final int LE = 9;
-	public static final int GT = 10;
-	public static final int GE = 11;
-	public static final int SHL = 12;
-	public static final int SHR = 13;
-	public static final int BIT_SHR = 14;
-	public static final int ADD = 15;
-	public static final int SUB = 16;
-	public static final int MUL = 17;
-	public static final int DIV = 18;
-	public static final int MOD = 19;
-	public static final int LOG_NOT = 20;
-	public static final int BIT_NOT = 21;
-	public static final int NEG = 22;
-	public static final int CONST = 23;
-	public static final int COND = 24;
-	public static final int IN = 25; // MAP TODO: den operator richtig implementieren, mit typbalancing etc.
-	public static final int EXCEPT = 26;
-	public static final int SE = 27;
-
-	private static final int OPERATORS = SE + 1;
+	public enum Operator
+	{
+		ERROR,
+		LOG_OR,
+		LOG_AND,
+		BIT_OR,
+		BIT_XOR,
+		BIT_AND,
+		EQ,
+		NE,
+		LT,
+		LE,
+		GT,
+		GE,
+		SHL,
+		SHR,
+		BIT_SHR,
+		ADD,
+		SUB,
+		MUL,
+		DIV,
+		MOD,
+		LOG_NOT,
+		BIT_NOT,
+		NEG,
+		CONST,
+		COND,
+		IN, // MAP TODO: den operator richtig implementieren, mit typbalancing etc.
+		EXCEPT,
+		SE
+	}
 
 	private static final OperatorTypeNode operatorType = new OperatorTypeNode();
 
 	/** Arity map of the operators. */
-	private static final Map<Integer, Integer> arities = new HashMap<Integer, Integer>();
+	private static final Map<Operator, Integer> arities = new HashMap<Operator, Integer>();
 
 	/** Name map of the operators. */
-	private static final Map<Integer, String> names = new HashMap<Integer, String>();
+	private static final Map<Operator, String> names = new HashMap<Operator, String>();
 
 	static {
 		Integer two = new Integer(2);
 		Integer one = new Integer(1);
 		Integer zero = new Integer(0);
 
-		for(int i = 0; i < OPERATORS; i++)
-			arities.put(new Integer(i), two);
+		for(Operator op : Operator.values())
+			arities.put(op, two);
 
-		arities.put(new Integer(COND), new Integer(3));
-		arities.put(new Integer(LOG_NOT), one);
-		arities.put(new Integer(BIT_NOT), one);
-		arities.put(new Integer(NEG), one);
-		arities.put(new Integer(CONST), zero);
-		arities.put(new Integer(ERROR), zero);
+		arities.put(Operator.COND, new Integer(3));
+		arities.put(Operator.LOG_NOT, one);
+		arities.put(Operator.BIT_NOT, one);
+		arities.put(Operator.NEG, one);
+		arities.put(Operator.CONST, zero);
+		arities.put(Operator.ERROR, zero);
 	}
 
 	static {
-		names.put(new Integer(COND), "Cond");
-		names.put(new Integer(LOG_OR), "LogOr");
-		names.put(new Integer(LOG_AND), "LogAnd");
-		names.put(new Integer(BIT_XOR), "BitXor");
-		names.put(new Integer(BIT_OR), "BitOr");
-		names.put(new Integer(BIT_AND), "BitAnd");
-		names.put(new Integer(EQ), "Eq");
-		names.put(new Integer(NE), "Ne");
-		names.put(new Integer(LT), "Lt");
-		names.put(new Integer(LE), "Le");
-		names.put(new Integer(GT), "Gt");
-		names.put(new Integer(GE), "Ge");
-		names.put(new Integer(SHL), "Shl");
-		names.put(new Integer(SHR), "Shr");
-		names.put(new Integer(BIT_SHR), "BitShr");
-		names.put(new Integer(ADD), "Add");
-		names.put(new Integer(SUB), "Sub");
-		names.put(new Integer(MUL), "Mul");
-		names.put(new Integer(DIV), "Div");
-		names.put(new Integer(MOD), "Mod");
-		names.put(new Integer(LOG_NOT), "LogNot");
-		names.put(new Integer(BIT_NOT), "BitNot");
-		names.put(new Integer(NEG), "Neg");
-		names.put(new Integer(CONST), "Const");
-		names.put(new Integer(IN), "In");
-		names.put(new Integer(EXCEPT), "Except");
-		names.put(new Integer(SE), "Se");
-		names.put(new Integer(ERROR), "Error");
+		names.put(Operator.COND, "Cond");
+		names.put(Operator.LOG_OR, "LogOr");
+		names.put(Operator.LOG_AND, "LogAnd");
+		names.put(Operator.BIT_XOR, "BitXor");
+		names.put(Operator.BIT_OR, "BitOr");
+		names.put(Operator.BIT_AND, "BitAnd");
+		names.put(Operator.EQ, "Eq");
+		names.put(Operator.NE, "Ne");
+		names.put(Operator.LT, "Lt");
+		names.put(Operator.LE, "Le");
+		names.put(Operator.GT, "Gt");
+		names.put(Operator.GE, "Ge");
+		names.put(Operator.SHL, "Shl");
+		names.put(Operator.SHR, "Shr");
+		names.put(Operator.BIT_SHR, "BitShr");
+		names.put(Operator.ADD, "Add");
+		names.put(Operator.SUB, "Sub");
+		names.put(Operator.MUL, "Mul");
+		names.put(Operator.DIV, "Div");
+		names.put(Operator.MOD, "Mod");
+		names.put(Operator.LOG_NOT, "LogNot");
+		names.put(Operator.BIT_NOT, "BitNot");
+		names.put(Operator.NEG, "Neg");
+		names.put(Operator.CONST, "Const");
+		names.put(Operator.IN, "In");
+		names.put(Operator.EXCEPT, "Except");
+		names.put(Operator.SE, "Se");
+		names.put(Operator.ERROR, "Error");
 	}
 
 	/** Just short forms for less verbose coding. */
@@ -138,32 +139,27 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	/**
 	 * Each generic operator is mapped by its ID to a set of concrete operator signatures.
 	 */
-	private static final Map<Integer, HashSet<OperatorDeclNode>> operators = new HashMap<Integer, HashSet<OperatorDeclNode>>();
+	private static final Map<Operator, HashSet<OperatorDeclNode>> operators =
+			new HashMap<Operator, HashSet<OperatorDeclNode>>();
 
 	/**
 	 * Makes an entry in the {@link #operators} map.
 	 *
-	 * @param id
-	 *            The ID of the operator.
-	 * @param resultType
-	 *            The result type of the operator.
-	 * @param operandTypes
-	 *            The operand types of the operator.
-	 * @param evaluator
-	 *            an Evaluator
+	 * @param operator The operator.
+	 * @param resultType The result type of the operator.
+	 * @param operandTypes The operand types of the operator.
+	 * @param evaluator an Evaluator
 	 */
-	public static final void makeOp(int id, TypeNode resultType,
+	public static final void makeOp(Operator operator, TypeNode resultType,
 			TypeNode[] operandTypes, OperatorEvaluator evaluator)
 	{
-		Integer operatorId = new Integer(id);
-
-		HashSet<OperatorDeclNode> typeMap = operators.get(operatorId);
+		HashSet<OperatorDeclNode> typeMap = operators.get(operator);
 		if(typeMap == null) {
 			typeMap = new LinkedHashSet<OperatorDeclNode>();
-			operators.put(operatorId, typeMap);
+			operators.put(operator, typeMap);
 		}
 
-		OperatorDeclNode newOpSig = new OperatorDeclNode(id, resultType,
+		OperatorDeclNode newOpSig = new OperatorDeclNode(operator, resultType,
 				operandTypes, evaluator);
 		typeMap.add(newOpSig);
 	}
@@ -172,213 +168,213 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 * Enter a binary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	public static final void makeBinOp(int id, TypeNode resultType,
+	public static final void makeBinOp(Operator operator, TypeNode resultType,
 			TypeNode leftType, TypeNode rightType, OperatorEvaluator evaluator)
 	{
-		makeOp(id, resultType, new TypeNode[] { leftType, rightType }, evaluator);
+		makeOp(operator, resultType, new TypeNode[] { leftType, rightType }, evaluator);
 	}
 
 	/**
 	 * Enter an unary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	public static final void makeUnOp(int id, TypeNode resultType,
+	public static final void makeUnOp(Operator operator, TypeNode resultType,
 			TypeNode operandType, OperatorEvaluator evaluator)
 	{
-		makeOp(id, resultType, new TypeNode[] { operandType }, evaluator);
+		makeOp(operator, resultType, new TypeNode[] { operandType }, evaluator);
 	}
 
 	// Initialize the operators map.
 	static {
 		// String operators
-		makeBinOp(EQ, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(NE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(GE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(GT, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(LE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(LT, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(IN, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(Operator.GE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(Operator.GT, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(Operator.LE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(Operator.LT, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(Operator.IN, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
 
 		// object operators
-		makeBinOp(EQ, BOOLEAN, OBJECT, OBJECT, OperatorEvaluator.objectEvaluator);
-		makeBinOp(NE, BOOLEAN, OBJECT, OBJECT, OperatorEvaluator.objectEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, OBJECT, OBJECT, OperatorEvaluator.objectEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, OBJECT, OBJECT, OperatorEvaluator.objectEvaluator);
 
 		// null operators
-		makeBinOp(EQ, BOOLEAN, NULL, NULL, OperatorEvaluator.nullEvaluator);
-		makeBinOp(NE, BOOLEAN, NULL, NULL, OperatorEvaluator.nullEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, NULL, NULL, OperatorEvaluator.nullEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, NULL, NULL, OperatorEvaluator.nullEvaluator);
 
 		// subgraph operators
-		makeBinOp(EQ, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
-		makeBinOp(NE, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
-		makeBinOp(SE, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
+		makeBinOp(Operator.SE, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
 
 		// Integer comparison
-		makeBinOp(EQ, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(NE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(GE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(GT, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(LE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(LT, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.GE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.GT, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.LE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.LT, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
 
 		// Long comparison
-		makeBinOp(EQ, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(NE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(GE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(GT, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(LE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(LT, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.GE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.GT, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.LE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.LT, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
 
 		// Float comparison
-		makeBinOp(EQ, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(NE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(GE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(GT, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(LE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(LT, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.GE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.GT, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.LE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.LT, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
 
 		// Double comparison
-		makeBinOp(EQ, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(NE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(GE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(GT, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(LE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(LT, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.GE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.GT, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.LE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.LT, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
 
 		// Boolean operators
-		makeBinOp(LOG_AND, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
-		makeBinOp(LOG_OR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
-		makeUnOp(LOG_NOT, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(Operator.LOG_AND, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(Operator.LOG_OR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeUnOp(Operator.LOG_NOT, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
 
-		makeBinOp(BIT_AND, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
-		makeBinOp(BIT_OR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
-		makeBinOp(BIT_XOR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(Operator.BIT_AND, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(Operator.BIT_OR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(Operator.BIT_XOR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
 
 		// Boolean comparison
-		makeBinOp(EQ, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
-		makeBinOp(NE, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
 
 		// Integer arithmetic (byte and short are casted to integer)
-		makeBinOp(ADD, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(SUB, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(MUL, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(DIV, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(MOD, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(SHL, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(SHR, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(BIT_SHR, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(BIT_OR, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(BIT_AND, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(BIT_XOR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.ADD, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.SUB, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.MUL, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.DIV, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.MOD, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.SHL, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.SHR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.BIT_SHR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.BIT_OR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.BIT_AND, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeBinOp(Operator.BIT_XOR, INT, INT, INT, OperatorEvaluator.intEvaluator);
 
-		makeUnOp(NEG, INT, INT, OperatorEvaluator.intEvaluator);
-		makeUnOp(BIT_NOT, INT, INT, OperatorEvaluator.intEvaluator);
+		makeUnOp(Operator.NEG, INT, INT, OperatorEvaluator.intEvaluator);
+		makeUnOp(Operator.BIT_NOT, INT, INT, OperatorEvaluator.intEvaluator);
 
 		// Long arithmetic
-		makeBinOp(ADD, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(SUB, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(MUL, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(DIV, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(MOD, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(SHL, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
-		makeBinOp(SHR, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
-		makeBinOp(BIT_SHR, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
-		makeBinOp(BIT_OR, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(BIT_AND, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(BIT_XOR, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.ADD, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.SUB, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.MUL, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.DIV, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.MOD, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.SHL, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.SHR, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.BIT_SHR, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.BIT_OR, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.BIT_AND, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeBinOp(Operator.BIT_XOR, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
 
-		makeUnOp(NEG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeUnOp(BIT_NOT, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeUnOp(Operator.NEG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		makeUnOp(Operator.BIT_NOT, LONG, LONG, OperatorEvaluator.longEvaluator);
 
 		// Float arithmetic
-		makeBinOp(ADD, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(SUB, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(MUL, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(DIV, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(MOD, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.ADD, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.SUB, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.MUL, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.DIV, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeBinOp(Operator.MOD, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
 
-		makeUnOp(NEG, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		makeUnOp(Operator.NEG, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
 
 		// Double arithmetic
-		makeBinOp(ADD, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(SUB, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(MUL, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(DIV, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(MOD, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.ADD, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.SUB, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.MUL, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.DIV, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeBinOp(Operator.MOD, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
 
-		makeUnOp(NEG, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		makeUnOp(Operator.NEG, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
 
 		// "String arithmetic"
-		makeBinOp(ADD, STRING, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		makeBinOp(Operator.ADD, STRING, STRING, STRING, OperatorEvaluator.stringEvaluator);
 
 		// Type comparison
-		makeBinOp(EQ, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
-		makeBinOp(NE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
-		makeBinOp(GE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
-		makeBinOp(GT, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
-		makeBinOp(LE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
-		makeBinOp(LT, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(Operator.GE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(Operator.GT, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(Operator.LE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		makeBinOp(Operator.LT, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
 
 		// And of course the ternary COND operator
-		makeOp(COND, BYTE, new TypeNode[] { BOOLEAN, BYTE, BYTE }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, SHORT, new TypeNode[] { BOOLEAN, SHORT, SHORT }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, INT, new TypeNode[] { BOOLEAN, INT, INT }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, LONG, new TypeNode[] { BOOLEAN, LONG, LONG }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, TYPE, new TypeNode[] { BOOLEAN, TYPE, TYPE }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, OperatorEvaluator.condEvaluator);
-		// makeOp(COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, BYTE, new TypeNode[] { BOOLEAN, BYTE, BYTE }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, SHORT, new TypeNode[] { BOOLEAN, SHORT, SHORT }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, INT, new TypeNode[] { BOOLEAN, INT, INT }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, LONG, new TypeNode[] { BOOLEAN, LONG, LONG }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, TYPE, new TypeNode[] { BOOLEAN, TYPE, TYPE }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, OperatorEvaluator.condEvaluator);
+		// makeOp(Operator.COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM }, OperatorEvaluator.condEvaluator);
 
 		/////////////////////////////////////////////////////////////////////////////////////////
 		// Operators to handle the untyped type that may appear in the sequence expressions due to untyped graph global variables
 
 		// Comparison operators
-		makeBinOp(EQ, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(NE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(GE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(GT, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(LE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(LT, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(IN, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(SE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.EQ, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.NE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.GE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.GT, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.LE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.LT, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.IN, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.SE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
 		// Boolean (and set) operators
-		makeBinOp(LOG_AND, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(LOG_OR, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeUnOp(LOG_NOT, BOOLEAN, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.LOG_AND, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.LOG_OR, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeUnOp(Operator.LOG_NOT, BOOLEAN, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
-		makeBinOp(BIT_AND, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(BIT_OR, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(BIT_XOR, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.BIT_AND, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.BIT_OR, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.BIT_XOR, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
-		makeBinOp(EXCEPT, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.EXCEPT, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
 		// Arithmetic (and string or array/deque concatenation) operators
-		makeBinOp(ADD, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(SUB, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(MUL, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(DIV, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(MOD, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.ADD, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.SUB, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.MUL, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.DIV, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeBinOp(Operator.MOD, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
-		makeUnOp(NEG, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		makeUnOp(Operator.NEG, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
 		// Condition operator ?:
-		makeOp(COND, BYTE, new TypeNode[] { UNTYPED, BYTE, BYTE }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, SHORT, new TypeNode[] { UNTYPED, SHORT, SHORT }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, INT, new TypeNode[] { UNTYPED, INT, INT }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, LONG, new TypeNode[] { UNTYPED, LONG, LONG }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, FLOAT, new TypeNode[] { UNTYPED, FLOAT, FLOAT }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, DOUBLE, new TypeNode[] { UNTYPED, DOUBLE, DOUBLE }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, STRING, new TypeNode[] { UNTYPED, STRING, STRING }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, BOOLEAN, new TypeNode[] { UNTYPED, BOOLEAN, BOOLEAN }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, TYPE, new TypeNode[] { UNTYPED, TYPE, TYPE }, OperatorEvaluator.condEvaluator);
-		makeOp(COND, OBJECT, new TypeNode[] { UNTYPED, OBJECT, OBJECT }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, BYTE, new TypeNode[] { UNTYPED, BYTE, BYTE }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, SHORT, new TypeNode[] { UNTYPED, SHORT, SHORT }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, INT, new TypeNode[] { UNTYPED, INT, INT }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, LONG, new TypeNode[] { UNTYPED, LONG, LONG }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, FLOAT, new TypeNode[] { UNTYPED, FLOAT, FLOAT }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, DOUBLE, new TypeNode[] { UNTYPED, DOUBLE, DOUBLE }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, STRING, new TypeNode[] { UNTYPED, STRING, STRING }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, BOOLEAN, new TypeNode[] { UNTYPED, BOOLEAN, BOOLEAN }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, TYPE, new TypeNode[] { UNTYPED, TYPE, TYPE }, OperatorEvaluator.condEvaluator);
+		makeOp(Operator.COND, OBJECT, new TypeNode[] { UNTYPED, OBJECT, OBJECT }, OperatorEvaluator.condEvaluator);
 
-		makeOp(COND, UNTYPED, new TypeNode[] { BOOLEAN, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
+		makeOp(Operator.COND, UNTYPED, new TypeNode[] { BOOLEAN, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
 
-		makeOp(COND, UNTYPED, new TypeNode[] { UNTYPED, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
+		makeOp(Operator.COND, UNTYPED, new TypeNode[] { UNTYPED, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
 	}
 
 	/**
@@ -394,37 +390,23 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	/**
 	 * Get the arity of an operator.
 	 *
-	 * @param id
-	 *            The ID of the operator.
+	 * @param operator The operator.
 	 * @return The arity of the operator.
 	 */
-	public static int getArity(int id)
+	public static int getArity(Operator operator)
 	{
-		return arities.get(new Integer(id)).intValue();
+		return arities.get(operator).intValue();
 	}
 
 	/**
 	 * Get the name of an operator.
 	 *
-	 * @param id
-	 *            ID of the operator.
+	 * @param id ID of the operator.
 	 * @return The name of the operator.
 	 */
-	public static String getName(int id)
+	public static String getName(Operator operator)
 	{
-		return names.get(new Integer(id));
-	}
-
-	/**
-	 * Check, if the given ID is a valid operator ID.
-	 *
-	 * @param id
-	 *            An operator ID.
-	 * @return true, if the ID is a valid operator ID, false if not.
-	 */
-	private static boolean isValidId(int id)
-	{
-		return id >= 0 && id < OPERATORS;
+		return names.get(operator);
 	}
 
 	/**
@@ -432,15 +414,12 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 * selects the operator that will provoke the least implicit type casts when
 	 * used.
 	 *
-	 * @param id
-	 *            The operator id.
-	 * @param operandTypes
-	 *            The operands.
-	 * @return The "nearest" operator.
+	 * @param operator The operator.
+	 * @param operandTypes The operands.
+	 * @return The declaration of the "nearest" operator.
 	 */
-	public static OperatorDeclNode getNearestOperator(int id, Vector<TypeNode> operandTypes)
+	public static OperatorDeclNode getNearestOperator(Operator operator, Vector<TypeNode> operandTypes)
 	{
-		Integer operatorId = new Integer(id);
 		OperatorDeclNode resultingOperator = INVALID;
 		int nearestDistance = Integer.MAX_VALUE;
 
@@ -460,7 +439,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 			}
 		}
 
-		HashSet<OperatorDeclNode> operatorCandidates = operators.get(operatorId);
+		HashSet<OperatorDeclNode> operatorCandidates = operators.get(operator);
 		if(operatorCandidates == null)
 			return INVALID;
 
@@ -523,7 +502,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	/**
 	 * An invalid operator signature.
 	 */
-	private static final OperatorDeclNode INVALID = new OperatorDeclNode(ERROR, BasicTypeNode.errorType,
+	private static final OperatorDeclNode INVALID = new OperatorDeclNode(Operator.ERROR, BasicTypeNode.errorType,
 			new TypeNode[] {}, OperatorEvaluator.emptyEvaluator) {
 		@Override
 		public boolean isValid()
@@ -533,7 +512,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	};
 
 	/** id of the operator. */
-	int id;
+	Operator operator;
 
 	/** The evaluator for constant expressions for this operator. */
 	private OperatorEvaluator evaluator;
@@ -542,16 +521,13 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 * Make a new operator. This is used exclusively in this class, so it's
 	 * private.
 	 *
-	 * @param id
-	 *            The operator id.
-	 * @param resultType
-	 *            The result type of the operator.
-	 * @param operandTypes
-	 *            The operand types.
-	 * @param evaluator
-	 *            The evaluator for this operator signature.
+	 * @param operator The operator.
+	 * @param resultType The result type of the operator.
+	 * @param operandTypes The operand types.
+	 * @param evaluator The evaluator for this operator signature.
 	 */
-	private OperatorDeclNode(int id, TypeNode resultType, TypeNode[] operandTypes, OperatorEvaluator evaluator)
+	private OperatorDeclNode(Operator operator, TypeNode resultType, TypeNode[] operandTypes,
+			OperatorEvaluator evaluator)
 	{
 		super(new IdentNode(Symbol.Definition.getInvalid()), operatorType);
 
@@ -561,10 +537,8 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 			this.parameterTypes.add(operandType);
 		}
 		
-		this.id = id;
+		this.operator = operator;
 		this.evaluator = evaluator;
-
-		assert isValidId(id) : "need a valid operator id: " + id;
 	}
 
 	/** returns children of this node */
@@ -611,12 +585,9 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	/**
 	 * Evaluate an expression using this operator signature.
 	 *
-	 * @param expr
-	 *            The expression to be evaluated.
-	 * @param arguments
-	 *            The arguments for this operator.
-	 * @return
-	 *            The possibly simplified value of the expression.
+	 * @param expr The expression to be evaluated.
+	 * @param arguments The arguments for this operator.
+	 * @return The possibly simplified value of the expression.
 	 */
 	public ExprNode evaluate(ArithmeticOperatorNode expr, ExprNode[] arguments)
 	{
@@ -633,9 +604,9 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 		return true;
 	}
 
-	public int getOpId()
+	public Operator getOperator()
 	{
-		return id;
+		return operator;
 	}
 
 	/**
@@ -645,7 +616,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	public String toString()
 	{
 		String res = getResultType().toString() + " ";
-		res += names.get(new Integer(id)) + "(";
+		res += names.get(operator) + "(";
 		TypeNode[] opTypes = getOperandTypes();
 		for(int i = 0; i < opTypes.length; i++) {
 			res += (i == 0 ? "" : ",") + opTypes[i];

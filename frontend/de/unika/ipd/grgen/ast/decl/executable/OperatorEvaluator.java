@@ -82,7 +82,7 @@ public class OperatorEvaluator
 
 	public ExprNode evaluate(ExprNode expr, OperatorDeclNode operator, ExprNode[] arguments)
 	{
-		Base.debug.report(Base.NOTE, "id: " + operator.id + ", name: " + OperatorDeclNode.getName(operator.id));
+		Base.debug.report(Base.NOTE, "id: " + operator.getOperator() + ", name: " + OperatorDeclNode.getName(operator.getOperator()));
 
 		ExprNode resExpr = expr;
 		TypeNode[] paramTypes = operator.getOperandTypes();
@@ -148,7 +148,7 @@ public class OperatorEvaluator
 		{
 			ObjectTypeNode.Value a0, a1;
 
-			if(OperatorDeclNode.getArity(op.getOpId()) != 2)
+			if(OperatorDeclNode.getArity(op.getOperator()) != 2)
 				throw new NotEvaluatableException(coords);
 
 			try {
@@ -158,10 +158,10 @@ public class OperatorEvaluator
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.id) {
-			case OperatorDeclNode.EQ:
+			switch(op.getOperator()) {
+			case EQ:
 				return new BoolConstNode(coords, a0.equals(a1));
-			case OperatorDeclNode.NE:
+			case NE:
 				return new BoolConstNode(coords, !a0.equals(a1));
 
 			default:
@@ -182,7 +182,7 @@ public class OperatorEvaluator
 		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
-			if(OperatorDeclNode.getArity(op.getOpId()) != 2)
+			if(OperatorDeclNode.getArity(op.getOperator()) != 2)
 				throw new NotEvaluatableException(coords);
 
 			try {
@@ -192,10 +192,10 @@ public class OperatorEvaluator
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.id) {
-			case OperatorDeclNode.EQ:
+			switch(op.getOperator()) {
+			case EQ:
 				return new BoolConstNode(coords, true);
-			case OperatorDeclNode.NE:
+			case NE:
 				return new BoolConstNode(coords, false);
 
 			default:
@@ -218,21 +218,21 @@ public class OperatorEvaluator
 				throw new NotEvaluatableException(coords);
 			}
 
-			if(op.id == OperatorDeclNode.ADD)
+			if(op.getOperator() == OperatorDeclNode.Operator.ADD)
 				return new StringConstNode(coords, a0 + aobj1);
 
 			String a1 = (String)aobj1;
 
-			switch(op.id) {
-			case OperatorDeclNode.EQ:
+			switch(op.getOperator()) {
+			case EQ:
 				return new BoolConstNode(coords, a0.equals(a1));
-			case OperatorDeclNode.NE:
+			case NE:
 				return new BoolConstNode(coords, !a0.equals(a1));
-			//case OperatorDeclNode.GE:  return new BoolConstNode(coords, a0.compareTo(a1) >= 0);
-			//case OperatorDeclNode.GT:  return new BoolConstNode(coords, a0.compareTo(a1) > 0);
-			//case OperatorDeclNode.LE:  return new BoolConstNode(coords, a0.compareTo(a1) <= 0);
-			//case OperatorDeclNode.LT:  return new BoolConstNode(coords, a0.compareTo(a1) < 0);
-			//case OperatorDeclNode.IN:  return new BoolConstNode(coords, a1.contains(a0));
+			//case GE:  return new BoolConstNode(coords, a0.compareTo(a1) >= 0);
+			//case GT:  return new BoolConstNode(coords, a0.compareTo(a1) > 0);
+			//case LE:  return new BoolConstNode(coords, a0.compareTo(a1) <= 0);
+			//case LT:  return new BoolConstNode(coords, a0.compareTo(a1) < 0);
+			//case IN:  return new BoolConstNode(coords, a1.contains(a0));
 
 			default:
 				throw new NotEvaluatableException(coords);
@@ -249,51 +249,51 @@ public class OperatorEvaluator
 			try {
 				a0 = ((Integer)getArgValue(e, op, 0)).intValue();
 				a1 = 0;
-				if(OperatorDeclNode.getArity(op.getOpId()) > 1)
+				if(OperatorDeclNode.getArity(op.getOperator()) > 1)
 					a1 = ((Integer)getArgValue(e, op, 1)).intValue();
 			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.id) {
-			case OperatorDeclNode.EQ:
+			switch(op.getOperator()) {
+			case EQ:
 				return new BoolConstNode(coords, a0 == a1);
-			case OperatorDeclNode.NE:
+			case NE:
 				return new BoolConstNode(coords, a0 != a1);
-			case OperatorDeclNode.LT:
+			case LT:
 				return new BoolConstNode(coords, a0 < a1);
-			case OperatorDeclNode.LE:
+			case LE:
 				return new BoolConstNode(coords, a0 <= a1);
-			case OperatorDeclNode.GT:
+			case GT:
 				return new BoolConstNode(coords, a0 > a1);
-			case OperatorDeclNode.GE:
+			case GE:
 				return new BoolConstNode(coords, a0 >= a1);
 
-			case OperatorDeclNode.ADD:
+			case ADD:
 				return new IntConstNode(coords, a0 + a1);
-			case OperatorDeclNode.SUB:
+			case SUB:
 				return new IntConstNode(coords, a0 - a1);
-			case OperatorDeclNode.MUL:
+			case MUL:
 				return new IntConstNode(coords, a0 * a1);
-			case OperatorDeclNode.DIV:
+			case DIV:
 				return new IntConstNode(coords, a0 / a1);
-			case OperatorDeclNode.MOD:
+			case MOD:
 				return new IntConstNode(coords, a0 % a1);
-			case OperatorDeclNode.SHL:
+			case SHL:
 				return new IntConstNode(coords, a0 << a1);
-			case OperatorDeclNode.SHR:
+			case SHR:
 				return new IntConstNode(coords, a0 >> a1);
-			case OperatorDeclNode.BIT_SHR:
+			case BIT_SHR:
 				return new IntConstNode(coords, a0 >>> a1);
-			case OperatorDeclNode.BIT_OR:
+			case BIT_OR:
 				return new IntConstNode(coords, a0 | a1);
-			case OperatorDeclNode.BIT_AND:
+			case BIT_AND:
 				return new IntConstNode(coords, a0 & a1);
-			case OperatorDeclNode.BIT_XOR:
+			case BIT_XOR:
 				return new IntConstNode(coords, a0 ^ a1);
-			case OperatorDeclNode.BIT_NOT:
+			case BIT_NOT:
 				return new IntConstNode(coords, ~a0);
-			case OperatorDeclNode.NEG:
+			case NEG:
 				return new IntConstNode(coords, -a0);
 
 			default:
@@ -311,51 +311,51 @@ public class OperatorEvaluator
 			try {
 				a0 = ((Long)getArgValue(e, op, 0)).longValue();
 				a1 = 0;
-				if(OperatorDeclNode.getArity(op.getOpId()) > 1)
+				if(OperatorDeclNode.getArity(op.getOperator()) > 1)
 					a1 = ((Long)getArgValue(e, op, 1)).longValue();
 			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.id) {
-			case OperatorDeclNode.EQ:
+			switch(op.getOperator()) {
+			case EQ:
 				return new BoolConstNode(coords, a0 == a1);
-			case OperatorDeclNode.NE:
+			case NE:
 				return new BoolConstNode(coords, a0 != a1);
-			case OperatorDeclNode.LT:
+			case LT:
 				return new BoolConstNode(coords, a0 < a1);
-			case OperatorDeclNode.LE:
+			case LE:
 				return new BoolConstNode(coords, a0 <= a1);
-			case OperatorDeclNode.GT:
+			case GT:
 				return new BoolConstNode(coords, a0 > a1);
-			case OperatorDeclNode.GE:
+			case GE:
 				return new BoolConstNode(coords, a0 >= a1);
 
-			case OperatorDeclNode.ADD:
+			case ADD:
 				return new LongConstNode(coords, a0 + a1);
-			case OperatorDeclNode.SUB:
+			case SUB:
 				return new LongConstNode(coords, a0 - a1);
-			case OperatorDeclNode.MUL:
+			case MUL:
 				return new LongConstNode(coords, a0 * a1);
-			case OperatorDeclNode.DIV:
+			case DIV:
 				return new LongConstNode(coords, a0 / a1);
-			case OperatorDeclNode.MOD:
+			case MOD:
 				return new LongConstNode(coords, a0 % a1);
-			case OperatorDeclNode.SHL:
+			case SHL:
 				return new LongConstNode(coords, a0 << a1);
-			case OperatorDeclNode.SHR:
+			case SHR:
 				return new LongConstNode(coords, a0 >> a1);
-			case OperatorDeclNode.BIT_SHR:
+			case BIT_SHR:
 				return new LongConstNode(coords, a0 >>> a1);
-			case OperatorDeclNode.BIT_OR:
+			case BIT_OR:
 				return new LongConstNode(coords, a0 | a1);
-			case OperatorDeclNode.BIT_AND:
+			case BIT_AND:
 				return new LongConstNode(coords, a0 & a1);
-			case OperatorDeclNode.BIT_XOR:
+			case BIT_XOR:
 				return new LongConstNode(coords, a0 ^ a1);
-			case OperatorDeclNode.BIT_NOT:
+			case BIT_NOT:
 				return new LongConstNode(coords, ~a0);
-			case OperatorDeclNode.NEG:
+			case NEG:
 				return new LongConstNode(coords, -a0);
 
 			default:
@@ -373,35 +373,35 @@ public class OperatorEvaluator
 			try {
 				a0 = ((Float)getArgValue(e, op, 0)).floatValue();
 				a1 = 0;
-				if(OperatorDeclNode.getArity(op.getOpId()) > 1)
+				if(OperatorDeclNode.getArity(op.getOperator()) > 1)
 					a1 = ((Float)getArgValue(e, op, 1)).floatValue();
 			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.id) {
-			case OperatorDeclNode.EQ:
+			switch(op.getOperator()) {
+			case EQ:
 				return new BoolConstNode(coords, a0 == a1);
-			case OperatorDeclNode.NE:
+			case NE:
 				return new BoolConstNode(coords, a0 != a1);
-			case OperatorDeclNode.LT:
+			case LT:
 				return new BoolConstNode(coords, a0 < a1);
-			case OperatorDeclNode.LE:
+			case LE:
 				return new BoolConstNode(coords, a0 <= a1);
-			case OperatorDeclNode.GT:
+			case GT:
 				return new BoolConstNode(coords, a0 > a1);
-			case OperatorDeclNode.GE:
+			case GE:
 				return new BoolConstNode(coords, a0 >= a1);
 
-			case OperatorDeclNode.ADD:
+			case ADD:
 				return new FloatConstNode(coords, a0 + a1);
-			case OperatorDeclNode.SUB:
+			case SUB:
 				return new FloatConstNode(coords, a0 - a1);
-			case OperatorDeclNode.MUL:
+			case MUL:
 				return new FloatConstNode(coords, a0 * a1);
-			case OperatorDeclNode.DIV:
+			case DIV:
 				return new FloatConstNode(coords, a0 / a1);
-			case OperatorDeclNode.MOD:
+			case MOD:
 				return new FloatConstNode(coords, a0 % a1);
 
 			default:
@@ -419,35 +419,35 @@ public class OperatorEvaluator
 			try {
 				a0 = ((Double)getArgValue(e, op, 0)).doubleValue();
 				a1 = 0;
-				if(OperatorDeclNode.getArity(op.getOpId()) > 1)
+				if(OperatorDeclNode.getArity(op.getOperator()) > 1)
 					a1 = ((Double)getArgValue(e, op, 1)).doubleValue();
 			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.id) {
-			case OperatorDeclNode.EQ:
+			switch(op.getOperator()) {
+			case EQ:
 				return new BoolConstNode(coords, a0 == a1);
-			case OperatorDeclNode.NE:
+			case NE:
 				return new BoolConstNode(coords, a0 != a1);
-			case OperatorDeclNode.LT:
+			case LT:
 				return new BoolConstNode(coords, a0 < a1);
-			case OperatorDeclNode.LE:
+			case LE:
 				return new BoolConstNode(coords, a0 <= a1);
-			case OperatorDeclNode.GT:
+			case GT:
 				return new BoolConstNode(coords, a0 > a1);
-			case OperatorDeclNode.GE:
+			case GE:
 				return new BoolConstNode(coords, a0 >= a1);
 
-			case OperatorDeclNode.ADD:
+			case ADD:
 				return new DoubleConstNode(coords, a0 + a1);
-			case OperatorDeclNode.SUB:
+			case SUB:
 				return new DoubleConstNode(coords, a0 - a1);
-			case OperatorDeclNode.MUL:
+			case MUL:
 				return new DoubleConstNode(coords, a0 * a1);
-			case OperatorDeclNode.DIV:
+			case DIV:
 				return new DoubleConstNode(coords, a0 / a1);
-			case OperatorDeclNode.MOD:
+			case MOD:
 				return new DoubleConstNode(coords, a0 % a1);
 
 			default:
@@ -482,16 +482,18 @@ public class OperatorEvaluator
 
 			if(is_node1 != is_node2) {
 				Base.error.warning(coords, "comparison between node and edge types will always fail");
-				switch(op.id) {
-				case OperatorDeclNode.EQ:
-				case OperatorDeclNode.LT:
-				case OperatorDeclNode.GT:
-				case OperatorDeclNode.LE:
-				case OperatorDeclNode.GE:
+				switch(op.getOperator()) {
+				case EQ:
+				case LT:
+				case GT:
+				case LE:
+				case GE:
 					return new BoolConstNode(coords, false);
-
-				case OperatorDeclNode.NE:
+				case NE:
 					return new BoolConstNode(coords, true);
+
+				default:
+					break;
 				}
 			}
 			throw new NotEvaluatableException(coords);
@@ -507,28 +509,28 @@ public class OperatorEvaluator
 			try {
 				a0 = ((Boolean)getArgValue(e, op, 0)).booleanValue();
 				a1 = false;
-				if(OperatorDeclNode.getArity(op.getOpId()) > 1)
+				if(OperatorDeclNode.getArity(op.getOperator()) > 1)
 					a1 = ((Boolean)getArgValue(e, op, 1)).booleanValue();
 			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.id) {
-			case OperatorDeclNode.EQ:
+			switch(op.getOperator()) {
+			case EQ:
 				return new BoolConstNode(coords, a0 == a1);
-			case OperatorDeclNode.NE:
+			case NE:
 				return new BoolConstNode(coords, a0 != a1);
-			case OperatorDeclNode.LOG_AND:
+			case LOG_AND:
 				return new BoolConstNode(coords, a0 && a1);
-			case OperatorDeclNode.LOG_OR:
+			case LOG_OR:
 				return new BoolConstNode(coords, a0 || a1);
-			case OperatorDeclNode.LOG_NOT:
+			case LOG_NOT:
 				return new BoolConstNode(coords, !a0);
-			case OperatorDeclNode.BIT_OR:
+			case BIT_OR:
 				return new BoolConstNode(coords, a0 | a1);
-			case OperatorDeclNode.BIT_AND:
+			case BIT_AND:
 				return new BoolConstNode(coords, a0 & a1);
-			case OperatorDeclNode.BIT_XOR:
+			case BIT_XOR:
 				return new BoolConstNode(coords, a0 ^ a1);
 
 			default:
@@ -561,22 +563,23 @@ public class OperatorEvaluator
 		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
-			switch(op.id) {
-			case OperatorDeclNode.IN: {
+			switch(op.getOperator()) {
+			case IN:
+			{
 				if(e[1] instanceof ArithmeticOperatorNode) {
 					ArithmeticOperatorNode opNode = (ArithmeticOperatorNode)e[1];
-					if(opNode.getOpId() == OperatorDeclNode.BIT_AND) {
+					if(opNode.getOperator() == OperatorDeclNode.Operator.BIT_AND) {
 						ExprNode set1 = opNode.children.get(0);
 						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), OperatorDeclNode.IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), OperatorDeclNode.IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), OperatorDeclNode.LOG_AND, in1, in2).evaluate();
-					} else if(opNode.getOpId() == OperatorDeclNode.BIT_OR) {
+						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), OperatorDeclNode.Operator.IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), OperatorDeclNode.Operator.IN, e[0], set2).evaluate();
+						return new ArithmeticOperatorNode(opNode.getCoords(), OperatorDeclNode.Operator.LOG_AND, in1, in2).evaluate();
+					} else if(opNode.getOperator() == OperatorDeclNode.Operator.BIT_OR) {
 						ExprNode set1 = opNode.children.get(0);
 						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), OperatorDeclNode.IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), OperatorDeclNode.IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), OperatorDeclNode.LOG_OR, in1, in2).evaluate();
+						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), OperatorDeclNode.Operator.IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), OperatorDeclNode.Operator.IN, e[0], set2).evaluate();
+						return new ArithmeticOperatorNode(opNode.getCoords(), OperatorDeclNode.Operator.LOG_OR, in1, in2).evaluate();
 					}
 				} else if(e[0] instanceof ConstNode) {
 					ConstNode val = (ConstNode)e[0];
@@ -599,6 +602,8 @@ public class OperatorEvaluator
 				}
 				break;
 			}
+			default:
+				break;
 			}
 			throw new NotEvaluatableException(coords);
 		}

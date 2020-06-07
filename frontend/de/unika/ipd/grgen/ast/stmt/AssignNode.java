@@ -451,8 +451,8 @@ public class AssignNode extends EvalStatementNode
 		while(curLoc != null) {
 			if(curLoc instanceof ArithmeticOperatorNode) {
 				ArithmeticOperatorNode operator = (ArithmeticOperatorNode)curLoc;
-				if(!(operator.getOperator().getOpId() == OperatorDeclNode.BIT_OR)
-						&& !(operator.getOperator().getOpId() == OperatorDeclNode.EXCEPT)) {
+				if(!(operator.getOperatorDecl().getOperator() == OperatorDeclNode.Operator.BIT_OR)
+						&& !(operator.getOperatorDecl().getOperator() == OperatorDeclNode.Operator.EXCEPT)) {
 					return false;
 				}
 				Collection<ExprNode> children = operator.getChildren();

@@ -54,7 +54,7 @@ public class ExternalTypeNode extends InheritanceTypeNode
 		becomeParent(this.bodyUnresolved);
 
 		// allow the conditional operator on the external type
-		OperatorDeclNode.makeOp(OperatorDeclNode.COND, this,
+		OperatorDeclNode.makeOp(OperatorDeclNode.Operator.COND, this,
 				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
 	}
 
