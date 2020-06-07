@@ -28,9 +28,9 @@ public class StringType extends PrimitiveType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_STRING;
+		return TypeClass.IS_STRING;
 	}
 
 	public static Type getType()

@@ -46,9 +46,9 @@ public class MapType extends ContainerType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_MAP;
+		return TypeClass.IS_MAP;
 	}
 	
 	@Override

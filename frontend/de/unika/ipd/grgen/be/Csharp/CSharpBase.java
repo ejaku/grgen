@@ -31,6 +31,7 @@ import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 import de.unika.ipd.grgen.ir.type.MatchType;
 import de.unika.ipd.grgen.ir.type.MatchTypeIterated;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.Type.TypeClass;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 import de.unika.ipd.grgen.ir.type.basic.ByteType;
 import de.unika.ipd.grgen.ir.type.basic.DoubleType;
@@ -2968,33 +2969,33 @@ public abstract class CSharpBase
 
 		//emit C-code for constants
 		switch(type.classify()) {
-		case Type.IS_STRING:
+		case IS_STRING:
 			Object value = constant.getValue();
 			if(value == null)
 				return "null";
 			else
 				return "\"" + constant.getValue() + "\"";
-		case Type.IS_BOOLEAN:
+		case IS_BOOLEAN:
 			Boolean bool_const = (Boolean)constant.getValue();
 			if(bool_const.booleanValue())
 				return "true"; /* true-value */
 			else
 				return "false"; /* false-value */
-		case Type.IS_BYTE:
-		case Type.IS_SHORT:
-		case Type.IS_INTEGER: /* this also applys to enum constants */
-		case Type.IS_DOUBLE:
+		case IS_BYTE:
+		case IS_SHORT:
+		case IS_INTEGER: /* this also applys to enum constants */
+		case IS_DOUBLE:
 			return constant.getValue().toString();
-		case Type.IS_LONG:
+		case IS_LONG:
 			return constant.getValue().toString() + "L";
-		case Type.IS_FLOAT:
+		case IS_FLOAT:
 			return constant.getValue().toString() + "f";
-		case Type.IS_TYPE:
+		case IS_TYPE:
 			InheritanceType it = (InheritanceType)constant.getValue();
 			return formatTypeClassRef(it) + ".typeVar";
-		case Type.IS_GRAPH:
+		case IS_GRAPH:
 			return "null"; // TODO: there is no graph constant - assert instead?
-		case Type.IS_OBJECT:
+		case IS_OBJECT:
 			if(constant.getValue() == null) {
 				return "null";
 			}
@@ -3023,37 +3024,37 @@ public abstract class CSharpBase
 	protected String getTypeNameForCast(Cast cast)
 	{
 		switch(cast.getType().classify()) {
-		case Type.IS_STRING:
+		case IS_STRING:
 			return "string";
-		case Type.IS_BYTE:
+		case IS_BYTE:
 			return "sbyte";
-		case Type.IS_SHORT:
+		case IS_SHORT:
 			return "short";
-		case Type.IS_INTEGER:
+		case IS_INTEGER:
 			return "int";
-		case Type.IS_LONG:
+		case IS_LONG:
 			return "long";
-		case Type.IS_FLOAT:
+		case IS_FLOAT:
 			return "float";
-		case Type.IS_DOUBLE:
+		case IS_DOUBLE:
 			return "double";
-		case Type.IS_BOOLEAN:
+		case IS_BOOLEAN:
 			return "bool";
-		case Type.IS_OBJECT:
+		case IS_OBJECT:
 			return "object";
-		case Type.IS_GRAPH:
+		case IS_GRAPH:
 			return "GRGEN_LIBGR.IGraph";
-		case Type.IS_EXTERNAL_TYPE:
+		case IS_EXTERNAL_TYPE:
 			return formatType(cast.getType());
-		case Type.IS_NODE:
+		case IS_NODE:
 			return formatType(cast.getType());
-		case Type.IS_EDGE:
+		case IS_EDGE:
 			return formatType(cast.getType());
-		case Type.IS_SET:
-		case Type.IS_MAP:
-		case Type.IS_ARRAY:
-		case Type.IS_DEQUE:
-			if(cast.getType().classify() == Type.IS_SET) {
+		case IS_SET:
+		case IS_MAP:
+		case IS_ARRAY:
+		case IS_DEQUE:
+			if(cast.getType().classify() == TypeClass.IS_SET) {
 				// cast to set<Edge> or set<UEdge> from set<AEdge> allowed at compile time, requires check at runtime for directedness
 				if(((SetType)cast.getType()).getValueType().getIdent().toString().equals("Edge"))
 					return "directed set";
@@ -3072,32 +3073,32 @@ public abstract class CSharpBase
 	protected String getTypeNameForTempVarDecl(Type type)
 	{
 		switch(type.classify()) {
-		case Type.IS_BOOLEAN:
+		case IS_BOOLEAN:
 			return "bool";
-		case Type.IS_BYTE:
+		case IS_BYTE:
 			return "sbyte";
-		case Type.IS_SHORT:
+		case IS_SHORT:
 			return "short";
-		case Type.IS_INTEGER:
+		case IS_INTEGER:
 			return "int";
-		case Type.IS_LONG:
+		case IS_LONG:
 			return "long";
-		case Type.IS_FLOAT:
+		case IS_FLOAT:
 			return "float";
-		case Type.IS_DOUBLE:
+		case IS_DOUBLE:
 			return "double";
-		case Type.IS_STRING:
+		case IS_STRING:
 			return "string";
-		case Type.IS_OBJECT:
-		case Type.IS_UNKNOWN:
+		case IS_OBJECT:
+		case IS_UNKNOWN:
 			return "Object";
-		case Type.IS_GRAPH:
+		case IS_GRAPH:
 			return "GRGEN_LIBGR.IGraph";
-		case Type.IS_EXTERNAL_TYPE:
+		case IS_EXTERNAL_TYPE:
 			return "GRGEN_MODEL." + type.getIdent();
-		case Type.IS_NODE:
+		case IS_NODE:
 			return formatElementInterfaceRef(type);
-		case Type.IS_EDGE:
+		case IS_EDGE:
 			return formatElementInterfaceRef(type);
 		default:
 			throw new IllegalArgumentException();
@@ -3399,8 +3400,8 @@ public abstract class CSharpBase
 			sb.appendFront("public override int Compare(" + typeName + " b, " + typeName + " a)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		if(attributeOrMemberType.classify() == Type.IS_EXTERNAL_TYPE
-				|| attributeOrMemberType.classify() == Type.IS_OBJECT) {
+		if(attributeOrMemberType.classify() == TypeClass.IS_EXTERNAL_TYPE
+				|| attributeOrMemberType.classify() == TypeClass.IS_OBJECT) {
 			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsEqual(a.@" + attributeOrMemberName + ", b.@"
 					+ attributeOrMemberName + ")) return 0;\n");
 			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsLower(a.@" + attributeOrMemberName + ", b.@"

@@ -23,9 +23,9 @@ public class GraphType extends PrimitiveType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_GRAPH;
+		return TypeClass.IS_GRAPH;
 	}
 
 	public static Type getType()

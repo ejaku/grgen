@@ -23,9 +23,9 @@ public class LongType extends PrimitiveType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_LONG;
+		return TypeClass.IS_LONG;
 	}
 
 	public static Type getType()

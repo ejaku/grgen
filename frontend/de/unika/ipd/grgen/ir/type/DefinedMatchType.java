@@ -80,8 +80,8 @@ public class DefinedMatchType extends CompoundType implements ContainedInPackage
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_DEFINED_MATCH;
+		return TypeClass.IS_DEFINED_MATCH;
 	}
 }

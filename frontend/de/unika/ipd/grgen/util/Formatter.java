@@ -27,6 +27,7 @@ import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.Type.TypeClass;
 
 public class Formatter
 {
@@ -119,18 +120,21 @@ public class Formatter
 			Type type = constant.getType();
 
 			switch(type.classify()) {
-			case Type.IS_STRING: //emit C-code for string constants
+			case IS_STRING: //emit C-code for string constants
 				sb.append("'" + constant.getValue() + "'");
 				break;
-			case Type.IS_BOOLEAN: //emit C-code for boolean constans
+			case IS_BOOLEAN: //emit C-code for boolean constans
 				Boolean bool_const = (Boolean)constant.getValue();
 				if(bool_const.booleanValue())
 					sb.append("true"); /* true-value */
 				else
 					sb.append("false"); /* false-value */
 				break;
-			case Type.IS_INTEGER: //emit C-code for integer constants
+			case IS_INTEGER: //emit C-code for integer constants
 				sb.append(constant.getValue().toString()); /* this also applys to enum constants */
+				break;
+			default:
+				break;
 			}
 		} else if(cond instanceof EnumExpression) {
 			EnumExpression enumExp = (EnumExpression)cond;
@@ -142,23 +146,23 @@ public class Formatter
 			Cast cast = (Cast)cond;
 			Type type = cast.getType();
 
-			if(type.classify() == Type.IS_STRING) {
+			if(type.classify() == TypeClass.IS_STRING) {
 				formatConditionEvalAux(sb, cast.getExpression());
 				sb.append(".ToString()");
 			} else {
 				String typeName = "";
 
 				switch(type.classify()) {
-				case Type.IS_INTEGER:
+				case IS_INTEGER:
 					typeName = "int";
 					break;
-				case Type.IS_FLOAT:
+				case IS_FLOAT:
 					typeName = "float";
 					break;
-				case Type.IS_DOUBLE:
+				case IS_DOUBLE:
 					typeName = "double";
 					break;
-				case Type.IS_BOOLEAN:
+				case IS_BOOLEAN:
 					typeName = "bool";
 					break;
 				default:

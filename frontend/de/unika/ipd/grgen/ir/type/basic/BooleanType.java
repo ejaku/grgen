@@ -28,9 +28,9 @@ public class BooleanType extends PrimitiveType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_BOOLEAN;
+		return TypeClass.IS_BOOLEAN;
 	}
 
 	public static Type getType()

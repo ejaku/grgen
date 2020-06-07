@@ -118,8 +118,8 @@ public class ExternalType extends InheritanceType
 
 	/** Return a classification of a type for the IR. */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_EXTERNAL_TYPE;
+		return TypeClass.IS_EXTERNAL_TYPE;
 	}
 }

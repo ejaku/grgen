@@ -45,6 +45,7 @@ import de.unika.ipd.grgen.ir.stmt.Assignment;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.Type.TypeClass;
 
 public class SearchPlanBackend extends MoreInformationCollector implements BackendFactory
 {
@@ -465,7 +466,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 				outs.append("static void grs_eval_out_func_" + eval.getId()
 						+ "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, ");
-				if(eval.getExpression().getType().classify() == Type.IS_INTEGER) {
+				if(eval.getExpression().getType().classify() == TypeClass.IS_INTEGER) {
 					outs.append("int data) {\n");
 				} else {
 					outs.append("void *data) {\n");
@@ -1074,22 +1075,25 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			Type type = constant.getType();
 
 			switch(type.classify()) {
-			case Type.IS_STRING: //emit C-code for string constants
+			case IS_STRING: //emit C-code for string constants
 				// CAUTION! This was modified for INTEGET CONSTANTS!
 				// TODO: Make it general if you need it!
 				// sb.append("\"" + constant.getValue() + "\"");
 				sb.append(constant.getValue().toString());
 
 				break;
-			case Type.IS_BOOLEAN: //emit C-code for boolean constans
+			case IS_BOOLEAN: //emit C-code for boolean constans
 				Boolean bool_const = (Boolean)constant.getValue();
 				if(bool_const.booleanValue())
 					sb.append("1"); /* true-value */
 				else
 					sb.append("0"); /* false-value */
 				break;
-			case Type.IS_INTEGER: //emit C-code for integer constants
+			case IS_INTEGER: //emit C-code for integer constants
 				sb.append(constant.getValue().toString()); /* this also applys to enum constants */
+				break;
+			default:
+				break;
 			}
 		} else if(cond instanceof Cast) {
 			// Assumption: generated getter and setter have compatible types,

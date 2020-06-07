@@ -50,9 +50,9 @@ public class EnumType extends PrimitiveType implements ContainedInPackage
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_INTEGER;
+		return TypeClass.IS_INTEGER;
 	}
 
 	@Override

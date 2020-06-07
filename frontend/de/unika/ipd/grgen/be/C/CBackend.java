@@ -32,6 +32,7 @@ import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.Type.TypeClass;
 import de.unika.ipd.grgen.util.Util;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
@@ -544,9 +545,9 @@ public abstract class CBackend extends IDBase implements Backend
 	{
 		ps.print("/** The attribute type classification. */\n");
 		ps.print("typedef enum _attribute_type {\n");
-		ps.print("  AT_TYPE_INTEGER = " + Type.IS_INTEGER + ", /**< an integer */\n");
-		ps.print("  AT_TYPE_BOOLEAN = " + Type.IS_BOOLEAN + ", /**< a boolean */\n");
-		ps.print("  AT_TYPE_STRING  = " + Type.IS_STRING + ", /**< a string */\n");
+		ps.print("  AT_TYPE_INTEGER = " + TypeClass.IS_INTEGER + ", /**< an integer */\n");
+		ps.print("  AT_TYPE_BOOLEAN = " + TypeClass.IS_BOOLEAN + ", /**< a boolean */\n");
+		ps.print("  AT_TYPE_STRING  = " + TypeClass.IS_STRING + ", /**< a string */\n");
 		ps.print("} attribute_type;\n\n");
 
 		ps.print("/** The attribute type. */\n");

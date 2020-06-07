@@ -23,9 +23,9 @@ public class DoubleType extends PrimitiveType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_DOUBLE;
+		return TypeClass.IS_DOUBLE;
 	}
 
 	public static Type getType()

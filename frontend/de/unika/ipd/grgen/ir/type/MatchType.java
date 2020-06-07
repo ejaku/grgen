@@ -48,8 +48,8 @@ public class MatchType extends Type implements ContainedInPackage
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_MATCH;
+		return TypeClass.IS_MATCH;
 	}
 }

@@ -23,9 +23,9 @@ public class FloatType extends PrimitiveType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_FLOAT;
+		return TypeClass.IS_FLOAT;
 	}
 
 	public static Type getType()

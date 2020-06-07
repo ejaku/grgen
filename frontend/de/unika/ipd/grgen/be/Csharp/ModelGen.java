@@ -33,6 +33,7 @@ import de.unika.ipd.grgen.ir.executable.FunctionMethod;
 import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.Type.TypeClass;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 import de.unika.ipd.grgen.ir.type.basic.ByteType;
 import de.unika.ipd.grgen.ir.type.basic.DoubleType;
@@ -642,8 +643,8 @@ public class ModelGen extends CSharpBase
 				routedSB.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
 								+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
 			} else if(model.isCopyClassDefined()
-					&& (member.getType().classify() == Type.IS_EXTERNAL_TYPE
-							|| member.getType().classify() == Type.IS_OBJECT)) {
+					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
 				routedSB.appendFront("AttributeTypeObjectCopierComparer.Copy("
 						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
 			} else {
@@ -675,12 +676,12 @@ public class ModelGen extends CSharpBase
 								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else if(model.isEqualClassDefined()
-					&& (member.getType().classify() == Type.IS_EXTERNAL_TYPE
-							|| member.getType().classify() == Type.IS_OBJECT)) {
+					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
 				routedSB.appendFront("&& AttributeTypeObjectCopierComparer.IsEqual("
 								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
-			} else if(member.getType().classify() == Type.IS_GRAPH) {
+			} else if(member.getType().classify() == TypeClass.IS_GRAPH) {
 				routedSB.appendFront("&& GRGEN_LIBGR.GraphHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else {
@@ -2637,10 +2638,10 @@ commonLoop:
 	{
 		for(Entity entity : type.getAllMembers()) {
 			if(entity.getType().isFilterableType()
-					|| entity.getType().classify() == Type.IS_EXTERNAL_TYPE
-					|| entity.getType().classify() == Type.IS_OBJECT) {
-				if((entity.getType().classify() == Type.IS_EXTERNAL_TYPE
-						|| entity.getType().classify() == Type.IS_OBJECT)
+					|| entity.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+					|| entity.getType().classify() == TypeClass.IS_OBJECT) {
+				if((entity.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+						|| entity.getType().classify() == TypeClass.IS_OBJECT)
 						&& !(model.isEqualClassDefined() && model.isLowerClassDefined()))
 					continue;
 				if(entity.isConst())

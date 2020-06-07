@@ -45,29 +45,32 @@ public abstract class Type extends Identifiable
 		}
 	};
 
-	public static final int IS_UNKNOWN = 0;
-	public static final int IS_BYTE = 1;
-	public static final int IS_SHORT = 2;
-	public static final int IS_INTEGER = 3;
-	public static final int IS_LONG = 4;
-	public static final int IS_FLOAT = 5;
-	public static final int IS_DOUBLE = 6;
-	public static final int IS_BOOLEAN = 7;
-	public static final int IS_STRING = 8;
-	public static final int IS_TYPE = 9;
-	public static final int IS_OBJECT = 10;
-	public static final int IS_SET = 11;
-	public static final int IS_MAP = 12;
-	public static final int IS_ARRAY = 13;
-	public static final int IS_DEQUE = 14;
-	public static final int IS_UNTYPED_EXEC_VAR_TYPE = 15;
-	public static final int IS_EXTERNAL_TYPE = 16;
-	public static final int IS_GRAPH = 17;
-	public static final int IS_MATCH = 18;
-	public static final int IS_DEFINED_MATCH = 19;
-	public static final int IS_NODE = 20;
-	public static final int IS_EDGE = 21;
-
+	public enum TypeClass
+	{
+		IS_UNKNOWN,
+		IS_BYTE,
+		IS_SHORT,
+		IS_INTEGER, // includes ENUM
+		IS_LONG,
+		IS_FLOAT,
+		IS_DOUBLE,
+		IS_BOOLEAN,
+		IS_STRING,
+		IS_TYPE,
+		IS_OBJECT,
+		IS_SET,
+		IS_MAP,
+		IS_ARRAY,
+		IS_DEQUE,
+		IS_UNTYPED_EXEC_VAR_TYPE,
+		IS_EXTERNAL_TYPE,
+		IS_GRAPH,
+		IS_MATCH,
+		IS_DEFINED_MATCH,
+		IS_NODE,
+		IS_EDGE
+	}
+	
 	/**
 	 * Make a new type.
 	 * @param name The name of the type (test, group, ...).
@@ -117,9 +120,9 @@ public abstract class Type extends Identifiable
 	}
 
 	/** Return a classification of a type for the IR. */
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_UNKNOWN;
+		return TypeClass.IS_UNKNOWN;
 	}
 
 	static final Comparator<Type> getComparator()
@@ -140,21 +143,21 @@ public abstract class Type extends Identifiable
 
 	public boolean isOrderableType()
 	{
-		if(classify() == IS_BYTE)
+		if(classify() == TypeClass.IS_BYTE)
 			return true;
-		if(classify() == IS_SHORT)
+		if(classify() == TypeClass.IS_SHORT)
 			return true;
-		if(classify() == IS_INTEGER) // includes ENUM
+		if(classify() == TypeClass.IS_INTEGER) // includes ENUM
 			return true;
-		if(classify() == IS_LONG)
+		if(classify() == TypeClass.IS_LONG)
 			return true;
-		if(classify() == IS_FLOAT)
+		if(classify() == TypeClass.IS_FLOAT)
 			return true;
-		if(classify() == IS_DOUBLE)
+		if(classify() == TypeClass.IS_DOUBLE)
 			return true;
-		if(classify() == IS_STRING)
+		if(classify() == TypeClass.IS_STRING)
 			return true;
-		if(classify() == IS_BOOLEAN)
+		if(classify() == TypeClass.IS_BOOLEAN)
 			return true;
 		return false;
 	}
@@ -163,9 +166,9 @@ public abstract class Type extends Identifiable
 	{
 		if(isOrderableType())
 			return true;
-		if(classify() == IS_NODE)
+		if(classify() == TypeClass.IS_NODE)
 			return true;
-		if(classify() == IS_EDGE)
+		if(classify() == TypeClass.IS_EDGE)
 			return true;
 		return false;
 	}

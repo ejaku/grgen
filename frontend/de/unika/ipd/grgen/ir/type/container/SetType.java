@@ -39,9 +39,9 @@ public class SetType extends ContainerType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_SET;
+		return TypeClass.IS_SET;
 	}
 	
 	@Override

@@ -23,9 +23,9 @@ public class ByteType extends PrimitiveType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_BYTE;
+		return TypeClass.IS_BYTE;
 	}
 
 	public static Type getType()

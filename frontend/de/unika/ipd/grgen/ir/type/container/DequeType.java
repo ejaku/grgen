@@ -39,9 +39,9 @@ public class DequeType extends ContainerType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_DEQUE;
+		return TypeClass.IS_DEQUE;
 	}
 
 	@Override

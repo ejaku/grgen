@@ -39,9 +39,9 @@ public class ArrayType extends ContainerType
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
 	@Override
-	public int classify()
+	public TypeClass classify()
 	{
-		return IS_ARRAY;
+		return TypeClass.IS_ARRAY;
 	}
 	
 	@Override
