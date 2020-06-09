@@ -850,9 +850,21 @@ seqEntity [ExecNode xg] returns [BaseNode res = null]
 	;
 
 seqEntityDecl [ExecNode xg, boolean emit] returns [ExecVarDeclNode res = null]
-options { k = *; }
 	:
-		id=seqEntIdentDecl COLON type=seqTypeIdentUse // node decl
+		id=seqEntIdentDecl COLON cont=seqEntityDeclCont[xg, emit, id] { res = cont; } // node/var decl or container/match type decl 
+	|
+		MINUS id=seqEntIdentDecl COLON type=seqTypeIdentUse RARROW // edge decl, interpreted grs don't use -:-> form
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, type);
+			if(emit) xg.append(decl.getIdentNode().getIdent() + ":" + decl.typeUnresolved);
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+	;
+
+seqEntityDeclCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDeclNode res = null]
+	:
+		type=seqTypeIdentUse // node/var decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, type);
 			if(emit) xg.append(id.toString()+":"+type.toString());
@@ -860,90 +872,57 @@ options { k = *; }
 			res = decl;
 		}
 	|
-		id=seqEntIdentDecl COLON MAP LT keyType=seqTypeIdentUse COMMA valueType=seqTypeIdentUse GT // map decl
-		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, new MapTypeNode(keyType, valueType));
-			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
-			xg.addVarDecl(decl);
-			res = decl;
-		}
-	|
-		(seqEntIdentDecl COLON MAP LT seqTypeIdentUse COMMA seqTypeIdentUse GE) =>
-		id=seqEntIdentDecl COLON MAP LT keyType=seqTypeIdentUse COMMA valueType=seqTypeIdentUse // map decl; special to save user from splitting map<S,T>=x to map<S,T> =x as >= is GE not GT ASSIGN
+		cont=seqEntityDeclGenericTypeCont[xg, emit, id] { res = cont; } // container/match type decl
+	;
+
+seqEntityDeclGenericTypeCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDeclNode res = null]
+options { k = 3; }
+	:
+		MAP LT keyType=seqTypeIdentUse COMMA valueType=seqTypeIdentUse // map decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new MapTypeNode(keyType, valueType));
 			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
+		genericTypeEnd[xg, emit]
 	|
-		id=seqEntIdentDecl COLON SET LT type=seqTypeIdentUse GT // set decl
-		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, new SetTypeNode(type));
-			if(emit) xg.append(id.toString()+":set<"+type.toString()+">");
-			xg.addVarDecl(decl);
-			res = decl;
-		}
-	|
-		(seqEntIdentDecl COLON SET LT seqTypeIdentUse GE) => 
-		id=seqEntIdentDecl COLON SET LT type=seqTypeIdentUse // set decl; special to save user from splitting set<S>=x to set<S> =x as >= is GE not GT ASSIGN
+		SET LT type=seqTypeIdentUse // set decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new SetTypeNode(type));
 			if(emit) xg.append(id.toString()+":set<"+type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
+		genericTypeEnd[xg, emit]
 	|
-		id=seqEntIdentDecl COLON ARRAY LT type=seqTypeIdentUse GT // array decl
-		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
-			if(emit) xg.append(id.toString()+":array<"+type.toString()+">");
-			xg.addVarDecl(decl);
-			res = decl;
-		}
-	|
-		id=seqEntIdentDecl COLON ARRAY LT { if(emit) xg.append(id.toString()+":array<"); } type=seqMatchTypeIdentUseInContainerType[xg, emit] (GT GT { if(emit) xg.append("> >"); } | SR { if(emit) xg.append(">>"); }) // array of match decl
-		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
-			xg.addVarDecl(decl);
-			res = decl;
-		}
-	|
-		(seqEntIdentDecl COLON ARRAY LT seqTypeIdentUse GE) => 
-		id=seqEntIdentDecl COLON ARRAY LT type=seqTypeIdentUse // array decl; special to save user from splitting array<S>=x to array<S> =x as >= is GE not GT ASSIGN
+		ARRAY LT type=seqTypeIdentUse // array decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
 			if(emit) xg.append(id.toString()+":array<"+type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
+		genericTypeEnd[xg, emit]
 	|
-		(seqEntIdentDecl COLON ARRAY LT type=seqMatchTypeIdentUseInContainerType[null, false] GT GE) =>
-		id=seqEntIdentDecl COLON ARRAY LT { if(emit) xg.append(id.toString()+":array<"); } type=seqMatchTypeIdentUseInContainerType[xg, emit] GT { if(emit) xg.append(">"); } // array of match decl; special to save user from splitting array<match<S> >=x to array<match<S> > =x as >= is GE not GT ASSIGN
+		ARRAY LT { if(emit) xg.append(id.toString()+":array<"); } type=seqMatchTypeIdentUseInContainerType[xg, emit] // array of match decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
 			xg.addVarDecl(decl);
 			res = decl;
 		}
+		genericTypeEndPastMatchType [xg, emit]
 	|
-		id=seqEntIdentDecl COLON DEQUE LT type=seqTypeIdentUse GT // deque decl
-		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, new DequeTypeNode(type));
-			if(emit) xg.append(id.toString()+":deque<"+type.toString()+">");
-			xg.addVarDecl(decl);
-			res = decl;
-		}
-	|
-		(seqEntIdentDecl COLON DEQUE LT seqTypeIdentUse GE) => 
-		id=seqEntIdentDecl COLON DEQUE LT type=seqTypeIdentUse // deque decl; special to save user from splitting deque<S>=x to deque<S> =x as >= is GE not GT ASSIGN
+		DEQUE LT type=seqTypeIdentUse // deque decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new DequeTypeNode(type));
 			if(emit) xg.append(id.toString()+":deque<"+type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
+		genericTypeEnd[xg, emit]
 	|
-		id=seqEntIdentDecl COLON MATCH LT actionIdent=seqActionIdentUse GT // match decl
+		MATCH LT actionIdent=seqActionIdentUse GT // match decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, MatchTypeNode.getMatchTypeIdentNode(env, actionIdent));
 			if(emit) xg.append(id.toString()+":match<"+actionIdent.toString()+">");
@@ -951,18 +930,10 @@ options { k = *; }
 			res = decl;
 		}
 	|
-		id=seqEntIdentDecl COLON MATCH LT CLASS matchClassIdent=seqTypeIdentUse GT // match class decl
+		MATCH LT CLASS matchClassIdent=seqTypeIdentUse GT // match class decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, matchClassIdent);
 			if(emit) xg.append(id.toString()+":match<class "+matchClassIdent.toString()+">");
-			xg.addVarDecl(decl);
-			res = decl;
-		}
-	|
-		MINUS id=seqEntIdentDecl COLON type=seqTypeIdentUse RARROW // edge decl, interpreted grs don't use -:-> form
-		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, type);
-			if(emit) xg.append(decl.getIdentNode().getIdent() + ":" + decl.typeUnresolved);
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -982,6 +953,20 @@ options { k = 3; }
 			res = matchClassIdent;
 			if(emit) xg.append("match<class " + matchClassIdent.toString());
 		}
+	;
+
+// special to save user from splitting e.g. map<S,T>=x to map<S,T> =x as >= is GE not GT ASSIGN
+genericTypeEnd [ExecNode xg, boolean emit]
+	: GT { if(emit) xg.append(">"); }
+	| (GE) => { }
+	;
+
+// special to save user from splitting e.g. array< match<T> >=x to array< match<T> > =x as >= is GE not GT ASSIGN
+// note that array<match<T>>=x is SR ASSIGN, not GT GT ASSIGN as in array< match<T> > =x
+genericTypeEndPastMatchType [ExecNode xg, boolean emit]
+	: GT GT { if(emit) xg.append("> >"); } 
+	| SR { if(emit) xg.append(">>"); }
+	| (GT GE) => GT { if(emit) xg.append(">"); }
 	;
 
 seqIndex [ExecNode xg]
