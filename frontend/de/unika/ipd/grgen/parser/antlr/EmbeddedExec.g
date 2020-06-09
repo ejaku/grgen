@@ -448,7 +448,7 @@ seqFunctionCallParameters [ExecNode xg] returns [ CollectNode<ExprNode> params =
 		(COMMA { xg.append(","); } fromExpr2=seqExpression[xg] { params.addChild(fromExpr2); } )* )?
 	;
 
-seqConstant [ExecNode xg] returns[ExprNode res = env.initExprNode()]
+seqConstant [ExecNode xg] returns [ExprNode res = env.initExprNode()]
 @init{ IdentNode id; }
 	: seqConstantWithoutType[xg]
 	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
@@ -459,8 +459,7 @@ seqConstant [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 		}
 	;
 	
-seqConstantWithoutType [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-options { k = 4; }
+seqConstantWithoutType [ExecNode xg] returns [ExprNode res = env.initExprNode()]
 @init{ IdentNode id; }
 	: b=NUM_BYTE { xg.append(b.getText()); res = new ByteConstNode(getCoords(b), Byte.parseByte(ByteConstNode.removeSuffix(b.getText()), 10)); }
 	| sh=NUM_SHORT { xg.append(sh.getText()); res = new ShortConstNode(getCoords(sh), Short.parseShort(ShortConstNode.removeSuffix(sh.getText()), 10)); }
@@ -479,28 +478,41 @@ options { k = 4; }
 		e1=seqInitMapExpr[xg, new MapTypeNode(typeName, toTypeName)] { res = e1; }
 	| SET LT typeName=seqTypeIdentUse GT { xg.append("set<"+typeName+">"); } 
 		e2=seqInitSetExpr[xg, new SetTypeNode(typeName)] { res = e2; }
-	| ARRAY LT typeName=seqTypeIdentUse GT { xg.append("array<"+typeName+">"); } 
-		e3=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e3; }
-	| ARRAY LT { xg.append("array<"); } typeName=seqMatchTypeIdentUseInContainerType[xg, true] (GT GT { xg.append("> >"); } | SR { xg.append(">>"); })
-		e3=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e3; }
+	| ARRAY LT { xg.append("array<"); } e3=seqConstantWithoutTypeArrayCont[xg] { res = e3; }
 	| DEQUE LT typeName=seqTypeIdentUse GT { xg.append("deque<"+typeName+">"); } 
 		e4=seqInitDequeExpr[xg, new DequeTypeNode(typeName)] { res = e4; }
-	| pen=IDENT d=DOUBLECOLON i=IDENT 
+	| i1=IDENT d=DOUBLECOLON i2=IDENT e5=seqConstantWithoutTypePackageTypeOrEnumEntityCont[xg, i1, d, i2] { res = e5; }
+	;
+
+seqConstantWithoutTypeArrayCont [ExecNode xg] returns [ExprNode res = env.initExprNode()]
+	: typeName=seqTypeIdentUse GT { xg.append(typeName + ">"); } 
+		e=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e; }
+	| typeName=seqMatchTypeIdentUseInContainerType[xg, true] (GT GT { xg.append("> >"); } | SR { xg.append(">>"); })
+		e=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e; }
+	;
+
+seqConstantWithoutTypePackageTypeOrEnumEntityCont [ExecNode xg, Token i1, Token d1, Token i2] returns [ExprNode res = env.initExprNode()]
+@init{ IdentNode id; }
+	:
 		{
+			Token pen = i1;
 			if(env.test(ParserEnvironment.PACKAGES, pen.getText()) || !env.test(ParserEnvironment.TYPES, pen.getText())) {
 				id = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pen.getText(), getCoords(pen)), 
-					env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
+					env.occurs(ParserEnvironment.TYPES, i2.getText(), getCoords(i2)));
 				res = new IdentExprNode(id);
 			} else {
-				res = new DeclExprNode(new EnumExprNode(getCoords(d), 
+				res = new DeclExprNode(new EnumExprNode(getCoords(d1), 
 					new IdentNode(env.occurs(ParserEnvironment.TYPES, pen.getText(), getCoords(pen))),
-					new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
+					new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i2.getText(), getCoords(i2)))));
 			}
-			xg.append(pen.getText() + "::" + i.getText());
+			xg.append(pen.getText() + "::" + i2.getText());
 		}
-	| p=IDENT DOUBLECOLON en=IDENT d=DOUBLECOLON i=IDENT
+	|
+		d2=DOUBLECOLON i=IDENT
 		{
-			res = new DeclExprNode(new EnumExprNode(getCoords(d), 
+			Token p = i1;
+			Token en = i2;
+			res = new DeclExprNode(new EnumExprNode(getCoords(d2), 
 				new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)),
 					env.occurs(ParserEnvironment.TYPES, en.getText(), getCoords(en))),
 				new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
@@ -876,7 +888,6 @@ seqEntityDeclCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDecl
 	;
 
 seqEntityDeclGenericTypeCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDeclNode res = null]
-options { k = 3; }
 	:
 		MAP LT keyType=seqTypeIdentUse COMMA valueType=seqTypeIdentUse // map decl
 		{
@@ -896,22 +907,7 @@ options { k = 3; }
 		}
 		genericTypeEnd[xg, emit]
 	|
-		ARRAY LT type=seqTypeIdentUse // array decl
-		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
-			if(emit) xg.append(id.toString()+":array<"+type.toString());
-			xg.addVarDecl(decl);
-			res = decl;
-		}
-		genericTypeEnd[xg, emit]
-	|
-		ARRAY LT { if(emit) xg.append(id.toString()+":array<"); } type=seqMatchTypeIdentUseInContainerType[xg, emit] // array of match decl
-		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
-			xg.addVarDecl(decl);
-			res = decl;
-		}
-		genericTypeEndPastMatchType [xg, emit]
+		ARRAY LT cont=seqEntityDeclGenericTypeArrayCont[xg, emit, id] { res = cont; }
 	|
 		DEQUE LT type=seqTypeIdentUse // deque decl
 		{
@@ -922,7 +918,32 @@ options { k = 3; }
 		}
 		genericTypeEnd[xg, emit]
 	|
-		MATCH LT actionIdent=seqActionIdentUse GT // match decl
+		MATCH LT cont=seqEntityDeclGenericTypeMatchCont[xg, emit, id] { res = cont; }
+	;
+
+seqEntityDeclGenericTypeArrayCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDeclNode res = null]
+	:
+		type=seqTypeIdentUse // array decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
+			if(emit) xg.append(id.toString()+":array<"+type.toString());
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+		genericTypeEnd[xg, emit]
+	|
+		{ if(emit) xg.append(id.toString()+":array<"); } type=seqMatchTypeIdentUseInContainerType[xg, emit] // array of match decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+		genericTypeEndPastMatchType[xg, emit]
+	;
+
+seqEntityDeclGenericTypeMatchCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDeclNode res = null]
+	:
+		actionIdent=seqActionIdentUse GT // match decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, MatchTypeNode.getMatchTypeIdentNode(env, actionIdent));
 			if(emit) xg.append(id.toString()+":match<"+actionIdent.toString()+">");
@@ -930,7 +951,7 @@ options { k = 3; }
 			res = decl;
 		}
 	|
-		MATCH LT CLASS matchClassIdent=seqTypeIdentUse GT // match class decl
+		CLASS matchClassIdent=seqTypeIdentUse GT // match class decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, matchClassIdent);
 			if(emit) xg.append(id.toString()+":match<class "+matchClassIdent.toString()+">");
