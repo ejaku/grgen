@@ -401,7 +401,7 @@ options { k = 3; }
 		{ res = new VisitedNode(getCoords(v), visId, prefix); }
 		sel=seqExprSelector[res, xg] { res = sel; }
 	| l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
-		{ res = new IndexedAccessExprNode(getCoords(l), prefix, key); } // array/deque/map access
+		{ res = makeBinOp(l, prefix, key); } // array/deque/map access
 		sel=seqExprSelector[res, xg] { res = sel; }
 	| // no selector
 	;

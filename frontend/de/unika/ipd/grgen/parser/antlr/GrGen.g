@@ -140,6 +140,7 @@ tokens {
 		putOpId(LAND, OperatorDeclNode.Operator.LOG_AND);
 		putOpId(LOR, OperatorDeclNode.Operator.LOG_OR);
 		putOpId(IN, OperatorDeclNode.Operator.IN);
+		putOpId(LBRACK, OperatorDeclNode.Operator.INDEX);
 		putOpId(BACKSLASH, OperatorDeclNode.Operator.EXCEPT);
 	};
 
@@ -4057,7 +4058,7 @@ externalFunctionInvocationExpr [ int context, boolean inEnumInit ] returns [ Exp
 	;
 
 selectorExpr [ int context, ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: l=LBRACK key=expr[context, inEnumInit] RBRACK { res = new IndexedAccessExprNode(getCoords(l), target, key); }
+	: l=LBRACK key=expr[context, inEnumInit] RBRACK { res = makeBinOp(l, target, key); }
 	| d=DOT id=memberIdentUse
 			( { env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }? LT mi=memberIdentUse GT )?
 		(

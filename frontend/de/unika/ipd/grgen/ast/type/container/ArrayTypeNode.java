@@ -85,6 +85,8 @@ public class ArrayTypeNode extends ContainerTypeNode
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
 					valueType, this, OperatorEvaluator.arrayEvaluator);
 		}
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.INDEX, valueType,
+				this, BasicTypeNode.intType, OperatorEvaluator.arrayEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.NE, BasicTypeNode.booleanType,

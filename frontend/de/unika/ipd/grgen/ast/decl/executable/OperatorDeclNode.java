@@ -60,7 +60,8 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 		NEG,
 		CONST,
 		COND,
-		IN, // MAP TODO: den operator richtig implementieren, mit typbalancing etc.
+		IN,
+		INDEX,
 		EXCEPT,
 		SE
 	}
@@ -115,6 +116,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 		names.put(Operator.NEG, "Neg");
 		names.put(Operator.CONST, "Const");
 		names.put(Operator.IN, "In");
+		names.put(Operator.INDEX, "IndexedAccess");
 		names.put(Operator.EXCEPT, "Except");
 		names.put(Operator.SE, "Se");
 		names.put(Operator.ERROR, "Error");
@@ -375,6 +377,9 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 		makeOp(Operator.COND, UNTYPED, new TypeNode[] { BOOLEAN, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
 
 		makeOp(Operator.COND, UNTYPED, new TypeNode[] { UNTYPED, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
+		
+		// Indexed access (of map, array, deque) operators
+		makeBinOp(Operator.INDEX, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 	}
 
 	/**

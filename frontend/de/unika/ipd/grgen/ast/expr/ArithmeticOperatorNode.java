@@ -28,7 +28,12 @@ import de.unika.ipd.grgen.ir.stmt.map.MapAddItem;
 import de.unika.ipd.grgen.ir.stmt.map.MapRemoveItem;
 import de.unika.ipd.grgen.ir.stmt.set.SetAddItem;
 import de.unika.ipd.grgen.ir.stmt.set.SetRemoveItem;
+import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.container.ArrayType;
+import de.unika.ipd.grgen.ir.type.container.DequeType;
+import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.IndexedAccessExpr;
 import de.unika.ipd.grgen.ir.expr.Operator;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
@@ -157,6 +162,22 @@ public class ArithmeticOperatorNode extends OperatorNode
 			first = replaceSetMapOrExceptByAddRemove(qual, previous, first);
 
 			return first;
+		}
+
+		if(getOperatorDecl().getOperator() == OperatorDeclNode.Operator.INDEX) {
+			Expression texp = children.get(0).checkIR(Expression.class);
+			Type type = texp.getType();
+			Type accessedType;
+			if(type instanceof MapType)
+				accessedType = ((MapType)type).getValueType();
+			else if(type instanceof DequeType)
+				accessedType = ((DequeType)type).getValueType();
+			else if(type instanceof ArrayType)
+				accessedType = ((ArrayType)type).getValueType();
+			else
+				accessedType = type; // assuming untypedType
+			return new IndexedAccessExpr(texp,
+					children.get(1).checkIR(Expression.class), accessedType);
 		}
 
 		DeclaredTypeNode type = (DeclaredTypeNode)getType();

@@ -94,9 +94,13 @@ public class MapTypeNode extends ContainerTypeNode
 		if(keyType instanceof InheritanceTypeNode) {
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
 					BasicTypeNode.typeType, this, OperatorEvaluator.mapEvaluator);
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.INDEX, valueType,
+					this, BasicTypeNode.typeType, OperatorEvaluator.mapEvaluator);
 		} else {
 			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
 					keyType, this, OperatorEvaluator.mapEvaluator);
+			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.INDEX, valueType,
+					this, keyType, OperatorEvaluator.mapEvaluator);
 		}
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.mapEvaluator);
