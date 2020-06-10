@@ -1,0 +1,8 @@
+new graph "array1/arrayConst"
+
+exec (::x,::y)=t
+
+show var x
+show var y
+
+quit

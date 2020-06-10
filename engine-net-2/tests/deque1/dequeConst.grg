@@ -1,0 +1,6 @@
+test t : (string, string)
+{	
+	return( deque<string>["0", "1", "2", "3"][1],
+			deque<string>[(string)nodes().size(), (string)(nodes().size()+1),
+							(string)(nodes().size()+2), (string)(nodes().size()+3)][1] );
+}

@@ -1,0 +1,13 @@
+new graph "set1/setConst"
+
+exec (::x,::y)=tb
+
+show var x
+show var y
+
+exec (::x,::y)=tbf
+
+show var x
+show var y
+
+quit

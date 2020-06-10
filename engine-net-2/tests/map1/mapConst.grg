@@ -1,0 +1,20 @@
+test t : (string, string)
+{	
+	return( map<int,string>{0->"0", 1->"1", 2->"2", 3->"3"}[1],
+			map<int,string>{nodes().size() -> (string)nodes().size(), nodes().size()+1 -> (string)(nodes().size()+1),
+							nodes().size()+2 -> (string)(nodes().size()+2), nodes().size()+3 -> (string)(nodes().size()+3)}[1] );
+}
+
+test tb : (boolean, boolean)
+{	
+	return( 1 in map<int,string>{0->"0", 1->"1", 2->"2", 3->"3"},
+			1 in map<int,string>{nodes().size() -> (string)nodes().size(), nodes().size()+1 -> (string)(nodes().size()+1),
+							nodes().size()+2 -> (string)(nodes().size()+2), nodes().size()+3 -> (string)(nodes().size()+3)} );
+}
+
+test tbf : (boolean, boolean)
+{	
+	return( 42 in map<int,string>{0->"0", 1->"1", 2->"2", 3->"3"},
+			42 in map<int,string>{nodes().size() -> (string)nodes().size(), nodes().size()+1 -> (string)(nodes().size()+1),
+							nodes().size()+2 -> (string)(nodes().size()+2), nodes().size()+3 -> (string)(nodes().size()+3)} );
+}

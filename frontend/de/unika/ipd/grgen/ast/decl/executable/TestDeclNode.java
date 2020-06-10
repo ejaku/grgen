@@ -424,7 +424,8 @@ public class TestDeclNode extends ActionDeclNode
 
 		// add Return-Params to the IR
 		for(ExprNode aReturnAST : aReturns.getChildren()) {
-			Expression aReturn = aReturnAST.checkIR(Expression.class);
+			ExprNode evaluatedReturn = aReturnAST.evaluate();
+			Expression aReturn = evaluatedReturn.checkIR(Expression.class);
 			// actual return-parameter
 			constructedMatchingAction.addReturn(aReturn);
 		}

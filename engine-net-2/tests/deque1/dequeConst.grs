@@ -1,0 +1,8 @@
+new graph "deque1/dequeConst"
+
+exec (::x,::y)=t
+
+show var x
+show var y
+
+quit

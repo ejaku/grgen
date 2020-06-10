@@ -17,6 +17,9 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.MemberAccessExprNode;
 import de.unika.ipd.grgen.ast.expr.TypeConstNode;
 import de.unika.ipd.grgen.ast.expr.TypeofNode;
+import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
+import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
+import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
 import de.unika.ipd.grgen.ast.expr.numeric.DoubleConstNode;
 import de.unika.ipd.grgen.ast.expr.numeric.FloatConstNode;
 import de.unika.ipd.grgen.ast.expr.numeric.IntConstNode;
@@ -555,7 +558,70 @@ public class OperatorEvaluator
 		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
-			throw new NotEvaluatableException(coords); // MAP TODO: evaluate in, map access if map const
+			switch(op.getOperator()) {
+			case IN:
+			{
+				if(e[1] instanceof ArithmeticOperatorNode) {
+					ArithmeticOperatorNode opNode = (ArithmeticOperatorNode)e[1];
+					if(opNode.getOperator() == OperatorDeclNode.Operator.BIT_AND) {
+						ExprNode set1 = opNode.children.get(0);
+						ExprNode set2 = opNode.children.get(1);
+						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), OperatorDeclNode.Operator.IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), OperatorDeclNode.Operator.IN, e[0], set2).evaluate();
+						return new ArithmeticOperatorNode(opNode.getCoords(), OperatorDeclNode.Operator.LOG_AND, in1, in2).evaluate();
+					} else if(opNode.getOperator() == OperatorDeclNode.Operator.BIT_OR) {
+						ExprNode set1 = opNode.children.get(0);
+						ExprNode set2 = opNode.children.get(1);
+						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), OperatorDeclNode.Operator.IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), OperatorDeclNode.Operator.IN, e[0], set2).evaluate();
+						return new ArithmeticOperatorNode(opNode.getCoords(), OperatorDeclNode.Operator.LOG_OR, in1, in2).evaluate();
+					}
+				} else if(e[0] instanceof ConstNode) {
+					ConstNode val = (ConstNode)e[0];
+
+					MapInitNode mapInit = null;
+					if(e[1] instanceof MapInitNode) {
+						mapInit = (MapInitNode)e[1];
+					} else if(e[1] instanceof MemberAccessExprNode) {
+						MemberDeclNode member = ((MemberAccessExprNode)e[1]).getDecl();
+						if(member.isConst() && member.getConstInitializer() != null)
+							mapInit = (MapInitNode)member.getConstInitializer();
+					}
+					if(mapInit != null) {
+						if(mapInit.contains(val))
+							return new BoolConstNode(coords, true);
+						else if(mapInit.areKeysConstant())
+							return new BoolConstNode(coords, false);
+						// Otherwise not decideable because of non-constant entries in map keys
+					}
+				}
+				break;
+			}
+			case INDEX:
+			{
+				if(e[1] instanceof ConstNode) {
+					ConstNode key = (ConstNode)e[1];
+
+					MapInitNode mapInit = null;
+					if(e[0] instanceof MapInitNode) {
+						mapInit = (MapInitNode)e[0];
+					} else if(e[0] instanceof MemberAccessExprNode) {
+						MemberDeclNode member = ((MemberAccessExprNode)e[0]).getDecl();
+						if(member.isConst() && member.getConstInitializer() != null)
+							mapInit = (MapInitNode)member.getConstInitializer();
+					}
+					if(mapInit != null) {
+						ExprNode val = mapInit.getAtIndex(key);
+						if(mapInit.isConstant() && val instanceof ConstNode)
+							return val;
+					}
+				}
+				break;
+			}
+			default:
+				break;
+			}
+			throw new NotEvaluatableException(coords);
 		}
 	};
 
@@ -613,7 +679,32 @@ public class OperatorEvaluator
 		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
-			throw new NotEvaluatableException(coords); // MAP TODO: evaluate
+			switch(op.getOperator()) {
+			case INDEX:
+			{
+				if(e[1] instanceof ConstNode) {
+					ConstNode index = (ConstNode)e[1];
+
+					ArrayInitNode arrayInit = null;
+					if(e[0] instanceof ArrayInitNode) {
+						arrayInit = (ArrayInitNode)e[0];
+					} else if(e[0] instanceof MemberAccessExprNode) {
+						MemberDeclNode member = ((MemberAccessExprNode)e[0]).getDecl();
+						if(member.isConst() && member.getConstInitializer() != null)
+							arrayInit = (ArrayInitNode)member.getConstInitializer();
+					}
+					if(arrayInit != null) {
+						ExprNode val = arrayInit.getAtIndex(index);
+						if(val instanceof ConstNode)
+							return val;
+					}
+				}
+				break;
+			}
+			default:
+				break;
+			}
+			throw new NotEvaluatableException(coords);
 		}
 	};
 
@@ -621,7 +712,32 @@ public class OperatorEvaluator
 		@Override
 		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
 		{
-			throw new NotEvaluatableException(coords); // MAP TODO: evaluate
+			switch(op.getOperator()) {
+			case INDEX:
+			{
+				if(e[1] instanceof ConstNode) {
+					ConstNode index = (ConstNode)e[1];
+
+					DequeInitNode dequeInit = null;
+					if(e[0] instanceof DequeInitNode) {
+						dequeInit = (DequeInitNode)e[0];
+					} else if(e[0] instanceof MemberAccessExprNode) {
+						MemberDeclNode member = ((MemberAccessExprNode)e[0]).getDecl();
+						if(member.isConst() && member.getConstInitializer() != null)
+							dequeInit = (DequeInitNode)member.getConstInitializer();
+					}
+					if(dequeInit != null) {
+						ExprNode val = dequeInit.getAtIndex(index);
+						if(val instanceof ConstNode)
+							return val;
+					}
+				}
+				break;
+			}
+			default:
+				break;
+			}
+			throw new NotEvaluatableException(coords);
 		}
 	};
 

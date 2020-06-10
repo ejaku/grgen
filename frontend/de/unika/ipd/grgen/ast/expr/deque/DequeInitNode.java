@@ -15,7 +15,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ContainerSingleElementInitNode;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
@@ -105,6 +107,16 @@ public class DequeInitNode extends ContainerSingleElementInitNode
 	public boolean isInitInModel()
 	{
 		return dequeType == null;
+	}
+
+	public ExprNode getAtIndex(ConstNode node)
+	{
+		Integer index = (Integer)node.getValue();
+		if(index.intValue() < 0)
+			return null;
+		if(index.intValue() >= containerItems.size())
+			return null;
+		return containerItems.getChildrenAsVector().get(index.intValue());
 	}
 
 	@Override

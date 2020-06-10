@@ -164,7 +164,7 @@ public class MapInitNode extends ContainerInitNode
 	 * Checks whether the map only contains constants.
 	 * @return True, if all map items are constant.
 	 */
-	protected final boolean isConstant()
+	public final boolean isConstant()
 	{
 		for(ExprPairNode item : mapItems.getChildren()) {
 			if(!(item.keyExpr instanceof ConstNode || isEnumValue(item.keyExpr)))
@@ -173,6 +173,39 @@ public class MapInitNode extends ContainerInitNode
 				return false;
 		}
 		return true;
+	}
+
+	public final boolean areKeysConstant()
+	{
+		for(ExprPairNode item : mapItems.getChildren()) {
+			if(!(item.keyExpr instanceof ConstNode || isEnumValue(item.keyExpr)))
+				return false;
+		}
+		return true;
+	}
+
+	public boolean contains(ConstNode node)
+	{
+		for(ExprPairNode item : mapItems.getChildren()) {
+			if(item.keyExpr instanceof ConstNode) {
+				ConstNode itemConst = (ConstNode)item.keyExpr;
+				if(node.getValue().equals(itemConst.getValue()))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	public ExprNode getAtIndex(ConstNode node)
+	{
+		for(ExprPairNode item : mapItems.getChildren()) {
+			if(item.keyExpr instanceof ConstNode) {
+				ConstNode itemConst = (ConstNode)item.keyExpr;
+				if(node.getValue().equals(itemConst.getValue()))
+					return item.valueExpr;
+			}
+		}
+		return null;
 	}
 
 	@Override
