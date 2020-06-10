@@ -1430,33 +1430,39 @@ filterUse [ IdentNode iterated, int context ] returns [ FilterInvocationNode res
 		}
 	;
 
-containerTypeUse returns [ TypeNode res = null ]
-	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
-		{ 
-			res = new MapTypeNode(keyType, valueType);
-		}
-	| SET LT keyType=typeIdentUse GT
-		{ 
-			res = new SetTypeNode(keyType);
-		}
-	| ARRAY arrayType=arrayTypeContinuation
-		{
-			res = arrayType;
-		}
-	| DEQUE LT keyType=typeIdentUse GT
-		{
-			res = new DequeTypeNode(keyType);
-		}
+containerTypeUse returns [ ContainerTypeNode res = null ]
+	: { input.LT(1).getText().equals("map") }?
+		i=IDENT LT keyType=typeIdentUse COMMA containerType=containerTypeContinuation[i, keyType] { res = containerType; }
+	| { input.LT(1).getText().equals("set") }?
+		i=IDENT LT containerType=containerTypeContinuation[i, keyType] { res = containerType; }
+	| { input.LT(1).getText().equals("array") }?
+		i=IDENT LT containerType=containerTypeContinuation[i, keyType] { res = containerType; }
+	| { input.LT(1).getText().equals("deque") }?
+		i=IDENT LT containerType=containerTypeContinuation[i, keyType] { res = containerType; }
 	;
 
-arrayTypeContinuation returns [ ArrayTypeNode res = null ]
-	: LT keyType=typeIdentUse GT
+containerTypeContinuation [ Token i, IdentNode keyType ] returns [ ContainerTypeNode res = null ]
+	: valueType=typeIdentUse GT
 		{
-			res = new ArrayTypeNode(keyType);
+			if(i.getText().equals("map"))
+				res = new MapTypeNode(keyType, valueType);
+			else if(i.getText().equals("set"))
+				res = new SetTypeNode(valueType);
+			else if(i.getText().equals("array"))
+				res = new ArrayTypeNode(valueType);
+			else if(i.getText().equals("deque"))
+				res = new DequeTypeNode(valueType);
 		}
-	| LT keyType=matchTypeIdentUseInContainerType (GT GT | SR)
+	| valueType=matchTypeIdentUseInContainerType (GT GT | SR)
 		{
-			res = new ArrayTypeNode(keyType);
+			if(i.getText().equals("map"))
+				res = new MapTypeNode(keyType, valueType);
+			else if(i.getText().equals("set"))
+				res = new SetTypeNode(valueType);
+			else if(i.getText().equals("array"))
+				res = new ArrayTypeNode(valueType);
+			else if(i.getText().equals("deque"))
+				res = new DequeTypeNode(valueType);
 		}
 	;
 
@@ -2816,8 +2822,9 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 					}
 				)?
 			|
-				MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
-				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				{ input.LT(1).getText().equals("map") }?
+				IDENT LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
+				{
 					decl = new MemberDeclNode(id, new MapTypeNode(keyType, valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
@@ -2831,8 +2838,9 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 					}
 				)?
 			|
-				SET LT valueType=typeIdentUse GT
-				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				{ input.LT(1).getText().equals("set") }?
+				IDENT LT valueType=typeIdentUse GT
+				{
 					decl = new MemberDeclNode(id, new SetTypeNode(valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
@@ -2846,8 +2854,9 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 					}
 				)?
 			|
-				ARRAY LT valueType=typeIdentUse GT
-				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				{ input.LT(1).getText().equals("array") }?
+				IDENT LT valueType=typeIdentUse GT
+				{
 					decl = new MemberDeclNode(id, new ArrayTypeNode(valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
@@ -2861,8 +2870,9 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 					}
 				)?
 			|
-				DEQUE LT valueType=typeIdentUse GT
-				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				{ input.LT(1).getText().equals("deque") }?
+				IDENT LT valueType=typeIdentUse GT
+				{
 					decl = new MemberDeclNode(id, new DequeTypeNode(valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
@@ -3933,13 +3943,17 @@ typeOf returns [ ExprNode res = env.initExprNode() ]
 	;
 
 initContainerExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
-	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
+	: { input.LT(1).getText().equals("map") }?
+		i=IDENT LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 		e1=initMapExpr[context, null, new MapTypeNode(keyType, valueType)] { res = e1; }
-	| SET LT valueType=typeIdentUse GT
+	| { input.LT(1).getText().equals("set") }?
+		i=IDENT LT valueType=typeIdentUse GT
 		e2=initSetExpr[context, null, new SetTypeNode(valueType)] { res = e2; }
-	| ARRAY arrayType=arrayTypeContinuation
-		e3=initArrayExpr[context, null, arrayType] { res = e3; }
-	| DEQUE LT valueType=typeIdentUse GT
+	| { input.LT(1).getText().equals("array") }?
+		i=IDENT LT arrayType=containerTypeContinuation[i, null]
+		e3=initArrayExpr[context, null, (ArrayTypeNode)arrayType] { res = e3; }
+	| { input.LT(1).getText().equals("deque") }?
+		i=IDENT LT valueType=typeIdentUse GT
 		e4=initDequeExpr[context, null, new DequeTypeNode(valueType)] { res = e4; }
 	;
 
@@ -4276,7 +4290,6 @@ HASHUSING : '#using';
 ABSTRACT : 'abstract';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
-ARRAY : 'array';
 BREAK : 'break';
 CASE : 'case';
 CLASS : 'class';
@@ -4314,7 +4327,6 @@ INDEPENDENT : 'independent';
 INDEX : 'index';
 INDUCED : 'induced';
 ITERATED : 'iterated';
-MAP : 'map';
 MATCH : 'match';
 MODIFY : 'modify';
 MULTIPLE : 'multiple';
@@ -4327,12 +4339,10 @@ PACKAGE : 'package';
 PATTERN : 'pattern';
 PATTERNPATH : 'patternpath';
 PROCEDURE : 'procedure';
-DEQUE : 'deque';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';
 SEQUENCE : 'sequence';
-SET : 'set';
 SWITCH : 'switch';
 TEST : 'test';
 TRUE : 'true';

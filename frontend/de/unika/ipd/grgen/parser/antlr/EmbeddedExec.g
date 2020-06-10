@@ -365,7 +365,8 @@ options { k = 4; }
 	| rq=seqRuleQuery[xg] sel=seqExprSelector[rq, xg] { res = sel; }
 	| mrq=seqMultiRuleQuery[xg] sel=seqExprSelector[mrq, xg] { res = sel; }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
-	| exp=seqConstantWithoutType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
+	| exp=seqConstantOfBasicOrEnumType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
+	| (seqConstantOfContainerType[null]) => exp=seqConstantOfContainerType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
 	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
 		{
 			id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
@@ -450,7 +451,8 @@ seqFunctionCallParameters [ExecNode xg] returns [ CollectNode<ExprNode> params =
 
 seqConstant [ExecNode xg] returns [ExprNode res = env.initExprNode()]
 @init{ IdentNode id; }
-	: seqConstantWithoutType[xg]
+	: seqConstantOfBasicOrEnumType[xg]
+	| seqConstantOfContainerType[xg]
 	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
 		{
 			id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
@@ -459,7 +461,7 @@ seqConstant [ExecNode xg] returns [ExprNode res = env.initExprNode()]
 		}
 	;
 	
-seqConstantWithoutType [ExecNode xg] returns [ExprNode res = env.initExprNode()]
+seqConstantOfBasicOrEnumType [ExecNode xg] returns [ExprNode res = env.initExprNode()]
 @init{ IdentNode id; }
 	: b=NUM_BYTE { xg.append(b.getText()); res = new ByteConstNode(getCoords(b), Byte.parseByte(ByteConstNode.removeSuffix(b.getText()), 10)); }
 	| sh=NUM_SHORT { xg.append(sh.getText()); res = new ShortConstNode(getCoords(sh), Short.parseShort(ShortConstNode.removeSuffix(sh.getText()), 10)); }
@@ -474,24 +476,25 @@ seqConstantWithoutType [ExecNode xg] returns [ExprNode res = env.initExprNode()]
 	| tt=TRUE { xg.append(tt.getText()); res = new BoolConstNode(getCoords(tt), true); }
 	| ff=FALSE { xg.append(ff.getText()); res = new BoolConstNode(getCoords(ff), false); }
 	| n=NULL { xg.append(n.getText()); res = new NullConstNode(getCoords(n)); }
-	| MAP LT typeName=seqTypeIdentUse COMMA toTypeName=seqTypeIdentUse GT { xg.append("map<"+typeName+","+toTypeName+">"); } 
+	| i1=IDENT d=DOUBLECOLON i2=IDENT e=seqConstantOfBasicOrEnumTypeCont[xg, i1, d, i2] { res = e; }
+	;
+
+seqConstantOfContainerType [ExecNode xg] returns [ExprNode res = env.initExprNode()]
+@init{ IdentNode id; }
+	: { input.LT(1).getText().equals("map") }?
+		IDENT LT typeName=seqTypeIdentUse COMMA toTypeName=seqTypeIdentUse GT { xg.append("map<"+typeName+","+toTypeName+">"); } 
 		e1=seqInitMapExpr[xg, new MapTypeNode(typeName, toTypeName)] { res = e1; }
-	| SET LT typeName=seqTypeIdentUse GT { xg.append("set<"+typeName+">"); } 
+	| { input.LT(1).getText().equals("set") }?
+		IDENT LT typeName=seqTypeIdentUse GT { xg.append("set<"+typeName+">"); } 
 		e2=seqInitSetExpr[xg, new SetTypeNode(typeName)] { res = e2; }
-	| ARRAY LT { xg.append("array<"); } e3=seqConstantWithoutTypeArrayCont[xg] { res = e3; }
-	| DEQUE LT typeName=seqTypeIdentUse GT { xg.append("deque<"+typeName+">"); } 
+	| { input.LT(1).getText().equals("array") }?
+		IDENT LT { xg.append("array<"); } e3=seqConstantOfContainerTypeArrayCont[xg] { res = e3; }
+	| { input.LT(1).getText().equals("deque") }?
+		IDENT LT typeName=seqTypeIdentUse GT { xg.append("deque<"+typeName+">"); } 
 		e4=seqInitDequeExpr[xg, new DequeTypeNode(typeName)] { res = e4; }
-	| i1=IDENT d=DOUBLECOLON i2=IDENT e5=seqConstantWithoutTypePackageTypeOrEnumEntityCont[xg, i1, d, i2] { res = e5; }
 	;
 
-seqConstantWithoutTypeArrayCont [ExecNode xg] returns [ExprNode res = env.initExprNode()]
-	: typeName=seqTypeIdentUse GT { xg.append(typeName + ">"); } 
-		e=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e; }
-	| typeName=seqMatchTypeIdentUseInContainerType[xg, true] (GT GT { xg.append("> >"); } | SR { xg.append(">>"); })
-		e=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e; }
-	;
-
-seqConstantWithoutTypePackageTypeOrEnumEntityCont [ExecNode xg, Token i1, Token d1, Token i2] returns [ExprNode res = env.initExprNode()]
+seqConstantOfBasicOrEnumTypeCont [ExecNode xg, Token i1, Token d1, Token i2] returns [ExprNode res = env.initExprNode()]
 @init{ IdentNode id; }
 	:
 		{
@@ -518,6 +521,13 @@ seqConstantWithoutTypePackageTypeOrEnumEntityCont [ExecNode xg, Token i1, Token 
 				new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
 			xg.append(p.getText() + "::" + en.getText() + "::" + i.getText());
 		}
+	;
+
+seqConstantOfContainerTypeArrayCont [ExecNode xg] returns [ExprNode res = env.initExprNode()]
+	: typeName=seqTypeIdentUse GT { xg.append(typeName + ">"); } 
+		e=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e; }
+	| typeName=seqMatchTypeIdentUseInContainerType[xg, true] (GT GT { xg.append("> >"); } | SR { xg.append(">>"); })
+		e=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e; }
 	;
 
 seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ ExprNode res = null ]
@@ -889,7 +899,8 @@ seqEntityDeclCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDecl
 
 seqEntityDeclGenericTypeCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDeclNode res = null]
 	:
-		MAP LT keyType=seqTypeIdentUse COMMA valueType=seqTypeIdentUse // map decl
+		{ input.LT(1).getText().equals("map") }?
+		IDENT LT keyType=seqTypeIdentUse COMMA valueType=seqTypeIdentUse // map decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new MapTypeNode(keyType, valueType));
 			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString());
@@ -898,7 +909,8 @@ seqEntityDeclGenericTypeCont [ExecNode xg, boolean emit, IdentNode id] returns [
 		}
 		genericTypeEnd[xg, emit]
 	|
-		SET LT type=seqTypeIdentUse // set decl
+		{ input.LT(1).getText().equals("set") }?
+		IDENT LT type=seqTypeIdentUse // set decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new SetTypeNode(type));
 			if(emit) xg.append(id.toString()+":set<"+type.toString());
@@ -907,9 +919,11 @@ seqEntityDeclGenericTypeCont [ExecNode xg, boolean emit, IdentNode id] returns [
 		}
 		genericTypeEnd[xg, emit]
 	|
-		ARRAY LT cont=seqEntityDeclGenericTypeArrayCont[xg, emit, id] { res = cont; }
+		{ input.LT(1).getText().equals("array") }?
+		IDENT LT cont=seqEntityDeclGenericTypeArrayCont[xg, emit, id] { res = cont; }
 	|
-		DEQUE LT type=seqTypeIdentUse // deque decl
+		{ input.LT(1).getText().equals("deque") }?
+		IDENT LT type=seqTypeIdentUse // deque decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new DequeTypeNode(type));
 			if(emit) xg.append(id.toString()+":deque<"+type.toString());

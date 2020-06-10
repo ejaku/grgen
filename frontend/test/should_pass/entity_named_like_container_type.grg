@@ -1,0 +1,3 @@
+test t(ref map:map<int,string>, ref set:set<string>, ref array:array<int>, ref deque:deque<object>)
+{
+}
