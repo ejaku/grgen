@@ -83,6 +83,8 @@ public class DequeLastIndexOfNode extends DequeFunctionMethodInvocationBaseExprN
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
+		valueExpr = valueExpr.evaluate();
 		return new DequeLastIndexOfExpr(targetExpr.checkIR(Expression.class),
 				valueExpr.checkIR(Expression.class));
 	}

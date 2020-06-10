@@ -231,6 +231,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 	{
 		List<Expression> replConnections = new LinkedList<Expression>();
 		for(ExprNode e : this.replConnections.getChildren()) {
+			e = e.evaluate();
 			replConnections.add(e.checkIR(Expression.class));
 		}
 		return new SubpatternDependentReplacement("dependent replacement", subpatternUnresolved.getIdent(),

@@ -64,6 +64,7 @@ public class FloorExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		argumentExpr = argumentExpr.evaluate();
 		return new FloorExpr(argumentExpr.checkIR(Expression.class));
 	}
 

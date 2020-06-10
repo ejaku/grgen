@@ -67,6 +67,7 @@ public class MapEmptyNode extends MapFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new MapEmptyExpr(targetExpr.checkIR(Expression.class));
 	}
 }

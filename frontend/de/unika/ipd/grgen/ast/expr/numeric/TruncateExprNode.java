@@ -64,6 +64,7 @@ public class TruncateExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		argumentExpr = argumentExpr.evaluate();
 		return new TruncateExpr(argumentExpr.checkIR(Expression.class));
 	}
 

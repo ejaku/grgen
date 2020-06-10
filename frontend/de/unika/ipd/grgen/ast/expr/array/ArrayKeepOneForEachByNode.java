@@ -107,6 +107,7 @@ public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBase
 		if(member != null)
 			accessedMember = member.checkIR(Entity.class);
 
+		targetExpr = targetExpr.evaluate();
 		return new ArrayKeepOneForEachBy(targetExpr.checkIR(Expression.class),
 				accessedMember);
 	}

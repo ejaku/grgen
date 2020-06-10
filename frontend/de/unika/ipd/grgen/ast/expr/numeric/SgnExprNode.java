@@ -64,6 +64,7 @@ public class SgnExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		argumentExpr = argumentExpr.evaluate();
 		return new SgnExpr(argumentExpr.checkIR(Expression.class));
 	}
 

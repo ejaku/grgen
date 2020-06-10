@@ -107,6 +107,7 @@ public class MatchEdgeByNameLookupDeclNode extends EdgeDeclNode
 
 		setIR(edge);
 
+		expr = expr.evaluate();
 		edge.setNameMapAccess(new NameLookup(expr.checkIR(Expression.class)));
 		return edge;
 	}

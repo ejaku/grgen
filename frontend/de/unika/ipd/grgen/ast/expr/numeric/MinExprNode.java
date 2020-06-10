@@ -70,6 +70,8 @@ public class MinExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		leftExpr = leftExpr.evaluate();
+		rightExpr = rightExpr.evaluate();
 		return new MinExpr(leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
 	}
 

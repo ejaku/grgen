@@ -126,6 +126,13 @@ public class GraphRedirectSourceAndTargetProcNode extends BuiltinProcedureInvoca
 	@Override
 	protected IR constructIR()
 	{
+		edgeExpr = edgeExpr.evaluate();
+		newSourceExpr = newSourceExpr.evaluate();
+		newTargetExpr = newTargetExpr.evaluate();
+		if(oldSourceNameExpr != null)
+			oldSourceNameExpr = oldSourceNameExpr.evaluate();
+		if(oldTargetNameExpr != null)
+			oldTargetNameExpr = oldTargetNameExpr.evaluate();
 		return new GraphRedirectSourceAndTargetProc(edgeExpr.checkIR(Expression.class),
 				newSourceExpr.checkIR(Expression.class),
 				newTargetExpr.checkIR(Expression.class),

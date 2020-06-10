@@ -65,6 +65,7 @@ public class ArrayMedUnorderedNode extends ArrayAccumulationMethodNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayMedUnorderedExpr(targetExpr.checkIR(Expression.class));
 	}
 }

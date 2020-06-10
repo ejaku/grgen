@@ -65,6 +65,7 @@ public class ArrayReverseNode extends ArrayFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayReverseExpr(targetExpr.checkIR(Expression.class));
 	}
 }

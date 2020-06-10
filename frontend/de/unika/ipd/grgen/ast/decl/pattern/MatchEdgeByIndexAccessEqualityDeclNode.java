@@ -125,6 +125,7 @@ public class MatchEdgeByIndexAccessEqualityDeclNode extends MatchEdgeByIndexDecl
 
 		setIR(edge);
 
+		expr = expr.evaluate();
 		edge.setIndex(new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)));
 		return edge;
 	}

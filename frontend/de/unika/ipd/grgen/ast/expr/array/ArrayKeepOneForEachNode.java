@@ -71,6 +71,7 @@ public class ArrayKeepOneForEachNode extends ArrayFunctionMethodInvocationBaseEx
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayKeepOneForEach(targetExpr.checkIR(Expression.class));
 	}
 }

@@ -64,6 +64,7 @@ public class CeilExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		argumentExpr = argumentExpr.evaluate();
 		return new CeilExpr(argumentExpr.checkIR(Expression.class));
 	}
 

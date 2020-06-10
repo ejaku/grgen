@@ -77,6 +77,7 @@ public class RecordProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		exprToRecord = exprToRecord.evaluate();
 		return new RecordProc(exprToRecord.checkIR(Expression.class));
 	}
 }

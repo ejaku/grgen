@@ -112,6 +112,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 					functionDecl.resultType.checkIR(Type.class),
 					functionDecl.checkIR(Function.class));
 			for(ExprNode expr : arguments.getChildren()) {
+				expr = expr.evaluate();
 				fi.addArgument(expr.checkIR(Expression.class));
 			}
 			return fi;
@@ -120,6 +121,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 					externalFunctionDecl.resultType.checkIR(Type.class),
 					externalFunctionDecl.checkIR(ExternalFunction.class));
 			for(ExprNode expr : arguments.getChildren()) {
+				expr = expr.evaluate();
 				efi.addArgument(expr.checkIR(Expression.class));
 			}
 			return efi;

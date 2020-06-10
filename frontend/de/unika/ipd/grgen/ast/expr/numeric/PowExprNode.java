@@ -90,9 +90,11 @@ public class PowExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		if(leftExpr != null)
+		rightExpr = rightExpr.evaluate();
+		if(leftExpr != null) {
+			leftExpr = leftExpr.evaluate();
 			return new PowExpr(leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
-		else
+		} else
 			return new PowExpr(rightExpr.checkIR(Expression.class));
 	}
 

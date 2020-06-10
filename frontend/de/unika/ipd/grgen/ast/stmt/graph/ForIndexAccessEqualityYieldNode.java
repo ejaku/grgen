@@ -128,6 +128,7 @@ public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode
 	@Override
 	protected IR constructIR()
 	{
+		expr = expr.evaluate();
 		ForIndexAccessEquality fiae = new ForIndexAccessEquality(iterationVariable.checkIR(Variable.class),
 				new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)));
 		for(EvalStatementNode accumulationStatement : statements.getChildren()) {

@@ -82,6 +82,9 @@ public class DequePeekNode extends DequeFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
+		if(numberExpr != null)
+			numberExpr = numberExpr.evaluate();
 		return new DequePeekExpr(targetExpr.checkIR(Expression.class),
 				numberExpr != null ? numberExpr.checkIR(Expression.class) : null);
 	}

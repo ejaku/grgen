@@ -71,6 +71,8 @@ public class ExprPairNode extends BaseNode
 	@Override
 	protected IR constructIR()
 	{
+		keyExpr = keyExpr.evaluate();
+		valueExpr = valueExpr.evaluate();
 		return new ExpressionPair(keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
 	}
 

@@ -83,6 +83,9 @@ public class DequeSubdequeNode extends DequeFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
+		startExpr = startExpr.evaluate();
+		lengthExpr = lengthExpr.evaluate();
 		return new DequeSubdequeExpr(targetExpr.checkIR(Expression.class),
 				startExpr.checkIR(Expression.class),
 				lengthExpr.checkIR(Expression.class));

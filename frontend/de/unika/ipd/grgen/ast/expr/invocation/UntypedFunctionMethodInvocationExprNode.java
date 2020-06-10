@@ -79,6 +79,7 @@ public class UntypedFunctionMethodInvocationExprNode extends FunctionInvocationB
 		UntypedFunctionMethodInvocationExpr ufmi = new UntypedFunctionMethodInvocationExpr(
 				BasicTypeNode.untypedType.checkIR(Type.class));
 		for(ExprNode expr : arguments.getChildren()) {
+			expr = expr.evaluate();
 			ufmi.addArgument(expr.checkIR(Expression.class));
 		}
 		return ufmi;

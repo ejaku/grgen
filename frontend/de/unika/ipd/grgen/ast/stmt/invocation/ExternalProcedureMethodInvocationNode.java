@@ -156,6 +156,7 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 					externalProcedureDecl.checkIR(ExternalProcedure.class));
 		}
 		for(ExprNode expr : arguments.getChildren()) {
+			expr = expr.evaluate();
 			epi.addArgument(expr.checkIR(Expression.class));
 		}
 		for(TypeNode type : externalProcedureDecl.resultTypesCollectNode.getChildren()) {

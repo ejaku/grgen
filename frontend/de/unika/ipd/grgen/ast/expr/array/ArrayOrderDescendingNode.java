@@ -70,6 +70,7 @@ public class ArrayOrderDescendingNode extends ArrayFunctionMethodInvocationBaseE
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayOrderDescending(targetExpr.checkIR(Expression.class));
 	}
 }

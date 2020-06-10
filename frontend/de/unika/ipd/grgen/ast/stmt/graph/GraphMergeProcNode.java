@@ -101,6 +101,10 @@ public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
+		sourceExpr = sourceExpr.evaluate();
+		if(sourceNameExpr != null)
+			sourceNameExpr = sourceNameExpr.evaluate();
 		return new GraphMergeProc(targetExpr.checkIR(Expression.class), sourceExpr.checkIR(Expression.class),
 				sourceNameExpr != null ? sourceNameExpr.checkIR(Expression.class) : null);
 	}

@@ -98,6 +98,9 @@ public class ExportProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		pathExpr = pathExpr.evaluate();
+		if(graphExpr != null)
+			graphExpr = graphExpr.evaluate();
 		return new ExportProc(pathExpr.checkIR(Expression.class),
 				graphExpr != null ? graphExpr.checkIR(Expression.class) : null);
 	}

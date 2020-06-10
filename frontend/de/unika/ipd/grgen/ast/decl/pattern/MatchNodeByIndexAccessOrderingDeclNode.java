@@ -171,6 +171,10 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 
 		setIR(node);
 
+		if(expr != null)
+			expr = expr.evaluate();
+		if(expr2 != null)
+			expr2 = expr2.evaluate();;
 		node.setIndex(new IndexAccessOrdering(index.checkIR(Index.class), ascending,
 				comp, expr != null ? expr.checkIR(Expression.class) : null,
 				comp2, expr2 != null ? expr2.checkIR(Expression.class) : null));

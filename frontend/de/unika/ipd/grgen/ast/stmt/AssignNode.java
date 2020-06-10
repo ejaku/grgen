@@ -392,6 +392,7 @@ public class AssignNode extends EvalStatementNode
 			return new AssignmentIdentical();
 		}
 
+		ExprNode rhsEvaluated = rhs.evaluate();
 		if(lhsQual != null) {
 			Qualification qual = lhsQual.checkIR(Qualification.class);
 			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
@@ -403,32 +404,27 @@ public class AssignNode extends EvalStatementNode
 
 			if(canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()) {
 				markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations();
-				ExprNode rhsEvaluated = rhs.evaluate();
 				return rhsEvaluated.checkIR(EvalStatement.class);
 			}
 
-			ExprNode rhsEvaluated = rhs.evaluate();
 			return new Assignment(qual, rhsEvaluated.checkIR(Expression.class));
 		} else if(lhsVar != null) {
 			Variable var = lhsVar.checkIR(Variable.class);
 
 			// TODO: extend optimization to assignments to variables
 
-			ExprNode rhsEvaluated = rhs.evaluate();
 			return new AssignmentVar(var, rhsEvaluated.checkIR(Expression.class));
 		} else if(lhsGraphElement != null) {
 			GraphEntity graphEntity = lhsGraphElement.checkIR(GraphEntity.class);
 
 			// TODO: extend optimization to assignments to graph entities
 
-			ExprNode rhsEvaluated = rhs.evaluate();
 			return new AssignmentGraphEntity(graphEntity, rhsEvaluated.checkIR(Expression.class));
 		} else {
 			Entity entity = lhsMember.checkIR(Entity.class);
 
 			// TODO: extend optimization to assignments to entities
 
-			ExprNode rhsEvaluated = rhs.evaluate();
 			return new AssignmentMember(entity, rhsEvaluated.checkIR(Expression.class));
 		}
 	}

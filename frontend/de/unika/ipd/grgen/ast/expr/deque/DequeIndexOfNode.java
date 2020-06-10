@@ -99,12 +99,16 @@ public class DequeIndexOfNode extends DequeFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
-		if(startIndexExpr != null)
+		targetExpr = targetExpr.evaluate();
+		valueExpr = valueExpr.evaluate();
+		if(startIndexExpr != null) {
+			startIndexExpr = startIndexExpr.evaluate();
 			return new DequeIndexOfExpr(targetExpr.checkIR(Expression.class),
 					valueExpr.checkIR(Expression.class),
 					startIndexExpr.checkIR(Expression.class));
-		else
+		} else {
 			return new DequeIndexOfExpr(targetExpr.checkIR(Expression.class),
 					valueExpr.checkIR(Expression.class));
+		}
 	}
 }

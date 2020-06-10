@@ -97,6 +97,10 @@ public class StringSubstringNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		stringExpr = stringExpr.evaluate();
+		startExpr = startExpr.evaluate();
+		if(lengthExpr != null)
+			lengthExpr = lengthExpr.evaluate();
 		return new StringSubstring(stringExpr.checkIR(Expression.class),
 				startExpr.checkIR(Expression.class),
 				lengthExpr != null ? lengthExpr.checkIR(Expression.class) : null);

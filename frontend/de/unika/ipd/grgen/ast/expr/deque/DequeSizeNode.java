@@ -66,6 +66,7 @@ public class DequeSizeNode extends DequeFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new DequeSizeExpr(targetExpr.checkIR(Expression.class));
 	}
 }

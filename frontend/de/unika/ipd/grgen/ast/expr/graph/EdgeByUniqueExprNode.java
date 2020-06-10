@@ -87,6 +87,8 @@ public class EdgeByUniqueExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		unique = unique.evaluate();
+		edgeType = edgeType.evaluate();
 		return new EdgeByUniqueExpr(unique.checkIR(Expression.class),
 				edgeType.checkIR(Expression.class), getType().getType());
 	}

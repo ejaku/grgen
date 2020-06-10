@@ -93,6 +93,10 @@ public class StringReplaceNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		stringExpr = stringExpr.evaluate();
+		startExpr = startExpr.evaluate();
+		lengthExpr = lengthExpr.evaluate();
+		replaceStrExpr = replaceStrExpr.evaluate();
 		return new StringReplace(stringExpr.checkIR(Expression.class),
 				startExpr.checkIR(Expression.class),
 				lengthExpr.checkIR(Expression.class),

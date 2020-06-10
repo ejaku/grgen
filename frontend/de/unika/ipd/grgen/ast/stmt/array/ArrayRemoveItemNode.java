@@ -109,11 +109,14 @@ public class ArrayRemoveItemNode extends ArrayProcedureMethodInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		if(target != null)
+		if(valueExpr != null)
+			valueExpr = valueExpr.evaluate();
+		if(target != null) {
 			return new ArrayRemoveItem(target.checkIR(Qualification.class),
 					valueExpr != null ? valueExpr.checkIR(Expression.class) : null);
-		else
+		} else {
 			return new ArrayVarRemoveItem(targetVar.checkIR(Variable.class),
 					valueExpr != null ? valueExpr.checkIR(Expression.class) : null);
+		}
 	}
 }

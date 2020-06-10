@@ -123,6 +123,8 @@ public class IntegerRangeIterationYieldNode extends NestingStatementNode
 	@Override
 	protected IR constructIR()
 	{
+		leftExpr = leftExpr.evaluate();
+		rightExpr = rightExpr.evaluate();
 		IntegerRangeIterationYield cay = new IntegerRangeIterationYield(iterationVariable.checkIR(Variable.class),
 				leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
 		for(EvalStatementNode accumulationStatement : statements.getChildren()) {

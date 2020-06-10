@@ -125,13 +125,17 @@ public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		if(target != null)
+		valueExpr = valueExpr.evaluate();
+		if(indexExpr != null)
+			indexExpr = indexExpr.evaluate();
+		if(target != null) {
 			return new DequeAddItem(target.checkIR(Qualification.class),
 					valueExpr.checkIR(Expression.class),
 					indexExpr != null ? indexExpr.checkIR(Expression.class) : null);
-		else
+		} else {
 			return new DequeVarAddItem(targetVar.checkIR(Variable.class),
 					valueExpr.checkIR(Expression.class),
 					indexExpr != null ? indexExpr.checkIR(Expression.class) : null);
+		}
 	}
 }

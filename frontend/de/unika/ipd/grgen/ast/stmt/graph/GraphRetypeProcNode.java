@@ -90,6 +90,8 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		entity = entity.evaluate();
+		entityType = entityType.evaluate();
 		if(entityType.getType() instanceof NodeTypeNode) {
 			GraphRetypeNodeProc retypeNode = new GraphRetypeNodeProc(entity.checkIR(Expression.class),
 					entityType.checkIR(Expression.class), entityType.getType().getType());

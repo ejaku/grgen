@@ -65,6 +65,7 @@ public class ArrayVarNode extends ArrayAccumulationMethodNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayVarExpr(targetExpr.checkIR(Expression.class));
 	}
 }

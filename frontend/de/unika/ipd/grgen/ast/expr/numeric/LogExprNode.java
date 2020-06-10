@@ -90,9 +90,11 @@ public class LogExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		if(rightExpr != null)
+		leftExpr = leftExpr.evaluate();
+		if(rightExpr != null) {
+			rightExpr = rightExpr.evaluate();
 			return new LogExpr(leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
-		else
+		} else
 			return new LogExpr(leftExpr.checkIR(Expression.class));
 	}
 

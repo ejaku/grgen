@@ -107,6 +107,7 @@ public class MatchNodeByUniqueLookupDeclNode extends NodeDeclNode
 
 		setIR(node);
 
+		expr = expr.evaluate();
 		node.setUniqueIndexAccess(new UniqueLookup(expr.checkIR(Expression.class)));
 		return node;
 	}

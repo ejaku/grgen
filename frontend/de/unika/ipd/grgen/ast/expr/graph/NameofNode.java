@@ -88,6 +88,7 @@ public class NameofNode extends ExprNode
 		if(namedEntity == null) {
 			return new Nameof(null, getType().getType());
 		}
+		namedEntity = namedEntity.evaluate();
 		return new Nameof(namedEntity.checkIR(Expression.class), getType().getType());
 	}
 

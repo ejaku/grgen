@@ -77,6 +77,8 @@ public class StringStartsWithNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		stringExpr = stringExpr.evaluate();
+		stringToSearchForExpr = stringToSearchForExpr.evaluate();
 		return new StringStartsWith(stringExpr.checkIR(Expression.class),
 				stringToSearchForExpr.checkIR(Expression.class));
 	}

@@ -276,6 +276,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 		List<Expression> subpatternConnections = new LinkedList<Expression>();
 		List<Expression> subpatternYields = new LinkedList<Expression>();
 		for(ExprNode e : connections.getChildren()) {
+			e = e.evaluate();
 			if(e instanceof IdentExprNode && ((IdentExprNode)e).yieldedTo)
 				subpatternYields.add(e.checkIR(Expression.class));
 			else

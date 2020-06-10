@@ -78,6 +78,7 @@ public class CountEdgesExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		edgeType = edgeType.evaluate();
 		return new CountEdgesExpr(edgeType.checkIR(Expression.class));
 	}
 

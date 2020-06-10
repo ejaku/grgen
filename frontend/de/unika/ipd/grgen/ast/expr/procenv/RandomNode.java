@@ -68,6 +68,8 @@ public class RandomNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		if(numExpr != null)
+			numExpr = numExpr.evaluate();
 		return new RandomExpr(numExpr != null ? numExpr.checkIR(Expression.class) : null);
 	}
 

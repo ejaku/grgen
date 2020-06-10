@@ -81,6 +81,7 @@ public class RollbackTransactionProcNode extends BuiltinProcedureInvocationBaseN
 	@Override
 	protected IR constructIR()
 	{
+		transactionIdExpr = transactionIdExpr.evaluate();
 		return new RollbackTransactionProc(transactionIdExpr.checkIR(Expression.class));
 	}
 }

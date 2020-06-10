@@ -118,6 +118,8 @@ public class MapAddItemNode extends MapProcedureMethodInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		keyExpr = keyExpr.evaluate();
+		valueExpr = valueExpr.evaluate();
 		if(target != null)
 			return new MapAddItem(target.checkIR(Qualification.class),
 					keyExpr.checkIR(Expression.class),

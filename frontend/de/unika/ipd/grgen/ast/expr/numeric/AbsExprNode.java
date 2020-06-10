@@ -62,6 +62,7 @@ public class AbsExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		argumentExpr = argumentExpr.evaluate();
 		return new AbsExpr(argumentExpr.checkIR(Expression.class));
 	}
 

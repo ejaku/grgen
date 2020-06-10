@@ -210,6 +210,7 @@ public class CompoundAssignNode extends EvalStatementNode
 	@Override
 	protected IR constructIR()
 	{
+		valueExpr = valueExpr.evaluate();
 		if(targetQual != null) {
 			if(targetChangedQual != null)
 				return new CompoundAssignmentChanged(targetQual.checkIR(Qualification.class),

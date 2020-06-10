@@ -143,6 +143,7 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 				functionDecl.resultType.checkIR(Type.class),
 				functionDecl.checkIR(Function.class));
 		for(ExprNode expr : arguments.getChildren()) {
+			expr = expr.evaluate();
 			ci.addArgument(expr.checkIR(Expression.class));
 		}
 		return ci;

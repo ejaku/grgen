@@ -80,6 +80,7 @@ public class EdgesExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		edgeType = edgeType.evaluate();
 		return new EdgesExpr(edgeType.checkIR(Expression.class), getType().getType());
 	}
 

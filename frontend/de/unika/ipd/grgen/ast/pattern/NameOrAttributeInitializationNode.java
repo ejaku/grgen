@@ -160,6 +160,7 @@ public class NameOrAttributeInitializationNode extends BaseNode
 		nai.owner = ownerIR;
 		if(attribute != null)
 			nai.attribute = attribute.checkIR(Entity.class);
+		initialization = initialization.evaluate();
 		nai.expr = initialization.checkIR(Expression.class);
 
 		return nai;

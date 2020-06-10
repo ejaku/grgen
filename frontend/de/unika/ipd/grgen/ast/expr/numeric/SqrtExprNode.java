@@ -68,6 +68,7 @@ public class SqrtExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		expr = expr.evaluate();
 		return new SqrtExpr(expr.checkIR(Expression.class));
 	}
 

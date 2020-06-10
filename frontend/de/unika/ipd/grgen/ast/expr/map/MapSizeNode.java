@@ -66,6 +66,7 @@ public class MapSizeNode extends MapFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new MapSizeExpr(targetExpr.checkIR(Expression.class));
 	}
 }

@@ -75,6 +75,7 @@ public class MapRangeNode extends MapFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new MapRangeExpr(targetExpr.checkIR(Expression.class), getType().getType());
 	}
 }

@@ -103,6 +103,10 @@ public class GraphRedirectTargetProcNode extends BuiltinProcedureInvocationBaseN
 	@Override
 	protected IR constructIR()
 	{
+		edgeExpr = edgeExpr.evaluate();
+		newTargetExpr = newTargetExpr.evaluate();
+		if(oldTargetNameExpr != null)
+			oldTargetNameExpr = oldTargetNameExpr.evaluate();
 		return new GraphRedirectTargetProc(edgeExpr.checkIR(Expression.class),
 				newTargetExpr.checkIR(Expression.class),
 				oldTargetNameExpr != null ? oldTargetNameExpr.checkIR(Expression.class) : null);

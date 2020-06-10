@@ -55,6 +55,10 @@ public class BoundedReachableNodeWithRemainingDepthExprNode extends BoundedNeigh
 	@Override
 	protected IR constructIR()
 	{
+		startNodeExpr = startNodeExpr.evaluate();
+		depthExpr = depthExpr.evaluate();
+		incidentTypeExpr = incidentTypeExpr.evaluate();
+		adjacentTypeExpr = adjacentTypeExpr.evaluate();
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
 		return new BoundedReachableNodeWithRemainingDepthExpr(startNodeExpr.checkIR(Expression.class), 
 				depthExpr.checkIR(Expression.class),

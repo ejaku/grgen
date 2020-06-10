@@ -107,6 +107,7 @@ public class MatchEdgeByUniqueLookupDeclNode extends EdgeDeclNode
 
 		setIR(edge);
 
+		expr = expr.evaluate();
 		edge.setUniqueIndexAccess(new UniqueLookup(expr.checkIR(Expression.class)));
 		return edge;
 	}

@@ -66,6 +66,7 @@ public class SetEmptyNode extends SetFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new SetEmptyExpr(targetExpr.checkIR(Expression.class));
 	}
 }

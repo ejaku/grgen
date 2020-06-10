@@ -81,6 +81,7 @@ public class VResetProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		visFlagExpr = visFlagExpr.evaluate();
 		return new VResetProc(visFlagExpr.checkIR(Expression.class));
 	}
 }

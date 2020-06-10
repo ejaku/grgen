@@ -85,6 +85,8 @@ public class CaseStatementNode extends NestingStatementNode
 	@Override
 	protected IR constructIR()
 	{
+		if(caseConstantExpr != null)
+			caseConstantExpr = caseConstantExpr.evaluate();
 		CaseStatement caseStmt = new CaseStatement(
 				caseConstantExpr != null ? caseConstantExpr.checkIR(Expression.class) : null);
 		for(EvalStatementNode statement : statements.getChildren()) {

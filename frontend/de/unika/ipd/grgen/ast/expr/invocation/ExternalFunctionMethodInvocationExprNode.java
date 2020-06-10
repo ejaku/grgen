@@ -117,11 +117,13 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionInvocation
 	@Override
 	protected IR constructIR()
 	{
+		owner = owner.evaluate();
 		ExternalFunctionMethodInvocationExpr efi = new ExternalFunctionMethodInvocationExpr(
 				owner.checkIR(Expression.class),
 				externalFunctionDecl.resultType.checkIR(Type.class),
 				externalFunctionDecl.checkIR(ExternalFunction.class));
 		for(ExprNode expr : arguments.getChildren()) {
+			expr = expr.evaluate();
 			efi.addArgument(expr.checkIR(Expression.class));
 		}
 		return efi;

@@ -96,6 +96,8 @@ public class EqualsAnyExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		subgraphExpr = subgraphExpr.evaluate();
+		subgraphSetExpr = subgraphSetExpr.evaluate();
 		return new EqualsAnyExpr(subgraphExpr.checkIR(Expression.class),
 				subgraphSetExpr.checkIR(Expression.class),
 				includingAttributes, getType().getType());

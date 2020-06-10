@@ -77,6 +77,7 @@ public class InsertProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		graphExpr = graphExpr.evaluate();
 		InsertProc insert = new InsertProc(graphExpr.checkIR(Expression.class));
 		return insert;
 	}

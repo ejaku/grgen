@@ -92,6 +92,8 @@ public class VisitedNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
+		visitorIDExpr = visitorIDExpr.evaluate();
+		entityExpr = entityExpr.evaluate();
 		return new Visited(visitorIDExpr.checkIR(Expression.class), entityExpr.checkIR(Expression.class));
 	}
 

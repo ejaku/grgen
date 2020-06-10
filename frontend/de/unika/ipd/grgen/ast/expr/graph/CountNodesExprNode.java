@@ -78,6 +78,7 @@ public class CountNodesExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		nodeType = nodeType.evaluate();
 		return new CountNodesExpr(nodeType.checkIR(Expression.class));
 	}
 

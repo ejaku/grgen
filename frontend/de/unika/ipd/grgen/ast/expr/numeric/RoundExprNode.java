@@ -64,6 +64,7 @@ public class RoundExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		argumentExpr = argumentExpr.evaluate();
 		return new RoundExpr(argumentExpr.checkIR(Expression.class));
 	}
 

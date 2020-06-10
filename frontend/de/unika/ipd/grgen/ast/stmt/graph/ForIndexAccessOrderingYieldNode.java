@@ -174,6 +174,10 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 	@Override
 	protected IR constructIR()
 	{
+		if(expr != null)
+			expr = expr.evaluate();
+		if(expr2 != null)
+			expr2 = expr2.evaluate();
 		ForIndexAccessOrdering fiao = new ForIndexAccessOrdering(iterationVariable.checkIR(Variable.class),
 				new IndexAccessOrdering(index.checkIR(Index.class), ascending,
 						comp, expr != null ? expr.checkIR(Expression.class) : null,

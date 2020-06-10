@@ -2996,6 +2996,10 @@ public abstract class CSharpBase
 		case IS_GRAPH:
 			return "null"; // TODO: there is no graph constant - assert instead?
 		case IS_OBJECT:
+		case IS_SET:
+		case IS_MAP:
+		case IS_ARRAY:
+		case IS_DEQUE:
 			if(constant.getValue() == null) {
 				return "null";
 			}

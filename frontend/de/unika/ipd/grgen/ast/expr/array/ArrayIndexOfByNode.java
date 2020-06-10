@@ -127,14 +127,18 @@ public class ArrayIndexOfByNode extends ArrayFunctionMethodInvocationBaseExprNod
 	@Override
 	protected IR constructIR()
 	{
-		if(startIndexExpr != null)
+		targetExpr = targetExpr.evaluate();
+		valueExpr = valueExpr.evaluate();
+		if(startIndexExpr != null) {
+			startIndexExpr = startIndexExpr.evaluate();
 			return new ArrayIndexOfByExpr(targetExpr.checkIR(Expression.class),
 					member.checkIR(Entity.class),
 					valueExpr.checkIR(Expression.class),
 					startIndexExpr.checkIR(Expression.class));
-		else
+		} else {
 			return new ArrayIndexOfByExpr(targetExpr.checkIR(Expression.class),
 					member.checkIR(Entity.class),
 					valueExpr.checkIR(Expression.class));
+		}
 	}
 }

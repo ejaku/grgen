@@ -78,6 +78,7 @@ public class ImportExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		pathExpr = pathExpr.evaluate();
 		return new ImportExpr(pathExpr.checkIR(Expression.class), getType().getType());
 	}
 

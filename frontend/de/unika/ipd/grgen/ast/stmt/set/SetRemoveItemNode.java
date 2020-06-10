@@ -101,11 +101,13 @@ public class SetRemoveItemNode extends SetProcedureMethodInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		if(target != null)
+		valueExpr = valueExpr.evaluate();
+		if(target != null) {
 			return new SetRemoveItem(target.checkIR(Qualification.class),
 					valueExpr.checkIR(Expression.class));
-		else
+		} else {
 			return new SetVarRemoveItem(targetVar.checkIR(Variable.class),
 					valueExpr.checkIR(Expression.class));
+		}
 	}
 }

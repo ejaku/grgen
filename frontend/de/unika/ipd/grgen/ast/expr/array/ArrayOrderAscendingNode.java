@@ -71,6 +71,7 @@ public class ArrayOrderAscendingNode extends ArrayFunctionMethodInvocationBaseEx
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayOrderAscending(targetExpr.checkIR(Expression.class));
 	}
 }

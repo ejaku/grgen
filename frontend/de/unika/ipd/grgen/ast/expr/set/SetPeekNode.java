@@ -75,6 +75,8 @@ public class SetPeekNode extends SetFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
+		numberExpr = numberExpr.evaluate();
 		return new SetPeekExpr(targetExpr.checkIR(Expression.class),
 				numberExpr.checkIR(Expression.class));
 	}

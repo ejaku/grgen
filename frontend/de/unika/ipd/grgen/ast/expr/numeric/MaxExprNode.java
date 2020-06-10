@@ -70,6 +70,8 @@ public class MaxExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		leftExpr = leftExpr.evaluate();
+		rightExpr = rightExpr.evaluate();
 		return new MaxExpr(leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
 	}
 

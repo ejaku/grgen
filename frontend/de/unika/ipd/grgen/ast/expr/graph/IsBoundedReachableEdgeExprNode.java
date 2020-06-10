@@ -119,6 +119,10 @@ public class IsBoundedReachableEdgeExprNode extends NeighborhoodQueryExprNode
 	@Override
 	protected IR constructIR()
 	{
+		startNodeExpr = startNodeExpr.evaluate();
+		endEdgeExpr = endEdgeExpr.evaluate();
+		incidentTypeExpr = incidentTypeExpr.evaluate();
+		adjacentTypeExpr = adjacentTypeExpr.evaluate();
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
 		return new IsBoundedReachableEdgeExpr(startNodeExpr.checkIR(Expression.class),
 				endEdgeExpr.checkIR(Expression.class), depthExpr.checkIR(Expression.class),

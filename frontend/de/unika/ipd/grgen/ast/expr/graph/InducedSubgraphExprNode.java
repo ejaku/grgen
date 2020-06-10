@@ -84,6 +84,7 @@ public class InducedSubgraphExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		nodeSetExpr = nodeSetExpr.evaluate();
 		return new InducedSubgraphExpr(nodeSetExpr.checkIR(Expression.class), getType().getType());
 	}
 

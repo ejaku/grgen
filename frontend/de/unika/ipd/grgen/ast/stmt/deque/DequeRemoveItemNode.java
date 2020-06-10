@@ -106,11 +106,14 @@ public class DequeRemoveItemNode extends DequeProcedureMethodInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		if(target != null)
+		if(valueExpr != null)
+			valueExpr = valueExpr.evaluate();
+		if(target != null) {
 			return new DequeRemoveItem(target.checkIR(Qualification.class),
 					valueExpr != null ? valueExpr.checkIR(Expression.class) : null);
-		else
+		} else {
 			return new DequeVarRemoveItem(targetVar.checkIR(Variable.class),
 					valueExpr != null ? valueExpr.checkIR(Expression.class) : null);
+		}
 	}
 }

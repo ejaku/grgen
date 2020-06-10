@@ -65,6 +65,7 @@ public class ArrayAvgNode extends ArrayAccumulationMethodNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayAvgExpr(targetExpr.checkIR(Expression.class));
 	}
 }

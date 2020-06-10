@@ -99,6 +99,8 @@ public class OppositeExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		edge = edge.evaluate();
+		node = node.evaluate();
 		return new OppositeExpr(edge.checkIR(Expression.class), node.checkIR(Expression.class), getType().getType());
 	}
 

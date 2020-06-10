@@ -130,7 +130,7 @@ public class ArrayExtractNode extends ArrayFunctionMethodInvocationBaseExprNode
 		Entity accessedMember = null;
 		if(member != null)
 			accessedMember = member.checkIR(Entity.class);
-
+		targetExpr = targetExpr.evaluate();
 		return new ArrayExtract(targetExpr.checkIR(Expression.class), extractedArrayType.checkIR(ArrayType.class),
 				accessedMember);
 	}

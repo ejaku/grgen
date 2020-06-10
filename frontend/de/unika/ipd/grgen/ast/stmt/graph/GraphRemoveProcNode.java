@@ -82,6 +82,7 @@ public class GraphRemoveProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		entityExpr = entityExpr.evaluate();
 		return new GraphRemoveProc(entityExpr.checkIR(Expression.class));
 	}
 }

@@ -99,6 +99,9 @@ public class GraphAddCopyEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		oldEdge = oldEdge.evaluate();
+		sourceNode = sourceNode.evaluate();
+		targetNode = targetNode.evaluate();
 		GraphAddCopyEdgeProc addCopyEdge = new GraphAddCopyEdgeProc(oldEdge.checkIR(Expression.class),
 				sourceNode.checkIR(Expression.class), targetNode.checkIR(Expression.class),
 				oldEdge.getType().getType());

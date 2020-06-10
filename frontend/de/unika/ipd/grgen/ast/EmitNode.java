@@ -89,7 +89,8 @@ public class EmitNode extends OrderedReplacementNode
 	protected IR constructIR()
 	{
 		List<Expression> arguments = new ArrayList<Expression>();
-		for(BaseNode child : getChildren()) {
+		for(ExprNode child : childrenUnresolved) {
+			child = child.evaluate();
 			arguments.add(child.checkIR(Expression.class));
 		}
 		Emit res = new Emit(arguments, isDebug);

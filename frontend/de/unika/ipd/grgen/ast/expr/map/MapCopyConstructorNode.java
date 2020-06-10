@@ -107,6 +107,7 @@ public class MapCopyConstructorNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
+		mapToCopy = mapToCopy.evaluate();
 		return new MapCopyConstructor(mapToCopy.checkIR(Expression.class), mapType.checkIR(MapType.class));
 	}
 

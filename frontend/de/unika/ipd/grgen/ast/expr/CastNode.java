@@ -208,6 +208,7 @@ public class CastNode extends ExprNode
 	protected IR constructIR()
 	{
 		Type type = this.type.checkIR(Type.class);
+		this.expr = this.expr.evaluate();
 		Expression expr = this.expr.checkIR(Expression.class);
 
 		return new Cast(type, expr);

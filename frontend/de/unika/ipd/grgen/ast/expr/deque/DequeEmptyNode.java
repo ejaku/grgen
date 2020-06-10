@@ -67,6 +67,7 @@ public class DequeEmptyNode extends DequeFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new DequeEmptyExpr(targetExpr.checkIR(Expression.class));
 	}
 }

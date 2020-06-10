@@ -133,6 +133,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 		if(procedureDecl != null) {
 			ProcedureInvocation pi = new ProcedureInvocation(procedureDecl.checkIR(Procedure.class));
 			for(ExprNode expr : arguments.getChildren()) {
+				expr = expr.evaluate();
 				pi.addArgument(expr.checkIR(Expression.class));
 			}
 			for(TypeNode type : procedureDecl.resultTypesCollectNode.getChildren()) {
@@ -143,6 +144,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 			ExternalProcedureInvocation epi = new ExternalProcedureInvocation(
 					externalProcedureDecl.checkIR(ExternalProcedure.class));
 			for(ExprNode expr : arguments.getChildren()) {
+				expr = expr.evaluate();
 				epi.addArgument(expr.checkIR(Expression.class));
 			}
 			for(TypeNode type : externalProcedureDecl.resultTypesCollectNode.getChildren()) {

@@ -102,6 +102,8 @@ public class InsertDefinedSubgraphProcNode extends BuiltinProcedureInvocationBas
 	@Override
 	protected IR constructIR()
 	{
+		edgeSetExpr = edgeSetExpr.evaluate();
+		edgeExpr = edgeExpr.evaluate();
 		InsertDefinedSubgraphProc insertDefined = new InsertDefinedSubgraphProc(
 				edgeSetExpr.checkIR(Expression.class), edgeExpr.checkIR(Expression.class),
 				edgeExpr.getType().getType());

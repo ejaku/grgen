@@ -117,6 +117,7 @@ public class FilterInvocationNode extends BaseNode
 					filterAutoSupplied.checkIR(FilterAutoSupplied.class), iterated.checkIR(Rule.class));
 		}
 		for(ExprNode expr : arguments.getChildren()) {
+			expr = expr.evaluate();
 			filterInvocation.addArgument(expr.checkIR(Expression.class));
 		}
 		return filterInvocation;

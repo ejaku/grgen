@@ -140,6 +140,7 @@ public class MemberAccessExprNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
 			return new MatchAccess(targetExpr.checkIR(Expression.class), member.checkIR(Entity.class));
 		}

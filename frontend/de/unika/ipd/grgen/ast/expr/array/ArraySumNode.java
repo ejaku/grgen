@@ -66,6 +66,7 @@ public class ArraySumNode extends ArrayAccumulationMethodNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArraySumExpr(targetExpr.checkIR(Expression.class));
 	}
 }

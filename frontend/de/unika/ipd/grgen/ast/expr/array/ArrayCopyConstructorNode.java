@@ -106,6 +106,7 @@ public class ArrayCopyConstructorNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
+		arrayToCopy = arrayToCopy.evaluate();
 		return new ArrayCopyConstructor(arrayToCopy.checkIR(Expression.class), arrayType.checkIR(ArrayType.class));
 	}
 

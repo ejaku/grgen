@@ -83,6 +83,9 @@ public class ArraySubarrayNode extends ArrayFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
+		startExpr = startExpr.evaluate();
+		lengthExpr = lengthExpr.evaluate();
 		return new ArraySubarrayExpr(targetExpr.checkIR(Expression.class),
 				startExpr.checkIR(Expression.class),
 				lengthExpr.checkIR(Expression.class));

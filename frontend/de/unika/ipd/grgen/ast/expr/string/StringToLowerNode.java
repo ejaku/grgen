@@ -68,6 +68,7 @@ public class StringToLowerNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		stringExpr = stringExpr.evaluate();
 		return new StringToLower(stringExpr.checkIR(Expression.class));
 	}
 

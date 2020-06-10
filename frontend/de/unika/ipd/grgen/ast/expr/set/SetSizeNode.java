@@ -66,6 +66,7 @@ public class SetSizeNode extends SetFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new SetSizeExpr(targetExpr.checkIR(Expression.class));
 	}
 }

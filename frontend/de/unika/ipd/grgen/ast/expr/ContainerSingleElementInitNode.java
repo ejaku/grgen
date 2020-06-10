@@ -86,8 +86,8 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 	}
 
 	/**
-	 * Checks whether the set only contains constants.
-	 * @return True, if all set items are constant.
+	 * Checks whether the container only contains constants.
+	 * @return True, if all container items are constant.
 	 */
 	public boolean isConstant()
 	{
@@ -119,6 +119,7 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 	{
 		Vector<Expression> items = new Vector<Expression>();
 		for(ExprNode item : containerItems.getChildren()) {
+			item = item.evaluate();
 			items.add(item.checkIR(Expression.class));
 		}
 		return items;

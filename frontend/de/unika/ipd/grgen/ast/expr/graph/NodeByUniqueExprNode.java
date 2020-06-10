@@ -87,6 +87,8 @@ public class NodeByUniqueExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		unique = unique.evaluate();
+		nodeType = nodeType.evaluate();
 		return new NodeByUniqueExpr(unique.checkIR(Expression.class),
 				nodeType.checkIR(Expression.class), getType().getType());
 	}

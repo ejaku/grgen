@@ -90,6 +90,8 @@ public class InsertCopyProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		graphExpr = graphExpr.evaluate();
+		nodeExpr = nodeExpr.evaluate();
 		InsertCopyProc insertCopy = new InsertCopyProc(graphExpr.checkIR(Expression.class),
 				nodeExpr.checkIR(Expression.class), nodeExpr.getType().getType());
 		return insertCopy;

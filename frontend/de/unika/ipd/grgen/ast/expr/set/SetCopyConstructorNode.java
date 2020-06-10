@@ -106,6 +106,7 @@ public class SetCopyConstructorNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
+		setToCopy = setToCopy.evaluate();
 		return new SetCopyConstructor(setToCopy.checkIR(Expression.class), setType.checkIR(SetType.class));
 	}
 

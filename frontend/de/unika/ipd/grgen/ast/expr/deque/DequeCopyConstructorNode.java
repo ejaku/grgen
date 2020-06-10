@@ -106,6 +106,7 @@ public class DequeCopyConstructorNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
+		dequeToCopy = dequeToCopy.evaluate();
 		return new DequeCopyConstructor(dequeToCopy.checkIR(Expression.class), dequeType.checkIR(DequeType.class));
 	}
 

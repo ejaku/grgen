@@ -67,6 +67,7 @@ public class ArrayEmptyNode extends ArrayFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayEmptyExpr(targetExpr.checkIR(Expression.class));
 	}
 }

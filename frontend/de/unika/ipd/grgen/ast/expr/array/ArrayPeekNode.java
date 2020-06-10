@@ -82,6 +82,9 @@ public class ArrayPeekNode extends ArrayFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
+		if(numberExpr != null)
+			numberExpr = numberExpr.evaluate();
 		return new ArrayPeekExpr(targetExpr.checkIR(Expression.class),
 				numberExpr != null ? numberExpr.checkIR(Expression.class) : null);
 	}

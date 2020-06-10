@@ -97,13 +97,17 @@ public class StringLastIndexOfNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		if(startIndexExpr != null)
+		stringExpr = stringExpr.evaluate();
+		stringToSearchForExpr = stringToSearchForExpr.evaluate();
+		if(startIndexExpr != null) {
+			startIndexExpr = startIndexExpr.evaluate();
 			return new StringLastIndexOf(stringExpr.checkIR(Expression.class),
 					stringToSearchForExpr.checkIR(Expression.class),
 					startIndexExpr.checkIR(Expression.class));
-		else
+		} else {
 			return new StringLastIndexOf(stringExpr.checkIR(Expression.class),
 					stringToSearchForExpr.checkIR(Expression.class));
+		}
 	}
 
 	@Override

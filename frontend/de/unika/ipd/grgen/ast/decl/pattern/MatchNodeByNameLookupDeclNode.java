@@ -107,6 +107,7 @@ public class MatchNodeByNameLookupDeclNode extends NodeDeclNode
 
 		setIR(node);
 
+		expr = expr.evaluate();
 		node.setNameMapAccess(new NameLookup(expr.checkIR(Expression.class)));
 		return node;
 	}

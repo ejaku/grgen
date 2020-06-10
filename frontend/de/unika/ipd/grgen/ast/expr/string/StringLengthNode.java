@@ -68,6 +68,7 @@ public class StringLengthNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		stringExpr = stringExpr.evaluate();
 		return new StringLength(stringExpr.checkIR(Expression.class));
 	}
 

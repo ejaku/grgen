@@ -75,6 +75,7 @@ public class DequeAsSetNode extends DequeFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new DequeAsSetExpr(targetExpr.checkIR(Expression.class), getType().getType());
 	}
 }

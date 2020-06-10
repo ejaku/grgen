@@ -53,6 +53,10 @@ public class BoundedReachableEdgeExprNode extends BoundedNeighborhoodQueryExprNo
 	@Override
 	protected IR constructIR()
 	{
+		startNodeExpr = startNodeExpr.evaluate();
+		depthExpr = depthExpr.evaluate();
+		incidentTypeExpr = incidentTypeExpr.evaluate();
+		adjacentTypeExpr = adjacentTypeExpr.evaluate();
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
 		return new BoundedReachableEdgeExpr(startNodeExpr.checkIR(Expression.class),
 				depthExpr.checkIR(Expression.class),

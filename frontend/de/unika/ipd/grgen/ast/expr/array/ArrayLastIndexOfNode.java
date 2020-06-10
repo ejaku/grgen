@@ -99,12 +99,16 @@ public class ArrayLastIndexOfNode extends ArrayFunctionMethodInvocationBaseExprN
 	@Override
 	protected IR constructIR()
 	{
-		if(startIndexExpr != null)
+		targetExpr = targetExpr.evaluate();
+		valueExpr = valueExpr.evaluate();
+		if(startIndexExpr != null) {
+			startIndexExpr = startIndexExpr.evaluate();
 			return new ArrayLastIndexOfExpr(targetExpr.checkIR(Expression.class),
 					valueExpr.checkIR(Expression.class),
 					startIndexExpr.checkIR(Expression.class));
-		else
+		} else {
 			return new ArrayLastIndexOfExpr(targetExpr.checkIR(Expression.class),
 					valueExpr.checkIR(Expression.class));
+		}
 	}
 }

@@ -77,7 +77,7 @@ public class SinCosTanExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		// assumes that the which:int of the AST node uses the same values as the which of the IR expression
+		argumentExpr = argumentExpr.evaluate();
 		return new SinCosTanExpr(getTrigonometryFunctionType(), argumentExpr.checkIR(Expression.class));
 	}
 

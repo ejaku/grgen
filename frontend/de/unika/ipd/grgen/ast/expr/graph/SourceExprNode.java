@@ -90,6 +90,7 @@ public class SourceExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		edge = edge.evaluate();
 		return new SourceExpr(edge.checkIR(Expression.class), getType().getType());
 	}
 

@@ -158,6 +158,7 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 		ProcedureMethodInvocation pmi = new ProcedureMethodInvocation(owner.checkIR(Entity.class),
 				procedureDecl.checkIR(Procedure.class));
 		for(ExprNode expr : arguments.getChildren()) {
+			expr = expr.evaluate();
 			pmi.addArgument(expr.checkIR(Expression.class));
 		}
 		for(TypeNode type : procedureDecl.resultTypesCollectNode.getChildren()) {

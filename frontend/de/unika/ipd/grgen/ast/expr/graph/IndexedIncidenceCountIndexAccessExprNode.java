@@ -109,6 +109,7 @@ public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
+		keyExpr = keyExpr.evaluate();
 		return new IndexedIncidenceCountIndexAccessExpr(target.checkIR(IncidenceCountIndex.class),
 				keyExpr.checkIR(Expression.class));
 	}

@@ -68,6 +68,7 @@ public class StringToUpperNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		stringExpr = stringExpr.evaluate();
 		return new StringToUpper(stringExpr.checkIR(Expression.class));
 	}
 

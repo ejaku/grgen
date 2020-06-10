@@ -89,6 +89,7 @@ public class UniqueofExprNode extends BuiltinFunctionInvocationBaseNode
 		if(entity == null) {
 			return new Uniqueof(null, getType().getType());
 		}
+		entity = entity.evaluate();
 		return new Uniqueof(entity.checkIR(Expression.class), getType().getType());
 	}
 

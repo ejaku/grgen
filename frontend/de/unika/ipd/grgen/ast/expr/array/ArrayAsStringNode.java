@@ -90,6 +90,7 @@ public class ArrayAsStringNode extends ArrayFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayAsString(targetExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
 	}
 }

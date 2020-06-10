@@ -103,7 +103,8 @@ public class ConstructorParamNode extends BaseNode
 	@Override
 	protected IR constructIR()
 	{
-		Expression expr = rhs == null ? null : rhs.checkIR(Expression.class);
-		return new ConstructorParam(lhs.checkIR(Entity.class), expr);
+		if(rhs != null)
+			rhs = rhs.evaluate();
+		return new ConstructorParam(lhs.checkIR(Entity.class), rhs != null ? rhs.checkIR(Expression.class) : null);
 	}
 }

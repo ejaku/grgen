@@ -107,6 +107,7 @@ public class ArrayOrderAscendingByNode extends ArrayFunctionMethodInvocationBase
 		if(member != null)
 			accessedMember = member.checkIR(Entity.class);
 
+		targetExpr = targetExpr.evaluate();
 		return new ArrayOrderAscendingBy(targetExpr.checkIR(Expression.class),
 				accessedMember);
 	}

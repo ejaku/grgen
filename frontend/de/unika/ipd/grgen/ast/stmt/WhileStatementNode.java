@@ -89,6 +89,7 @@ public class WhileStatementNode extends NestingStatementNode
 	@Override
 	protected IR constructIR()
 	{
+		conditionExpr = conditionExpr.evaluate();
 		WhileStatement ws = new WhileStatement(conditionExpr.checkIR(Expression.class));
 		for(EvalStatementNode loopedStatement : statements.getChildren()) {
 			ws.addStatement(loopedStatement.checkIR(EvalStatement.class));

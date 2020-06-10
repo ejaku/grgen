@@ -78,6 +78,7 @@ public class ExistsFileExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		pathExpr = pathExpr.evaluate();
 		return new ExistsFileExpr(pathExpr.checkIR(Expression.class), getType().getType());
 	}
 

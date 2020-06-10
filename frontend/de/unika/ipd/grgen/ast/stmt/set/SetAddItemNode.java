@@ -101,11 +101,13 @@ public class SetAddItemNode extends SetProcedureMethodInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		if(target != null)
+		valueExpr = valueExpr.evaluate();
+		if(target != null) {
 			return new SetAddItem(target.checkIR(Qualification.class),
 					valueExpr.checkIR(Expression.class));
-		else
+		} else {
 			return new SetVarAddItem(targetVar.checkIR(Variable.class),
 					valueExpr.checkIR(Expression.class));
+		}
 	}
 }

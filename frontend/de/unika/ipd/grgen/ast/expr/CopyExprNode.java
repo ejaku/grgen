@@ -82,6 +82,7 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		sourceExpr = sourceExpr.evaluate();
 		return new CopyExpr(sourceExpr.checkIR(Expression.class), getType().getType());
 	}
 

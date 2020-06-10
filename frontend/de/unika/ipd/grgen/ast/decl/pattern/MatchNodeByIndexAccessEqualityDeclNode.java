@@ -125,6 +125,7 @@ public class MatchNodeByIndexAccessEqualityDeclNode extends MatchNodeByIndexDecl
 
 		setIR(node);
 
+		expr = expr.evaluate();
 		node.setIndex(new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)));
 		return node;
 	}

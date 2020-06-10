@@ -91,6 +91,7 @@ public class DoWhileStatementNode extends NestingStatementNode
 	@Override
 	protected IR constructIR()
 	{
+		conditionExpr = conditionExpr.evaluate();
 		DoWhileStatement dws = new DoWhileStatement(conditionExpr.checkIR(Expression.class));
 		for(EvalStatementNode loopedStatement : statements.getChildren()) {
 			dws.addStatement(loopedStatement.checkIR(EvalStatement.class));

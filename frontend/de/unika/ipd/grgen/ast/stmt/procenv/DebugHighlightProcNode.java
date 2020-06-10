@@ -93,6 +93,7 @@ public class DebugHighlightProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		Vector<Expression> expressions = new Vector<Expression>();
 		for(ExprNode expr : exprs.getChildren()) {
+			expr = expr.evaluate();
 			expressions.add(expr.checkIR(Expression.class));
 		}
 		return new DebugHighlightProc(expressions);

@@ -81,6 +81,7 @@ public class DeleteFileProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		pathExpr = pathExpr.evaluate();
 		return new DeleteFileProc(pathExpr.checkIR(Expression.class));
 	}
 }

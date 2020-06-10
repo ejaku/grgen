@@ -81,6 +81,7 @@ public class CommitTransactionProcNode extends BuiltinProcedureInvocationBaseNod
 	@Override
 	protected IR constructIR()
 	{
+		transactionIdExpr = transactionIdExpr.evaluate();
 		return new CommitTransactionProc(transactionIdExpr.checkIR(Expression.class));
 	}
 }

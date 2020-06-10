@@ -376,6 +376,7 @@ public class ExecNode extends BaseNode
 		for(CallActionNode callActionNode : callActions.getChildren()) {
 			callActionNode.checkPost();
 			for(ExprNode param : callActionNode.getParams().getChildren()) {
+				param = param.evaluate();
 				parameters.add(param.checkIR(Expression.class));
 			}
 		}

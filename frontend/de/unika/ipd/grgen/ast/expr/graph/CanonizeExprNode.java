@@ -65,6 +65,7 @@ public class CanonizeExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		graphExpr = graphExpr.evaluate();
 		return new CanonizeExpr(graphExpr.checkIR(Expression.class));
 	}
 

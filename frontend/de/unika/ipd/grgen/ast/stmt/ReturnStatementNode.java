@@ -141,10 +141,12 @@ public class ReturnStatementNode extends EvalStatementNode
 		if(isFilterReturn) {
 			return new ReturnStatementFilter();
 		} else if(isFunctionReturn) {
-			return new ReturnStatement(returnValueExprs.get(0).checkIR(Expression.class));
+			ExprNode returnValueExpr = returnValueExprs.get(0).evaluate();
+			return new ReturnStatement(returnValueExpr.checkIR(Expression.class));
 		} else {
 			ReturnStatementProcedure rsp = new ReturnStatementProcedure();
 			for(ExprNode returnValueExpr : returnValueExprs.getChildren()) {
+				returnValueExpr = returnValueExpr.evaluate();
 				rsp.addReturnValueExpr(returnValueExpr.checkIR(Expression.class));
 			}
 			return rsp;

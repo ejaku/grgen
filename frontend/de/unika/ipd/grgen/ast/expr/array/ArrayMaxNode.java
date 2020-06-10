@@ -66,6 +66,7 @@ public class ArrayMaxNode extends ArrayAccumulationMethodNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayMaxExpr(targetExpr.checkIR(Expression.class));
 	}
 }

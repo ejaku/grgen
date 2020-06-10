@@ -87,6 +87,8 @@ public class NodeByNameExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		name = name.evaluate();
+		nodeType = nodeType.evaluate();
 		return new NodeByNameExpr(name.checkIR(Expression.class),
 				nodeType.checkIR(Expression.class), getType().getType());
 	}

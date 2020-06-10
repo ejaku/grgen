@@ -66,6 +66,7 @@ public class ArrayMinNode extends ArrayAccumulationMethodNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayMinExpr(targetExpr.checkIR(Expression.class));
 	}
 }

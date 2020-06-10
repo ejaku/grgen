@@ -87,6 +87,8 @@ public class StringAsArrayNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		stringExpr = stringExpr.evaluate();
+		stringToSplitAtExpr = stringToSplitAtExpr.evaluate();
 		return new StringAsArray(stringExpr.checkIR(Expression.class),
 				stringToSplitAtExpr.checkIR(Expression.class),
 				getType().getType());

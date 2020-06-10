@@ -130,9 +130,11 @@ public class AssignNameofNode extends EvalStatementNode
 	protected IR constructIR()
 	{
 		Expression lhsExpr = null;
-		if(lhs != null)
+		if(lhs != null) {
+			lhs = lhs.evaluate();
 			lhsExpr = lhs.checkIR(Expression.class);
-		ExprNode rhsEvaluated = rhs.evaluate();
-		return new AssignmentNameof(lhsExpr, rhsEvaluated.checkIR(Expression.class));
+		}
+		rhs = rhs.evaluate();
+		return new AssignmentNameof(lhsExpr, rhs.checkIR(Expression.class));
 	}
 }

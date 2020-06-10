@@ -86,6 +86,7 @@ public class EmitProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		Vector<Expression> expressions = new Vector<Expression>();
 		for(ExprNode expr : exprs.getChildren()) {
+			expr = expr.evaluate();
 			expressions.add(expr.checkIR(Expression.class));
 		}
 		return new EmitProc(expressions, isDebug);

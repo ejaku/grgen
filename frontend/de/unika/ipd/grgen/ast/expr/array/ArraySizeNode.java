@@ -67,6 +67,7 @@ public class ArraySizeNode extends ArrayFunctionMethodInvocationBaseExprNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArraySizeExpr(targetExpr.checkIR(Expression.class));
 	}
 }

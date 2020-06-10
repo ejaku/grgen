@@ -66,6 +66,7 @@ public class ArrayProdNode extends ArrayAccumulationMethodNode
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
 		return new ArrayProdExpr(targetExpr.checkIR(Expression.class));
 	}
 }

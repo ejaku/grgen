@@ -125,11 +125,15 @@ public class ArrayAddItemNode extends ArrayProcedureMethodInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		if(target != null)
+		valueExpr = valueExpr.evaluate();
+		if(indexExpr != null)
+			indexExpr = indexExpr.evaluate();
+		if(target != null) {
 			return new ArrayAddItem(target.checkIR(Qualification.class), valueExpr.checkIR(Expression.class),
 					indexExpr != null ? indexExpr.checkIR(Expression.class) : null);
-		else
+		} else {
 			return new ArrayVarAddItem(targetVar.checkIR(Variable.class), valueExpr.checkIR(Expression.class),
 					indexExpr != null ? indexExpr.checkIR(Expression.class) : null);
+		}
 	}
 }

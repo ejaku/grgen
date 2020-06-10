@@ -77,6 +77,8 @@ public class StringEndsWithNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		stringExpr = stringExpr.evaluate();
+		stringToSearchForExpr = stringToSearchForExpr.evaluate();
 		return new StringEndsWith(stringExpr.checkIR(Expression.class),
 				stringToSearchForExpr.checkIR(Expression.class));
 	}

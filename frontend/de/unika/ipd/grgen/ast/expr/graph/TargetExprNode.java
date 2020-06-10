@@ -90,6 +90,7 @@ public class TargetExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		edge = edge.evaluate();
 		return new TargetExpr(edge.checkIR(Expression.class), getType().getType());
 	}
 

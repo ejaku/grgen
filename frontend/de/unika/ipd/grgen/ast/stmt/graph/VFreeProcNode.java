@@ -81,6 +81,7 @@ public class VFreeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		visFlagExpr = visFlagExpr.evaluate();
 		return new VFreeProc(visFlagExpr.checkIR(Expression.class));
 	}
 }

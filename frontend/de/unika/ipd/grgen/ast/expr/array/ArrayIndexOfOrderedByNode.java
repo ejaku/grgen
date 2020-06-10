@@ -122,6 +122,8 @@ public class ArrayIndexOfOrderedByNode extends ArrayFunctionMethodInvocationBase
 	@Override
 	protected IR constructIR()
 	{
+		targetExpr = targetExpr.evaluate();
+		valueExpr = valueExpr.evaluate();
 		return new ArrayIndexOfOrderedByExpr(targetExpr.checkIR(Expression.class),
 				member.checkIR(Entity.class),
 				valueExpr.checkIR(Expression.class));

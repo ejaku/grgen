@@ -107,6 +107,7 @@ public class MapRemoveItemNode extends MapProcedureMethodInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
+		keyExpr = keyExpr.evaluate();
 		if(target != null)
 			return new MapRemoveItem(target.checkIR(Qualification.class),
 					keyExpr.checkIR(Expression.class));
