@@ -189,7 +189,6 @@ TOKEN: {
 |   < TRUE: "true" >
 |   < FALSE: "false" >
 |   < NULL: "null" >
-|   < MATCH: "match" >
 |   < FOR: "for" >
 |   < IF: "if" >
 |   < IN: "in" >
@@ -625,8 +624,7 @@ String Type():
     | LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="map" }) type=MapType()
     | LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="array" }) type=ArrayType()
     | LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="deque" }) type=DequeType()
-    | LOOKAHEAD("match" "<" Word() ">") "match" "<" typeParam=Word() ">" { type = "match<"+typeParam+">"; }    
-    | LOOKAHEAD("match" "<" "class" Word() ">") "match" "<" "class" typeParam=Word() ">" { type = "match<class "+typeParam+">"; }
+    | LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="match" }) type=MatchType()
     | type=TypeNonGeneric()
     )
     {
@@ -674,14 +672,18 @@ String ArrayType():
     String typeParam;
 }
 { 
-    ( LOOKAHEAD(Word() "<" TypeNonGeneric() ">") Word() "<" typeParam=TypeNonGeneric() ">" { type = "array<"+typeParam+">"; }
+    ( LOOKAHEAD(Word() "<" TypeNonGeneric() ">")
+        Word() "<" typeParam=TypeNonGeneric() ">" { type = "array<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
-    | LOOKAHEAD(Word() "<" MatchTypeInContainerType() (">" ">" | ">>")) Word() "<" typeParam=MatchTypeInContainerType() (">" ">" | ">>") { type = "array<"+typeParam+">"; }
+    | LOOKAHEAD(Word() "<" MatchTypeInContainerType() (">" ">" | ">>"), { GetToken(3).kind==WORD && GetToken(3).image=="match" }) 
+        Word() "<" typeParam=MatchTypeInContainerType() (">" ">" | ">>") { type = "array<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
     // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
-    | LOOKAHEAD(Word() "<" TypeNonGeneric() ">=") Word() "<" typeParam=TypeNonGeneric() { type = "array<"+typeParam+">"; }
+    | LOOKAHEAD(Word() "<" TypeNonGeneric() ">=")
+        Word() "<" typeParam=TypeNonGeneric() { type = "array<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
-    | LOOKAHEAD(Word() "<" MatchTypeInContainerType() ">" ">=") Word() "<" typeParam=MatchTypeInContainerType() ">" { type = "array<"+typeParam+">"; }
+    | LOOKAHEAD(Word() "<" MatchTypeInContainerType() ">" ">=", { GetToken(3).kind==WORD && GetToken(3).image=="match" })
+        Word() "<" typeParam=MatchTypeInContainerType() ">" { type = "array<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
     )
     {
@@ -706,6 +708,27 @@ String DequeType():
     }
 }
 
+String MatchType():
+{
+    String type;
+    String typeParam;
+}
+{
+    (
+        LOOKAHEAD(Word() "<" TypeNonGeneric() ">") Word() "<" typeParam=TypeNonGeneric() ">" { type = "match<"+typeParam+">"; }
+            { return type; }
+    |
+        LOOKAHEAD(Word() "<" TypeNonGeneric() ">=") Word() "<" typeParam=TypeNonGeneric() { type = "match<"+typeParam+">"; }
+            { return type; }
+    |
+        LOOKAHEAD(Word() "<" "class" TypeNonGeneric() ">") Word() "<" "class" typeParam=TypeNonGeneric() ">" { type = "match<class "+typeParam+">"; }
+            { return type; }
+    |
+        LOOKAHEAD(Word() "<" "class" TypeNonGeneric() ">=") Word() "<" "class" typeParam=TypeNonGeneric() { type = "match<class "+typeParam+">"; }
+            { return type; }
+    )
+}
+
 String MatchTypeInContainerType():
 {
     String type;
@@ -713,10 +736,10 @@ String MatchTypeInContainerType():
 }
 {
     (
-        LOOKAHEAD(3) "match" "<" typeParam=Word() { type = "match<"+typeParam+">"; }    
+        LOOKAHEAD(3) Word() "<" typeParam=TypeNonGeneric() { type = "match<"+typeParam+">"; }    
             { return type; }
     |
-        "match" "<" "class" typeParam=Word() { type = "match<class "+typeParam+">"; }    
+        Word() "<" "class" typeParam=TypeNonGeneric() { type = "match<class "+typeParam+">"; }    
             { return type; }
     )
 }
