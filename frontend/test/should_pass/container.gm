@@ -22,3 +22,23 @@ node class Gaggl
 	d3:deque<Lol>;
 	d4:deque<string>;
 }
+
+node class Guggl
+{
+	s1:set<Node>;
+	s2:set<Gaggl>;
+	s3:set<Lol>;
+	s4:set<string>={"foo","bar"}; // test parsing of >= as > =
+	m1:map<Node,Edge>;
+	m2:map<Gaggl,Edge>;
+	m3:map<Lol,int>;
+	m4:map<string,double>={"foo"->3.141592654, "bar"->2.718281828 };
+	a1:array<Node>;
+	a2:array<Gaggl>;
+	a3:array<Lol>;
+	a4:array<string>=["foo","bar"];
+	d1:deque<Node>;
+	d2:deque<Gaggl>;
+	d3:deque<Lol>;
+	d4:deque<string>=["foo","bar"];
+}

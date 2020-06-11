@@ -2820,97 +2820,136 @@ inClassExtProcedureDecl [ IdentNode clsId ] returns [ ExternalProcedureDeclNode 
 basicAndContainerDecl [ CollectNode<BaseNode> c ]
 	@init {
 		id = env.getDummyIdent();
-		MemberDeclNode decl = null;
 		boolean isConst = false;
 	}
-	:	(
-			ABSTRACT ( CONST { isConst = true; } )? id=entIdentDecl
+	: ABSTRACT ( CONST { isConst = true; } )? id=entIdentDecl
+		{
+			MemberDeclNode decl = new AbstractMemberDeclNode(id, isConst);
+			c.addChild(decl);
+		}
+	| ( CONST { isConst = true; } )? id=entIdentDecl COLON 
+		(
+			basicDecl[id, isConst, c]
+		|
+			mapDecl[id, isConst, c]
+		|
+			setDecl[id, isConst, c]
+		|
+			arrayDecl[id, isConst, c]
+		|
+			dequeDecl[id, isConst, c]
+		)
+	;
+
+basicDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
+	@init {
+		MemberDeclNode decl = null;
+	}
+	: type=typeIdentUse
+		{
+			decl = new MemberDeclNode(id, type, isConst);
+			id.setDecl(decl);
+			c.addChild(decl);
+		}
+		(
+			init=initExprDecl[decl.getIdentNode()]
+				{
+					c.addChild(init);
+					if(isConst)
+						decl.setConstInitializer(init);
+				}
+		)?
+	;
+
+mapDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
+	@init {
+		MemberDeclNode decl = null;
+	}
+	: { input.LT(1).getText().equals("map") }?
+		IDENT LT keyType=typeIdentUse COMMA valueType=typeIdentUse
 			{
-				decl = new AbstractMemberDeclNode(id, isConst);
+				decl = new MemberDeclNode(id, new MapTypeNode(keyType, valueType), isConst);
+				id.setDecl(decl);
 				c.addChild(decl);
 			}
+		(
+			GT
 		|
-			( CONST { isConst = true; } )? id=entIdentDecl COLON 
-			(
-				type=typeIdentUse
+			(GT ASSIGN | GE) init=initMapExpr[0, decl.getIdentNode(), null]
 				{
-					decl = new MemberDeclNode(id, type, isConst);
-					id.setDecl(decl);
-					c.addChild(decl);
+					c.addChild(init);
+					if(isConst)
+						decl.setConstInitializer(init);
 				}
-				(
-					init=initExprDecl[decl.getIdentNode()]
-					{
-						c.addChild(init);
-						if(isConst)
-							decl.setConstInitializer(init);
-					}
-				)?
-			|
-				{ input.LT(1).getText().equals("map") }?
-				IDENT LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
+		)
+	;
+
+setDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
+	@init {
+		MemberDeclNode decl = null;
+	}
+	: { input.LT(1).getText().equals("set") }?
+		IDENT LT valueType=typeIdentUse
+			{
+				decl = new MemberDeclNode(id, new SetTypeNode(valueType), isConst);
+				id.setDecl(decl);
+				c.addChild(decl);
+			}
+		(
+			GT
+		|
+			(GT ASSIGN | GE) init=initSetExpr[0, decl.getIdentNode(), null]
 				{
-					decl = new MemberDeclNode(id, new MapTypeNode(keyType, valueType), isConst);
-					id.setDecl(decl);
-					c.addChild(decl);
+					c.addChild(init);
+					if(isConst)
+						decl.setConstInitializer(init);
 				}
-				(
-					ASSIGN init2=initMapExpr[0, decl.getIdentNode(), null]
-					{
-						c.addChild(init2);
-						if(isConst)
-							decl.setConstInitializer(init2);
-					}
-				)?
-			|
-				{ input.LT(1).getText().equals("set") }?
-				IDENT LT valueType=typeIdentUse GT
+		)
+	;
+
+arrayDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
+	@init {
+		MemberDeclNode decl = null;
+	}
+	: { input.LT(1).getText().equals("array") }?
+		IDENT LT valueType=typeIdentUse
+			{
+				decl = new MemberDeclNode(id, new ArrayTypeNode(valueType), isConst);
+				id.setDecl(decl);
+				c.addChild(decl);
+			}
+		(
+			GT
+		|
+			(GT ASSIGN | GE) init=initArrayExpr[0, decl.getIdentNode(), null]
 				{
-					decl = new MemberDeclNode(id, new SetTypeNode(valueType), isConst);
-					id.setDecl(decl);
-					c.addChild(decl);
+					c.addChild(init);
+					if(isConst)
+						decl.setConstInitializer(init);
 				}
-				(
-					ASSIGN init3=initSetExpr[0, decl.getIdentNode(), null]
-					{
-						c.addChild(init3);
-						if(isConst)
-							decl.setConstInitializer(init3);
-					}
-				)?
-			|
-				{ input.LT(1).getText().equals("array") }?
-				IDENT LT valueType=typeIdentUse GT
+		)
+	;
+
+dequeDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
+	@init {
+		MemberDeclNode decl = null;
+	}
+	: { input.LT(1).getText().equals("deque") }?
+		IDENT LT valueType=typeIdentUse
+			{
+				decl = new MemberDeclNode(id, new DequeTypeNode(valueType), isConst);
+				id.setDecl(decl);
+				c.addChild(decl);
+			}
+		(
+			GT
+		|
+			(GT ASSIGN | GE) init=initDequeExpr[0, decl.getIdentNode(), null]
 				{
-					decl = new MemberDeclNode(id, new ArrayTypeNode(valueType), isConst);
-					id.setDecl(decl);
-					c.addChild(decl);
+					c.addChild(init);
+					if(isConst)
+						decl.setConstInitializer(init);
 				}
-				(
-					ASSIGN init4=initArrayExpr[0, decl.getIdentNode(), null]
-					{
-						c.addChild(init4);
-						if(isConst)
-							decl.setConstInitializer(init4);
-					}
-				)?
-			|
-				{ input.LT(1).getText().equals("deque") }?
-				IDENT LT valueType=typeIdentUse GT
-				{
-					decl = new MemberDeclNode(id, new DequeTypeNode(valueType), isConst);
-					id.setDecl(decl);
-					c.addChild(decl);
-				}
-				(
-					ASSIGN init5=initDequeExpr[0, decl.getIdentNode(), null]
-					{
-						c.addChild(init5);
-						if(isConst)
-							decl.setConstInitializer(init5);
-					}
-				)?
-			)
 		)
 	;
 
