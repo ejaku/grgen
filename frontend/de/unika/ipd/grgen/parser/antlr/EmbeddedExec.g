@@ -17,6 +17,10 @@ parser grammar EmbeddedExec;
 		return gParent.makeOp(t);
 	}
 
+	private OperatorNode makeTernOp(org.antlr.runtime.Token t, ExprNode op0, ExprNode op1, ExprNode op2) {
+		return gParent.makeTernOp(t, op0, op1, op2);
+	}
+
 	private OperatorNode makeBinOp(org.antlr.runtime.Token t, ExprNode op0, ExprNode op1) {
 		return gParent.makeBinOp(t, op0, op1);
 	}
@@ -41,10 +45,10 @@ parser grammar EmbeddedExec;
 	}
 
 	public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        String hdr = getErrorHeader(e);
-        String msg = getErrorMessage(e, tokenNames);
-        reportError(new Coords(e), msg);
-    }
+		String hdr = getErrorHeader(e);
+		String msg = getErrorMessage(e, tokenNames);
+		reportError(new Coords(e), msg);
+	}
 
 	public void reportWarning(de.unika.ipd.grgen.parser.Coords c, String s) {
 		env.getSystem().getErrorReporter().warning(c, s);
@@ -76,42 +80,57 @@ sequenceOutParameters [ ExecNode xg ] returns [ CollectNode<ExecVarDeclNode> res
 	;
 
 sequenceParamList [ CollectNode<ExecVarDeclNode> params, ExecNode xg ]
-	: p=seqEntityDecl[xg, false] { params.addChild(p); } ( COMMA p=seqEntityDecl[xg, false] { params.addChild(p); } )*
+	: p=seqEntityDecl[xg, false] { params.addChild(p); }
+		( COMMA p=seqEntityDecl[xg, false] { params.addChild(p); } )*
 	;
 
-sequence [ExecNode xg]
-	: seqLazyOr[xg] ( DOLLAR THENLEFT {xg.append(" $<; ");} sequence[xg] | THENLEFT {xg.append(" <; ");} sequence[xg]
-						| DOLLAR THENRIGHT {xg.append(" $;> ");} sequence[xg] | THENRIGHT {xg.append(" ;> ");} sequence[xg] )?
+sequence [ ExecNode xg ]
+	: seqLazyOr[xg]
+		( (DOLLAR THENLEFT { xg.append(" $<; "); } | THENLEFT { xg.append(" <; "); } 
+			| DOLLAR THENRIGHT { xg.append(" $;> "); } | THENRIGHT { xg.append(" ;> "); }) sequence[xg]
+		)?
 	;
 
-seqLazyOr [ExecNode xg]
-	: seqLazyAnd[xg] ( DOLLAR LOR {xg.append(" $|| ");} seqLazyOr[xg] | LOR {xg.append(" || ");} seqLazyOr[xg] )?
+seqLazyOr [ ExecNode xg ]
+	: seqLazyAnd[xg]
+		( (DOLLAR LOR { xg.append(" $|| "); } | LOR { xg.append(" || "); }) seqLazyOr[xg]
+		)?
 	;
 
-seqLazyAnd [ExecNode xg]
-	: seqStrictOr[xg] ( DOLLAR LAND {xg.append(" $&& ");} seqLazyAnd[xg] | LAND {xg.append(" && ");} seqLazyAnd[xg] )?
+seqLazyAnd [ ExecNode xg ]
+	: seqStrictOr[xg]
+		( (DOLLAR LAND { xg.append(" $&& "); } | LAND { xg.append(" && "); }) seqLazyAnd[xg]
+		)?
 	;
 
-seqStrictOr [ExecNode xg]
-	: seqStrictXor[xg] ( DOLLAR BOR {xg.append(" $| ");} seqStrictOr[xg] | BOR {xg.append(" | ");} seqStrictOr[xg] )?
+seqStrictOr [ ExecNode xg ]
+	: seqStrictXor[xg]
+		( (DOLLAR BOR { xg.append(" $| "); } | BOR { xg.append(" | "); }) seqStrictOr[xg]
+		)?
 	;
 
-seqStrictXor [ExecNode xg]
-	: seqStrictAnd[xg] ( DOLLAR BXOR {xg.append(" $^ ");} seqStrictXor[xg] | BXOR {xg.append(" ^ ");} seqStrictXor[xg] )?
+seqStrictXor [ ExecNode xg ]
+	: seqStrictAnd[xg]
+		( (DOLLAR BXOR { xg.append(" $^ "); } | BXOR { xg.append(" ^ "); }) seqStrictXor[xg]
+		)?
 	;
 
-seqStrictAnd [ExecNode xg]
-	: seqNegOrIteration[xg] ( DOLLAR BAND {xg.append(" $& ");} seqStrictAnd[xg] | BAND {xg.append(" & ");} seqStrictAnd[xg] )?
+seqStrictAnd [ ExecNode xg ]
+	: seqNegOrIteration[xg]
+		( (DOLLAR BAND { xg.append(" $& "); } | BAND { xg.append(" & "); }) seqStrictAnd[xg]
+		)?
 	;
 
-seqNegOrIteration [ExecNode xg]
-	: NOT {xg.append("!");} seqIterSequence[xg] 
-		(ASSIGN_TO {xg.append("=>");} seqEntity[xg] | BOR_TO {xg.append("|>");} seqEntity[xg] | BAND_TO {xg.append("&>");} seqEntity[xg])?
+seqNegOrIteration [ ExecNode xg ]
+	: NOT { xg.append("!"); } seqIterSequence[xg] 
+		( (ASSIGN_TO { xg.append("=>"); } | BOR_TO { xg.append("|>"); } | BAND_TO { xg.append("&>"); }) seqEntity[xg]
+		)?
 	| seqIterSequence[xg]
-		(ASSIGN_TO {xg.append("=>");} seqEntity[xg] | BOR_TO {xg.append("|>");} seqEntity[xg] | BAND_TO {xg.append("&>");} seqEntity[xg])?
+		( (ASSIGN_TO { xg.append("=>"); } | BOR_TO { xg.append("|>"); } | BAND_TO { xg.append("&>"); }) seqEntity[xg]
+		)?
 	;
 
-seqIterSequence [ExecNode xg]
+seqIterSequence [ ExecNode xg ]
 	: seqSimpleSequence[xg]
 		(
 			rsn=seqRangeSpecLoop { xg.append(rsn); }
@@ -122,12 +141,11 @@ seqIterSequence [ExecNode xg]
 		)
 	;
 
-seqSimpleSequence [ExecNode xg]
-options { k = 4; }
-	@init{
+seqSimpleSequence [ ExecNode xg ]
+	options { k = 4; }
+	@init {
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
-	
 	// attention/todo: names are are only partly resolved!
 	// -> using not existing types, not declared names outside of the return assignment of an action call 
 	// will not be detected in the frontend; xgrs in the frontend are to a certain degree syntax only
@@ -164,34 +182,38 @@ options { k = 4; }
 	| seqMultiRuleAllCall[xg, returns, true]
 	| DOUBLECOLON id=seqEntIdentUse { xg.append("::" + id); xg.addUsage(id); }
 	| (( DOLLAR ( MOD )? )? LBRACE LT) => ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
-		LBRACE LT { xg.append("{<"); } seqParallelCallRule[xg, returns] 
-			(COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } seqParallelCallRule[xg, returns])* GT RBRACE { xg.append(">}"); }
+		LBRACE LT { xg.append("{<"); } seqParallelCallRule[xg, returns]
+			( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } seqParallelCallRule[xg, returns] )*
+			GT RBRACE { xg.append(">}"); }
 	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? 
 		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); }) 
-		LPAREN { xg.append("("); } sequence[xg] (COMMA { xg.append(","); } sequence[xg])* RPAREN { xg.append(")"); }
+		LPAREN { xg.append("("); } sequence[xg] ( COMMA { xg.append(","); } sequence[xg] )* RPAREN { xg.append(")"); }
 	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? DOT { xg.append("."); } 
 		LPAREN { xg.append("("); } f=NUM_DOUBLE { xg.append(f.getText() + " "); } sequence[xg] 
-			(COMMA { xg.append(","); } f=NUM_DOUBLE { xg.append(f.getText() + " "); } sequence[xg])* RPAREN { xg.append(")"); }
+			( COMMA { xg.append(","); } f=NUM_DOUBLE { xg.append(f.getText() + " "); } sequence[xg] )* RPAREN { xg.append(")"); }
 	| LPAREN { xg.append("("); } sequence[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append(" <"); } sequence[xg] GT { xg.append("> "); }
 	| l=SL { env.pushScope("backtrack/exec", getCoords(l)); } { xg.append(" <<"); } 
-		seqParallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } sequence[xg] { env.popScope(); } SR { xg.append(">> "); }
+		seqParallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); }
+		sequence[xg] { env.popScope(); } SR { xg.append(">> "); }
 	| l=SL { env.pushScope("backtrack/exec", getCoords(l)); } { xg.append(" <<"); } 
-		seqMultiRuleAllCall[xg, returns, false] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } sequence[xg] { env.popScope(); } SR { xg.append(">> "); }
+		seqMultiRuleAllCall[xg, returns, false] (DOUBLE_SEMI|SEMI) { xg.append(";;"); }
+		sequence[xg] { env.popScope(); } SR { xg.append(">> "); }
 	| SL { xg.append(" <<"); } seqMultiRulePrefixedSequence[xg, returns] SR { xg.append(">> "); }
 	| DIV { xg.append(" /"); } sequence[xg] DIV { xg.append("/ "); }
 	| IF l=LBRACE { env.pushScope("if/exec", getCoords(l)); } { xg.append("if{"); } sequence[xg] s=SEMI 
-		{ env.pushScope("if/then-part", getCoords(s)); } { xg.append("; "); } sequence[xg] { env.popScope(); }
-		(SEMI { xg.append("; "); } sequence[xg])? { env.popScope(); } RBRACE { xg.append("}"); }
+		{ env.pushScope("if/then-part", getCoords(s)); } { xg.append("; "); }
+		sequence[xg] { env.popScope(); } (SEMI { xg.append("; "); } sequence[xg])? { env.popScope(); } RBRACE { xg.append("}"); }
 	| FOR l=LBRACE { env.pushScope("for/exec", getCoords(l)); } { xg.append("for{"); } seqEntity[xg] seqForSeqRemainder[xg, returns]
 	| IN { xg.append("in "); } seqVarUse[xg] (d=DOT attr=IDENT { xg.append("."+attr.getText()); })? 
-		LBRACE { xg.append("{"); } { env.pushScope("in subgraph sequence", getCoords(l)); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); } 
+		LBRACE { xg.append("{"); } { env.pushScope("in subgraph sequence", getCoords(l)); }
+		sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); } 
 	| LBRACE { xg.append("{"); } { env.pushScope("sequence computation", getCoords(l)); }
 		seqCompoundComputation[xg] (SEMI)? { env.popScope(); } RBRACE { xg.append("}"); } 
 	;
 
-seqForSeqRemainder [ExecNode xg, CollectNode<BaseNode> returns]
-options { k = 4; }
+seqForSeqRemainder [ ExecNode xg, CollectNode<BaseNode> returns ]
+	options { k = 4; }
 	: (RARROW { xg.append(" -> "); } seqEntity[xg])? IN { xg.append(" in "); } seqVarUse[xg]
 			SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN { xg.append(" in "); } { env.isKnownForFunction(input.LT(1).getText()) }?
@@ -214,35 +236,37 @@ options { k = 4; }
 			SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	;
 
-seqCompoundComputation [ExecNode xg]
+seqCompoundComputation [ ExecNode xg ]
 	: seqComputation[xg] (SEMI { xg.append(";"); } seqCompoundComputation[xg])?
 	;
 
-seqComputation [ExecNode xg]
-	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); }) seqExpressionOrAssign[xg]
+seqComputation [ ExecNode xg ]
+	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); })
+		seqExpressionOrAssign[xg]
 	| seqEntityDecl[xg, true]
 	| seqMethodCall[xg]
 	| seqProcedureCall[xg]
 	| LBRACE { xg.append("{"); } seqExpression[xg] RBRACE { xg.append("}"); }
 	;
 
-seqMethodCall [ExecNode xg]
+seqMethodCall [ ExecNode xg ]
 	: seqVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
-			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])* )? RPAREN { xg.append(")"); }
+			 ( seqExpression[xg] ( COMMA { xg.append(","); } seqExpression[xg] )* )? RPAREN { xg.append(")"); }
 	;
 
-seqExpressionOrAssign [ExecNode xg]
-	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); }) seqExpressionOrAssign[xg]
+seqExpressionOrAssign [ ExecNode xg ]
+	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); })
+		seqExpressionOrAssign[xg]
 	| seqExpression[xg] 
 	;
 
-seqAssignTarget [ExecNode xg]
+seqAssignTarget [ ExecNode xg ]
 	: YIELD { xg.append("yield "); } seqVarUse[xg] 
 	| seqVarUse[xg] seqAssignTargetSelector[xg]
 	| seqEntityDecl[xg, true]
 	;
 
-seqAssignTargetSelector [ExecNode xg]
+seqAssignTargetSelector [ ExecNode xg ]
 	: DOT attr=IDENT { xg.append("."+attr.getText()); } 
 		(LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); })?
 	| DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); } 
@@ -254,93 +278,130 @@ seqAssignTargetSelector [ExecNode xg]
 // as of now only some sequence expressions return an expression
 // the expressions are needed for the argument expressions of rule/sequence calls,
 // in all other places of the sequences we only need a textual emit of the constructs just parsed
-seqExpression [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprLazyOr[xg] { res = exp; }
-		( 
-			q=QUESTION { xg.append("?"); } op1=seqExpression[xg] COLON { xg.append(" : "); } op2=seqExpression[xg]
-			{
-				OperatorNode cond=makeOp(q);
-				cond.addChild(exp);
-				cond.addChild(op1);
-				cond.addChild(op2);
-				res=cond;
-			}
+seqExpression [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrCond=seqExprLazyOr[xg] { res = expOrCond; }
+		( q=QUESTION { xg.append("?"); } trueCase=seqExpression[xg] COLON { xg.append(" : "); } falseCase=seqExpression[xg]
+			{ res = makeTernOp(q, expOrCond, trueCase, falseCase); }
 		)?
 	;
 
-seqExprLazyOr [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprLazyAnd[xg] { res=exp; } ( t=LOR {xg.append(" || ");} exp2=seqExprLazyOr[xg] { res = makeBinOp(t, exp, exp2); })?
+seqExprLazyOr [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprLazyAnd[xg] { res = expOrLeft; } 
+		( op=LOR { xg.append(" || "); } right=seqExprLazyOr[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
 	;
 
-seqExprLazyAnd [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprStrictOr[xg] { res=exp; } ( t=LAND {xg.append(" && ");} exp2=seqExprLazyAnd[xg] { res = makeBinOp(t, exp, exp2); })?
+seqExprLazyAnd [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprStrictOr[xg] { res = expOrLeft; }
+		( op=LAND { xg.append(" && "); } right=seqExprLazyAnd[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
 	;
 
-seqExprStrictOr [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprStrictXor[xg] { res=exp; } ( t=BOR {xg.append(" | ");} exp2=seqExprStrictOr[xg] { res = makeBinOp(t, exp, exp2); })?
+seqExprStrictOr [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprStrictXor[xg] { res = expOrLeft; }
+		( op=BOR { xg.append(" | "); } right=seqExprStrictOr[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
 	;
 
-seqExprStrictXor [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprStrictAnd[xg] { res=exp; } ( t=BXOR {xg.append(" ^ ");} exp2=seqExprStrictXor[xg] { res = makeBinOp(t, exp, exp2); })?
+seqExprStrictXor [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprStrictAnd[xg] { res = expOrLeft; }
+		( op=BXOR { xg.append(" ^ "); } right=seqExprStrictXor[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
 	;
 
-seqExprStrictAnd [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprExcept[xg] { res=exp; } ( t=BAND {xg.append(" & ");} exp2=seqExprStrictAnd[xg] { res = makeBinOp(t, exp, exp2); })?
+seqExprStrictAnd [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprExcept[xg] { res = expOrLeft; }
+		( op=BAND { xg.append(" & "); } right=seqExprStrictAnd[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
 	;
 
-seqExprExcept [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprEquality[xg] { res = exp; } ( t=BACKSLASH {xg.append(" \\ ");} exp2=seqExprExcept[xg] { res = makeBinOp(t, exp, exp2); })?
+seqExprExcept [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprEquality[xg] { res = expOrLeft; }
+		( op=BACKSLASH { xg.append(" \\ "); } right=seqExprExcept[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
 	;
 	
-seqEqOp [ExecNode xg] returns [ Token t = null ]
-	: e=EQUAL {xg.append(" == "); t = e; }
-	| n=NOT_EQUAL {xg.append(" != "); t = n; }
-	| s=STRUCTURAL_EQUAL {xg.append(" ~~ "); t = s; }
+seqEqOp [ ExecNode xg ] returns [ Token t = null ]
+	: e=EQUAL { xg.append(" == "); t = e; }
+	| n=NOT_EQUAL { xg.append(" != "); t = n; }
+	| s=STRUCTURAL_EQUAL { xg.append(" ~~ "); t = s; }
 	;
 
-seqExprEquality [ExecNode xg] returns [ExprNode res = env.initExprNode()]
-	: exp=seqExprRelation[xg] { res=exp; } ( t=seqEqOp[xg] exp2=seqExprEquality[xg] { res = makeBinOp(t, exp, exp2); })?
+seqExprEquality [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprRelation[xg] { res = expOrLeft; }
+		( op=seqEqOp[xg] right=seqExprEquality[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
 	;
 
-seqRelOp [ExecNode xg] returns [ Token t = null ]
-	: lt=LT {xg.append(" < "); t = lt; }
-	| le=LE {xg.append(" <= "); t = le; }
-	| gt=GT {xg.append(" > "); t = gt; }
-	| ge=GE {xg.append(" >= "); t = ge; }
-	| in=IN {xg.append(" in "); t = in; }
+seqRelOp [ ExecNode xg ] returns [ Token t = null ]
+	: lt=LT { xg.append(" < "); t = lt; }
+	| le=LE { xg.append(" <= "); t = le; }
+	| gt=GT { xg.append(" > "); t = gt; }
+	| ge=GE { xg.append(" >= "); t = ge; }
+	| in=IN { xg.append(" in "); t = in; }
 	;
 
-seqRelOs [ExecNode xg] returns [ Token t = null ]
-	: lt=LT {xg.append(" < "); t = lt; }
-	| le=LE {xg.append(" <= "); t = le; }
-	| gt=GT {xg.append(" > "); t = gt; }
-	| ge=GE {xg.append(" >= "); t = ge; }
+seqRelOs [ ExecNode xg ] returns [ Token t = null ]
+	: lt=LT { xg.append(" < "); t = lt; }
+	| le=LE { xg.append(" <= "); t = le; }
+	| gt=GT { xg.append(" > "); t = gt; }
+	| ge=GE { xg.append(" >= "); t = ge; }
 	;
 
-seqExprRelation [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprAdd[xg] { res = exp; } 
-		( t=seqRelOp[xg] exp2=seqExprRelation[xg] { res = makeBinOp(t, exp, exp2); })?
+seqExprRelation [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprAdd[xg] { res = expOrLeft; } 
+		( op=seqRelOp[xg] right=seqExprRelation[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
 	;
 
-seqExprAdd [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprMul[xg] { res = exp; } 
-		( (t=PLUS {xg.append(" + ");} | t=MINUS {xg.append(" - ");}) exp2=seqExprAdd[xg]  { res = makeBinOp(t, exp, exp2); })?
+seqAddOp [ ExecNode xg ] returns [ Token t = null ]
+	: p=PLUS { xg.append(" + "); t = p; }
+	| m=MINUS { xg.append(" - "); t = m; }
 	;
 
-seqExprMul [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: exp=seqExprUnary[xg] { res = exp; } 
-		( (t=STAR {xg.append(" * ");} | t=DIV {xg.append(" / ");} | t=MOD {xg.append(" \% ");}) exp2=seqExprMul[xg]  { res = makeBinOp(t, exp, exp2); })?
+seqExprAdd [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprMul[xg] { res = expOrLeft; } 
+		( op=seqAddOp[xg] right=seqExprAdd[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
 	;
 
-seqExprUnary [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	@init{ Token t = null; }
+seqMulOp [ ExecNode xg ] returns [ Token t = null ]
+	: s=STAR { xg.append(" * "); t = s; }
+	| m=MOD { xg.append(" \% "); t = m; }
+	| d=DIV { xg.append(" / "); t = d; }
+	;
+
+seqExprMul [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprUnary[xg] { res = expOrLeft; } 
+		( op=seqMulOp[xg] right=seqExprMul[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
+	;
+
+seqExprUnary [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	@init {
+		Token t = null;
+	}
 	: (LPAREN seqTypeIdentUse RPAREN) =>
-		p=LPAREN {xg.append("(");} id=seqTypeIdentUse {xg.append(id);} RPAREN {xg.append(")");} op=seqExprBasic[xg]
+		p=LPAREN { xg.append("("); } id=seqTypeIdentUse {xg.append(id);} RPAREN { xg.append(")"); } op=seqExprBasic[xg]
+		{ res = new CastNode(getCoords(p), id, op); }
+	| (n=NOT { t = n; xg.append("!"); })? exp=seqExprBasic[xg]
 		{
-			res = new CastNode(getCoords(p), id, op);
+			if(t != null)
+				res = makeUnOp(t, exp);
+			else
+				res = exp;
 		}
-	| (n=NOT {t=n; xg.append("!");})? exp=seqExprBasic[xg] { if(t!=null) res = makeUnOp(t, exp); else res = exp; }
-	| m=MINUS {xg.append("-");} exp=seqExprBasic[xg]
+	| m=MINUS { xg.append("-"); } exp=seqExprBasic[xg]
 		{
 			OperatorNode neg = new ArithmeticOperatorNode(getCoords(m), OperatorDeclNode.Operator.NEG);
 			neg.addChild(exp);
@@ -350,9 +411,9 @@ seqExprUnary [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 
 // todo: the seqVarUse[xg] casted to IdenNodes might be not simple variable identifiers, but global variables with :: prefix,
 //  probably a distinction is needed
-seqExprBasic [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-options { k = 4; }
-	@init{
+seqExprBasic [ExecNode xg] returns [ ExprNode res = env.initExprNode() ]
+	options { k = 4; }
+	@init {
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 		IdentNode id;
 	}
@@ -375,21 +436,22 @@ options { k = 4; }
 		}
 	;
 
-seqVarUseInExpr [ExecNode xg] returns[IdentExprNode res]
+seqVarUseInExpr [ ExecNode xg ] returns [ IdentExprNode res ]
 	: var=seqVarUse[xg] { res = new IdentExprNode(var); }
 	;
 
-seqExprSelector [ExprNode prefix, ExecNode xg] returns[ExprNode res = prefix]
-options { k = 3; }
-	@init{
+seqExprSelector [ ExprNode prefix, ExecNode xg ] returns [ ExprNode res = prefix ]
+	options { k = 3; }
+	@init {
 		CollectNode<ExprNode> arguments = new CollectNode<ExprNode>();
 	}
 	: d=DOT methodOrAttrName=seqMemberIdentUse { xg.append("."+methodOrAttrName.getSymbol().getText()); } 
-			({ env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }? LT mi=memberIdentUse GT { xg.append("<" + mi.getSymbol().getText() + ">"); })?
+			({ env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }? 
+				LT mi=memberIdentUse GT { xg.append("<" + mi.getSymbol().getText() + ">"); })?
 		(
 			LPAREN { xg.append("("); } 
 			( arg=seqExpression[xg] { arguments.addChild(arg); }
-				(COMMA { xg.append(","); } arg=seqExpression[xg] { arguments.addChild(arg); })*
+				( COMMA { xg.append(","); } arg=seqExpression[xg] { arguments.addChild(arg); } )*
 				)? RPAREN { xg.append(")"); }
 			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, mi); }
 		|
@@ -406,28 +468,28 @@ options { k = 3; }
 	| // no selector
 	;
 	
-seqProcedureCall [ExecNode xg]
-	@init{
+seqProcedureCall [ ExecNode xg ]
+	@init {
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
 	// built-in procedure or user defined procedure, backend has to decide whether the call is valid
-	: ( LPAREN {xg.append("(");} seqVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
+	: ( LPAREN { xg.append("("); } seqVariableList[xg, returns] RPAREN ASSIGN { xg.append(")="); } )?
 		( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); } )?
 		( i=IDENT | i=EMIT | i=EMITDEBUG | i=DELETE) LPAREN { xg.append(i.getText()); xg.append("("); } 
 			seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 	;
 
-seqFunctionCall [ExecNode xg] returns[ExprNode res = env.initExprNode()]
+seqFunctionCall [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 	@init{
 		boolean inPackage = false;
 		boolean packPrefix = false;
 	}
 	// built-in function or user defined function, backend has to decide whether the call is valid
 	: ( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); packPrefix=true; } )?
-	  ( i=IDENT | i=COPY | i=NAMEOF | i=TYPEOF ) LPAREN { xg.append(i.getText()); xg.append("("); } params=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
+	  ( i=IDENT | i=COPY | i=NAMEOF | i=TYPEOF ) LPAREN { xg.append(i.getText()); xg.append("("); }
+			params=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
-			if(i.getText().equals("now") && params.getChildren().size()==0
-				|| env.isGlobalFunction(null, i, params)) {
+			if(i.getText().equals("now") && params.getChildren().size() == 0 || env.isGlobalFunction(null, i, params)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 				if(packPrefix) {
 					res = new PackageFunctionInvocationDecisionNode(p.getText(), funcIdent, params, env);
@@ -444,13 +506,15 @@ seqFunctionCall [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 		}
 	;
 
-seqFunctionCallParameters [ExecNode xg] returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
+seqFunctionCallParameters [ ExecNode xg ] returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
 	: (fromExpr=seqExpression[xg] { params.addChild(fromExpr); }
-		(COMMA { xg.append(","); } fromExpr2=seqExpression[xg] { params.addChild(fromExpr2); } )* )?
+		( COMMA { xg.append(","); } fromExpr2=seqExpression[xg] { params.addChild(fromExpr2); } )* )?
 	;
 
-seqConstant [ExecNode xg] returns [ExprNode res = env.initExprNode()]
-@init{ IdentNode id; }
+seqConstant [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	@init {
+		IdentNode id;
+	}
 	: seqConstantOfBasicOrEnumType[xg]
 	| seqConstantOfContainerType[xg]
 	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
@@ -461,8 +525,10 @@ seqConstant [ExecNode xg] returns [ExprNode res = env.initExprNode()]
 		}
 	;
 	
-seqConstantOfBasicOrEnumType [ExecNode xg] returns [ExprNode res = env.initExprNode()]
-@init{ IdentNode id; }
+seqConstantOfBasicOrEnumType [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	@init {
+		IdentNode id;
+	}
 	: b=NUM_BYTE { xg.append(b.getText()); res = new ByteConstNode(getCoords(b), Byte.parseByte(ByteConstNode.removeSuffix(b.getText()), 10)); }
 	| sh=NUM_SHORT { xg.append(sh.getText()); res = new ShortConstNode(getCoords(sh), Short.parseShort(ShortConstNode.removeSuffix(sh.getText()), 10)); }
 	| i=NUM_INTEGER { xg.append(i.getText()); res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10)); }
@@ -479,8 +545,10 @@ seqConstantOfBasicOrEnumType [ExecNode xg] returns [ExprNode res = env.initExprN
 	| i1=IDENT d=DOUBLECOLON i2=IDENT e=seqConstantOfBasicOrEnumTypeCont[xg, i1, d, i2] { res = e; }
 	;
 
-seqConstantOfContainerType [ExecNode xg] returns [ExprNode res = env.initExprNode()]
-@init{ IdentNode id; }
+seqConstantOfContainerType [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	@init {
+		IdentNode id;
+	}
 	: { input.LT(1).getText().equals("map") }?
 		IDENT LT typeName=seqTypeIdentUse COMMA toTypeName=seqTypeIdentUse GT { xg.append("map<"+typeName+","+toTypeName+">"); } 
 		e1=seqInitMapExpr[xg, new MapTypeNode(typeName, toTypeName)] { res = e1; }
@@ -494,14 +562,16 @@ seqConstantOfContainerType [ExecNode xg] returns [ExprNode res = env.initExprNod
 		e4=seqInitDequeExpr[xg, new DequeTypeNode(typeName)] { res = e4; }
 	;
 
-seqConstantOfBasicOrEnumTypeCont [ExecNode xg, Token i1, Token d1, Token i2] returns [ExprNode res = env.initExprNode()]
-@init{ IdentNode id; }
+seqConstantOfBasicOrEnumTypeCont [ ExecNode xg, Token i1, Token d1, Token i2 ] returns [ ExprNode res = env.initExprNode() ]
+	@init {
+		IdentNode id;
+	}
 	:
 		{
 			Token pen = i1;
 			if(env.test(ParserEnvironment.PACKAGES, pen.getText()) || !env.test(ParserEnvironment.TYPES, pen.getText())) {
 				id = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pen.getText(), getCoords(pen)), 
-					env.occurs(ParserEnvironment.TYPES, i2.getText(), getCoords(i2)));
+						env.occurs(ParserEnvironment.TYPES, i2.getText(), getCoords(i2)));
 				res = new IdentExprNode(id);
 			} else {
 				res = new DeclExprNode(new EnumExprNode(getCoords(d1), 
@@ -516,22 +586,24 @@ seqConstantOfBasicOrEnumTypeCont [ExecNode xg, Token i1, Token d1, Token i2] ret
 			Token p = i1;
 			Token en = i2;
 			res = new DeclExprNode(new EnumExprNode(getCoords(d2), 
-				new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)),
-					env.occurs(ParserEnvironment.TYPES, en.getText(), getCoords(en))),
-				new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
+					new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)),
+							env.occurs(ParserEnvironment.TYPES, en.getText(), getCoords(en))),
+					new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
 			xg.append(p.getText() + "::" + en.getText() + "::" + i.getText());
 		}
 	;
 
-seqConstantOfContainerTypeArrayCont [ExecNode xg] returns [ExprNode res = env.initExprNode()]
+seqConstantOfContainerTypeArrayCont [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 	: typeName=seqTypeIdentUse GT { xg.append(typeName + ">"); } 
 		e=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e; }
 	| typeName=seqMatchTypeIdentUseInContainerType[xg, true] (GT GT { xg.append("> >"); } | SR { xg.append(">>"); })
 		e=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e; }
 	;
 
-seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ ExprNode res = null ]
-	@init{ MapInitNode mapInit = null; }
+seqInitMapExpr [ ExecNode xg, MapTypeNode mapType ] returns [ ExprNode res = null ]
+	@init {
+		MapInitNode mapInit = null;
+	}
 	: l=LBRACE { xg.append("{"); } { res = mapInit = new MapInitNode(getCoords(l), null, mapType); }
 		( item1=seqKeyToValue[xg] { mapInit.addPairItem(item1); }
 			( COMMA { xg.append(","); } item2=seqKeyToValue[xg] { mapInit.addPairItem(item2); } )*
@@ -542,8 +614,10 @@ seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ ExprNode res = null 
 	  RPAREN { xg.append(")"); }
 	;
 
-seqInitSetExpr [ExecNode xg, SetTypeNode setType] returns [ ExprNode res = null ]
-	@init{ SetInitNode setInit = null; }
+seqInitSetExpr [ ExecNode xg, SetTypeNode setType ] returns [ ExprNode res = null ]
+	@init {
+		SetInitNode setInit = null;
+	}
 	: l=LBRACE { xg.append("{"); } { res = setInit = new SetInitNode(getCoords(l), null, setType); }
 		( seqInitializerOfSingleElements[xg, setInit] )?
 	  RBRACE { xg.append("}"); }
@@ -552,8 +626,10 @@ seqInitSetExpr [ExecNode xg, SetTypeNode setType] returns [ ExprNode res = null 
 	  RPAREN { xg.append(")"); }
 	;
 
-seqInitArrayExpr [ExecNode xg, ArrayTypeNode arrayType] returns [ ExprNode res = null ]
-	@init{ ArrayInitNode arrayInit = null; }
+seqInitArrayExpr [ ExecNode xg, ArrayTypeNode arrayType ] returns [ ExprNode res = null ]
+	@init {
+		ArrayInitNode arrayInit = null;
+	}
 	: l=LBRACK { xg.append("["); } { res = arrayInit = new ArrayInitNode(getCoords(l), null, arrayType); }	
 		( seqInitializerOfSingleElements[xg, arrayInit] )?
 	  RBRACK { xg.append("]"); }
@@ -562,8 +638,10 @@ seqInitArrayExpr [ExecNode xg, ArrayTypeNode arrayType] returns [ ExprNode res =
 	  RPAREN { xg.append(")"); }
 	;
 
-seqInitDequeExpr [ExecNode xg, DequeTypeNode dequeType] returns [ ExprNode res = null ]
-	@init{ DequeInitNode dequeInit = null; }
+seqInitDequeExpr [ ExecNode xg, DequeTypeNode dequeType ] returns [ ExprNode res = null ]
+	@init {
+		DequeInitNode dequeInit = null;
+	}
 	: l=LBRACK { xg.append("["); } { res = dequeInit = new DequeInitNode(getCoords(l), null, dequeType); }	
 		( seqInitializerOfSingleElements[xg, dequeInit] )?
 	  RBRACK { xg.append("]"); }
@@ -572,94 +650,90 @@ seqInitDequeExpr [ExecNode xg, DequeTypeNode dequeType] returns [ ExprNode res =
 	  RPAREN { xg.append(")"); }
 	;
 
-seqInitializerOfSingleElements [ExecNode xg, ContainerSingleElementInitNode initNode]
+seqInitializerOfSingleElements [ ExecNode xg, ContainerSingleElementInitNode initNode ]
 	: item1=seqExpression[xg] { initNode.addItem(item1); }
 		( COMMA { xg.append(","); } item2=seqExpression[xg] { initNode.addItem(item2); } )*
 	;
 
-seqKeyToValue [ExecNode xg] returns [ ExprPairNode res = null ]
+seqKeyToValue [ ExecNode xg ] returns [ ExprPairNode res = null ]
 	: key=seqExpression[xg] a=RARROW { xg.append("->"); } value=seqExpression[xg]
 		{
 			res = new ExprPairNode(getCoords(a), key, value);
 		}
 	;
 
-seqMultiRulePrefixedSequence [ExecNode xg, CollectNode<BaseNode> returns]
-	@init{
+seqMultiRulePrefixedSequence [ ExecNode xg, CollectNode<BaseNode> returns ]
+	@init {
 		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
 	}
-
 	: l=LBRACK LBRACK {xg.append("[[");} 
 		seqRulePrefixedSequenceAtom[xg, ruleCalls, returns]
 		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } seqRulePrefixedSequenceAtom[xg, ruleCalls, returns] )*
-	  RBRACK {xg.append("]");} (seqCallRuleFilter[xg, filters, true])* RBRACK {xg.append("]");}
-		{
-			xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters));
-		}
+	  RBRACK { xg.append("]"); } ( seqCallRuleFilter[xg, filters, true] )* RBRACK { xg.append("]"); }
+		{ xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters)); }
 	;
 
-seqRulePrefixedSequence [ExecNode xg, CollectNode<BaseNode> returns]
-	: LBRACK {xg.append("[");} seqRulePrefixedSequenceAtom[xg, null, returns] RBRACK {xg.append("]");}
+seqRulePrefixedSequence [ ExecNode xg, CollectNode<BaseNode> returns ]
+	: LBRACK { xg.append("["); } seqRulePrefixedSequenceAtom[xg, null, returns] RBRACK { xg.append("]"); }
 	;
 
-seqRulePrefixedSequenceAtom [ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns]
-	: FOR l=LBRACE { env.pushScope("ruleprefixedsequence/exec", getCoords(l)); } {xg.append("for{");} 
-		seqCallRuleWithOptionalReturns[xg, ruleCalls, returns, false] SEMI {xg.append(";");}
-			sequence[xg] { env.popScope(); } RBRACE {xg.append("}");}
+seqRulePrefixedSequenceAtom [ ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns ]
+	: FOR l=LBRACE { env.pushScope("ruleprefixedsequence/exec", getCoords(l)); } { xg.append("for{"); } 
+		seqCallRuleWithOptionalReturns[xg, ruleCalls, returns, false] SEMI { xg.append(";"); }
+			sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	;
 
-seqMultiRuleAllCall [ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracketed]
-	@init{
+seqMultiRuleAllCall [ ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracketed ]
+	@init {
 		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
 	}
-
-	: l=LBRACK LBRACK {xg.append("[[");} 
+	: l=LBRACK LBRACK { xg.append("[["); } 
 		seqCallRuleWithOptionalReturns[xg, ruleCalls, returns, isAllBracketed]
-		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } seqCallRuleWithOptionalReturns[xg, ruleCalls, returns, isAllBracketed] )*
-	  RBRACK {xg.append("]");} (seqCallRuleFilter[xg, filters, true])* RBRACK {xg.append("]");}
-		{
-			xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters));
-		}
+		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); }
+				seqCallRuleWithOptionalReturns[xg, ruleCalls, returns, isAllBracketed] )*
+	  RBRACK { xg.append("]"); } ( seqCallRuleFilter[xg, filters, true] )* RBRACK { xg.append("]"); }
+		{ xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters)); }
 	;
 	
-seqParallelCallRule [ExecNode xg, CollectNode<BaseNode> returns]
-	: ( LPAREN {xg.append("(");} seqVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
+seqParallelCallRule [ ExecNode xg, CollectNode<BaseNode> returns ]
+	: ( LPAREN { xg.append("("); } seqVariableList[xg, returns] RPAREN ASSIGN { xg.append(")="); } )?
 		(	( DOLLAR {xg.append("$");} (MOD { xg.append("\%"); })? ( seqVarUse[xg] 
-						(COMMA {xg.append(",");} (seqVarUse[xg] | STAR {xg.append("*");}))? )? )?
-				LBRACK {xg.append("[");} 
+						(COMMA { xg.append(","); } (seqVarUse[xg] | STAR { xg.append("*"); }))? )? )?
+				LBRACK { xg.append("["); } 
 				seqCallRule[xg, null, returns, true]
-				RBRACK {xg.append("]");}
+				RBRACK { xg.append("]"); }
 		| 
-			COUNT {xg.append("count");}
-				LBRACK {xg.append("[");} 
+			COUNT { xg.append("count"); }
+				LBRACK { xg.append("["); } 
 				seqCallRule[xg, null, returns, true]
-				RBRACK {xg.append("]");}
+				RBRACK { xg.append("]"); }
 		|
 			seqCallRule[xg, null, returns, false]
 		)
 	;
 
-seqRuleQuery [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	: LBRACK {xg.append("[");} 
+seqRuleQuery [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: LBRACK { xg.append("["); }
 		cre=seqCallRuleExpression[xg] { res = cre; }
-		RBRACK {xg.append("]");}
+		RBRACK { xg.append("]"); }
 	;
 
-seqMultiRuleQuery [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	@init{
+seqMultiRuleQuery [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	@init {
 		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
 		CollectNode<ExprNode> ruleCallExprs = new CollectNode<ExprNode>();
 	}
-
 	: l=LBRACK QUESTION LBRACK { xg.append("[?["); } 
 		cre=seqCallRuleExpressionForMulti[xg, ruleCalls] { ruleCallExprs.addChild(cre); }
 		( COMMA { xg.append(","); } cre=seqCallRuleExpressionForMulti[xg, ruleCalls] { ruleCallExprs.addChild(cre); } )*
-	  RBRACK {xg.append("]");} ( seqCallRuleFilter[xg, filters, true] )*
-		BACKSLASH { xg.append("\\"); } LT CLASS matchClassIdent=seqTypeIdentUse GT { xg.append("<class " + matchClassIdent.toString() + ">"); }
-	  RBRACK {xg.append("]");}
+	  RBRACK { xg.append("]"); }
+		( seqCallRuleFilter[xg, filters, true] )*
+		BACKSLASH { xg.append("\\"); } LT CLASS matchClassIdent=seqTypeIdentUse GT
+			{ xg.append("<class " + matchClassIdent.toString() + ">"); }
+	  RBRACK { xg.append("]"); }
 		{
 			MultiCallActionNode multiRuleCall = new MultiCallActionNode(getCoords(l), ruleCalls, filters);
 			xg.addMultiCallAction(multiRuleCall);
@@ -667,16 +741,15 @@ seqMultiRuleQuery [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 		}
 	;
 
-seqCallRuleExpressionForMulti [ExecNode xg, CollectNode<CallActionNode> ruleCalls] returns[ExprNode res = env.initExprNode()]
-	@init{
+seqCallRuleExpressionForMulti [ ExecNode xg, CollectNode<CallActionNode> ruleCalls ] returns [ ExprNode res = env.initExprNode() ]
+	@init {
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
 	}
-	
 	: id=seqActionOrEntIdentUse { xg.append(id); }
-		(LPAREN {xg.append("(");} ( seqRuleParams[xg, params] )? RPAREN {xg.append(")");})?
-		(seqCallRuleFilter[xg, filters, false])*
+		(LPAREN { xg.append("("); } ( seqRuleParams[xg, params] )? RPAREN { xg.append(")");})?
+		( seqCallRuleFilter[xg, filters, false] )*
 		{
 			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, false);
 			xg.addCallAction(ruleCall);
@@ -687,21 +760,21 @@ seqCallRuleExpressionForMulti [ExecNode xg, CollectNode<CallActionNode> ruleCall
 		}
 	;
 
-seqCallRuleWithOptionalReturns [ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed]
-	: (LPAREN {xg.append("(");} seqVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? seqCallRule[xg, ruleCalls, returns, isAllBracketed]
+seqCallRuleWithOptionalReturns [ ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed ]
+	: (LPAREN { xg.append("("); } seqVariableList[xg, returns] RPAREN ASSIGN { xg.append(")="); })? 
+		seqCallRule[xg, ruleCalls, returns, isAllBracketed]
 	;
 
-seqCallRule [ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed]
-	@init{
+seqCallRule [ ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed ]
+	@init {
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
 	}
-	
 	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
 		(seqVarUse[xg] DOT { xg.append("."); })?
 		id=seqActionOrEntIdentUse { xg.append(id); }
 		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
-		(seqCallRuleFilter[xg, filters, false])*
+		( seqCallRuleFilter[xg, filters, false] )*
 		{
 			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, isAllBracketed);
 			xg.addCallAction(ruleCall);
@@ -711,18 +784,17 @@ seqCallRule [ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<Bas
 		}
 	;
 
-seqCallRuleExpression [ExecNode xg] returns[ExprNode res = env.initExprNode()]
-	@init{
+seqCallRuleExpression [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	@init {
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
 	}
-	
 	: ( QUESTION MOD { xg.append("?\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } )
 		(seqVarUse[xg] DOT { xg.append("."); })?
 		id=seqActionOrEntIdentUse { xg.append(id); }
 		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
-		(seqCallRuleFilter[xg, filters, false])*
+		( seqCallRuleFilter[xg, filters, false] )*
 		{
 			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, true);
 			xg.addCallAction(ruleCall);
@@ -730,18 +802,18 @@ seqCallRuleExpression [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 		}
 	;
 
-seqCallRuleFilter [ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter]
+seqCallRuleFilter [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter ]
 	: BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? id=IDENT { xg.append(id.getText()); } 
 		seqCallRuleFilterContinuation[xg, filters, isMatchClassFilter, p, id]
 	;
 
-seqCallRuleFilterContinuation [ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pin, Token idin]
-	@init{
+seqCallRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pin, Token idin ]
+	@init {
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 		String filterBaseText = null;
 	}
 	: DOT { xg.append("."); } seqCallMatchClassRuleFilterContinuation[xg, filters, isMatchClassFilter, pin, idin]
-	| (LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN {xg.append(")");})?
+	| (LPAREN { xg.append("("); } (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
 		{
 			Token p = pin;
 			Token filterId = idin;
@@ -751,14 +823,14 @@ seqCallRuleFilterContinuation [ExecNode xg, CollectNode<BaseNode> filters, boole
 
 			if(env.isAutoSuppliedFilterName(filterId.getText()))
 			{
-				if(params.size()!=1)
+				if(params.size() != 1)
 					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
 			}
 			else if(filterId.getText().equals("auto"))
 			{
 				if(isMatchClassFilter)
 					reportError(getCoords(filterId), "The auto filter is not available for multi rule call or multi rule backtracking constructs.");
-				if(params.size()!=0)
+				if(params.size() != 0)
 					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 0 arguments.");
 			}
 			else
@@ -787,20 +859,20 @@ seqCallRuleFilterContinuation [ExecNode xg, CollectNode<BaseNode> filters, boole
 		}
 	;
 
-seqCallMatchClassRuleFilterContinuation [ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pmc, Token mc]
-	@init{
+seqCallMatchClassRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pmc, Token mc ]
+	@init {
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 		String filterBaseText = null;
 	}
 	: (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? filterId=IDENT { xg.append(filterId.getText()); } 
-		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN {xg.append(")");})?
+		(LPAREN { xg.append("("); } (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
 		{
 			if(!isMatchClassFilter)
 				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
 			if(env.isAutoSuppliedFilterName(filterId.getText()))
 			{
-				if(params.size()!=1)
+				if(params.size() != 1)
 					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
 			}
 			else
@@ -835,26 +907,26 @@ seqFilterExtension [ ExecNode xg, String filterBaseText ] returns [ String res =
 		}
 	;
 
-seqFilterCallVariableList [ExecNode xg]
+seqFilterCallVariableList [ ExecNode xg ]
 	: filterVariable=IDENT { xg.append(filterVariable.getText()); }
-		( COMMA {xg.append(",");} filterVariable=IDENT { xg.append(filterVariable.getText()); } )*
+		( COMMA { xg.append(","); } filterVariable=IDENT { xg.append(filterVariable.getText()); } )*
 	;
 
-seqRuleParam [ExecNode xg, CollectNode<BaseNode> parameters]
+seqRuleParam [ ExecNode xg, CollectNode<BaseNode> parameters ]
 	: exp=seqExpression[xg] { parameters.addChild(exp); }
 	;
 
-seqRuleParams [ExecNode xg, CollectNode<BaseNode> parameters]
-	: seqRuleParam[xg, parameters]	( COMMA {xg.append(",");} seqRuleParam[xg, parameters] )*
+seqRuleParams [ ExecNode xg, CollectNode<BaseNode> parameters ]
+	: seqRuleParam[xg, parameters] ( COMMA { xg.append(","); } seqRuleParam[xg, parameters] )*
 	;
 
-seqVariableList [ExecNode xg, CollectNode<BaseNode> res]
+seqVariableList [ ExecNode xg, CollectNode<BaseNode> res ]
 	: child=seqEntity[xg] { res.addChild(child); }
 		( COMMA { xg.append(","); } child=seqEntity[xg] { res.addChild(child); } )*
 	;
 
 // read context (assignment rhs)
-seqVarUse [ExecNode xg] returns [IdentNode res = null]
+seqVarUse [ ExecNode xg ] returns [ IdentNode res = null ]
 	:
 		id=seqEntIdentUse { res = id; xg.append(id); xg.addUsage(id); } // var of node, edge, or basic type
 	|
@@ -862,7 +934,7 @@ seqVarUse [ExecNode xg] returns [IdentNode res = null]
 	;
 
 // write context (assignment lhs)
-seqEntity [ExecNode xg] returns [BaseNode res = null]
+seqEntity [ ExecNode xg ] returns [ BaseNode res = null ]
 	:
 		id=seqEntIdentUse { res = id; xg.append(id); xg.addWriteUsage(id); } // var of node, edge, or basic type
 	|
@@ -871,7 +943,7 @@ seqEntity [ExecNode xg] returns [BaseNode res = null]
 		seqVarDecl=seqEntityDecl[xg, true] { res = seqVarDecl; }
 	;
 
-seqEntityDecl [ExecNode xg, boolean emit] returns [ExecVarDeclNode res = null]
+seqEntityDecl [ ExecNode xg, boolean emit ] returns [ ExecVarDeclNode res = null ]
 	:
 		id=seqEntIdentDecl COLON cont=seqEntityDeclCont[xg, emit, id] { res = cont; } // node/var decl or container/match type decl 
 	|
@@ -884,12 +956,12 @@ seqEntityDecl [ExecNode xg, boolean emit] returns [ExecVarDeclNode res = null]
 		}
 	;
 
-seqEntityDeclCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDeclNode res = null]
+seqEntityDeclCont [ ExecNode xg, boolean emit, IdentNode id ] returns [ ExecVarDeclNode res = null ]
 	:
 		type=seqTypeIdentUse // node/var decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, type);
-			if(emit) xg.append(id.toString()+":"+type.toString());
+			if(emit) xg.append(id.toString() + ":" + type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -897,13 +969,13 @@ seqEntityDeclCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDecl
 		cont=seqEntityDeclGenericTypeCont[xg, emit, id] { res = cont; } // container/match type decl
 	;
 
-seqEntityDeclGenericTypeCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDeclNode res = null]
+seqEntityDeclGenericTypeCont [ ExecNode xg, boolean emit, IdentNode id ] returns [ ExecVarDeclNode res = null ]
 	:
 		{ input.LT(1).getText().equals("map") }?
 		IDENT LT keyType=seqTypeIdentUse COMMA valueType=seqTypeIdentUse // map decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new MapTypeNode(keyType, valueType));
-			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString());
+			if(emit) xg.append(id.toString() + ":map<" + keyType.toString() + "," + valueType.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -913,7 +985,7 @@ seqEntityDeclGenericTypeCont [ExecNode xg, boolean emit, IdentNode id] returns [
 		IDENT LT type=seqTypeIdentUse // set decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new SetTypeNode(type));
-			if(emit) xg.append(id.toString()+":set<"+type.toString());
+			if(emit) xg.append(id.toString() + ":set<" + type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -926,7 +998,7 @@ seqEntityDeclGenericTypeCont [ExecNode xg, boolean emit, IdentNode id] returns [
 		IDENT LT type=seqTypeIdentUse // deque decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new DequeTypeNode(type));
-			if(emit) xg.append(id.toString()+":deque<"+type.toString());
+			if(emit) xg.append(id.toString() + ":deque<" + type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -935,18 +1007,18 @@ seqEntityDeclGenericTypeCont [ExecNode xg, boolean emit, IdentNode id] returns [
 		MATCH LT cont=seqEntityDeclGenericTypeMatchCont[xg, emit, id] { res = cont; }
 	;
 
-seqEntityDeclGenericTypeArrayCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDeclNode res = null]
+seqEntityDeclGenericTypeArrayCont [ ExecNode xg, boolean emit, IdentNode id ] returns [ ExecVarDeclNode res = null ]
 	:
 		type=seqTypeIdentUse // array decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
-			if(emit) xg.append(id.toString()+":array<"+type.toString());
+			if(emit) xg.append(id.toString() + ":array<" + type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
 		genericTypeEnd[xg, emit]
 	|
-		{ if(emit) xg.append(id.toString()+":array<"); } type=seqMatchTypeIdentUseInContainerType[xg, emit] // array of match decl
+		{ if(emit) xg.append(id.toString() + ":array<"); } type=seqMatchTypeIdentUseInContainerType[xg, emit] // array of match decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
 			xg.addVarDecl(decl);
@@ -955,12 +1027,12 @@ seqEntityDeclGenericTypeArrayCont [ExecNode xg, boolean emit, IdentNode id] retu
 		genericTypeEndPastMatchType[xg, emit]
 	;
 
-seqEntityDeclGenericTypeMatchCont [ExecNode xg, boolean emit, IdentNode id] returns [ExecVarDeclNode res = null]
+seqEntityDeclGenericTypeMatchCont [ ExecNode xg, boolean emit, IdentNode id ] returns [ ExecVarDeclNode res = null ]
 	:
 		actionIdent=seqActionIdentUse GT // match decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, MatchTypeNode.getMatchTypeIdentNode(env, actionIdent));
-			if(emit) xg.append(id.toString()+":match<"+actionIdent.toString()+">");
+			if(emit) xg.append(id.toString() + ":match<" + actionIdent.toString() + ">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -968,14 +1040,14 @@ seqEntityDeclGenericTypeMatchCont [ExecNode xg, boolean emit, IdentNode id] retu
 		CLASS matchClassIdent=seqTypeIdentUse GT // match class decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, matchClassIdent);
-			if(emit) xg.append(id.toString()+":match<class "+matchClassIdent.toString()+">");
+			if(emit) xg.append(id.toString() + ":match<class " + matchClassIdent.toString() + ">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}
 	;
 
-seqMatchTypeIdentUseInContainerType [ExecNode xg, boolean emit] returns [IdentNode res = null]
-options { k = 3; }
+seqMatchTypeIdentUseInContainerType [ ExecNode xg, boolean emit ] returns [ IdentNode res = null ]
+	options { k = 3; }
 	:
 		MATCH LT actionIdent=seqActionIdentUse // match decl
 		{
@@ -991,76 +1063,76 @@ options { k = 3; }
 	;
 
 // special to save user from splitting e.g. map<S,T>=x to map<S,T> =x as >= is GE not GT ASSIGN
-genericTypeEnd [ExecNode xg, boolean emit]
+genericTypeEnd [ ExecNode xg, boolean emit ]
 	: GT { if(emit) xg.append(">"); }
 	| (GE) => { }
 	;
 
 // special to save user from splitting e.g. array< match<T> >=x to array< match<T> > =x as >= is GE not GT ASSIGN
 // note that array<match<T>>=x is SR ASSIGN, not GT GT ASSIGN as in array< match<T> > =x
-genericTypeEndPastMatchType [ExecNode xg, boolean emit]
+genericTypeEndPastMatchType [ ExecNode xg, boolean emit ]
 	: GT GT { if(emit) xg.append("> >"); } 
 	| SR { if(emit) xg.append(">>"); }
 	| (GT GE) => GT { if(emit) xg.append(">"); }
 	;
 
-seqIndex [ExecNode xg]
+seqIndex [ ExecNode xg ]
 	: id=seqIndexIdentUse { xg.append(id.toString()); }
 	;
 
 seqEntIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT 
-		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
+		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	;
 
 seqTypeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-options { k = 3; }
+	options { k = 3; }
 	: i=IDENT 
-		{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
+		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
 	| p=IDENT DOUBLECOLON i=IDENT 
-		{ if(i!=null) res = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+		{ if(i != null) res = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
 				env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
 	;
 
 seqEntIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT
-		{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
+		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	;
 
 seqActionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-options { k = 3; }
+	options { k = 3; }
 	: i=IDENT
-		{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
+		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 	| p=IDENT DOUBLECOLON i=IDENT 
-		{ if(i!=null) res = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+		{ if(i != null) res = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
 				env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 	;
 
 seqActionOrEntIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-options { k = 3; }
+	options { k = 3; }
 	: i=IDENT
-		{ if(i!=null) res = new AmbiguousIdentNode(env.occurs(ParserEnvironment.ACTIONS,
+		{ if(i != null) res = new AmbiguousIdentNode(env.occurs(ParserEnvironment.ACTIONS,
 			i.getText(), getCoords(i)), env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	| p=IDENT DOUBLECOLON i=IDENT 
-		{ if(i!=null) res = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+		{ if(i != null) res = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
 				env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 	;
 
 seqIndexIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT
-		{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i))); }
+		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i))); }
 	;
 
 seqMemberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT
-		{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
+		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	| r=REPLACE
-		{ if(r!=null) r.setType(IDENT); res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES,
-			r.getText(), getCoords(r))); } // HACK: For string replace function... better choose another name?
+		{ if(r != null) r.setType(IDENT); res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES,
+				r.getText(), getCoords(r))); } // HACK: For string replace function... better choose another name?
 	;
 
 seqRangeSpecLoop returns [ RangeSpecNode res = null ]
-	@init{
+	@init {
 		lower = 1; upper = 1;
 		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
 		// range allows [*], [+], [c:*], [c], [c:d]; no range equals 1:1
