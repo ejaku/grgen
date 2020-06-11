@@ -62,6 +62,7 @@ public class ExecNode extends BaseNode
 		new DeclarationQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode>(ExecVarDeclNode.class, NodeDeclNode.class, EdgeDeclNode.class, VarDeclNode.class));
 
 	private StringBuilder sb = new StringBuilder(); // if sb.length()==0 this is an external exec implemented externally
+
 	protected CollectNode<MultiCallActionNode> multiCallActions = new CollectNode<MultiCallActionNode>();
 	public CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 	private CollectNode<ExecVarDeclNode> varDecls = new CollectNode<ExecVarDeclNode>();
@@ -69,6 +70,8 @@ public class ExecNode extends BaseNode
 	private CollectNode<IdentNode> writeUsageUnresolved = new CollectNode<IdentNode>();
 	private CollectNode<DeclNode> usage = new CollectNode<DeclNode>();
 	private CollectNode<DeclNode> writeUsage = new CollectNode<DeclNode>();
+
+	private boolean disableXgrsStringBuilding = false;
 
 	public ExecNode(Coords coords)
 	{
@@ -80,6 +83,10 @@ public class ExecNode extends BaseNode
 	public void append(Object n)
 	{
 		assert !isResolved();
+		
+		if(disableXgrsStringBuilding)
+			return;
+		
 		if(n instanceof ConstNode) {
 			ConstNode constant = (ConstNode)n;
 			TypeNode type = constant.getType();
@@ -137,6 +144,16 @@ public class ExecNode extends BaseNode
 		return sb.toString();
 	}
 
+	public void enableXgrsStringBuilding()
+	{
+		disableXgrsStringBuilding = false;
+	}
+	
+	public void disableXgrsStringBuilding()
+	{
+		disableXgrsStringBuilding = true;
+	}
+	
 	public void addMultiCallAction(MultiCallActionNode m)
 	{
 		assert !isResolved();
