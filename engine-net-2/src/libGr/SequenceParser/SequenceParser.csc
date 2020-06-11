@@ -189,10 +189,6 @@ TOKEN: {
 |   < TRUE: "true" >
 |   < FALSE: "false" >
 |   < NULL: "null" >
-|   < SET: "set" >
-|   < MAP: "map" >
-|   < ARRAY: "array" >
-|   < DEQUE: "deque" >
 |   < MATCH: "match" >
 |   < FOR: "for" >
 |   < IF: "if" >
@@ -420,7 +416,8 @@ SequenceExpression InitContainerExpr():
 }
 {
     (
-        "set" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
+        LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="set" })
+        Word() "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
         (
             "{"
                 ( src=Expression() { srcItems.Add(src); }
@@ -438,7 +435,8 @@ SequenceExpression InitContainerExpr():
             }
         )
     |
-        "map" "<" typeName=TypeNonGeneric() "," typeNameDst=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); dstItems = new List<SequenceExpression>(); }
+        LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="map" })
+        Word() "<" typeName=TypeNonGeneric() "," typeNameDst=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); dstItems = new List<SequenceExpression>(); }
         (
             "{"
                 ( src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); }
@@ -456,7 +454,8 @@ SequenceExpression InitContainerExpr():
             }
         )
     |
-        "array" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
+        LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="array" })
+        Word() "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
         (
             "["
                 ( src=Expression() { srcItems.Add(src); }
@@ -474,7 +473,8 @@ SequenceExpression InitContainerExpr():
             }
         )
     |
-        "deque" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
+        LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="deque" })
+        Word() "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
         (
             "["
                 ( src=Expression() { srcItems.Add(src); }
@@ -620,14 +620,14 @@ String Type():
     String type;
     String typeParam, typeParamDst;
 }
-{ 
-    ( type=TypeNonGeneric()
-    | type=SetType()
-    | type=MapType()
-    | type=ArrayType()
-    | type=DequeType()
+{
+    ( LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="set" }) type=SetType()
+    | LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="map" }) type=MapType()
+    | LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="array" }) type=ArrayType()
+    | LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="deque" }) type=DequeType()
     | LOOKAHEAD("match" "<" Word() ">") "match" "<" typeParam=Word() ">" { type = "match<"+typeParam+">"; }    
-    | LOOKAHEAD("match" "<" "class" Word() ">") "match" "<" "class" typeParam=Word() ">" { type = "match<class "+typeParam+">"; }    
+    | LOOKAHEAD("match" "<" "class" Word() ">") "match" "<" "class" typeParam=Word() ">" { type = "match<class "+typeParam+">"; }
+    | type=TypeNonGeneric()
     )
     {
         return type;
@@ -639,11 +639,11 @@ String SetType():
     String type;
     String typeParam;
 }
-{ 
-    ( LOOKAHEAD("set" "<" TypeNonGeneric() ">") "set" "<" typeParam=TypeNonGeneric() ">" { type = "set<"+typeParam+">"; }
+{
+    ( LOOKAHEAD(Word() "<" TypeNonGeneric() ">") Word() "<" typeParam=TypeNonGeneric() ">" { type = "set<"+typeParam+">"; }
         (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
     // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
-    | LOOKAHEAD("set" "<" TypeNonGeneric() ">=") "set" "<" typeParam=TypeNonGeneric() { type = "set<"+typeParam+">"; }
+    | LOOKAHEAD(Word() "<" TypeNonGeneric() ">=") Word() "<" typeParam=TypeNonGeneric() { type = "set<"+typeParam+">"; }
         (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
     )
     {
@@ -656,11 +656,11 @@ String MapType():
     String type;
     String typeParam, typeParamDst;
 }
-{ 
-    ( LOOKAHEAD("map" "<" TypeNonGeneric() "," TypeNonGeneric() ">") "map" "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
+{
+    ( LOOKAHEAD(Word() "<" TypeNonGeneric() "," TypeNonGeneric() ">") Word() "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
         (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
     // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
-    | LOOKAHEAD("map" "<" TypeNonGeneric() "," TypeNonGeneric() ">=") "map" "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() { type = "map<"+typeParam+","+typeParamDst+">"; }
+    | LOOKAHEAD(Word() "<" TypeNonGeneric() "," TypeNonGeneric() ">=") Word() "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() { type = "map<"+typeParam+","+typeParamDst+">"; }
         (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
     )
     {
@@ -674,14 +674,14 @@ String ArrayType():
     String typeParam;
 }
 { 
-    ( LOOKAHEAD("array" "<" TypeNonGeneric() ">") "array" "<" typeParam=TypeNonGeneric() ">" { type = "array<"+typeParam+">"; }
+    ( LOOKAHEAD(Word() "<" TypeNonGeneric() ">") Word() "<" typeParam=TypeNonGeneric() ">" { type = "array<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
-    | LOOKAHEAD("array" "<" MatchTypeInContainerType() (">" ">" | ">>")) "array" "<" typeParam=MatchTypeInContainerType() (">" ">" | ">>") { type = "array<"+typeParam+">"; }
+    | LOOKAHEAD(Word() "<" MatchTypeInContainerType() (">" ">" | ">>")) Word() "<" typeParam=MatchTypeInContainerType() (">" ">" | ">>") { type = "array<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
     // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
-    | LOOKAHEAD("array" "<" TypeNonGeneric() ">=") "array" "<" typeParam=TypeNonGeneric() { type = "array<"+typeParam+">"; }
+    | LOOKAHEAD(Word() "<" TypeNonGeneric() ">=") Word() "<" typeParam=TypeNonGeneric() { type = "array<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
-    | LOOKAHEAD("array" "<" MatchTypeInContainerType() ">" ">=") "array" "<" typeParam=MatchTypeInContainerType() ">" { type = "array<"+typeParam+">"; }
+    | LOOKAHEAD(Word() "<" MatchTypeInContainerType() ">" ">=") Word() "<" typeParam=MatchTypeInContainerType() ">" { type = "array<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
     )
     {
@@ -695,10 +695,10 @@ String DequeType():
     String typeParam;
 }
 { 
-    ( LOOKAHEAD("deque" "<" TypeNonGeneric() ">") "deque" "<" typeParam=TypeNonGeneric() ">" { type = "deque<"+typeParam+">"; }
+    ( LOOKAHEAD(Word() "<" TypeNonGeneric() ">") Word() "<" typeParam=TypeNonGeneric() ">" { type = "deque<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
     // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
-    | LOOKAHEAD("deque" "<" TypeNonGeneric() ">=") "deque" "<" typeParam=TypeNonGeneric() { type = "deque<"+typeParam+">"; }
+    | LOOKAHEAD(Word() "<" TypeNonGeneric() ">=") Word() "<" typeParam=TypeNonGeneric() { type = "deque<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
     )
     {
@@ -1765,8 +1765,14 @@ void RuleLookahead():
 {
 }
 {
-    ("(" ( Word() (":" (TypeNonGeneric() | "set" "<" TypeNonGeneric() ">" | "map" "<" TypeNonGeneric() "," TypeNonGeneric() ">" | "array" "<" TypeNonGeneric() ">" | "deque" "<" TypeNonGeneric() ">"))? | "::" Word() ) 
-            ("," ( Word() (":" (TypeNonGeneric() | "set" "<" TypeNonGeneric() ">" | "map" "<" TypeNonGeneric() "," TypeNonGeneric() ">" | "array" "<" TypeNonGeneric() ">" | "deque" "<" TypeNonGeneric() ">"))? | "::" Word() ) )* ")" "=")?
+    ("(" ( Word() (":" (LOOKAHEAD({ GetToken(1).kind==WORD && (GetToken(1).image=="set" || GetToken(1).image=="array" || GetToken(1).image=="deque") }) Word() "<" TypeNonGeneric() ">" |
+                        LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="map" }) Word() "<" TypeNonGeneric() "," TypeNonGeneric() ">" |
+                        TypeNonGeneric())
+                    )? | "::" Word() ) 
+            ("," ( Word() (":" (LOOKAHEAD({ GetToken(1).kind==WORD && (GetToken(1).image=="set" || GetToken(1).image=="array" || GetToken(1).image=="deque") }) Word() "<" TypeNonGeneric() ">" |
+                                LOOKAHEAD({ GetToken(1).kind==WORD && GetToken(1).image=="map" }) Word() "<" TypeNonGeneric() "," TypeNonGeneric() ">" |
+                                TypeNonGeneric())
+                            )? | "::" Word() ) )* ")" "=")?
     (
         ( "$" ("%")? ( Variable() ("," (Variable() | "*"))? )? )? "["
     |
