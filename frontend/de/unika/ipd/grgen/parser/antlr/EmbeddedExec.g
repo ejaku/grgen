@@ -841,7 +841,7 @@ seqCallRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> filters, bool
 				filters.addChild(filter);
 			}
 		}
-	| { filterBaseText = idin.getText(); } LT { xg.append("<"); } seqFilterCallVariableList[xg] GT { xg.append("> "); }
+	| { filterBaseText = idin.getText(); } LT { xg.append("<"); } seqFilterCallVariableList[xg] GT { xg.append(">"); }
 			(filterBaseTextExt=seqFilterExtension[xg, filterBaseText] { filterBaseText = filterBaseTextExt; })?
 		{
 			Token p = pin;
@@ -882,11 +882,11 @@ seqCallMatchClassRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> fil
 													: new IdentNode(env.occurs(ParserEnvironment.TYPES, mc.getText(), getCoords(mc)));
 				IdentNode matchClassFilter = p != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
 														env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)))
-													: new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)));															
+													: new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)));
 				filters.addChild(new MatchTypeQualIdentNode(getCoords(filterId), matchClass, matchClassFilter));
 			}
 		}
-	| filterBase=IDENT { xg.append(filterBase.getText()); filterBaseText = filterBase.getText(); } LT { xg.append("<"); } seqFilterCallVariableList[xg] GT { xg.append("> "); }
+	| filterBase=IDENT { xg.append(filterBase.getText()); filterBaseText = filterBase.getText(); } LT { xg.append("<"); } seqFilterCallVariableList[xg] GT { xg.append(">"); }
 			(filterBaseTextExt=seqFilterExtension[xg, filterBaseText] { filterBaseText = filterBaseTextExt; })?
 		{
 			if(!isMatchClassFilter)

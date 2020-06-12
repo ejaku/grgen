@@ -1276,7 +1276,7 @@ Sequence SimpleSequence():
     }
 |
     "<<" { varDecls.PushScope(ScopeType.Backtrack); } seq=Rule() (";;"|";")
-        seq2=RewriteSequence() { varDecls.PopScope(variableList1); } ">>"
+        seq2=RewriteSequence() { varDecls.PopScope(variableList1); } (">>"|">")
     {
         return new SequenceBacktrack(seq, seq2);
     }
@@ -2185,8 +2185,8 @@ SequenceFilterCall Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter):
     List<String> words = new List<String>();
 }
 {
-    LOOKAHEAD(6) (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? filterBase=Word() "<" WordList(words) ">"
-    (filterExtension=Word() { filterBase += filterExtension; } "<" WordList(words) ">" filterExtension2=Word() { filterBase += filterExtension2; } "<" WordList(words) ">" )?
+    LOOKAHEAD(6) (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? filterBase=Word() "<" WordList(words) (">" | ">>")
+    (filterExtension=Word() { filterBase += filterExtension; } "<" WordList(words) ">" filterExtension2=Word() { filterBase += filterExtension2; } "<" WordList(words) (">" | ">>") )?
     {
         if(isMatchClassFilter && matchClass == null)
             throw new ParseException("A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
