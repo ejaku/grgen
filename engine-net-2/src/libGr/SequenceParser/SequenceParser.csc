@@ -285,7 +285,7 @@ int Number():
     }
 }
 
-long NumberOrHexNumber():
+object NumberOrHexNumber():
 {
     Token tok;
 }
