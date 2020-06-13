@@ -157,9 +157,4 @@ public class SingleNodeConnNode extends ConnectionCharacter
 	{
 		return "single node connection";
 	}
-
-	public static String getUseStr()
-	{
-		return "SingleNodeConnNode";
-	}
 }

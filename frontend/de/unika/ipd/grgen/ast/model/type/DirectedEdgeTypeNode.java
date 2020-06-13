@@ -46,11 +46,6 @@ public class DirectedEdgeTypeNode extends EdgeTypeNode
 
 	public static String getKindStr()
 	{
-		return "directed edge type";
-	}
-
-	public static String getUseStr()
-	{
-		return "directed edge type";
+		return "directed edge class";
 	}
 }

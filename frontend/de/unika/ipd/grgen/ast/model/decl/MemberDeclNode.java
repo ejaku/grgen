@@ -139,11 +139,6 @@ public class MemberDeclNode extends DeclNode
 
 	public static String getKindStr()
 	{
-		return "member declaration";
-	}
-
-	public static String getUseStr()
-	{
-		return "member access";
+		return "member";
 	}
 }

@@ -550,7 +550,7 @@ public abstract class ActionDeclNode extends DeclNode
 
 		if(declNode != null) {
 			if(deletedElements.contains(declNode)) {
-				declNode.reportError("The deleted " + declNode.getUseString() + " \"" + declNode.ident
+				declNode.reportError("The deleted " + declNode.getKind() + " \"" + declNode.ident
 						+ "\" must not be passed to an exec statement");
 				valid = false;
 			} else if(maybeDeletedElements.contains(declNode)) {
@@ -560,11 +560,11 @@ public abstract class ActionDeclNode extends DeclNode
 					valid = false;
 
 					String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
-							+ ", possibly it's homomorphic with a deleted " + declNode.getUseString();
+							+ ", possibly it's homomorphic with a deleted " + declNode.getKind();
 					errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 					if(declNode instanceof EdgeDeclNode) {
-						errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getUseString()
+						errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getKind()
 								+ " and a deleted node exists";
 					}
 					declNode.reportError(errorMessage);

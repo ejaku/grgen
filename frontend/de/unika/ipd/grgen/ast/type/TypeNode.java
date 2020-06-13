@@ -47,7 +47,7 @@ public abstract class TypeNode extends BaseNode
 	private Set<TypeNode> compatibleToTypes;
 	private Set<TypeNode> castableToTypes;
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "type";
 	}

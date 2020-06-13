@@ -151,7 +151,7 @@ public class MemberInitNode extends BaseNode
 		}
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "member initialization";
 	}

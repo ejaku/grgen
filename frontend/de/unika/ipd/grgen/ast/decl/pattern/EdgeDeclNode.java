@@ -261,11 +261,6 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 
 	public static String getKindStr()
 	{
-		return "edge declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "edge";
 	}
 }

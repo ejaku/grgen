@@ -194,11 +194,6 @@ public class AlternativeCaseDeclNode extends ActionDeclNode
 
 	public static String getKindStr()
 	{
-		return "alternative case node";
-	}
-
-	public static String getUseStr()
-	{
 		return "alternative case";
 	}
 }

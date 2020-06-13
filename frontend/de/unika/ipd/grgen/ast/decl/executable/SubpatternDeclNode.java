@@ -240,11 +240,6 @@ public class SubpatternDeclNode extends ActionDeclNode
 
 	public static String getKindStr()
 	{
-		return "subpattern declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "subpattern";
 	}
 }

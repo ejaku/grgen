@@ -301,11 +301,6 @@ public class PackageActionTypeNode extends CompoundTypeNode
 
 	public static String getKindStr()
 	{
-		return "package type";
-	}
-
-	public static String getUseStr()
-	{
 		return "package";
 	}
 }

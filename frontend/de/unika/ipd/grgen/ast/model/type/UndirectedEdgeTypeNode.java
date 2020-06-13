@@ -46,11 +46,6 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode
 
 	public static String getKindStr()
 	{
-		return "undirected edge type";
-	}
-
-	public static String getUseStr()
-	{
-		return "undirected edge type";
+		return "undirected edge class";
 	}
 }

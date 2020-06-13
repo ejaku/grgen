@@ -90,7 +90,7 @@ public class InducedNode extends BaseNode
 		for(NodeDeclNode inducedNode : children) {
 			// coords of occurrence are not available
 			if(nodes.contains(inducedNode)) {
-				reportWarning("Multiple occurrence of " + inducedNode.getUseString() + " "
+				reportWarning("Multiple occurrence of " + inducedNode.getKind() + " "
 						+ inducedNode.getIdentNode().getSymbol().getText() + " in a single induced statement");
 			}
 			nodes.add(inducedNode);

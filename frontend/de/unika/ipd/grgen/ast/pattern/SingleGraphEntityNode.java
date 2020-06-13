@@ -100,9 +100,4 @@ public class SingleGraphEntityNode extends BaseNode
 	{
 		return "single graph entity";
 	}
-
-	public static String getUseStr()
-	{
-		return "SingleGraphEntityNode";
-	}
 }

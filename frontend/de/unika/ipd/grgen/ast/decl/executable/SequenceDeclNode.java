@@ -132,11 +132,6 @@ public class SequenceDeclNode extends DeclNode
 
 	public static String getKindStr()
 	{
-		return "sequence declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "sequence";
 	}
 }

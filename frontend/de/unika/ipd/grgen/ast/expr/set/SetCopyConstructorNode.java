@@ -110,7 +110,7 @@ public class SetCopyConstructorNode extends ExprNode
 		return new SetCopyConstructor(setToCopy.checkIR(Expression.class), setType.checkIR(SetType.class));
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "set copy constructor";
 	}

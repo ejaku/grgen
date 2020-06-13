@@ -450,12 +450,7 @@ public class TestDeclNode extends ActionDeclNode
 
 	public static String getKindStr()
 	{
-		return "action declaration";
-	}
-
-	public static String getUseStr()
-	{
-		return "action";
+		return "test";
 	}
 
 	@Override

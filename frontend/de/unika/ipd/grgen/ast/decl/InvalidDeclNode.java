@@ -82,11 +82,6 @@ public class InvalidDeclNode extends DeclNode
 		return "undeclared identifier";
 	}
 
-	public static String getUseStr()
-	{
-		return "undeclared identifier";
-	}
-
 	@Override
 	public String toString()
 	{

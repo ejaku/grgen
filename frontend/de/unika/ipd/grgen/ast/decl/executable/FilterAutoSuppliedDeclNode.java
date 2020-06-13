@@ -107,7 +107,7 @@ public class FilterAutoSuppliedDeclNode extends FilterAutoDeclNode
 		return filterAutoSup;
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "auto supplied filter";
 	}

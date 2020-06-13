@@ -163,12 +163,7 @@ public class ExternalTypeNode extends InheritanceTypeNode
 
 	public static String getKindStr()
 	{
-		return "external type";
-	}
-
-	public static String getUseStr()
-	{
-		return "external type";
+		return "external class";
 	}
 
 	@Override

@@ -178,7 +178,7 @@ public class RuleDeclNode extends TestDeclNode
 		if(deletedElements.contains(retElem)) {
 			valid = false;
 
-			expr.reportError("The deleted " + retElem.getUseString()
+			expr.reportError("The deleted " + retElem.getKind()
 					+ " \"" + retElem.ident + "\" must not be returned");
 		} else if(maybeDeletedElements.contains(retElem)) {
 			retElem.maybeDeleted = true;
@@ -187,11 +187,11 @@ public class RuleDeclNode extends TestDeclNode
 				valid = false;
 
 				String errorMessage = "Returning \"" + retElem.ident + "\" that may be deleted"
-						+ ", possibly it's homomorphic with a deleted " + retElem.getUseString();
+						+ ", possibly it's homomorphic with a deleted " + retElem.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(retElem instanceof EdgeDeclNode) {
-					errorMessage += " or \"" + retElem.ident + "\" is a dangling " + retElem.getUseString()
+					errorMessage += " or \"" + retElem.ident + "\" is a dangling " + retElem.getKind()
 							+ " and a deleted node exists";
 				}
 				expr.reportError(errorMessage);
@@ -224,7 +224,7 @@ public class RuleDeclNode extends TestDeclNode
 			if(retElem.getRetypedElement() != null) {
 				valid = false;
 
-				expr.reportError("The retyped " + retElem.getUseString()
+				expr.reportError("The retyped " + retElem.getKind()
 						+ " \"" + retElem.ident + "\" must not be returned");
 			}
 		}
@@ -273,7 +273,7 @@ public class RuleDeclNode extends TestDeclNode
 				ConstraintDeclNode retypedElem = elem.getRetypedElement();
 
 				if(retypedElem != null) {
-					retypedElem.reportError("The " + elem.getUseString() + " "
+					retypedElem.reportError("The " + elem.getKind() + " "
 							+ elem + " must not retyped to different types");
 				}
 			}
@@ -300,7 +300,7 @@ public class RuleDeclNode extends TestDeclNode
 			if(retElem.getRetypedElement() != null) {
 				valid = false;
 
-				retElem.reportError("The retyped " + retElem.getUseString()
+				retElem.reportError("The retyped " + retElem.getKind()
 						+ " \"" + retElem.ident + "\" must not be deleted");
 			}
 		}
@@ -359,7 +359,7 @@ public class RuleDeclNode extends TestDeclNode
 			Set<ConstraintDeclNode> delete, Set<ConstraintDeclNode> maybeDeleted)
 	{
 		if(delete.contains(declNode)) {
-			expr.reportError("The deleted " + declNode.getUseString() + " \"" + declNode.ident
+			expr.reportError("The deleted " + declNode.getKind() + " \"" + declNode.ident
 					+ "\" must not be used in an emit(/emitdebug) statement (you may use an emithere(/emitheredebug) instead)");
 			return false;
 		}
@@ -368,11 +368,11 @@ public class RuleDeclNode extends TestDeclNode
 
 			if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
 				String errorMessage = "Element \"" + declNode.ident + "\" used in emit statement may be deleted"
-						+ ", possibly it's homomorphic with a deleted " + declNode.getUseString();
+						+ ", possibly it's homomorphic with a deleted " + declNode.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(declNode instanceof EdgeDeclNode) {
-					errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getUseString()
+					errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getKind()
 							+ " and a deleted node exists";
 				}
 
@@ -512,6 +512,11 @@ public class RuleDeclNode extends TestDeclNode
 				return var;
 		}
 		return null;
+	}
+
+	public static String getKindStr()
+	{
+		return "rule";
 	}
 
 	/**

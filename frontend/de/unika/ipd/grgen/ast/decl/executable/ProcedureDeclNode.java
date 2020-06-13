@@ -168,11 +168,6 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 
 	public static String getKindStr()
 	{
-		return "procedure declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "procedure";
 	}
 }

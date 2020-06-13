@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.ExpressionPair;

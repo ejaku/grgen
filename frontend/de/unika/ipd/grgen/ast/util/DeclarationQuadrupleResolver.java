@@ -80,8 +80,8 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 			return quadruple;
 		}
 
-		bn.reportError("\"" + bn + "\" is a " + bn.getUseString() +
-				" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getUseStr") + " is expected");
+		bn.reportError("\"" + bn + "\" is a " + bn.getKind() +
+				" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getKindStr") + " is expected");
 		return null;
 	}
 
@@ -113,8 +113,8 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 			return quadruple;
 		}
 
-		n.reportError("\"" + n + "\" is a " + resolved.getUseString() +
-				" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getUseStr") + " is expected");
+		n.reportError("\"" + n + "\" is a " + resolved.getKind() +
+				" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getKindStr") + " is expected");
 		return null;
 	}
 }

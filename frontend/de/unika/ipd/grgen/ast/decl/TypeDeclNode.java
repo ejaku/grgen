@@ -160,11 +160,6 @@ public class TypeDeclNode extends DeclNode
 
 	public static String getKindStr()
 	{
-		return "type declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "type";
 	}
 

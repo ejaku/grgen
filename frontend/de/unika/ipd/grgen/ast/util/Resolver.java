@@ -95,8 +95,8 @@ public abstract class Resolver<T> extends Base
 			if(result == null) {
 				String actionName = test.getIdentNode().toString();
 				String iteratedName = iterated.getIdentNode().toString();
-				member.reportError("Unknown member " + memberName + ", can't find in iterated " + iteratedName
-						+ " of test/rule " + actionName);
+				member.reportError("Unknown member " + memberName
+						+ ", can't find in match<" + actionName + "." + iteratedName + ">");
 			}
 		} else if(type instanceof MatchTypeNode) {
 			MatchTypeNode matchType = (MatchTypeNode)type;
@@ -107,7 +107,8 @@ public abstract class Resolver<T> extends Base
 			result = matchType.tryGetMember(member.toString());
 			if(result == null) {
 				String actionName = test.getIdentNode().toString();
-				member.reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName);
+				member.reportError("Unknown member " + memberName
+						+ ", can't find in match< " + actionName + ">");
 			}
 		} else if(type instanceof DefinedMatchTypeNode) {
 			DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)type;
@@ -118,7 +119,7 @@ public abstract class Resolver<T> extends Base
 			if(result == null) {
 				String matchClassName = definedMatchType.getTypeName();
 				member.reportError("Unknown member " + memberName
-						+ ", can't find in match class type " + matchClassName);
+						+ ", can't find in match<class " + matchClassName + ">");
 			}
 		} else if(type instanceof InheritanceTypeNode) {
 			ScopeOwner o = (ScopeOwner)type;
@@ -127,9 +128,10 @@ public abstract class Resolver<T> extends Base
 			InheritanceTypeNode inheritanceType = (InheritanceTypeNode)type;
 			result = (MemberDeclNode)inheritanceType.tryGetMember(member.getIdent().toString());
 			if(result == null) {
+				String kind = inheritanceType.getKind();
 				String className = inheritanceType.getTypeName();
 				member.reportError("Unknown member " + memberName
-						+ ", can't find in (node/edge/external) class " + className);
+						+ ", can't find in " + kind + " " + className);
 			}
 		} else {
 			member.reportError("Unknown member " + memberName);

@@ -163,11 +163,6 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 
 	public static String getKindStr()
 	{
-		return "function declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "function";
 	}
 }

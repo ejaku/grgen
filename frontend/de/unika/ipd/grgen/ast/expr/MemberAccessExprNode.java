@@ -161,9 +161,4 @@ public class MemberAccessExprNode extends ExprNode
 	{
 		return "member";
 	}
-
-	public static String getUseStr()
-	{
-		return "member access";
-	}
 }

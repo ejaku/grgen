@@ -158,7 +158,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 		for(DeclNode member : getAllMembers().values()) {
 			if(member instanceof AbstractMemberDeclNode && !isAbstract()) {
-				error.error(getIdentNode().getCoords(), getUseStr() + " \"" + getTypeName()
+				error.error(getIdentNode().getCoords(), getKind() + " \"" + getTypeName()
 						+ "\" must be declared abstract, because member \"" + member + "\" is abstract.");
 				res = false;
 			}
@@ -169,7 +169,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 				DeclNode directMember = (DeclNode)child;
 				if(directMember.getIdentNode().toString().equals(getIdentNode().toString())) {
 					error.error(getIdentNode().getCoords(), "the member \"" + directMember.getIdentNode()
-									+ "\" must be named differently than its containing " + getUseStr() + " \""
+									+ "\" must be named differently than its containing " + getKind() + " \""
 									+ getTypeName() + "\"");
 				}
 			}
@@ -316,7 +316,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 				DeclNode old = members.put(decl.getIdentNode().toString(), decl);
 				if(old != null && !(old instanceof AbstractMemberDeclNode)) {
 					// TODO this should be part of a check (that return false)
-					error.error(decl.getCoords(), "member " + decl.toString() + " of " + getUseString() + " "
+					error.error(decl.getCoords(), "member " + decl.toString() + " of " + getKind() + " "
 							+ getIdentNode() + " already defined in " + old.getParents() + "." // TODO improve error message
 					);
 				}

@@ -155,12 +155,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 
 	public static String getKindStr()
 	{
-		return "node type";
-	}
-
-	public static String getUseStr()
-	{
-		return "node type";
+		return "node class";
 	}
 
 	@Override

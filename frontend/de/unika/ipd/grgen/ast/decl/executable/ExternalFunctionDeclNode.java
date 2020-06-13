@@ -116,11 +116,6 @@ public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
 
 	public static String getKindStr()
 	{
-		return "external function declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "external function";
 	}
 }

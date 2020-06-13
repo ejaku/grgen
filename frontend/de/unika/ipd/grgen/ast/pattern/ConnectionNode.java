@@ -396,9 +396,4 @@ public class ConnectionNode extends ConnectionCharacter
 	{
 		return "connection node";
 	}
-
-	public static String getUseStr()
-	{
-		return "ConnectionNode";
-	}
 }

@@ -111,7 +111,7 @@ public class MapCopyConstructorNode extends ExprNode
 		return new MapCopyConstructor(mapToCopy.checkIR(Expression.class), mapType.checkIR(MapType.class));
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "map copy constructor";
 	}

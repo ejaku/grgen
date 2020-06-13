@@ -258,11 +258,6 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 
 	public static String getKindStr()
 	{
-		return "node declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "node";
 	}
 }

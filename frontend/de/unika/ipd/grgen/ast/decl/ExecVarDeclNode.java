@@ -103,11 +103,6 @@ public class ExecVarDeclNode extends DeclNode
 
 	public static String getKindStr()
 	{
-		return "exec variable declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "exec variable";
 	}
 

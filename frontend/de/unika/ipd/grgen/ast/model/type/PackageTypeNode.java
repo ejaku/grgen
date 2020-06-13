@@ -97,11 +97,6 @@ public class PackageTypeNode extends CompoundTypeNode
 
 	public static String getKindStr()
 	{
-		return "package type";
-	}
-
-	public static String getUseStr()
-	{
 		return "package";
 	}
 }

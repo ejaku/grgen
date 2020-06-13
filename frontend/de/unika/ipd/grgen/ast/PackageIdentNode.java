@@ -122,7 +122,7 @@ public class PackageIdentNode extends IdentNode
 		return owningPackage.getSymbol().toString() + "::" + occ.getSymbol().toString();
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "identifier";
 	}

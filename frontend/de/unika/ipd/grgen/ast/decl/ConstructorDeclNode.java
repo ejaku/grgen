@@ -86,12 +86,7 @@ public class ConstructorDeclNode extends DeclNode
 
 	public static String getKindStr()
 	{
-		return "constructor declaration";
-	}
-
-	public static String getUseStr()
-	{
-		return "constructor access";
+		return "constructor";
 	}
 
 	public Constructor getConstructor()

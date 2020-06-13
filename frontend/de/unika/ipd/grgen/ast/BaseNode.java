@@ -196,7 +196,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		names.put(getClass(), name);
 	}
 
-	public final String getKindString()
+	public final String getKind()
 	{
 		String res = "<unknown>";
 		try {
@@ -208,26 +208,13 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/**
-	 * Get a string characterising the kind of this class, for example "base node".
-	 * @return The characterisation.
+	 * Returns a string characterizing the kind of this class, for example "node class" or "rule",
+	 * the string is used for error reporting.
+	 * To be implemented as static method in all classes of relevance,
+	 * will be used via reflection in resolvers and checkers,
+	 * or via the non-static method getKind() (that uses the runtime type of the object).
 	 */
 	public static String getKindStr()
-	{
-		return "base node";
-	}
-
-	public final String getUseString()
-	{
-		String res = "<unknown>";
-		try {
-			res = (String)getClass().getMethod("getUseStr").invoke(null);
-		} catch(Exception e) {
-			assert false : e.toString();
-		}
-		return res;
-	}
-
-	public static String getUseStr()
 	{
 		return "base node";
 	}

@@ -144,11 +144,6 @@ public class MatchTypeQualIdentNode extends BaseNode /*implements DeclaredCharac
 
 	public static String getKindStr()
 	{
-		return "match class . filter";
-	}
-
-	public static String getUseStr()
-	{
-		return "match class . filter";
+		return "match class prefixed filter";
 	}
 }

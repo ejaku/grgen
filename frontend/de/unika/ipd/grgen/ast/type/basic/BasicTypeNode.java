@@ -212,11 +212,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 		return "basic type";
 	}
 
-	public static String getUseStr()
-	{
-		return "basic type";
-	}
-
 	// implements type promotion (byte/short->int, float->double)
 	public static TypeNode getArrayAccumulationResultType(TypeNode inputType)
 	{

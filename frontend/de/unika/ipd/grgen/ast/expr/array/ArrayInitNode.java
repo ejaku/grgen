@@ -133,7 +133,7 @@ public class ArrayInitNode extends ContainerSingleElementInitNode
 		return checkIR(ArrayInit.class);
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "array initialization";
 	}

@@ -133,7 +133,7 @@ public class DequeInitNode extends ContainerSingleElementInitNode
 		return checkIR(DequeInit.class);
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "deque initialization";
 	}

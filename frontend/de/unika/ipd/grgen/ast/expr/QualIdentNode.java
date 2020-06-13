@@ -175,11 +175,6 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 
 	public static String getKindStr()
 	{
-		return "member";
-	}
-
-	public static String getUseStr()
-	{
 		return "qualified identifier";
 	}
 }

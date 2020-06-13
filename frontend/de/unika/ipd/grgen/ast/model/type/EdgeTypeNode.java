@@ -184,6 +184,11 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 		return checkIR(EdgeType.class);
 	}
 
+	public static String getKindStr()
+	{
+		return "edge class";
+	}
+	
 	@Override
 	protected CollectNode<? extends InheritanceTypeNode> getExtends()
 	{

@@ -160,11 +160,6 @@ public class VarDeclNode extends DeclNode
 
 	public static String getKindStr()
 	{
-		return "variable declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "variable";
 	}
 

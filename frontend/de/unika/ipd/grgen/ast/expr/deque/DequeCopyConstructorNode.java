@@ -110,7 +110,7 @@ public class DequeCopyConstructorNode extends ExprNode
 		return new DequeCopyConstructor(dequeToCopy.checkIR(Expression.class), dequeType.checkIR(DequeType.class));
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "deque copy constructor";
 	}

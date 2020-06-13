@@ -190,7 +190,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated
 		return occ.getSymbol().toString();
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "identifier";
 	}

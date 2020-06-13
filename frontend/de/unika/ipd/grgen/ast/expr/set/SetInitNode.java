@@ -121,7 +121,7 @@ public class SetInitNode extends ContainerSingleElementInitNode
 		return checkIR(SetInit.class);
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "set initialization";
 	}

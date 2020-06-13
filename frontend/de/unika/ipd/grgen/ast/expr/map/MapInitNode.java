@@ -248,7 +248,7 @@ public class MapInitNode extends ContainerInitNode
 		return checkIR(MapInit.class);
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "map initialization";
 	}

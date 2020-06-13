@@ -110,7 +110,7 @@ public class ArrayCopyConstructorNode extends ExprNode
 		return new ArrayCopyConstructor(arrayToCopy.checkIR(Expression.class), arrayType.checkIR(ArrayType.class));
 	}
 
-	public static String getUseStr()
+	public static String getKindStr()
 	{
 		return "array copy constructor";
 	}

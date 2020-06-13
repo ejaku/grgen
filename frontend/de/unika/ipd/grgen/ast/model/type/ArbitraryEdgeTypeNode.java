@@ -46,11 +46,6 @@ public class ArbitraryEdgeTypeNode extends EdgeTypeNode
 
 	public static String getKindStr()
 	{
-		return "arbitrary edge type";
-	}
-
-	public static String getUseStr()
-	{
-		return "arbitrary edge type";
+		return "arbitrary edge class";
 	}
 }

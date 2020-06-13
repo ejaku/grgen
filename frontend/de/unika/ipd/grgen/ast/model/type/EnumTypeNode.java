@@ -122,11 +122,6 @@ public class EnumTypeNode extends CompoundTypeNode
 
 	public static String getKindStr()
 	{
-		return "enum type";
-	}
-
-	public static String getUseStr()
-	{
 		return "enum";
 	}
 }

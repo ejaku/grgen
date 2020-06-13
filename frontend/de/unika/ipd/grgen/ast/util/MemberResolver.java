@@ -112,8 +112,8 @@ public class MemberResolver<T> extends Base
 	public void failed()
 	{
 		Class<?>[] classes = new Class<?>[triedClasses.size()];
-		orginalNode.reportError("\"" + orginalNode + "\" is a " + orginalNode.getUseString() + " but a "
-				+ Util.getStrListWithOr(triedClasses.toArray(classes), BaseNode.class, "getUseStr")
+		orginalNode.reportError("\"" + orginalNode + "\" is a " + orginalNode.getKind() + " but a "
+				+ Util.getStrListWithOr(triedClasses.toArray(classes), BaseNode.class, "getKindStr")
 				+ " is expected");
 	}
 

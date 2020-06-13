@@ -110,7 +110,7 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 	{
 		TypeNode matchesContainerType = matchesContainer.getDeclType();
 		if(!(matchesContainerType instanceof ArrayTypeNode)) {
-			reportError("for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<class match<class match-class-name>>), but is given: "
+			reportError("for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<match<class match-class-name>>), but is given: "
 					+ matchesContainerType.toString());
 			return false;
 		}
@@ -123,7 +123,7 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 				? (DefinedMatchTypeNode)matchesArrayValueType
 				: null;
 		if(matchesContainerMatchType == null && matchesContainerDefinedMatchType == null) {
-			reportError("for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<class match<class match-class-name>>), but is given as array element type: "
+			reportError("for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<match<class match-class-name>>), but is given as array element type: "
 					+ matchesArrayValueType.toString());
 			return false;
 		}

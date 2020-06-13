@@ -45,8 +45,8 @@ public class DeclarationTypeResolver<T extends BaseNode> extends Resolver<T>
 		if(cls.isInstance(bn)) {
 			return cls.cast(bn);
 		}
-		bn.reportError("\"" + bn + "\" is a " + bn.getUseString() +
-				" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
+		bn.reportError("\"" + bn + "\" is a " + bn.getKind() +
+				" but a " + Util.getStr(cls, BaseNode.class, "getKindStr") + " is expected");
 		return null;
 	}
 
@@ -66,8 +66,8 @@ public class DeclarationTypeResolver<T extends BaseNode> extends Resolver<T>
 			if(cls.isInstance(resolved)) {
 				return cls.cast(resolved);
 			}
-			n.reportError("\"" + n + "\" is a " + resolved.getUseString() +
-					" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
+			n.reportError("\"" + n + "\" is a " + resolved.getKind() +
+					" but a " + Util.getStr(cls, BaseNode.class, "getKindStr") + " is expected");
 		}
 		
 		return null;

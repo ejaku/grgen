@@ -49,7 +49,7 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 		if(res != null)
 			return res;
 
-		bn.reportError("\"" + bn + "\" is a " + bn.getUseString() +
+		bn.reportError("\"" + bn + "\" is a " + bn.getKind() +
 				" but a " + getAllowedNames() + " is expected");
 		return null;
 	}
@@ -70,7 +70,7 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 		if(res != null)
 			return res;
 
-		n.reportError("\"" + n + "\" is a " + resolved.getUseString() +
+		n.reportError("\"" + n + "\" is a " + resolved.getKind() +
 				" but a " + getAllowedNames() + " is expected");
 		return null;
 	}
@@ -91,8 +91,8 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 	private String getAllowedNames()
 	{
 		if(cls != null)
-			return Util.getStr(cls, BaseNode.class, "getUseStr");
+			return Util.getStr(cls, BaseNode.class, "getKindStr");
 		else
-			return Util.getStrListWithOr(classes, BaseNode.class, "getUseStr");
+			return Util.getStrListWithOr(classes, BaseNode.class, "getKindStr");
 	}
 }

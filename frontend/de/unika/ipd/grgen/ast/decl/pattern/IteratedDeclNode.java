@@ -225,11 +225,6 @@ public class IteratedDeclNode extends ActionDeclNode
 
 	public static String getKindStr()
 	{
-		return "iterated node";
-	}
-
-	public static String getUseStr()
-	{
 		return "iterated";
 	}
 }

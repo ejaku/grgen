@@ -201,11 +201,6 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 
 	public static String getKindStr()
 	{
-		return "filter function declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "filter function";
 	}
 }

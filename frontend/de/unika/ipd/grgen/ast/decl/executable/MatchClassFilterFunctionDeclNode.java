@@ -204,11 +204,6 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 
 	public static String getKindStr()
 	{
-		return "match class filter function declaration";
-	}
-
-	public static String getUseStr()
-	{
 		return "match class filter function";
 	}
 }
