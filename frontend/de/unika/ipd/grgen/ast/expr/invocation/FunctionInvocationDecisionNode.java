@@ -59,6 +59,7 @@ import de.unika.ipd.grgen.ast.expr.graph.UniqueofExprNode;
 import de.unika.ipd.grgen.ast.expr.procenv.RandomNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.FunctionTypeNode;
+import de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 import de.unika.ipd.grgen.util.Direction;
@@ -109,117 +110,119 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 	@Override
 	protected boolean resolveLocal()
 	{
-		result = decide(functionIdent.toString());
+		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(env, error, getCoords());
+		result = decide(functionIdent.toString(), arguments, resolvingEnvironment);
 		return result != null;
 	}
 	
-	private BuiltinFunctionInvocationBaseNode decide(String functionName)
+	private static BuiltinFunctionInvocationBaseNode decide(String functionName, CollectNode<ExprNode> arguments,
+			ResolvingEnvironment env)
 	{
 		switch(functionName) {
 		case "random":
 			if(arguments.size() == 1)
-				return new RandomNode(getCoords(), arguments.get(0));
+				return new RandomNode(env.getCoords(), arguments.get(0));
 			else if(arguments.size() == 0)
-				return new RandomNode(getCoords(), null);
+				return new RandomNode(env.getCoords(), null);
 			else {
-				reportError("random(.)/random() takes one or no parameters.");
+				env.reportError("random(.)/random() takes one or no parameters.");
 				return null;
 			}
 		case "nodes":
 			if(arguments.size() > 1) {
-				reportError("nodes() takes one or none parameter.");
+				env.reportError("nodes() takes one or none parameter.");
 				return null;
 			} else {
-				return new NodesExprNode(getCoords(),
-						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getNodeRoot()));
+				return new NodesExprNode(env.getCoords(),
+						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			}
 		case "edges":
 			if(arguments.size() > 1) {
-				reportError("edges() takes one or none parameter.");
+				env.reportError("edges() takes one or none parameter.");
 				return null;
 			} else {
-				return new EdgesExprNode(getCoords(),
-						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getArbitraryEdgeRoot()));
+				return new EdgesExprNode(env.getCoords(),
+						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()));
 			}
 		case "countNodes":
 			if(arguments.size() > 1) {
-				reportError("countNodes() takes one or none parameter.");
+				env.reportError("countNodes() takes one or none parameter.");
 				return null;
 			} else {
-				return new CountNodesExprNode(getCoords(),
-						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getNodeRoot()));
+				return new CountNodesExprNode(env.getCoords(),
+						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			}
 		case "countEdges":
 			if(arguments.size() > 1) {
-				reportError("countEdges() takes one or none parameter.");
+				env.reportError("countEdges() takes one or none parameter.");
 				return null;
 			} else {
-				return new CountEdgesExprNode(getCoords(),
-						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getArbitraryEdgeRoot()));
+				return new CountEdgesExprNode(env.getCoords(),
+						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()));
 			}
 		case "empty":
 			if(arguments.size() > 0) {
-				reportError("empty() takes no parameters.");
+				env.reportError("empty() takes no parameters.");
 				return null;
 			} else
-				return new EmptyExprNode(getCoords());
+				return new EmptyExprNode(env.getCoords());
 		case "size":
 			if(arguments.size() > 0) {
-				reportError("size() takes no parameters.");
+				env.reportError("size() takes no parameters.");
 				return null;
 			} else
-				return new SizeExprNode(getCoords());
+				return new SizeExprNode(env.getCoords());
 		case "source":
 			if(arguments.size() == 1)
-				return new SourceExprNode(getCoords(), arguments.get(0), env.getNodeRoot());
+				return new SourceExprNode(env.getCoords(), arguments.get(0), env.getParserEnvironment().getNodeRoot());
 			else {
-				reportError(functionName + "() takes 1 parameter.");
+				env.reportError(functionName + "() takes 1 parameter.");
 				return null;
 			}
 		case "target":
 			if(arguments.size() == 1)
-				return new TargetExprNode(getCoords(), arguments.get(0), env.getNodeRoot());
+				return new TargetExprNode(env.getCoords(), arguments.get(0), env.getParserEnvironment().getNodeRoot());
 			else {
-				reportError(functionName + "() takes 1 parameter.");
+				env.reportError(functionName + "() takes 1 parameter.");
 				return null;
 			}
 		case "opposite":
 			if(arguments.size() == 2)
-				return new OppositeExprNode(getCoords(), arguments.get(0), arguments.get(1), env.getNodeRoot());
+				return new OppositeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), env.getParserEnvironment().getNodeRoot());
 			else {
-				reportError(functionName + "() takes 2 parameters.");
+				env.reportError(functionName + "() takes 2 parameters.");
 				return null;
 			}
 		case "nodeByName":
 			if(arguments.size() >= 1 && arguments.size() <= 2) {
-				return new NodeByNameExprNode(getCoords(), arguments.get(0),
-						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getNodeRoot()));
+				return new NodeByNameExprNode(env.getCoords(), arguments.get(0),
+						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else {
-				reportError(functionName + "() takes one or two parameters.");
+				env.reportError(functionName + "() takes one or two parameters.");
 				return null;
 			}
 		case "edgeByName":
 			if(arguments.size() >= 1 && arguments.size() <= 2) {
-				return new EdgeByNameExprNode(getCoords(), arguments.get(0),
-						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getArbitraryEdgeRoot()));
+				return new EdgeByNameExprNode(env.getCoords(), arguments.get(0),
+						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()));
 			} else {
-				reportError(functionName + "() takes one or two parameters.");
+				env.reportError(functionName + "() takes one or two parameters.");
 				return null;
 			}
 		case "nodeByUnique":
 			if(arguments.size() >= 1 && arguments.size() <= 2) {
-				return new NodeByUniqueExprNode(getCoords(), arguments.get(0),
-						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getNodeRoot()));
+				return new NodeByUniqueExprNode(env.getCoords(), arguments.get(0),
+						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else {
-				reportError(functionName + "() takes one or two parameters.");
+				env.reportError(functionName + "() takes one or two parameters.");
 				return null;
 			}
 		case "edgeByUnique":
 			if(arguments.size() >= 1 && arguments.size() <= 2) {
-				return new EdgeByUniqueExprNode(getCoords(), arguments.get(0),
-						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getArbitraryEdgeRoot()));
+				return new EdgeByUniqueExprNode(env.getCoords(), arguments.get(0),
+						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()));
 			} else {
-				reportError(functionName + "() takes one or two parameters.");
+				env.reportError(functionName + "() takes one or two parameters.");
 				return null;
 			}
 		case "incoming":
@@ -228,15 +231,15 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
-				return new IncidentEdgeExprNode(getCoords(), arguments.get(0),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new IncidentEdgeExprNode(env.getCoords(), arguments.get(0),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 2) {
-				return new IncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
-						new IdentExprNode(env.getNodeRoot()));
+				return new IncidentEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
+						new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new IncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
+				return new IncidentEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
-				reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() takes 1-3 parameters.");
 				return null;
 			}
 		}
@@ -246,15 +249,15 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
-				return new AdjacentNodeExprNode(getCoords(), arguments.get(0),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new AdjacentNodeExprNode(env.getCoords(), arguments.get(0),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 2) {
-				return new AdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
-						new IdentExprNode(env.getNodeRoot()));
+				return new AdjacentNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
+						new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new AdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
+				return new AdjacentNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
-				reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() takes 1-3 parameters.");
 				return null;
 			}
 		}
@@ -264,16 +267,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
-				return new CountIncidentEdgeExprNode(getCoords(), arguments.get(0),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new CountIncidentEdgeExprNode(env.getCoords(), arguments.get(0),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 2) {
-				return new CountIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
-						new IdentExprNode(env.getNodeRoot()));
+				return new CountIncidentEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
+						new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new CountIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
+				return new CountIncidentEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
 						arguments.get(2));
 			} else {
-				reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() takes 1-3 parameters.");
 				return null;
 			}
 		}
@@ -283,16 +286,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
-				return new CountAdjacentNodeExprNode(getCoords(), arguments.get(0),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new CountAdjacentNodeExprNode(env.getCoords(), arguments.get(0),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 2) {
-				return new CountAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
-						new IdentExprNode(env.getNodeRoot()));
+				return new CountAdjacentNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
+						new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new CountAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
+				return new CountAdjacentNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
 						arguments.get(2));
 			} else {
-				reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() takes 1-3 parameters.");
 				return null;
 			}
 		}
@@ -302,16 +305,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
-				return new IsIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new IsIncidentEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new IsIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
-						new IdentExprNode(env.getNodeRoot()));
+				return new IsIncidentEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
+						new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new IsIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
+				return new IsIncidentEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
 						arguments.get(3));
 			} else {
-				reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() takes 2-4 parameters.");
 				return null;
 			}
 		}
@@ -321,16 +324,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
-				return new IsAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new IsAdjacentNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new IsAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
-						new IdentExprNode(env.getNodeRoot()));
+				return new IsAdjacentNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
+						new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new IsAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
+				return new IsAdjacentNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
 						arguments.get(3));
 			} else {
-				reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() takes 2-4 parameters.");
 				return null;
 			}
 		}
@@ -340,15 +343,15 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
-				return new ReachableEdgeExprNode(getCoords(), arguments.get(0),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new ReachableEdgeExprNode(env.getCoords(), arguments.get(0),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 2) {
-				return new ReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
-						new IdentExprNode(env.getNodeRoot()));
+				return new ReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
+						new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new ReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
+				return new ReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
-				reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() takes 1-3 parameters.");
 				return null;
 			}
 		}
@@ -358,15 +361,15 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
-				return new ReachableNodeExprNode(getCoords(), arguments.get(0),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new ReachableNodeExprNode(env.getCoords(), arguments.get(0),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 2) {
-				return new ReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
-						new IdentExprNode(env.getNodeRoot()));
+				return new ReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
+						new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new ReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
+				return new ReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
-				reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() takes 1-3 parameters.");
 				return null;
 			}
 		}
@@ -376,16 +379,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
-				return new CountReachableEdgeExprNode(getCoords(), arguments.get(0),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new CountReachableEdgeExprNode(env.getCoords(), arguments.get(0),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 2) {
-				return new CountReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
-						new IdentExprNode(env.getNodeRoot()));
+				return new CountReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
+						new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new CountReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
+				return new CountReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
 						arguments.get(2));
 			} else {
-				reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() takes 1-3 parameters.");
 				return null;
 			}
 		}
@@ -395,16 +398,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 1) {
-				return new CountReachableNodeExprNode(getCoords(), arguments.get(0),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new CountReachableNodeExprNode(env.getCoords(), arguments.get(0),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 2) {
-				return new CountReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
-						new IdentExprNode(env.getNodeRoot()));
+				return new CountReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
+						new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new CountReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
+				return new CountReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
 						arguments.get(2));
 			} else {
-				reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() takes 1-3 parameters.");
 				return null;
 			}
 		}
@@ -414,16 +417,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
-				return new IsReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new IsReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new IsReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
-						direction, new IdentExprNode(env.getNodeRoot()));
+				return new IsReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new IsReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+				return new IsReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() takes 2-4 parameters.");
 				return null;
 			}
 		}
@@ -433,16 +436,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
-				return new IsReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new IsReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new IsReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
-						direction, new IdentExprNode(env.getNodeRoot()));
+				return new IsReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new IsReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+				return new IsReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() takes 2-4 parameters.");
 				return null;
 			}
 		}
@@ -452,16 +455,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
-				return new BoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new BoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new BoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
-						direction, new IdentExprNode(env.getNodeRoot()));
+				return new BoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new BoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+				return new BoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() takes 2-4 parameters.");
 				return null;
 			}
 		}
@@ -471,16 +474,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
-				return new BoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new BoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new BoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
-						direction, new IdentExprNode(env.getNodeRoot()));
+				return new BoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new BoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+				return new BoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() takes 2-4 parameters.");
 				return null;
 			}
 		}
@@ -490,16 +493,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
-				return new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), arguments.get(0), arguments.get(1),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new BoundedReachableNodeWithRemainingDepthExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), arguments.get(0), arguments.get(1),
-						arguments.get(2), direction, new IdentExprNode(env.getNodeRoot()));
+				return new BoundedReachableNodeWithRemainingDepthExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
+						arguments.get(2), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), arguments.get(0), arguments.get(1),
+				return new BoundedReachableNodeWithRemainingDepthExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
 						arguments.get(2), direction, arguments.get(3));
 			} else {
-				reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() takes 2-4 parameters.");
 				return null;
 			}
 		}
@@ -509,16 +512,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
-				return new CountBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new CountBoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new CountBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
-						direction, new IdentExprNode(env.getNodeRoot()));
+				return new CountBoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new CountBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+				return new CountBoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() takes 2-4 parameters.");
 				return null;
 			}
 		}
@@ -528,16 +531,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 2) {
-				return new CountBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new CountBoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 3) {
-				return new CountBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
-						direction, new IdentExprNode(env.getNodeRoot()));
+				return new CountBoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new CountBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+				return new CountBoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() takes 2-4 parameters.");
 				return null;
 			}
 		}
@@ -547,16 +550,16 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 3) {
-				return new IsBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new IsBoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new IsBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
-						arguments.get(3), direction, new IdentExprNode(env.getNodeRoot()));
+				return new IsBoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						arguments.get(3), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 5) {
-				return new IsBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+				return new IsBoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						arguments.get(3), direction, arguments.get(4));
 			} else {
-				reportError(functionName + "() takes 3-5 parameters.");
+				env.reportError(functionName + "() takes 3-5 parameters.");
 				return null;
 			}
 		}
@@ -566,65 +569,65 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 		{
 			Direction direction = getDirection(functionName);
 			if(arguments.size() == 3) {
-				return new IsBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
-						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
+				return new IsBoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 4) {
-				return new IsBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
-						arguments.get(3), direction, new IdentExprNode(env.getNodeRoot()));
+				return new IsBoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						arguments.get(3), direction, new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else if(arguments.size() == 5) {
-				return new IsBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+				return new IsBoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						arguments.get(3), direction, arguments.get(4));
 			} else {
-				reportError(functionName + "() takes 3-5 parameters.");
+				env.reportError(functionName + "() takes 3-5 parameters.");
 				return null;
 			}
 		}
 		case "inducedSubgraph":
 			if(arguments.size() != 1) {
-				reportError("inducedSubgraph(.) takes one parameter.");
+				env.reportError("inducedSubgraph(.) takes one parameter.");
 				return null;
 			} else
-				return new InducedSubgraphExprNode(getCoords(), arguments.get(0));
+				return new InducedSubgraphExprNode(env.getCoords(), arguments.get(0));
 		case "definedSubgraph":
 			if(arguments.size() != 1) {
-				reportError("definedSubgraph(.) takes one parameter.");
+				env.reportError("definedSubgraph(.) takes one parameter.");
 				return null;
 			} else
-				return new DefinedSubgraphExprNode(getCoords(), arguments.get(0));
+				return new DefinedSubgraphExprNode(env.getCoords(), arguments.get(0));
 		case "equalsAny":
 			if(arguments.size() != 2) {
-				reportError("equalsAny(.,.) takes two parameters.");
+				env.reportError("equalsAny(.,.) takes two parameters.");
 				return null;
 			} else
-				return new EqualsAnyExprNode(getCoords(), arguments.get(0), arguments.get(1), true);
+				return new EqualsAnyExprNode(env.getCoords(), arguments.get(0), arguments.get(1), true);
 		case "equalsAnyStructurally":
 			if(arguments.size() != 2) {
-				reportError("equalsAnyStructurally(.,.) takes two parameters.");
+				env.reportError("equalsAnyStructurally(.,.) takes two parameters.");
 				return null;
 			} else
-				return new EqualsAnyExprNode(getCoords(), arguments.get(0), arguments.get(1), false);
+				return new EqualsAnyExprNode(env.getCoords(), arguments.get(0), arguments.get(1), false);
 		case "copy":
 			if(arguments.size() != 1) {
-				reportError("copy(.) takes one parameter.");
+				env.reportError("copy(.) takes one parameter.");
 				return null;
 			} else
-				return new CopyExprNode(getCoords(), arguments.get(0));
+				return new CopyExprNode(env.getCoords(), arguments.get(0));
 		case "canonize":
 			if(arguments.size() != 1) {
-				reportError("canonize(.) takes one parameter.");
+				env.reportError("canonize(.) takes one parameter.");
 				return null;
 			} else
-				return new CanonizeExprNode(getCoords(), arguments.get(0));
+				return new CanonizeExprNode(env.getCoords(), arguments.get(0));
 		case "uniqueof":
 			if(arguments.size() > 1) {
-				reportError("uniqueof(.) takes none or one parameter.");
+				env.reportError("uniqueof(.) takes none or one parameter.");
 				return null;
 			} else if(arguments.size() == 1)
-				return new UniqueofExprNode(getCoords(), arguments.get(0));
+				return new UniqueofExprNode(env.getCoords(), arguments.get(0));
 			else
-				return new UniqueofExprNode(getCoords(), null);
+				return new UniqueofExprNode(env.getCoords(), null);
 		default:
-			reportError("no function " + functionName + " known");
+			env.reportError("no function " + functionName + " known");
 			return null;
 		}
 	}

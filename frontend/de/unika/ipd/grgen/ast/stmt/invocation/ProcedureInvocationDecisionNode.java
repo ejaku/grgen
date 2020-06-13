@@ -42,6 +42,7 @@ import de.unika.ipd.grgen.ast.stmt.procenv.EmitProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.RecordProcNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.ProcedureTypeNode;
+import de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
@@ -54,7 +55,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	static TypeNode procedureTypeNode = new ProcedureTypeNode();
 
 	protected IdentNode procedureIdent;
-	private BuiltinProcedureInvocationBaseNode result;
+	protected BuiltinProcedureInvocationBaseNode result;
 
 	ParserEnvironment env;
 
@@ -91,177 +92,178 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	@Override
 	protected boolean resolveLocal()
 	{
-		result = decide();
+		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(env, error, getCoords());
+		result = decide(procedureIdent.toString(), arguments, resolvingEnvironment);
 		return result != null;
 	}
 	
-	protected BuiltinProcedureInvocationBaseNode decide()
+	private static BuiltinProcedureInvocationBaseNode decide(String procedureName, CollectNode<ExprNode> arguments,
+			ResolvingEnvironment env)
 	{
-		String procedureName = procedureIdent.toString();
 		switch(procedureName) {
 		case "add":
 			if(arguments.size() == 1) {
-				return new GraphAddNodeProcNode(getCoords(), arguments.get(0));
+				return new GraphAddNodeProcNode(env.getCoords(), arguments.get(0));
 			} else if(arguments.size() == 3) {
-				return new GraphAddEdgeProcNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
+				return new GraphAddEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			} else {
-				reportError(procedureName + "() takes 1 or 3 parameters.");
+				env.reportError(procedureName + "() takes 1 or 3 parameters.");
 				return null;
 			}
 		case "retype":
 			if(arguments.size() == 2) {
-				return new GraphRetypeProcNode(getCoords(), arguments.get(0), arguments.get(1));
+				return new GraphRetypeProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
 			} else {
-				reportError(procedureName + "() takes 2 parameters.");
+				env.reportError(procedureName + "() takes 2 parameters.");
 				return null;
 			}
 		case "insert":
 			if(arguments.size() != 1) {
-				reportError("insert(.) takes one parameter.");
+				env.reportError("insert(.) takes one parameter.");
 				return null;
 			} else
-				return new InsertProcNode(getCoords(), arguments.get(0));
+				return new InsertProcNode(env.getCoords(), arguments.get(0));
 		case "insertCopy":
 			if(arguments.size() != 2) {
-				reportError("insertCopy(.,.) takes two parameters.");
+				env.reportError("insertCopy(.,.) takes two parameters.");
 				return null;
 			} else
-				return new InsertCopyProcNode(getCoords(), arguments.get(0), arguments.get(1));
+				return new InsertCopyProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
 		case "insertInduced":
 			if(arguments.size() != 2) {
-				reportError("insertInduced(.,.) takes two parameters.");
+				env.reportError("insertInduced(.,.) takes two parameters.");
 				return null;
 			} else
-				return new InsertInducedSubgraphProcNode(getCoords(), arguments.get(0), arguments.get(1));
+				return new InsertInducedSubgraphProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
 		case "insertDefined":
 			if(arguments.size() != 2) {
-				reportError("insertDefined(.,.) takes two parameters.");
+				env.reportError("insertDefined(.,.) takes two parameters.");
 				return null;
 			} else
-				return new InsertDefinedSubgraphProcNode(getCoords(), arguments.get(0), arguments.get(1));
+				return new InsertDefinedSubgraphProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
 		case "valloc":
 			if(arguments.size() != 0) {
-				reportError("valloc() takes no parameters.");
+				env.reportError("valloc() takes no parameters.");
 				return null;
 			} else
-				return new VAllocProcNode(getCoords());
+				return new VAllocProcNode(env.getCoords());
 		case "rem":
 			if(arguments.size() != 1) {
-				reportError("rem(value) takes one parameter.");
+				env.reportError("rem(value) takes one parameter.");
 				return null;
 			} else {
-				return new GraphRemoveProcNode(getCoords(), arguments.get(0));
+				return new GraphRemoveProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "clear":
 			if(arguments.size() != 0) {
-				reportError("clear() takes no parameters.");
+				env.reportError("clear() takes no parameters.");
 				return null;
 			} else {
-				return new GraphClearProcNode(getCoords());
+				return new GraphClearProcNode(env.getCoords());
 			}
 		case "vfree":
 			if(arguments.size() != 1) {
-				reportError("vfree(value) takes one parameter.");
+				env.reportError("vfree(value) takes one parameter.");
 				return null;
 			} else {
-				return new VFreeProcNode(getCoords(), arguments.get(0));
+				return new VFreeProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "vfreenonreset":
 			if(arguments.size() != 1) {
-				reportError("vfreenonreset(value) takes one parameter.");
+				env.reportError("vfreenonreset(value) takes one parameter.");
 				return null;
 			} else {
-				return new VFreeNonResetProcNode(getCoords(), arguments.get(0));
+				return new VFreeNonResetProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "vreset":
 			if(arguments.size() != 1) {
-				reportError("vreset(value) takes one parameter.");
+				env.reportError("vreset(value) takes one parameter.");
 				return null;
 			} else {
-				return new VResetProcNode(getCoords(), arguments.get(0));
+				return new VResetProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "record":
 			if(arguments.size() != 1) {
-				reportError("record(value) takes one parameter.");
+				env.reportError("record(value) takes one parameter.");
 				return null;
 			} else {
-				return new RecordProcNode(getCoords(), arguments.get(0));
+				return new RecordProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "emit":
 			if(arguments.size() >= 1) {
-				EmitProcNode emit = new EmitProcNode(getCoords(), false);
+				EmitProcNode emit = new EmitProcNode(env.getCoords(), false);
 				for(ExprNode param : arguments.getChildren()) {
 					emit.addExpression(param);
 				}
 				return emit;
 			} else {
-				reportError("emit() takes at least one parameter.");
+				env.reportError("emit() takes at least one parameter.");
 				return null;
 			}
 		case "emitdebug":
 			if(arguments.size() >= 1) {
-				EmitProcNode emit = new EmitProcNode(getCoords(), true);
+				EmitProcNode emit = new EmitProcNode(env.getCoords(), true);
 				for(ExprNode param : arguments.getChildren()) {
 					emit.addExpression(param);
 				}
 				return emit;
 			} else {
-				reportError("emitdebug() takes at least one parameter.");
+				env.reportError("emitdebug() takes at least one parameter.");
 				return null;
 			}
 		case "addCopy":
 			if(arguments.size() == 1) {
-				return new GraphAddCopyNodeProcNode(getCoords(), arguments.get(0));
+				return new GraphAddCopyNodeProcNode(env.getCoords(), arguments.get(0));
 			} else if(arguments.size() == 3) {
-				return new GraphAddCopyEdgeProcNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
+				return new GraphAddCopyEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			} else {
-				reportError(procedureName + "() takes 1 or 3 parameters.");
+				env.reportError(procedureName + "() takes 1 or 3 parameters.");
 				return null;
 			}
 		case "merge":
 			if(arguments.size() < 2 || arguments.size() > 3) {
-				reportError("merge(target,source,oldSourceName) takes two or three parameters.");
+				env.reportError("merge(target,source,oldSourceName) takes two or three parameters.");
 				return null;
 			} else {
 				if(arguments.size() == 2)
-					return new GraphMergeProcNode(getCoords(), arguments.get(0), arguments.get(1), null);
+					return new GraphMergeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), null);
 				else
-					return new GraphMergeProcNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
+					return new GraphMergeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			}
 		case "redirectSource":
 			if(arguments.size() < 2 || arguments.size() > 3) {
-				reportError("redirectSource(edge,newSource,oldSourceName) takes two or three parameters.");
+				env.reportError("redirectSource(edge,newSource,oldSourceName) takes two or three parameters.");
 				return null;
 			} else {
 				if(arguments.size() == 2)
-					return new GraphRedirectSourceProcNode(getCoords(), arguments.get(0), arguments.get(1), null);
+					return new GraphRedirectSourceProcNode(env.getCoords(), arguments.get(0), arguments.get(1), null);
 				else
-					return new GraphRedirectSourceProcNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
+					return new GraphRedirectSourceProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			}
 		case "redirectTarget":
 			if(arguments.size() < 2 || arguments.size() > 3) {
-				reportError("redirectTarget(edge,newTarget,oldTargetName) takes two or three parameters.");
+				env.reportError("redirectTarget(edge,newTarget,oldTargetName) takes two or three parameters.");
 				return null;
 			} else {
 				if(arguments.size() == 2)
-					return new GraphRedirectTargetProcNode(getCoords(), arguments.get(0), arguments.get(1), null);
+					return new GraphRedirectTargetProcNode(env.getCoords(), arguments.get(0), arguments.get(1), null);
 				else
-					return new GraphRedirectTargetProcNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
+					return new GraphRedirectTargetProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			}
 		case "redirectSourceAndTarget":
 			if(arguments.size() != 3 && arguments.size() != 5) {
-				reportError("redirectSourceAndTarget(edge,newSource,newTarget,oldSourceName,oldTargetName) takes three or five parameters.");
+				env.reportError("redirectSourceAndTarget(edge,newSource,newTarget,oldSourceName,oldTargetName) takes three or five parameters.");
 				return null;
 			} else {
 				if(arguments.size() == 3)
-					return new GraphRedirectSourceAndTargetProcNode(getCoords(), arguments.get(0), arguments.get(1),
+					return new GraphRedirectSourceAndTargetProcNode(env.getCoords(), arguments.get(0), arguments.get(1),
 							arguments.get(2), null, null);
 				else
-					return new GraphRedirectSourceAndTargetProcNode(getCoords(), arguments.get(0), arguments.get(1),
+					return new GraphRedirectSourceAndTargetProcNode(env.getCoords(), arguments.get(0), arguments.get(1),
 							arguments.get(2), arguments.get(3), arguments.get(4));
 			}
 		default:
-			reportError("no computation " + procedureName + " known");
+			env.reportError("no computation " + procedureName + " known");
 			return null;
 		}
 	}

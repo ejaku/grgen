@@ -26,6 +26,7 @@ import de.unika.ipd.grgen.ast.stmt.procenv.PauseTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.ResumeTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.RollbackTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.StartTransactionProcNode;
+import de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
 public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationDecisionNode
@@ -44,117 +45,124 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 	}
 
 	@Override
-	protected BuiltinProcedureInvocationBaseNode decide()
+	protected boolean resolveLocal()
 	{
-		String procedureName = procedureIdent.toString();
-		switch(package_ + "::" + procedureName) {
+		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(env, error, getCoords());
+		result = decide(package_ + "::" + procedureIdent.toString(), arguments, resolvingEnvironment);
+		return result != null;
+	}
+
+	private static BuiltinProcedureInvocationBaseNode decide(String procedureName, CollectNode<ExprNode> arguments,
+			ResolvingEnvironment env)
+	{
+		switch(procedureName) {
 		case "Transaction::start":
 			if(arguments.size() != 0) {
-				reportError("Transaction::start() takes no parameters.");
+				env.reportError("Transaction::start() takes no parameters.");
 				return null;
 			} else
-				return new StartTransactionProcNode(getCoords());
+				return new StartTransactionProcNode(env.getCoords());
 		case "File::export":
 			if(arguments.size() == 1) {
-				return new ExportProcNode(getCoords(), arguments.get(0), null);
+				return new ExportProcNode(env.getCoords(), arguments.get(0), null);
 			} else if(arguments.size() == 2) {
-				return new ExportProcNode(getCoords(), arguments.get(1), arguments.get(0));
+				return new ExportProcNode(env.getCoords(), arguments.get(1), arguments.get(0));
 			} else {
-				reportError("File::export() takes 1 (filepath) or 2 (graph, filepath) parameters.");
+				env.reportError("File::export() takes 1 (filepath) or 2 (graph, filepath) parameters.");
 				return null;
 			}
 		case "File::delete":
 			if(arguments.size() == 1) {
-				return new DeleteFileProcNode(getCoords(), arguments.get(0));
+				return new DeleteFileProcNode(env.getCoords(), arguments.get(0));
 			} else {
-				reportError("File::delete() takes 1 (filepath) parameters.");
+				env.reportError("File::delete() takes 1 (filepath) parameters.");
 				return null;
 			}
 		case "Debug::add":
 			if(arguments.size() >= 1) {
-				DebugAddProcNode add = new DebugAddProcNode(getCoords());
+				DebugAddProcNode add = new DebugAddProcNode(env.getCoords());
 				for(ExprNode param : arguments.getChildren()) {
 					add.addExpression(param);
 				}
 				return add;
 			} else {
-				reportError("Debug::add() takes at least one parameter, the message/computation entered.");
+				env.reportError("Debug::add() takes at least one parameter, the message/computation entered.");
 				return null;
 			}
 		case "Debug::rem":
 			if(arguments.size() >= 1) {
-				DebugRemProcNode rem = new DebugRemProcNode(getCoords());
+				DebugRemProcNode rem = new DebugRemProcNode(env.getCoords());
 				for(ExprNode param : arguments.getChildren()) {
 					rem.addExpression(param);
 				}
 				return rem;
 			} else {
-				reportError("Debug::rem() takes at least one parameter, the message/computation left.");
+				env.reportError("Debug::rem() takes at least one parameter, the message/computation left.");
 				return null;
 			}
 		case "Debug::emit":
 			if(arguments.size() >= 1) {
-				DebugEmitProcNode emit = new DebugEmitProcNode(getCoords());
+				DebugEmitProcNode emit = new DebugEmitProcNode(env.getCoords());
 				for(ExprNode param : arguments.getChildren()) {
 					emit.addExpression(param);
 				}
 				return emit;
 			} else {
-				reportError("Debug::emit() takes at least one parameter, the message to report.");
+				env.reportError("Debug::emit() takes at least one parameter, the message to report.");
 				return null;
 			}
 		case "Debug::halt":
 			if(arguments.size() >= 1) {
-				DebugHaltProcNode halt = new DebugHaltProcNode(getCoords());
+				DebugHaltProcNode halt = new DebugHaltProcNode(env.getCoords());
 				for(ExprNode param : arguments.getChildren()) {
 					halt.addExpression(param);
 				}
 				return halt;
 			} else {
-				reportError("Debug::halt() takes at least one parameter, the message to report.");
+				env.reportError("Debug::halt() takes at least one parameter, the message to report.");
 				return null;
 			}
 		case "Debug::highlight":
 			if(arguments.size() % 2 == 1) {
-				DebugHighlightProcNode highlight = new DebugHighlightProcNode(getCoords());
+				DebugHighlightProcNode highlight = new DebugHighlightProcNode(env.getCoords());
 				for(ExprNode param : arguments.getChildren()) {
 					highlight.addExpression(param);
 				}
 				return highlight;
 			} else {
-				reportError("Debug::highlight() takes an odd number of parameters, first the message, then a series of pairs of the value to highlight followed by its annotation.");
+				env.reportError("Debug::highlight() takes an odd number of parameters, first the message, then a series of pairs of the value to highlight followed by its annotation.");
 				return null;
 			}
 		case "Transaction::pause":
 			if(arguments.size() != 0) {
-				reportError("Transaction::pause() takes no parameters.");
+				env.reportError("Transaction::pause() takes no parameters.");
 				return null;
 			} else {
-				return new PauseTransactionProcNode(getCoords());
+				return new PauseTransactionProcNode(env.getCoords());
 			}
 		case "Transaction::resume":
 			if(arguments.size() != 0) {
-				reportError("Transaction::resume() takes no parameters.");
+				env.reportError("Transaction::resume() takes no parameters.");
 				return null;
 			} else {
-				return new ResumeTransactionProcNode(getCoords());
+				return new ResumeTransactionProcNode(env.getCoords());
 			}
 		case "Transaction::commit":
 			if(arguments.size() != 1) {
-				reportError("Transaction::commit(transactionId) takes one parameter.");
+				env.reportError("Transaction::commit(transactionId) takes one parameter.");
 				return null;
 			} else {
-				return new CommitTransactionProcNode(getCoords(), arguments.get(0));
+				return new CommitTransactionProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "Transaction::rollback":
 			if(arguments.size() != 1) {
-				reportError("Transaction::rollback(transactionId) takes one parameter.");
+				env.reportError("Transaction::rollback(transactionId) takes one parameter.");
 				return null;
 			} else {
-				return new RollbackTransactionProcNode(getCoords(), arguments.get(0));
+				return new RollbackTransactionProcNode(env.getCoords(), arguments.get(0));
 			}
 		default:
-			reportError("no computation " + procedureName + " known");
+			env.reportError("no computation " + procedureName + " known");
 			return null;
 		}
 	}

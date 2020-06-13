@@ -50,6 +50,7 @@ import de.unika.ipd.grgen.ast.expr.procenv.ImportExprNode;
 import de.unika.ipd.grgen.ast.expr.procenv.NowExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.FunctionTypeNode;
+import de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
@@ -101,245 +102,247 @@ public class PackageFunctionInvocationDecisionNode extends FunctionInvocationBas
 	@Override
 	protected boolean resolveLocal()
 	{
-		result = decide(package_, functionIdent.toString());
+		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(null, error, getCoords());
+		result = decide(package_ + "::" + functionIdent.toString(), arguments, resolvingEnvironment);
 		return result != null;
 	}
 	
-	private BuiltinFunctionInvocationBaseNode decide(String package_, String functionName)
+	private static BuiltinFunctionInvocationBaseNode decide(String functionName, CollectNode<ExprNode> arguments,
+			ResolvingEnvironment env)
 	{
-		switch(package_ + "::" + functionName) {
+		switch(functionName) {
 		case "Math::min":
 			if(arguments.size() != 2) {
-				reportError("Math::min(.,.) takes two parameters.");
+				env.reportError("Math::min(.,.) takes two parameters.");
 				return null;
 			} else
-				return new MinExprNode(getCoords(), arguments.get(0), arguments.get(1));
+				return new MinExprNode(env.getCoords(), arguments.get(0), arguments.get(1));
 		case "Math::max":
 			if(arguments.size() != 2) {
-				reportError("Math::max(.,.) takes two parameters.");
+				env.reportError("Math::max(.,.) takes two parameters.");
 				return null;
 			} else
-				return new MaxExprNode(getCoords(), arguments.get(0), arguments.get(1));
+				return new MaxExprNode(env.getCoords(), arguments.get(0), arguments.get(1));
 		case "Math::sin":
 			if(arguments.size() != 1) {
-				reportError("Math::sin(.) takes one parameter.");
+				env.reportError("Math::sin(.) takes one parameter.");
 				return null;
 			} else {
-				return new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TrigonometryFunctionType.sin,
+				return new SinCosTanExprNode(env.getCoords(), SinCosTanExprNode.TrigonometryFunctionType.sin,
 						arguments.get(0));
 			}
 		case "Math::cos":
 			if(arguments.size() != 1) {
-				reportError("Math::cos(.) takes one parameter.");
+				env.reportError("Math::cos(.) takes one parameter.");
 				return null;
 			} else {
-				return new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TrigonometryFunctionType.cos,
+				return new SinCosTanExprNode(env.getCoords(), SinCosTanExprNode.TrigonometryFunctionType.cos,
 						arguments.get(0));
 			}
 		case "Math::tan":
 			if(arguments.size() != 1) {
-				reportError("Math::tan(.) takes one parameter.");
+				env.reportError("Math::tan(.) takes one parameter.");
 				return null;
 			} else {
-				return new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TrigonometryFunctionType.tan,
+				return new SinCosTanExprNode(env.getCoords(), SinCosTanExprNode.TrigonometryFunctionType.tan,
 						arguments.get(0));
 			}
 		case "Math::arcsin":
 			if(arguments.size() != 1) {
-				reportError("Math::arcsin(.) takes one parameter.");
+				env.reportError("Math::arcsin(.) takes one parameter.");
 				return null;
 			} else {
-				return new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arcsin,
+				return new ArcSinCosTanExprNode(env.getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arcsin,
 						arguments.get(0));
 			}
 		case "Math::arccos":
 			if(arguments.size() != 1) {
-				reportError("Math::arccos(.) takes one parameter.");
+				env.reportError("Math::arccos(.) takes one parameter.");
 				return null;
 			} else {
-				return new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arccos,
+				return new ArcSinCosTanExprNode(env.getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arccos,
 						arguments.get(0));
 			}
 		case "Math::arctan":
 			if(arguments.size() != 1) {
-				reportError("Math::arctan(.) takes one parameter.");
+				env.reportError("Math::arctan(.) takes one parameter.");
 				return null;
 			} else {
-				return new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arctan,
+				return new ArcSinCosTanExprNode(env.getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arctan,
 						arguments.get(0));
 			}
 		case "Math::sqr":
 			if(arguments.size() == 1)
-				return new SqrExprNode(getCoords(), arguments.get(0));
+				return new SqrExprNode(env.getCoords(), arguments.get(0));
 			else {
-				reportError("Math::sqr(.) takes one parameter.");
+				env.reportError("Math::sqr(.) takes one parameter.");
 				return null;
 			}
 		case "Math::sqrt":
 			if(arguments.size() == 1)
-				return new SqrtExprNode(getCoords(), arguments.get(0));
+				return new SqrtExprNode(env.getCoords(), arguments.get(0));
 			else {
-				reportError("Math::sqrt(.) takes one parameter.");
+				env.reportError("Math::sqrt(.) takes one parameter.");
 				return null;
 			}
 		case "Math::pow":
 			if(arguments.size() == 2)
-				return new PowExprNode(getCoords(), arguments.get(0), arguments.get(1));
+				return new PowExprNode(env.getCoords(), arguments.get(0), arguments.get(1));
 			else if(arguments.size() == 1)
-				return new PowExprNode(getCoords(), arguments.get(0));
+				return new PowExprNode(env.getCoords(), arguments.get(0));
 			else {
-				reportError("Math::pow(.,.)/Math::pow(.) takes one or two parameters (one means base e).");
+				env.reportError("Math::pow(.,.)/Math::pow(.) takes one or two parameters (one means base e).");
 				return null;
 			}
 		case "Math::log":
 			if(arguments.size() == 2)
-				return new LogExprNode(getCoords(), arguments.get(0), arguments.get(1));
+				return new LogExprNode(env.getCoords(), arguments.get(0), arguments.get(1));
 			else if(arguments.size() == 1)
-				return new LogExprNode(getCoords(), arguments.get(0));
+				return new LogExprNode(env.getCoords(), arguments.get(0));
 			else {
-				reportError("Math::log(.,.)/Math::log(.) takes one or two parameters (one means base e).");
+				env.reportError("Math::log(.,.)/Math::log(.) takes one or two parameters (one means base e).");
 				return null;
 			}
 		case "Math::abs":
 			if(arguments.size() != 1) {
-				reportError("Math::abs(.) takes one parameter.");
+				env.reportError("Math::abs(.) takes one parameter.");
 				return null;
 			} else
-				return new AbsExprNode(getCoords(), arguments.get(0));
+				return new AbsExprNode(env.getCoords(), arguments.get(0));
 		case "Math::pi":
 			if(arguments.size() != 0) {
-				reportError("Math::pi() takes no parameters.");
+				env.reportError("Math::pi() takes no parameters.");
 				return null;
 			} else
-				return new PiExprNode(getCoords());
+				return new PiExprNode(env.getCoords());
 		case "Math::e":
 			if(arguments.size() != 0) {
-				reportError("Math::e() takes no parameters.");
+				env.reportError("Math::e() takes no parameters.");
 				return null;
 			} else
-				return new EExprNode(getCoords());
+				return new EExprNode(env.getCoords());
 		case "Math::byteMin":
 			if(arguments.size() != 0) {
-				reportError("Math::byteMin() takes no parameters.");
+				env.reportError("Math::byteMin() takes no parameters.");
 				return null;
 			} else
-				return new ByteMinExprNode(getCoords());
+				return new ByteMinExprNode(env.getCoords());
 		case "Math::byteMax":
 			if(arguments.size() != 0) {
-				reportError("Math::byteMax() takes no parameters.");
+				env.reportError("Math::byteMax() takes no parameters.");
 				return null;
 			} else
-				return new ByteMaxExprNode(getCoords());
+				return new ByteMaxExprNode(env.getCoords());
 		case "Math::shortMin":
 			if(arguments.size() != 0) {
-				reportError("Math::shortMin() takes no parameters.");
+				env.reportError("Math::shortMin() takes no parameters.");
 				return null;
 			} else
-				return new ShortMinExprNode(getCoords());
+				return new ShortMinExprNode(env.getCoords());
 		case "Math::shortMax":
 			if(arguments.size() != 0) {
-				reportError("Math::shortMax() takes no parameters.");
+				env.reportError("Math::shortMax() takes no parameters.");
 				return null;
 			} else
-				return new ShortMaxExprNode(getCoords());
+				return new ShortMaxExprNode(env.getCoords());
 		case "Math::intMin":
 			if(arguments.size() != 0) {
-				reportError("Math::intMin() takes no parameters.");
+				env.reportError("Math::intMin() takes no parameters.");
 				return null;
 			} else
-				return new IntMinExprNode(getCoords());
+				return new IntMinExprNode(env.getCoords());
 		case "Math::intMax":
 			if(arguments.size() != 0) {
-				reportError("Math::intMax() takes no parameters.");
+				env.reportError("Math::intMax() takes no parameters.");
 				return null;
 			} else
-				return new IntMaxExprNode(getCoords());
+				return new IntMaxExprNode(env.getCoords());
 		case "Math::longMin":
 			if(arguments.size() != 0) {
-				reportError("Math::longMin() takes no parameters.");
+				env.reportError("Math::longMin() takes no parameters.");
 				return null;
 			} else
-				return new LongMinExprNode(getCoords());
+				return new LongMinExprNode(env.getCoords());
 		case "Math::longMax":
 			if(arguments.size() != 0) {
-				reportError("Math::longMax() takes no parameters.");
+				env.reportError("Math::longMax() takes no parameters.");
 				return null;
 			} else
-				return new LongMaxExprNode(getCoords());
+				return new LongMaxExprNode(env.getCoords());
 		case "Math::floatMin":
 			if(arguments.size() != 0) {
-				reportError("Math::floatMin() takes no parameters.");
+				env.reportError("Math::floatMin() takes no parameters.");
 				return null;
 			} else
-				return new FloatMinExprNode(getCoords());
+				return new FloatMinExprNode(env.getCoords());
 		case "Math::floatMax":
 			if(arguments.size() != 0) {
-				reportError("Math::floatMax() takes no parameters.");
+				env.reportError("Math::floatMax() takes no parameters.");
 				return null;
 			} else
-				return new FloatMaxExprNode(getCoords());
+				return new FloatMaxExprNode(env.getCoords());
 		case "Math::doubleMin":
 			if(arguments.size() != 0) {
-				reportError("Math::doubleMin() takes no parameters.");
+				env.reportError("Math::doubleMin() takes no parameters.");
 				return null;
 			} else
-				return new DoubleMinExprNode(getCoords());
+				return new DoubleMinExprNode(env.getCoords());
 		case "Math::doubleMax":
 			if(arguments.size() != 0) {
-				reportError("Math::doubleMax() takes no parameters.");
+				env.reportError("Math::doubleMax() takes no parameters.");
 				return null;
 			} else
-				return new DoubleMaxExprNode(getCoords());
+				return new DoubleMaxExprNode(env.getCoords());
 		case "Math::ceil":
 			if(arguments.size() != 1) {
-				reportError("Math::ceil(.) takes one parameter.");
+				env.reportError("Math::ceil(.) takes one parameter.");
 				return null;
 			} else
-				return new CeilExprNode(getCoords(), arguments.get(0));
+				return new CeilExprNode(env.getCoords(), arguments.get(0));
 		case "Math::floor":
 			if(arguments.size() != 1) {
-				reportError("Math::floor(.) takes one parameter.");
+				env.reportError("Math::floor(.) takes one parameter.");
 				return null;
 			} else
-				return new FloorExprNode(getCoords(), arguments.get(0));
+				return new FloorExprNode(env.getCoords(), arguments.get(0));
 		case "Math::round":
 			if(arguments.size() != 1) {
-				reportError("Math::round(.) takes one parameter.");
+				env.reportError("Math::round(.) takes one parameter.");
 				return null;
 			} else
-				return new RoundExprNode(getCoords(), arguments.get(0));
+				return new RoundExprNode(env.getCoords(), arguments.get(0));
 		case "Math::truncate":
 			if(arguments.size() != 1) {
-				reportError("Math::truncate(.) takes one parameter.");
+				env.reportError("Math::truncate(.) takes one parameter.");
 				return null;
 			} else
-				return new TruncateExprNode(getCoords(), arguments.get(0));
+				return new TruncateExprNode(env.getCoords(), arguments.get(0));
 		case "Math::sgn":
 			if(arguments.size() != 1) {
-				reportError("Math::sgn(.) takes one parameter.");
+				env.reportError("Math::sgn(.) takes one parameter.");
 				return null;
 			} else
-				return new SgnExprNode(getCoords(), arguments.get(0));
+				return new SgnExprNode(env.getCoords(), arguments.get(0));
 		case "Time::now":
 			if(arguments.size() > 0) {
-				reportError("Time::now() takes no parameters.");
+				env.reportError("Time::now() takes no parameters.");
 				return null;
 			} else
-				return new NowExprNode(getCoords());
+				return new NowExprNode(env.getCoords());
 		case "File::exists":
 			if(arguments.size() != 1) {
-				reportError("File::exists(.) takes one parameter.");
+				env.reportError("File::exists(.) takes one parameter.");
 				return null;
 			} else
-				return new ExistsFileExprNode(getCoords(), arguments.get(0));
+				return new ExistsFileExprNode(env.getCoords(), arguments.get(0));
 		case "File::import":
 			if(arguments.size() != 1) {
-				reportError("File::import(.) takes one parameter.");
+				env.reportError("File::import(.) takes one parameter.");
 				return null;
 			} else
-				return new ImportExprNode(getCoords(), arguments.get(0));
+				return new ImportExprNode(env.getCoords(), arguments.get(0));
 		default:
-			reportError("no function " + functionName + " known");
+			env.reportError("no function " + functionName + " known");
 			return null;
 		}
 	}

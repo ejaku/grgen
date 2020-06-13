@@ -86,6 +86,7 @@ import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
 import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+import de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
 import de.unika.ipd.grgen.ir.IR;
 
 public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBaseNode
@@ -159,16 +160,17 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 		String methodName = methodIdent.toString();
 		TypeNode targetType = targetExpr.getType();
 
+		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(null, error, getCoords());
 		if(targetType == BasicTypeNode.stringType) {
-			result = decideString(methodName);
+			result = decideString(targetExpr, attributeIdent, methodName, arguments, resolvingEnvironment);
 		} else if(targetType instanceof MapTypeNode) {
-			result = decideMap(methodName);
+			result = decideMap(targetExpr, attributeIdent, methodName, arguments, resolvingEnvironment);
 		} else if(targetType instanceof SetTypeNode) {
-			result = decideSet(methodName);
+			result = decideSet(targetExpr, attributeIdent, methodName, arguments, resolvingEnvironment);
 		} else if(targetType instanceof ArrayTypeNode) {
-			result = decideArray(methodName);
+			result = decideArray(targetExpr, attributeIdent, methodName, arguments, resolvingEnvironment);
 		} else if(targetType instanceof DequeTypeNode) {
-			result = decideDeque(methodName);
+			result = decideDeque(targetExpr, attributeIdent, methodName, arguments, resolvingEnvironment);
 		} else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalTypeNode)) {
 			if(targetExpr instanceof FunctionMethodInvocationDecisionNode) {
 				reportError("method call chains are not supported, assign to a temporary def variable and invoke the method on it");
@@ -186,436 +188,446 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 		return result != null;
 	}
 
-	private BuiltinFunctionInvocationBaseNode decideString(String methodName)
+	private static BuiltinFunctionInvocationBaseNode decideString(ExprNode targetExpr, IdentNode attributeIdent,
+			String methodName, CollectNode<ExprNode> arguments,
+			ResolvingEnvironment env)
 	{
 		switch(methodName) {
 		case "length":
 			if(arguments.size() != 0) {
-				reportError("string.length() does not take any parameters.");
+				env.reportError("string.length() does not take any parameters.");
 				return null;
 			} else
-				return new StringLengthNode(getCoords(), targetExpr);
+				return new StringLengthNode(env.getCoords(), targetExpr);
 		case "toUpper":
 			if(arguments.size() != 0) {
-				reportError("string.toUpper() does not take any parameters.");
+				env.reportError("string.toUpper() does not take any parameters.");
 				return null;
 			} else
-				return new StringToUpperNode(getCoords(), targetExpr);
+				return new StringToUpperNode(env.getCoords(), targetExpr);
 		case "toLower":
 			if(arguments.size() != 0) {
-				reportError("string.toLower() does not take any parameters.");
+				env.reportError("string.toLower() does not take any parameters.");
 				return null;
 			} else
-				return new StringToLowerNode(getCoords(), targetExpr);
+				return new StringToLowerNode(env.getCoords(), targetExpr);
 		case "substring":
 			if(arguments.size() != 1 && arguments.size() != 2) {
-				reportError("string.substring(startIndex, length) takes two parameters, or one if the length is omitted.");
+				env.reportError("string.substring(startIndex, length) takes two parameters, or one if the length is omitted.");
 				return null;
 			} else if(arguments.size() == 2)
-				return new StringSubstringNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
+				return new StringSubstringNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 			else
-				return new StringSubstringNode(getCoords(), targetExpr, arguments.get(0));
+				return new StringSubstringNode(env.getCoords(), targetExpr, arguments.get(0));
 		case "indexOf":
 			if(arguments.size() != 1 && arguments.size() != 2) {
-				reportError("string.indexOf(strToSearchFor) takes one parameter, or a second startIndex parameter.");
+				env.reportError("string.indexOf(strToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
 			} else if(arguments.size() == 1)
-				return new StringIndexOfNode(getCoords(), targetExpr, arguments.get(0));
+				return new StringIndexOfNode(env.getCoords(), targetExpr, arguments.get(0));
 			else
-				return new StringIndexOfNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
+				return new StringIndexOfNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 		case "lastIndexOf":
 			if(arguments.size() != 1 && arguments.size() != 2) {
-				reportError("string.lastIndexOf(strToSearchFor) takes one parameter, or a second startIndex parameter.");
+				env.reportError("string.lastIndexOf(strToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
 			} else if(arguments.size() == 1)
-				return new StringLastIndexOfNode(getCoords(), targetExpr, arguments.get(0));
+				return new StringLastIndexOfNode(env.getCoords(), targetExpr, arguments.get(0));
 			else
-				return new StringLastIndexOfNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
+				return new StringLastIndexOfNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 		case "startsWith":
 			if(arguments.size() != 1) {
-				reportError("string.startsWith(strToSearchFor) takes one parameter.");
+				env.reportError("string.startsWith(strToSearchFor) takes one parameter.");
 				return null;
 			} else
-				return new StringStartsWithNode(getCoords(), targetExpr, arguments.get(0));
+				return new StringStartsWithNode(env.getCoords(), targetExpr, arguments.get(0));
 		case "endsWith":
 			if(arguments.size() != 1) {
-				reportError("string.endsWith(strToSearchFor) takes one parameter.");
+				env.reportError("string.endsWith(strToSearchFor) takes one parameter.");
 				return null;
 			} else
-				return new StringEndsWithNode(getCoords(), targetExpr, arguments.get(0));
+				return new StringEndsWithNode(env.getCoords(), targetExpr, arguments.get(0));
 		case "replace":
 			if(arguments.size() != 3) {
-				reportError("string.replace(startIndex, length, replaceStr) takes three parameters.");
+				env.reportError("string.replace(startIndex, length, replaceStr) takes three parameters.");
 				return null;
 			} else
-				return new StringReplaceNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1), arguments.get(2));
+				return new StringReplaceNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1), arguments.get(2));
 		case "asArray":
 			if(arguments.size() != 1) {
-				reportError("string.asArray(separator) takes one parameter.");
+				env.reportError("string.asArray(separator) takes one parameter.");
 				return null;
 			} else
-				return new StringAsArrayNode(getCoords(), targetExpr, arguments.get(0));
+				return new StringAsArrayNode(env.getCoords(), targetExpr, arguments.get(0));
 		default:
-			reportError("string does not have a function method named \"" + methodName + "\"");
+			env.reportError("string does not have a function method named \"" + methodName + "\"");
 			return null;
 		}
 	}
 
-	private BuiltinFunctionInvocationBaseNode decideMap(String methodName)
+	private static BuiltinFunctionInvocationBaseNode decideMap(ExprNode targetExpr, IdentNode attributeIdent,
+			String methodName, CollectNode<ExprNode> arguments,
+			ResolvingEnvironment env)
 	{
 		switch(methodName) {
 		case "size":
 			if(arguments.size() != 0) {
-				reportError("map<S,T>.size() does not take any parameters.");
+				env.reportError("map<S,T>.size() does not take any parameters.");
 				return null;
 			} else
-				return new MapSizeNode(getCoords(), targetExpr);
+				return new MapSizeNode(env.getCoords(), targetExpr);
 		case "empty":
 			if(arguments.size() != 0) {
-				reportError("map<S,T>.empty() does not take any parameters.");
+				env.reportError("map<S,T>.empty() does not take any parameters.");
 				return null;
 			} else
-				return new MapEmptyNode(getCoords(), targetExpr);
+				return new MapEmptyNode(env.getCoords(), targetExpr);
 		case "domain":
 			if(arguments.size() != 0) {
-				reportError("map<S,T>.domain() does not take any parameters.");
+				env.reportError("map<S,T>.domain() does not take any parameters.");
 				return null;
 			} else
-				return new MapDomainNode(getCoords(), targetExpr);
+				return new MapDomainNode(env.getCoords(), targetExpr);
 		case "range":
 			if(arguments.size() != 0) {
-				reportError("map<S,T>.range() does not take any parameters.");
+				env.reportError("map<S,T>.range() does not take any parameters.");
 				return null;
 			} else
-				return new MapRangeNode(getCoords(), targetExpr);
+				return new MapRangeNode(env.getCoords(), targetExpr);
 		case "asArray":
 			if(arguments.size() != 0) {
-				reportError("map<int,T>.asArray() does not take any parameters.");
+				env.reportError("map<int,T>.asArray() does not take any parameters.");
 				return null;
 			} else
-				return new MapAsArrayNode(getCoords(), targetExpr);
+				return new MapAsArrayNode(env.getCoords(), targetExpr);
 		case "peek":
 			if(arguments.size() != 1) {
-				reportError("map<S,T>.peek(number in iteration sequence) takes one parameter.");
+				env.reportError("map<S,T>.peek(number in iteration sequence) takes one parameter.");
 				return null;
 			} else
-				return new MapPeekNode(getCoords(), targetExpr, arguments.get(0));
+				return new MapPeekNode(env.getCoords(), targetExpr, arguments.get(0));
 		default:
-			reportError("map<S,T> does not have a function method named \"" + methodName + "\"");
+			env.reportError("map<S,T> does not have a function method named \"" + methodName + "\"");
 			return null;
 		}
 	}
 	
-	private BuiltinFunctionInvocationBaseNode decideSet(String methodName)
+	private static BuiltinFunctionInvocationBaseNode decideSet(ExprNode targetExpr, IdentNode attributeIdent,
+			String methodName, CollectNode<ExprNode> arguments,
+			ResolvingEnvironment env)
 	{
 		switch(methodName) {
 		case "size":
 			if(arguments.size() != 0) {
-				reportError("set<T>.size() does not take any parameters.");
+				env.reportError("set<T>.size() does not take any parameters.");
 				return null;
 			} else
-				return new SetSizeNode(getCoords(), targetExpr);
+				return new SetSizeNode(env.getCoords(), targetExpr);
 		case "empty":
 			if(arguments.size() != 0) {
-				reportError("set<T>.empty() does not take any parameters.");
+				env.reportError("set<T>.empty() does not take any parameters.");
 				return null;
 			} else
-				return new SetEmptyNode(getCoords(), targetExpr);
+				return new SetEmptyNode(env.getCoords(), targetExpr);
 		case "peek":
 			if(arguments.size() != 1) {
-				reportError("set<T>.peek(number in iteration sequence) takes one parameter.");
+				env.reportError("set<T>.peek(number in iteration sequence) takes one parameter.");
 				return null;
 			} else
-				return new SetPeekNode(getCoords(), targetExpr, arguments.get(0));
+				return new SetPeekNode(env.getCoords(), targetExpr, arguments.get(0));
 		case "asArray":
 			if(arguments.size() != 0) {
-				reportError("set<T>.asArray() takes no parameters.");
+				env.reportError("set<T>.asArray() takes no parameters.");
 				return null;
 			} else
-				return new SetAsArrayNode(getCoords(), targetExpr);
+				return new SetAsArrayNode(env.getCoords(), targetExpr);
 		default:
-			reportError("set<T> does not have a function method named \"" + methodName + "\"");
+			env.reportError("set<T> does not have a function method named \"" + methodName + "\"");
 			return null;
 		}
 	}
 
-	private BuiltinFunctionInvocationBaseNode decideArray(String methodName)
+	private static BuiltinFunctionInvocationBaseNode decideArray(ExprNode targetExpr, IdentNode attributeIdent,
+			String methodName, CollectNode<ExprNode> arguments,
+			ResolvingEnvironment env)
 	{
 		switch(methodName) {
 		case "size":
 			if(arguments.size() != 0) {
-				reportError("array<T>.size() does not take any parameters.");
+				env.reportError("array<T>.size() does not take any parameters.");
 				return null;
 			} else
-				return new ArraySizeNode(getCoords(), targetExpr);
+				return new ArraySizeNode(env.getCoords(), targetExpr);
 		case "empty":
 			if(arguments.size() != 0) {
-				reportError("array<T>.empty() does not take any parameters.");
+				env.reportError("array<T>.empty() does not take any parameters.");
 				return null;
 			} else
-				return new ArrayEmptyNode(getCoords(), targetExpr);
+				return new ArrayEmptyNode(env.getCoords(), targetExpr);
 		case "peek":
 			if(arguments.size() != 0 && arguments.size() != 1) {
-				reportError("array<T>.peek(index) takes one parameter; or none parameter returning the value from the end.");
+				env.reportError("array<T>.peek(index) takes one parameter; or none parameter returning the value from the end.");
 				return null;
 			} else {
 				if(arguments.size() == 0)
-					return new ArrayPeekNode(getCoords(), targetExpr);
+					return new ArrayPeekNode(env.getCoords(), targetExpr);
 				else
-					return new ArrayPeekNode(getCoords(), targetExpr, arguments.get(0));
+					return new ArrayPeekNode(env.getCoords(), targetExpr, arguments.get(0));
 			}
 		case "indexOf":
 			if(arguments.size() != 1 && arguments.size() != 2) {
-				reportError("array<T>.indexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
+				env.reportError("array<T>.indexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
 			} else if(arguments.size() == 1)
-				return new ArrayIndexOfNode(getCoords(), targetExpr, arguments.get(0));
+				return new ArrayIndexOfNode(env.getCoords(), targetExpr, arguments.get(0));
 			else
-				return new ArrayIndexOfNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
+				return new ArrayIndexOfNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 		case "indexOfBy":
 			if(arguments.size() != 1 && arguments.size() != 2) {
-				reportError("array<T>.indexOfBy<attribute>(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
+				env.reportError("array<T>.indexOfBy<attribute>(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
 			} else if(arguments.size() == 1)
-				return new ArrayIndexOfByNode(getCoords(), targetExpr, attributeIdent, arguments.get(0));
+				return new ArrayIndexOfByNode(env.getCoords(), targetExpr, attributeIdent, arguments.get(0));
 			else
-				return new ArrayIndexOfByNode(getCoords(), targetExpr, attributeIdent, arguments.get(0), arguments.get(1));
+				return new ArrayIndexOfByNode(env.getCoords(), targetExpr, attributeIdent, arguments.get(0), arguments.get(1));
 		case "indexOfOrdered":
 			if(arguments.size() != 1) {
-				reportError("array<T>.indexOfOrdered(valueToSearchFor) takes one parameter.");
+				env.reportError("array<T>.indexOfOrdered(valueToSearchFor) takes one parameter.");
 				return null;
 			} else
-				return new ArrayIndexOfOrderedNode(getCoords(), targetExpr, arguments.get(0));
+				return new ArrayIndexOfOrderedNode(env.getCoords(), targetExpr, arguments.get(0));
 		case "indexOfOrderedBy":
 			if(arguments.size() != 1) {
-				reportError("array<T>.indexOfOrderedBy<attribute>(valueToSearchFor) takes one parameter.");
+				env.reportError("array<T>.indexOfOrderedBy<attribute>(valueToSearchFor) takes one parameter.");
 				return null;
 			} else
-				return new ArrayIndexOfOrderedByNode(getCoords(), targetExpr, attributeIdent, arguments.get(0));
+				return new ArrayIndexOfOrderedByNode(env.getCoords(), targetExpr, attributeIdent, arguments.get(0));
 		case "lastIndexOf":
 			if(arguments.size() != 1 && arguments.size() != 2) {
-				reportError("array<T>.lastIndexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
+				env.reportError("array<T>.lastIndexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
 			} else if(arguments.size() == 1)
-				return new ArrayLastIndexOfNode(getCoords(), targetExpr, arguments.get(0));
+				return new ArrayLastIndexOfNode(env.getCoords(), targetExpr, arguments.get(0));
 			else
-				return new ArrayLastIndexOfNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
+				return new ArrayLastIndexOfNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 		case "lastIndexOfBy":
 			if(arguments.size() != 1 && arguments.size() != 2) {
-				reportError("array<T>.lastIndexOfBy<attribute>(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
+				env.reportError("array<T>.lastIndexOfBy<attribute>(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
 			} else if(arguments.size() == 1)
-				return new ArrayLastIndexOfByNode(getCoords(), targetExpr, attributeIdent, arguments.get(0));
+				return new ArrayLastIndexOfByNode(env.getCoords(), targetExpr, attributeIdent, arguments.get(0));
 			else
-				return new ArrayLastIndexOfByNode(getCoords(), targetExpr, attributeIdent, arguments.get(0), arguments.get(1));
+				return new ArrayLastIndexOfByNode(env.getCoords(), targetExpr, attributeIdent, arguments.get(0), arguments.get(1));
 		case "subarray":
 			if(arguments.size() != 2) {
-				reportError("array<T>.subarray(startIndex, length) takes two parameters.");
+				env.reportError("array<T>.subarray(startIndex, length) takes two parameters.");
 				return null;
 			} else
-				return new ArraySubarrayNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
+				return new ArraySubarrayNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 		case "orderAscending":
 			if(arguments.size() != 0) {
-				reportError("array<T>.orderAscending() takes no parameters.");
+				env.reportError("array<T>.orderAscending() takes no parameters.");
 				return null;
 			} else
-				return new ArrayOrderAscendingNode(getCoords(), targetExpr);
+				return new ArrayOrderAscendingNode(env.getCoords(), targetExpr);
 		case "orderDescending":
 			if(arguments.size() != 0) {
-				reportError("array<T>.orderDescending() takes no parameters.");
+				env.reportError("array<T>.orderDescending() takes no parameters.");
 				return null;
 			} else
-				return new ArrayOrderDescendingNode(getCoords(), targetExpr);
+				return new ArrayOrderDescendingNode(env.getCoords(), targetExpr);
 		case "keepOneForEach":
 			if(attributeIdent == null) {
 				if(arguments.size() != 0) {
-					reportError("array<T>.keepOneForEach() takes no parameters.");
+					env.reportError("array<T>.keepOneForEach() takes no parameters.");
 					return null;
 				} else
-					return new ArrayKeepOneForEachNode(getCoords(), targetExpr);
+					return new ArrayKeepOneForEachNode(env.getCoords(), targetExpr);
 			} else {
 				if(arguments.size() != 0) {
-					reportError("array<T>.keepOneForEach<attribute>() takes no parameters.");
+					env.reportError("array<T>.keepOneForEach<attribute>() takes no parameters.");
 					return null;
 				} else
-					return new ArrayKeepOneForEachByNode(getCoords(), targetExpr, attributeIdent);
+					return new ArrayKeepOneForEachByNode(env.getCoords(), targetExpr, attributeIdent);
 			}
 		case "orderAscendingBy":
 			if(arguments.size() != 0) {
-				reportError("array<T>.orderAscendingBy<attribute>() takes no parameters.");
+				env.reportError("array<T>.orderAscendingBy<attribute>() takes no parameters.");
 				return null;
 			} else
-				return new ArrayOrderAscendingByNode(getCoords(), targetExpr, attributeIdent);
+				return new ArrayOrderAscendingByNode(env.getCoords(), targetExpr, attributeIdent);
 		case "orderDescendingBy":
 			if(arguments.size() != 0) {
-				reportError("array<T>.orderDescendingBy<attribute>() takes no parameters.");
+				env.reportError("array<T>.orderDescendingBy<attribute>() takes no parameters.");
 				return null;
 			} else
-				return new ArrayOrderDescendingByNode(getCoords(), targetExpr, attributeIdent);
+				return new ArrayOrderDescendingByNode(env.getCoords(), targetExpr, attributeIdent);
 		case "reverse":
 			if(arguments.size() != 0) {
-				reportError("array<T>.reverse() takes no parameters.");
+				env.reportError("array<T>.reverse() takes no parameters.");
 				return null;
 			} else
-				return new ArrayReverseNode(getCoords(), targetExpr);
+				return new ArrayReverseNode(env.getCoords(), targetExpr);
 		case "extract":
 			if(arguments.size() != 0) {
-				reportError("array<T>.extract<attribute>() takes no parameters.");
+				env.reportError("array<T>.extract<attribute>() takes no parameters.");
 				return null;
 			} else
-				return new ArrayExtractNode(getCoords(), targetExpr, attributeIdent);
+				return new ArrayExtractNode(env.getCoords(), targetExpr, attributeIdent);
 		case "asSet":
 			if(arguments.size() != 0) {
-				reportError("array<T>.asSet() takes no parameters.");
+				env.reportError("array<T>.asSet() takes no parameters.");
 				return null;
 			} else
-				return new ArrayAsSetNode(getCoords(), targetExpr);
+				return new ArrayAsSetNode(env.getCoords(), targetExpr);
 		case "asDeque":
 			if(arguments.size() != 0) {
-				reportError("array<T>.asDeque() takes no parameters.");
+				env.reportError("array<T>.asDeque() takes no parameters.");
 				return null;
 			} else
-				return new ArrayAsDequeNode(getCoords(), targetExpr);
+				return new ArrayAsDequeNode(env.getCoords(), targetExpr);
 		case "asMap":
 			if(arguments.size() != 0) {
-				reportError("array<T>.asMap() takes no parameters.");
+				env.reportError("array<T>.asMap() takes no parameters.");
 				return null;
 			} else
-				return new ArrayAsMapNode(getCoords(), targetExpr);
+				return new ArrayAsMapNode(env.getCoords(), targetExpr);
 		case "asString":
 			if(arguments.size() != 1) {
-				reportError("array<string>.asString(separator) takes one parameter.");
+				env.reportError("array<string>.asString(separator) takes one parameter.");
 				return null;
 			} else
-				return new ArrayAsStringNode(getCoords(), targetExpr, arguments.get(0));
+				return new ArrayAsStringNode(env.getCoords(), targetExpr, arguments.get(0));
 		case "sum":
 			if(arguments.size() != 0) {
-				reportError("array<T>.sum() takes no parameters.");
+				env.reportError("array<T>.sum() takes no parameters.");
 				return null;
 			} else {
-				return new ArraySumNode(getCoords(), targetExpr);
+				return new ArraySumNode(env.getCoords(), targetExpr);
 			}
 		case "prod":
 			if(arguments.size() != 0) {
-				reportError("array<T>.prod() takes no parameters.");
+				env.reportError("array<T>.prod() takes no parameters.");
 				return null;
 			} else {
-				return new ArrayProdNode(getCoords(), targetExpr);
+				return new ArrayProdNode(env.getCoords(), targetExpr);
 			}
 		case "min":
 			if(arguments.size() != 0) {
-				reportError("array<T>.min() takes no parameters.");
+				env.reportError("array<T>.min() takes no parameters.");
 				return null;
 			} else {
-				return new ArrayMinNode(getCoords(), targetExpr);
+				return new ArrayMinNode(env.getCoords(), targetExpr);
 			}
 		case "max":
 			if(arguments.size() != 0) {
-				reportError("array<T>.max() takes no parameters.");
+				env.reportError("array<T>.max() takes no parameters.");
 				return null;
 			} else {
-				return new ArrayMaxNode(getCoords(), targetExpr);
+				return new ArrayMaxNode(env.getCoords(), targetExpr);
 			}
 		case "avg":
 			if(arguments.size() != 0) {
-				reportError("array<T>.avg() takes no parameters.");
+				env.reportError("array<T>.avg() takes no parameters.");
 				return null;
 			} else {
-				return new ArrayAvgNode(getCoords(), targetExpr);
+				return new ArrayAvgNode(env.getCoords(), targetExpr);
 			}
 		case "med":
 			if(arguments.size() != 0) {
-				reportError("array<T>.med() takes no parameters.");
+				env.reportError("array<T>.med() takes no parameters.");
 				return null;
 			} else {
-				return new ArrayMedNode(getCoords(), targetExpr);
+				return new ArrayMedNode(env.getCoords(), targetExpr);
 			}
 		case "medUnordered":
 			if(arguments.size() != 0) {
-				reportError("array<T>.medUnordered() takes no parameters.");
+				env.reportError("array<T>.medUnordered() takes no parameters.");
 				return null;
 			} else {
-				return new ArrayMedUnorderedNode(getCoords(), targetExpr);
+				return new ArrayMedUnorderedNode(env.getCoords(), targetExpr);
 			}
 		case "var":
 			if(arguments.size() != 0) {
-				reportError("array<T>.var() takes no parameters.");
+				env.reportError("array<T>.var() takes no parameters.");
 				return null;
 			} else {
-				return new ArrayVarNode(getCoords(), targetExpr);
+				return new ArrayVarNode(env.getCoords(), targetExpr);
 			}
 		case "dev":
 			if(arguments.size() != 0) {
-				reportError("array<T>.dev() takes no parameters.");
+				env.reportError("array<T>.dev() takes no parameters.");
 				return null;
 			} else {
-				return new ArrayDevNode(getCoords(), targetExpr);
+				return new ArrayDevNode(env.getCoords(), targetExpr);
 			}
 		default:
-			reportError("array<T> does not have a function method named \"" + methodName + "\"");
+			env.reportError("array<T> does not have a function method named \"" + methodName + "\"");
 			return null;
 		}
 	}
 	
-	private BuiltinFunctionInvocationBaseNode decideDeque(String methodName)
+	private static BuiltinFunctionInvocationBaseNode decideDeque(ExprNode targetExpr, IdentNode attributeIdent,
+			String methodName, CollectNode<ExprNode> arguments,
+			ResolvingEnvironment env)
 	{
 		switch(methodName) {
 		case "size":
 			if(arguments.size() != 0) {
-				reportError("deque<T>.size() does not take any parameters.");
+				env.reportError("deque<T>.size() does not take any parameters.");
 				return null;
 			} else
-				return new DequeSizeNode(getCoords(), targetExpr);
+				return new DequeSizeNode(env.getCoords(), targetExpr);
 		case "empty":
 			if(arguments.size() != 0) {
-				reportError("deque<T>.empty() does not take any parameters.");
+				env.reportError("deque<T>.empty() does not take any parameters.");
 				return null;
 			} else
-				return new DequeEmptyNode(getCoords(), targetExpr);
+				return new DequeEmptyNode(env.getCoords(), targetExpr);
 		case "peek":
 			if(arguments.size() != 0 && arguments.size() != 1) {
-				reportError("deque<T>.peek(index) takes one parameter; or none parameter returning the value from the begin.");
+				env.reportError("deque<T>.peek(index) takes one parameter; or none parameter returning the value from the begin.");
 				return null;
 			} else {
 				if(arguments.size() == 0)
-					return new DequePeekNode(getCoords(), targetExpr);
+					return new DequePeekNode(env.getCoords(), targetExpr);
 				else
-					return new DequePeekNode(getCoords(), targetExpr, arguments.get(0));
+					return new DequePeekNode(env.getCoords(), targetExpr, arguments.get(0));
 			}
 		case "indexOf":
 			if(arguments.size() != 1 && arguments.size() != 2) {
-				reportError("deque<T>.indexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
+				env.reportError("deque<T>.indexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
 			} else if(arguments.size() == 1)
-				return new DequeIndexOfNode(getCoords(), targetExpr, arguments.get(0));
+				return new DequeIndexOfNode(env.getCoords(), targetExpr, arguments.get(0));
 			else
-				return new DequeIndexOfNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
+				return new DequeIndexOfNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 		case "lastIndexOf":
 			if(arguments.size() != 1) {
-				reportError("deque<T>.lastIndexOf(valueToSearchFor) takes one parameter.");
+				env.reportError("deque<T>.lastIndexOf(valueToSearchFor) takes one parameter.");
 				return null;
 			} else
-				return new DequeLastIndexOfNode(getCoords(), targetExpr, arguments.get(0));
+				return new DequeLastIndexOfNode(env.getCoords(), targetExpr, arguments.get(0));
 		case "subdeque":
 			if(arguments.size() != 2) {
-				reportError("deque<T>.subdeque(startIndex, length) takes two parameters.");
+				env.reportError("deque<T>.subdeque(startIndex, length) takes two parameters.");
 				return null;
 			} else
-				return new DequeSubdequeNode(getCoords(), targetExpr, arguments.get(0), arguments.get(1));
+				return new DequeSubdequeNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 		case "asSet":
 			if(arguments.size() != 0) {
-				reportError("deque<T>.asSet() takes no parameters.");
+				env.reportError("deque<T>.asSet() takes no parameters.");
 				return null;
 			} else
-				return new DequeAsSetNode(getCoords(), targetExpr);
+				return new DequeAsSetNode(env.getCoords(), targetExpr);
 		case "asArray":
 			if(arguments.size() != 0) {
-				reportError("deque<T>.asArray() takes no parameters.");
+				env.reportError("deque<T>.asArray() takes no parameters.");
 				return null;
 			} else
-				return new DequeAsArrayNode(getCoords(), targetExpr);
+				return new DequeAsArrayNode(env.getCoords(), targetExpr);
 		default:
-			reportError("deque<T> does not have a function method named \"" + methodName + "\"");
+			env.reportError("deque<T> does not have a function method named \"" + methodName + "\"");
 			return null;
 		}
 	}
