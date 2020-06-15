@@ -12,8 +12,11 @@
 package de.unika.ipd.grgen.ast.expr;
 
 import java.awt.Color;
+import java.util.Set;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
@@ -214,5 +217,47 @@ public abstract class ExprNode extends BaseNode
 			}
 		}
 		return true;
+	}
+
+	// returns elements used/referenced by the expression
+	public void collectElements(Set<ConstraintDeclNode> elements)
+	{
+		assert isResolved();
+		if(this instanceof DeclExprNode) {
+			ConstraintDeclNode decl = ((DeclExprNode)this).getConstraintDeclNode();
+			if(decl != null)
+				elements.add(decl);
+		}
+		for(BaseNode child : getChildren()) {
+			if(child instanceof ExprNode) {
+				((ExprNode)child).collectElements(elements);
+			} else if(child instanceof CollectNode<?>) {
+				CollectNode<? extends BaseNode> collectNode = (CollectNode<?>)child;
+				for(BaseNode grandchild : collectNode.getChildren()) {
+					if(grandchild instanceof ExprNode)
+						((ExprNode)grandchild).collectElements(elements);
+				}
+			}
+		}
+	}
+
+	// returns elements that are potentially resulting from the expression
+	// (not all potentially resulting elements are returned, this is only an approximation
+	// by the directly resulting element and elements resulting from the condition operator cases)
+	public void getPotentiallyResultingElements(Set<ConstraintDeclNode> elements)
+	{
+		assert isResolved();
+		if(this instanceof DeclExprNode) {
+			ConstraintDeclNode decl = ((DeclExprNode)this).getConstraintDeclNode();
+			if(decl != null)
+				elements.add(decl);
+		}
+		if(this instanceof ArithmeticOperatorNode) {
+			ArithmeticOperatorNode operator = (ArithmeticOperatorNode)this;
+			if(operator.getOperator() == OperatorDeclNode.Operator.COND) {
+				operator.getChildren().get(1).getPotentiallyResultingElements(elements);
+				operator.getChildren().get(2).getPotentiallyResultingElements(elements);
+			}
+		}
 	}
 }

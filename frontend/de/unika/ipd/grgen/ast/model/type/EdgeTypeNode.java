@@ -19,7 +19,10 @@ import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode.Operator;
 import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
 import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
 import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
@@ -28,6 +31,7 @@ import de.unika.ipd.grgen.ast.model.ConnAssertNode;
 import de.unika.ipd.grgen.ast.model.MemberInitNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -104,6 +108,10 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	@Override
 	protected boolean resolveLocal()
 	{
+		OperatorDeclNode.makeOp(Operator.COND, this, new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+
 		body = bodyResolver.resolve(bodyUnresolved, this);
 		extend = extendResolver.resolve(extendUnresolved, this);
 
@@ -204,6 +212,8 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 			coll.add(inh);
 			coll.addAll(inh.getCompatibleToTypes());
 		}
+		
+		coll.add(BasicTypeNode.typeType); // ~~ addCompatibility(this, BasicTypeNode.typeType);
 	}
 
 	@Override

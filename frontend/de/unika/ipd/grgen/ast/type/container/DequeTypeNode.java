@@ -17,7 +17,6 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -78,13 +77,9 @@ public class DequeTypeNode extends ContainerTypeNode
 		if(valueType == null)
 			return false;
 
-		if(valueType instanceof InheritanceTypeNode) {
-			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
-					BasicTypeNode.typeType, this, OperatorEvaluator.dequeEvaluator);
-		} else {
-			OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
-					valueType, this, OperatorEvaluator.dequeEvaluator);
-		}
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
+				valueType, this, OperatorEvaluator.dequeEvaluator);
+
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.INDEX, valueType,
 				this, BasicTypeNode.intType, OperatorEvaluator.dequeEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EQ, BasicTypeNode.booleanType,

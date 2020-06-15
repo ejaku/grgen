@@ -134,7 +134,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 		addCompatibility(objectType, untypedType);
 		addCompatibility(voidType, untypedType);
 		addCompatibility(stringType, untypedType);
-		addCompatibility(typeType, untypedType);
 		addCompatibility(nullType, untypedType);
 
 		//////////////////////////////////////////////////////////

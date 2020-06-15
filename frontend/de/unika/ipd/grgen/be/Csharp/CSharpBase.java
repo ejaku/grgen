@@ -2994,8 +2994,9 @@ public abstract class CSharpBase
 			InheritanceType it = (InheritanceType)constant.getValue();
 			return formatTypeClassRef(it) + ".typeVar";
 		case IS_GRAPH:
-			return "null"; // TODO: there is no graph constant - assert instead?
 		case IS_OBJECT:
+		case IS_NODE:
+		case IS_EDGE:
 		case IS_SET:
 		case IS_MAP:
 		case IS_ARRAY:

@@ -42,7 +42,7 @@ rule s {
 	n:N -e:E-> n;
 	
 	if{ source(edgeByUnique(1))==nodeByUnique(0); }
-	if{ nodeByUnique(42)==edgeByUnique(42); }
+	if{ nodeByUnique(42) == (edgeByUnique(42)!=null ? target(edgeByUnique(42)) : nodeByUnique(42)); }
 		
 	modify {
 	---

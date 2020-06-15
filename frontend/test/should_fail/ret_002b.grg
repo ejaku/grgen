@@ -1,0 +1,10 @@
+rule r : (Node, Node) {
+	x: Node;
+	y: Node;
+
+	modify {
+		delete(x);
+		return(nameof(x) < nameof(y) ? x : y, y);
+	}
+}
+

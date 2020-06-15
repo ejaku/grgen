@@ -53,7 +53,8 @@ rule s {
 	n:N -e:E-> n;
 	
 	if{ source(edgeByName("bar"))==nodeByName("foo"); }
-	if{ nodeByName("hahahahaha")==edgeByName("hahahahaha"); }
+	if{ nodeByName("hahahahaha")==nodeByName("hahahahaha"); }
+	if{ edgeByName("hahahahaha")==edgeByName("hahahahaha"); }
 		
 	modify {
 	---

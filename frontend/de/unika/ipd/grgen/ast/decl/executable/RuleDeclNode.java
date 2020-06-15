@@ -157,35 +157,27 @@ public class RuleDeclNode extends TestDeclNode
 		Set<ConstraintDeclNode> maybeDeletedElements = right.getMaybeDeletedElements(pattern);
 
 		for(ExprNode expr : right.graph.returns.getChildren()) {
-			valid &= checkReturnedElementNotDeleted(expr, deletedElements, maybeDeletedElements);
+			HashSet<ConstraintDeclNode> potentiallyResultingElements = new HashSet<ConstraintDeclNode>();
+			expr.getPotentiallyResultingElements(potentiallyResultingElements);
+			for(ConstraintDeclNode potentiallyResultingElement : potentiallyResultingElements) {
+				valid &= checkReturnedElementNotDeleted(potentiallyResultingElement, deletedElements, maybeDeletedElements);
+			}
 		}
 
 		return valid;
 	}
 
-	private static boolean checkReturnedElementNotDeleted(ExprNode expr,
+	private static boolean checkReturnedElementNotDeleted(ConstraintDeclNode retElem,
 			Set<ConstraintDeclNode> deletedElements, Set<ConstraintDeclNode> maybeDeletedElements)
 	{
-		boolean valid = true;
-
-		if(!(expr instanceof DeclExprNode))
-			return valid;
-
-		ConstraintDeclNode retElem = ((DeclExprNode)expr).getConstraintDeclNode();
-		if(retElem == null)
-			return valid;
-
 		if(deletedElements.contains(retElem)) {
-			valid = false;
-
-			expr.reportError("The deleted " + retElem.getKind()
+			retElem.reportError("The deleted " + retElem.getKind()
 					+ " \"" + retElem.ident + "\" must not be returned");
+			return false;
 		} else if(maybeDeletedElements.contains(retElem)) {
 			retElem.maybeDeleted = true;
 
 			if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				valid = false;
-
 				String errorMessage = "Returning \"" + retElem.ident + "\" that may be deleted"
 						+ ", possibly it's homomorphic with a deleted " + retElem.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
@@ -194,11 +186,12 @@ public class RuleDeclNode extends TestDeclNode
 					errorMessage += " or \"" + retElem.ident + "\" is a dangling " + retElem.getKind()
 							+ " and a deleted node exists";
 				}
-				expr.reportError(errorMessage);
+				retElem.reportError(errorMessage);
+				return false;
 			}
 		}
 
-		return valid;
+		return true;
 	}
 
 	/**

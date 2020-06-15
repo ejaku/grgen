@@ -14,9 +14,6 @@ package de.unika.ipd.grgen.ast.expr;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.ByteTypeNode;
@@ -89,10 +86,6 @@ public abstract class OperatorNode extends ExprNode
 		for(int i = 0; i < children.size(); i++) {
 			ExprNode op = children.get(i);
 			TypeNode type = op.getType();
-			if(type instanceof NodeTypeNode || type instanceof EdgeTypeNode)
-				type = BasicTypeNode.typeType;
-			if(type instanceof ExternalTypeNode && children.size() < 3) // keep real ext type for cond
-				type = BasicTypeNode.typeType;
 			if(type instanceof ByteTypeNode || type instanceof ShortTypeNode)
 				if(children.size() < 3)
 					type = BasicTypeNode.intType;

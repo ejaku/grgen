@@ -749,5 +749,11 @@ public class OperatorEvaluator
 		}
 	};
 
-	public static final OperatorEvaluator emptyEvaluator = new OperatorEvaluator();
+	public static final OperatorEvaluator emptyEvaluator = new OperatorEvaluator() {
+		@Override
+		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+		{
+			throw new NotEvaluatableException(coords);
+		}
+	};
 }

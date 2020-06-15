@@ -2810,7 +2810,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(",\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Expression expr : rule.getReturns()) {
-			if(expr instanceof GraphEntityExpression)
+			if(expr.getType() instanceof InheritanceType)
 				sb.append(formatTypeClassRef(expr.getType()) + ".typeVar, ");
 			else
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(expr.getType()) + ")), ");

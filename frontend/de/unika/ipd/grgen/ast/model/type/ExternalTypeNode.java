@@ -21,6 +21,7 @@ import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode.Operator;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
@@ -88,6 +89,14 @@ public class ExternalTypeNode extends InheritanceTypeNode
 	@Override
 	protected boolean resolveLocal()
 	{
+		OperatorDeclNode.makeOp(Operator.COND, this, new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.GE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.GT, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.LE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.LT, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+
 		body = bodyResolver.resolve(bodyUnresolved, this);
 		extend = extendResolver.resolve(extendUnresolved, this);
 

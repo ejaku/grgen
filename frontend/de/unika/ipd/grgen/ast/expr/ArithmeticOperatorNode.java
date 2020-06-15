@@ -100,7 +100,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 
 	/** returns children of this node */
 	@Override
-	public Collection<ExprNode> getChildren()
+	public Vector<ExprNode> getChildren()
 	{
 		return children;
 	}
