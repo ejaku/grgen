@@ -12,12 +12,10 @@
 package de.unika.ipd.grgen.ast.decl.pattern;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
@@ -116,40 +114,6 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 			&& !old.defEntityToBeYieldedTo) {
 			reportError("Source edge of retype may not be declared in replace/modify part");
 			res = false;
-		}
-
-		// Collect all outer Alternative cases
-		Collection<BaseNode> cases = new LinkedHashSet<BaseNode>();
-		BaseNode currCase = this;
-
-		while(!currCase.isRoot()) {
-			if(currCase instanceof AlternativeCaseDeclNode || currCase instanceof RuleDeclNode)
-				cases.add(currCase);
-
-			currCase = currCase.getParents().iterator().next();
-		}
-
-		// check if two ambiguous retyping statements for the same edge declaration occurs
-		Collection<BaseNode> parents = old.getParents();
-		for(BaseNode parent : parents) {
-			// to be erroneous there must be another EdgeTypeChangeNode with the same OLD-child
-			if(parent != this && parent instanceof EdgeTypeChangeDeclNode && ((EdgeTypeChangeDeclNode)parent).old == old) {
-				BaseNode alternativeCase = parent;
-
-				while(!alternativeCase.isRoot()) {
-					if(alternativeCase instanceof AlternativeCaseDeclNode || alternativeCase instanceof RuleDeclNode) {
-						if(cases.contains(alternativeCase)) {
-							reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
-									+ " previous retype statement at " + parent.getCoords());
-							res = false;
-						}
-
-						break;
-					}
-
-					alternativeCase = alternativeCase.getParents().iterator().next();
-				}
-			}
 		}
 
 		return res;

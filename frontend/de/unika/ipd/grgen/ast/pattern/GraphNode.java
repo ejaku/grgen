@@ -20,7 +20,9 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.DummyNodeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.EdgeTypeChangeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.NodeTypeChangeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
@@ -28,6 +30,7 @@ import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
+import de.unika.ipd.grgen.util.Pair;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
@@ -444,6 +447,44 @@ public class GraphNode extends BaseNode
 	public CollectNode<VarDeclNode> getDefVariablesToBeYieldedTo()
 	{
 		return defVariablesToBeYieldedTo;
+	}
+
+	public Pair<Boolean, NodeTypeChangeDeclNode> noAmbiguousRetypes(NodeDeclNode node, NodeTypeChangeDeclNode retypeOfNode)
+	{
+		for(NodeDeclNode retypeCandidate : getNodes()) {
+			if(!(retypeCandidate instanceof NodeTypeChangeDeclNode))
+				continue;
+			NodeTypeChangeDeclNode retype = (NodeTypeChangeDeclNode)retypeCandidate;
+			if(retype.getOldNode() != node)
+				continue;
+			if(retypeOfNode == null)
+				retypeOfNode = retype;
+			else {
+				retype.reportError("Two (and hence ambiguous) retype statements for the same node are forbidden,"
+						+ " other retype statement at " + retypeOfNode.getCoords());
+				return new Pair<Boolean, NodeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfNode);
+			}
+		}
+		return new Pair<Boolean, NodeTypeChangeDeclNode>(Boolean.valueOf(true), retypeOfNode);
+	}
+
+	public Pair<Boolean, EdgeTypeChangeDeclNode> noAmbiguousRetypes(EdgeDeclNode edge, EdgeTypeChangeDeclNode retypeOfEdge)
+	{
+		for(EdgeDeclNode retypeCandidate : getEdges()) {
+			if(!(retypeCandidate instanceof EdgeTypeChangeDeclNode))
+				continue;
+			EdgeTypeChangeDeclNode retype = (EdgeTypeChangeDeclNode)retypeCandidate;
+			if(retype.getOldEdge() != edge)
+				continue;
+			if(retypeOfEdge == null)
+				retypeOfEdge = retype;
+			else {
+				retype.reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
+						+ " other retype statement at " + retypeOfEdge.getCoords());
+				return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfEdge);
+			}
+		}
+		return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(true), retypeOfEdge);
 	}
 
 	/**

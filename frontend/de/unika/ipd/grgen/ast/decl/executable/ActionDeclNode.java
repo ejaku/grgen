@@ -44,6 +44,7 @@ import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.pattern.Variable;
+import de.unika.ipd.grgen.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -691,6 +692,141 @@ edgeAbstrLoop:
 		}
 
 		return abstr;
+	}
+	
+	// TODO: generalize to mergees (of node retype)
+	protected boolean noAmbiguousRetypes(RhsDeclNode right)
+	{
+		if(right == null)
+			return false;
+		boolean result = true;
+		for(NodeDeclNode node : pattern.getNodes()) {
+			if(node.directlyNestingLHSGraph == pattern)
+				result &= noAmbiguousRetypes(right, node);
+		}
+		for(EdgeDeclNode edge : pattern.getEdges()) {
+			if(edge.directlyNestingLHSGraph == pattern)
+				result &= noAmbiguousRetypes(right, edge);
+		}
+		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+				result &= alternativeCase.noAmbiguousRetypes(alternativeCase.right);
+			}
+		}
+		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+			result &= iterated.noAmbiguousRetypes(iterated.right);
+		}
+		return result;
+	}
+	
+	protected boolean noAmbiguousRetypes(RhsDeclNode right, NodeDeclNode node)
+	{
+		boolean noAmbiguousRetypes = true;
+		NodeTypeChangeDeclNode retypeOfNode = null;
+		Pair<Boolean, NodeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(node, retypeOfNode);
+		noAmbiguousRetypes &= result.first.booleanValue();
+		retypeOfNode = result.second;
+		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
+			NodeTypeChangeDeclNode tempRetype = null;
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, node, retypeOfNode);
+				noAmbiguousRetypes &= result.first.booleanValue();
+				if(tempRetype == null)
+					tempRetype = result.second;
+			}
+			if(retypeOfNode == null)
+				retypeOfNode = tempRetype;
+		}
+		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+			result = iterated.noAmbiguousRetypes(iterated.right, node, retypeOfNode);
+			noAmbiguousRetypes &= result.first.booleanValue();
+			if(retypeOfNode == null)
+				retypeOfNode = result.second;
+		}
+		return noAmbiguousRetypes;
+	}
+
+	protected boolean noAmbiguousRetypes(RhsDeclNode right, EdgeDeclNode edge)
+	{
+		boolean noAmbiguousRetypes = true;
+		EdgeTypeChangeDeclNode retypeOfEdge = null;
+		Pair<Boolean, EdgeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(edge, retypeOfEdge);
+		noAmbiguousRetypes &= result.first.booleanValue();
+		retypeOfEdge = result.second;
+		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
+			EdgeTypeChangeDeclNode tempRetype = null;
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, edge, retypeOfEdge);
+				noAmbiguousRetypes &= result.first.booleanValue();
+				if(tempRetype == null)
+					tempRetype = result.second;
+			}
+			if(retypeOfEdge == null)
+				retypeOfEdge = tempRetype;
+		}
+		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+			result = iterated.noAmbiguousRetypes(iterated.right, edge, retypeOfEdge);
+			noAmbiguousRetypes &= result.first.booleanValue();
+			if(retypeOfEdge == null)
+				retypeOfEdge = result.second;
+		}
+		return noAmbiguousRetypes;
+	}
+
+	protected Pair<Boolean, NodeTypeChangeDeclNode> noAmbiguousRetypes(RhsDeclNode right, NodeDeclNode node, NodeTypeChangeDeclNode retypeOfNode)
+	{
+		if(right == null)
+			return new Pair<Boolean, NodeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfNode);
+		boolean noAmbiguousRetypes = true;
+		Pair<Boolean, NodeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(node, retypeOfNode);
+		noAmbiguousRetypes &= result.first.booleanValue();
+		retypeOfNode = result.second;
+		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
+			NodeTypeChangeDeclNode tempRetype = null;
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, node, retypeOfNode);
+				noAmbiguousRetypes &= result.first.booleanValue();
+				if(tempRetype == null)
+					tempRetype = result.second;
+			}
+			if(retypeOfNode == null)
+				retypeOfNode = tempRetype;
+		}
+		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+			result = iterated.noAmbiguousRetypes(iterated.right, node, retypeOfNode);
+			noAmbiguousRetypes &= result.first.booleanValue();
+			if(retypeOfNode == null)
+				retypeOfNode = result.second;
+		}		
+		return new Pair<Boolean, NodeTypeChangeDeclNode>(Boolean.valueOf(noAmbiguousRetypes), retypeOfNode);
+	}
+
+	protected Pair<Boolean, EdgeTypeChangeDeclNode> noAmbiguousRetypes(RhsDeclNode right, EdgeDeclNode edge, EdgeTypeChangeDeclNode retypeOfEdge)
+	{
+		if(right == null)
+			return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfEdge);
+		boolean noAmbiguousRetypes = true;
+		Pair<Boolean, EdgeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(edge, retypeOfEdge);
+		noAmbiguousRetypes &= result.first.booleanValue();
+		retypeOfEdge = result.second;
+		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
+			EdgeTypeChangeDeclNode tempRetype = null;
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, edge, retypeOfEdge);
+				noAmbiguousRetypes &= result.first.booleanValue();
+				if(tempRetype == null)
+					tempRetype = result.second;
+			}
+			if(retypeOfEdge == null)
+				retypeOfEdge = tempRetype;
+		}
+		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+			result = iterated.noAmbiguousRetypes(iterated.right, edge, retypeOfEdge);
+			noAmbiguousRetypes &= result.first.booleanValue();
+			if(retypeOfEdge == null)
+				retypeOfEdge = result.second;
+		}		
+		return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(noAmbiguousRetypes), retypeOfEdge);
 	}
 
 	protected void constructIRaux(Rule constructedRule, RhsDeclNode right)

@@ -168,11 +168,13 @@ public class SubpatternDeclNode extends ActionDeclNode
 		boolean execParamsNotDeleted = true;
 		boolean sameNumberOfRewriteParts = sameNumberOfRewriteParts(right, "subpattern");
 		boolean noNestedRewriteParameters = true;
+		boolean noAmbiguousRetypes = true;
 		if(right != null) {
 			rhsReuseOk = checkRhsReuse(right);
 			execParamsNotDeleted = checkExecParamsNotDeleted(right);
 			noNestedRewriteParameters = noNestedRewriteParameters(right, "subpattern");
 			abstr = noAbstractElementInstantiated(right);
+			noAmbiguousRetypes = noAmbiguousRetypes(right);
 		}
 
 		return leftHandGraphsOk
@@ -182,7 +184,8 @@ public class SubpatternDeclNode extends ActionDeclNode
 				& rhsReuseOk
 				& noReturnInPatternOk
 				& execParamsNotDeleted
-				& abstr;
+				& abstr
+				& noAmbiguousRetypes;
 	}
 
 	public PatternGraphNode getPattern()

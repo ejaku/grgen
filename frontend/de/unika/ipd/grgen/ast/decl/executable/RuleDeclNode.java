@@ -451,7 +451,8 @@ public class RuleDeclNode extends TestDeclNode
 				& checkReturnedElementsNotRetyped()
 				& checkExecParamsNotDeleted(this.right)
 				& checkEmitElementsNotDeleted()
-				& checkReturns(right.returns);
+				& checkReturns(right.returns)
+				& noAmbiguousRetypes(this.right);
 	}
 
 	public NodeDeclNode tryGetNode(IdentNode ident)
