@@ -26,7 +26,6 @@ import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeTypeChangeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.DeclExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayAccumulationMethodNode;
 import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
@@ -531,11 +530,11 @@ public abstract class ActionDeclNode extends DeclNode
 			ExecNode exec = (ExecNode)imperativeStatement;
 			for(CallActionNode callAction : exec.callActions.getChildren()) {
 				for(ExprNode arg : callAction.params.getChildren()) {
-					if(!(arg instanceof DeclExprNode))
-						continue;
-
-					ConstraintDeclNode declNode = ((DeclExprNode)arg).getConstraintDeclNode();
-					valid &= checkExecParamNotDeleted(declNode, deletedElements, maybeDeletedElements);
+					HashSet<ConstraintDeclNode> potentiallyResultingElements = new HashSet<ConstraintDeclNode>();
+					arg.getPotentiallyResultingElements(potentiallyResultingElements);
+					for(ConstraintDeclNode potentiallyResultingElement : potentiallyResultingElements) {
+						valid &= checkExecParamNotDeleted(potentiallyResultingElement, deletedElements, maybeDeletedElements);
+					}
 				}
 			}
 		}
@@ -546,33 +545,29 @@ public abstract class ActionDeclNode extends DeclNode
 	private static boolean checkExecParamNotDeleted(ConstraintDeclNode declNode,
 			Set<ConstraintDeclNode> deletedElements, Set<ConstraintDeclNode> maybeDeletedElements)
 	{
-		boolean valid = true;
+		if(deletedElements.contains(declNode)) {
+			declNode.reportError("The deleted " + declNode.getKind() + " \"" + declNode.ident
+					+ "\" must not be passed to an exec statement");
+			return false;
+		} else if(maybeDeletedElements.contains(declNode)) {
+			declNode.maybeDeleted = true;
 
-		if(declNode != null) {
-			if(deletedElements.contains(declNode)) {
-				declNode.reportError("The deleted " + declNode.getKind() + " \"" + declNode.ident
-						+ "\" must not be passed to an exec statement");
-				valid = false;
-			} else if(maybeDeletedElements.contains(declNode)) {
-				declNode.maybeDeleted = true;
+			if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+				String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
+						+ ", possibly it's homomorphic with a deleted " + declNode.getKind();
+				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
-				if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-					valid = false;
-
-					String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
-							+ ", possibly it's homomorphic with a deleted " + declNode.getKind();
-					errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
-
-					if(declNode instanceof EdgeDeclNode) {
-						errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getKind()
-								+ " and a deleted node exists";
-					}
-					declNode.reportError(errorMessage);
+				if(declNode instanceof EdgeDeclNode) {
+					errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getKind()
+							+ " and a deleted node exists";
 				}
+				declNode.reportError(errorMessage);
+				
+				return false;
 			}
 		}
 
-		return valid;
+		return true;
 	}
 
 	protected boolean sameNumberOfRewriteParts(RhsDeclNode right, String actionKind)
