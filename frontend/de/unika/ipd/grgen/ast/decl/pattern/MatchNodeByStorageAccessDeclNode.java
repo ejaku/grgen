@@ -37,7 +37,6 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 
 	private IdentExprNode accessorUnresolved;
 	private ConstraintDeclNode accessor = null;
-	// TODO: auch vardeclnode für int et al, und qualidentnode für attribute zulassen
 
 	public MatchNodeByStorageAccessDeclNode(IdentNode id, BaseNode type, int context,
 			BaseNode storage, IdentExprNode accessor,
@@ -126,7 +125,7 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 			return false;
 		}
 		TypeNode storageType = getStorageType();
-		if(!(storageType instanceof MapTypeNode)) { // TODO: allow array/deque
+		if(!(storageType instanceof MapTypeNode)) {
 			reportError("match node by storage access expects a parameter variable of map type.");
 			return false;
 		}

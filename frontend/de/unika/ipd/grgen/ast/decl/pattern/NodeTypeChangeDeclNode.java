@@ -133,7 +133,13 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 			res = false;
 		}
 
-		// TODO: do the same for mergees
+		for(NodeDeclNode mergee : mergees.getChildren()) {
+			if((mergee.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
+				&& !mergee.defEntityToBeYieldedTo) {
+				reportError("Node of (retype) merge may not be declared in replace/modify part");
+				res = false;
+			}
+		}
 
 		// Collect all outer Alternative cases
 		Collection<BaseNode> cases = new LinkedHashSet<BaseNode>();
