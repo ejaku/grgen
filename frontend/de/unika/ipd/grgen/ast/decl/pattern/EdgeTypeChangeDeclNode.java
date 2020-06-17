@@ -18,8 +18,6 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
@@ -113,26 +111,11 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 			return false;
 		}
 
-		// check if source edge of retype is declared in replace/modify part
-		BaseNode curr = old;
-		BaseNode prev = null;
-
-		while(!(curr instanceof RuleDeclNode
-				|| curr instanceof TestDeclNode
-				|| curr instanceof SubpatternDeclNode
-				|| curr instanceof AlternativeCaseDeclNode)) {
-			prev = curr;
-			// doesn't matter which parent you choose, in the end you reach RuleDeclNode/SubpatternDeclNode/AlternativeCaseNode
-			curr = curr.getParents().iterator().next();
-		}
-
-		if(curr instanceof RuleDeclNode && prev == ((RuleDeclNode)curr).right
-				|| curr instanceof SubpatternDeclNode && prev == ((SubpatternDeclNode)curr).right
-				|| curr instanceof AlternativeCaseDeclNode && prev == ((AlternativeCaseDeclNode)curr).right) {
-			if(!old.defEntityToBeYieldedTo) {
-				reportError("Source edge of retype may not be declared in replace/modify part");
-				res = false;
-			}
+		// check if source edge of retype is declared in replace/modify part - no retype of just created edge
+		if((old.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
+			&& !old.defEntityToBeYieldedTo) {
+			reportError("Source edge of retype may not be declared in replace/modify part");
+			res = false;
 		}
 
 		// Collect all outer Alternative cases
