@@ -1,0 +1,13 @@
+rule r1
+{
+	x:Node;
+	
+	replace {
+	---
+		exec(t(x)); // references appearing only after --- don't cause insertion to RHS, thus are deleted in delete mode
+	}
+}
+
+test t(n:Node)
+{
+}

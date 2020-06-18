@@ -1,0 +1,9 @@
+rule r1
+{
+	x:Node;
+	
+	replace {
+	---
+		emit(x); // references appearing only after --- don't cause insertion to RHS, thus are deleted in delete mode
+	}
+}

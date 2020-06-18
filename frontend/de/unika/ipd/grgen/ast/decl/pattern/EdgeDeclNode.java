@@ -65,9 +65,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	 * Create EdgeDeclNode and immediately resolve and check it.
 	 * NOTE: Use this to create and insert an EdgeDeclNode into the AST after
 	 * the AST is already checked.
-	 * TODO Change type of type iff CollectNode support generics
 	 */
-	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, BaseNode parent,
+	public EdgeDeclNode(IdentNode id, TypeDeclNode type, int declLocation, BaseNode parent,
 			PatternGraphNode directlyNestingLHSGraph)
 	{
 		this(id, type, false, declLocation, TypeExprNode.getEmpty(), directlyNestingLHSGraph);

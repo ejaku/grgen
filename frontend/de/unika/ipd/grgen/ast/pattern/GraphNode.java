@@ -590,9 +590,8 @@ public class GraphNode extends BaseNode
 				((NodeDeclNode)sncn.nodeUnresolved).directlyNestingLHSGraph = directlyNestingLHSGraph;
 			} else if(param instanceof ConstraintDeclNode) {
 				((ConstraintDeclNode)param).directlyNestingLHSGraph = directlyNestingLHSGraph;
-			} else {
+			} else { //if(param instanceof ConnectionNode)
 				// don't need to adapt left/right nodes as only dummies
-				// TODO casts checked?
 				ConnectionNode cn = (ConnectionNode)param;
 				((EdgeDeclNode)cn.edgeUnresolved).directlyNestingLHSGraph = directlyNestingLHSGraph;
 			}

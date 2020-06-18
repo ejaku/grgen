@@ -376,8 +376,7 @@ public class PatternGraphBuilder
 	public static void addSubpatternReplacementUsageArguments(PatternGraph gr, OrderedReplacementsNode ors)
 	{
 		for(OrderedReplacementNode orderedReplNode : ors.getChildren()) {
-			// TODO: what's with all the other ordered replacement operations containing entitites?
-			if(!(orderedReplNode instanceof SubpatternReplNode))
+			if(!(orderedReplNode instanceof SubpatternReplNode)) // only arguments of subpattern repl node (appearing before ---) are inserted to RHS pattern
 				continue;
 			SubpatternReplNode subpatternReplNode = (SubpatternReplNode)orderedReplNode;
 			SubpatternDependentReplacement subpatternDepRepl = subpatternReplNode.checkIR(SubpatternDependentReplacement.class); 

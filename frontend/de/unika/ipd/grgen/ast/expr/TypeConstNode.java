@@ -41,7 +41,6 @@ public class TypeConstNode extends ConstNode
 	@Override
 	protected ConstNode doCastTo(TypeNode type)
 	{
-		// TODO: ??? How would this be possible?
 		if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), id.toString());
 		} else

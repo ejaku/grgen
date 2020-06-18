@@ -253,7 +253,7 @@ public abstract class RhsDeclNode extends DeclNode
 			if(neededEdge.directlyNestingLHSGraph != left) {
 				if(!right.getDeletedElements().contains(neededEdge)) {
 					if(!right.hasEdge(neededEdge)) {
-						right.addSingleEdge(neededEdge); // TODO: maybe we lose context here
+						right.addSingleEdge(neededEdge);
 						right.addHomToAll(neededEdge);
 					}
 				}
@@ -300,7 +300,7 @@ public abstract class RhsDeclNode extends DeclNode
 			if(neededEdge.directlyNestingLHSGraph != left) {
 				if(!right.getDeletedElements().contains(neededEdge)) {
 					if(!right.hasEdge(neededEdge)) {
-						right.addSingleEdge(neededEdge); // TODO: maybe we lose context here
+						right.addSingleEdge(neededEdge);
 						right.addHomToAll(neededEdge);
 					}
 				}

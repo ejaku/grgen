@@ -432,7 +432,7 @@ public class PatternGraph extends Graph
 			}
 			for(Edge edge : getEdges()) {
 				if(!negative.hasEdge(edge)) {
-					negative.addSingleEdge(edge); // TODO: maybe we loose context here
+					negative.addSingleEdge(edge);
 				}
 			}
 		}
@@ -449,7 +449,7 @@ public class PatternGraph extends Graph
 			}
 			for(Edge edge : getEdges()) {
 				if(!independent.hasEdge(edge)) {
-					independent.addSingleEdge(edge); // TODO: maybe we loose context here
+					independent.addSingleEdge(edge);
 				}
 			}
 		}
@@ -554,7 +554,7 @@ public class PatternGraph extends Graph
 				}
 				for(Edge edge : altCasePattern.getEdges()) {
 					if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
-						addSingleEdge(edge); // TODO: maybe we loose context here
+						addSingleEdge(edge);
 						addHomToAll(edge);
 						PatternGraph altCaseReplacement = altCase.getRight();
 						if(altCaseReplacement != null && !altCaseReplacement.hasEdge(edge)) {
@@ -629,7 +629,7 @@ public class PatternGraph extends Graph
 			}
 			for(Edge edge : iteratedPattern.getEdges()) {
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
-					addSingleEdge(edge); // TODO: maybe we loose context here
+					addSingleEdge(edge);
 					addHomToAll(edge);
 					PatternGraph allReplacement = iterated.getRight();
 					if(allReplacement != null && !allReplacement.hasEdge(edge)) {
@@ -697,7 +697,7 @@ public class PatternGraph extends Graph
 			}
 			for(Edge edge : negative.getEdges()) {
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
-					addSingleEdge(edge); // TODO: maybe we loose context here
+					addSingleEdge(edge);
 					addHomToAll(edge);
 					if(right != null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
 						right.addSingleEdge(edge);
@@ -725,7 +725,7 @@ public class PatternGraph extends Graph
 			}
 			for(Edge edge : independent.getEdges()) {
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
-					addSingleEdge(edge); // TODO: maybe we loose context here
+					addSingleEdge(edge);
 					addHomToAll(edge);
 					if(right != null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
 						right.addSingleEdge(edge);
@@ -842,7 +842,7 @@ public class PatternGraph extends Graph
 		for(Edge e : right.getEdges()) {
 			if(e.directlyNestingLHSGraph != this && !right.replParametersContain(e)) {
 				if(!hasEdge(e)) {
-					addSingleEdge(e); // TODO: maybe we loose context here
+					addSingleEdge(e);
 					addHomToAll(e);
 				}
 			}
