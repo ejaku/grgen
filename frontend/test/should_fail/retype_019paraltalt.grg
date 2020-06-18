@@ -15,12 +15,12 @@ rule r {
 	}
 
 	alternative {
-		First_ {
+		First {
 			modify {
 				y:TYPE2<x>;
 			}
 		}
-		Second_ {
+		Second {
 			modify {}
 		}
 	}

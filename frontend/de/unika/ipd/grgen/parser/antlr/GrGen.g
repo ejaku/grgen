@@ -1966,9 +1966,10 @@ reportErrorOnDefEntityOrEval
 	;
 
 alternative [ AnonymousScopeNamer namer, int context ] returns [ AlternativeDeclNode alt = null ]
-	: a=ALTERNATIVE (name=altIdentDecl)? { namer.defAlt(name, getCoords(a)); alt = new AlternativeDeclNode(namer.alt()); } LBRACE
+	: a=ALTERNATIVE (name=altIdentDecl)? { namer.defAlt(name, getCoords(a)); } { env.pushScope(namer.altCase()); }
+			{ alt = new AlternativeDeclNode(namer.alt()); } LBRACE
 		( alternativeCase[alt, namer, context] )+
-		RBRACE { namer.undefAlt(); }
+		RBRACE { env.popScope(); } { namer.undefAlt(); }
 	| a=LPAREN { namer.defAlt(null, getCoords(a)); alt = new AlternativeDeclNode(namer.alt()); }
 		( alternativeCasePure[alt, a, namer, context] )
 			( BOR alternativeCasePure[alt, a, namer, context] )*
