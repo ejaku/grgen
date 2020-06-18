@@ -40,7 +40,6 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.executable.MatchingAction;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
-import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.pattern.Variable;
@@ -862,22 +861,15 @@ edgeAbstrLoop:
 	{
 		PatternGraph patternGraph = constructedMatchingAction.getPattern();
 
-		// (TODO: parameters were already added to the graph -> needed here again (?))
 		for(DeclNode decl : pattern.getParamDecls()) {
 			Entity entity = decl.checkIR(Entity.class);
 			if(entity.isDefToBeYieldedTo())
 				constructedMatchingAction.addDefParameter(entity);
 			else
 				constructedMatchingAction.addParameter(entity);
-			if(decl instanceof NodeCharacter) {
-				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
-			} else if(decl instanceof EdgeCharacter) {
-				Edge e = ((EdgeCharacter)decl).getEdge();
-				patternGraph.addSingleEdge(e);
-			} else if(decl instanceof VarDeclNode) {
+			
+			if(decl instanceof VarDeclNode) { // nodes/edges already have been added
 				patternGraph.addVariable(((VarDeclNode)decl).getVariable());
-			} else {
-				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
 		}
 	}
