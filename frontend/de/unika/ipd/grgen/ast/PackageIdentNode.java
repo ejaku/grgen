@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Symbol;
 
 /**
- * AST node that represents an Identifier in a package (name that appears within the specification),
+ * AST node that represents an Identifier in a package (name that appears within the specification)
  */
 public class PackageIdentNode extends IdentNode
 {
@@ -70,7 +70,7 @@ public class PackageIdentNode extends IdentNode
 		return super.checkLocal() && (getOwnerSymbol().toString().equals("global") || getOwnerSymDef().isValid());
 	}
 
-	public Symbol.Definition getOwnerSymDef()
+	private Symbol.Definition getOwnerSymDef()
 	{
 		if(owningPackage.getDefinition() == null 
 			|| !owningPackage.getDefinition().isValid()) {
@@ -81,7 +81,7 @@ public class PackageIdentNode extends IdentNode
 		return owningPackage.getDefinition();
 	}
 
-	public void setOwnerSymDef(Symbol.Definition def)
+	private void setOwnerSymDef(Symbol.Definition def)
 	{
 		owningPackage.setDefinition(def);
 	}
@@ -124,7 +124,7 @@ public class PackageIdentNode extends IdentNode
 
 	public static String getKindStr()
 	{
-		return "identifier";
+		return "package-prefixed identifier";
 	}
 
 	/**
@@ -137,25 +137,12 @@ public class PackageIdentNode extends IdentNode
 	}
 
 	/**
-	 * Get the IR object.
-	 * This is an ident here.
-	 * @return The IR object.
-	 */
-	//public Ident getIdent() {
-	//	return checkIR(Ident.class);
-	//}
-	// TODO: remove
-
-	/**
-	 * Construct the ir object.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
+	 * Package ident nodes are resolved to their targeted concept, the owning package is ignored thereafter.
 	 */
 	@Override
 	protected Ident constructIR()
 	{
-		//Symbol.Definition def = getSymDef();
-		//return Ident.get(toString(), def, getAnnotations());
-		// TODO: remove
-		return null;
+		throw new RuntimeException("internal compiler error");
 	}
 }
