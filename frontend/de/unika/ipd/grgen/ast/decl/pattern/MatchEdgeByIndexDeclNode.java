@@ -15,6 +15,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 
 public abstract class MatchEdgeByIndexDeclNode extends EdgeDeclNode
 {
@@ -31,5 +32,28 @@ public abstract class MatchEdgeByIndexDeclNode extends EdgeDeclNode
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.indexUnresolved = index;
 		becomeParent(this.indexUnresolved);
+	}
+	
+	private static DeclarationResolver<IndexDeclNode> indexResolver =
+			new DeclarationResolver<IndexDeclNode>(IndexDeclNode.class);
+
+	@Override
+	protected boolean resolveLocal()
+	{
+		boolean successfullyResolved = super.resolveLocal();
+		index = indexResolver.resolve(indexUnresolved, this);
+		successfullyResolved &= index != null;
+		return successfullyResolved;
+	}
+	
+	@Override
+	protected boolean checkLocal()
+	{
+		boolean res = super.checkLocal();
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+			reportError("Can't employ match edge by index on RHS");
+			res = false;
+		}
+		return res;
 	}
 }

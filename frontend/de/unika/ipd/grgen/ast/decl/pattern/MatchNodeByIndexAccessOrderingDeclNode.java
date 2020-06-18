@@ -17,11 +17,9 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.Index;
@@ -88,16 +86,11 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 		return childrenNames;
 	}
 
-	private static DeclarationResolver<IndexDeclNode> indexResolver =
-			new DeclarationResolver<IndexDeclNode>(IndexDeclNode.class);
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal()
 	{
 		boolean successfullyResolved = super.resolveLocal();
-		index = indexResolver.resolve(indexUnresolved, this);
-		successfullyResolved &= index != null;
 		if(expr != null)
 			successfullyResolved &= expr.resolve();
 		if(expr2 != null)
@@ -110,10 +103,6 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 	protected boolean checkLocal()
 	{
 		boolean res = super.checkLocal();
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Can't employ match node by index on RHS");
-			return false;
-		}
 		if(expr != null) {
 			TypeNode expectedIndexAccessType = index.getExpectedAccessType();
 			TypeNode indexAccessType = expr.getType();
