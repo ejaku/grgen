@@ -455,14 +455,21 @@ public class GraphNode extends BaseNode
 			if(!(retypeCandidate instanceof NodeTypeChangeDeclNode))
 				continue;
 			NodeTypeChangeDeclNode retype = (NodeTypeChangeDeclNode)retypeCandidate;
-			if(retype.getOldNode() != node)
-				continue;
-			if(retypeOfNode == null)
-				retypeOfNode = retype;
-			else {
-				retype.reportError("Two (and hence ambiguous) retype statements for the same node are forbidden,"
-						+ " other retype statement at " + retypeOfNode.getCoords());
-				return new Pair<Boolean, NodeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfNode);
+			boolean mergeeIsSame = false;
+			for(NodeDeclNode mergee : retype.getMergees()) {
+				if(mergee == node) {
+					mergeeIsSame = true;
+					break;
+				}
+			}
+			if(retype.getOldNode() == node || mergeeIsSame) {
+				if(retypeOfNode == null)
+					retypeOfNode = retype;
+				else {
+					retype.reportError("Two (and hence ambiguous) retype (/merge) statements for the same node are forbidden,"
+							+ " other retype (/merge) statement at " + retypeOfNode.getCoords());
+					return new Pair<Boolean, NodeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfNode);
+				}
 			}
 		}
 		return new Pair<Boolean, NodeTypeChangeDeclNode>(Boolean.valueOf(true), retypeOfNode);
@@ -474,14 +481,14 @@ public class GraphNode extends BaseNode
 			if(!(retypeCandidate instanceof EdgeTypeChangeDeclNode))
 				continue;
 			EdgeTypeChangeDeclNode retype = (EdgeTypeChangeDeclNode)retypeCandidate;
-			if(retype.getOldEdge() != edge)
-				continue;
-			if(retypeOfEdge == null)
-				retypeOfEdge = retype;
-			else {
-				retype.reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
-						+ " other retype statement at " + retypeOfEdge.getCoords());
-				return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfEdge);
+			if(retype.getOldEdge() == edge) {
+				if(retypeOfEdge == null)
+					retypeOfEdge = retype;
+				else {
+					retype.reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
+							+ " other retype statement at " + retypeOfEdge.getCoords());
+					return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfEdge);
+				}
 			}
 		}
 		return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(true), retypeOfEdge);

@@ -694,7 +694,6 @@ edgeAbstrLoop:
 		return abstr;
 	}
 	
-	// TODO: generalize to mergees (of node retype)
 	protected boolean noAmbiguousRetypes(RhsDeclNode right)
 	{
 		if(right == null)

@@ -109,6 +109,16 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 	}
 
 	/**
+	 * @return the mergees of this (retyped) node
+	 */
+	public final Collection<NodeDeclNode> getMergees()
+	{
+		assert isResolved();
+
+		return mergees.getChildren();
+	}
+
+	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
