@@ -40,7 +40,7 @@ import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
@@ -530,7 +530,7 @@ public class RuleDeclNode extends TestDeclNode
 		// mark this node as already visited
 		setIR(rule);
 
-		PatternGraph left = pattern.getPatternGraph();
+		PatternGraphLhs left = pattern.getPatternGraph();
 		for(DeclNode varCand : pattern.getParamDecls()) {
 			if(!(varCand instanceof VarDeclNode))
 				continue;
@@ -538,7 +538,7 @@ public class RuleDeclNode extends TestDeclNode
 			left.addVariable(var.checkIR(Variable.class));
 		}
 
-		PatternGraph right = this.right.getPatternGraph(left);
+		PatternGraphLhs right = this.right.getPatternGraph(left);
 
 		rule.initialize(left, right);
 

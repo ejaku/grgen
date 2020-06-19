@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.util.GraphDumpVisitor;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumpableProxy;
@@ -96,8 +96,8 @@ public class DumpVisitor extends GraphDumpVisitor
 			dumper.edge(e, to);
 		}
 
-		if(gr instanceof PatternGraph) {
-			PatternGraph pg = (PatternGraph)gr;
+		if(gr instanceof PatternGraphLhs) {
+			PatternGraphLhs pg = (PatternGraphLhs)gr;
 
 			for(Collection<? extends GraphEntity> homSet : pg.getHomomorphic()) {
 				if(!homSet.isEmpty()) {

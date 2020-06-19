@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.util.Pair;
 
 /**
@@ -107,11 +107,11 @@ public class ImplicitNegComputerInduced
 	 * Get all implicit NACs.
 	 * @return The Collection for the NACs.
 	 */
-	public LinkedList<PatternGraph> getImplicitNegGraphs()
+	public LinkedList<PatternGraphLhs> getImplicitNegGraphs()
 	{
 		assert patternGraph.isResolved();
 		
-		LinkedList<PatternGraph> implicitNegGraphs = new LinkedList<PatternGraph>();
+		LinkedList<PatternGraphLhs> implicitNegGraphs = new LinkedList<PatternGraphLhs>();
 
 		// add existing edges to the corresponding pattern graph
 		for(ConnectionCharacter connection : patternGraph.connections.getChildren()) {
@@ -149,7 +149,7 @@ public class ImplicitNegComputerInduced
 			Set<ConnectionNode> edgeSet = homNodePairsToEdges.get(key);
 			edgeSet.addAll(homNodePairsToEdges.get(reverseKey));
 
-			PatternGraph neg = new PatternGraph("implnegind_" + implicitNegCounter, 0);
+			PatternGraphLhs neg = new PatternGraphLhs("implnegind_" + implicitNegCounter, 0);
 			++implicitNegCounter;
 			neg.setDirectlyNestingLHSGraph(neg);
 
@@ -186,7 +186,7 @@ public class ImplicitNegComputerInduced
 	 * If an edge a-e->b is homomorphic to another edge c-f->d f only added if
 	 * a is homomorphic to c and b is homomorphic to d.
 	 */
-	private void addInheritedHomSet(PatternGraph neg, Set<EdgeDeclNode> allNegEdges, Set<NodeDeclNode> allNegNodes)
+	private void addInheritedHomSet(PatternGraphLhs neg, Set<EdgeDeclNode> allNegEdges, Set<NodeDeclNode> allNegNodes)
 	{
 		// inherit homomorphic nodes
 		for(NodeDeclNode node : allNegNodes) {

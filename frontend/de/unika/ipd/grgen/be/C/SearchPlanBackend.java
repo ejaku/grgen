@@ -40,7 +40,7 @@ import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.stmt.Assignment;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
@@ -370,7 +370,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		genConditionFunction(sb, indent, rule.getLeft(), nodeIds, edgeIds);
 
 		// conditions  for NACs
-		for(PatternGraph neg : rule.getLeft().getNegs()) {
+		for(PatternGraphLhs neg : rule.getLeft().getNegs()) {
 			genConditionFunction(sb, indent, neg, nodeIds, edgeIds);
 		}
 		sb.append("\n");
@@ -382,7 +382,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * Generate the function body for a condition
 	 * ------------------------------------------- */
 
-	private void genConditionFunction(StringBuffer sb, String indent, PatternGraph graph,
+	private void genConditionFunction(StringBuffer sb, String indent, PatternGraphLhs graph,
 			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
 		for(Expression cond : graph.getConditions()) {
@@ -553,7 +553,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		// code for the negative graphs
 		sb.append(indent + "  /* The negative parts of the pattern */\n");
 		int i = 0;
-		for(PatternGraph neg : rule.getLeft().getNegs()) {
+		for(PatternGraphLhs neg : rule.getLeft().getNegs()) {
 			sb.append(indent + "  { /* NAC " + i + "  */\n");
 			genPatternGraph(sb, indent + "    ", "ext_grs_act_impose_negative",
 					neg, nodeIds, edgeIds, GraphType.Negative, rule);
@@ -603,7 +603,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	HashMap<Node, String> relatedNodes;
 
 	private void genPatternGraph(StringBuffer sb, String indent, String funcName,
-			PatternGraph graph,
+			PatternGraphLhs graph,
 			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds,
 			GraphType graphType, Rule rule)
 	{
@@ -615,7 +615,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	}
 
-	private static void genHom(StringBuffer sb, PatternGraph graph,
+	private static void genHom(StringBuffer sb, PatternGraphLhs graph,
 			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds, Rule rule)
 	{
 		for(Node n1 : graph.getNodes()) {
@@ -884,7 +884,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @param    graph	       a  PatternGraph
 	 * --------------------------------------------- */
 
-	private void genConditions(StringBuffer sb, String indent, PatternGraph graph)
+	private void genConditions(StringBuffer sb, String indent, PatternGraphLhs graph)
 	{
 		sb.append(indent + "/* The conditions of the pattern */\n");
 		for(Expression cond : graph.getConditions()) {

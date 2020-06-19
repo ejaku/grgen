@@ -21,16 +21,16 @@ import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.executable.MatchClassFilter;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 
 public class DefinedMatchType extends CompoundType implements ContainedInPackage
 {
 	private String packageContainedIn;
-	private PatternGraph pattern;
+	private PatternGraphLhs pattern;
 	private ArrayList<MatchClassFilter> matchClassFilters;
 
-	public DefinedMatchType(String name, Ident ident, PatternGraph pattern)
+	public DefinedMatchType(String name, Ident ident, PatternGraphLhs pattern)
 	{
 		super(name, ident);
 		this.pattern = pattern;
@@ -58,7 +58,7 @@ public class DefinedMatchType extends CompoundType implements ContainedInPackage
 		return Collections.unmodifiableList(matchClassFilters);
 	}
 
-	public PatternGraph getPatternGraph()
+	public PatternGraphLhs getPatternGraph()
 	{
 		return pattern;
 	}

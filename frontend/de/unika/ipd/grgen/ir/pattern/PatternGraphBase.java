@@ -123,7 +123,7 @@ public abstract class PatternGraphBase extends IR
 
 	private List<OrderedReplacements> orderedReplacements = new LinkedList<OrderedReplacements>();
 
-	PatternGraph directlyNestingLHSGraph; // either this or the left graph
+	PatternGraphLhs directlyNestingLHSGraph; // either this or the left graph
 
 	private String nameOfGraph;
 
@@ -134,7 +134,7 @@ public abstract class PatternGraphBase extends IR
 		this.nameOfGraph = nameOfGraph;
 	}
 
-	public void setDirectlyNestingLHSGraph(PatternGraph directlyNestingLHSGraph)
+	public void setDirectlyNestingLHSGraph(PatternGraphLhs directlyNestingLHSGraph)
 	{
 		// This is for setting the directlyNestingLHSGraph for a retyped node when it gets added
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;

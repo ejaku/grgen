@@ -37,7 +37,7 @@ import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
@@ -379,7 +379,7 @@ public class InformationCollector extends CBackend
 
 			/* for all nodes of the current MatchingActions pattern graph
 			 extract that nodes type constraints */
-			PatternGraph pattern = act.getPattern();
+			PatternGraphLhs pattern = act.getPattern();
 			for(Node node : pattern.getNodes()) {
 				//if node has type constraints, register the as conditions
 				if(!node.getConstraints().isEmpty()) {
@@ -1017,7 +1017,7 @@ public class InformationCollector extends CBackend
 		//got through that m,atrices and set cells to '1' if two nodes
 		//are potentialy homomorphic
 		for(Rule action : actionRuleMap.keySet()) {
-			PatternGraph pattern = action.getPattern();
+			PatternGraphLhs pattern = action.getPattern();
 			for(Node node_1 : pattern.getNodes()) {
 				Collection<Node> hom_of_node_1 = new HashSet<Node>();
 				hom_of_node_1 = pattern.getHomomorphic(node_1);

@@ -27,7 +27,7 @@ public class StorageAccessIndex
 
 	public StorageAccessIndex(GraphEntity indexGraphEntityOrGlobalVariable)
 	{
-		PatternGraph directlyNestingLHSGraph;
+		PatternGraphLhs directlyNestingLHSGraph;
 		if(indexGraphEntityOrGlobalVariable instanceof Node) {
 			directlyNestingLHSGraph = ((Node)indexGraphEntityOrGlobalVariable).directlyNestingLHSGraph;
 		} else {

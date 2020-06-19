@@ -37,7 +37,7 @@ import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 
 /**
@@ -226,7 +226,7 @@ public abstract class RhsDeclNode extends DeclNode
 		return null;
 	}
 
-	protected void insertElementsFromEvalsIntoRhs(PatternGraph left, PatternGraph right)
+	protected void insertElementsFromEvalsIntoRhs(PatternGraphLhs left, PatternGraphLhs right)
 	{
 		// insert all elements, which are used in eval statements (of the right hand side) and
 		// neither declared on the local left hand nor on the right hand side to the right hand side
@@ -268,7 +268,7 @@ public abstract class RhsDeclNode extends DeclNode
 		}
 	}
 
-	protected void insertElementsFromOrderedReplacementsIntoRhs(PatternGraph left, PatternGraph right)
+	protected void insertElementsFromOrderedReplacementsIntoRhs(PatternGraphLhs left, PatternGraphLhs right)
 	{
 		// insert all elements, which are used in ordered replacements (of the right hand side) and
 		// neither declared on the local left hand nor on the right hand side to the right hand side
@@ -315,7 +315,7 @@ public abstract class RhsDeclNode extends DeclNode
 		}
 	}
 
-	public abstract PatternGraph getPatternGraph(PatternGraph left);
+	public abstract PatternGraphLhs getPatternGraph(PatternGraphLhs left);
 
 	@Override
 	public RhsTypeNode getDeclType()

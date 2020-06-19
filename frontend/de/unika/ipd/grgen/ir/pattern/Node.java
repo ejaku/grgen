@@ -25,10 +25,10 @@ public class Node extends GraphEntity
 	protected final NodeType type;
 
 	/** Point of definition, that is the pattern graph the node was defined in*/
-	protected PatternGraph pointOfDefinition;
+	protected PatternGraphLhs pointOfDefinition;
 
 	// in case of retyped node thats the pattern graph of the old node, otherwise of the node itself
-	public PatternGraph directlyNestingLHSGraph;
+	public PatternGraphLhs directlyNestingLHSGraph;
 
 	protected boolean maybeNull;
 
@@ -43,7 +43,7 @@ public class Node extends GraphEntity
 	 * @param context The context of the declaration
 	 */
 	public Node(Ident ident, NodeType type, Annotations annots,
-			PatternGraph directlyNestingLHSGraph,
+			PatternGraphLhs directlyNestingLHSGraph,
 			boolean maybeDeleted, boolean maybeRetyped,
 			boolean isDefToBeYieldedTo, int context)
 	{
@@ -62,7 +62,7 @@ public class Node extends GraphEntity
 	 * @param isDefToBeYieldedTo Is the entity a defined entity only, to be filled with yields from nested patterns.
 	 */
 	public Node(Ident ident, NodeType type,
-			PatternGraph directlyNestingLHSGraph,
+			PatternGraphLhs directlyNestingLHSGraph,
 			boolean maybeDeleted, boolean maybeRetyped,
 			boolean isDefToBeYieldedTo, int context)
 	{
@@ -109,13 +109,13 @@ public class Node extends GraphEntity
 			return null;
 	}
 
-	public void setPointOfDefinition(PatternGraph pointOfDefinition)
+	public void setPointOfDefinition(PatternGraphLhs pointOfDefinition)
 	{
 		assert this.pointOfDefinition == null && pointOfDefinition != null;
 		this.pointOfDefinition = pointOfDefinition;
 	}
 
-	public PatternGraph getPointOfDefinition()
+	public PatternGraphLhs getPointOfDefinition()
 	{
 		return pointOfDefinition;
 	}

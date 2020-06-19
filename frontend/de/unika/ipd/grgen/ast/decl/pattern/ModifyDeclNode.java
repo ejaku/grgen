@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 
@@ -132,9 +132,9 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public PatternGraph getPatternGraph(PatternGraph left)
+	public PatternGraphLhs getPatternGraph(PatternGraphLhs left)
 	{
-		PatternGraph right = graph.getGraph();
+		PatternGraphLhs right = graph.getGraph();
 
 		Set<Entity> elementsToDelete = insertElementsToDeleteToLhsIfNotFromLhs(left, right);
 
@@ -154,7 +154,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		return right;
 	}
 
-	private Set<Entity> insertElementsToDeleteToLhsIfNotFromLhs(PatternGraph left, PatternGraph right)
+	private Set<Entity> insertElementsToDeleteToLhsIfNotFromLhs(PatternGraphLhs left, PatternGraphLhs right)
 	{
 		HashSet<Entity> elementsToDelete = new HashSet<Entity>();
 		
@@ -188,7 +188,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	// inserts to be kept nodes/edges and to be deleted nodes/edges, to be created nodes/edges are already contained
-	private static void insertLhsElementsToRhs(PatternGraph left, Set<Entity> elementsToDelete, PatternGraph right)
+	private static void insertLhsElementsToRhs(PatternGraphLhs left, Set<Entity> elementsToDelete, PatternGraphLhs right)
 	{
 		for(Node lhsNode : left.getNodes()) {
 			if(!elementsToDelete.contains(lhsNode)) {
@@ -209,7 +209,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		}
 	}
 
-	private static void insertElementsFromTypeofToRhsIfNotYetContained(PatternGraph right, Set<Entity> elementsToDelete)
+	private static void insertElementsFromTypeofToRhsIfNotYetContained(PatternGraphLhs right, Set<Entity> elementsToDelete)
 	{
 		for(Node rhsNode : right.getNodes()) {
 			if(rhsNode.inheritsType()) {
@@ -229,7 +229,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		}
 	}
 
-	private static boolean isSubpatternRewritePartUsed(SubpatternUsage sub, PatternGraph right)
+	private static boolean isSubpatternRewritePartUsed(SubpatternUsage sub, PatternGraphLhs right)
 	{
 		for(OrderedReplacements orderedRepls : right.getOrderedReplacements()) {
 			for(OrderedReplacement orderedRepl : orderedRepls.orderedReplacements) {

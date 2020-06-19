@@ -200,7 +200,7 @@ import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.util.Base;
@@ -312,7 +312,7 @@ public abstract class CSharpBase
 			sb.append("{ ");
 		for(Iterator<? extends Rule> iter = set.iterator(); iter.hasNext();) {
 			Rule altCase = iter.next();
-			PatternGraph altCasePattern = altCase.getLeft();
+			PatternGraphLhs altCasePattern = altCase.getLeft();
 			sb.append(pre + altCasePattern.getNameOfGraph() + post);
 			if(iter.hasNext())
 				sb.append(", ");
@@ -420,7 +420,7 @@ public abstract class CSharpBase
 			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
 	}
 
-	static String matchType(PatternGraph patternGraph, Rule subpattern, boolean isSubpattern, String pathPrefix)
+	static String matchType(PatternGraphLhs patternGraph, Rule subpattern, boolean isSubpattern, String pathPrefix)
 	{
 		String matchClassContainer;
 		if(isSubpattern) {

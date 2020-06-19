@@ -41,7 +41,7 @@ import de.unika.ipd.grgen.ir.executable.MatchingAction;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.util.Pair;
 
@@ -833,7 +833,7 @@ edgeAbstrLoop:
 		addParams(constructedRule);
 
 		// add replacement parameters to the IR
-		PatternGraph rightPattern = null;
+		PatternGraphLhs rightPattern = null;
 		if(right != null) {
 			rightPattern = right.getPatternGraph(pattern.getPatternGraph());
 		} else {
@@ -859,7 +859,7 @@ edgeAbstrLoop:
 
 	protected void addParams(MatchingAction constructedMatchingAction)
 	{
-		PatternGraph patternGraph = constructedMatchingAction.getPattern();
+		PatternGraphLhs patternGraph = constructedMatchingAction.getPattern();
 
 		for(DeclNode decl : pattern.getParamDecls()) {
 			Entity entity = decl.checkIR(Entity.class);
@@ -877,7 +877,7 @@ edgeAbstrLoop:
 	protected static void addReplacementParamsToNestedAlternativesAndIterateds(Rule constructedRule, RhsDeclNode right)
 	{
 		// add replacement parameters to the nested alternatives and iterateds
-		PatternGraph patternGraph = constructedRule.getPattern();
+		PatternGraphLhs patternGraph = constructedRule.getPattern();
 		for(DeclNode decl : right.graph.getParamDecls()) {
 			if(decl instanceof NodeDeclNode) {
 				addReplacementNodeParamToNestedAlternativesAndIterateds((NodeDeclNode)decl, patternGraph);
@@ -889,7 +889,7 @@ edgeAbstrLoop:
 		}
 	}
 
-	private static void addReplacementNodeParamToNestedAlternativesAndIterateds(NodeDeclNode decl, PatternGraph patternGraph)
+	private static void addReplacementNodeParamToNestedAlternativesAndIterateds(NodeDeclNode decl, PatternGraphLhs patternGraph)
 	{
 		for(Alternative alt : patternGraph.getAlts()) {
 			for(Rule altCase : alt.getAlternativeCases()) {
@@ -903,7 +903,7 @@ edgeAbstrLoop:
 		}
 	}
 
-	private static void addReplacementVarParamToNestedAlternativesAndIterateds(VarDeclNode decl, PatternGraph patternGraph)
+	private static void addReplacementVarParamToNestedAlternativesAndIterateds(VarDeclNode decl, PatternGraphLhs patternGraph)
 	{
 		for(Alternative alt : patternGraph.getAlts()) {
 			for(Rule altCase : alt.getAlternativeCases()) {
@@ -920,16 +920,16 @@ edgeAbstrLoop:
 	/**
 	 * add NACs for induced- or DPO-semantic
 	 */
-	protected void constructImplicitNegs(PatternGraph left)
+	protected void constructImplicitNegs(PatternGraphLhs left)
 	{
 		PatternGraphNode leftNode = pattern;
 		ImplicitNegComputer implicitNegComputer = new ImplicitNegComputer(leftNode);
 		ImplicitNegComputerInduced implicitNegComputerInduced = new ImplicitNegComputerInduced(leftNode);
 		
-		for(PatternGraph neg : implicitNegComputer.getImplicitNegGraphs()) {
+		for(PatternGraphLhs neg : implicitNegComputer.getImplicitNegGraphs()) {
 			left.addNegGraph(neg);
 		}
-		for(PatternGraph neg : implicitNegComputerInduced.getImplicitNegGraphs()) {
+		for(PatternGraphLhs neg : implicitNegComputerInduced.getImplicitNegGraphs()) {
 			left.addNegGraph(neg);
 		}
 	}

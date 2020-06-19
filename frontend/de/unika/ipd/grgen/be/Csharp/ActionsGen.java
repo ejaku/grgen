@@ -52,7 +52,7 @@ import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
 import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
 import de.unika.ipd.grgen.ir.pattern.NameLookup;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
 import de.unika.ipd.grgen.ir.pattern.RetypedNode;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
@@ -1223,7 +1223,7 @@ public class ActionsGen extends CSharpBase
 	/**
 	 * Generates the match classes (of pattern and contained patterns)
 	 */
-	private void genMatch(SourceBuilder sb, PatternGraph pattern, Collection<DefinedMatchType> implementedMatchClasses,
+	private void genMatch(SourceBuilder sb, PatternGraphLhs pattern, Collection<DefinedMatchType> implementedMatchClasses,
 			String className, boolean parallelized)
 	{
 		HashSet<String> elementsAlreadyDeclared = new HashSet<String>();
@@ -1278,7 +1278,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 
-		PatternGraph pattern = iteratedRule != null ? iteratedRule.getPattern() : actionRule.getPattern();
+		PatternGraphLhs pattern = iteratedRule != null ? iteratedRule.getPattern() : actionRule.getPattern();
 		String matchTypeName = "IMatch_" + actionRule.getPattern().getNameOfGraph() + iteratedRuleSuffix;
 
 		for(Node node : pattern.getNodes()) {
@@ -1478,7 +1478,7 @@ public class ActionsGen extends CSharpBase
 			String patGraphVarName, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
-		PatternGraph pattern = rule.getPattern();
+		PatternGraphLhs pattern = rule.getPattern();
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
 		genLocalContainers(sb, rule, staticInitializers, pathPrefixForElements,
@@ -1486,7 +1486,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("public GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 
-		for(PatternGraph neg : pattern.getNegs()) {
+		for(PatternGraphLhs neg : pattern.getNegs()) {
 			String negName = neg.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(
 					alreadyDefinedEntityToName);
@@ -1495,7 +1495,7 @@ public class ActionsGen extends CSharpBase
 					alreadyDefinedEntityToNameClone);
 		}
 
-		for(PatternGraph idpt : pattern.getIdpts()) {
+		for(PatternGraphLhs idpt : pattern.getIdpts()) {
 			String idptName = idpt.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(
 					alreadyDefinedEntityToName);
@@ -1508,7 +1508,7 @@ public class ActionsGen extends CSharpBase
 			String altName = alt.getNameOfGraph();
 			genCaseEnum(sb, alt, pathPrefixForElements + altName + "_");
 			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
+				PatternGraphLhs altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(
 						alreadyDefinedEntityToName);
@@ -1528,7 +1528,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void genRuleOrSubpatternClassEntities(SourceBuilder sb, PatternGraph pattern,
+	private void genRuleOrSubpatternClassEntities(SourceBuilder sb, PatternGraphLhs pattern,
 			String patGraphVarName, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
@@ -1539,7 +1539,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("public GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 
-		for(PatternGraph neg : pattern.getNegs()) {
+		for(PatternGraphLhs neg : pattern.getNegs()) {
 			String negName = neg.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(
 					alreadyDefinedEntityToName);
@@ -1548,7 +1548,7 @@ public class ActionsGen extends CSharpBase
 					alreadyDefinedEntityToNameClone);
 		}
 
-		for(PatternGraph idpt : pattern.getIdpts()) {
+		for(PatternGraphLhs idpt : pattern.getIdpts()) {
 			String idptName = idpt.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(
 					alreadyDefinedEntityToName);
@@ -1561,7 +1561,7 @@ public class ActionsGen extends CSharpBase
 			String altName = alt.getNameOfGraph();
 			genCaseEnum(sb, alt, pathPrefixForElements + altName + "_");
 			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
+				PatternGraphLhs altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(
 						alreadyDefinedEntityToName);
@@ -1581,14 +1581,14 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void genAllowedTypeArrays(SourceBuilder sb, PatternGraph pattern,
+	private void genAllowedTypeArrays(SourceBuilder sb, PatternGraphLhs pattern,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		genAllowedNodeTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genAllowedEdgeTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 	}
 
-	private void genAllowedNodeTypeArrays(SourceBuilder sb, PatternGraph pattern,
+	private void genAllowedNodeTypeArrays(SourceBuilder sb, PatternGraphLhs pattern,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		SourceBuilder aux = new SourceBuilder();
@@ -1633,7 +1633,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(aux.toString());
 	}
 
-	private void genAllowedEdgeTypeArrays(SourceBuilder sb, PatternGraph pattern,
+	private void genAllowedEdgeTypeArrays(SourceBuilder sb, PatternGraphLhs pattern,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		SourceBuilder aux = new SourceBuilder();
@@ -1678,7 +1678,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(aux.toString());
 	}
 
-	private static void genEnums(SourceBuilder sb, PatternGraph pattern, String pathPrefixForElements)
+	private static void genEnums(SourceBuilder sb, PatternGraphLhs pattern, String pathPrefixForElements)
 	{
 		sb.appendFront("public enum " + pathPrefixForElements + "NodeNums { ");
 		for(Node node : pattern.getNodes()) {
@@ -1721,7 +1721,7 @@ public class ActionsGen extends CSharpBase
 	{
 		sb.appendFront("public enum " + pathPrefixForElements + "CaseNums { ");
 		for(Rule altCase : alt.getAlternativeCases()) {
-			PatternGraph altCasePattern = altCase.getLeft();
+			PatternGraphLhs altCasePattern = altCase.getLeft();
 			sb.append("@" + altCasePattern.getNameOfGraph() + ", ");
 		}
 		sb.append("};\n");
@@ -1748,7 +1748,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void genLocalContainers(SourceBuilder sb, PatternGraph pattern,
+	private void genLocalContainers(SourceBuilder sb, PatternGraphLhs pattern,
 			List<String> staticInitializers, String pathPrefixForElements,
 			HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
@@ -1762,8 +1762,8 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void genLocalContainersInitializations(SourceBuilder sb, PatternGraph rhsPattern,
-			PatternGraph directlyNestingLHSPattern, List<String> staticInitializers,
+	private void genLocalContainersInitializations(SourceBuilder sb, PatternGraphLhs rhsPattern,
+			PatternGraphLhs directlyNestingLHSPattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
@@ -1778,7 +1778,7 @@ public class ActionsGen extends CSharpBase
 		genLocalContainers(sb, needs, staticInitializers, false);
 	}
 
-	private void genLocalContainersInitializations(SourceBuilder sb, PatternGraph pattern,
+	private void genLocalContainersInitializations(SourceBuilder sb, PatternGraphLhs pattern,
 			List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
@@ -1793,7 +1793,7 @@ public class ActionsGen extends CSharpBase
 		genLocalContainers(sb, needs, staticInitializers, false);
 	}
 
-	private void genLocalContainersConditions(SourceBuilder sb, PatternGraph pattern, List<String> staticInitializers,
+	private void genLocalContainersConditions(SourceBuilder sb, PatternGraphLhs pattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
@@ -1836,7 +1836,7 @@ public class ActionsGen extends CSharpBase
 	private void genRuleOrSubpatternInit(SourceBuilder sb, MatchingAction action,
 			String className, String packageName, boolean isSubpattern)
 	{
-		PatternGraph pattern = action.getPattern();
+		PatternGraphLhs pattern = action.getPattern();
 
 		sb.appendFront("private " + className + "()\n");
 		sb.indent();
@@ -1884,7 +1884,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	private void genPatternGraph(SourceBuilder sb, SourceBuilder aux, PatternGraph pattern,
+	private void genPatternGraph(SourceBuilder sb, SourceBuilder aux, PatternGraphLhs pattern,
 			String pathPrefix, String patternName, String packageName, // negatives without name, have to compute it and hand it in
 			String patGraphVarName, String className,
 			HashMap<Entity, String> alreadyDefinedEntityToName,
@@ -1935,13 +1935,13 @@ public class ActionsGen extends CSharpBase
 		sb.append(" }, \n");
 
 		sb.appendFront("new GRGEN_LGSP.PatternGraph[] { ");
-		for(PatternGraph neg : pattern.getNegs()) {
+		for(PatternGraphLhs neg : pattern.getNegs()) {
 			sb.append(pathPrefixForElements + neg.getNameOfGraph() + ", ");
 		}
 		sb.append(" }, \n");
 
 		sb.appendFront("new GRGEN_LGSP.PatternGraph[] { ");
-		for(PatternGraph idpt : pattern.getIdpts()) {
+		for(PatternGraphLhs idpt : pattern.getIdpts()) {
 			sb.append(pathPrefixForElements + idpt.getNameOfGraph() + ", ");
 		}
 		sb.append(" }, \n");
@@ -1984,7 +1984,7 @@ public class ActionsGen extends CSharpBase
 		sb.append("\n");
 	}
 
-	private static void genNodeHomMatrix(SourceBuilder sb, PatternGraph pattern)
+	private static void genNodeHomMatrix(SourceBuilder sb, PatternGraphLhs pattern)
 	{
 		if(pattern.getNodes().size() > 0) {
 			sb.append("{\n");
@@ -2004,7 +2004,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private static void genEdgeHomMatrix(SourceBuilder sb, PatternGraph pattern)
+	private static void genEdgeHomMatrix(SourceBuilder sb, PatternGraphLhs pattern)
 	{
 		if(pattern.getEdges().size() > 0) {
 			sb.append("{\n");
@@ -2024,7 +2024,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private static void linkEdgesToNodes(SourceBuilder sb, PatternGraph pattern, String patGraphVarName,
+	private static void linkEdgesToNodes(SourceBuilder sb, PatternGraphLhs pattern, String patGraphVarName,
 			HashMap<Entity, String> alreadyDefinedEntityToName, String pathPrefixForElements)
 	{
 		for(Edge edge : pattern.getEdges()) {
@@ -2046,13 +2046,13 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private static void setEmbeddingGraph(SourceBuilder sb, PatternGraph pattern, String patGraphVarName,
+	private static void setEmbeddingGraph(SourceBuilder sb, PatternGraphLhs pattern, String patGraphVarName,
 			String pathPrefixForElements)
 	{
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
+				PatternGraphLhs altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				sb.appendFront(altPatGraphVarName + ".embeddingGraph = " + patGraphVarName + ";\n");
 			}
@@ -2063,18 +2063,18 @@ public class ActionsGen extends CSharpBase
 			sb.appendFront(pathPrefixForElements + iterName + ".embeddingGraph = " + patGraphVarName + ";\n");
 		}
 
-		for(PatternGraph neg : pattern.getNegs()) {
+		for(PatternGraphLhs neg : pattern.getNegs()) {
 			String negName = neg.getNameOfGraph();
 			sb.appendFront(pathPrefixForElements + negName + ".embeddingGraph = " + patGraphVarName + ";\n");
 		}
 
-		for(PatternGraph idpt : pattern.getIdpts()) {
+		for(PatternGraphLhs idpt : pattern.getIdpts()) {
 			String idptName = idpt.getNameOfGraph();
 			sb.appendFront(pathPrefixForElements + idptName + ".embeddingGraph = " + patGraphVarName + ";\n");
 		}
 	}
 
-	private void genElementsRequiredByPatternGraph(SourceBuilder sb, SourceBuilder aux, PatternGraph pattern,
+	private void genElementsRequiredByPatternGraph(SourceBuilder sb, SourceBuilder aux, PatternGraphLhs pattern,
 			String pathPrefix, String patternName, String packageName,
 			String patGraphVarName, String className,
 			HashMap<Entity, String> alreadyDefinedEntityToName,
@@ -2184,7 +2184,7 @@ public class ActionsGen extends CSharpBase
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
+				PatternGraphLhs altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone =
 						new HashMap<Entity, String>(alreadyDefinedEntityToName);
@@ -2204,7 +2204,7 @@ public class ActionsGen extends CSharpBase
 		}
 
 		for(Rule iter : pattern.getIters()) {
-			PatternGraph iterPattern = iter.getLeft();
+			PatternGraphLhs iterPattern = iter.getLeft();
 			String iterName = iterPattern.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone =
 					new HashMap<Entity, String>(alreadyDefinedEntityToName);
@@ -2222,7 +2222,7 @@ public class ActionsGen extends CSharpBase
 			genPatternIterated(sb, packageName, pathPrefixForElements, iter);
 		}
 
-		for(PatternGraph neg : pattern.getNegs()) {
+		for(PatternGraphLhs neg : pattern.getNegs()) {
 			String negName = neg.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone =
 					new HashMap<Entity, String>(alreadyDefinedEntityToName);
@@ -2236,7 +2236,7 @@ public class ActionsGen extends CSharpBase
 					parameters, max);
 		}
 
-		for(PatternGraph idpt : pattern.getIdpts()) {
+		for(PatternGraphLhs idpt : pattern.getIdpts()) {
 			String idptName = idpt.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone =
 					new HashMap<Entity, String>(alreadyDefinedEntityToName);
@@ -2251,7 +2251,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private static void genNodeGlobalHomMatrix(SourceBuilder sb, PatternGraph pattern,
+	private static void genNodeGlobalHomMatrix(SourceBuilder sb, PatternGraphLhs pattern,
 			HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		if(pattern.getNodes().size() > 0) {
@@ -2272,7 +2272,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private static void genEdgeGlobalHomMatrix(SourceBuilder sb, PatternGraph pattern,
+	private static void genEdgeGlobalHomMatrix(SourceBuilder sb, PatternGraphLhs pattern,
 			HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		if(pattern.getEdges().size() > 0) {
@@ -2293,7 +2293,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private static void genNodeTotallyHomArray(SourceBuilder sb, PatternGraph pattern)
+	private static void genNodeTotallyHomArray(SourceBuilder sb, PatternGraphLhs pattern)
 	{
 		if(pattern.getNodes().size() > 0) {
 			sb.append(" { ");
@@ -2307,7 +2307,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private static void genEdgeTotallyHomArray(SourceBuilder sb, PatternGraph pattern)
+	private static void genEdgeTotallyHomArray(SourceBuilder sb, PatternGraphLhs pattern)
 	{
 		if(pattern.getEdges().size() > 0) {
 			sb.append(" { ");
@@ -2349,7 +2349,7 @@ public class ActionsGen extends CSharpBase
 		return varName;
 	}
 
-	private void genPatternNode(SourceBuilder sb, SourceBuilder aux, PatternGraph pattern, String pathPrefix,
+	private void genPatternNode(SourceBuilder sb, SourceBuilder aux, PatternGraphLhs pattern, String pathPrefix,
 			String patGraphVarName, String className, HashMap<Entity, String> alreadyDefinedEntityToName,
 			List<Entity> parameters, double max, boolean isMatchClass, String pathPrefixForElements,
 			Node node, String nodeName)
@@ -2396,7 +2396,7 @@ public class ActionsGen extends CSharpBase
 		node.setPointOfDefinition(pattern);
 	}
 
-	private void genPatternEdge(SourceBuilder sb, SourceBuilder aux, PatternGraph pattern, String pathPrefix,
+	private void genPatternEdge(SourceBuilder sb, SourceBuilder aux, PatternGraphLhs pattern, String pathPrefix,
 			String patGraphVarName, String className, HashMap<Entity, String> alreadyDefinedEntityToName,
 			List<Entity> parameters, double max, boolean isMatchClass, String pathPrefixForElements,
 			Edge edge, String edgeName)
@@ -2600,7 +2600,7 @@ public class ActionsGen extends CSharpBase
 
 	private void genPatternIterated(SourceBuilder sb, String packageName, String pathPrefixForElements, Rule iter)
 	{
-		PatternGraph iterPattern = iter.getLeft();
+		PatternGraphLhs iterPattern = iter.getLeft();
 		String iterName = iterPattern.getNameOfGraph();
 		sb.appendFront("GRGEN_LGSP.Iterated " + pathPrefixForElements + iterName + "_it"
 				+ " = new GRGEN_LGSP.Iterated( ");
@@ -3023,24 +3023,24 @@ public class ActionsGen extends CSharpBase
 	// Static searchplan cost generation //
 	///////////////////////////////////////
 
-	private double computePriosMax(double max, PatternGraph pattern)
+	private double computePriosMax(double max, PatternGraphLhs pattern)
 	{
 		max = computePriosMax(pattern.getNodes(), max);
 		max = computePriosMax(pattern.getEdges(), max);
-		for(PatternGraph neg : pattern.getNegs()) {
+		for(PatternGraphLhs neg : pattern.getNegs()) {
 			max = computePriosMax(max, neg);
 		}
-		for(PatternGraph idpt : pattern.getIdpts()) {
+		for(PatternGraphLhs idpt : pattern.getIdpts()) {
 			max = computePriosMax(max, idpt);
 		}
 		for(Alternative alt : pattern.getAlts()) {
 			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
+				PatternGraphLhs altCasePattern = altCase.getLeft();
 				max = computePriosMax(max, altCasePattern);
 			}
 		}
 		for(Rule iter : pattern.getIters()) {
-			PatternGraph iterPattern = iter.getLeft();
+			PatternGraphLhs iterPattern = iter.getLeft();
 			max = computePriosMax(max, iterPattern);
 		}
 		return max;

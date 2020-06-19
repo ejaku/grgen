@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.util.SourceBuilder;
@@ -47,7 +47,7 @@ public class ActionsMatchGen extends CSharpBase
 	// Match objects generation //
 	//////////////////////////////
 
-	public void genPatternMatchInterface(SourceBuilder sb, PatternGraph pattern, String name,
+	public void genPatternMatchInterface(SourceBuilder sb, PatternGraphLhs pattern, String name,
 			String base, String pathPrefixForElements, boolean iterated, boolean alternativeCase,
 			boolean matchClass, HashSet<String> elementsAlreadyDeclared)
 	{
@@ -55,14 +55,14 @@ public class ActionsMatchGen extends CSharpBase
 				base, pathPrefixForElements, iterated, alternativeCase,
 				matchClass, elementsAlreadyDeclared);
 
-		for(PatternGraph neg : pattern.getNegs()) {
+		for(PatternGraphLhs neg : pattern.getNegs()) {
 			String negName = neg.getNameOfGraph();
 			genPatternMatchInterface(sb, neg, pathPrefixForElements + negName,
 					"GRGEN_LIBGR.IMatch", pathPrefixForElements + negName + "_",
 					false, false, false, elementsAlreadyDeclared);
 		}
 
-		for(PatternGraph idpt : pattern.getIdpts()) {
+		for(PatternGraphLhs idpt : pattern.getIdpts()) {
 			String idptName = idpt.getNameOfGraph();
 			genPatternMatchInterface(sb, idpt, pathPrefixForElements + idptName,
 					"GRGEN_LIBGR.IMatch", pathPrefixForElements + idptName + "_",
@@ -73,7 +73,7 @@ public class ActionsMatchGen extends CSharpBase
 			String altName = alt.getNameOfGraph();
 			genAlternativeMatchInterface(sb, pathPrefixForElements + altName);
 			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
+				PatternGraphLhs altCasePattern = altCase.getLeft();
 				String altPatName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				genPatternMatchInterface(sb, altCasePattern, altPatName,
 						"IMatch_" + pathPrefixForElements + altName,
@@ -83,7 +83,7 @@ public class ActionsMatchGen extends CSharpBase
 		}
 
 		for(Rule iter : pattern.getIters()) {
-			PatternGraph iterPattern = iter.getLeft();
+			PatternGraphLhs iterPattern = iter.getLeft();
 			String iterName = iterPattern.getNameOfGraph();
 			genPatternMatchInterface(sb, iterPattern, pathPrefixForElements + iterName,
 					"GRGEN_LIBGR.IMatch", pathPrefixForElements + iterName + "_",
@@ -91,7 +91,7 @@ public class ActionsMatchGen extends CSharpBase
 		}
 	}
 
-	public void genPatternMatchImplementation(SourceBuilder sb, PatternGraph pattern, String name,
+	public void genPatternMatchImplementation(SourceBuilder sb, PatternGraphLhs pattern, String name,
 			String patGraphVarName, String className,
 			String pathPrefixForElements,
 			boolean iterated, boolean independent, boolean parallelized)
@@ -100,14 +100,14 @@ public class ActionsMatchGen extends CSharpBase
 				patGraphVarName, className, pathPrefixForElements,
 				iterated, independent, parallelized);
 
-		for(PatternGraph neg : pattern.getNegs()) {
+		for(PatternGraphLhs neg : pattern.getNegs()) {
 			String negName = neg.getNameOfGraph();
 			genPatternMatchImplementation(sb, neg, pathPrefixForElements + negName,
 					pathPrefixForElements + negName, className,
 					pathPrefixForElements + negName + "_", false, false, false);
 		}
 
-		for(PatternGraph idpt : pattern.getIdpts()) {
+		for(PatternGraphLhs idpt : pattern.getIdpts()) {
 			String idptName = idpt.getNameOfGraph();
 			genPatternMatchImplementation(sb, idpt, pathPrefixForElements + idptName,
 					pathPrefixForElements + idptName, className,
@@ -117,7 +117,7 @@ public class ActionsMatchGen extends CSharpBase
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
+				PatternGraphLhs altCasePattern = altCase.getLeft();
 				String altPatName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				genPatternMatchImplementation(sb, altCasePattern, altPatName,
 						altPatName, className,
@@ -127,7 +127,7 @@ public class ActionsMatchGen extends CSharpBase
 		}
 
 		for(Rule iter : pattern.getIters()) {
-			PatternGraph iterPattern = iter.getLeft();
+			PatternGraphLhs iterPattern = iter.getLeft();
 			String iterName = iterPattern.getNameOfGraph();
 			genPatternMatchImplementation(sb, iterPattern, pathPrefixForElements + iterName,
 					pathPrefixForElements + iterName, className,
@@ -135,7 +135,7 @@ public class ActionsMatchGen extends CSharpBase
 		}
 	}
 
-	private void genMatchInterface(SourceBuilder sb, PatternGraph pattern,
+	private void genMatchInterface(SourceBuilder sb, PatternGraphLhs pattern,
 			String name, String base,
 			String pathPrefixForElements, boolean iterated, boolean alternativeCase,
 			boolean matchClass, HashSet<String> elementsAlreadyDeclared)
@@ -181,7 +181,7 @@ public class ActionsMatchGen extends CSharpBase
 		sb.append("\n");
 	}
 
-	private void genMatchImplementation(SourceBuilder sb, PatternGraph pattern, String name,
+	private void genMatchImplementation(SourceBuilder sb, PatternGraphLhs pattern, String name,
 			String patGraphVarName, String ruleClassName,
 			String pathPrefixForElements,
 			boolean iterated, boolean independent, boolean parallelized)
@@ -252,7 +252,7 @@ public class ActionsMatchGen extends CSharpBase
 		sb.append("\n");
 	}
 
-	private void genCopyConstructor(SourceBuilder sb, PatternGraph pattern, String name, String pathPrefixForElements,
+	private void genCopyConstructor(SourceBuilder sb, PatternGraphLhs pattern, String name, String pathPrefixForElements,
 			String className)
 	{
 		sb.appendFront("public void CopyMatchContent(" + className + " that)\n");
@@ -272,7 +272,7 @@ public class ActionsMatchGen extends CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	private void genIsEqualMethod(SourceBuilder sb, PatternGraph pattern, String name, String pathPrefixForElements,
+	private void genIsEqualMethod(SourceBuilder sb, PatternGraphLhs pattern, String name, String pathPrefixForElements,
 			String className)
 	{
 		sb.appendFront("public bool IsEqual(" + className + " that)\n");
@@ -287,7 +287,7 @@ public class ActionsMatchGen extends CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	private void genMatchedEntitiesInterface(SourceBuilder sb, PatternGraph pattern,
+	private void genMatchedEntitiesInterface(SourceBuilder sb, PatternGraphLhs pattern,
 			HashSet<String> elementsAlreadyDeclared,
 			String name, int which, String pathPrefixForElements)
 	{
@@ -335,7 +335,7 @@ public class ActionsMatchGen extends CSharpBase
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(PatternGraph idpt : pattern.getIdpts()) {
+			for(PatternGraphLhs idpt : pattern.getIdpts()) {
 				String idptName = idpt.getNameOfGraph();
 				sb.appendFront("IMatch_" + pathPrefixForElements + idptName + " " + idptName + " { get; }\n");
 			}
@@ -345,7 +345,7 @@ public class ActionsMatchGen extends CSharpBase
 		}
 	}
 
-	private void genMatchedEntitiesImplementation(SourceBuilder sb, PatternGraph pattern,
+	private void genMatchedEntitiesImplementation(SourceBuilder sb, PatternGraphLhs pattern,
 			String name, int which, String pathPrefixForElements)
 	{
 		// the element itself and the getter for it
@@ -422,12 +422,12 @@ public class ActionsMatchGen extends CSharpBase
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(PatternGraph idpt : pattern.getIdpts()) {
+			for(PatternGraphLhs idpt : pattern.getIdpts()) {
 				String idptName = idpt.getNameOfGraph();
 				sb.appendFront("public IMatch_" + pathPrefixForElements + idptName + " " + idptName
 						+ " { get { return _" + idptName + "; } }\n");
 			}
-			for(PatternGraph idpt : pattern.getIdpts()) {
+			for(PatternGraphLhs idpt : pattern.getIdpts()) {
 				String idptName = idpt.getNameOfGraph();
 				sb.appendFront("public IMatch_" + pathPrefixForElements + idptName + " _" + idptName + ";\n");
 			}
@@ -437,7 +437,7 @@ public class ActionsMatchGen extends CSharpBase
 		}
 	}
 
-	private void genCopyMatchedEntities(SourceBuilder sb, PatternGraph pattern,
+	private void genCopyMatchedEntities(SourceBuilder sb, PatternGraphLhs pattern,
 			String name, int which, String pathPrefixForElements)
 	{
 		switch(which) {
@@ -478,7 +478,7 @@ public class ActionsMatchGen extends CSharpBase
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(PatternGraph idpt : pattern.getIdpts()) {
+			for(PatternGraphLhs idpt : pattern.getIdpts()) {
 				String idptName = "_" + idpt.getNameOfGraph();
 				sb.appendFront(idptName + " = that." + idptName + ";\n");
 			}
@@ -488,7 +488,7 @@ public class ActionsMatchGen extends CSharpBase
 		}
 	}
 
-	private void genEqualMatch(SourceBuilder sb, PatternGraph pattern,
+	private void genEqualMatch(SourceBuilder sb, PatternGraphLhs pattern,
 			String name, int which, String pathPrefixForElements)
 	{
 		switch(which) {
@@ -526,7 +526,7 @@ public class ActionsMatchGen extends CSharpBase
 			for(Alternative alt : pattern.getAlts()) {
 				String altName = "_" + alt.getNameOfGraph();
 				for(Rule altCase : alt.getAlternativeCases()) {
-					PatternGraph altCasePattern = altCase.getLeft();
+					PatternGraphLhs altCasePattern = altCase.getLeft();
 					sb.appendFront("if(" + altName + " is Match_" + name + altName + "_" + altCasePattern.getNameOfGraph()
 							+ " && !(" + altName + " as Match_" + name + altName + "_" + altCasePattern.getNameOfGraph()
 							+ ").IsEqual(that." + altName + " as Match_" + name + altName + "_" + altCasePattern.getNameOfGraph()
@@ -560,7 +560,7 @@ public class ActionsMatchGen extends CSharpBase
 		}
 	}
 
-	private void genIMatchImplementation(SourceBuilder sb, PatternGraph pattern,
+	private void genIMatchImplementation(SourceBuilder sb, PatternGraphLhs pattern,
 			String name, int which, String pathPrefixForElements)
 	{
 		// the various match part getters
@@ -627,7 +627,7 @@ public class ActionsMatchGen extends CSharpBase
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(PatternGraph idpt : pattern.getIdpts()) {
+			for(PatternGraphLhs idpt : pattern.getIdpts()) {
 				String idptName = idpt.getNameOfGraph();
 				sb.appendFront("case (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + idptName
 						+ ": return _" + idptName + ";\n");
@@ -685,7 +685,7 @@ public class ActionsMatchGen extends CSharpBase
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(PatternGraph idpt : pattern.getIdpts()) {
+			for(PatternGraphLhs idpt : pattern.getIdpts()) {
 				String idptName = idpt.getNameOfGraph();
 				sb.appendFront("case \"" + idptName + "\": return _" + idptName + ";\n");
 			}
@@ -701,7 +701,7 @@ public class ActionsMatchGen extends CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	private void genMatchEnum(SourceBuilder sb, PatternGraph pattern,
+	private void genMatchEnum(SourceBuilder sb, PatternGraphLhs pattern,
 			String name, int which, String pathPrefixForElements)
 	{
 		// generate enum mapping entity names to consecutive integers
@@ -738,7 +738,7 @@ public class ActionsMatchGen extends CSharpBase
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(PatternGraph idpt : pattern.getIdpts()) {
+			for(PatternGraphLhs idpt : pattern.getIdpts()) {
 				sb.append("@" + idpt.getNameOfGraph() + ", ");
 			}
 			break;
@@ -823,7 +823,7 @@ public class ActionsMatchGen extends CSharpBase
 		}
 	}
 
-	private int numOfMatchedEntities(int which, PatternGraph pattern)
+	private int numOfMatchedEntities(int which, PatternGraphLhs pattern)
 	{
 		switch(which) {
 		case MATCH_PART_NODES:

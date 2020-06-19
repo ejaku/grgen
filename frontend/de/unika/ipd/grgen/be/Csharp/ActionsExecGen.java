@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.CaseStatement;
 import de.unika.ipd.grgen.ir.stmt.ConditionStatement;
@@ -62,11 +62,11 @@ public class ActionsExecGen extends CSharpBase
 
 		genImperativeStatements(sb, rule, pathPrefix, packageName);
 
-		PatternGraph pattern = rule.getPattern();
+		PatternGraphLhs pattern = rule.getPattern();
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
+				PatternGraphLhs altCasePattern = altCase.getLeft();
 				genImperativeStatements(sb, altCase,
 						pathPrefix + altName + "_" + altCasePattern.getNameOfGraph() + "_", packageName,
 						false, isSubpattern);
@@ -332,11 +332,11 @@ public class ActionsExecGen extends CSharpBase
 			genImperativeStatementClosures(sb, rule, pathPrefix);
 		}
 
-		PatternGraph pattern = rule.getPattern();
+		PatternGraphLhs pattern = rule.getPattern();
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
+				PatternGraphLhs altCasePattern = altCase.getLeft();
 				genImperativeStatementClosures(sb, altCase,
 						pathPrefix + altName + "_" + altCasePattern.getNameOfGraph() + "_",
 						false);

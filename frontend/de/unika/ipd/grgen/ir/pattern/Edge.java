@@ -27,10 +27,10 @@ public class Edge extends GraphEntity
 	protected final EdgeType type;
 
 	/** Point of definition, that is the pattern graph the edge was defined in*/
-	protected PatternGraph pointOfDefinition;
+	protected PatternGraphLhs pointOfDefinition;
 
 	// in case of retyped edge thats the pattern graph of the old edge, otherwise of the edge itself
-	public PatternGraph directlyNestingLHSGraph;
+	public PatternGraphLhs directlyNestingLHSGraph;
 
 	protected boolean fixedDirection;
 
@@ -53,7 +53,7 @@ public class Edge extends GraphEntity
 	 * @param context The context of the declaration
 	 */
 	public Edge(Ident ident, EdgeType type, Annotations annots,
-			PatternGraph directlyNestingLHSGraph,
+			PatternGraphLhs directlyNestingLHSGraph,
 			boolean maybeDeleted, boolean maybeRetyped,
 			boolean isDefToBeYieldedTo, int context)
 	{
@@ -73,7 +73,7 @@ public class Edge extends GraphEntity
 	 * @param context The context of the declaration
 	 */
 	public Edge(Ident ident, EdgeType type,
-			PatternGraph directlyNestingLHSGraph,
+			PatternGraphLhs directlyNestingLHSGraph,
 			boolean maybeDeleted, boolean maybeRetyped,
 			boolean isDefToBeYieldedTo, int context)
 	{
@@ -129,13 +129,13 @@ public class Edge extends GraphEntity
 		return fixedDirection;
 	}
 
-	public void setPointOfDefinition(PatternGraph pointOfDefinition)
+	public void setPointOfDefinition(PatternGraphLhs pointOfDefinition)
 	{
 		assert this.pointOfDefinition == null && pointOfDefinition != null;
 		this.pointOfDefinition = pointOfDefinition;
 	}
 
-	public PatternGraph getPointOfDefinition()
+	public PatternGraphLhs getPointOfDefinition()
 	{
 		return pointOfDefinition;
 	}

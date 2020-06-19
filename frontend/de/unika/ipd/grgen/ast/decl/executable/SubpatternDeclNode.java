@@ -35,7 +35,7 @@ import de.unika.ipd.grgen.ast.type.executable.SubpatternTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 /**
@@ -211,9 +211,9 @@ public class SubpatternDeclNode extends ActionDeclNode
 		// mark this node as already visited
 		setIR(rule);
 
-		PatternGraph left = pattern.getPatternGraph();
+		PatternGraphLhs left = pattern.getPatternGraph();
 
-		PatternGraph rightPattern = null;
+		PatternGraphLhs rightPattern = null;
 		if(this.right != null) {
 			rightPattern = this.right.getPatternGraph(left);
 		}

@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.stmt.Assignment;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
@@ -75,8 +75,8 @@ public class Dumper
 			gd.edge(edge, tgt);
 		}
 
-		if(g instanceof PatternGraph) {
-			PatternGraph pg = (PatternGraph)g;
+		if(g instanceof PatternGraphLhs) {
+			PatternGraphLhs pg = (PatternGraphLhs)g;
 			Collection<Expression> conds = pg.getConditions();
 
 			if(!conds.isEmpty()) {
@@ -91,7 +91,7 @@ public class Dumper
 
 	public final void dump(MatchingAction act, GraphDumper gd)
 	{
-		PatternGraph pattern = act.getPattern();
+		PatternGraphLhs pattern = act.getPattern();
 		Collection<PatternGraphBase> graphs = new LinkedList<PatternGraphBase>();
 		PatternGraphBase right = null;
 

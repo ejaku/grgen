@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
 import de.unika.ipd.grgen.ir.pattern.RetypedNode;
 import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
@@ -57,7 +57,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	private String packageContainedIn;
 
 	/** The right hand side of the rule. */
-	private PatternGraph right;
+	private PatternGraphLhs right;
 
 	/** The match classes that get implemented */
 	private final List<DefinedMatchType> implementedMatchClasses = new LinkedList<DefinedMatchType>();
@@ -105,7 +105,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	 * @param pattern The left side graph of the rule.
 	 * @param right The right side graph of the rule.
 	 */
-	public void initialize(PatternGraph pattern, PatternGraph right)
+	public void initialize(PatternGraphLhs pattern, PatternGraphLhs right)
 	{
 		super.setPattern(pattern);
 		this.right = right;
@@ -171,13 +171,13 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	}
 
 	/** @return The left hand side graph. */
-	public PatternGraph getLeft()
+	public PatternGraphLhs getLeft()
 	{
 		return pattern;
 	}
 
 	/** @return The right hand side graph. */
-	public PatternGraph getRight()
+	public PatternGraphLhs getRight()
 	{
 		return right;
 	}
@@ -206,7 +206,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 
 	public void checkForRhsElementsUsedOnLhs()
 	{
-		PatternGraph left = getLeft();
+		PatternGraphLhs left = getLeft();
 		for(Node node : left.getNodes()) {
 			if((node.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
 				error.error(node.getIdent().getCoords(), "Nodes declared in rewrite part can't be accessed in pattern");
@@ -451,7 +451,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 
 	public void setDependencyLevelOfInterElementDependencies()
 	{
-		PatternGraph left = getLeft();
+		PatternGraphLhs left = getLeft();
 		final int MAX_CHAINING_FOR_STORAGE_MAP_ACCESS = 1000;
 		int dependencyLevel = 0;
 		boolean somethingChanged;

@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.decl.pattern;
 
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
@@ -68,9 +68,9 @@ public class ReplaceDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public PatternGraph getPatternGraph(PatternGraph left)
+	public PatternGraphLhs getPatternGraph(PatternGraphLhs left)
 	{
-		PatternGraph right = graph.getGraph();
+		PatternGraphLhs right = graph.getGraph();
 		insertElementsFromEvalsIntoRhs(left, right);
 		insertElementsFromOrderedReplacementsIntoRhs(left, right);
 		insertElementsFromLeftToRightIfTheyAreFromNestingPattern(left, right);
@@ -171,7 +171,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 		return connectionsNotDeleted;
 	}
 
-	private static void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraph left, PatternGraph right)
+	private static void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraphLhs left, PatternGraphLhs right)
 	{
 		for(Node lhsNode : left.getNodes()) {
 			if(lhsNode.directlyNestingLHSGraph != left && !right.hasNode(lhsNode)) {

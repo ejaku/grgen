@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.PackageType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 import de.unika.ipd.grgen.ir.type.PackageActionType;
@@ -340,7 +340,7 @@ public class Unit extends IR implements ActionsBearer
 		// subpatterns may not terminate if there is a recursion only involving empty terminal graphs
 		// so we compute the subpattern derivation paths containing only empty graphs
 		// and emit error messages if they contain a subpattern calling itself
-		HashSet<PatternGraph> subpatternsAlreadyVisited = new HashSet<PatternGraph>();
+		HashSet<PatternGraphLhs> subpatternsAlreadyVisited = new HashSet<PatternGraphLhs>();
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsAlreadyVisited.add(subpatternRule.pattern);
 			subpatternRule.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisited);
@@ -358,7 +358,7 @@ public class Unit extends IR implements ActionsBearer
 		// matching a subpattern never terminates successfully 
 		// if there is no terminal pattern on any of its alternative branches/bodies
 		// emit an error message in this case (it might be the case more often, this is what we can tell for sure)
-		HashSet<PatternGraph> subpatternsAlreadyVisited = new HashSet<PatternGraph>();
+		HashSet<PatternGraphLhs> subpatternsAlreadyVisited = new HashSet<PatternGraphLhs>();
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsAlreadyVisited.add(subpatternRule.pattern);
 			if(subpatternRule.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisited)) {

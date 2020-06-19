@@ -47,7 +47,7 @@ import de.unika.ipd.grgen.ir.pattern.NameOrAttributeInitialization;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
 import de.unika.ipd.grgen.ir.pattern.RetypedNode;
 import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
@@ -117,7 +117,7 @@ public class ModifyGen extends CSharpBase
 				// create subpattern into pattern
 				ModifyGenerationTask task = new ModifyGenerationTask();
 				task.typeOfTask = ModifyGenerationTask.TYPE_OF_TASK_CREATION;
-				task.left = new PatternGraph(rule.getLeft().getNameOfGraph(), 0); // empty graph
+				task.left = new PatternGraphLhs(rule.getLeft().getNameOfGraph(), 0); // empty graph
 				task.left.setDirectlyNestingLHSGraph(task.left);
 				task.right = rule.getLeft();
 				task.parameters = rule.getParameters();
@@ -142,7 +142,7 @@ public class ModifyGen extends CSharpBase
 			ModifyGenerationTask task = new ModifyGenerationTask();
 			task.typeOfTask = ModifyGenerationTask.TYPE_OF_TASK_DELETION;
 			task.left = rule.getLeft();
-			task.right = new PatternGraph(rule.getLeft().getNameOfGraph(), 0); // empty graph
+			task.right = new PatternGraphLhs(rule.getLeft().getNameOfGraph(), 0); // empty graph
 			task.right.setDirectlyNestingLHSGraph(task.left);
 			task.parameters = rule.getParameters();
 			task.evals = emptyEvals;
@@ -169,7 +169,7 @@ public class ModifyGen extends CSharpBase
 					isSubpattern);
 
 			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
+				PatternGraphLhs altCasePattern = altCase.getLeft();
 				String altCasePatGraphVarName = pathPrefix + rule.getLeft().getNameOfGraph() + "_" + altName + "_"
 						+ altCasePattern.getNameOfGraph();
 				genModify(sb, altCase, packageName, pathPrefix + rule.getLeft().getNameOfGraph() + "_" + altName + "_",
@@ -189,7 +189,7 @@ public class ModifyGen extends CSharpBase
 	/**
 	 * Checks whether the given pattern contains abstract elements.
 	 */
-	private static boolean hasAbstractElements(PatternGraph left)
+	private static boolean hasAbstractElements(PatternGraphLhs left)
 	{
 		for(Node node : left.getNodes()) {
 			if(node.getNodeType().isAbstract())
@@ -204,7 +204,7 @@ public class ModifyGen extends CSharpBase
 		return false;
 	}
 
-	private static boolean hasDanglingEdges(PatternGraph left)
+	private static boolean hasDanglingEdges(PatternGraphLhs left)
 	{
 		for(Edge edge : left.getEdges()) {
 			if(left.getSource(edge) == null || left.getTarget(edge) == null)
@@ -1003,7 +1003,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genYieldedElements(SourceBuilder sb, ModifyGenerationStateConst state, PatternGraph right)
+	private void genYieldedElements(SourceBuilder sb, ModifyGenerationStateConst state, PatternGraphLhs right)
 	{
 		for(Node node : state.yieldedNodes()) {
 			if(right.getReplParameters().contains(node))
@@ -1096,7 +1096,7 @@ public class ModifyGen extends CSharpBase
 	}
 
 	private static void genDelNodes(SourceBuilder sb, ModifyGenerationStateConst state,
-			HashSet<Node> nodesNeededAsElements, PatternGraph right)
+			HashSet<Node> nodesNeededAsElements, PatternGraphLhs right)
 	{
 		for(Node node : state.delNodes()) {
 			nodesNeededAsElements.add(node);
@@ -1113,7 +1113,7 @@ public class ModifyGen extends CSharpBase
 	}
 
 	private static void genDelEdges(SourceBuilder sb, ModifyGenerationStateConst state,
-			HashSet<Edge> edgesNeededAsElements, PatternGraph right)
+			HashSet<Edge> edgesNeededAsElements, PatternGraphLhs right)
 	{
 		for(Edge edge : state.delEdges()) {
 			edgesNeededAsElements.add(edge);
@@ -1561,7 +1561,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private static void genExtractSubmatchesFromMatch(SourceBuilder sb, String pathPrefix, PatternGraph pattern)
+	private static void genExtractSubmatchesFromMatch(SourceBuilder sb, String pathPrefix, PatternGraphLhs pattern)
 	{
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			String subName = formatIdentifiable(sub);

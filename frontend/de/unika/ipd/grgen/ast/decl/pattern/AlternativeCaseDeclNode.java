@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 /**
@@ -162,9 +162,9 @@ public class AlternativeCaseDeclNode extends ActionDeclNode
 		// mark this node as already visited
 		setIR(altCaseRule);
 
-		PatternGraph left = pattern.getPatternGraph();
+		PatternGraphLhs left = pattern.getPatternGraph();
 
-		PatternGraph rightPattern = null;
+		PatternGraphLhs rightPattern = null;
 		if(right != null) {
 			rightPattern = right.getPatternGraph(left);
 		}

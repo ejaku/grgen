@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 class ModifyGenerationTask
@@ -30,8 +30,8 @@ class ModifyGenerationTask
 	public static final int TYPE_OF_TASK_DELETION = 3;
 
 	int typeOfTask;
-	PatternGraph left;
-	PatternGraph right;
+	PatternGraphLhs left;
+	PatternGraphLhs right;
 	List<Entity> parameters;
 	Collection<EvalStatements> evals;
 	List<Entity> replParameters;

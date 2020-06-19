@@ -38,7 +38,7 @@ import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.parser.Coords;
@@ -498,9 +498,9 @@ public class GraphNode extends BaseNode
 	 * Get the correctly casted IR object.
 	 * @return The IR object.
 	 */
-	public PatternGraph getGraph()
+	public PatternGraphLhs getGraph()
 	{
-		return checkIR(PatternGraph.class);
+		return checkIR(PatternGraphLhs.class);
 	}
 
 	/**
@@ -511,7 +511,7 @@ public class GraphNode extends BaseNode
 	@Override
 	protected IR constructIR()
 	{
-		PatternGraph gr = new PatternGraph(nameOfGraph, 0);
+		PatternGraphLhs gr = new PatternGraphLhs(nameOfGraph, 0);
 		gr.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getGraph());
 
 		for(ConnectionCharacter connection : connections.getChildren()) {

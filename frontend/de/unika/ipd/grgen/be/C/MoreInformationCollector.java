@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.stmt.Assignment;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
@@ -216,7 +216,7 @@ public class MoreInformationCollector extends InformationCollector
 	protected Vector<Vector<Map<Node, Integer>>> negative_node_num;
 	//	action_id --> neg_id --> pattern_edge_num
 	protected Vector<Vector<Map<Edge, Integer>>> negative_edge_num;
-	protected Vector<Map<PatternGraph, Integer>> negMap;
+	protected Vector<Map<PatternGraphLhs, Integer>> negMap;
 
 	protected int[][][] patternNodeIsNegativeNode;
 	protected int[][][] patternEdgeIsNegativeEdge;
@@ -230,18 +230,18 @@ public class MoreInformationCollector extends InformationCollector
 		max_n_negative_patterns = 0;
 
 		n_negative_patterns = new int[n_graph_actions];
-		negMap = new Vector<Map<PatternGraph, Integer>>(n_graph_actions);
+		negMap = new Vector<Map<PatternGraphLhs, Integer>>(n_graph_actions);
 
 		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 			int negs = 0;
 
-			negMap.set(act_id, new HashMap<PatternGraph, Integer>());
+			negMap.set(act_id, new HashMap<PatternGraphLhs, Integer>());
 
 			//check whether its graphs node and edge set sizes are greater
 			int size;
 
-			for(PatternGraph negPattern : act.getPattern().getNegs()) {
+			for(PatternGraphLhs negPattern : act.getPattern().getNegs()) {
 				negMap.get(act_id).put(negPattern, new Integer(negs++));
 
 				size = negPattern.getNodes().size();
@@ -267,7 +267,7 @@ public class MoreInformationCollector extends InformationCollector
 			negative_node_num.set(act_id, new Vector<Map<Node, Integer>>(max_n_negative_patterns));
 
 			/* if action has negative pattern graphs, compute node/edge numbers */
-			for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
 				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 				negative_node_num.get(act_id).set(neg_num, new HashMap<Node, Integer>());
 				negative_edge_num.get(act_id).set(neg_num, new HashMap<Edge, Integer>());
@@ -307,7 +307,7 @@ public class MoreInformationCollector extends InformationCollector
 		for(Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
-			for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
 				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
 				Collection<Node> negatives_also_in_pattern = new HashSet<Node>();
@@ -342,7 +342,7 @@ public class MoreInformationCollector extends InformationCollector
 		for(Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
-			for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
 				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
 				Collection<Edge> negatives_also_in_pattern = new HashSet<Edge>();
@@ -373,7 +373,7 @@ public class MoreInformationCollector extends InformationCollector
 			int act_id = actionRuleMap.get(act).intValue();
 
 			//iterate over negative patterns
-			for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
 				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
 				//iterate over all conditions of the current action
@@ -448,7 +448,7 @@ public class MoreInformationCollector extends InformationCollector
 			int act_id = actionRuleMap.get(act).intValue();
 
 			//iterate over negative patterns
-			for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
 				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
 				/* for all nodes of the current MatchingActions negative pattern graphs
@@ -533,7 +533,7 @@ public class MoreInformationCollector extends InformationCollector
 		max_n_subgraphs = 0;
 
 		for(Rule action : actionRuleMap.keySet()) {
-			PatternGraph pattern = action.getPattern();
+			PatternGraphLhs pattern = action.getPattern();
 			int act_id = actionRuleMap.get(action).intValue();
 
 			int subgraph = 0;
@@ -673,7 +673,7 @@ public class MoreInformationCollector extends InformationCollector
 			Collection<Node> currentSubgraphNodes, Collection<Edge> currentSubgraphEdges,
 			int subgraph,
 			final Node node, MatchingAction action,
-			final PatternGraph pattern)
+			final PatternGraphLhs pattern)
 	{
 		//final PatternGraph pattern = action.getPattern();
 

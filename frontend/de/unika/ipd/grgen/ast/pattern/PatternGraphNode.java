@@ -44,7 +44,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
@@ -595,9 +595,9 @@ public class PatternGraphNode extends GraphNode
 	 *
 	 * @return The IR object.
 	 */
-	public PatternGraph getPatternGraph()
+	public PatternGraphLhs getPatternGraph()
 	{
-		return checkIR(PatternGraph.class);
+		return checkIR(PatternGraphLhs.class);
 	}
 
 	/** NOTE: Use this only in DPO-Mode,i.e. if the pattern is part of a rule */
@@ -619,7 +619,7 @@ public class PatternGraphNode extends GraphNode
 			return getIR();
 		}
 
-		PatternGraph patternGraph = new PatternGraph(nameOfGraph, modifiers);
+		PatternGraphLhs patternGraph = new PatternGraphLhs(nameOfGraph, modifiers);
 		patternGraph.setDirectlyNestingLHSGraph(patternGraph);
 
 		// mark this node as already visited
@@ -651,7 +651,7 @@ public class PatternGraphNode extends GraphNode
 		}
 
 		for(PatternGraphNode negativeNode : negs.getChildren()) {
-			PatternGraph negative = negativeNode.getPatternGraph();
+			PatternGraphLhs negative = negativeNode.getPatternGraph();
 			patternGraph.addNegGraph(negative);
 			if(negative.isIterationBreaking()) {
 				patternGraph.setIterationBreaking(true);
@@ -659,7 +659,7 @@ public class PatternGraphNode extends GraphNode
 		}
 
 		for(PatternGraphNode independentNode : idpts.getChildren()) {
-			PatternGraph independent = independentNode.getPatternGraph();
+			PatternGraphLhs independent = independentNode.getPatternGraph();
 			patternGraph.addIdptGraph(independent);
 			if(independent.isIterationBreaking()) {
 				patternGraph.setIterationBreaking(true);
