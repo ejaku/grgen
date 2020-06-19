@@ -83,9 +83,6 @@ public abstract class ParserEnvironment extends Base
 
 	private final IntConstNode zero = new IntConstNode(Coords.getBuiltin(), 0);
 
-	// TODO use or remove it
-	// private final Scope rootScope;
-
 	private Scope currScope;
 
 	private final IdentNode nodeRoot;
@@ -119,7 +116,6 @@ public abstract class ParserEnvironment extends Base
 		this.system = system;
 
 		// Make the root scope
-		// currScope = rootScope = new Scope(system.getErrorReporter());
 		currScope = new Scope(system.getErrorReporter());
 		BaseNode.setCurrScope(currScope);
 

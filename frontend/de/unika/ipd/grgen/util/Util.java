@@ -231,17 +231,15 @@ public class Util
 	public static String getStrListWithOr(Class<?>[] classes, Class<?> sc, String m)
 	{
 		StringBuffer res = new StringBuffer();
-		// TODO use or remove it
-		// boolean first = true;
 
-		int l = classes.length;
+		int length = classes.length;
 
-		for(int i = 0; i < l; i++) {
+		for(int i = 0; i < length; i++) {
 			try {
 				Class<?> c = classes[i];
-				if(i == l - 1 && l > 1)
+				if(i == length - 1 && length > 1) // or as separator before last entry
 					res.append(" or ");
-				else if(i > 0 && l > 2)
+				else if(i > 0 && length > 2) // , as separator before other entries (none before first) 
 					res.append(", ");
 
 				if(isSubClass(c, sc) && containsMethod(c, m))

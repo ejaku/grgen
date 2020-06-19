@@ -101,18 +101,11 @@ public class TreeHandler extends DefaultTreeModel implements Handler
 	 */
 	private class MsgNode implements TreeNode
 	{
-		// TODO use or remove it
-		// private TreeNode parent;
-		// private int level;
-		// private Location loc;
 		private String msg;
 
 		public MsgNode(TreeNode parent, int level, Location loc, String msg)
 		{
-			// this.level = level;
-			// this.loc = loc;
 			this.msg = msg;
-			// this.parent = parent;
 		}
 
 		@Override
@@ -165,9 +158,6 @@ public class TreeHandler extends DefaultTreeModel implements Handler
 	}
 
 	private EnterNode current;
-
-	// TODO use or remove it
-	// private EnterNode root;
 
 	public TreeHandler()
 	{

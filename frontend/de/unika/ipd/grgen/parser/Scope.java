@@ -26,13 +26,6 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
  */
 public class Scope
 {
-	/**
-	 * The id of this scope. It is basically the number of the child of
-	 * the super scope.
-	 */
-	// TODO use or remove it
-	// private final int id;
-
 	/** This scope's parent scope. */
 	private final Scope parent;
 
@@ -77,7 +70,6 @@ public class Scope
 	public Scope(ErrorReporter reporter)
 	{
 		this.parent = null;
-		// this.id = 0;
 		this.reporter = reporter;
 		this.ident = null;//new IdentNode(new Definition(null, Coords.getBuiltin(), new Symbol("ROOT", SymbolTable.getInvalid())));
 	}
@@ -89,10 +81,9 @@ public class Scope
 	 * @param ident The ident node of this scope (commonly this is the ident
 	 * that opened the scope).
 	 */
-	private Scope(Scope parent, int id, IdentNode ident)
+	private Scope(Scope parent, IdentNode ident)
 	{
 		this.parent = parent;
-		// this.id = id;
 		this.ident = ident;
 		this.reporter = parent != null ? parent.reporter : null;
 	}
@@ -252,7 +243,7 @@ public class Scope
 	 */
 	public Scope newScope(IdentNode name)
 	{
-		Scope s = new Scope(this, childs.size(), name);
+		Scope s = new Scope(this, name);
 		childs.add(s);
 		return s;
 	}
@@ -268,7 +259,7 @@ public class Scope
 			if(child.getIdentNode().toString().equals(name.toString()))
 				return child;
 		}
-		Scope s = new Scope(this, childs.size(), name);
+		Scope s = new Scope(this, name);
 		childs.add(s);
 		return s;
 	}

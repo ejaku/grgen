@@ -29,26 +29,9 @@ public class Coords implements Location
 		return BUILTIN;
 	}
 
-	/**
-	 * The default filename for the coordinates
-	 * It should only be changed, if the lexer is switching to another file.
-	 */
-	// TODO use or remove it
-	// private static String defaultFilename = null;
-
-	protected int line, col;
-	protected String filename;
-
-	/**
-	 * Set the default filename coordinates get, when they are constructed.
-	 * @param filename The default filename for coordinates. If null,
-	 * the coordinates are meant to have no filename (i.e. The filename
-	 * is not printed in the toString() method.
-	 */
-	// TODO use or remove it
-	/* public static void setDefaultFilename(String filename) {
-		defaultFilename = filename;
-	}*/
+	protected int line;
+	protected int column;
+	protected String filename; // non-null if line!=-1 && column!=-1
 
 	/**
 	 * Create empty coordinates.
@@ -63,13 +46,13 @@ public class Coords implements Location
 	/**
 	 * Fully construct new coordinates
 	 * @param line The line
-	 * @param col The column
+	 * @param column The column
 	 * @param filename The filename
 	 */
-	public Coords(int line, int col, String filename)
+	public Coords(int line, int column, String filename)
 	{
 		this.line = line;
-		this.col = col;
+		this.column = column;
 		this.filename = filename;
 	}
 
@@ -77,11 +60,11 @@ public class Coords implements Location
 	 * Make coordinates just from line and column. The filename is set
 	 * to the default filename.
 	 * @param line The line
-	 * @param col The column
+	 * @param column The column
 	 */
-	public Coords(int line, int col)
+	public Coords(int line, int column)
 	{
-		this(line, col, null);
+		this(line, column, null);
 	}
 
 	/**
@@ -90,15 +73,14 @@ public class Coords implements Location
 	 */
 	private boolean valid()
 	{
-		return line != -1 && col != -1;
+		return line != -1 && column != -1;
 	}
 
 	@Override
 	public String toString()
 	{
 		if(valid())
-			return filename + ":" + line + "," + col;
-		// return (filename != null ? filename + ":" : "") + line + "," + col;
+			return filename + ":" + line + "," + column;
 		else
 			return "nowhere";
 	}
@@ -133,7 +115,7 @@ public class Coords implements Location
 		boolean res = false;
 		if(obj instanceof Coords) {
 			Coords c = (Coords)obj;
-			res = line == c.line && col == c.col &&
+			res = line == c.line && column == c.column &&
 					((filename == null && c.filename == null)
 							|| (filename.equals(c.filename)));
 		}
@@ -143,7 +125,7 @@ public class Coords implements Location
 	@Override
 	public int hashCode()
 	{
-		return ( (filename != null ? filename.hashCode() : 13) * 31 + line ) * 31 + col;
+		return ( (filename != null ? filename.hashCode() : 13) * 31 + line ) * 31 + column;
 	}
 	
 	/**
@@ -161,7 +143,7 @@ public class Coords implements Location
 	 */
 	public int getColumn()
 	{
-		return col;
+		return column;
 	}
 
 	/**

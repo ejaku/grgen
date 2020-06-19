@@ -181,14 +181,6 @@ public class Symbol
 	/** The symbol table the symbol was defined in. */
 	private final SymbolTable symbolTable;
 
-	/** An id counter for assigning ids to symbols*/
-	// TODO use or remove it
-	// private static int currId = 0;
-
-	/** The id for this symbol. */
-	// TODO use or remove it
-	// private final int id = currId++;
-
 	/** The string of the symbol. */
 	private final String text;
 
@@ -262,7 +254,7 @@ public class Symbol
 	 */
 	public boolean isKeyword()
 	{
-		return false; // TODO: remove or use as intended
+		return false; // overridden in anonymous class created in SymbolTable.enterKeyword
 	}
 
 	/**

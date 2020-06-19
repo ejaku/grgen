@@ -23,17 +23,6 @@ public class ErrorReporter extends Reporter
 	protected static int errCount = 0;
 	protected static int warnCount = 0;
 
-	// TODO use or remove it
-	/*private static final String[] levelNames = {
-		"error", "warning", "note"
-	};*/
-
-	private static String getMsg(int level, String msg)
-	{
-		//return levelNames[level] + ": " + msg;
-		return msg;
-	}
-
 	/**
 	 * Create a new error reporter.
 	 */
@@ -51,9 +40,9 @@ public class ErrorReporter extends Reporter
 	public void error(Location loc, String msg)
 	{
 		if(msg.equals("mismatched input '$' expecting RPAREN"))
-			report(ERROR, loc, getMsg(ERROR, msg) + " -- forgot \"@\"?");
+			report(ERROR, loc, msg + " -- forgot \"@\"?");
 		else
-			report(ERROR, loc, getMsg(ERROR, msg));
+			report(ERROR, loc, msg);
 		++errCount;
 	}
 
@@ -63,7 +52,7 @@ public class ErrorReporter extends Reporter
 	 */
 	public void error(String msg)
 	{
-		report(ERROR, getMsg(ERROR, msg));
+		report(ERROR, msg);
 		++errCount;
 	}
 
@@ -75,7 +64,7 @@ public class ErrorReporter extends Reporter
 	 */
 	public void warning(Location loc, String msg)
 	{
-		report(WARNING, loc, getMsg(WARNING, msg));
+		report(WARNING, loc, msg);
 		++warnCount;
 	}
 
@@ -85,7 +74,7 @@ public class ErrorReporter extends Reporter
 	 */
 	public void warning(String msg)
 	{
-		report(WARNING, getMsg(WARNING, msg));
+		report(WARNING, msg);
 		++warnCount;
 	}
 
@@ -97,7 +86,7 @@ public class ErrorReporter extends Reporter
 	 */
 	public void note(Location loc, String msg)
 	{
-		report(NOTE, loc, getMsg(NOTE, msg));
+		report(NOTE, loc, msg);
 	}
 
 	/**
@@ -106,7 +95,7 @@ public class ErrorReporter extends Reporter
 	 */
 	public void note(String msg)
 	{
-		report(NOTE, getMsg(NOTE, msg));
+		report(NOTE, msg);
 	}
 
 	/**

@@ -26,7 +26,7 @@ public class Coords extends de.unika.ipd.grgen.parser.Coords
 	{
 		if(tok != null) {
 			line = tok.getLine();
-			col = tok.getCharPositionInLine();
+			column = tok.getCharPositionInLine();
 
 			CharStream stream = tok.getInputStream();
 			if(stream != null) {
@@ -43,7 +43,7 @@ public class Coords extends de.unika.ipd.grgen.parser.Coords
 	{
 		if(e != null) {
 			line = e.line;
-			col = e.charPositionInLine;
+			column = e.charPositionInLine;
 			if(e.input != null) {
 				filename = e.input.getSourceName();
 			}
