@@ -201,7 +201,6 @@ public abstract class InheritanceType extends CompoundType
 	private void addFunctionMethods(InheritanceType type)
 	{
 		for(FunctionMethod fm : type.getFunctionMethods()) {
-			// METHOD-TODO - what version is of relevance if alreay defined; override handling
 			String functionName = fm.getIdent().toString();
 			allFunctionMethods.put(functionName, fm);
 		}
@@ -210,7 +209,6 @@ public abstract class InheritanceType extends CompoundType
 	private void addProcedureMethods(InheritanceType type)
 	{
 		for(ProcedureMethod pm : type.getProcedureMethods()) {
-			// METHOD-TODO - what version is of relevance if alreay defined; override handling
 			String procedureName = pm.getIdent().toString();
 			allProcedureMethods.put(procedureName, pm);
 		}
@@ -227,8 +225,9 @@ public abstract class InheritanceType extends CompoundType
 			overridingMembers = new LinkedHashMap<Entity, Entity>();
 
 			// add the members of the super types
-			for(InheritanceType superType : getAllSuperTypes())
+			for(InheritanceType superType : getAllSuperTypes()) {
 				addMembers(superType);
+			}
 
 			// add members of the current type
 			addMembers(this);
@@ -241,11 +240,11 @@ public abstract class InheritanceType extends CompoundType
 	{
 		if(allFunctionMethods == null) {
 			allFunctionMethods = new LinkedHashMap<String, FunctionMethod>();
-			//overridingMembers = new LinkedHashMap<Entity, Entity>(); METHOD-TODO
 
 			// add the members of the super types
-			for(InheritanceType superType : getAllSuperTypes())
+			for(InheritanceType superType : getAllSuperTypes()) {
 				addFunctionMethods(superType);
+			}
 
 			// add members of the current type
 			addFunctionMethods(this);
@@ -267,11 +266,11 @@ public abstract class InheritanceType extends CompoundType
 	{
 		if(allProcedureMethods == null) {
 			allProcedureMethods = new LinkedHashMap<String, ProcedureMethod>();
-			//overridingMembers = new LinkedHashMap<Entity, Entity>(); METHOD-TODO
 
 			// add the members of the super types
-			for(InheritanceType superType : getAllSuperTypes())
+			for(InheritanceType superType : getAllSuperTypes()) {
 				addProcedureMethods(superType);
+			}
 
 			// add members of the current type
 			addProcedureMethods(this);
@@ -317,16 +316,6 @@ public abstract class InheritanceType extends CompoundType
 	public Entity getOverriddenMember(Entity overridingMember)
 	{
 		return overridingMembers.get(overridingMember);
-	}
-
-	public FunctionMethod getOverriddenFunctionMethod(FunctionMethod overridingMember)
-	{
-		return null; // METHOD-TODO
-	}
-
-	public ProcedureMethod getOverriddenProcedureMethod(ProcedureMethod overridingMember)
-	{
-		return null; // METHOD-TODO
 	}
 
 	public void addConstructor(Constructor constr)

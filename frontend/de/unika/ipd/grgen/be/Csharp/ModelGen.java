@@ -418,7 +418,6 @@ public class ModelGen extends CSharpBase
 	private void genMethodInterfaces(InheritanceType type, Collection<FunctionMethod> functionMethods,
 			Collection<ProcedureMethod> procedureMethods, String modifiers)
 	{
-		// METHOD-TODO - inheritance?
 		for(FunctionMethod fm : functionMethods) {
 			if(type.superTypeDefinesFunctionMethod(fm))
 				continue; // skip methods which were already declared in a base interface

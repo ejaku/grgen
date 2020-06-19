@@ -67,7 +67,6 @@ public class ExternalType extends InheritanceType
 	private void addExternalFunctionMethods(ExternalType type)
 	{
 		for(ExternalFunctionMethod fm : type.getExternalFunctionMethods()) {
-			// METHOD-TODO - what version is of relevance if alreay defined; override handling
 			String functionName = fm.getIdent().toString();
 			allExternalFunctionMethods.put(functionName, fm);
 		}
@@ -76,7 +75,6 @@ public class ExternalType extends InheritanceType
 	private void addExternalProcedureMethods(ExternalType type)
 	{
 		for(ExternalProcedureMethod pm : type.getExternalProcedureMethods()) {
-			// METHOD-TODO - what version is of relevance if alreay defined; override handling
 			String procedureName = pm.getIdent().toString();
 			allExternalProcedureMethods.put(procedureName, pm);
 		}
@@ -86,11 +84,11 @@ public class ExternalType extends InheritanceType
 	{
 		if(allExternalFunctionMethods == null) {
 			allExternalFunctionMethods = new LinkedHashMap<String, ExternalFunctionMethod>();
-			//overridingMembers = new LinkedHashMap<Entity, Entity>(); METHOD-TODO
 
 			// add the members of the super types
-			for(InheritanceType superType : getAllSuperTypes())
+			for(InheritanceType superType : getAllSuperTypes()) {
 				addExternalFunctionMethods((ExternalType)superType);
+			}
 
 			// add members of the current type
 			addExternalFunctionMethods(this);
@@ -103,11 +101,11 @@ public class ExternalType extends InheritanceType
 	{
 		if(allExternalProcedureMethods == null) {
 			allExternalProcedureMethods = new LinkedHashMap<String, ExternalProcedureMethod>();
-			//overridingMembers = new LinkedHashMap<Entity, Entity>(); METHOD-TODO
 
 			// add the members of the super types
-			for(InheritanceType superType : getAllSuperTypes())
+			for(InheritanceType superType : getAllSuperTypes()) {
 				addExternalProcedureMethods((ExternalType)superType);
+			}
 
 			// add members of the current type
 			addExternalProcedureMethods(this);

@@ -175,8 +175,6 @@ public class AssignNode extends EvalStatementNode
 		} else if(lhsVar != null) {
 			if(!checkLhsVar())
 				return false;
-		} else {
-			// METHOD-TODO
 		}
 
 		return typeCheckLocal();
