@@ -1,4 +1,4 @@
-#using "multi_retype_due_to_hom_overshadowed_by_other_hom.gm"
+#using "multi_retype_due_to_hom.gm"
 
 rule r
 {

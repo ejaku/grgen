@@ -1,0 +1,13 @@
+#using "retype_delete_hom.gm"
+
+rule r
+{
+	n1:N;
+	n2:N;
+	hom(n1,n2);
+	
+	modify {
+		delete(n1);
+		m2:M<n2>;
+	}
+}

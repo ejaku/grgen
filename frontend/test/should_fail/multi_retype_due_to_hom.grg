@@ -1,0 +1,13 @@
+#using "multi_retype_due_to_hom.gm"
+
+rule r
+{
+	n1:N;
+	n2:N;
+	hom(n1,n2);
+	
+	modify {
+		m1:M<n1>;
+		m2:M<n2>;
+	}
+}

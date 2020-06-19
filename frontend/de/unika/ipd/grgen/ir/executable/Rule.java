@@ -368,11 +368,54 @@ public class Rule extends MatchingAction implements ContainedInPackage
 
 	static void reportMultipleDeleteOrRetype(Entity entity, Rule first, Rule second)
 	{
-		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent() + " (or a hom entity)"
+		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent() + " or a hom entity"
 				+ " may get deleted or retyped in pattern " + first.getIdent() + " starting at "
 				+ first.getIdent().getCoords()
 				+ " and in pattern " + second.getIdent() + " starting at " + second.getIdent().getCoords()
 				+ " (only one such place allowed, provable at compile time)");
+	}
+
+	public void checkForMultipleRetypesLocal()
+	{
+		if(right == null) {
+			return;
+		}
+
+		for(Node node : pattern.getNodes()) {
+			for(Node homNode : pattern.getHomomorphic(node)) {
+				if(node == homNode)
+					continue;
+				if(node.changesType(right) && homNode.changesType(right)) {
+					reportMultipleRetype(node, homNode);
+				}
+			}
+		}
+		for(Edge edge : pattern.getEdges()) {
+			for(Edge homEdge : pattern.getHomomorphic(edge)) {
+				if(edge == homEdge)
+					continue;
+				if(edge.changesType(right) && homEdge.changesType(right)) {
+					reportMultipleRetype(edge, homEdge);
+				}
+			}
+		}
+		
+		for(Alternative alternative : pattern.getAlts()) {
+			for(Rule altCase : alternative.getAlternativeCases()) {
+				altCase.checkForMultipleRetypesLocal();
+			}
+		}
+
+		for(Rule iterated : pattern.getIters()) {
+			iterated.checkForMultipleRetypesLocal();
+		}
+	}
+
+	static void reportMultipleRetype(Entity entity, Entity homEntity)
+	{
+		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent() +
+				" and the hom entity " + homEntity.getIdent() + " at " + homEntity.getIdent().getCoords() 
+				+ " are both retyped, so a homomorphically matched graph element may get retyped multiple times.");
 	}
 
 	public boolean isUsingNonDirectExec(boolean isTopLevelRule)

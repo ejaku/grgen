@@ -402,10 +402,14 @@ public class Unit extends IR implements ActionsBearer
 
 	public void checkForMultipleDeletesOrRetypes()
 	{
-		checkForMultipleDeletesOrRetypes(new ComposedActionsBearer(this));
+		ComposedActionsBearer bearer = new ComposedActionsBearer(this);
+		checkForMultipleDeletesOrRetypesGlobal(bearer);
+		checkForMultipleRetypesLocal(bearer);
 	}
 
-	public static void checkForMultipleDeletesOrRetypes(ActionsBearer bearer)
+	// protection against multiple changes (from retypes or deletes) of an element on a subpattern call path
+	// (potentially homomorphically matched, inter-pattern)
+	public static void checkForMultipleDeletesOrRetypesGlobal(ActionsBearer bearer)
 	{
 		// an element may be deleted/retyped several times at different nesting levels
 		// or even in a subpattern called and outside of this subpattern
@@ -450,6 +454,20 @@ public class Unit extends IR implements ActionsBearer
 		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(),
 					subpatternsToParametersToTheirDeletingOrRetypingPattern);
+		}
+	}
+
+	// protection against multiple retypes of an element caused by a homomorphic match
+	// (within/intra-pattern; note that a retype and a delete or multiple deletes 
+	// of a homomorphically matched element are ok -- SPO-like deletion has priority,
+	// while multiple deletes won't harm/are idempotent)
+	public static void checkForMultipleRetypesLocal(ActionsBearer bearer)
+	{
+		for(Rule subpatternRule : bearer.getSubpatternRules()) {
+			subpatternRule.checkForMultipleRetypesLocal();
+		}
+		for(Rule actionRule : bearer.getActionRules()) {
+			actionRule.checkForMultipleRetypesLocal();
 		}
 	}
 
