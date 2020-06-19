@@ -28,23 +28,21 @@ import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.grgen.util.Walkable;
 
 /**
- * A graph pattern.
- * This is used for tests and the left and right sides and the NAC part of a rule.
- * These graphs have own classes for the nodes and edges as proxy objects to the actual Node and Edge objects.
+ * This is a base class for the pattern graph containing the node/edge handling.
+ * It has own classes for the nodes and edges as proxy objects to the actual Node and Edge objects.
  * The reason for this is: The nodes and edges in a rule that are common to the left and the right side
- * exist only once as a object (that's due to the fact, that these objects are created from the AST declaration,
+ * exist only once as an object (that's due to the fact that these objects are created from the AST declaration,
  * which exist only once per defined object).
  * But we want to discriminate between the nodes on the left and right hand side of a rule,
  * even if they represent the same declared nodes.
  */
-/// TODO: this class is never instantiated, only PatternGraphs are used -- ...?
 public abstract class Graph extends IR
 {
 	protected abstract class GraphObject extends GraphDumpableProxy implements Walkable
 	{
-		public GraphObject(GraphDumpable gd)
+		public GraphObject(GraphDumpable graphDumpable)
 		{
-			super(gd);
+			super(graphDumpable);
 		}
 	}
 
@@ -55,13 +53,13 @@ public abstract class Graph extends IR
 		private final Node node;
 		private final String nodeId;
 
-		private GraphNode(Node n)
+		private GraphNode(Node node)
 		{
-			super(n.getIdent(), n.getNodeType(), n.directlyNestingLHSGraph,
-					n.isMaybeDeleted(), n.isMaybeRetyped(), n.isDefToBeYieldedTo(), n.context);
+			super(node.getIdent(), node.getNodeType(), node.directlyNestingLHSGraph,
+					node.isMaybeDeleted(), node.isMaybeRetyped(), node.isDefToBeYieldedTo(), node.context);
 			this.incoming = new LinkedHashSet<Graph.GraphEdge>();
 			this.outgoing = new LinkedHashSet<Graph.GraphEdge>();
-			this.node = n;
+			this.node = node;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 		}
 
@@ -87,13 +85,13 @@ public abstract class Graph extends IR
 		private Edge edge;
 		private final String nodeId;
 
-		private GraphEdge(Edge e)
+		private GraphEdge(Edge edge)
 		{
-			super(e.getIdent(), e.getEdgeType(), e.directlyNestingLHSGraph,
-					e.isMaybeDeleted(), e.isMaybeRetyped(), e.isDefToBeYieldedTo(), e.context);
-			this.edge = e;
+			super(edge.getIdent(), edge.getEdgeType(), edge.directlyNestingLHSGraph,
+					edge.isMaybeDeleted(), edge.isMaybeRetyped(), edge.isDefToBeYieldedTo(), edge.context);
+			this.edge = edge;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
-			this.fixedDirection = e.fixedDirection;
+			this.fixedDirection = edge.fixedDirection;
 		}
 
 		@Override
@@ -138,11 +136,7 @@ public abstract class Graph extends IR
 
 	public void setDirectlyNestingLHSGraph(PatternGraph directlyNestingLHSGraph)
 	{
-		// this is for setting the directlyNestingLHSGraph for a retyped node when it gets added
-		// TODO: in a lot of situations one would need the pointer to the parent node in the AST and in the IR 
-		// a lot of convoluted code making everything unnecessarily complex was written to circumvent the lack thereof
-		// TODO: take care of the major architectural misdecision to not include parent-pointers only allowing top-down processing,
-		// and replace a lot of non understandable side effects by local routines accessing the parent to get the context information needed
+		// This is for setting the directlyNestingLHSGraph for a retyped node when it gets added
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
 
@@ -151,75 +145,72 @@ public abstract class Graph extends IR
 		return nameOfGraph;
 	}
 
-	private GraphNode getOrSetNode(Node n)
+	private GraphNode getOrSetNode(Node node)
 	{
 		GraphNode res;
-		if(n == null)
+		if(node == null)
 			return null;
 
 		// Do not include the virtual retyped nodes in the graph.
-		// TODO why??? we could just check in the generator whether this is a retyped node
-		// this would eliminate this unnecessary <code>changesType()</code> stuff
-		if(n.isRetyped() && n.isRHSEntity()) {
-			RetypedNode retypedNode = (RetypedNode)n;
-			n = retypedNode.getOldNode();
-			n.setRetypedNode(retypedNode, this);
+		// (Alternative handling: we could just check in the generator whether this is a retyped node, eliminating the <code>changesType()</code> stuff.)
+		if(node.isRetyped() && node.isRHSEntity()) {
+			RetypedNode retypedNode = (RetypedNode)node;
+			node = retypedNode.getOldNode();
+			node.setRetypedNode(retypedNode, this);
 			retypedNode.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		}
 
-		if(!nodes.containsKey(n)) {
-			res = new GraphNode(n);
-			nodes.put(n, res);
+		if(!nodes.containsKey(node)) {
+			res = new GraphNode(node);
+			nodes.put(node, res);
 		} else {
-			res = nodes.get(n);
+			res = nodes.get(node);
 		}
 
 		return res;
 	}
 
-	private GraphEdge getOrSetEdge(Edge e)
+	private GraphEdge getOrSetEdge(Edge edge)
 	{
 		GraphEdge res;
 
-		// TODO Batz included this because an analogous invocation can be found
-		// in the method right above, don't exactly whether this makes sense
-		if(e.isRetyped() && e.isRHSEntity()) {
-			RetypedEdge retypedEdge = (RetypedEdge)e;
-			e = retypedEdge.getOldEdge();
-			e.setRetypedEdge(retypedEdge, this);
+		if(edge.isRetyped() && edge.isRHSEntity()) {
+			RetypedEdge retypedEdge = (RetypedEdge)edge;
+			edge = retypedEdge.getOldEdge();
+			edge.setRetypedEdge(retypedEdge, this);
 			retypedEdge.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		}
 
-		if(!edges.containsKey(e)) {
-			res = new GraphEdge(e);
-			edges.put(e, res);
+		if(!edges.containsKey(edge)) {
+			res = new GraphEdge(edge);
+			edges.put(edge, res);
 		} else {
-			res = edges.get(e);
+			res = edges.get(edge);
 		}
 
 		return res;
 	}
 
-	private GraphNode checkNode(Node n)
+	private GraphNode checkNode(Node node)
 	{
-		assert nodes.containsKey(n) : "Node must be in graph: " + n;
-		return nodes.get(n);
+		assert nodes.containsKey(node) : "Node must be in graph: " + node;
+		return nodes.get(node);
 	}
 
-	private GraphEdge checkEdge(Edge e)
+	private GraphEdge checkEdge(Edge edge)
 	{
-		assert edges.containsKey(e) : "Edge must be in graph: " + e;
-		return edges.get(e);
+		assert edges.containsKey(edge) : "Edge must be in graph: " + edge;
+		return edges.get(edge);
 	}
 
 	/**
 	 * Allows another class to append a suffix to the graph's name.
 	 * This is useful for rules, that can add "left" or "right" to the graph's name.
-	 * @param s A suffix for the graph's name.
+	 * @param suffix A suffix for the graph's name.
 	 */
-	public void setNameSuffix(String s)
+	public void setNameSuffix(String suffix)
 	{
-		setName("graph " + s);
+		setName("graph " + suffix);
 	}
 
 	/** @return true, if the given node is contained in the graph, false, if not. */
@@ -283,85 +274,85 @@ public abstract class Graph extends IR
 
 	/**
 	 * Put all nodes in this graph into a collection.
-	 * @param c The collection to put them into.
+	 * @param collection The collection to put them into.
 	 * @return The given collection.
 	 */
-	public Collection<Node> putNodes(Collection<Node> c)
+	public Collection<Node> putNodes(Collection<Node> collection)
 	{
-		c.addAll(nodes.keySet());
-		return c;
+		collection.addAll(nodes.keySet());
+		return collection;
 	}
 
 	/**
 	 * Put all edges in this graph into a collection.
-	 * @param c The collection to put them into.
+	 * @param collection The collection to put them into.
 	 * @return The given collection.
 	 */
-	public Collection<Edge> putEdges(Collection<Edge> c)
+	public Collection<Edge> putEdges(Collection<Edge> collection)
 	{
-		c.addAll(edges.keySet());
-		return c;
+		collection.addAll(edges.keySet());
+		return collection;
 	}
 
 	/** @return The number of incoming edges of the given node */
 	public int getInDegree(Node node)
 	{
-		GraphNode gn = checkNode(node);
-		return gn.incoming.size();
+		GraphNode graphNode = checkNode(node);
+		return graphNode.incoming.size();
 	}
 
 	/** @return The number of outgoing edges of the given node */
 	public int getOutDegree(Node node)
 	{
-		GraphNode gn = checkNode(node);
-		return gn.outgoing.size();
+		GraphNode graphNode = checkNode(node);
+		return graphNode.outgoing.size();
 	}
 
 	/** Get the set of all incoming edges for a given node, they are put into the given collection (which gets returned)*/
-	public Collection<Edge> getIncoming(Node n, Collection<Edge> c)
+	public Collection<Edge> getIncoming(Node node, Collection<Edge> collection)
 	{
-		GraphNode gn = checkNode(n);
-		for(Iterator<Graph.GraphEdge> it = gn.incoming.iterator(); it.hasNext();) {
-			GraphEdge e = it.next();
-			c.add(e.edge);
+		GraphNode graphNode = checkNode(node);
+		for(Iterator<Graph.GraphEdge> it = graphNode.incoming.iterator(); it.hasNext();) {
+			GraphEdge graphEdge = it.next();
+			collection.add(graphEdge.edge);
 		}
-		return c;
+		return collection;
 	}
 
 	/** Get the set of all incoming edges for a given node */
-	public Collection<? extends Edge> getIncoming(Node n)
+	public Collection<? extends Edge> getIncoming(Node node)
 	{
-		return Collections.unmodifiableCollection(getIncoming(n, new LinkedList<Edge>()));
+		return Collections.unmodifiableCollection(getIncoming(node, new LinkedList<Edge>()));
 	}
 
 	/** Get the set of all outgoing edges for a given node, they are put into the given collection (which gets returned)*/
-	public Collection<Edge> getOutgoing(Node n, Collection<Edge> c)
+	public Collection<Edge> getOutgoing(Node node, Collection<Edge> collection)
 	{
-		GraphNode gn = checkNode(n);
-		for(GraphEdge e : gn.outgoing) {
-			c.add(e.edge);
+		GraphNode graphNode = checkNode(node);
+		for(GraphEdge graphEdge : graphNode.outgoing) {
+			collection.add(graphEdge.edge);
 		}
-		return c;
+		return collection;
 	}
 
 	/** Get the set of all outgoing edges for a given node */
-	public Collection<Edge> getOutgoing(Node n)
+	public Collection<Edge> getOutgoing(Node node)
 	{
-		return Collections.unmodifiableCollection(getOutgoing(n, new LinkedList<Edge>()));
+		return Collections.unmodifiableCollection(getOutgoing(node, new LinkedList<Edge>()));
 	}
 
 	/** @return The source node, the edge leaves from, or null in case of a single edge. */
-	public Node getSource(Edge e)
+	public Node getSource(Edge edge)
 	{
-		GraphEdge ge = checkEdge(e);
-		return ge.source != null ? ge.source.node : null;
+		GraphEdge graphEdge = checkEdge(edge);
+		return graphEdge.source != null ? graphEdge.source.node : null;
 	}
 
 	/** @return The target node, the edge points to, or null in case of a single edge. */
-	public Node getTarget(Edge e)
+	public Node getTarget(Edge edge)
 	{
-		GraphEdge ge = checkEdge(e);
-		return ge.target != null ? ge.target.node : null;
+		GraphEdge graphEdge = checkEdge(edge);
+		return graphEdge.target != null ? graphEdge.target.node : null;
 	}
 
 	/**
@@ -377,30 +368,30 @@ public abstract class Graph extends IR
 			boolean redirectSource, boolean redirectTarget)
 	{
 		// Get the nodes and edges from the map.
-		GraphNode l = getOrSetNode(left);
-		GraphNode r = getOrSetNode(right);
+		GraphNode leftGraphNode = getOrSetNode(left);
+		GraphNode rightGraphNode = getOrSetNode(right);
 		edge.fixedDirection = fixedDirection;
-		GraphEdge e = getOrSetEdge(edge);
+		GraphEdge graphEdge = getOrSetEdge(edge);
 
 		// Update outgoing and incoming of the nodes.
 		if(!redirectSource) {
-			if(l != null)
-				l.outgoing.add(e);
+			if(leftGraphNode != null)
+				leftGraphNode.outgoing.add(graphEdge);
 		}
 		if(!redirectTarget) {
-			if(r != null)
-				r.incoming.add(e);
+			if(rightGraphNode != null)
+				rightGraphNode.incoming.add(graphEdge);
 		}
 
 		// Set the edge source and target
 		if(redirectSource)
 			edge.setRedirectedSource(left, this);
 		else
-			e.source = l;
+			graphEdge.source = leftGraphNode;
 		if(redirectTarget)
 			edge.setRedirectedTarget(right, this);
 		else
-			e.target = r;
+			graphEdge.target = rightGraphNode;
 	}
 
 	/** Add a single node (i.e. no incident edges) to the graph. */
@@ -430,8 +421,8 @@ public abstract class Graph extends IR
 	/** @return true, if the node is single (i.e. has no incident edges), false if not. */
 	public boolean isSingle(Node node)
 	{
-		GraphNode gn = checkNode(node);
-		return gn.incoming.isEmpty() && gn.outgoing.isEmpty();
+		GraphNode graphNode = checkNode(node);
+		return graphNode.incoming.isEmpty() && graphNode.outgoing.isEmpty();
 	}
 
 	/** @return A graph dumpable thing representing the given node local in this graph. */

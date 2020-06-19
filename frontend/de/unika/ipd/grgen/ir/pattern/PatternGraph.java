@@ -34,8 +34,11 @@ import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 
 /**
- * A pattern graph is a graph as it occurs in left hand rule sides and negative parts.
- * Additionally it can have conditions referring to its items that restrict the set of possible matchings.
+ * A pattern graph is a graph pattern as it occurs on left and right hand sides of rules.
+ * It includes nested alternative-case and iterated rules, as well as nested patterns (negative and independent).
+ * It extends the graph base class, additionally offering variables, 
+ * conditions that restrict the set of possible matches, 
+ * lhs yield statements, rhs imperative statements, and further things.
  */
 public class PatternGraph extends Graph
 {
@@ -187,9 +190,9 @@ public class PatternGraph extends Graph
 	}
 
 	/** Add an assignment to the list of evaluations. */
-	public void addYield(EvalStatements a)
+	public void addYield(EvalStatements stmts)
 	{
-		yields.add(a);
+		yields.add(stmts);
 	}
 
 	public void addNodeIfNotYetContained(Node node)
@@ -329,83 +332,83 @@ public class PatternGraph extends Graph
 		return homEdgesOfEdge;
 	}
 
-	public boolean isHomomorphic(Node n1, Node n2)
+	public boolean isHomomorphic(Node node1, Node node2)
 	{
-		if(isTotallyHomomorphic(n1, n2))
+		if(isTotallyHomomorphic(node1, node2))
 			return true;
-		return homToAllNodes.contains(n1) || homToAllNodes.contains(n2)
-				|| getHomomorphic(n1).contains(n2);
+		return homToAllNodes.contains(node1) || homToAllNodes.contains(node2)
+				|| getHomomorphic(node1).contains(node2);
 	}
 
-	public boolean isHomomorphic(Edge e1, Edge e2)
+	public boolean isHomomorphic(Edge edge1, Edge edge2)
 	{
-		if(isTotallyHomomorphic(e1, e2))
+		if(isTotallyHomomorphic(edge1, edge2))
 			return true;
-		return homToAllEdges.contains(e1) || homToAllEdges.contains(e2)
-				|| getHomomorphic(e1).contains(e2);
+		return homToAllEdges.contains(edge1) || homToAllEdges.contains(edge2)
+				|| getHomomorphic(edge1).contains(edge2);
 	}
 
-	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Node n1, Node n2)
+	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Node node1, Node node2)
 	{
-		if(isTotallyHomomorphic(n1, n2))
+		if(isTotallyHomomorphic(node1, node2))
 			return true;
-		if(!getHomomorphic(n1).contains(n2))
+		if(!getHomomorphic(node1).contains(node2))
 			return false;
-		return alreadyDefinedEntityToName.containsKey(n1) != alreadyDefinedEntityToName.containsKey(n2);
+		return alreadyDefinedEntityToName.containsKey(node1) != alreadyDefinedEntityToName.containsKey(node2);
 	}
 
-	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Edge e1, Edge e2)
+	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Edge edge1, Edge edge2)
 	{
-		if(isTotallyHomomorphic(e1, e2))
+		if(isTotallyHomomorphic(edge1, edge2))
 			return true;
-		if(!getHomomorphic(e1).contains(e2))
+		if(!getHomomorphic(edge1).contains(edge2))
 			return false;
-		return alreadyDefinedEntityToName.containsKey(e1) != alreadyDefinedEntityToName.containsKey(e2);
+		return alreadyDefinedEntityToName.containsKey(edge1) != alreadyDefinedEntityToName.containsKey(edge2);
 	}
 
-	public boolean isTotallyHomomorphic(Node n1, Node n2)
+	public boolean isTotallyHomomorphic(Node node1, Node node2)
 	{
-		if(isTotallyHomomorphic(n1)) {
-			if(totallyHomNodes.get(n1).contains(n2))
+		if(isTotallyHomomorphic(node1)) {
+			if(totallyHomNodes.get(node1).contains(node2))
 				return false;
 		}
-		if(isTotallyHomomorphic(n2)) {
-			if(totallyHomNodes.get(n2).contains(n1))
+		if(isTotallyHomomorphic(node2)) {
+			if(totallyHomNodes.get(node2).contains(node1))
 				return false;
 		}
-		if(isTotallyHomomorphic(n1) || isTotallyHomomorphic(n2)) {
+		if(isTotallyHomomorphic(node1) || isTotallyHomomorphic(node2)) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean isTotallyHomomorphic(Edge e1, Edge e2)
+	public boolean isTotallyHomomorphic(Edge edge1, Edge edge2)
 	{
-		if(isTotallyHomomorphic(e1)) {
-			if(totallyHomEdges.get(e1).contains(e2))
+		if(isTotallyHomomorphic(edge1)) {
+			if(totallyHomEdges.get(edge1).contains(edge2))
 				return false;
 		}
-		if(isTotallyHomomorphic(e2)) {
-			if(totallyHomEdges.get(e2).contains(e1))
+		if(isTotallyHomomorphic(edge2)) {
+			if(totallyHomEdges.get(edge2).contains(edge1))
 				return false;
 		}
-		if(isTotallyHomomorphic(e1) || isTotallyHomomorphic(e2)) {
+		if(isTotallyHomomorphic(edge1) || isTotallyHomomorphic(edge2)) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean isTotallyHomomorphic(Node n)
+	public boolean isTotallyHomomorphic(Node node)
 	{
-		if(totallyHomNodes.containsKey(n))
+		if(totallyHomNodes.containsKey(node))
 			return true;
 		else
 			return false;
 	}
 
-	public boolean isTotallyHomomorphic(Edge e)
+	public boolean isTotallyHomomorphic(Edge edge)
 	{
-		if(totallyHomEdges.containsKey(e))
+		if(totallyHomEdges.containsKey(edge))
 			return true;
 		else
 			return false;
@@ -744,18 +747,18 @@ public class PatternGraph extends Graph
 		// and are declared in some nesting right hand side,
 		// to the replacement parameters (so that they get handed down from the nesting replacement)
 
-		for(Node n : right.getNodes()) {
-			if(n.directlyNestingLHSGraph != this && !right.replParametersContain(n)) {
-				if((n.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-					right.addReplParameter(n);
+		for(Node node : right.getNodes()) {
+			if(node.directlyNestingLHSGraph != this && !right.replParametersContain(node)) {
+				if((node.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
+					right.addReplParameter(node);
 				}
 			}
 		}
 
-		for(Variable v : right.getVars()) {
-			if(v.directlyNestingLHSGraph != this && !right.replParametersContain(v)) {
-				if((v.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-					right.addReplParameter(v);
+		for(Variable var : right.getVars()) {
+			if(var.directlyNestingLHSGraph != this && !right.replParametersContain(var)) {
+				if((var.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
+					right.addReplParameter(var);
 				}
 			}
 		}
@@ -765,11 +768,11 @@ public class PatternGraph extends Graph
 		// as they are only created after the replacement code of the nested pattern is left, 
 		// that's because node retyping occurs only afterwards, 
 		// and we maybe want to create edges in between retyped=newly created nodes
-		for(Edge e : right.getEdges()) {
-			if(e.directlyNestingLHSGraph != this) {
-				if((e.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-					error.error(e.getIdent().getCoords(),
-							"Can't access a newly created edge (" + e.getIdent() + ") in a nested replacement");
+		for(Edge edge : right.getEdges()) {
+			if(edge.directlyNestingLHSGraph != this) {
+				if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
+					error.error(edge.getIdent().getCoords(),
+							"Can't access a newly created edge (" + edge.getIdent() + ") in a nested replacement");
 				}
 			}
 		}
@@ -787,10 +790,10 @@ public class PatternGraph extends Graph
 		// emit error on accessing freshly created edges from evalhere statements as they are not available there
 		// because they are only created after the evalhere statements are evaluated 
 
-		for(OrderedReplacements ors : right.getOrderedReplacements()) {
-			for(OrderedReplacement orderedRep : ors.orderedReplacements) {
-				if(orderedRep instanceof EvalStatement) {
-					EvalStatement evalStmt = (EvalStatement)orderedRep;
+		for(OrderedReplacements orderedRepls : right.getOrderedReplacements()) {
+			for(OrderedReplacement orderedRepl : orderedRepls.orderedReplacements) {
+				if(orderedRepl instanceof EvalStatement) {
+					EvalStatement evalStmt = (EvalStatement)orderedRepl;
 					NeededEntities needs = new NeededEntities(false, true, false, false, true, false, false, false);
 					evalStmt.collectNeededEntities(needs);
 					for(Edge edge : needs.edges) {
@@ -823,27 +826,27 @@ public class PatternGraph extends Graph
 		// to the left hand side (so that they get handed down from the nesting pattern;
 		// otherwise they would be created (code generation by locally comparing lhs and rhs))
 
-		for(Node n : right.getNodes()) {
-			if(n.directlyNestingLHSGraph != this && !right.replParametersContain(n)) {
-				if(!hasNode(n)) {
-					addSingleNode(n);
-					addHomToAll(n);
+		for(Node node : right.getNodes()) {
+			if(node.directlyNestingLHSGraph != this && !right.replParametersContain(node)) {
+				if(!hasNode(node)) {
+					addSingleNode(node);
+					addHomToAll(node);
 				}
 			}
 		}
 
-		for(Edge e : right.getEdges()) {
-			if(e.directlyNestingLHSGraph != this && !right.replParametersContain(e)) {
-				if(!hasEdge(e)) {
-					addSingleEdge(e);
-					addHomToAll(e);
+		for(Edge edge : right.getEdges()) {
+			if(edge.directlyNestingLHSGraph != this && !right.replParametersContain(edge)) {
+				if(!hasEdge(edge)) {
+					addSingleEdge(edge);
+					addHomToAll(edge);
 				}
 			}
 		}
 
-		for(Variable v : right.getVars()) {
-			if(v.directlyNestingLHSGraph != this && !right.replParametersContain(v)) {
-				addVariable(v);
+		for(Variable var : right.getVars()) {
+			if(var.directlyNestingLHSGraph != this && !right.replParametersContain(var)) {
+				addVariable(var);
 			}
 		}
 	}
