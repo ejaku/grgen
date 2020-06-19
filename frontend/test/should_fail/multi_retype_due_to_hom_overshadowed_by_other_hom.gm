@@ -1,0 +1,5 @@
+node class N;
+node class M;
+
+edge class E;
+edge class F;

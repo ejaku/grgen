@@ -1,0 +1,21 @@
+#using "multi_retype_due_to_hom_overshadowed_by_other_hom.gm"
+
+rule r
+{
+	-e1:E->;
+	
+	optional {
+		-e3:E->;
+		-e4:E->;
+		hom(e1,e4);
+		hom(e1,e3);
+
+		modify {
+			-f3:F<e3>->;
+		}
+	}
+
+	modify {
+		-f1:F<e1>->;
+	}
+}

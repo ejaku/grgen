@@ -60,10 +60,10 @@ public class PatternGraph extends Graph
 	private final List<EvalStatements> yields = new LinkedList<EvalStatements>();
 
 	/** A list of all potentially homomorphic node sets. */
-	private final List<Collection<Node>> homNodes = new LinkedList<Collection<Node>>();
+	private final List<Collection<Node>> homNodesLists = new LinkedList<Collection<Node>>();
 
 	/** A list of all potentially homomorphic edge sets. */
-	private final List<Collection<Edge>> homEdges = new LinkedList<Collection<Edge>>();
+	private final List<Collection<Edge>> homEdgesLists = new LinkedList<Collection<Edge>>();
 
 	/** A set of nodes which will be matched homomorphically to any other node in the pattern.
 	 *  they appear if they're not referenced within the pattern, but some nested component uses them */
@@ -206,20 +206,20 @@ public class PatternGraph extends Graph
 		if(hasEdge(edge))
 			return;
 		
-		addSingleEdge(edge); // TODO: maybe we lose context here
+		addSingleEdge(edge);
 		addHomToAll(edge);
 	}
 
 	/** Add a potentially homomorphic set to the graph. */
 	public void addHomomorphicNodes(Collection<Node> hom)
 	{
-		homNodes.add(hom);
+		homNodesLists.add(hom);
 	}
 
 	/** Add a potentially homomorphic set to the graph. */
 	public void addHomomorphicEdges(Collection<Edge> hom)
 	{
-		homEdges.add(hom);
+		homEdgesLists.add(hom);
 	}
 
 	public void addHomToAll(Node node)
@@ -295,38 +295,38 @@ public class PatternGraph extends Graph
 	public Collection<Collection<? extends GraphEntity>> getHomomorphic()
 	{
 		Collection<Collection<? extends GraphEntity>> ret = new LinkedHashSet<Collection<? extends GraphEntity>>();
-		ret.addAll(homEdges);
-		ret.addAll(homNodes);
+		ret.addAll(homEdgesLists);
+		ret.addAll(homNodesLists);
 
 		return Collections.unmodifiableCollection(ret);
 	}
 
-	public Collection<Node> getHomomorphic(Node n)
+	public Collection<Node> getHomomorphic(Node node)
 	{
-		for(Collection<Node> c : homNodes) {
-			if(c.contains(n)) {
-				// TODO: we got non-transitive homomorphy, why is this sufficient? A hom-merge pass before?
-				return c;
+		Collection<Node> homNodesOfNode = new LinkedList<Node>();
+
+		for(Collection<Node> homNodes : homNodesLists) {
+			if(homNodes.contains(node)) {
+				homNodesOfNode.addAll(homNodes);
 			}
 		}
-
-		Collection<Node> c = new LinkedList<Node>();
-		c.add(n);
-		return c;
+		homNodesOfNode.add(node);
+		
+		return homNodesOfNode;
 	}
 
-	public Collection<Edge> getHomomorphic(Edge e)
+	public Collection<Edge> getHomomorphic(Edge edge)
 	{
-		for(Collection<Edge> c : homEdges) {
-			if(c.contains(e)) {
-				// TODO: we got non-transitive homomorphy, why is this sufficient? A hom-merge pass before?
-				return c;
+		Collection<Edge> homEdgesOfEdge = new LinkedList<Edge>();
+
+		for(Collection<Edge> homEdges : homEdgesLists) {
+			if(homEdges.contains(edge)) {
+				homEdgesOfEdge.addAll(homEdges);
 			}
 		}
-
-		Collection<Edge> c = new LinkedList<Edge>();
-		c.add(e);
-		return c;
+		homEdgesOfEdge.add(edge);
+		
+		return homEdgesOfEdge;
 	}
 
 	public boolean isHomomorphic(Node n1, Node n2)
@@ -532,7 +532,6 @@ public class PatternGraph extends Graph
 		///////////////////////////////////////////////////////////////////////////////
 		// post: add elements of subpatterns not defined there to our nodes'n'edges
 
-		// 
 		// add elements needed in alternative cases, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
 		for(Alternative alternative : getAlts()) {
@@ -572,8 +571,8 @@ public class PatternGraph extends Graph
 					}
 				}
 
-				// add rhs parameters from nested alternative cases if they are not used or defined here
-				// to our rhs parameters, so we get and forward them
+				// add rhs parameters from nested alternative cases if they are not used or defined here to our rhs parameters,
+				// so we get them, so we're able to forward them
 				if(right != null) {
 					List<Entity> altCaseReplParameters = altCase.getRight().getReplParameters();
 					for(Entity entity : altCaseReplParameters) {
@@ -581,7 +580,6 @@ public class PatternGraph extends Graph
 							Node node = (Node)entity;
 							if(node.directlyNestingLHSGraph != this) {
 								if(!right.getReplParameters().contains(node)) {
-									// evt. todo: right.addSingleNode(node); right.addHomToAll(node);
 									right.addReplParameter(node);
 								}
 							}
@@ -590,7 +588,6 @@ public class PatternGraph extends Graph
 							Edge edge = (Edge)entity;
 							if(edge.directlyNestingLHSGraph != this) {
 								if(!right.getReplParameters().contains(edge)) {
-									// evt. todo: right.addSingleEdge(edge); right.addHomToAll(edge);
 									right.addReplParameter(edge);
 								}
 							}
@@ -599,7 +596,6 @@ public class PatternGraph extends Graph
 							Variable var = (Variable)entity;
 							if(var.directlyNestingLHSGraph != this) {
 								if(!right.getReplParameters().contains(var)) {
-									// evt. todo: right.addVariable(var);
 									right.addReplParameter(var);
 								}
 							}
@@ -647,34 +643,31 @@ public class PatternGraph extends Graph
 				}
 			}
 
-			// add rhs parameters from nested iterateds if they are not used or defined here
-			// to our rhs parameters, so we get and forward them
+			// add rhs parameters from nested iterateds if they are not used or defined here to our rhs parameters,
+			// so we get them, so we're able to forward them
 			if(right != null) {
 				List<Entity> iteratedReplParameters = iterated.getRight().getReplParameters();
-				for(Entity entity : iteratedReplParameters) {
-					if(entity instanceof Node) {
-						Node node = (Node)entity;
+				for(Entity iteratedReplParameter : iteratedReplParameters) {
+					if(iteratedReplParameter instanceof Node) {
+						Node node = (Node)iteratedReplParameter;
 						if(node.directlyNestingLHSGraph != this) {
 							if(!right.getReplParameters().contains(node)) {
-								// evt. todo: right.addSingleNode(node); right.addHomToAll(node);
 								right.addReplParameter(node);
 							}
 						}
 					}
-					if(entity instanceof Edge) {
-						Edge edge = (Edge)entity;
+					if(iteratedReplParameter instanceof Edge) {
+						Edge edge = (Edge)iteratedReplParameter;
 						if(edge.directlyNestingLHSGraph != this) {
 							if(!right.getReplParameters().contains(edge)) {
-								// evt. todo: right.addSingleEdge(edge); right.addHomToAll(edge);
 								right.addReplParameter(edge);
 							}
 						}
 					}
-					if(entity instanceof Variable) {
-						Variable var = (Variable)entity;
+					if(iteratedReplParameter instanceof Variable) {
+						Variable var = (Variable)iteratedReplParameter;
 						if(var.directlyNestingLHSGraph != this) {
 							if(!right.getReplParameters().contains(var)) {
-								// evt. todo: right.addVariable(var);
 								right.addReplParameter(var);
 							}
 						}
