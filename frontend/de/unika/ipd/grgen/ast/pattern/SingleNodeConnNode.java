@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 
 /**
  * AST node representing nodes
@@ -87,13 +87,13 @@ public class SingleNodeConnNode extends ConnectionCharacter
 		return node;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addToGraph(de.unika.ipd.grgen.ir.pattern.Graph) */
+	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addToGraph(de.unika.ipd.grgen.ir.pattern.PatternGraphBase) */
 	@Override
-	public void addToGraph(Graph gr)
+	public void addToGraph(PatternGraphBase patternGraph)
 	{
 		assert isResolved();
 
-		gr.addSingleNode(node.getNode());
+		patternGraph.addSingleNode(node.getNode());
 	}
 
 	private static Checker nodeChecker = new TypeChecker(NodeTypeNode.class);

@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 
 /**
  * AST node that represents a Connection (an edge connecting two nodes)
@@ -313,14 +313,14 @@ public class ConnectionNode extends ConnectionCharacter
 	}
 
 	/**
-	 * This adds the connection to an IR graph.
+	 * This adds the connection to an IR pattern graph.
 	 * This method should only be used by {@link PatternGraphNode#constructIR()}.
-	 * @param gr The IR graph.
+	 * @param patternGraph The IR pattern graph.
 	 */
 	@Override
-	public void addToGraph(Graph gr)
+	public void addToGraph(PatternGraphBase patternGraph)
 	{
-		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == ConnectionKind.DIRECTED,
+		patternGraph.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == ConnectionKind.DIRECTED,
 				(redirectionKind & REDIRECT_SOURCE) == REDIRECT_SOURCE,
 				(redirectionKind & REDIRECT_TARGET) == REDIRECT_TARGET);
 	}

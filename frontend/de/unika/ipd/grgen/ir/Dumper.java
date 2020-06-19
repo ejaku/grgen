@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.expr.Operator;
 import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.stmt.Assignment;
@@ -58,7 +58,7 @@ public class Dumper
 		this.interGraphEdges = interGraphEdges;
 	}
 
-	private void dump(Graph g, GraphDumper gd)
+	private void dump(PatternGraphBase g, GraphDumper gd)
 	{
 		gd.beginSubgraph(g);
 
@@ -92,8 +92,8 @@ public class Dumper
 	public final void dump(MatchingAction act, GraphDumper gd)
 	{
 		PatternGraph pattern = act.getPattern();
-		Collection<Graph> graphs = new LinkedList<Graph>();
-		Graph right = null;
+		Collection<PatternGraphBase> graphs = new LinkedList<PatternGraphBase>();
+		PatternGraphBase right = null;
 
 		if(act instanceof Rule && ((Rule)act).getRight() != null) {
 			right = ((Rule)act).getRight();
@@ -105,7 +105,7 @@ public class Dumper
 		gd.beginSubgraph(act);
 		dump(pattern, gd);
 
-		for(Graph g : graphs) {
+		for(PatternGraphBase g : graphs) {
 			dump(g, gd);
 			if(g == right)
 				gd.edge(pattern, g, g.getNodeLabel().toLowerCase(), GraphDumper.DASHED, Color.green);

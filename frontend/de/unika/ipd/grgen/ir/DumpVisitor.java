@@ -18,7 +18,7 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
@@ -59,7 +59,7 @@ public class DumpVisitor extends GraphDumpVisitor
 		}
 	}
 
-	private void dumpGraph(Graph gr, String prefix)
+	private void dumpGraph(PatternGraphBase gr, String prefix)
 	{
 		Map<Entity, DumpVisitor.PrefixNode> prefixMap = new HashMap<Entity, DumpVisitor.PrefixNode>();
 		Collection<Node> nodes = gr.getNodes();
@@ -125,7 +125,7 @@ public class DumpVisitor extends GraphDumpVisitor
 	{
 		assert n instanceof IR : "must have an ir object to dump";
 
-		if(n instanceof Node || n instanceof Edge || n instanceof Graph) {
+		if(n instanceof Node || n instanceof Edge || n instanceof PatternGraphBase) {
 			return;
 		}
 

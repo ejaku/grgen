@@ -35,7 +35,7 @@ import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.type.Type;
@@ -464,7 +464,7 @@ public class InformationCollector extends CBackend
 		start_node = new Node[n_graph_actions];
 		// for all actions gen matcher programs
 		for(Rule action : actionRuleMap.keySet()) {
-			Graph pattern = action.getPattern();
+			PatternGraphBase pattern = action.getPattern();
 
 			//pick out the node with the highest priority as start node
 			int max_prio = 0;
@@ -518,7 +518,7 @@ public class InformationCollector extends CBackend
 			int act_id = actionRuleMap.get(action).intValue();
 
 			if(action.getRight() != null) {
-				Graph replacement = action.getRight();
+				PatternGraphBase replacement = action.getRight();
 				//compute the set of newly inserted edges
 				newEdgesOfAction.get(act_id).addAll(replacement.getEdges());
 				newEdgesOfAction.get(act_id).removeAll(action.getPattern().getEdges());
@@ -622,7 +622,7 @@ public class InformationCollector extends CBackend
 			Collection<Node> pattern_nodes_to_keep = new HashSet<Node>();
 			pattern_nodes_to_keep.addAll(action.getPattern().getNodes());
 			if(action.getRight() != null) {
-				Graph replacement = action.getRight();
+				PatternGraphBase replacement = action.getRight();
 				pattern_nodes_to_keep.retainAll(replacement.getNodes());
 				//iterate over the pattern nodes to be kept and store their
 				//corresponding replacement node number

@@ -32,7 +32,7 @@ public abstract class GraphEntity extends Entity
 	protected final Annotations annotations;
 
 	/** The retyped version of this entity if any. */
-	protected HashMap<Graph, GraphEntity> retyped = null;
+	protected HashMap<PatternGraphBase, GraphEntity> retyped = null;
 
 	/** The entity from which this one will inherit its dynamic type */
 	protected GraphEntity typeof = null;
@@ -147,7 +147,7 @@ public abstract class GraphEntity extends Entity
 	 * @param graph The graph where the entity is queried to change its type;
 	 * if null any graph will match, i.e. return is true as soon as one graph exists where type changes
 	 */
-	public boolean changesType(Graph graph)
+	public boolean changesType(PatternGraphBase graph)
 	{
 		if(graph == null)
 			return this.retyped != null;
@@ -159,10 +159,10 @@ public abstract class GraphEntity extends Entity
 	 * @param retyped The retyped version
 	 * @param graph The graph where the entity gets retyped
 	 */
-	public void setRetypedEntity(GraphEntity retyped, Graph graph)
+	public void setRetypedEntity(GraphEntity retyped, PatternGraphBase graph)
 	{
 		if(this.retyped == null) {
-			this.retyped = new HashMap<Graph, GraphEntity>();
+			this.retyped = new HashMap<PatternGraphBase, GraphEntity>();
 		}
 		this.retyped.put(graph, retyped);
 	}
@@ -172,7 +172,7 @@ public abstract class GraphEntity extends Entity
 	 * @param graph The graph where the entity might get retyped
 	 * @return The retyped version or <code>null</code>
 	 */
-	public GraphEntity getRetypedEntity(Graph graph)
+	public GraphEntity getRetypedEntity(PatternGraphBase graph)
 	{
 		if(this.retyped == null) {
 			return null;

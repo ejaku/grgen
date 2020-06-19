@@ -91,7 +91,7 @@ public class Node extends GraphEntity
 	 * @param retyped The retyped node
 	 * @param graph The graph where the node gets retyped
 	 */
-	public void setRetypedNode(Node retyped, Graph graph)
+	public void setRetypedNode(Node retyped, PatternGraphBase graph)
 	{
 		super.setRetypedEntity(retyped, graph);
 	}
@@ -101,7 +101,7 @@ public class Node extends GraphEntity
 	 * @param graph The graph where the node might get retyped
 	 * @return The retyped version or <code>null</code>
 	 */
-	public RetypedNode getRetypedNode(Graph graph)
+	public RetypedNode getRetypedNode(PatternGraphBase graph)
 	{
 		if(super.getRetypedEntity(graph) != null)
 			return (RetypedNode)super.getRetypedEntity(graph);

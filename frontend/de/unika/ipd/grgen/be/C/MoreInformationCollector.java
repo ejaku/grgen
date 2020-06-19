@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.expr.Operator;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.stmt.Assignment;
@@ -196,7 +196,7 @@ public class MoreInformationCollector extends InformationCollector
 			Collection<Edge> pattern_edges_to_keep = new HashSet<Edge>();
 			pattern_edges_to_keep.addAll(action.getPattern().getEdges());
 			if(action.getRight() != null) {
-				Graph replacement = action.getRight();
+				PatternGraphBase replacement = action.getRight();
 				pattern_edges_to_keep.retainAll(replacement.getEdges());
 				//iterate over the pattern edges to be kept and store their
 				//corresponding replacement edge number
@@ -711,7 +711,7 @@ public class MoreInformationCollector extends InformationCollector
 		}
 	}
 
-	private static Node getFarEndNode(Edge e, Node fromNode, Graph graph)
+	private static Node getFarEndNode(Edge e, Node fromNode, PatternGraphBase graph)
 	{
 		Node farEndNode = null;
 		if(graph.getTarget(e) == fromNode)

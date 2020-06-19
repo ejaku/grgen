@@ -16,7 +16,7 @@ import java.util.Set;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -53,8 +53,8 @@ public abstract class ConnectionCharacter extends BaseNode
 	public abstract void setTgt(NodeDeclNode tgt);
 
 	/**
-	 * Add this connection character to an IR graph.
-	 * @param gr The IR graph.
+	 * Add this connection character to an IR pattern graph.
+	 * @param patternGraph The IR pattern graph.
 	 */
-	public abstract void addToGraph(Graph gr);
+	public abstract void addToGraph(PatternGraphBase patternGraph);
 }

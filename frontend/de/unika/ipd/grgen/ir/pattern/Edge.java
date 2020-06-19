@@ -37,10 +37,10 @@ public class Edge extends GraphEntity
 	protected boolean maybeNull;
 
 	/** The redirected source node of this edge if any. */
-	protected HashMap<Graph, Node> redirectedSource = null;
+	protected HashMap<PatternGraphBase, Node> redirectedSource = null;
 
 	/** The redirected target node of this edge if any. */
-	protected HashMap<Graph, Node> redirectedTarget = null;
+	protected HashMap<PatternGraphBase, Node> redirectedTarget = null;
 
 	/**
 	 * Make a new edge.
@@ -102,7 +102,7 @@ public class Edge extends GraphEntity
 	 * @param retyped The retyped edge
 	 * @param graph The graph where the edge gets retyped
 	 */
-	public void setRetypedEdge(Edge retyped, Graph graph)
+	public void setRetypedEdge(Edge retyped, PatternGraphBase graph)
 	{
 		super.setRetypedEntity(retyped, graph);
 	}
@@ -112,7 +112,7 @@ public class Edge extends GraphEntity
 	 * @param graph The graph where the edge might get retyped
 	 * @return The retyped version or <code>null</code>
 	 */
-	public RetypedEdge getRetypedEdge(Graph graph)
+	public RetypedEdge getRetypedEdge(PatternGraphBase graph)
 	{
 		if(super.getRetypedEntity(graph) != null)
 			return (RetypedEdge)super.getRetypedEntity(graph);
@@ -140,23 +140,23 @@ public class Edge extends GraphEntity
 		return pointOfDefinition;
 	}
 
-	public void setRedirectedSource(Node redirectedSource, Graph graph)
+	public void setRedirectedSource(Node redirectedSource, PatternGraphBase graph)
 	{
 		if(this.redirectedSource == null) {
-			this.redirectedSource = new HashMap<Graph, Node>();
+			this.redirectedSource = new HashMap<PatternGraphBase, Node>();
 		}
 		this.redirectedSource.put(graph, redirectedSource);
 	}
 
-	public void setRedirectedTarget(Node redirectedTarget, Graph graph)
+	public void setRedirectedTarget(Node redirectedTarget, PatternGraphBase graph)
 	{
 		if(this.redirectedTarget == null) {
-			this.redirectedTarget = new HashMap<Graph, Node>();
+			this.redirectedTarget = new HashMap<PatternGraphBase, Node>();
 		}
 		this.redirectedTarget.put(graph, redirectedTarget);
 	}
 
-	public Node getRedirectedSource(Graph graph)
+	public Node getRedirectedSource(PatternGraphBase graph)
 	{
 		if(this.redirectedSource == null) {
 			return null;
@@ -164,7 +164,7 @@ public class Edge extends GraphEntity
 		return this.redirectedSource.get(graph);
 	}
 
-	public Node getRedirectedTarget(Graph graph)
+	public Node getRedirectedTarget(PatternGraphBase graph)
 	{
 		if(this.redirectedTarget == null) {
 			return null;

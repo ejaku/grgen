@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.util.Walkable;
  * But we want to discriminate between the nodes on the left and right hand side of a rule,
  * even if they represent the same declared nodes.
  */
-public abstract class Graph extends IR
+public abstract class PatternGraphBase extends IR
 {
 	protected abstract class GraphObject extends GraphDumpableProxy implements Walkable
 	{
@@ -48,8 +48,8 @@ public abstract class Graph extends IR
 
 	protected class GraphNode extends Node
 	{
-		private final Set<Graph.GraphEdge> outgoing;
-		private final Set<Graph.GraphEdge> incoming;
+		private final Set<PatternGraphBase.GraphEdge> outgoing;
+		private final Set<PatternGraphBase.GraphEdge> incoming;
 		private final Node node;
 		private final String nodeId;
 
@@ -57,10 +57,10 @@ public abstract class Graph extends IR
 		{
 			super(node.getIdent(), node.getNodeType(), node.directlyNestingLHSGraph,
 					node.isMaybeDeleted(), node.isMaybeRetyped(), node.isDefToBeYieldedTo(), node.context);
-			this.incoming = new LinkedHashSet<Graph.GraphEdge>();
-			this.outgoing = new LinkedHashSet<Graph.GraphEdge>();
+			this.incoming = new LinkedHashSet<PatternGraphBase.GraphEdge>();
+			this.outgoing = new LinkedHashSet<PatternGraphBase.GraphEdge>();
 			this.node = node;
-			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
+			this.nodeId = "g" + PatternGraphBase.super.getId() + "_" + super.getNodeId();
 		}
 
 		/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId() */
@@ -90,7 +90,7 @@ public abstract class Graph extends IR
 			super(edge.getIdent(), edge.getEdgeType(), edge.directlyNestingLHSGraph,
 					edge.isMaybeDeleted(), edge.isMaybeRetyped(), edge.isDefToBeYieldedTo(), edge.context);
 			this.edge = edge;
-			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
+			this.nodeId = "g" + PatternGraphBase.super.getId() + "_" + super.getNodeId();
 			this.fixedDirection = edge.fixedDirection;
 		}
 
@@ -114,10 +114,10 @@ public abstract class Graph extends IR
 	}
 
 	/** Map that maps a node to an internal node. */
-	private final Map<Node, Graph.GraphNode> nodes = new LinkedHashMap<Node, Graph.GraphNode>();
+	private final Map<Node, PatternGraphBase.GraphNode> nodes = new LinkedHashMap<Node, PatternGraphBase.GraphNode>();
 
 	/** Map that maps an edge to an internal edge. */
-	private final Map<Edge, Graph.GraphEdge> edges = new LinkedHashMap<Edge, Graph.GraphEdge>();
+	private final Map<Edge, PatternGraphBase.GraphEdge> edges = new LinkedHashMap<Edge, PatternGraphBase.GraphEdge>();
 
 	private Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
@@ -128,7 +128,7 @@ public abstract class Graph extends IR
 	private String nameOfGraph;
 
 	/** Make a new graph. */
-	public Graph(String nameOfGraph)
+	public PatternGraphBase(String nameOfGraph)
 	{
 		super("graph");
 		this.nameOfGraph = nameOfGraph;
@@ -312,7 +312,7 @@ public abstract class Graph extends IR
 	public Collection<Edge> getIncoming(Node node, Collection<Edge> collection)
 	{
 		GraphNode graphNode = checkNode(node);
-		for(Iterator<Graph.GraphEdge> it = graphNode.incoming.iterator(); it.hasNext();) {
+		for(Iterator<PatternGraphBase.GraphEdge> it = graphNode.incoming.iterator(); it.hasNext();) {
 			GraphEdge graphEdge = it.next();
 			collection.add(graphEdge.edge);
 		}

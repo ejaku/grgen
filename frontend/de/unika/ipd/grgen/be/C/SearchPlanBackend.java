@@ -38,7 +38,7 @@ import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Graph;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraph;
 import de.unika.ipd.grgen.ir.stmt.Assignment;
@@ -629,7 +629,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	}
 
 	private void genGraph(StringBuffer sb, String indent, String funcName,
-			Graph graph,
+			PatternGraphBase graph,
 			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds,
 			GraphType graphType, Rule rule)
 	{
@@ -655,7 +655,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private int uin = 0;
 
-	private void genPatternNodes(StringBuffer sb, String indent, Graph graph, IdGenerator<Node> nodeIds,
+	private void genPatternNodes(StringBuffer sb, String indent, PatternGraphBase graph, IdGenerator<Node> nodeIds,
 			GraphType graphType, Rule rule)
 	{
 		sb.append(indent + "/* The nodes of the pattern */\n");
@@ -793,7 +793,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 *
 	 * Dumps the edges of a pattern
 	 * ---------------------------- */
-	private void genPatternEdges(StringBuffer sb, String indent, Graph graph, IdGenerator<Edge> edgeIds,
+	private void genPatternEdges(StringBuffer sb, String indent, PatternGraphBase graph, IdGenerator<Edge> edgeIds,
 			GraphType graphType)
 	{
 		sb.append(indent + "/* The edges of the pattern */\n");

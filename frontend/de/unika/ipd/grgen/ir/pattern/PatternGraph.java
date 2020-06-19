@@ -40,7 +40,7 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
  * conditions that restrict the set of possible matches, 
  * lhs yield statements, rhs imperative statements, and further things.
  */
-public class PatternGraph extends Graph
+public class PatternGraph extends PatternGraphBase
 {
 	private final Collection<Variable> vars = new LinkedHashSet<Variable>();
 
