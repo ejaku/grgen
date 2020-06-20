@@ -19,8 +19,11 @@ import de.unika.ipd.grgen.ast.decl.pattern.NodeTypeChangeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
 import de.unika.ipd.grgen.util.Pair;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
@@ -46,6 +49,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	}
 
 	protected CollectNode<SubpatternReplNode> subpatternRepls;
+	public CollectNode<EvalStatementsNode> evals;
 	protected CollectNode<OrderedReplacementsNode> orderedReplacements;
 	public CollectNode<BaseNode> imperativeStmts;
 
@@ -75,6 +79,12 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 			addParamsToConnections(params); // treat non-var parameters like connections
 	}
 
+	public void addEvals(CollectNode<EvalStatementsNode> evals)
+	{
+		this.evals = evals;
+		becomeParent(this.evals);
+	}
+
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren()
@@ -86,7 +96,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 		children.add(subpatterns);
 		children.add(subpatternRepls);
 		children.add(orderedReplacements);
-		children.add(yieldsEvals);
+		children.add(evals);
 		children.add(returns);
 		children.add(imperativeStmts);
 		return children;
@@ -103,7 +113,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 		childrenNames.add("subpatterns");
 		childrenNames.add("subpatternReplacements");
 		childrenNames.add("orderedReplacements");
-		childrenNames.add("yieldsEvals");
+		childrenNames.add("evals");
 		childrenNames.add("returns");
 		childrenNames.add("imperativeStmts");
 		return childrenNames;
@@ -217,6 +227,27 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 		return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(true), retypeOfEdge);
 	}
 
+	protected boolean iteratedNotReferenced(String iterName)
+	{
+		boolean res = true;
+		for(EvalStatementsNode evalStatements : evals.getChildren()) {
+			for(EvalStatementNode evalStatement : evalStatements.getChildren()) {
+				res &= evalStatement.iteratedNotReferenced(iterName);
+			}
+		}
+		return res;
+	}
+
+	protected boolean iteratedNotReferencedInDefElementInitialization(String iterName)
+	{
+		boolean res = true;
+		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
+			if(var.initialization != null)
+				res &= var.initialization.iteratedNotReferenced(iterName);
+		}
+		return res;
+	}
+
 	/**
 	 * Get the correctly casted IR object.
 	 * @return The IR object.
@@ -306,6 +337,17 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 
 		for(OrderedReplacementsNode n : orderedReplacements.getChildren()) {
 			ret.add(n.checkIR(OrderedReplacements.class));
+		}
+
+		return ret;
+	}
+
+	public Collection<EvalStatements> getEvalStatements()
+	{
+		Collection<EvalStatements> ret = new LinkedList<EvalStatements>();
+
+		for(EvalStatementsNode evalStatements : evals.getChildren()) {
+			ret.add(evalStatements.checkIR(EvalStatements.class));
 		}
 
 		return ret;

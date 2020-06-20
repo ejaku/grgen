@@ -15,6 +15,7 @@ package de.unika.ipd.grgen.ast.pattern;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.Vector;
 
@@ -35,6 +36,7 @@ import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.BoolConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -71,6 +73,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	private int modifiers = 0;
 
 	private CollectNode<ExprNode> conditions;
+	public CollectNode<EvalStatementsNode> yields;
 	public CollectNode<AlternativeDeclNode> alts;
 	public CollectNode<IteratedDeclNode> iters;
 	public CollectNode<PatternGraphLhsNode> negs; // NACs
@@ -81,7 +84,9 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	public CollectNode<InducedNode> induceds;
 
 	private HomStorage homStorage;
-	
+
+	protected boolean hasAbstractElements;
+
 	// if this pattern graph is a negative or independent nested inside an iterated
 	// it might break the iterated instead of only the current iterated case, if specified
 	public boolean iterationBreaking = false;
@@ -144,10 +149,10 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 			addParamsToConnections(params); // treat non-var parameters like connections
 	}
 
-	public void addYieldings(CollectNode<EvalStatementsNode> yieldsEvals)
+	public void addYieldings(CollectNode<EvalStatementsNode> yields)
 	{
-		this.yieldsEvals = yieldsEvals;
-		becomeParent(this.yieldsEvals);
+		this.yields = yields;
+		becomeParent(this.yields);
 	}
 
 	/** returns children of this node */
@@ -164,7 +169,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		children.add(negs);
 		children.add(idpts);
 		children.add(returns);
-		children.add(yieldsEvals);
+		children.add(yields);
 		children.add(conditions);
 		children.add(homs);
 		children.add(totallyHoms);
@@ -187,13 +192,42 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		childrenNames.add("negatives");
 		childrenNames.add("independents");
 		childrenNames.add("return");
-		childrenNames.add("yieldsEvals");
+		childrenNames.add("yields");
 		childrenNames.add("conditions");
 		childrenNames.add("homs");
 		childrenNames.add("totallyHoms");
 		childrenNames.add("exacts");
 		childrenNames.add("induceds");
 		return childrenNames;
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
+	protected boolean resolveLocal()
+	{
+		boolean result = super.resolveLocal();
+		
+		determineExistenceOfAbstractElements();
+		
+		return result;
+	}
+
+	void determineExistenceOfAbstractElements()
+	{
+		for(ConnectionCharacter cc : connections.getChildren()) {
+			if(cc instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode)cc;
+				if(conn.getEdge().getDeclType().isAbstract()
+						|| conn.getSrc().getDeclType().isAbstract()
+						|| conn.getTgt().getDeclType().isAbstract())
+					hasAbstractElements = true;
+			}
+			else if(cc instanceof SingleNodeConnNode) {
+				SingleNodeConnNode conn = (SingleNodeConnNode)cc;
+				if(conn.getNode().getDeclType().isAbstract())
+					hasAbstractElements = true;
+			}
+		}
 	}
 
 	@Override
@@ -450,7 +484,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		boolean result = true;
 		for(IteratedDeclNode iter : iters.getChildren()) {
 			if(iter.right != null) {
-				for(EvalStatementsNode evalStmts : iter.right.getRhsGraph().yieldsEvals.getChildren()) {
+				for(EvalStatementsNode evalStmts : iter.right.getRhsGraph().evals.getChildren()) {
 					evalStmts.noExecStatement();
 				}
 			}
@@ -458,7 +492,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		for(AlternativeDeclNode alt : alts.getChildren()) {
 			for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 				if(altCase.right != null) {
-					for(EvalStatementsNode evalStmts : altCase.right.getRhsGraph().yieldsEvals.getChildren()) {
+					for(EvalStatementsNode evalStmts : altCase.right.getRhsGraph().evals.getChildren()) {
 						evalStmts.noExecStatement();
 					}
 				}
@@ -540,6 +574,17 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 			}
 			for(PatternGraphLhsNode idpt : idpts.getChildren()) {
 				res &= idpt.iteratedNotReferenced(iterName);
+			}
+		}
+		return res;
+	}
+
+	protected boolean iteratedNotReferenced(String iterName)
+	{
+		boolean res = true;
+		for(EvalStatementsNode yieldStatements : yields.getChildren()) {
+			for(EvalStatementNode yieldStatement : yieldStatements.getChildren()) {
+				res &= yieldStatement.iteratedNotReferenced(iterName);
 			}
 		}
 		return res;
@@ -663,7 +708,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 			patternGraph.addCondition(conditionEvaluated.checkIR(Expression.class));
 		}
 
-		for(EvalStatements yields : getYieldEvalStatements()) {
+		for(EvalStatements yields : getYieldStatements()) {
 			patternGraph.addYield(yields);
 		}
 
@@ -710,5 +755,16 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 				expr.reportWarning("Condition is always false, pattern will never match");
 			}
 		}
+	}
+	
+	public Collection<EvalStatements> getYieldStatements()
+	{
+		Collection<EvalStatements> ret = new LinkedList<EvalStatements>();
+
+		for(EvalStatementsNode evalStatements : yields.getChildren()) {
+			ret.add(evalStatements.checkIR(EvalStatements.class));
+		}
+
+		return ret;
 	}
 }

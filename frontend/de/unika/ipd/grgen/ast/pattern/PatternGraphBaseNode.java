@@ -10,8 +10,6 @@
  */
 package de.unika.ipd.grgen.ast.pattern;
 
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
 import de.unika.ipd.grgen.ast.BaseNode;
@@ -29,13 +27,11 @@ import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.Vector;
 
@@ -52,12 +48,9 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	protected CollectNode<BaseNode> connectionsUnresolved;
 	protected CollectNode<ConnectionCharacter> connections = new CollectNode<ConnectionCharacter>();
 	protected CollectNode<SubpatternUsageDeclNode> subpatterns;
-	public CollectNode<EvalStatementsNode> yieldsEvals; // todo: maybe remove and split into lhs yield and rhs eval
 	public CollectNode<ExprNode> returns;
 	public CollectNode<BaseNode> params;
 	public CollectNode<VarDeclNode> defVariablesToBeYieldedTo;
-
-	protected boolean hasAbstractElements; // TODO: pull up to lhs node
 
 	// Cache variables
 	protected Set<NodeDeclNode> nodes;
@@ -92,12 +85,6 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		this.context = context;
 	}
 
-	public void addEvals(CollectNode<EvalStatementsNode> yieldsEvals)
-	{
-		this.yieldsEvals = yieldsEvals;
-		becomeParent(this.yieldsEvals);
-	}
-
 	public void addDefVariablesToBeYieldedTo(CollectNode<VarDeclNode> defVariablesToBeYieldedTo)
 	{
 		this.defVariablesToBeYieldedTo = defVariablesToBeYieldedTo;
@@ -112,7 +99,6 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		children.add(params);
 		children.add(defVariablesToBeYieldedTo);
 		children.add(subpatterns);
-		children.add(yieldsEvals);
 		children.add(returns);
 		return children;
 	}
@@ -127,7 +113,6 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		childrenNames.add("defVariablesToBeYieldedTo");
 		childrenNames.add("subpatterns");
 		childrenNames.add("orderedReplacements");
-		childrenNames.add("yieldsEvals");
 		childrenNames.add("returns");
 		return childrenNames;
 	}
@@ -147,23 +132,17 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		if(resolve != null) {
 			if(resolve.first != null) {
 				for(ConnectionNode conn : resolve.first.getChildren()) {
-					connections.addChild(conn);
 					if(!conn.resolve())
 						return false;
-					if(conn.getEdge().getDeclType().isAbstract()
-							|| conn.getSrc().getDeclType().isAbstract()
-							|| conn.getTgt().getDeclType().isAbstract())
-						hasAbstractElements = true;
+					connections.addChild(conn);
 				}
 			}
 
 			if(resolve.second != null) {
 				for(SingleNodeConnNode conn : resolve.second.getChildren()) {
-					connections.addChild(conn);
 					if(!conn.resolve())
 						return false;
-					if(conn.getNode().getDeclType().isAbstract())
-						hasAbstractElements = true;
+					connections.addChild(conn);
 				}
 			}
 
@@ -176,7 +155,10 @@ public abstract class PatternGraphBaseNode extends BaseNode
 
 					// add reused single node to connections
 					if(ent.getEntityNode() != null) {
-						connections.addChild(new SingleNodeConnNode(ent.getEntityNode()));
+						SingleNodeConnNode conn = new SingleNodeConnNode(ent.getEntityNode());
+						if(!conn.resolve())
+							return false;
+						connections.addChild(conn);
 					}
 
 					// add reused subpattern to subpatterns
@@ -262,27 +244,6 @@ public abstract class PatternGraphBaseNode extends BaseNode
 			}
 		}
 		return edgeUsage;
-	}
-
-	protected boolean iteratedNotReferenced(String iterName)
-	{
-		boolean res = true;
-		for(EvalStatementsNode yieldEvalStatements : yieldsEvals.getChildren()) {
-			for(EvalStatementNode yieldEvalStatement : yieldEvalStatements.getChildren()) {
-				res &= yieldEvalStatement.iteratedNotReferenced(iterName);
-			}
-		}
-		return res;
-	}
-
-	protected boolean iteratedNotReferencedInDefElementInitialization(String iterName)
-	{
-		boolean res = true;
-		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
-			if(var.initialization != null)
-				res &= var.initialization.iteratedNotReferenced(iterName);
-		}
-		return res;
 	}
 
 	/**
@@ -393,16 +354,5 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		}
 
 		return res;
-	}
-
-	public Collection<EvalStatements> getYieldEvalStatements()
-	{
-		Collection<EvalStatements> ret = new LinkedList<EvalStatements>();
-
-		for(EvalStatementsNode evalStatements : yieldsEvals.getChildren()) {
-			ret.add(evalStatements.checkIR(EvalStatements.class));
-		}
-
-		return ret;
 	}
 }

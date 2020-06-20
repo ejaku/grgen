@@ -235,7 +235,7 @@ public abstract class RhsDeclNode extends DeclNode
 		// will add them to the left hand side, too
 
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false);
-		Collection<EvalStatements> evalStatements = graph.getYieldEvalStatements();
+		Collection<EvalStatements> evalStatements = graph.getEvalStatements();
 		for(EvalStatements evalStatement : evalStatements) {
 			evalStatement.collectNeededEntities(needs);
 		}

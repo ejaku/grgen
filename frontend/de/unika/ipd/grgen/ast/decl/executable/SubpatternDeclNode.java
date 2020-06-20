@@ -226,7 +226,7 @@ public class SubpatternDeclNode extends ActionDeclNode
 
 		// add Eval statements to the IR
 		if(this.right != null) {
-			for(EvalStatements n : this.right.getRhsGraph().getYieldEvalStatements()) {
+			for(EvalStatements n : this.right.getRhsGraph().getEvalStatements()) {
 				rule.addEval(n);
 			}
 		}

@@ -552,7 +552,7 @@ public class RuleDeclNode extends TestDeclNode
 		constructIRaux(rule, this.right.graph.returns);
 
 		// add eval statements to the IR
-		for(EvalStatements evalStatement : this.right.getRhsGraph().getYieldEvalStatements()) {
+		for(EvalStatements evalStatement : this.right.getRhsGraph().getEvalStatements()) {
 			rule.addEval(evalStatement);
 		}
 

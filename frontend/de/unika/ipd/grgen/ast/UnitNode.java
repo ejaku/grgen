@@ -327,7 +327,7 @@ public class UnitNode extends BaseNode
 		}
 
 		// spawn checking computation statement structure
-		for(EvalStatementsNode yields : curPattern.yieldsEvals.getChildren()) {
+		for(EvalStatementsNode yields : curPattern.yields.getChildren()) {
 			res &= EvalStatementNode.checkStatements(true, root, null, yields.evalStatements, true);
 		}
 
@@ -339,7 +339,7 @@ public class UnitNode extends BaseNode
 		boolean res = true;
 
 		// spawn checking computation statement structure
-		for(EvalStatementsNode evals : curGraph.yieldsEvals.getChildren()) {
+		for(EvalStatementsNode evals : curGraph.evals.getChildren()) {
 			res &= EvalStatementNode.checkStatements(false, root, null, evals.evalStatements, true);
 		}
 
