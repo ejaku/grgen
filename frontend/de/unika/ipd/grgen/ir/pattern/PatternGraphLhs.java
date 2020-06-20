@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 
 /**
  * A pattern graph lhs is a graph pattern as it occurs on the left hand side of rules.
@@ -315,7 +315,7 @@ public class PatternGraphLhs extends PatternGraphBase
 
 	public boolean isPatternpathLocked()
 	{
-		return (modifiers & PatternGraphNode.MOD_PATTERNPATH_LOCKED) == PatternGraphNode.MOD_PATTERNPATH_LOCKED;
+		return (modifiers & PatternGraphLhsNode.MOD_PATTERNPATH_LOCKED) == PatternGraphLhsNode.MOD_PATTERNPATH_LOCKED;
 	}
 
 	public void resolvePatternLockedModifier()
@@ -324,7 +324,7 @@ public class PatternGraphLhs extends PatternGraphBase
 
 		// if nested negative requests so, add all of our elements to it
 		for(PatternGraphLhs negative : getNegs()) {
-			if((negative.modifiers & PatternGraphNode.MOD_PATTERN_LOCKED) != PatternGraphNode.MOD_PATTERN_LOCKED)
+			if((negative.modifiers & PatternGraphLhsNode.MOD_PATTERN_LOCKED) != PatternGraphLhsNode.MOD_PATTERN_LOCKED)
 				continue;
 
 			for(Node node : getNodes()) {
@@ -341,7 +341,7 @@ public class PatternGraphLhs extends PatternGraphBase
 
 		// if nested independent requests so, add all of our elements to it
 		for(PatternGraphLhs independent : getIdpts()) {
-			if((independent.modifiers & PatternGraphNode.MOD_PATTERN_LOCKED) != PatternGraphNode.MOD_PATTERN_LOCKED)
+			if((independent.modifiers & PatternGraphLhsNode.MOD_PATTERN_LOCKED) != PatternGraphLhsNode.MOD_PATTERN_LOCKED)
 				continue;
 
 			for(Node node : getNodes()) {

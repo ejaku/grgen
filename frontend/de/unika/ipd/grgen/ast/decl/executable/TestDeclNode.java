@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.TestTypeNode;
@@ -65,7 +65,7 @@ public class TestDeclNode extends ActionDeclNode
 
 	private static final TypeNode testType = new TestTypeNode();
 
-	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern,
+	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphLhsNode pattern,
 			CollectNode<IdentNode> implementedMatchTypes, CollectNode<BaseNode> rets)
 	{
 		super(id, type, pattern);
@@ -76,7 +76,7 @@ public class TestDeclNode extends ActionDeclNode
 		this.filters = new ArrayList<FilterAutoDeclNode>();
 	}
 
-	public TestDeclNode(IdentNode id, PatternGraphNode pattern, CollectNode<IdentNode> implementedMatchTypes,
+	public TestDeclNode(IdentNode id, PatternGraphLhsNode pattern, CollectNode<IdentNode> implementedMatchTypes,
 			CollectNode<BaseNode> rets)
 	{
 		this(id, testType, pattern, implementedMatchTypes, rets);

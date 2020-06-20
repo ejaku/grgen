@@ -30,8 +30,8 @@ import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.ModelNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.PackageTypeNode;
-import de.unika.ipd.grgen.ast.pattern.GraphNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
@@ -305,7 +305,7 @@ public class UnitNode extends BaseNode
 		return res;
 	}
 
-	public static boolean checkStatementsLHS(DeclNode root, PatternGraphNode curPattern)
+	public static boolean checkStatementsLHS(DeclNode root, PatternGraphLhsNode curPattern)
 	{
 		boolean res = true;
 
@@ -322,7 +322,7 @@ public class UnitNode extends BaseNode
 			if(iter.right != null)
 				res &= checkStatementsRHS(root, iter.right.graph);
 		}
-		for(PatternGraphNode idpt : curPattern.idpts.getChildren()) {
+		for(PatternGraphLhsNode idpt : curPattern.idpts.getChildren()) {
 			res &= checkStatementsLHS(root, idpt);
 		}
 
@@ -334,7 +334,7 @@ public class UnitNode extends BaseNode
 		return res;
 	}
 
-	public static boolean checkStatementsRHS(DeclNode root, GraphNode curGraph)
+	public static boolean checkStatementsRHS(DeclNode root, PatternGraphRhsNode curGraph)
 	{
 		boolean res = true;
 

@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
 import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
@@ -51,13 +51,13 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 			new DeclarationPairResolver<NodeDeclNode, TypeDeclNode>(NodeDeclNode.class, TypeDeclNode.class);
 
 	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constr,
-			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
+			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
 	{
 		super(id, type, isCopy, context, constr, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
 	}
 
 	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constr,
-			PatternGraphNode directlyNestingLHSGraph)
+			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		this(id, type, isCopy, context, constr, directlyNestingLHSGraph, false, false);
 	}
@@ -186,7 +186,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	 * dummy tgt or src node for dangling edges.
 	 */
 	public static NodeDeclNode getDummy(IdentNode id, BaseNode type, int context,
-			PatternGraphNode directlyNestingLHSGraph)
+			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		return new DummyNodeDeclNode(id, type, context, directlyNestingLHSGraph);
 	}

@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
 import de.unika.ipd.grgen.ast.pattern.ImplicitNegComputer;
 import de.unika.ipd.grgen.ast.pattern.ImplicitNegComputerInduced;
 import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.executable.MatchingAction;
@@ -60,9 +60,9 @@ import java.util.Vector;
  */
 public abstract class ActionDeclNode extends DeclNode
 {
-	public PatternGraphNode pattern;
+	public PatternGraphLhsNode pattern;
 
-	public ActionDeclNode(IdentNode id, TypeNode type, PatternGraphNode left)
+	public ActionDeclNode(IdentNode id, TypeNode type, PatternGraphLhsNode left)
 	{
 		super(id, type);
 
@@ -80,7 +80,7 @@ public abstract class ActionDeclNode extends DeclNode
 		return checkIR(Rule.class);
 	}
 
-	protected static PatternGraphNode getParentPatternGraph(PatternGraphNode pattern)
+	protected static PatternGraphLhsNode getParentPatternGraph(PatternGraphLhsNode pattern)
 	{
 		if(pattern == null) {
 			return null;
@@ -89,8 +89,8 @@ public abstract class ActionDeclNode extends DeclNode
 		Queue<Collection<BaseNode>> queue = new LinkedList<Collection<BaseNode>>();
 		for(Collection<BaseNode> parents = pattern.getParents(); parents != null; parents = queue.poll()) {
 			for(BaseNode parent : parents) {
-				if(parent instanceof PatternGraphNode) {
-					return (PatternGraphNode)parent;
+				if(parent instanceof PatternGraphLhsNode) {
+					return (PatternGraphLhsNode)parent;
 				}
 				Collection<BaseNode> grandParents = parent.getParents();
 				if(grandParents != null && !grandParents.isEmpty()) {
@@ -115,7 +115,7 @@ public abstract class ActionDeclNode extends DeclNode
 		return filtersOk;
 	}
 
-	protected boolean checkFilters(PatternGraphNode pattern, ArrayList<FilterAutoDeclNode> filters)
+	protected boolean checkFilters(PatternGraphLhsNode pattern, ArrayList<FilterAutoDeclNode> filters)
 	{
 		boolean filtersOk = true;
 		for(FilterAutoDeclNode filter : filters) {
@@ -230,16 +230,16 @@ public abstract class ActionDeclNode extends DeclNode
 
 		//get the negative and independent graphs and the pattern of this TestDeclNode
 		// NOTE: the order affect the error coords
-		Collection<PatternGraphNode> leftHandGraphs = new LinkedList<PatternGraphNode>();
+		Collection<PatternGraphLhsNode> leftHandGraphs = new LinkedList<PatternGraphLhsNode>();
 		leftHandGraphs.add(pattern);
-		for(PatternGraphNode neg : pattern.negs.getChildren()) {
+		for(PatternGraphLhsNode neg : pattern.negs.getChildren()) {
 			leftHandGraphs.add(neg);
 		}
-		for(PatternGraphNode idpt : pattern.idpts.getChildren()) {
+		for(PatternGraphLhsNode idpt : pattern.idpts.getChildren()) {
 			leftHandGraphs.add(idpt);
 		}
 
-		PatternGraphNode[] graphs = leftHandGraphs.toArray(new PatternGraphNode[0]);
+		PatternGraphLhsNode[] graphs = leftHandGraphs.toArray(new PatternGraphLhsNode[0]);
 		Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
 
 		for(int i = 0; i < graphs.length; i++) {
@@ -643,7 +643,7 @@ nodeAbstrLoop:
 				if((node.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
 					continue;
 				}
-				for(PatternGraphNode pattern = this.pattern; pattern != null; pattern = getParentPatternGraph(pattern)) {
+				for(PatternGraphLhsNode pattern = this.pattern; pattern != null; pattern = getParentPatternGraph(pattern)) {
 					if(pattern.getNodes().contains(node)) {
 						continue nodeAbstrLoop;
 					}
@@ -659,7 +659,7 @@ edgeAbstrLoop:
 				if((edge.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
 					continue;
 				}
-				for(PatternGraphNode pattern = this.pattern; pattern != null; pattern = getParentPatternGraph(pattern)) {
+				for(PatternGraphLhsNode pattern = this.pattern; pattern != null; pattern = getParentPatternGraph(pattern)) {
 					if(pattern.getEdges().contains(edge)) {
 						continue edgeAbstrLoop;
 					}
@@ -923,7 +923,7 @@ edgeAbstrLoop:
 	 */
 	protected void constructImplicitNegs(PatternGraphLhs left)
 	{
-		PatternGraphNode leftNode = pattern;
+		PatternGraphLhsNode leftNode = pattern;
 		ImplicitNegComputer implicitNegComputer = new ImplicitNegComputer(leftNode);
 		ImplicitNegComputerInduced implicitNegComputerInduced = new ImplicitNegComputerInduced(leftNode);
 		

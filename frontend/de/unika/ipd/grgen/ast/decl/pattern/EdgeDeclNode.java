@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
 import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
@@ -49,14 +49,14 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 			new DeclarationPairResolver<EdgeDeclNode, TypeDeclNode>(EdgeDeclNode.class, TypeDeclNode.class);
 
 	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constraints,
-			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
+			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
 	{
 		super(id, type, isCopy, context, constraints, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
 		setName("edge");
 	}
 
 	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constraints,
-			PatternGraphNode directlyNestingLHSGraph)
+			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		this(id, type, isCopy, context, constraints, directlyNestingLHSGraph, false, false);
 	}
@@ -67,7 +67,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	 * the AST is already checked.
 	 */
 	public EdgeDeclNode(IdentNode id, TypeDeclNode type, int declLocation, BaseNode parent,
-			PatternGraphNode directlyNestingLHSGraph)
+			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		this(id, type, false, declLocation, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		parent.becomeParent(this);

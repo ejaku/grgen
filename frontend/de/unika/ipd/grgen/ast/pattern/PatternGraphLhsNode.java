@@ -56,10 +56,10 @@ import de.unika.ipd.grgen.parser.SymbolTable;
  * part of some rule Extension of the graph pattern of the rewrite part
  */
 // TODO: a pattern graph is not a graph, factor the common stuff out into a base class
-public class PatternGraphNode extends GraphNode
+public class PatternGraphLhsNode extends PatternGraphRhsNode
 {
 	static {
-		setName(PatternGraphNode.class, "pattern_graph");
+		setName(PatternGraphLhsNode.class, "pattern_graph");
 	}
 
 	public static final int MOD_DANGLING = 1; // dangling+identification=dpo
@@ -75,8 +75,8 @@ public class PatternGraphNode extends GraphNode
 	private CollectNode<ExprNode> conditions;
 	public CollectNode<AlternativeDeclNode> alts;
 	public CollectNode<IteratedDeclNode> iters;
-	public CollectNode<PatternGraphNode> negs; // NACs
-	public CollectNode<PatternGraphNode> idpts; // PACs
+	public CollectNode<PatternGraphLhsNode> negs; // NACs
+	public CollectNode<PatternGraphLhsNode> idpts; // PACs
 	public CollectNode<HomNode> homs;
 	private CollectNode<TotallyHomNode> totallyHoms;
 	public CollectNode<ExactNode> exacts;
@@ -88,14 +88,14 @@ public class PatternGraphNode extends GraphNode
 	// it might break the iterated instead of only the current iterated case, if specified
 	public boolean iterationBreaking = false;
 
-	private static PatternGraphNode invalid;
+	private static PatternGraphLhsNode invalid;
 
 	// invalid pattern node just needed for the isGlobalVariable checks, 
 	// so that computations stuff that doesn't have a pattern graph is not classified as global 
-	public static PatternGraphNode getInvalid()
+	public static PatternGraphLhsNode getInvalid()
 	{
 		if(invalid == null) {
-			invalid = new PatternGraphNode("invalid", Coords.getInvalid(), 
+			invalid = new PatternGraphLhsNode("invalid", Coords.getInvalid(), 
 					null, null, 
 					null, null, 
 					null, null,
@@ -109,11 +109,11 @@ public class PatternGraphNode extends GraphNode
 		return invalid;
 	}
 
-	public PatternGraphNode(String nameOfGraph, Coords coords,
+	public PatternGraphLhsNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
 			CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
 			CollectNode<AlternativeDeclNode> alts, CollectNode<IteratedDeclNode> iters,
-			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
+			CollectNode<PatternGraphLhsNode> negs, CollectNode<PatternGraphLhsNode> idpts,
 			CollectNode<ExprNode> conditions, 
 			CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<TotallyHomNode> totallyHoms, 
@@ -287,15 +287,15 @@ public class PatternGraphNode extends GraphNode
 		return tryGetVar(name);
 	}
 
-	public PatternGraphNode getParentPatternGraph()
+	public PatternGraphLhsNode getParentPatternGraph()
 	{
 		for(BaseNode parent : getParents()) {
 			if(!(parent instanceof CollectNode<?>))
 				continue;
 
 			for(BaseNode grandParent : parent.getParents()) {
-				if(grandParent instanceof PatternGraphNode) {
-					return (PatternGraphNode)grandParent;
+				if(grandParent instanceof PatternGraphLhsNode) {
+					return (PatternGraphLhsNode)grandParent;
 				}
 			}
 		}
@@ -412,7 +412,7 @@ public class PatternGraphNode extends GraphNode
 	boolean noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
 	{
 		boolean result = true;
-		for(PatternGraphNode pattern : negs.getChildren()) {
+		for(PatternGraphLhsNode pattern : negs.getChildren()) {
 			for(IteratedDeclNode iter : pattern.iters.getChildren()) {
 				if(iter.right != null) {
 					iter.right.reportError("An iterated contained within a negative can't possess a rewrite part"
@@ -430,7 +430,7 @@ public class PatternGraphNode extends GraphNode
 				}
 			}
 		}
-		for(PatternGraphNode pattern : idpts.getChildren()) {
+		for(PatternGraphLhsNode pattern : idpts.getChildren()) {
 			for(IteratedDeclNode iter : pattern.iters.getChildren()) {
 				if(iter.right != null) {
 					iter.right.reportError("An iterated contained within an independent can't possess a rewrite part"
@@ -547,7 +547,7 @@ public class PatternGraphNode extends GraphNode
 					}
 				}
 			}
-			for(PatternGraphNode idpt : idpts.getChildren()) {
+			for(PatternGraphLhsNode idpt : idpts.getChildren()) {
 				res &= idpt.iteratedNotReferenced(iterName);
 			}
 		}
@@ -650,7 +650,7 @@ public class PatternGraphNode extends GraphNode
 			patternGraph.addIterated(iteratedNode.checkIR(Rule.class));
 		}
 
-		for(PatternGraphNode negativeNode : negs.getChildren()) {
+		for(PatternGraphLhsNode negativeNode : negs.getChildren()) {
 			PatternGraphLhs negative = negativeNode.getPatternGraph();
 			patternGraph.addNegGraph(negative);
 			if(negative.isIterationBreaking()) {
@@ -658,7 +658,7 @@ public class PatternGraphNode extends GraphNode
 			}
 		}
 
-		for(PatternGraphNode independentNode : idpts.getChildren()) {
+		for(PatternGraphLhsNode independentNode : idpts.getChildren()) {
 			PatternGraphLhs independent = independentNode.getPatternGraph();
 			patternGraph.addIdptGraph(independent);
 			if(independent.isIterationBreaking()) {

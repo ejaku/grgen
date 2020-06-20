@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
 import de.unika.ipd.grgen.ir.IR;
@@ -34,7 +34,7 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 	}
 
 	public MatchNodeFromStorageDeclNode(IdentNode id, BaseNode type, int context, BaseNode storage,
-			PatternGraphNode directlyNestingLHSGraph)
+			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		super(id, type, context, storage, directlyNestingLHSGraph);
 	}

@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.InvalidDeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
@@ -35,7 +35,7 @@ public class VarDeclNode extends DeclNode
 {
 	private TypeNode type;
 
-	public PatternGraphNode directlyNestingLHSGraph;
+	public PatternGraphLhsNode directlyNestingLHSGraph;
 	public boolean defEntityToBeYieldedTo;
 
 	public ExprNode initialization = null;
@@ -44,7 +44,7 @@ public class VarDeclNode extends DeclNode
 
 
 	public VarDeclNode(IdentNode id, IdentNode type,
-			PatternGraphNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo)
+			PatternGraphLhsNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo)
 	{
 		super(id, type);
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
@@ -53,13 +53,13 @@ public class VarDeclNode extends DeclNode
 	}
 
 	public VarDeclNode(IdentNode id, IdentNode type,
-			PatternGraphNode directlyNestingLHSGraph, int context)
+			PatternGraphLhsNode directlyNestingLHSGraph, int context)
 	{
 		this(id, type, directlyNestingLHSGraph, context, false);
 	}
 
 	public VarDeclNode(IdentNode id, TypeNode type,
-			PatternGraphNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo)
+			PatternGraphLhsNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo)
 	{
 		super(id, type);
 		this.type = type;
@@ -69,13 +69,13 @@ public class VarDeclNode extends DeclNode
 	}
 
 	public VarDeclNode(IdentNode id, TypeNode type,
-			PatternGraphNode directlyNestingLHSGraph, int context)
+			PatternGraphLhsNode directlyNestingLHSGraph, int context)
 	{
 		this(id, type, directlyNestingLHSGraph, context, false);
 	}
 
 	/** Get an invalid var declaration. */
-	public static final VarDeclNode getInvalidVar(PatternGraphNode directlyNestingLHSGraph, int context)
+	public static final VarDeclNode getInvalidVar(PatternGraphLhsNode directlyNestingLHSGraph, int context)
 	{
 		return new VarDeclNode(IdentNode.getInvalid(), IdentNode.getInvalid(), directlyNestingLHSGraph, context);
 	}

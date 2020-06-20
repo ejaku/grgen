@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.decl.pattern;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 
@@ -29,7 +29,7 @@ public abstract class MatchNodeFromByStorageDeclNode extends NodeDeclNode
 	protected NodeDeclNode storageGlobalVariable = null;
 
 	protected MatchNodeFromByStorageDeclNode(IdentNode id, BaseNode type, int context, BaseNode storage,
-			PatternGraphNode directlyNestingLHSGraph)
+			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.storageUnresolved = storage;

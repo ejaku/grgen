@@ -48,7 +48,7 @@ public class HomStorage
 
 	// Don't call in PatternGraphNode constructor / until all pattern graphs were constructed
 	// as it accesses the parents of the pattern graph
-	public HomStorage(PatternGraphNode patternGraph)
+	public HomStorage(PatternGraphLhsNode patternGraph)
 	{
 		// fill with own homomorphic sets
 		if(patternGraph.isIdentification()) {
@@ -69,7 +69,7 @@ public class HomStorage
 		}
 
 		// then add inherited homomorphic sets
-		for(PatternGraphNode parent = patternGraph.getParentPatternGraph(); parent != null;
+		for(PatternGraphLhsNode parent = patternGraph.getParentPatternGraph(); parent != null;
 				parent = parent.getParentPatternGraph()) {
 			for(Set<ConstraintDeclNode> parentHomSet : parent.getHoms()) {
 				Set<ConstraintDeclNode> inheritedHomSet = getInheritedHomSet(parentHomSet, 

@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.util.Pair;
  *
  * This node is needed to distinguish between reused single nodes and reused
  * subpatterns.
- * After resolving in {@link GraphNode#resolveLocal()} this node should disappear.
+ * After resolving in {@link PatternGraphRhsNode#resolveLocal()} this node should disappear.
  *
  * @author buchwald
  *

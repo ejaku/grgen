@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.util.Pair;
 public class ImplicitNegComputerInduced
 {
 	/** the pattern graph for which the implicit negatives are to be computed */
-	PatternGraphNode patternGraph;
+	PatternGraphLhsNode patternGraph;
 	
 	/** All node pairs that need a double node NAC. */
 	private Set<Pair<NodeDeclNode, NodeDeclNode>> nodePairsRequiringNeg =
@@ -51,7 +51,7 @@ public class ImplicitNegComputerInduced
 	int implicitNegCounter = 0;
 
 	
-	public ImplicitNegComputerInduced(PatternGraphNode patternGraph)
+	public ImplicitNegComputerInduced(PatternGraphLhsNode patternGraph)
 	{
 		this.patternGraph = patternGraph;
 		

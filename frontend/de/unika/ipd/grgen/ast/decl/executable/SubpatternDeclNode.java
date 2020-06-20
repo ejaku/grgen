@@ -25,9 +25,9 @@ import de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.pattern.GraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
 import de.unika.ipd.grgen.ast.pattern.OrderedReplacementsNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.pattern.SubpatternReplNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -60,7 +60,7 @@ public class SubpatternDeclNode extends ActionDeclNode
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
 	 */
-	public SubpatternDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right)
+	public SubpatternDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)
 	{
 		super(id, subpatternType, left);
 		this.right = right;
@@ -110,7 +110,7 @@ public class SubpatternDeclNode extends ActionDeclNode
 			CollectNode<EvalStatementsNode> evalStatments = new CollectNode<EvalStatementsNode>();
 			CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 			CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-			GraphNode graph = new GraphNode(getIdentNode().toString(), getIdentNode().getCoords(),
+			PatternGraphRhsNode graph = new PatternGraphRhsNode(getIdentNode().toString(), getIdentNode().getCoords(),
 					connections, new CollectNode<BaseNode>(), subpatterns, new CollectNode<SubpatternReplNode>(),
 					orderedReplacements, returnz, imperativeStmts,
 					BaseNode.CONTEXT_PATTERN | BaseNode.CONTEXT_RHS, pattern);
@@ -189,7 +189,7 @@ public class SubpatternDeclNode extends ActionDeclNode
 				& noAmbiguousRetypes;
 	}
 
-	public PatternGraphNode getPattern()
+	public PatternGraphLhsNode getPattern()
 	{
 		assert isResolved();
 		return pattern;

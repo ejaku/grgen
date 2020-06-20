@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -42,7 +42,7 @@ public class MatchEdgeByIndexAccessOrderingDeclNode extends MatchEdgeByIndexDecl
 			boolean ascending, IdentNode index,
 			OperatorDeclNode.Operator comp, ExprNode expr,
 			OperatorDeclNode.Operator comp2, ExprNode expr2,
-			PatternGraphNode directlyNestingLHSGraph)
+			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		super(id, type, context, index, directlyNestingLHSGraph);
 		this.ascending = ascending;

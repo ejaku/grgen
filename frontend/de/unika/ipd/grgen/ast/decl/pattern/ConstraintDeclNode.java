@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.type.TypeExpr;
@@ -37,7 +37,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 	public int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
 						// or CONTEXT_RHS if declaration is located on right hand side
 
-	public PatternGraphNode directlyNestingLHSGraph;
+	public PatternGraphLhsNode directlyNestingLHSGraph;
 	public boolean defEntityToBeYieldedTo;
 
 	protected boolean isCopy;
@@ -55,7 +55,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 			new CollectNode<NameOrAttributeInitializationNode>();
 
 	protected ConstraintDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constraints,
-			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
+			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
 	{
 		super(id, type);
 		this.isCopy = isCopy;

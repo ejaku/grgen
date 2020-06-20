@@ -12,7 +12,7 @@ package de.unika.ipd.grgen.ast.stmt.graph;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -26,7 +26,7 @@ public abstract class ForIndexAccessNode extends ForGraphQueryNode
 	protected IndexDeclNode index;
 
 	public ForIndexAccessNode(Coords coords, BaseNode iterationVariable, int context,
-			IdentNode index, PatternGraphNode directlyNestingLHSGraph,
+			IdentNode index, PatternGraphLhsNode directlyNestingLHSGraph,
 			CollectNode<EvalStatementNode> loopedStatements)
 	{
 		super(coords, iterationVariable, loopedStatements);

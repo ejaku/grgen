@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -36,7 +36,7 @@ public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 	public TypeDeclNode interfaceType = null;
 
 	public EdgeInterfaceTypeChangeDeclNode(IdentNode id, BaseNode newType, int context, IdentNode interfaceType,
-			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull)
+			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull)
 	{
 		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull, false);
 		this.interfaceTypeUnresolved = interfaceType;

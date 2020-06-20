@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.Sys;
@@ -376,12 +376,12 @@ public abstract class ParserEnvironment extends Base
 		return ExprNode.getInvalid();
 	}
 
-	public static VarDeclNode initVarNode(PatternGraphNode directlyNestingLHSGraph, int context)
+	public static VarDeclNode initVarNode(PatternGraphLhsNode directlyNestingLHSGraph, int context)
 	{
 		return VarDeclNode.getInvalidVar(directlyNestingLHSGraph, context);
 	}
 
-	public NodeDeclNode getDummyNodeDecl(int context, PatternGraphNode directlyNestingLHSGraph)
+	public NodeDeclNode getDummyNodeDecl(int context, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		return NodeDeclNode.getDummy(defineAnonymousEntity("dummy_node",
 				new Coords()), this.getNodeRoot(), context, directlyNestingLHSGraph);

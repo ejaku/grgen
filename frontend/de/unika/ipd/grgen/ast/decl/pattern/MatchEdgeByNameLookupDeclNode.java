@@ -16,7 +16,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
@@ -34,7 +34,7 @@ public class MatchEdgeByNameLookupDeclNode extends EdgeDeclNode
 	private ExprNode expr;
 
 	public MatchEdgeByNameLookupDeclNode(IdentNode id, BaseNode type, int context,
-			ExprNode expr, PatternGraphNode directlyNestingLHSGraph)
+			ExprNode expr, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.expr = expr;

@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
@@ -44,7 +44,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 	private CollectNode<NodeDeclNode> mergees;
 
 	public NodeTypeChangeDeclNode(IdentNode id, BaseNode newType, int context, BaseNode oldid,
-			CollectNode<IdentNode> mergees, PatternGraphNode directlyNestingLHSGraph)
+			CollectNode<IdentNode> mergees, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.oldUnresolved = oldid;

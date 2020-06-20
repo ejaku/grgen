@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -34,7 +34,7 @@ public class MatchEdgeByIndexAccessEqualityDeclNode extends MatchEdgeByIndexDecl
 	private ExprNode expr;
 
 	public MatchEdgeByIndexAccessEqualityDeclNode(IdentNode id, BaseNode type, int context,
-			IdentNode index, ExprNode expr, PatternGraphNode directlyNestingLHSGraph)
+			IdentNode index, ExprNode expr, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		super(id, type, context, index, directlyNestingLHSGraph);
 		this.expr = expr;

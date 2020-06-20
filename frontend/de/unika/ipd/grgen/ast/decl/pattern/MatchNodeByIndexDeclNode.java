@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ast.decl.pattern;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 
@@ -27,7 +27,7 @@ public abstract class MatchNodeByIndexDeclNode extends NodeDeclNode
 	protected IndexDeclNode index;
 
 	protected MatchNodeByIndexDeclNode(IdentNode id, BaseNode type, int context,
-			IdentNode index, PatternGraphNode directlyNestingLHSGraph)
+			IdentNode index, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.indexUnresolved = index;

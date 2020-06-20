@@ -23,8 +23,8 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
 import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
-import de.unika.ipd.grgen.ast.pattern.GraphNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.RhsTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -50,7 +50,7 @@ public abstract class RhsDeclNode extends DeclNode
 		setName(RhsDeclNode.class, "right-hand side declaration");
 	}
 
-	public GraphNode graph;
+	public PatternGraphRhsNode graph;
 	protected RhsTypeNode type;
 
 	/** Type for this declaration. */
@@ -67,7 +67,7 @@ public abstract class RhsDeclNode extends DeclNode
 	 * @param id The identifier of this RHS.
 	 * @param graph The right hand side graph.
 	 */
-	protected RhsDeclNode(IdentNode id, GraphNode graph)
+	protected RhsDeclNode(IdentNode id, PatternGraphRhsNode graph)
 	{
 		super(id, rhsType);
 		this.graph = graph;
@@ -96,12 +96,12 @@ public abstract class RhsDeclNode extends DeclNode
 		return childrenNames;
 	}
 
-	public GraphNode getRhsGraph()
+	public PatternGraphRhsNode getRhsGraph()
 	{
 		return graph;
 	}
 
-	public Set<ConstraintDeclNode> getMaybeDeletedElements(PatternGraphNode pattern)
+	public Set<ConstraintDeclNode> getMaybeDeletedElements(PatternGraphLhsNode pattern)
 	{
 		// add deleted entities
 		Set<ConstraintDeclNode> maybeDeletedElements = new LinkedHashSet<ConstraintDeclNode>();
@@ -137,7 +137,7 @@ public abstract class RhsDeclNode extends DeclNode
 		return maybeDeletedElements;
 	}
 
-	private Set<ConstraintDeclNode> getMaybeDeletedEdgesResultingFromMaybeDeletedNodes(Set<ConstraintDeclNode> maybeDeletedNodes, PatternGraphNode pattern)
+	private Set<ConstraintDeclNode> getMaybeDeletedEdgesResultingFromMaybeDeletedNodes(Set<ConstraintDeclNode> maybeDeletedNodes, PatternGraphLhsNode pattern)
 	{
 		Set<ConstraintDeclNode> edgesResultingFromMaybeDeletedNodes = new HashSet<ConstraintDeclNode>();
 		
@@ -174,7 +174,7 @@ public abstract class RhsDeclNode extends DeclNode
 		return edgesResultingFromMaybeDeletedNodes;
 	}
 
-	protected abstract Set<ConnectionNode> getConnectionsNotDeleted(PatternGraphNode pattern);
+	protected abstract Set<ConnectionNode> getConnectionsNotDeleted(PatternGraphLhsNode pattern);
 
 	protected static final DeclarationTypeResolver<RhsTypeNode> typeResolver =
 			new DeclarationTypeResolver<RhsTypeNode>(RhsTypeNode.class);
@@ -214,7 +214,7 @@ public abstract class RhsDeclNode extends DeclNode
 		return checkEdgeParameters();
 	}
 	
-	public abstract boolean checkAgainstLhsPattern(PatternGraphNode pattern);
+	public abstract boolean checkAgainstLhsPattern(PatternGraphLhsNode pattern);
 	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
@@ -329,7 +329,7 @@ public abstract class RhsDeclNode extends DeclNode
 	/**
 	 * Returns all elements that are to be deleted.
 	 */
-	public Set<ConstraintDeclNode> getElementsToDelete(PatternGraphNode pattern)
+	public Set<ConstraintDeclNode> getElementsToDelete(PatternGraphLhsNode pattern)
 	{
 		if(elementsToDelete == null) {
 			elementsToDelete = Collections.unmodifiableSet(getElementsToDeleteImpl(pattern));
@@ -337,13 +337,13 @@ public abstract class RhsDeclNode extends DeclNode
 		return elementsToDelete;
 	}
 
-	protected abstract Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphNode pattern);
+	protected abstract Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphLhsNode pattern);
 
 	/**
 	 * Returns all to be reused edges (with their nodes, in the form of a connection),
 	 * that excludes new edges of the right-hand side, those are to be created.
 	 */
-	public Set<ConnectionNode> getConnectionsToReuse(PatternGraphNode pattern)
+	public Set<ConnectionNode> getConnectionsToReuse(PatternGraphLhsNode pattern)
 	{
 		if(connectionsToReuse == null) {
 			connectionsToReuse = Collections.unmodifiableSet(getConnectionsToReuseImpl(pattern));
@@ -351,12 +351,12 @@ public abstract class RhsDeclNode extends DeclNode
 		return connectionsToReuse;
 	}
 	
-	protected abstract Set<ConnectionNode> getConnectionsToReuseImpl(PatternGraphNode pattern);
+	protected abstract Set<ConnectionNode> getConnectionsToReuseImpl(PatternGraphLhsNode pattern);
 
 	/**
 	 * Returns all to be reused nodes, that excludes new nodes of the right-hand side, those are to be created.
 	 */
-	public Set<NodeDeclNode> getNodesToReuse(PatternGraphNode pattern)
+	public Set<NodeDeclNode> getNodesToReuse(PatternGraphLhsNode pattern)
 	{
 		if(nodesToReuse == null) {
 			nodesToReuse = Collections.unmodifiableSet(getNodesToReuseImpl(pattern));
@@ -364,10 +364,10 @@ public abstract class RhsDeclNode extends DeclNode
 		return nodesToReuse;
 	}
 
-	protected abstract Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphNode pattern);
+	protected abstract Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphLhsNode pattern);
 
 
-	protected static boolean sourceOrTargetNodeIncluded(EdgeDeclNode edge, PatternGraphNode pattern, 
+	protected static boolean sourceOrTargetNodeIncluded(EdgeDeclNode edge, PatternGraphLhsNode pattern, 
 			Collection<? extends BaseNode> collection)
 	{
 		for(ConnectionCharacter connectionCharacter : pattern.getConnections()) {

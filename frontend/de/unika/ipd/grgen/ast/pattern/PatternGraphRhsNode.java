@@ -57,10 +57,10 @@ import java.util.Vector;
  * or to be used as base class for PatternGraphNode
  * representing the graph pattern of the pattern part of some rule
  */
-public class GraphNode extends BaseNode
+public class PatternGraphRhsNode extends BaseNode
 {
 	static {
-		setName(GraphNode.class, "graph");
+		setName(PatternGraphRhsNode.class, "graph");
 	}
 
 	protected CollectNode<BaseNode> connectionsUnresolved;
@@ -83,7 +83,7 @@ public class GraphNode extends BaseNode
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	protected int context = 0;
 
-	PatternGraphNode directlyNestingLHSGraph;
+	PatternGraphLhsNode directlyNestingLHSGraph;
 
 	public String nameOfGraph;
 
@@ -91,11 +91,11 @@ public class GraphNode extends BaseNode
 	 * A new pattern node
 	 * @param connections A collection containing connection nodes
 	 */
-	public GraphNode(String nameOfGraph, Coords coords,
+	public PatternGraphRhsNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
 			CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
 			CollectNode<OrderedReplacementsNode> orderedReplacements, CollectNode<ExprNode> returns,
-			CollectNode<BaseNode> imperativeStmts, int context, PatternGraphNode directlyNestingLHSGraph)
+			CollectNode<BaseNode> imperativeStmts, int context, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		super(coords);
 		this.nameOfGraph = nameOfGraph;
@@ -269,7 +269,7 @@ public class GraphNode extends BaseNode
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			for(SubpatternUsageDeclNode subUsage : subpatterns.getChildren()) {
 				if(subUsage.resolve()) {
-					PatternGraphNode pattern = subUsage.getSubpatternDeclNode().getPattern();
+					PatternGraphLhsNode pattern = subUsage.getSubpatternDeclNode().getPattern();
 					if(pattern.hasAbstractElements) {
 						subUsage.reportError("Cannot instantiate pattern with abstract elements");
 						subUsagesOK = false;

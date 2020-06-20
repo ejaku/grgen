@@ -45,7 +45,7 @@ import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
  */
 public class PatternGraphBuilder
 {
-	public static void addElementsHiddenInUsedConstructs(PatternGraphNode patternGraphNode, PatternGraphLhs patternGraph)
+	public static void addElementsHiddenInUsedConstructs(PatternGraphLhsNode patternGraphNode, PatternGraphLhs patternGraph)
 	{
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)

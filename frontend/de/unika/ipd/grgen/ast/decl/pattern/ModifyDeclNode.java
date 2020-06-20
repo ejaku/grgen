@@ -17,8 +17,8 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
 import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
-import de.unika.ipd.grgen.ast.pattern.GraphNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
@@ -58,7 +58,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	 * @param id The identifier of this RHS.
 	 * @param graph The right hand side graph.
 	 */
-	public ModifyDeclNode(IdentNode id, GraphNode graph, CollectNode<IdentNode> deletes)
+	public ModifyDeclNode(IdentNode id, PatternGraphRhsNode graph, CollectNode<IdentNode> deletes)
 	{
 		super(id, graph);
 		this.deletesUnresolved = deletes;
@@ -127,7 +127,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public boolean checkAgainstLhsPattern(PatternGraphNode pattern)
+	public boolean checkAgainstLhsPattern(PatternGraphLhsNode pattern)
 	{
 		warnIfElementAppearsInsideAndOutsideOfDelete(pattern);
 		return true;
@@ -260,7 +260,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphNode pattern)
+	public Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphLhsNode pattern)
 	{
 		assert isResolved();
 
@@ -293,7 +293,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public Set<ConnectionNode> getConnectionsToReuseImpl(PatternGraphNode pattern)
+	public Set<ConnectionNode> getConnectionsToReuseImpl(PatternGraphLhsNode pattern)
 	{
 		Set<ConnectionNode> connectionsToReuse = new LinkedHashSet<ConnectionNode>();
 
@@ -335,7 +335,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphNode pattern)
+	public Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphLhsNode pattern)
 	{
 		LinkedHashSet<NodeDeclNode> nodesToReuse = new LinkedHashSet<NodeDeclNode>();
 		
@@ -349,7 +349,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		return nodesToReuse;
 	}
 
-	private void warnIfElementAppearsInsideAndOutsideOfDelete(PatternGraphNode pattern)
+	private void warnIfElementAppearsInsideAndOutsideOfDelete(PatternGraphLhsNode pattern)
 	{
 		Set<ConstraintDeclNode> elementsToDelete = getElementsToDelete(pattern);
 
@@ -381,7 +381,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	protected Set<ConnectionNode> getConnectionsNotDeleted(PatternGraphNode pattern)
+	protected Set<ConnectionNode> getConnectionsNotDeleted(PatternGraphLhsNode pattern)
 	{
 		Set<ConnectionNode> connectionsNotDeleted = new LinkedHashSet<ConnectionNode>();
 

@@ -17,7 +17,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -40,7 +40,7 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 	private EdgeDeclNode old = null;
 
 	public EdgeTypeChangeDeclNode(IdentNode id, BaseNode newType, int context, BaseNode oldid,
-			PatternGraphNode directlyNestingLHSGraph)
+			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.oldUnresolved = oldid;

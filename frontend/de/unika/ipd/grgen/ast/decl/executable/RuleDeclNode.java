@@ -31,8 +31,8 @@ import de.unika.ipd.grgen.ast.expr.DeclExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.MemberAccessExprNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.pattern.GraphNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.RuleTypeNode;
@@ -68,7 +68,7 @@ public class RuleDeclNode extends TestDeclNode
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
 	 */
-	public RuleDeclNode(IdentNode id, PatternGraphNode left, CollectNode<IdentNode> implementedMatchTypes,
+	public RuleDeclNode(IdentNode id, PatternGraphLhsNode left, CollectNode<IdentNode> implementedMatchTypes,
 			RhsDeclNode right, CollectNode<BaseNode> rets)
 	{
 		super(id, ruleType, left, implementedMatchTypes, rets);
@@ -420,7 +420,7 @@ public class RuleDeclNode extends TestDeclNode
 		if(right != null)
 			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
 
-		GraphNode right = this.right.graph;
+		PatternGraphRhsNode right = this.right.graph;
 
 		// check if the pattern name equals the rule name
 		// named replace/modify parts are only allowed in subpatterns

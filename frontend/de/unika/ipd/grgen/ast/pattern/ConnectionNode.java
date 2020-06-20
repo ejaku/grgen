@@ -314,7 +314,7 @@ public class ConnectionNode extends ConnectionCharacter
 
 	/**
 	 * This adds the connection to an IR pattern graph.
-	 * This method should only be used by {@link PatternGraphNode#constructIR()}.
+	 * This method should only be used by {@link PatternGraphLhsNode#constructIR()}.
 	 * @param patternGraph The IR pattern graph.
 	 */
 	@Override

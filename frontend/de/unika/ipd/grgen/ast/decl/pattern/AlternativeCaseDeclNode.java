@@ -17,7 +17,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.AlternativeCaseTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -48,7 +48,7 @@ public class AlternativeCaseDeclNode extends ActionDeclNode
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
 	 */
-	public AlternativeCaseDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right)
+	public AlternativeCaseDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)
 	{
 		super(id, alternativeCaseType, left);
 		this.right = right;
