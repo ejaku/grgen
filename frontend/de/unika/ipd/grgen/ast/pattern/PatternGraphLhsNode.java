@@ -52,14 +52,12 @@ import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.SymbolTable;
 
 /**
- * AST node that represents a graph pattern as it appears within the pattern
- * part of some rule Extension of the graph pattern of the rewrite part
+ * AST node that represents a graph pattern as it appears within the pattern part of some rule
  */
-// TODO: a pattern graph is not a graph, factor the common stuff out into a base class
-public class PatternGraphLhsNode extends PatternGraphRhsNode
+public class PatternGraphLhsNode extends PatternGraphBaseNode
 {
 	static {
-		setName(PatternGraphLhsNode.class, "pattern_graph");
+		setName(PatternGraphLhsNode.class, "pattern graph lhs");
 	}
 
 	public static final int MOD_DANGLING = 1; // dangling+identification=dpo
@@ -119,8 +117,8 @@ public class PatternGraphLhsNode extends PatternGraphRhsNode
 			CollectNode<HomNode> homs, CollectNode<TotallyHomNode> totallyHoms, 
 			CollectNode<ExactNode> exacts, CollectNode<InducedNode> induceds,
 			int modifiers, int context) {
-		super(nameOfGraph, coords, connections, params, subpatterns, subpatternRepls,
-				new CollectNode<OrderedReplacementsNode>(), returns, null, context, null);
+		super(nameOfGraph, coords, connections, params, subpatterns,
+				returns, context);
 		this.alts = alts;
 		becomeParent(this.alts);
 		this.iters = iters;
@@ -141,9 +139,9 @@ public class PatternGraphLhsNode extends PatternGraphRhsNode
 		becomeParent(this.induceds);
 		this.modifiers = modifiers;
 
-		directlyNestingLHSGraph = this;
+		this.directlyNestingLHSGraph = this;
 		if(params != null)
-			addParamsToConnections(params);
+			addParamsToConnections(params); // treat non-var parameters like connections
 	}
 
 	public void addYieldings(CollectNode<EvalStatementsNode> yieldsEvals)
@@ -161,8 +159,6 @@ public class PatternGraphLhsNode extends PatternGraphRhsNode
 		children.add(params);
 		children.add(defVariablesToBeYieldedTo);
 		children.add(subpatterns);
-		children.add(subpatternRepls);
-		children.add(orderedReplacements);
 		children.add(alts);
 		children.add(iters);
 		children.add(negs);
@@ -186,8 +182,6 @@ public class PatternGraphLhsNode extends PatternGraphRhsNode
 		childrenNames.add("params");
 		childrenNames.add("defVariablesToBeYieldedTo");
 		childrenNames.add("subpatterns");
-		childrenNames.add("subpatternReplacements");
-		childrenNames.add("orderedReplacements");
 		childrenNames.add("alternatives");
 		childrenNames.add("iters");
 		childrenNames.add("negatives");
@@ -476,15 +470,12 @@ public class PatternGraphLhsNode extends PatternGraphRhsNode
 	@Override
 	protected boolean checkLocal()
 	{
-		boolean childs = super.checkLocal();
-
 		boolean expr = true;
-		if(childs) {
-			for(ExprNode exp : conditions.getChildren()) {
-				if(!exp.getType().isEqual(BasicTypeNode.booleanType)) {
-					exp.reportError("Expression must be of type boolean");
-					expr = false;
-				}
+		
+		for(ExprNode exp : conditions.getChildren()) {
+			if(!exp.getType().isEqual(BasicTypeNode.booleanType)) {
+				exp.reportError("Expression must be of type boolean");
+				expr = false;
 			}
 		}
 
@@ -498,7 +489,7 @@ public class PatternGraphLhsNode extends PatternGraphRhsNode
 
 		warnOnSuperfluousHoms();
 
-		return childs & expr & noReturnInNegOrIdpt 
+		return isEdgeReuseOk() & expr & noReturnInNegOrIdpt 
 				& noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
 				& noDefElementOrIteratedReferenceInCondition()
 				& noIteratedReferenceInDefElementInitialization()
