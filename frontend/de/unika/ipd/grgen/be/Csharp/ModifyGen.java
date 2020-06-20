@@ -47,6 +47,7 @@ import de.unika.ipd.grgen.ir.pattern.NameOrAttributeInitialization;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphRhsFromLhs;
@@ -1098,7 +1099,7 @@ public class ModifyGen extends CSharpBase
 	}
 
 	private static void genDelNodes(SourceBuilder sb, ModifyGenerationStateConst state,
-			HashSet<Node> nodesNeededAsElements, PatternGraphRhs right)
+			HashSet<Node> nodesNeededAsElements, PatternGraphBase right)
 	{
 		for(Node node : state.delNodes()) {
 			nodesNeededAsElements.add(node);
@@ -1115,7 +1116,7 @@ public class ModifyGen extends CSharpBase
 	}
 
 	private static void genDelEdges(SourceBuilder sb, ModifyGenerationStateConst state,
-			HashSet<Edge> edgesNeededAsElements, PatternGraphRhs right)
+			HashSet<Edge> edgesNeededAsElements, PatternGraphBase right)
 	{
 		for(Edge edge : state.delEdges()) {
 			edgesNeededAsElements.add(edge);

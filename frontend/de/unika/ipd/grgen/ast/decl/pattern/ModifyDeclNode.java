@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
@@ -155,7 +156,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		return right;
 	}
 
-	private Set<Entity> insertElementsToDeleteToLhsIfNotFromLhs(PatternGraphLhs left, PatternGraphRhs right)
+	private Set<Entity> insertElementsToDeleteToLhsIfNotFromLhs(PatternGraphLhs left, PatternGraphBase right)
 	{
 		HashSet<Entity> elementsToDelete = new HashSet<Entity>();
 		

@@ -32,16 +32,13 @@ import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 
 /**
- * A pattern graph is a graph pattern as it occurs on left and right hand sides of rules.
+ * A pattern graph lhs is a graph pattern as it occurs on the left hand side of rules.
  * It includes nested alternative-case and iterated rules, as well as nested patterns (negative and independent).
- * It extends the graph base class, additionally offering variables, 
- * conditions that restrict the set of possible matches, 
- * lhs yield statements, rhs imperative statements, and further things.
+ * It extends the graph base class, additionally offering conditions that restrict the set of possible matches, 
+ * lhs yield statements, homomorphy handling and further things.
  */
 public class PatternGraphLhs extends PatternGraphBase
 {
-	private final Collection<Variable> vars = new LinkedHashSet<Variable>();
-
 	/** The alternative statements of the pattern graph */
 	private final Collection<Alternative> alts = new LinkedList<Alternative>();
 
@@ -66,14 +63,6 @@ public class PatternGraphLhs extends PatternGraphBase
 	/** A list of all potentially homomorphic edge sets. */
 	private final List<Collection<Edge>> homEdgesLists = new LinkedList<Collection<Edge>>();
 
-	/** A set of nodes which will be matched homomorphically to any other node in the pattern.
-	 *  they appear if they're not referenced within the pattern, but some nested component uses them */
-	private final HashSet<Node> homToAllNodes = new HashSet<Node>();
-
-	/** A set of edges which will be matched homomorphically to any other edge in the pattern.
-	 *  they appear if they're not referenced within the pattern, but some nested component uses them  */
-	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
-
 	/** A map of nodes which will be matched homomorphically to any other node
 	 *  to the isomorphy exceptions, requested by independent(node); */
 	private final HashMap<Node, HashSet<Node>> totallyHomNodes = new HashMap<Node, HashSet<Node>>();
@@ -94,26 +83,12 @@ public class PatternGraphLhs extends PatternGraphBase
 	// it might break the iterated instead of only the current iterated case, if specified
 	private boolean iterationBreaking = false;
 
+
 	/** Make a new pattern graph. */
 	public PatternGraphLhs(String nameOfGraph, int modifiers)
 	{
 		super(nameOfGraph);
 		this.modifiers = modifiers;
-	}
-
-	public void addVariable(Variable var)
-	{
-		vars.add(var);
-	}
-
-	public Collection<Variable> getVars()
-	{
-		return Collections.unmodifiableCollection(vars);
-	}
-
-	public boolean hasVar(Variable var)
-	{
-		return vars.contains(var);
 	}
 
 	public void addAlternative(Alternative alternative)
@@ -174,24 +149,6 @@ public class PatternGraphLhs extends PatternGraphBase
 		yields.add(stmts);
 	}
 
-	public void addNodeIfNotYetContained(Node node)
-	{
-		if(hasNode(node))
-			return;
-		
-		addSingleNode(node);
-		addHomToAll(node);
-	}
-
-	public void addEdgeIfNotYetContained(Edge edge)
-	{
-		if(hasEdge(edge))
-			return;
-		
-		addSingleEdge(edge);
-		addHomToAll(edge);
-	}
-
 	/** Add a potentially homomorphic set to the graph. */
 	public void addHomomorphicNodes(Collection<Node> hom)
 	{
@@ -202,16 +159,6 @@ public class PatternGraphLhs extends PatternGraphBase
 	public void addHomomorphicEdges(Collection<Edge> hom)
 	{
 		homEdgesLists.add(hom);
-	}
-
-	public void addHomToAll(Node node)
-	{
-		homToAllNodes.add(node);
-	}
-
-	public void addHomToAll(Edge edge)
-	{
-		homToAllEdges.add(edge);
 	}
 
 	public void addTotallyHomomorphic(Node node, HashSet<Node> isoNodes)
@@ -496,7 +443,7 @@ public class PatternGraphLhs extends PatternGraphBase
 					if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 						addSingleNode(node);
 						addHomToAll(node);
-						PatternGraphRhs altCaseReplacement = altCase.getRight();
+						PatternGraphBase altCaseReplacement = altCase.getRight();
 						if(altCaseReplacement != null && !altCaseReplacement.hasNode(node)) {
 							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleNode(node);
@@ -510,7 +457,7 @@ public class PatternGraphLhs extends PatternGraphBase
 					if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 						addSingleEdge(edge);
 						addHomToAll(edge);
-						PatternGraphRhs altCaseReplacement = altCase.getRight();
+						PatternGraphBase altCaseReplacement = altCase.getRight();
 						if(altCaseReplacement != null && !altCaseReplacement.hasEdge(edge)) {
 							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleEdge(edge);
@@ -568,7 +515,7 @@ public class PatternGraphLhs extends PatternGraphBase
 				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 					addSingleNode(node);
 					addHomToAll(node);
-					PatternGraphRhs allReplacement = iterated.getRight();
+					PatternGraphBase allReplacement = iterated.getRight();
 					if(allReplacement != null && !allReplacement.hasNode(node)) {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleNode(node);
@@ -582,7 +529,7 @@ public class PatternGraphLhs extends PatternGraphBase
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge);
 					addHomToAll(edge);
-					PatternGraphRhs allReplacement = iterated.getRight();
+					PatternGraphBase allReplacement = iterated.getRight();
 					if(allReplacement != null && !allReplacement.hasEdge(edge)) {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleEdge(edge);
@@ -1009,7 +956,7 @@ edgeHom:
 	}
 
 	public void checkForMultipleRetypes(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
-			PatternGraphRhs right)
+			PatternGraphBase right)
 	{
 		for(Node node : getNodes()) {
 			alreadyDefinedNodes.add(node);
@@ -1043,7 +990,7 @@ edgeHom:
 	}
 
 	public void checkForMultipleRetypesDoCheck(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
-			PatternGraphRhs right)
+			PatternGraphBase right)
 	{
 		for(Node node : right.getNodes()) {
 			if(node.getRetypedNode(right) == null)

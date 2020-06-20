@@ -13,13 +13,13 @@ package de.unika.ipd.grgen.ir.pattern;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
-import java.util.List;
 
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.util.GraphDumpable;
@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.grgen.util.Walkable;
 
 /**
- * This is a base class for the pattern graph containing the node/edge handling.
+ * This is a base class for the pattern graph containing the nodes/edges, and analogously variables and subpatterns.
  * It has own classes for the nodes and edges as proxy objects to the actual Node and Edge objects.
  * The reason for this is: The nodes and edges in a rule that are common to the left and the right side
  * exist only once as an object (that's due to the fact that these objects are created from the AST declaration,
@@ -114,34 +114,49 @@ public abstract class PatternGraphBase extends IR
 	}
 
 	/** Map that maps a node to an internal node. */
-	protected Map<Node, PatternGraphBase.GraphNode> nodes = new LinkedHashMap<Node, PatternGraphBase.GraphNode>();
+	protected final Map<Node, PatternGraphBase.GraphNode> nodes;
 
 	/** Map that maps an edge to an internal edge. */
-	protected Map<Edge, PatternGraphBase.GraphEdge> edges = new LinkedHashMap<Edge, PatternGraphBase.GraphEdge>();
+	protected final Map<Edge, PatternGraphBase.GraphEdge> edges;
 
-	protected Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
+	protected final Collection<Variable> vars = new LinkedHashSet<Variable>();
 
-	protected List<OrderedReplacements> orderedReplacements = new LinkedList<OrderedReplacements>();
+	protected final Set<SubpatternUsage> subpatternUsages;
+
+	/** A set of nodes which will be matched homomorphically to any other node in the pattern.
+	 *  they appear if they're not referenced within the pattern, but some nested component uses them */
+	protected final HashSet<Node> homToAllNodes = new HashSet<Node>();
+
+	/** A set of edges which will be matched homomorphically to any other edge in the pattern.
+	 *  they appear if they're not referenced within the pattern, but some nested component uses them  */
+	protected final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
 
 	PatternGraphLhs directlyNestingLHSGraph; // either this or the left graph
 
 	private String nameOfGraph;
+
 
 	/** Make a new graph. */
 	public PatternGraphBase(String nameOfGraph)
 	{
 		super("graph");
 		this.nameOfGraph = nameOfGraph;
+		this.nodes = new LinkedHashMap<Node, PatternGraphBase.GraphNode>();
+		this.edges = new LinkedHashMap<Edge, PatternGraphBase.GraphEdge>();
+		this.subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 	}
 
-	// TODO own constructor? final nodes/edges
-	protected void init(Map<Node, PatternGraphBase.GraphNode> nodes, Map<Edge, PatternGraphBase.GraphEdge> edges,
-			Set<SubpatternUsage> subpatternUsages, List<OrderedReplacements> orderedReplacements)
+	/** Make a new graph with preset nodes, edges, subpatternUsages (copy from another pattern graph). */
+	protected PatternGraphBase(String nameOfGraph,
+			Map<Node, PatternGraphBase.GraphNode> nodes,
+			Map<Edge, PatternGraphBase.GraphEdge> edges,
+			Set<SubpatternUsage> subpatternUsages)
 	{
+		super("graph");
+		this.nameOfGraph = nameOfGraph;
 		this.nodes = nodes;
 		this.edges = edges;
 		this.subpatternUsages = subpatternUsages;
-		this.orderedReplacements = orderedReplacements;
 	}
 	
 	public void setDirectlyNestingLHSGraph(PatternGraphLhs directlyNestingLHSGraph)
@@ -154,6 +169,18 @@ public abstract class PatternGraphBase extends IR
 	{
 		return nameOfGraph;
 	}
+
+	/**
+	 * Allows another class to append a suffix to the graph's name.
+	 * This is useful for rules, that can add "left" or "right" to the graph's name.
+	 * @param suffix A suffix for the graph's name.
+	 */
+	public void setNameSuffix(String suffix)
+	{
+		setName("graph " + suffix);
+	}
+
+	/////////////////////////////////////////////////////////////////////
 
 	private GraphNode getOrSetNode(Node node)
 	{
@@ -180,65 +207,16 @@ public abstract class PatternGraphBase extends IR
 		return res;
 	}
 
-	private GraphEdge getOrSetEdge(Edge edge)
-	{
-		GraphEdge res;
-
-		if(edge.isRetyped() && edge.isRHSEntity()) {
-			RetypedEdge retypedEdge = (RetypedEdge)edge;
-			edge = retypedEdge.getOldEdge();
-			edge.setRetypedEdge(retypedEdge, this);
-			retypedEdge.directlyNestingLHSGraph = directlyNestingLHSGraph;
-		}
-
-		if(!edges.containsKey(edge)) {
-			res = new GraphEdge(edge);
-			edges.put(edge, res);
-		} else {
-			res = edges.get(edge);
-		}
-
-		return res;
-	}
-
 	private GraphNode checkNode(Node node)
 	{
 		assert nodes.containsKey(node) : "Node must be in graph: " + node;
 		return nodes.get(node);
 	}
 
-	private GraphEdge checkEdge(Edge edge)
-	{
-		assert edges.containsKey(edge) : "Edge must be in graph: " + edge;
-		return edges.get(edge);
-	}
-
-	/**
-	 * Allows another class to append a suffix to the graph's name.
-	 * This is useful for rules, that can add "left" or "right" to the graph's name.
-	 * @param suffix A suffix for the graph's name.
-	 */
-	public void setNameSuffix(String suffix)
-	{
-		setName("graph " + suffix);
-	}
-
 	/** @return true, if the given node is contained in the graph, false, if not. */
 	public boolean hasNode(Node node)
 	{
 		return nodes.containsKey(node);
-	}
-
-	/** @return true, if the given edge is contained in the graph, false, if not. */
-	public boolean hasEdge(Edge edge)
-	{
-		return edges.containsKey(edge);
-	}
-
-	/** @return true, if the given subpattern usage is contained in the graph, false, if not. */
-	public boolean hasSubpatternUsage(SubpatternUsage sub)
-	{
-		return subpatternUsages.contains(sub);
 	}
 
 	/**
@@ -252,37 +230,6 @@ public abstract class PatternGraphBase extends IR
 	}
 
 	/**
-	 * Get a read-only collection containing all edges in this graph.
-	 * @return A collection containing all edges in this graph.
-	 * Note: The collection is read-only and may not be modified.
-	 */
-	public Collection<Edge> getEdges()
-	{
-		return Collections.unmodifiableCollection(edges.keySet());
-	}
-
-	/**
-	 * Get a read-only collection containing all subpattern usages in this graph.
-	 * @return A collection containing all subpattern usages in this graph.
-	 * Note: The collection is read-only and may not be modified.
-	 */
-	public Collection<SubpatternUsage> getSubpatternUsages()
-	{
-		return Collections.unmodifiableCollection(subpatternUsages);
-	}
-
-	/**
-	 * Get a read-only collection containing all ordered replacements
-	 * (subpattern dependent replacement, emit here) in this graph.
-	 * @return A collection containing all ordered replacements in this graph.
-	 * Note: The collection is read-only and may not be modified.
-	 */
-	public Collection<OrderedReplacements> getOrderedReplacements()
-	{
-		return Collections.unmodifiableCollection(orderedReplacements);
-	}
-
-	/**
 	 * Put all nodes in this graph into a collection.
 	 * @param collection The collection to put them into.
 	 * @return The given collection.
@@ -293,16 +240,43 @@ public abstract class PatternGraphBase extends IR
 		return collection;
 	}
 
-	/**
-	 * Put all edges in this graph into a collection.
-	 * @param collection The collection to put them into.
-	 * @return The given collection.
-	 */
-	public Collection<Edge> putEdges(Collection<Edge> collection)
+	/** Add a single node (i.e. no incident edges) to the graph. */
+	public void addSingleNode(Node node)
 	{
-		collection.addAll(edges.keySet());
-		return collection;
+		getOrSetNode(node);
 	}
+
+	/** @return true, if the node is single (i.e. has no incident edges), false if not. */
+	public boolean isSingle(Node node)
+	{
+		GraphNode graphNode = checkNode(node);
+		return graphNode.incoming.isEmpty() && graphNode.outgoing.isEmpty();
+	}
+	
+	public void addNodeIfNotYetContained(Node node)
+	{
+		if(hasNode(node))
+			return;
+		
+		addSingleNode(node);
+		addHomToAll(node);
+	}
+
+	public void addHomToAll(Node node)
+	{
+		homToAllNodes.add(node);
+	}
+
+	/** @return A graph dumpable thing representing the given node local in this graph. */
+	public GraphDumpable getLocalDumpable(Node node)
+	{
+		if(node == null)
+			return null;
+		else
+			return checkNode(node);
+	}
+
+	/////////////////////////////////////////////////////////////////////
 
 	/** @return The number of incoming edges of the given node */
 	public int getInDegree(Node node)
@@ -351,20 +325,6 @@ public abstract class PatternGraphBase extends IR
 		return Collections.unmodifiableCollection(getOutgoing(node, new LinkedList<Edge>()));
 	}
 
-	/** @return The source node, the edge leaves from, or null in case of a single edge. */
-	public Node getSource(Edge edge)
-	{
-		GraphEdge graphEdge = checkEdge(edge);
-		return graphEdge.source != null ? graphEdge.source.node : null;
-	}
-
-	/** @return The target node, the edge points to, or null in case of a single edge. */
-	public Node getTarget(Edge edge)
-	{
-		GraphEdge graphEdge = checkEdge(edge);
-		return graphEdge.target != null ? graphEdge.target.node : null;
-	}
-
 	/**
 	 * Add a connection to the graph.
 	 * @param left The left node.
@@ -404,10 +364,60 @@ public abstract class PatternGraphBase extends IR
 			graphEdge.target = rightGraphNode;
 	}
 
-	/** Add a single node (i.e. no incident edges) to the graph. */
-	public void addSingleNode(Node node)
+	/////////////////////////////////////////////////////////////////////
+
+	private GraphEdge getOrSetEdge(Edge edge)
 	{
-		getOrSetNode(node);
+		GraphEdge res;
+
+		if(edge.isRetyped() && edge.isRHSEntity()) {
+			RetypedEdge retypedEdge = (RetypedEdge)edge;
+			edge = retypedEdge.getOldEdge();
+			edge.setRetypedEdge(retypedEdge, this);
+			retypedEdge.directlyNestingLHSGraph = directlyNestingLHSGraph;
+		}
+
+		if(!edges.containsKey(edge)) {
+			res = new GraphEdge(edge);
+			edges.put(edge, res);
+		} else {
+			res = edges.get(edge);
+		}
+
+		return res;
+	}
+
+	private GraphEdge checkEdge(Edge edge)
+	{
+		assert edges.containsKey(edge) : "Edge must be in graph: " + edge;
+		return edges.get(edge);
+	}
+
+	/** @return true, if the given edge is contained in the graph, false, if not. */
+	public boolean hasEdge(Edge edge)
+	{
+		return edges.containsKey(edge);
+	}
+
+	/**
+	 * Get a read-only collection containing all edges in this graph.
+	 * @return A collection containing all edges in this graph.
+	 * Note: The collection is read-only and may not be modified.
+	 */
+	public Collection<Edge> getEdges()
+	{
+		return Collections.unmodifiableCollection(edges.keySet());
+	}
+
+	/**
+	 * Put all edges in this graph into a collection.
+	 * @param collection The collection to put them into.
+	 * @return The given collection.
+	 */
+	public Collection<Edge> putEdges(Collection<Edge> collection)
+	{
+		collection.addAll(edges.keySet());
+		return collection;
 	}
 
 	/** Add a single edge (i.e. dangling) to the graph. */
@@ -416,37 +426,80 @@ public abstract class PatternGraphBase extends IR
 		getOrSetEdge(edge);
 	}
 
-	/** Add a subpattern usage to the graph. */
-	public void addSubpatternUsage(SubpatternUsage subpatternUsage)
+	public void addEdgeIfNotYetContained(Edge edge)
 	{
-		subpatternUsages.add(subpatternUsage);
+		if(hasEdge(edge))
+			return;
+		
+		addSingleEdge(edge);
+		addHomToAll(edge);
 	}
 
-	/** Add a ordered replacement (subpattern dependent replacement, emit here) to the graph */
-	public void addOrderedReplacement(OrderedReplacements orderedRepl)
+	public void addHomToAll(Edge edge)
 	{
-		orderedReplacements.add(orderedRepl);
-	}
-
-	/** @return true, if the node is single (i.e. has no incident edges), false if not. */
-	public boolean isSingle(Node node)
-	{
-		GraphNode graphNode = checkNode(node);
-		return graphNode.incoming.isEmpty() && graphNode.outgoing.isEmpty();
-	}
-
-	/** @return A graph dumpable thing representing the given node local in this graph. */
-	public GraphDumpable getLocalDumpable(Node node)
-	{
-		if(node == null)
-			return null;
-		else
-			return checkNode(node);
+		homToAllEdges.add(edge);
 	}
 
 	/** @see #getLocalDumpable(Node) */
 	public GraphDumpable getLocalDumpable(Edge edge)
 	{
 		return checkEdge(edge);
+	}
+
+	/////////////////////////////////////////////////////////////////////
+
+	/** @return The source node, the edge leaves from, or null in case of a single edge. */
+	public Node getSource(Edge edge)
+	{
+		GraphEdge graphEdge = checkEdge(edge);
+		return graphEdge.source != null ? graphEdge.source.node : null;
+	}
+
+	/** @return The target node, the edge points to, or null in case of a single edge. */
+	public Node getTarget(Edge edge)
+	{
+		GraphEdge graphEdge = checkEdge(edge);
+		return graphEdge.target != null ? graphEdge.target.node : null;
+	}
+
+	/////////////////////////////////////////////////////////////////////
+	
+	public void addVariable(Variable var)
+	{
+		vars.add(var);
+	}
+
+	public Collection<Variable> getVars()
+	{
+		return Collections.unmodifiableCollection(vars);
+	}
+
+	public boolean hasVar(Variable var)
+	{
+		return vars.contains(var);
+	}
+
+	/////////////////////////////////////////////////////////////////////
+	
+	/** @return true, if the given subpattern usage is contained in the graph, false, if not. */
+	public boolean hasSubpatternUsage(SubpatternUsage sub)
+	{
+		return subpatternUsages.contains(sub);
+	}
+
+	/**
+	 * Get a read-only collection containing all subpattern usages in this graph.
+	 * @return A collection containing all subpattern usages in this graph.
+	 * Note: The collection is read-only and may not be modified.
+	 */
+	public Collection<SubpatternUsage> getSubpatternUsages()
+	{
+		return Collections.unmodifiableCollection(subpatternUsages);
+	}
+
+	/** Add a subpattern usage to the graph. */
+	public void addSubpatternUsage(SubpatternUsage subpatternUsage)
+	{
+		subpatternUsages.add(subpatternUsage);
 	}
 }

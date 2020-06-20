@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ast.decl.pattern;
 
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ast.BaseNode;
@@ -172,7 +173,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 		return connectionsNotDeleted;
 	}
 
-	private static void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraphLhs left, PatternGraphRhs right)
+	private static void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraphLhs left, PatternGraphBase right)
 	{
 		for(Node lhsNode : left.getNodes()) {
 			if(lhsNode.directlyNestingLHSGraph != left && !right.hasNode(lhsNode)) {
