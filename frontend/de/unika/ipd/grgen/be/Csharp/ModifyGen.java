@@ -48,6 +48,8 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphRhsFromLhs;
 import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
 import de.unika.ipd.grgen.ir.pattern.RetypedNode;
 import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
@@ -100,7 +102,7 @@ public class ModifyGen extends CSharpBase
 			ModifyGenerationTask task = new ModifyGenerationTask();
 			task.typeOfTask = ModifyGenerationTask.TYPE_OF_TASK_MODIFY;
 			task.left = rule.getLeft();
-			task.right = rule.getLeft();
+			task.right = new PatternGraphRhsFromLhs(rule.getLeft());
 			task.parameters = rule.getParameters();
 			task.evals = rule.getEvals();
 			task.replParameters = emptyParameters;
@@ -119,7 +121,7 @@ public class ModifyGen extends CSharpBase
 				task.typeOfTask = ModifyGenerationTask.TYPE_OF_TASK_CREATION;
 				task.left = new PatternGraphLhs(rule.getLeft().getNameOfGraph(), 0); // empty graph
 				task.left.setDirectlyNestingLHSGraph(task.left);
-				task.right = rule.getLeft();
+				task.right = new PatternGraphRhsFromLhs(rule.getLeft());
 				task.parameters = rule.getParameters();
 				task.evals = emptyEvals;
 				task.replParameters = emptyParameters;
@@ -142,7 +144,7 @@ public class ModifyGen extends CSharpBase
 			ModifyGenerationTask task = new ModifyGenerationTask();
 			task.typeOfTask = ModifyGenerationTask.TYPE_OF_TASK_DELETION;
 			task.left = rule.getLeft();
-			task.right = new PatternGraphLhs(rule.getLeft().getNameOfGraph(), 0); // empty graph
+			task.right = new PatternGraphRhsFromLhs(new PatternGraphLhs(rule.getLeft().getNameOfGraph(), 0)); // empty graph
 			task.right.setDirectlyNestingLHSGraph(task.left);
 			task.parameters = rule.getParameters();
 			task.evals = emptyEvals;
@@ -433,9 +435,9 @@ public class ModifyGen extends CSharpBase
 
 		boolean useAddedElementNames = be.system.mayFireDebugEvents()
 				&& (task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_CREATION
-						|| (task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY && task.left != task.right));
+						|| (task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY && !(task.right instanceof PatternGraphRhsFromLhs)));
 		boolean createAddedElementNames = task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_CREATION ||
-				(task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY && task.left != task.right);
+				(task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY && !(task.right instanceof PatternGraphRhsFromLhs));
 		String prefix = (task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_CREATION ? "create_" : "")
 				+ pathPrefix + task.left.getNameOfGraph() + "_";
 
@@ -1003,7 +1005,7 @@ public class ModifyGen extends CSharpBase
 		}
 	}
 
-	private void genYieldedElements(SourceBuilder sb, ModifyGenerationStateConst state, PatternGraphLhs right)
+	private void genYieldedElements(SourceBuilder sb, ModifyGenerationStateConst state, PatternGraphRhs right)
 	{
 		for(Node node : state.yieldedNodes()) {
 			if(right.getReplParameters().contains(node))
@@ -1096,7 +1098,7 @@ public class ModifyGen extends CSharpBase
 	}
 
 	private static void genDelNodes(SourceBuilder sb, ModifyGenerationStateConst state,
-			HashSet<Node> nodesNeededAsElements, PatternGraphLhs right)
+			HashSet<Node> nodesNeededAsElements, PatternGraphRhs right)
 	{
 		for(Node node : state.delNodes()) {
 			nodesNeededAsElements.add(node);
@@ -1113,7 +1115,7 @@ public class ModifyGen extends CSharpBase
 	}
 
 	private static void genDelEdges(SourceBuilder sb, ModifyGenerationStateConst state,
-			HashSet<Edge> edgesNeededAsElements, PatternGraphLhs right)
+			HashSet<Edge> edgesNeededAsElements, PatternGraphRhs right)
 	{
 		for(Edge edge : state.delEdges()) {
 			edgesNeededAsElements.add(edge);
@@ -1283,7 +1285,7 @@ public class ModifyGen extends CSharpBase
 
 	private static void genAlternativeModificationCalls(SourceBuilder sb, ModifyGenerationTask task, String pathPrefix)
 	{
-		if(task.right == task.left) { // test needs top-level-modify due to interface, but not more
+		if(task.right instanceof PatternGraphRhsFromLhs) { // test needs top-level-modify due to interface, but not more
 			return;
 		}
 
@@ -1325,7 +1327,7 @@ public class ModifyGen extends CSharpBase
 
 	private static void genIteratedModificationCalls(SourceBuilder sb, ModifyGenerationTask task, String pathPrefix)
 	{
-		if(task.right == task.left) { // test needs top-level-modify due to interface, but not more
+		if(task.right instanceof PatternGraphRhsFromLhs) { // test needs top-level-modify due to interface, but not more
 			return;
 		}
 
@@ -1368,7 +1370,7 @@ public class ModifyGen extends CSharpBase
 			HashSet<Node> nodesNeededAsElements, HashSet<Variable> neededVariables,
 			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes)
 	{
-		if(task.right == task.left) { // test needs top-level-modify due to interface, but not more
+		if(task.right instanceof PatternGraphRhsFromLhs) { // test needs top-level-modify due to interface, but not more
 			return;
 		}
 

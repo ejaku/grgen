@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**
@@ -39,7 +39,7 @@ public class Entity extends Identifiable
 	protected boolean isDefToBeYieldedTo = false;
 
 	/** Only in case of isDefToBeYieldedTo: gives the pattern graph in which the entity is to be deleted (can't use LHS\RHS for deciding this)*/
-	protected PatternGraphLhs patternGraphDefYieldedIsToBeDeleted = null; // todo: DELETE=LHS\RHS does not work any more due to nesting and def entities, switch to delete annotations in AST, IR
+	protected PatternGraphRhs patternGraphDefYieldedIsToBeDeleted = null; // todo: DELETE=LHS\RHS does not work any more due to nesting and def entities, switch to delete annotations in AST, IR
 
 	/** Context of the declaration */
 	public int context;
@@ -128,14 +128,14 @@ public class Entity extends Identifiable
 		return context;
 	}
 
-	public void setPatternGraphDefYieldedIsToBeDeleted(PatternGraphLhs graph)
+	public void setPatternGraphDefYieldedIsToBeDeleted(PatternGraphRhs graph)
 	{
 		assert isDefToBeYieldedTo;
 		patternGraphDefYieldedIsToBeDeleted = graph;
 	}
 
 	/** @return the pattern graph this defined entity to be yielded to is to be deleted, else null; null if not isDefToBeYieldedTo*/
-	public PatternGraphLhs patternGraphDefYieldedIsToBeDeleted()
+	public PatternGraphRhs patternGraphDefYieldedIsToBeDeleted()
 	{
 		return patternGraphDefYieldedIsToBeDeleted;
 	}

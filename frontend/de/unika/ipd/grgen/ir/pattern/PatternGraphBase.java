@@ -114,14 +114,14 @@ public abstract class PatternGraphBase extends IR
 	}
 
 	/** Map that maps a node to an internal node. */
-	private final Map<Node, PatternGraphBase.GraphNode> nodes = new LinkedHashMap<Node, PatternGraphBase.GraphNode>();
+	protected Map<Node, PatternGraphBase.GraphNode> nodes = new LinkedHashMap<Node, PatternGraphBase.GraphNode>();
 
 	/** Map that maps an edge to an internal edge. */
-	private final Map<Edge, PatternGraphBase.GraphEdge> edges = new LinkedHashMap<Edge, PatternGraphBase.GraphEdge>();
+	protected Map<Edge, PatternGraphBase.GraphEdge> edges = new LinkedHashMap<Edge, PatternGraphBase.GraphEdge>();
 
-	private Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
+	protected Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
-	private List<OrderedReplacements> orderedReplacements = new LinkedList<OrderedReplacements>();
+	protected List<OrderedReplacements> orderedReplacements = new LinkedList<OrderedReplacements>();
 
 	PatternGraphLhs directlyNestingLHSGraph; // either this or the left graph
 
@@ -134,6 +134,16 @@ public abstract class PatternGraphBase extends IR
 		this.nameOfGraph = nameOfGraph;
 	}
 
+	// TODO own constructor? final nodes/edges
+	protected void init(Map<Node, PatternGraphBase.GraphNode> nodes, Map<Edge, PatternGraphBase.GraphEdge> edges,
+			Set<SubpatternUsage> subpatternUsages, List<OrderedReplacements> orderedReplacements)
+	{
+		this.nodes = nodes;
+		this.edges = edges;
+		this.subpatternUsages = subpatternUsages;
+		this.orderedReplacements = orderedReplacements;
+	}
+	
 	public void setDirectlyNestingLHSGraph(PatternGraphLhs directlyNestingLHSGraph)
 	{
 		// This is for setting the directlyNestingLHSGraph for a retyped node when it gets added

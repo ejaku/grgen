@@ -180,7 +180,7 @@ public class VarDeclNode extends DeclNode
 		}
 
 		Variable var = new Variable("Var", getIdentNode().getIdent(), type.getType(), defEntityToBeYieldedTo,
-				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getGraph() : null, context);
+				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getPatternGraph() : null, context);
 
 		setIR(var);
 

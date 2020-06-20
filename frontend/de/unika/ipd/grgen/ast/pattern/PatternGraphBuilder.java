@@ -31,6 +31,7 @@ import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
 import de.unika.ipd.grgen.ir.pattern.RetypedNode;
 import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
@@ -373,7 +374,7 @@ public class PatternGraphBuilder
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	public static void addSubpatternReplacementUsageArguments(PatternGraphLhs gr, OrderedReplacementsNode ors)
+	public static void addSubpatternReplacementUsageArguments(PatternGraphRhs gr, OrderedReplacementsNode ors)
 	{
 		for(OrderedReplacementNode orderedReplNode : ors.getChildren()) {
 			if(!(orderedReplNode instanceof SubpatternReplNode)) // only arguments of subpattern repl node (appearing before ---) are inserted to RHS pattern
@@ -387,7 +388,7 @@ public class PatternGraphBuilder
 		}
 	}
 
-	private static void addSubpatternReplacementUsageArgument(PatternGraphLhs gr, Expression expr)
+	private static void addSubpatternReplacementUsageArgument(PatternGraphRhs gr, Expression expr)
 	{
 		if(expr instanceof GraphEntityExpression) {
 			GraphEntity connection = ((GraphEntityExpression)expr).getGraphEntity();
@@ -409,7 +410,7 @@ public class PatternGraphBuilder
 		}
 	}
 
-	public static void addElementsUsedInDeferredExec(PatternGraphLhs gr, ImperativeStmt impStmt)
+	public static void addElementsUsedInDeferredExec(PatternGraphRhs gr, ImperativeStmt impStmt)
 	{
 		if(impStmt instanceof Exec) {
 			Set<Entity> neededEntities = ((Exec)impStmt).getNeededEntities(false);

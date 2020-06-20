@@ -42,6 +42,7 @@ import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.util.Pair;
 
@@ -833,7 +834,7 @@ edgeAbstrLoop:
 		addParams(constructedRule);
 
 		// add replacement parameters to the IR
-		PatternGraphLhs rightPattern = null;
+		PatternGraphRhs rightPattern = null;
 		if(right != null) {
 			rightPattern = right.getPatternGraph(pattern.getPatternGraph());
 		} else {

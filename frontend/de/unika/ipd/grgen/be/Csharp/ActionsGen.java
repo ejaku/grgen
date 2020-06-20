@@ -53,6 +53,7 @@ import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
 import de.unika.ipd.grgen.ir.pattern.NameLookup;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
 import de.unika.ipd.grgen.ir.pattern.RetypedNode;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
@@ -1762,7 +1763,7 @@ public class ActionsGen extends CSharpBase
 		}
 	}
 
-	private void genLocalContainersInitializations(SourceBuilder sb, PatternGraphLhs rhsPattern,
+	private void genLocalContainersInitializations(SourceBuilder sb, PatternGraphRhs rhsPattern,
 			PatternGraphLhs directlyNestingLHSPattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{

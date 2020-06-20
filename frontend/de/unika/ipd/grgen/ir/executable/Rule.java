@@ -35,6 +35,7 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
 import de.unika.ipd.grgen.ir.pattern.RetypedNode;
 import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
@@ -57,7 +58,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	private String packageContainedIn;
 
 	/** The right hand side of the rule. */
-	private PatternGraphLhs right;
+	private PatternGraphRhs right;
 
 	/** The match classes that get implemented */
 	private final List<DefinedMatchType> implementedMatchClasses = new LinkedList<DefinedMatchType>();
@@ -105,7 +106,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	 * @param pattern The left side graph of the rule.
 	 * @param right The right side graph of the rule.
 	 */
-	public void initialize(PatternGraphLhs pattern, PatternGraphLhs right)
+	public void initialize(PatternGraphLhs pattern, PatternGraphRhs right)
 	{
 		super.setPattern(pattern);
 		this.right = right;
@@ -177,7 +178,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	}
 
 	/** @return The right hand side graph. */
-	public PatternGraphLhs getRight()
+	public PatternGraphRhs getRight()
 	{
 		return right;
 	}

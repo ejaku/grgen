@@ -13,7 +13,6 @@
 
 package de.unika.ipd.grgen.ir.pattern;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,7 +28,6 @@ import de.unika.ipd.grgen.ir.expr.Constant;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
 import de.unika.ipd.grgen.ast.pattern.PatternGraphNode;
 
@@ -84,12 +82,6 @@ public class PatternGraphLhs extends PatternGraphBase
 	 *  to the isomorphy exceptions, requested by independent(edge); */
 	private final HashMap<Edge, HashSet<Edge>> totallyHomEdges = new HashMap<Edge, HashSet<Edge>>();
 
-	/** A set of the graph elements clearly deleted (in contrast to not mentioned ones) 
-	 * This means explicitly deleted, or for edges deleted because their source/target node is explicitly deleted*/
-	private final HashSet<GraphEntity> deletedElements = new HashSet<GraphEntity>();
-
-	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
-
 	/** modifiers of pattern as defined in PatternGraphNode, only pattern locked, pattern path locked relevant */
 	int modifiers;
 
@@ -97,9 +89,6 @@ public class PatternGraphLhs extends PatternGraphBase
 	final int PATTERN_MAYBE_EMPTY = 1;
 	final int PATTERN_NOT_EMPTY = 2;
 	int mayPatternBeEmptyComputationState = PATTERN_NOT_YET_VISITED;
-
-	/** A list of the replacement parameters */
-	private final List<Entity> replParams = new LinkedList<Entity>();
 
 	// if this pattern graph is a negative or independent nested inside an iterated
 	// it might break the iterated instead of only the current iterated case, if specified
@@ -110,16 +99,6 @@ public class PatternGraphLhs extends PatternGraphBase
 	{
 		super(nameOfGraph);
 		this.modifiers = modifiers;
-	}
-
-	public void addImperativeStmt(ImperativeStmt emit)
-	{
-		imperativeStmts.add(emit);
-	}
-
-	public List<ImperativeStmt> getImperativeStmts()
-	{
-		return imperativeStmts;
 	}
 
 	public void addVariable(Variable var)
@@ -243,33 +222,6 @@ public class PatternGraphLhs extends PatternGraphBase
 	public void addTotallyHomomorphic(Edge edge, HashSet<Edge> isoEdges)
 	{
 		totallyHomEdges.put(edge, isoEdges);
-	}
-
-	public void addDeletedElement(GraphEntity entity)
-	{
-		deletedElements.add(entity);
-	}
-
-	public HashSet<GraphEntity> getDeletedElements()
-	{
-		return deletedElements;
-	}
-
-	/** Add a replacement parameter to the rule. */
-	public void addReplParameter(Entity entity)
-	{
-		replParams.add(entity);
-	}
-
-	/** Get all replacement parameters of this rule (may currently contain only nodes). */
-	public List<Entity> getReplParameters()
-	{
-		return Collections.unmodifiableList(replParams);
-	}
-
-	public boolean replParametersContain(Entity entity)
-	{
-		return replParams.contains(entity);
 	}
 
 	public void setIterationBreaking(boolean value)
@@ -469,7 +421,7 @@ public class PatternGraphLhs extends PatternGraphBase
 	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 			HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
 			HashSet<Variable> alreadyDefinedVariables,
-			PatternGraphLhs right)
+			PatternGraphRhs right)
 	{
 		// first local corrections, then global consistency
 		if(right != null)
@@ -544,12 +496,12 @@ public class PatternGraphLhs extends PatternGraphBase
 					if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 						addSingleNode(node);
 						addHomToAll(node);
-						PatternGraphLhs altCaseReplacement = altCase.getRight();
+						PatternGraphRhs altCaseReplacement = altCase.getRight();
 						if(altCaseReplacement != null && !altCaseReplacement.hasNode(node)) {
 							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleNode(node);
 						}
-						if(right != null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+						if(right != null && !right.hasNode(node) && !right.getDeletedElements().contains(node)) {
 							right.addSingleNode(node);
 						}
 					}
@@ -558,12 +510,12 @@ public class PatternGraphLhs extends PatternGraphBase
 					if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 						addSingleEdge(edge);
 						addHomToAll(edge);
-						PatternGraphLhs altCaseReplacement = altCase.getRight();
+						PatternGraphRhs altCaseReplacement = altCase.getRight();
 						if(altCaseReplacement != null && !altCaseReplacement.hasEdge(edge)) {
 							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleEdge(edge);
 						}
-						if(right != null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+						if(right != null && !right.hasEdge(edge) && !right.getDeletedElements().contains(edge)) {
 							right.addSingleEdge(edge);
 						}
 					}
@@ -616,12 +568,12 @@ public class PatternGraphLhs extends PatternGraphBase
 				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 					addSingleNode(node);
 					addHomToAll(node);
-					PatternGraphLhs allReplacement = iterated.getRight();
+					PatternGraphRhs allReplacement = iterated.getRight();
 					if(allReplacement != null && !allReplacement.hasNode(node)) {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleNode(node);
 					}
-					if(right != null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+					if(right != null && !right.hasNode(node) && !right.getDeletedElements().contains(node)) {
 						right.addSingleNode(node);
 					}
 				}
@@ -630,12 +582,12 @@ public class PatternGraphLhs extends PatternGraphBase
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge);
 					addHomToAll(edge);
-					PatternGraphLhs allReplacement = iterated.getRight();
+					PatternGraphRhs allReplacement = iterated.getRight();
 					if(allReplacement != null && !allReplacement.hasEdge(edge)) {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleEdge(edge);
 					}
-					if(right != null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+					if(right != null && !right.hasEdge(edge) && !right.getDeletedElements().contains(edge)) {
 						right.addSingleEdge(edge);
 					}
 				}
@@ -686,7 +638,7 @@ public class PatternGraphLhs extends PatternGraphBase
 				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 					addSingleNode(node);
 					addHomToAll(node);
-					if(right != null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+					if(right != null && !right.hasNode(node) && !right.getDeletedElements().contains(node)) {
 						right.addSingleNode(node);
 					}
 				}
@@ -695,7 +647,7 @@ public class PatternGraphLhs extends PatternGraphBase
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge);
 					addHomToAll(edge);
-					if(right != null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+					if(right != null && !right.hasEdge(edge) && !right.getDeletedElements().contains(edge)) {
 						right.addSingleEdge(edge);
 					}
 				}
@@ -714,7 +666,7 @@ public class PatternGraphLhs extends PatternGraphBase
 				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 					addSingleNode(node);
 					addHomToAll(node);
-					if(right != null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+					if(right != null && !right.hasNode(node) && !right.getDeletedElements().contains(node)) {
 						right.addSingleNode(node);
 					}
 				}
@@ -723,7 +675,7 @@ public class PatternGraphLhs extends PatternGraphBase
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge);
 					addHomToAll(edge);
-					if(right != null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+					if(right != null && !right.hasEdge(edge) && !right.getDeletedElements().contains(edge)) {
 						right.addSingleEdge(edge);
 					}
 				}
@@ -737,7 +689,7 @@ public class PatternGraphLhs extends PatternGraphBase
 	}
 
 	// construct implicit rhs replace parameters
-	public void insertElementsFromRhsDeclaredInNestingRhsToReplParams(PatternGraphLhs right)
+	public void insertElementsFromRhsDeclaredInNestingRhsToReplParams(PatternGraphRhs right)
 	{
 		if(right == null) {
 			return;
@@ -781,7 +733,7 @@ public class PatternGraphLhs extends PatternGraphBase
 		checkThatEvalhereIsNotAccessingCreatedEdges(right);
 	}
 
-	public static void checkThatEvalhereIsNotAccessingCreatedEdges(PatternGraphLhs right)
+	public static void checkThatEvalhereIsNotAccessingCreatedEdges(PatternGraphRhs right)
 	{
 		if(right == null) {
 			return;
@@ -814,7 +766,7 @@ public class PatternGraphLhs extends PatternGraphBase
 	}
 
 	// constructs implicit lhs elements
-	public void insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(PatternGraphLhs right)
+	public void insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(PatternGraphRhs right)
 	{
 		if(right == null) {
 			return;
@@ -1057,7 +1009,7 @@ edgeHom:
 	}
 
 	public void checkForMultipleRetypes(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
-			PatternGraphLhs right)
+			PatternGraphRhs right)
 	{
 		for(Node node : getNodes()) {
 			alreadyDefinedNodes.add(node);
@@ -1091,7 +1043,7 @@ edgeHom:
 	}
 
 	public void checkForMultipleRetypesDoCheck(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
-			PatternGraphLhs right)
+			PatternGraphRhs right)
 	{
 		for(Node node : right.getNodes()) {
 			if(node.getRetypedNode(right) == null)

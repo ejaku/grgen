@@ -41,6 +41,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
@@ -538,7 +539,7 @@ public class RuleDeclNode extends TestDeclNode
 			left.addVariable(var.checkIR(Variable.class));
 		}
 
-		PatternGraphLhs right = this.right.getPatternGraph(left);
+		PatternGraphRhs right = this.right.getPatternGraph(left);
 
 		rule.initialize(left, right);
 

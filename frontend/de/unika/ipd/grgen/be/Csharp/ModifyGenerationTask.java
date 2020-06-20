@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 class ModifyGenerationTask
@@ -31,7 +32,7 @@ class ModifyGenerationTask
 
 	int typeOfTask;
 	PatternGraphLhs left;
-	PatternGraphLhs right;
+	PatternGraphRhs right;
 	List<Entity> parameters;
 	Collection<EvalStatements> evals;
 	List<Entity> replParameters;

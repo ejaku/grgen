@@ -235,7 +235,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		IdentNode ident = getIdentNode();
 
 		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations(),
-				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getGraph() : null,
+				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getPatternGraph() : null,
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
 		edge.setConstraints(getConstraints());
 

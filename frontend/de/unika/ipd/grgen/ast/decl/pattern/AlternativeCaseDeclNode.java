@@ -24,6 +24,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 /**
@@ -164,7 +165,7 @@ public class AlternativeCaseDeclNode extends ActionDeclNode
 
 		PatternGraphLhs left = pattern.getPatternGraph();
 
-		PatternGraphLhs rightPattern = null;
+		PatternGraphRhs rightPattern = null;
 		if(right != null) {
 			rightPattern = right.getPatternGraph(left);
 		}
