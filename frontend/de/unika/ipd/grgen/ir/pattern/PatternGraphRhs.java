@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 
 /**
  * A pattern graph rhs is a graph pattern as it occurs on the right hand side of rules.
- * It extends the graph base class, additionally offering explicitly deleted information, 
+ * It extends the pattern graph base class, additionally offering explicitly deleted information, 
  * ordered replacements (eval statements), rhs imperative statements, and further things.
  */
 public class PatternGraphRhs extends PatternGraphBase
@@ -43,7 +43,7 @@ public class PatternGraphRhs extends PatternGraphBase
 		super(nameOfGraph);
 	}
 
-	/** Make a new graph with preset nodes, edges, subpatternUsages (copy from another pattern graph). */
+	/** Make a new pattern graph with preset nodes, edges, subpatternUsages (copy from another pattern graph). */
 	public PatternGraphRhs(String nameOfGraph,
 			Map<Node, PatternGraphBase.GraphNode> nodes,
 			Map<Edge, PatternGraphBase.GraphEdge> edges,
@@ -90,7 +90,7 @@ public class PatternGraphRhs extends PatternGraphBase
 		return Collections.unmodifiableCollection(orderedReplacements);
 	}
 
-	/** Add a ordered replacement (subpattern dependent replacement, emit here) to the graph */
+	/** Add a ordered replacement (subpattern dependent replacement, emit here) to the pattern graph */
 	public void addOrderedReplacement(OrderedReplacements orderedRepl)
 	{
 		orderedReplacements.add(orderedRepl);

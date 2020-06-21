@@ -56,11 +56,11 @@ public class ModifyDeclNode extends RhsDeclNode
 	/**
 	 * Make a new modify right-hand side.
 	 * @param id The identifier of this RHS.
-	 * @param graph The right hand side graph.
+	 * @param patternGraph The right hand side graph.
 	 */
-	public ModifyDeclNode(IdentNode id, PatternGraphRhsNode graph, CollectNode<IdentNode> deletes)
+	public ModifyDeclNode(IdentNode id, PatternGraphRhsNode patternGraph, CollectNode<IdentNode> deletes)
 	{
-		super(id, graph);
+		super(id, patternGraph);
 		this.deletesUnresolved = deletes;
 		becomeParent(this.deletesUnresolved);
 	}
@@ -72,7 +72,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(graph);
+		children.add(patternGraph);
 		children.add(getValidVersion(deletesUnresolved, deletes));
 		return children;
 	}
@@ -136,7 +136,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	@Override
 	public PatternGraphRhs getPatternGraph(PatternGraphLhs left)
 	{
-		PatternGraphRhs right = graph.getGraph();
+		PatternGraphRhs right = patternGraph.getGraph();
 
 		Set<Entity> elementsToDelete = insertElementsToDeleteToLhsIfNotFromLhs(left, right);
 
@@ -280,7 +280,7 @@ public class ModifyDeclNode extends RhsDeclNode
 			if(elementsToDelete.contains(connection.getSrc()) || elementsToDelete.contains(connection.getTgt()))
 				elementsToDelete.add(connection.getEdge());
 		}
-		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
+		for(ConnectionCharacter connectionCharacter : patternGraph.getConnections()) {
 			if(!(connectionCharacter instanceof ConnectionNode))
 				continue;
 			
@@ -298,7 +298,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		Set<ConnectionNode> connectionsToReuse = new LinkedHashSet<ConnectionNode>();
 
 		Set<EdgeDeclNode> lhsEdges = pattern.getEdges();
-		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
+		for(ConnectionCharacter connectionCharacter : patternGraph.getConnections()) {
 			if(!(connectionCharacter instanceof ConnectionNode))
 				continue;
 
@@ -340,7 +340,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		LinkedHashSet<NodeDeclNode> nodesToReuse = new LinkedHashSet<NodeDeclNode>();
 		
 		Set<NodeDeclNode> lhsNodes = pattern.getNodes();
-		Set<NodeDeclNode> rhsNodes = graph.getNodes();
+		Set<NodeDeclNode> rhsNodes = patternGraph.getNodes();
 		for(NodeDeclNode lhsNode : lhsNodes) {
 			if(rhsNodes.contains(lhsNode) || !deletes.getChildren().contains(lhsNode))
 				nodesToReuse.add(lhsNode);
@@ -354,7 +354,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		Set<ConstraintDeclNode> elementsToDelete = getElementsToDelete(pattern);
 
 		Set<ConstraintDeclNode> alreadyReported = new HashSet<ConstraintDeclNode>();
-		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
+		for(ConnectionCharacter connectionCharacter : patternGraph.getConnections()) {
 			ConstraintDeclNode element = null;
 			if(connectionCharacter instanceof SingleNodeConnNode) {
 				SingleNodeConnNode singleNodeConnection = (SingleNodeConnNode)connectionCharacter;

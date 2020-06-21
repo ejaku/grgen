@@ -180,7 +180,7 @@ public class ExecNode extends BaseNode
 
 	/**
 	 * Registers an identifier usage which might denote
-	 * a) the use of a declared graph element (node/edge)
+	 * a) the use of a declared pattern graph element (node/edge)
 	 * b) the use of a graph-global or sequence-local variable
 	 * c) the implicit declaration of a graph-global variable at the first occurance
 	 * which appears outside of a call (i.e. is not a rule call (input) parameter)

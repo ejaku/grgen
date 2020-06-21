@@ -32,9 +32,9 @@ public class NeededEntities
 	 * @param collectVars Specifies, whether needed variables shall be collected.
 	 * @param collectAllEntities Specifies, whether all needed entities
 	 *      (nodes, edges, vars) shall be collected.
-	 * @param collectAllAttributes Specifies, whether all graph entities needed for attributes
+	 * @param collectAllAttributes Specifies, whether all pattern graph entities needed for attributes
 	 *      and the according attributes shall be collected. If this is true,
-	 *      the graph entities used to access the attributes will not be
+	 *      the pattern graph entities used to access the attributes will not be
 	 *      automatically added to the nodes, edges, and entities sets, but only
 	 *      in the attrNodes and attrEdges sets.
 	 * @param collectContainerExprs Specifies, whether map, set, array, deque expressions shall be collected.
@@ -100,7 +100,7 @@ public class NeededEntities
 	public HashSet<Entity> members;
 
 	/**
-	 * The graph entities needed for attributes mapped to the according attributes.
+	 * The pattern graph entities needed for attributes mapped to the according attributes.
 	 */
 	public HashMap<GraphEntity, HashSet<Entity>> attrEntityMap;
 

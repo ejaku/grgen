@@ -41,20 +41,20 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 
 /**
- * Builder class that adds elements from an AST (pattern) graph to an IR pattern graph
+ * Builder class that adds elements from an AST pattern graph to an IR pattern graph
  */
 public class PatternGraphBuilder
 {
 	public static void addElementsHiddenInUsedConstructs(PatternGraphLhsNode patternGraphNode, PatternGraphLhs patternGraph)
 	{
 		// add subpattern usage connection elements only mentioned there to the IR
-		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
+		// (they're declared in an enclosing pattern graph and locally only show up in the subpattern usage connection)
 		for(SubpatternUsageDeclNode subpatternUsageNode : patternGraphNode.subpatterns.getChildren()) {
 			addSubpatternUsageArgument(patternGraph, subpatternUsageNode);
 		}
 
 		// add subpattern usage yield elements only mentioned there to the IR
-		// (they're declared in an enclosing graph and locally only show up in the subpattern usage yield)
+		// (they're declared in an enclosing pattern graph and locally only show up in the subpattern usage yield)
 		for(SubpatternUsageDeclNode subpatternUsageNode : patternGraphNode.subpatterns.getChildren()) {
 			addSubpatternUsageYieldArgument(patternGraph, subpatternUsageNode);
 		}
@@ -68,7 +68,7 @@ public class PatternGraphBuilder
 		}
 
 		// add Condition elements only mentioned there to the IR
-		// (they're declared in an enclosing graph and locally only show up in the condition)
+		// (they're declared in an enclosing pattern graph and locally only show up in the condition)
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
 		for(Expression condition : patternGraph.getConditions()) {
 			condition.collectNeededEntities(needs);
@@ -76,7 +76,7 @@ public class PatternGraphBuilder
 		addNeededEntities(patternGraph, needs);
 
 		// add Yielded elements only mentioned there to the IR
-		// (they're declared in an enclosing graph and locally only show up in the yield)
+		// (they're declared in an enclosing pattern graph and locally only show up in the yield)
 		needs = new NeededEntities(true, true, true, false, false, true, false, false);
 		for(EvalStatements yield : patternGraph.getYields()) {
 			yield.collectNeededEntities(needs);
@@ -84,13 +84,13 @@ public class PatternGraphBuilder
 		addNeededEntities(patternGraph, needs);
 
 		// add elements only mentioned in hom-declaration to the IR
-		// (they're declared in an enclosing graph and locally only show up in the hom-declaration)
+		// (they're declared in an enclosing pattern graph and locally only show up in the hom-declaration)
 		for(Collection<? extends GraphEntity> homEntities : patternGraph.getHomomorphic()) {
 			addHomElements(patternGraph, homEntities);
 		}
 
 		// add elements only mentioned in "map by / draw from storage" entities to the IR
-		// (they're declared in an enclosing graph and locally only show up in the "map by / draw from storage" node)
+		// (they're declared in an enclosing pattern graph and locally only show up in the "map by / draw from storage" node)
 		for(Node node : patternGraph.getNodes()) {
 			addElementsFromStorageAccess(patternGraph, node);
 		}
@@ -114,7 +114,7 @@ public class PatternGraphBuilder
 		}
 
 		// add index access elements only mentioned there to the IR
-		// (they're declared in an enclosing graph and locally only show up in the index access)
+		// (they're declared in an enclosing pattern graph and locally only show up in the index access)
 		needs = new NeededEntities(true, true, true, false, false, true, false, false);
 		for(Node node : patternGraph.getNodes()) {
 			if(node.indexAccess != null) {
@@ -130,10 +130,10 @@ public class PatternGraphBuilder
 	}
 
 	/**
-	 * Generates a type condition if the given graph entity inherits its type
+	 * Generates a type condition if the given pattern graph entity inherits its type
 	 * from another element via a typeof expression (dynamic type checks).
 	 */
-	public static void genTypeConditionsFromTypeof(PatternGraphLhs gr, GraphEntity elem)
+	public static void genTypeConditionsFromTypeof(PatternGraphLhs patternGraph, GraphEntity elem)
 	{
 		if(elem.inheritsType()) {
 			assert !elem.isCopy(); // must extend this function and lgsp nodes if left hand side copy/copyof are wanted
@@ -146,7 +146,7 @@ public class PatternGraphBuilder
 			op.addOperand(e1);
 			op.addOperand(e2);
 
-			gr.addCondition(op);
+			patternGraph.addCondition(op);
 		}
 	}
 
@@ -374,7 +374,7 @@ public class PatternGraphBuilder
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	public static void addSubpatternReplacementUsageArguments(PatternGraphRhs gr, OrderedReplacementsNode ors)
+	public static void addSubpatternReplacementUsageArguments(PatternGraphRhs patternGraph, OrderedReplacementsNode ors)
 	{
 		for(OrderedReplacementNode orderedReplNode : ors.getChildren()) {
 			if(!(orderedReplNode instanceof SubpatternReplNode)) // only arguments of subpattern repl node (appearing before ---) are inserted to RHS pattern
@@ -383,19 +383,19 @@ public class PatternGraphBuilder
 			SubpatternDependentReplacement subpatternDepRepl = subpatternReplNode.checkIR(SubpatternDependentReplacement.class); 
 			List<Expression> connections = subpatternDepRepl.getReplConnections();
 			for(Expression expr : connections) {
-				addSubpatternReplacementUsageArgument(gr, expr);
+				addSubpatternReplacementUsageArgument(patternGraph, expr);
 			}
 		}
 	}
 
-	private static void addSubpatternReplacementUsageArgument(PatternGraphRhs gr, Expression expr)
+	private static void addSubpatternReplacementUsageArgument(PatternGraphRhs patternGraph, Expression expr)
 	{
 		if(expr instanceof GraphEntityExpression) {
 			GraphEntity connection = ((GraphEntityExpression)expr).getGraphEntity();
 			if(connection instanceof Node) {
-				gr.addNodeIfNotYetContained((Node)connection);
+				patternGraph.addNodeIfNotYetContained((Node)connection);
 			} else if(connection instanceof Edge) {
-				gr.addEdgeIfNotYetContained((Edge)connection);
+				patternGraph.addEdgeIfNotYetContained((Edge)connection);
 			} else {
 				assert(false);
 			}
@@ -403,25 +403,25 @@ public class PatternGraphBuilder
 			NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
 			expr.collectNeededEntities(needs);
 			for(Variable neededVariable : needs.variables) {
-				if(!gr.hasVar(neededVariable)) {
-					gr.addVariable(neededVariable);
+				if(!patternGraph.hasVar(neededVariable)) {
+					patternGraph.addVariable(neededVariable);
 				}
 			}
 		}
 	}
 
-	public static void addElementsUsedInDeferredExec(PatternGraphRhs gr, ImperativeStmt impStmt)
+	public static void addElementsUsedInDeferredExec(PatternGraphRhs patternGraph, ImperativeStmt impStmt)
 	{
 		if(impStmt instanceof Exec) {
 			Set<Entity> neededEntities = ((Exec)impStmt).getNeededEntities(false);
 			for(Entity entity : neededEntities) {
 				if(entity instanceof Node) {
-					gr.addNodeIfNotYetContained((Node)entity);
+					patternGraph.addNodeIfNotYetContained((Node)entity);
 				} else if(entity instanceof Edge) {
-					gr.addEdgeIfNotYetContained((Edge)entity);
+					patternGraph.addEdgeIfNotYetContained((Edge)entity);
 				} else {
-					if(!gr.hasVar((Variable)entity)) {
-						gr.addVariable((Variable)entity);
+					if(!patternGraph.hasVar((Variable)entity)) {
+						patternGraph.addVariable((Variable)entity);
 					}
 				}
 			}

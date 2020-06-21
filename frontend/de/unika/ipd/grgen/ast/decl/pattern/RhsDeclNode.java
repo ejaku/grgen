@@ -50,7 +50,7 @@ public abstract class RhsDeclNode extends DeclNode
 		setName(RhsDeclNode.class, "right-hand side declaration");
 	}
 
-	public PatternGraphRhsNode graph;
+	public PatternGraphRhsNode patternGraph;
 	protected RhsTypeNode type;
 
 	/** Type for this declaration. */
@@ -65,13 +65,13 @@ public abstract class RhsDeclNode extends DeclNode
 	/**
 	 * Make a new right-hand side.
 	 * @param id The identifier of this RHS.
-	 * @param graph The right hand side graph.
+	 * @param patternGraph The right hand side graph.
 	 */
-	protected RhsDeclNode(IdentNode id, PatternGraphRhsNode graph)
+	protected RhsDeclNode(IdentNode id, PatternGraphRhsNode patternGraph)
 	{
 		super(id, rhsType);
-		this.graph = graph;
-		becomeParent(this.graph);
+		this.patternGraph = patternGraph;
+		becomeParent(this.patternGraph);
 	}
 
 	/** returns children of this node */
@@ -81,7 +81,7 @@ public abstract class RhsDeclNode extends DeclNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(graph);
+		children.add(patternGraph);
 		return children;
 	}
 
@@ -98,7 +98,7 @@ public abstract class RhsDeclNode extends DeclNode
 
 	public PatternGraphRhsNode getRhsGraph()
 	{
-		return graph;
+		return patternGraph;
 	}
 
 	public Set<ConstraintDeclNode> getMaybeDeletedElements(PatternGraphLhsNode pattern)
@@ -195,7 +195,7 @@ public abstract class RhsDeclNode extends DeclNode
 	{
 		boolean res = true;
 
-		for(DeclNode replParam : graph.getParamDecls()) {
+		for(DeclNode replParam : patternGraph.getParamDecls()) {
 			if(replParam instanceof EdgeDeclNode) {
 				replParam.reportError("edges not supported as replacement parameters: " + replParam.ident.toString());
 				res = false;
@@ -235,7 +235,7 @@ public abstract class RhsDeclNode extends DeclNode
 		// will add them to the left hand side, too
 
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false);
-		Collection<EvalStatements> evalStatements = graph.getEvalStatements();
+		Collection<EvalStatements> evalStatements = patternGraph.getEvalStatements();
 		for(EvalStatements evalStatement : evalStatements) {
 			evalStatement.collectNeededEntities(needs);
 		}
@@ -277,7 +277,7 @@ public abstract class RhsDeclNode extends DeclNode
 		// will add them to the left hand side, too
 
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false);
-		Collection<OrderedReplacements> evalStatements = graph.getOrderedReplacements();
+		Collection<OrderedReplacements> evalStatements = patternGraph.getOrderedReplacements();
 		for(OrderedReplacements evalStatement : evalStatements) {
 			for(OrderedReplacement orderedReplacement : evalStatement.orderedReplacements) {
 				if(orderedReplacement instanceof EvalStatement)

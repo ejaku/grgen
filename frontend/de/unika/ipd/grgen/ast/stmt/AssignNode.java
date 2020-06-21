@@ -184,7 +184,7 @@ public class AssignNode extends EvalStatementNode
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION
 				&& !lhsQual.isMatchAssignment()) {
-			reportError("assignment to attribute of graph element not allowed in function or lhs context");
+			reportError("assignment to an attribute of a graph element is not allowed in function or lhs context");
 			return false;
 		}
 
@@ -201,7 +201,7 @@ public class AssignNode extends EvalStatementNode
 			InheritanceTypeNode inhTy = (InheritanceTypeNode)ty;
 
 			if(inhTy.isConst()) {
-				error.error(getCoords(), "assignment to a const type object not allowed");
+				error.error(getCoords(), "assignment to a const type object is not allowed");
 				return false;
 			}
 		}
@@ -225,13 +225,13 @@ public class AssignNode extends EvalStatementNode
 			IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
 			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
 				if(!identExpr.yieldedTo) {
-					error.error(getCoords(), "only yield assignment allowed to a def graph element ("
+					error.error(getCoords(), "only yield assignment allowed to a def pattern graph element ("
 							+ lhsGraphElement.getIdentNode() + ")");
 					return false;
 				}
 			} else {
 				if(identExpr.yieldedTo) {
-					error.error(getCoords(), "use non-yield assignment to a computation local def graph element ("
+					error.error(getCoords(), "use non-yield assignment in a computation of a local def pattern graph element ("
 							+ lhsGraphElement.getIdentNode() + ")");
 					return false;
 				}
@@ -240,7 +240,7 @@ public class AssignNode extends EvalStatementNode
 			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
 				if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-					error.error(getCoords(), "can't yield from RHS to a LHS def graph element ("
+					error.error(getCoords(), "can't yield from RHS to a LHS def pattern graph element ("
 							+ lhsGraphElement.getIdentNode() + ")");
 					return false;
 				}
@@ -249,11 +249,11 @@ public class AssignNode extends EvalStatementNode
 			if(lhsGraphElement.directlyNestingLHSGraph != null) {
 				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
 				if(identExpr.yieldedTo) {
-					error.error(getCoords(), "yield assignment only allowed to a def graph element ("
+					error.error(getCoords(), "yield assignment only allowed to a def pattern graph element ("
 							+ lhsGraphElement.getIdentNode() + ")");
 					return false;
 				}
-				error.error(getCoords(), "only a def graph element can be assigned to ("
+				error.error(getCoords(), "only a def pattern graph element can be assigned to ("
 						+ lhsGraphElement.getIdentNode() + ")");
 				return false;
 			}
@@ -415,7 +415,7 @@ public class AssignNode extends EvalStatementNode
 		} else if(lhsGraphElement != null) {
 			GraphEntity graphEntity = lhsGraphElement.checkIR(GraphEntity.class);
 
-			// TODO: extend optimization to assignments to graph entities
+			// TODO: extend optimization to assignments to (pattern) graph entities
 
 			return new AssignmentGraphEntity(graphEntity, rhsEvaluated.checkIR(Expression.class));
 		} else {

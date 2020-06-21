@@ -157,7 +157,7 @@ public class RuleDeclNode extends TestDeclNode
 		Set<ConstraintDeclNode> deletedElements = right.getElementsToDelete(pattern);
 		Set<ConstraintDeclNode> maybeDeletedElements = right.getMaybeDeletedElements(pattern);
 
-		for(ExprNode expr : right.graph.returns.getChildren()) {
+		for(ExprNode expr : right.patternGraph.returns.getChildren()) {
 			HashSet<ConstraintDeclNode> potentiallyResultingElements = new HashSet<ConstraintDeclNode>();
 			expr.getPotentiallyResultingElements(potentiallyResultingElements);
 			for(ConstraintDeclNode potentiallyResultingElement : potentiallyResultingElements) {
@@ -207,7 +207,7 @@ public class RuleDeclNode extends TestDeclNode
 
 		boolean valid = true;
 
-		for(ExprNode expr : right.graph.returns.getChildren()) {
+		for(ExprNode expr : right.patternGraph.returns.getChildren()) {
 			if(!(expr instanceof DeclExprNode))
 				continue;
 
@@ -333,7 +333,7 @@ public class RuleDeclNode extends TestDeclNode
 		Set<ConstraintDeclNode> delete = right.getElementsToDelete(pattern);
 		Set<ConstraintDeclNode> maybeDeleted = right.getMaybeDeletedElements(pattern);
 
-		for(BaseNode imperativeStmt : right.graph.imperativeStmts.getChildren()) {
+		for(BaseNode imperativeStmt : right.patternGraph.imperativeStmts.getChildren()) {
 			if(!(imperativeStmt instanceof EmitNode))
 				continue;
 
@@ -420,7 +420,7 @@ public class RuleDeclNode extends TestDeclNode
 		if(right != null)
 			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
 
-		PatternGraphRhsNode right = this.right.graph;
+		PatternGraphRhsNode right = this.right.patternGraph;
 
 		// check if the pattern name equals the rule name
 		// named replace/modify parts are only allowed in subpatterns
@@ -462,7 +462,7 @@ public class RuleDeclNode extends TestDeclNode
 			if(node.ident.toString().equals(ident.toString()))
 				return node;
 		}
-		for(NodeDeclNode node : right.graph.getNodes()) {
+		for(NodeDeclNode node : right.patternGraph.getNodes()) {
 			if(node.ident.toString().equals(ident.toString()))
 				return node;
 		}
@@ -475,7 +475,7 @@ public class RuleDeclNode extends TestDeclNode
 			if(edge.ident.toString().equals(ident.toString()))
 				return edge;
 		}
-		for(EdgeDeclNode edge : right.graph.getEdges()) {
+		for(EdgeDeclNode edge : right.patternGraph.getEdges()) {
 			if(edge.ident.toString().equals(ident.toString()))
 				return edge;
 		}
@@ -495,11 +495,11 @@ public class RuleDeclNode extends TestDeclNode
 			if(var.ident.toString().equals(ident.toString()))
 				return var;
 		}
-		for(VarDeclNode var : right.graph.defVariablesToBeYieldedTo.getChildren()) {
+		for(VarDeclNode var : right.patternGraph.defVariablesToBeYieldedTo.getChildren()) {
 			if(var.ident.toString().equals(ident.toString()))
 				return var;
 		}
-		for(DeclNode varCand : right.graph.getParamDecls()) {
+		for(DeclNode varCand : right.patternGraph.getParamDecls()) {
 			if(!(varCand instanceof VarDeclNode))
 				continue;
 			VarDeclNode var = (VarDeclNode)varCand;
@@ -549,7 +549,7 @@ public class RuleDeclNode extends TestDeclNode
 		}
 
 		constructImplicitNegs(left);
-		constructIRaux(rule, this.right.graph.returns);
+		constructIRaux(rule, this.right.patternGraph.returns);
 
 		// add eval statements to the IR
 		for(EvalStatements evalStatement : this.right.getRhsGraph().getEvalStatements()) {

@@ -524,7 +524,7 @@ public abstract class ActionDeclNode extends DeclNode
 		Set<ConstraintDeclNode> deletedElements = right.getElementsToDelete(pattern);
 		Set<ConstraintDeclNode> maybeDeletedElements = right.getMaybeDeletedElements(pattern);
 
-		for(BaseNode imperativeStatement : right.graph.imperativeStmts.getChildren()) {
+		for(BaseNode imperativeStatement : right.patternGraph.imperativeStmts.getChildren()) {
 			if(!(imperativeStatement instanceof ExecNode))
 				continue;
 
@@ -605,7 +605,7 @@ public abstract class ActionDeclNode extends DeclNode
 				if(altCase.right == null)
 					continue;
 
-				Vector<DeclNode> parametersInNestedAlternativeCase = altCase.right.graph.getParamDecls();
+				Vector<DeclNode> parametersInNestedAlternativeCase = altCase.right.patternGraph.getParamDecls();
 
 				if(parametersInNestedAlternativeCase.size() != 0) {
 					error.error(altCase.getCoords(),
@@ -620,7 +620,7 @@ public abstract class ActionDeclNode extends DeclNode
 			if(iter.right == null)
 				continue;
 
-			Vector<DeclNode> parametersInNestedIterated = iter.right.graph.getParamDecls();
+			Vector<DeclNode> parametersInNestedIterated = iter.right.patternGraph.getParamDecls();
 
 			if(parametersInNestedIterated.size() != 0) {
 				error.error(iter.getCoords(),
@@ -638,7 +638,7 @@ public abstract class ActionDeclNode extends DeclNode
 		boolean abstr = true;
 
 nodeAbstrLoop:
-		for(NodeDeclNode node : right.graph.getNodes()) {
+		for(NodeDeclNode node : right.patternGraph.getNodes()) {
 			if(!node.inheritsType() && node.getDeclType().isAbstract()) {
 				if((node.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
 					continue;
@@ -654,7 +654,7 @@ nodeAbstrLoop:
 		}
 
 edgeAbstrLoop:
-		for(EdgeDeclNode edge : right.graph.getEdges()) {
+		for(EdgeDeclNode edge : right.patternGraph.getEdges()) {
 			if(!edge.inheritsType() && edge.getDeclType().isAbstract()) {
 				if((edge.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
 					continue;
@@ -676,14 +676,14 @@ edgeAbstrLoop:
 	{
 		boolean abstr = true;
 
-		for(NodeDeclNode node : right.graph.getNodes()) {
+		for(NodeDeclNode node : right.patternGraph.getNodes()) {
 			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)
 					&& (node.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER) {
 				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
 				abstr = false;
 			}
 		}
-		for(EdgeDeclNode edge : right.graph.getEdges()) {
+		for(EdgeDeclNode edge : right.patternGraph.getEdges()) {
 			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)
 					&& (edge.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER) {
 				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
@@ -842,7 +842,7 @@ edgeAbstrLoop:
 		}
 
 		// add replacement parameters to the current graph
-		for(DeclNode decl : right.graph.getParamDecls()) {
+		for(DeclNode decl : right.patternGraph.getParamDecls()) {
 			if(decl instanceof NodeCharacter) {
 				rightPattern.addReplParameter(decl.checkIR(Node.class));
 				rightPattern.addSingleNode(((NodeCharacter)decl).getNode());
@@ -879,7 +879,7 @@ edgeAbstrLoop:
 	{
 		// add replacement parameters to the nested alternatives and iterateds
 		PatternGraphLhs patternGraph = constructedRule.getPattern();
-		for(DeclNode decl : right.graph.getParamDecls()) {
+		for(DeclNode decl : right.patternGraph.getParamDecls()) {
 			if(decl instanceof NodeDeclNode) {
 				addReplacementNodeParamToNestedAlternativesAndIterateds((NodeDeclNode)decl, patternGraph);
 			} else if(decl instanceof VarDeclNode) {

@@ -117,7 +117,7 @@ public class AlternativeCaseDeclNode extends ActionDeclNode
 
 		boolean noReturnInAlterntiveCaseReplacement = true;
 		if(right != null) {
-			if(right.graph.returns.size() > 0) {
+			if(right.patternGraph.returns.size() > 0) {
 				error.error(getCoords(), "No return statements in alternative cases allowed");
 				noReturnInAlterntiveCaseReplacement = false;
 			}

@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 
 /**
- * Represents a reused single graph entity.
+ * Represents a reused single (pattern) graph entity.
  *
  * This node is needed to distinguish between reused single nodes and reused
  * subpatterns.

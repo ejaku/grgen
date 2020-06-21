@@ -40,11 +40,11 @@ public class ReplaceDeclNode extends RhsDeclNode
 	/**
 	 * Make a new replace right-hand side.
 	 * @param id The identifier of this RHS.
-	 * @param graph The right hand side graph.
+	 * @param patternGraph The right hand side graph.
 	 */
-	public ReplaceDeclNode(IdentNode id, PatternGraphRhsNode graph)
+	public ReplaceDeclNode(IdentNode id, PatternGraphRhsNode patternGraph)
 	{
-		super(id, graph);
+		super(id, patternGraph);
 	}
 
 	/** returns children of this node */
@@ -54,7 +54,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(graph);
+		children.add(patternGraph);
 		return children;
 	}
 
@@ -72,7 +72,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 	@Override
 	public PatternGraphRhs getPatternGraph(PatternGraphLhs left)
 	{
-		PatternGraphRhs right = graph.getGraph();
+		PatternGraphRhs right = patternGraph.getGraph();
 		insertElementsFromEvalsIntoRhs(left, right);
 		insertElementsFromOrderedReplacementsIntoRhs(left, right);
 		insertElementsFromLeftToRightIfTheyAreFromNestingPattern(left, right);
@@ -93,7 +93,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 		Set<EdgeDeclNode> rhsEdges = new LinkedHashSet<EdgeDeclNode>();
 		Set<NodeDeclNode> rhsNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for(EdgeDeclNode rhsEdge : graph.getEdges()) {
+		for(EdgeDeclNode rhsEdge : patternGraph.getEdges()) {
 			while(rhsEdge instanceof EdgeTypeChangeDeclNode) {
 				rhsEdge = ((EdgeTypeChangeDeclNode)rhsEdge).getOldEdge();
 			}
@@ -105,7 +105,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 			}
 		}
 
-		for(NodeDeclNode rhsNode : graph.getNodes()) {
+		for(NodeDeclNode rhsNode : patternGraph.getNodes()) {
 			while(rhsNode instanceof NodeTypeChangeDeclNode) {
 				rhsNode = ((NodeTypeChangeDeclNode)rhsNode).getOldNode();
 			}
@@ -117,7 +117,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 			}
 		}
 		
-		// parameters are no special case, since they are treat like normal graph elements
+		// parameters are no special case, since they are treated like normal graph elements
 		return elementsToDelete;
 	}
 
@@ -127,7 +127,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 		Set<ConnectionNode> connectionsToReuse = new LinkedHashSet<ConnectionNode>();
 
 		Set<EdgeDeclNode> lhsEdges = pattern.getEdges();
-		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
+		for(ConnectionCharacter connectionCharacter : patternGraph.getConnections()) {
 			if(connectionCharacter instanceof ConnectionNode) {
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
 				EdgeDeclNode rhsEdge = connection.getEdge();
@@ -149,7 +149,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 		LinkedHashSet<NodeDeclNode> nodesToReuse = new LinkedHashSet<NodeDeclNode>();
 		
 		Set<NodeDeclNode> lhsNodes = pattern.getNodes();
-		Set<NodeDeclNode> rhsNodes = graph.getNodes();
+		Set<NodeDeclNode> rhsNodes = patternGraph.getNodes();
 		for(NodeDeclNode lhsNode : lhsNodes) {
 			if(rhsNodes.contains(lhsNode))
 				nodesToReuse.add(lhsNode);
@@ -163,7 +163,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 	{
 		Set<ConnectionNode> connectionsNotDeleted = new LinkedHashSet<ConnectionNode>();
 
-		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
+		for(ConnectionCharacter connectionCharacter : patternGraph.getConnections()) {
 			if(connectionCharacter instanceof ConnectionNode) {
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
 				connectionsNotDeleted.add(connection);

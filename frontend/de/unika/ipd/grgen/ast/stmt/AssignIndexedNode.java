@@ -157,7 +157,7 @@ public class AssignIndexedNode extends EvalStatementNode
 	{
 		if(lhsQual != null) {
 			if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-				reportError("indexed assignment to attribute of graph element not allowed in function or lhs context");
+				reportError("indexed assignment to an attribute of a graph element is not allowed in function or lhs context");
 				return false;
 			}
 
@@ -173,7 +173,7 @@ public class AssignIndexedNode extends EvalStatementNode
 				InheritanceTypeNode inhTy = (InheritanceTypeNode)ty;
 
 				if(inhTy.isConst()) {
-					error.error(getCoords(), "indexed assignment to a const type object not allowed");
+					error.error(getCoords(), "indexed assignment to a const type object is not allowed");
 					return false;
 				}
 			}

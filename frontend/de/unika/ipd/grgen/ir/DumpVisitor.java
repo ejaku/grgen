@@ -37,9 +37,9 @@ public class DumpVisitor extends GraphDumpVisitor
 	{
 		private String prefix;
 
-		public PrefixNode(GraphDumpable gd, String prefix)
+		public PrefixNode(GraphDumpable dumpable, String prefix)
 		{
-			super(gd);
+			super(dumpable);
 			this.prefix = prefix;
 		}
 
@@ -59,55 +59,55 @@ public class DumpVisitor extends GraphDumpVisitor
 		}
 	}
 
-	private void dumpGraph(PatternGraphBase gr, String prefix)
+	private void dumpGraph(PatternGraphBase patternGraph, String prefix)
 	{
 		Map<Entity, DumpVisitor.PrefixNode> prefixMap = new HashMap<Entity, DumpVisitor.PrefixNode>();
-		Collection<Node> nodes = gr.getNodes();
+		Collection<Node> nodes = patternGraph.getNodes();
 
-		dumper.beginSubgraph(gr);
+		dumper.beginSubgraph(patternGraph);
 
 		for(Iterator<Node> it = nodes.iterator(); it.hasNext();) {
-			Node n = it.next();
-			debug.report(NOTE, "node: " + n);
-			PrefixNode pn = new PrefixNode(n, prefix);
-			prefixMap.put(n, pn);
-			dumper.node(pn);
+			Node node = it.next();
+			debug.report(NOTE, "node: " + node);
+			PrefixNode prefixNode = new PrefixNode(node, prefix);
+			prefixMap.put(node, prefixNode);
+			dumper.node(prefixNode);
 		}
 
-		Collection<Edge> edges = gr.getEdges();
+		Collection<Edge> edges = patternGraph.getEdges();
 
 		for(Iterator<Edge> it = edges.iterator(); it.hasNext();) {
 			Edge edge = it.next();
-			PrefixNode from, to, e;
+			PrefixNode prefixFrom, prefixTo, prefixEdge;
 
-			e = new PrefixNode(edge, prefix);
-			prefixMap.put(edge, e);
+			prefixEdge = new PrefixNode(edge, prefix);
+			prefixMap.put(edge, prefixEdge);
 
-			debug.report(NOTE, "true edge from: " + gr.getSource(edge)
-					+ " to: " + gr.getTarget(edge));
+			debug.report(NOTE, "true edge from: " + patternGraph.getSource(edge)
+					+ " to: " + patternGraph.getTarget(edge));
 
-			from = prefixMap.get(gr.getSource(edge));
-			to = prefixMap.get(gr.getTarget(edge));
+			prefixFrom = prefixMap.get(patternGraph.getSource(edge));
+			prefixTo = prefixMap.get(patternGraph.getTarget(edge));
 
-			debug.report(NOTE, "edge from: " + from + " to: " + to);
+			debug.report(NOTE, "edge from: " + prefixFrom + " to: " + prefixTo);
 
-			dumper.node(e);
-			dumper.edge(from, e);
-			dumper.edge(e, to);
+			dumper.node(prefixEdge);
+			dumper.edge(prefixFrom, prefixEdge);
+			dumper.edge(prefixEdge, prefixTo);
 		}
 
-		if(gr instanceof PatternGraphLhs) {
-			PatternGraphLhs pg = (PatternGraphLhs)gr;
+		if(patternGraph instanceof PatternGraphLhs) {
+			PatternGraphLhs patternGraphLhs = (PatternGraphLhs)patternGraph;
 
-			for(Collection<? extends GraphEntity> homSet : pg.getHomomorphic()) {
+			for(Collection<? extends GraphEntity> homSet : patternGraphLhs.getHomomorphic()) {
 				if(!homSet.isEmpty()) {
 					for(Iterator<? extends GraphEntity> homIt1 = homSet.iterator(); homIt1.hasNext();) {
 						Entity hom1 = homIt1.next();
 						for(Iterator<? extends GraphEntity> homIt2 = homSet.iterator(); homIt2.hasNext();) {
 							Entity hom2 = homIt2.next();
-							PrefixNode from = prefixMap.get(hom1);
-							PrefixNode to = prefixMap.get(hom2);
-							dumper.edge(from, to, "hom", GraphDumper.DASHED);
+							PrefixNode prefixFrom = prefixMap.get(hom1);
+							PrefixNode prefixTo = prefixMap.get(hom2);
+							dumper.edge(prefixFrom, prefixTo, "hom", GraphDumper.DASHED);
 						}
 					}
 				}
@@ -121,41 +121,41 @@ public class DumpVisitor extends GraphDumpVisitor
 	 * @see de.unika.ipd.grgen.util.Visitor#visit(de.unika.ipd.grgen.util.Walkable)
 	 */
 	@Override
-	public void visit(Walkable n)
+	public void visit(Walkable walkable)
 	{
-		assert n instanceof IR : "must have an ir object to dump";
+		assert walkable instanceof IR : "must have an ir object to dump";
 
-		if(n instanceof Node || n instanceof Edge || n instanceof PatternGraphBase) {
+		if(walkable instanceof Node || walkable instanceof Edge || walkable instanceof PatternGraphBase) {
 			return;
 		}
 
-		if(n instanceof Rule && ((Rule)n).getRight() != null) {
-			Rule r = (Rule)n;
-			dumper.beginSubgraph(r);
-			if(r.getRight() == null) {
-				dumpGraph(r.getPattern(), "");
+		if(walkable instanceof Rule && ((Rule)walkable).getRight() != null) {
+			Rule rule = (Rule)walkable;
+			dumper.beginSubgraph(rule);
+			if(rule.getRight() == null) {
+				dumpGraph(rule.getPattern(), "");
 				dumper.endSubgraph();
 			}
-			dumpGraph(r.getLeft(), "l");
-			dumpGraph(r.getRight(), "r");
+			dumpGraph(rule.getLeft(), "l");
+			dumpGraph(rule.getRight(), "r");
 
 			// Draw edges from left nodes that occur also on the right side.
-			Iterator<Node> commonNodes = r.getCommonNodes().iterator();
+			Iterator<Node> commonNodes = rule.getCommonNodes().iterator();
 			while(commonNodes.hasNext()) {
 				Node node = commonNodes.next();
-				PrefixNode left = new PrefixNode(node, "l");
-				PrefixNode right = new PrefixNode(node, "r");
+				PrefixNode prefixLeft = new PrefixNode(node, "l");
+				PrefixNode prefixRight = new PrefixNode(node, "r");
 
-				dumper.edge(left, right, null, GraphDumper.DOTTED);
+				dumper.edge(prefixLeft, prefixRight, null, GraphDumper.DOTTED);
 			}
 
-			Iterator<Edge> commonEdges = r.getCommonEdges().iterator();
+			Iterator<Edge> commonEdges = rule.getCommonEdges().iterator();
 			while(commonEdges.hasNext()) {
 				Edge edge = commonEdges.next();
-				PrefixNode left = new PrefixNode(edge, "l");
-				PrefixNode right = new PrefixNode(edge, "r");
+				PrefixNode prefixLeft = new PrefixNode(edge, "l");
+				PrefixNode prefixRight = new PrefixNode(edge, "r");
 
-				dumper.edge(left, right, null, GraphDumper.DOTTED);
+				dumper.edge(prefixLeft, prefixRight, null, GraphDumper.DOTTED);
 			}
 
 			// dump evalations
@@ -164,7 +164,7 @@ public class DumpVisitor extends GraphDumpVisitor
 
 			dumper.endSubgraph();
 		} else {
-			super.visit(n);
+			super.visit(walkable);
 		}
 	}
 }

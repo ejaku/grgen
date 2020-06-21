@@ -981,13 +981,13 @@ emptyModifyPart [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNo
 		CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-		PatternGraphRhsNode graph = new PatternGraphRhsNode(nameOfRHS.toString(), coords, 
+		PatternGraphRhsNode patternGraph = new PatternGraphRhsNode(nameOfRHS.toString(), coords, 
 			connections, params, subpatterns, subpatternRepls,
 			orderedReplacements, returnz, imperativeStmts,
 			context, directlyNestingLHSGraph);
-		graph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
-		graph.addEvals(evals);
-		res = new ModifyDeclNode(nameOfRHS, graph, dels);
+		patternGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
+		patternGraph.addEvals(evals);
+		res = new ModifyDeclNode(nameOfRHS, patternGraph, dels);
 	}
 	: 
 	;
@@ -1879,13 +1879,13 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params,
 	@init {
 		CollectNode<SubpatternUsageDeclNode> subpatterns = new CollectNode<SubpatternUsageDeclNode>();
 		CollectNode<SubpatternReplNode> subpatternRepls = new CollectNode<SubpatternReplNode>();
-		PatternGraphRhsNode graph = new PatternGraphRhsNode(nameOfRHS.toString(), coords, 
+		PatternGraphRhsNode patternGraph = new PatternGraphRhsNode(nameOfRHS.toString(), coords, 
 			connections, params, subpatterns, subpatternRepls,
 			orderedReplacements, returnz, imperativeStmts,
 			context, directlyNestingLHSGraph);
-		graph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
-		graph.addEvals(evals);
-		res = new ReplaceDeclNode(nameOfRHS, graph);
+		patternGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
+		patternGraph.addEvals(evals);
+		res = new ReplaceDeclNode(nameOfRHS, patternGraph);
 	}
 	: ( replaceStmt[coords, connections, defVariablesToBeYieldedTo, subpatterns, subpatternRepls,
 				evals, namer, context, directlyNestingLHSGraph] 
@@ -1910,13 +1910,13 @@ modifyBody [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNode> p
 	@init {
 		CollectNode<SubpatternUsageDeclNode> subpatterns = new CollectNode<SubpatternUsageDeclNode>();
 		CollectNode<SubpatternReplNode> subpatternRepls = new CollectNode<SubpatternReplNode>();
-		PatternGraphRhsNode graph = new PatternGraphRhsNode(nameOfRHS.toString(), coords, 
+		PatternGraphRhsNode patternGraph = new PatternGraphRhsNode(nameOfRHS.toString(), coords, 
 			connections, params, subpatterns, subpatternRepls,
 			orderedReplacements, returnz, imperativeStmts,
 			context, directlyNestingLHSGraph);
-		graph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
-		graph.addEvals(evals);
-		res = new ModifyDeclNode(nameOfRHS, graph, dels);
+		patternGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
+		patternGraph.addEvals(evals);
+		res = new ModifyDeclNode(nameOfRHS, patternGraph, dels);
 	}
 	: ( modifyStmt[coords, connections, defVariablesToBeYieldedTo, subpatterns, subpatternRepls,
 				evals, dels, namer, context, directlyNestingLHSGraph] 
@@ -1936,7 +1936,7 @@ modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<VarDe
 defEntitiesOrEvals [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 		CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplacementsNode> orderedReplacements,
 		CollectNode<BaseNode> imperativeStmts, CollectNode<ExprNode> returnz,
-		AnonymousScopeNamer namer, int context, PatternGraphRhsNode graph, PatternGraphLhsNode directlyNestingLHSGraph ]
+		AnonymousScopeNamer namer, int context, PatternGraphRhsNode patternGraph, PatternGraphLhsNode directlyNestingLHSGraph ]
 	: reportErrorOnDefEntityOrEval
 	  ( TRIPLEMINUS
 		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, null, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
@@ -1947,8 +1947,8 @@ defEntitiesOrEvals [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVar
 		| emitStmt[imperativeStmts, orderedReplacements, context] SEMI
 		)*
 	  )?
-	  { graph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo); }
-	  { graph.addEvals(evals); }
+	  { patternGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo); }
+	  { patternGraph.addEvals(evals); }
 	;
 
 reportErrorOnDefEntityOrEval

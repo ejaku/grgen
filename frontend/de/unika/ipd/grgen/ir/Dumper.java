@@ -58,127 +58,128 @@ public class Dumper
 		this.interGraphEdges = interGraphEdges;
 	}
 
-	private void dump(PatternGraphBase g, GraphDumper gd)
+	private void dump(PatternGraphBase patternGraph, GraphDumper dumper)
 	{
-		gd.beginSubgraph(g);
+		dumper.beginSubgraph(patternGraph);
 
-		for(Node n : g.getNodes()) {
-			gd.node(g.getLocalDumpable(n));
+		for(Node node : patternGraph.getNodes()) {
+			GraphDumpable nodeDumpable = patternGraph.getLocalDumpable(node);
+			dumper.node(nodeDumpable);
 		}
 
-		for(Edge e : g.getEdges()) {
-			GraphDumpable edge = g.getLocalDumpable(e);
-			GraphDumpable src = g.getLocalDumpable(g.getSource(e));
-			GraphDumpable tgt = g.getLocalDumpable(g.getTarget(e));
-			gd.node(edge);
-			gd.edge(src, edge);
-			gd.edge(edge, tgt);
+		for(Edge edge : patternGraph.getEdges()) {
+			GraphDumpable edgeDumpable = patternGraph.getLocalDumpable(edge);
+			GraphDumpable src = patternGraph.getLocalDumpable(patternGraph.getSource(edge));
+			GraphDumpable tgt = patternGraph.getLocalDumpable(patternGraph.getTarget(edge));
+			dumper.node(edgeDumpable);
+			dumper.edge(src, edgeDumpable);
+			dumper.edge(edgeDumpable, tgt);
 		}
 
-		if(g instanceof PatternGraphLhs) {
-			PatternGraphLhs pg = (PatternGraphLhs)g;
-			Collection<Expression> conds = pg.getConditions();
+		if(patternGraph instanceof PatternGraphLhs) {
+			PatternGraphLhs patternGraphLhs = (PatternGraphLhs)patternGraph;
+			Collection<Expression> conditions = patternGraphLhs.getConditions();
 
-			if(!conds.isEmpty()) {
-				for(Expression expr : conds) {
-					dump(expr, gd);
+			if(!conditions.isEmpty()) {
+				for(Expression expr : conditions) {
+					dump(expr, dumper);
 				}
 			}
 		}
 
-		gd.endSubgraph();
+		dumper.endSubgraph();
 	}
 
-	public final void dump(MatchingAction act, GraphDumper gd)
+	public final void dump(MatchingAction matchingAction, GraphDumper dumper)
 	{
-		PatternGraphLhs pattern = act.getPattern();
-		Collection<PatternGraphBase> graphs = new LinkedList<PatternGraphBase>();
+		PatternGraphLhs pattern = matchingAction.getPattern();
+		Collection<PatternGraphBase> patternGraphs = new LinkedList<PatternGraphBase>();
 		PatternGraphBase right = null;
 
-		if(act instanceof Rule && ((Rule)act).getRight() != null) {
-			right = ((Rule)act).getRight();
-			graphs.add(right);
+		if(matchingAction instanceof Rule && ((Rule)matchingAction).getRight() != null) {
+			right = ((Rule)matchingAction).getRight();
+			patternGraphs.add(right);
 		}
 
-		graphs.addAll(pattern.getNegs());
+		patternGraphs.addAll(pattern.getNegs());
 
-		gd.beginSubgraph(act);
-		dump(pattern, gd);
+		dumper.beginSubgraph(matchingAction);
+		dump(pattern, dumper);
 
-		for(PatternGraphBase g : graphs) {
-			dump(g, gd);
-			if(g == right)
-				gd.edge(pattern, g, g.getNodeLabel().toLowerCase(), GraphDumper.DASHED, Color.green);
+		for(PatternGraphBase patternGraph : patternGraphs) {
+			dump(patternGraph, dumper);
+			if(patternGraph == right)
+				dumper.edge(pattern, patternGraph, patternGraph.getNodeLabel().toLowerCase(), GraphDumper.DASHED, Color.green);
 			else
-				gd.edge(pattern, g, g.getNodeLabel().toLowerCase(), GraphDumper.DASHED, Color.red);
+				dumper.edge(pattern, patternGraph, patternGraph.getNodeLabel().toLowerCase(), GraphDumper.DASHED, Color.red);
 
 			if(interGraphEdges) {
-				for(Node n : g.getNodes()) {
-					if(pattern.hasNode(n))
-						gd.edge(pattern.getLocalDumpable(n), g.getLocalDumpable(n), "",
+				for(Node node : patternGraph.getNodes()) {
+					if(pattern.hasNode(node))
+						dumper.edge(pattern.getLocalDumpable(node), patternGraph.getLocalDumpable(node), "",
 								GraphDumper.DOTTED);
 				}
 
-				for(Edge e : g.getEdges()) {
-					if(pattern.hasEdge(e))
-						gd.edge(pattern.getLocalDumpable(e), g.getLocalDumpable(e), "",
+				for(Edge edge : patternGraph.getEdges()) {
+					if(pattern.hasEdge(edge))
+						dumper.edge(pattern.getLocalDumpable(edge), patternGraph.getLocalDumpable(edge), "",
 								GraphDumper.DOTTED);
 				}
 			}
 		}
 
-		if(act instanceof Rule && ((Rule)act).getRight() != null) {
-			Rule r = (Rule)act;
-			graphs.add(r.getRight());
+		if(matchingAction instanceof Rule && ((Rule)matchingAction).getRight() != null) {
+			Rule rule = (Rule)matchingAction;
+			patternGraphs.add(rule.getRight());
 			Collection<EvalStatement> evals = new LinkedList<EvalStatement>();
-			for(EvalStatements evalStatements : r.getEvals()) {
+			for(EvalStatements evalStatements : rule.getEvals()) {
 				for(EvalStatement evalStatement : evalStatements.evalStatements) {
 					evals.add(evalStatement);
 				}
 			}
 
 			if(!evals.isEmpty()) {
-				gd.beginSubgraph("evals");
-				gd.edge(r.getRight(), evals.iterator().next(), "eval", GraphDumper.DASHED, Color.GRAY);
+				dumper.beginSubgraph("evals");
+				dumper.edge(rule.getRight(), evals.iterator().next(), "eval", GraphDumper.DASHED, Color.GRAY);
 			}
 
 			EvalStatement oldEvalStatement = null;
-			for(EvalStatement e : evals) {
-				if(e instanceof Assignment) {
-					Assignment a = (Assignment)e;
-					Expression target = a.getTarget();
-					Expression expr = a.getExpression();
+			for(EvalStatement eval : evals) {
+				if(eval instanceof Assignment) {
+					Assignment assignment = (Assignment)eval;
+					Expression target = assignment.getTarget();
+					Expression expr = assignment.getExpression();
 
 					if(compactCondEval) {
-						dump(a.getId(),
+						dump(assignment.getId(),
 								Formatter.formatConditionEval(target) + " = " + Formatter.formatConditionEval(expr),
-								gd);
+								dumper);
 						if(oldEvalStatement != null)
-							gd.edge(oldEvalStatement, a, "next", GraphDumper.DASHED, Color.RED);
+							dumper.edge(oldEvalStatement, assignment, "next", GraphDumper.DASHED, Color.RED);
 					} else {
-						gd.node(a);
-						gd.node(target);
-						gd.edge(a, target);
-						dump(expr, gd);
-						gd.edge(a, expr);
+						dumper.node(assignment);
+						dumper.node(target);
+						dumper.edge(assignment, target);
+						dump(expr, dumper);
+						dumper.edge(assignment, expr);
 					}
 				} else {
 					// just swallow, it's on the ones who need this to re-enable and implement
 					// throw new UnsupportedOperationException("Unknown EvalStatement \"" + e + "\"");
 				}
-				oldEvalStatement = e;
+				oldEvalStatement = eval;
 			}
 
 			if(!evals.isEmpty())
-				gd.endSubgraph();
+				dumper.endSubgraph();
 		}
 
-		gd.endSubgraph();
+		dumper.endSubgraph();
 	}
 
-	public static final void dump(final String id, final String s, GraphDumper gd)
+	public static final void dump(final String id, final String s, GraphDumper dumper)
 	{
-		gd.node(
+		dumper.node(
 			new GraphDumpable() {
 				@Override
 				public String getNodeId()
@@ -220,9 +221,9 @@ public class Dumper
 	}
 
 	public static final void dump(final String s, final String fromId,
-			final String toId, GraphDumper gd)
+			final String toId, GraphDumper dumper)
 	{
-		gd.edge(
+		dumper.edge(
 			new GraphDumpable() {
 				@Override
 				public String getNodeId()
@@ -301,18 +302,18 @@ public class Dumper
 		);
 	}
 
-	public final void dump(Expression expr, GraphDumper gd)
+	public final void dump(Expression expr, GraphDumper dumper)
 	{
 		if(compactCondEval) {
-			dump(expr.getId(), Formatter.formatConditionEval(expr), gd);
+			dump(expr.getId(), Formatter.formatConditionEval(expr), dumper);
 		} else {
-			gd.node(expr);
+			dumper.node(expr);
 			if(expr instanceof Operator) {
 				Operator op = (Operator)expr;
 				for(int i = 0; i < op.arity(); i++) {
-					Expression e = op.getOperand(i);
-					dump(e, gd);
-					gd.edge(expr, e);
+					Expression operand = op.getOperand(i);
+					dump(operand, dumper);
+					dumper.edge(expr, operand);
 				}
 			}
 		}
@@ -320,25 +321,25 @@ public class Dumper
 
 	public final void dumpComplete(Unit unit, String fileName)
 	{
-		GraphDumper curr = dumperFactory.get(fileName);
+		GraphDumper dumper = dumperFactory.get(fileName);
 
-		curr.begin();
+		dumper.begin();
 		for(Action act : unit.getActionRules()) {
 			if(act instanceof MatchingAction) {
 				MatchingAction mact = (MatchingAction)act;
-				dump(mact, curr);
+				dump(mact, dumper);
 			}
 		}
 
-		curr.finish();
+		dumper.finish();
 
-		curr = dumperFactory.get(fileName + "Model");
-		curr.begin();
+		dumper = dumperFactory.get(fileName + "Model");
+		dumper.begin();
 
 		for(Model model : unit.getModels()) {
 			for(Type type : model.getTypes()) {
 				String typeName = type.getIdent().toString();
-				dump(typeName, typeName, curr);
+				dump(typeName, typeName, dumper);
 			}
 			for(Type type : model.getTypes()) {
 				String typeName = type.getIdent().toString();
@@ -346,27 +347,27 @@ public class Dumper
 					InheritanceType inhType = (InheritanceType)type;
 					for(InheritanceType superType : inhType.getDirectSuperTypes()) {
 						String superTypeName = superType.getIdent().toString();
-						dump("", typeName, superTypeName, curr);
+						dump("", typeName, superTypeName, dumper);
 					}
 				}
 			}
 		}
 
-		curr.finish();
+		dumper.finish();
 	}
 
 	public final void dump(Unit unit)
 	{
-		for(Action obj : unit.getActionRules()) {
-			if(obj instanceof MatchingAction) {
-				MatchingAction act = (MatchingAction)obj;
-				String main = act.toString().replace(' ', '_');
+		for(Action act : unit.getActionRules()) {
+			if(act instanceof MatchingAction) {
+				MatchingAction matchingAction = (MatchingAction)act;
+				String main = matchingAction.toString().replace(' ', '_');
 
-				GraphDumper curr = dumperFactory.get(main);
+				GraphDumper dumper = dumperFactory.get(main);
 
-				curr.begin();
-				dump(act, curr);
-				curr.finish();
+				dumper.begin();
+				dump(matchingAction, dumper);
+				dumper.finish();
 			}
 		}
 	}

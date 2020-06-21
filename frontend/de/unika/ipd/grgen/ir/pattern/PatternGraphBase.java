@@ -146,7 +146,7 @@ public abstract class PatternGraphBase extends IR
 		this.subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 	}
 
-	/** Make a new graph with preset nodes, edges, subpatternUsages (copy from another pattern graph). */
+	/** Make a new pattern graph with preset nodes, edges, subpatternUsages (copy from another pattern graph). */
 	protected PatternGraphBase(String nameOfGraph,
 			Map<Node, PatternGraphBase.GraphNode> nodes,
 			Map<Edge, PatternGraphBase.GraphEdge> edges,
@@ -230,7 +230,7 @@ public abstract class PatternGraphBase extends IR
 	}
 
 	/**
-	 * Put all nodes in this graph into a collection.
+	 * Put all nodes in this pattern graph into a collection.
 	 * @param collection The collection to put them into.
 	 * @return The given collection.
 	 */
@@ -267,7 +267,7 @@ public abstract class PatternGraphBase extends IR
 		homToAllNodes.add(node);
 	}
 
-	/** @return A graph dumpable thing representing the given node local in this graph. */
+	/** @return A graph dumpable thing representing the given node local in this pattern graph. */
 	public GraphDumpable getLocalDumpable(Node node)
 	{
 		if(node == null)
@@ -410,7 +410,7 @@ public abstract class PatternGraphBase extends IR
 	}
 
 	/**
-	 * Put all edges in this graph into a collection.
+	 * Put all edges in this pattern graph into a collection.
 	 * @param collection The collection to put them into.
 	 * @return The given collection.
 	 */

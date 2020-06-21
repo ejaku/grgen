@@ -116,7 +116,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 		} else if(targetType instanceof DequeTypeNode) {
 			result = decideDeque(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
 		} else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalTypeNode)) {
-			// we don't support calling a method from a graph element typed attribute contained in a graph element, only calling method directly on the graph element
+			// we don't support calling a method from a graph element typed attribute contained in a graph element, only calling the method directly on the graph element
 			result = new ProcedureMethodInvocationNode(((IdentExprNode)target).getIdent(), methodIdent, arguments, context);
 			result.resolve();
 		} else if(targetType instanceof ExternalTypeNode) {

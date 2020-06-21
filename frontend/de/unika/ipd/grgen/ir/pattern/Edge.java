@@ -100,22 +100,22 @@ public class Edge extends GraphEntity
 	/**
 	 * Sets the corresponding retyped version of this edge
 	 * @param retyped The retyped edge
-	 * @param graph The graph where the edge gets retyped
+	 * @param patternGraph The pattern graph where the edge gets retyped
 	 */
-	public void setRetypedEdge(Edge retyped, PatternGraphBase graph)
+	public void setRetypedEdge(Edge retyped, PatternGraphBase patternGraph)
 	{
-		super.setRetypedEntity(retyped, graph);
+		super.setRetypedEntity(retyped, patternGraph);
 	}
 
 	/**
 	 * Returns the corresponding retyped version of this edge
-	 * @param graph The graph where the edge might get retyped
+	 * @param patternGraph The pattern graph where the edge might get retyped
 	 * @return The retyped version or <code>null</code>
 	 */
-	public RetypedEdge getRetypedEdge(PatternGraphBase graph)
+	public RetypedEdge getRetypedEdge(PatternGraphBase patternGraph)
 	{
-		if(super.getRetypedEntity(graph) != null)
-			return (RetypedEdge)super.getRetypedEntity(graph);
+		if(super.getRetypedEntity(patternGraph) != null)
+			return (RetypedEdge)super.getRetypedEntity(patternGraph);
 		else
 			return null;
 	}

@@ -266,13 +266,13 @@ public class UnitNode extends BaseNode
 		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {
 			res &= checkStatementsLHS(subpattern, subpattern.pattern);
 			if(subpattern.right != null)
-				res &= checkStatementsRHS(subpattern, subpattern.right.graph);
+				res &= checkStatementsRHS(subpattern, subpattern.right.patternGraph);
 		}
 		for(TestDeclNode action : actions.getChildren()) {
 			res &= checkStatementsLHS(action, action.pattern);
 			if(action instanceof RuleDeclNode) {
 				RuleDeclNode rule = (RuleDeclNode)action;
-				res &= checkStatementsRHS(action, rule.right.graph);
+				res &= checkStatementsRHS(action, rule.right.patternGraph);
 			}
 		}
 		for(FilterFunctionDeclNode filterFunction : filterFunctions.getChildren()) {
@@ -314,13 +314,13 @@ public class UnitNode extends BaseNode
 			for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 				res &= checkStatementsLHS(root, altCase.pattern);
 				if(altCase.right != null)
-					res &= checkStatementsRHS(root, altCase.right.graph);
+					res &= checkStatementsRHS(root, altCase.right.patternGraph);
 			}
 		}
 		for(IteratedDeclNode iter : curPattern.iters.getChildren()) {
 			res &= checkStatementsLHS(root, iter.pattern);
 			if(iter.right != null)
-				res &= checkStatementsRHS(root, iter.right.graph);
+				res &= checkStatementsRHS(root, iter.right.patternGraph);
 		}
 		for(PatternGraphLhsNode idpt : curPattern.idpts.getChildren()) {
 			res &= checkStatementsLHS(root, idpt);

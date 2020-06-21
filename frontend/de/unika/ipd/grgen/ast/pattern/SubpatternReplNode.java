@@ -107,7 +107,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 		// check if the number of parameters is correct
 		String patternName = subpattern.type.pattern.nameOfGraph;
 		RhsDeclNode right = subpattern.type.right;
-		Vector<DeclNode> formalReplacementParameters = right.graph.getParamDecls();
+		Vector<DeclNode> formalReplacementParameters = right.patternGraph.getParamDecls();
 		int expected = formalReplacementParameters.size();
 		int actual = replConnections.size();
 		if(expected != actual) {
@@ -168,7 +168,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			ConstraintDeclNode argumentElement = (ConstraintDeclNode)argument;
 			if((argumentElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 				res = false;
-				subpatternUnresolved.reportError("can't yield from a RHS subpattern rewrite call to a LHS def graph element "
+				subpatternUnresolved.reportError("can't yield from a RHS subpattern rewrite call to a LHS def pattern graph element "
 						+ "(" + argumentElement.getIdentNode() + ")");
 			}
 		}

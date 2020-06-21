@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 /**
  * A pattern graph lhs is a graph pattern as it occurs on the left hand side of rules.
  * It includes nested alternative-case and iterated rules, as well as nested patterns (negative and independent).
- * It extends the graph base class, additionally offering conditions that restrict the set of possible matches, 
+ * It extends the pattern graph base class, additionally offering conditions that restrict the set of possible matches, 
  * lhs yield statements, homomorphy handling and further things.
  */
 public class PatternGraphLhs extends PatternGraphBase

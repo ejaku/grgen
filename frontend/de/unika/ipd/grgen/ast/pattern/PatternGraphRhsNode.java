@@ -259,35 +259,35 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 
 	/**
 	 * Construct the IR object.
-	 * It is a Graph and all the connections (children of the pattern AST node) are put into it.
+	 * It is a pattern graph and all the connections (children of the pattern AST node) are put into it.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
 	protected IR constructIR()
 	{
-		PatternGraphRhs gr = new PatternGraphRhs(nameOfGraph);
-		gr.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getPatternGraph());
+		PatternGraphRhs patternGraph = new PatternGraphRhs(nameOfGraph);
+		patternGraph.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getPatternGraph());
 
 		for(ConnectionCharacter connection : connections.getChildren()) {
-			connection.addToGraph(gr);
+			connection.addToGraph(patternGraph);
 		}
 
-		for(VarDeclNode n : defVariablesToBeYieldedTo.getChildren()) {
-			gr.addVariable(n.checkIR(Variable.class));
+		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
+			patternGraph.addVariable(var.checkIR(Variable.class));
 		}
 
-		for(SubpatternUsageDeclNode n : subpatterns.getChildren()) {
-			gr.addSubpatternUsage(n.checkIR(SubpatternUsage.class));
+		for(SubpatternUsageDeclNode subUsage : subpatterns.getChildren()) {
+			patternGraph.addSubpatternUsage(subUsage.checkIR(SubpatternUsage.class));
 		}
 
-		for(OrderedReplacementsNode n : orderedReplacements.getChildren()) {
-			gr.addOrderedReplacement((OrderedReplacements)n.getIR());
+		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
+			patternGraph.addOrderedReplacement((OrderedReplacements)orderedRepls.getIR());
 		}
 
 		// add subpattern usage connection elements only mentioned there to the IR
-		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
-		for(OrderedReplacementsNode ors : orderedReplacements.getChildren()) {
-			PatternGraphBuilder.addSubpatternReplacementUsageArguments(gr, ors);
+		// (they're declared in an enclosing pattern graph and locally only show up in the subpattern usage connection)
+		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
+			PatternGraphBuilder.addSubpatternReplacementUsageArguments(patternGraph, orderedRepls);
 		}
 
 		// don't add elements only mentioned in ordered replacements here to the pattern, it prevents them from being deleted
@@ -301,42 +301,42 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 
 		// add elements which we could not be added before because their container was iterated over
 		for(Node node : nodesToAdd) {
-			gr.addNodeIfNotYetContained(node);
+			patternGraph.addNodeIfNotYetContained(node);
 		}
 		for(Edge edge : edgesToAdd) {
-			gr.addEdgeIfNotYetContained(edge);
+			patternGraph.addEdgeIfNotYetContained(edge);
 		}
 
 		for(BaseNode imperativeStmt : imperativeStmts.getChildren()) {
-			gr.addImperativeStmt((ImperativeStmt)imperativeStmt.getIR());
+			patternGraph.addImperativeStmt((ImperativeStmt)imperativeStmt.getIR());
 		}
 
 		// add deferred exec elements only mentioned there to the IR
-		// (they're declared in an enclosing graph and locally only show up in the deferred exec)
-		for(ImperativeStmt impStmt : gr.getImperativeStmts()) {
-			PatternGraphBuilder.addElementsUsedInDeferredExec(gr, impStmt);
+		// (they're declared in an enclosing pattern graph and locally only show up in the deferred exec)
+		for(ImperativeStmt imperativeStmt : patternGraph.getImperativeStmts()) {
+			PatternGraphBuilder.addElementsUsedInDeferredExec(patternGraph, imperativeStmt);
 		}
 
 		// ensure def to be yielded to elements are hom to all others
 		// so backend doing some fake search planning for them is not scheduling checks for them
-		for(Node node : gr.getNodes()) {
+		for(Node node : patternGraph.getNodes()) {
 			if(node.isDefToBeYieldedTo())
-				gr.addHomToAll(node);
+				patternGraph.addHomToAll(node);
 		}
-		for(Edge edge : gr.getEdges()) {
+		for(Edge edge : patternGraph.getEdges()) {
 			if(edge.isDefToBeYieldedTo())
-				gr.addHomToAll(edge);
+				patternGraph.addHomToAll(edge);
 		}
 
-		return gr;
+		return patternGraph;
 	}
 
 	public Collection<OrderedReplacements> getOrderedReplacements()
 	{
 		Collection<OrderedReplacements> ret = new LinkedList<OrderedReplacements>();
 
-		for(OrderedReplacementsNode n : orderedReplacements.getChildren()) {
-			ret.add(n.checkIR(OrderedReplacements.class));
+		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
+			ret.add(orderedRepls.checkIR(OrderedReplacements.class));
 		}
 
 		return ret;
