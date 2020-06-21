@@ -56,13 +56,13 @@ import java.util.Set;
 import java.util.Vector;
 
 /**
- * Base class for all action type ast nodes
+ * Base class for pattern matching related ast nodes
  */
-public abstract class ActionDeclNode extends DeclNode
+public abstract class MatcherDeclNode extends DeclNode
 {
 	public PatternGraphLhsNode pattern;
 
-	public ActionDeclNode(IdentNode id, TypeNode type, PatternGraphLhsNode left)
+	public MatcherDeclNode(IdentNode id, TypeNode type, PatternGraphLhsNode left)
 	{
 		super(id, type);
 

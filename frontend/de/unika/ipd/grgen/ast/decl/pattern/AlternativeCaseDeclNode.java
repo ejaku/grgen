@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.MatcherDeclNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.AlternativeCaseTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 /**
  * AST node for an alternative case pattern, maybe including replacements.
  */
-public class AlternativeCaseDeclNode extends ActionDeclNode
+public class AlternativeCaseDeclNode extends MatcherDeclNode
 {
 	static {
 		setName(AlternativeCaseDeclNode.class, "alternative case");

@@ -50,7 +50,7 @@ import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 /**
  * AST node class representing tests
  */
-public class TestDeclNode extends ActionDeclNode
+public class TestDeclNode extends MatcherDeclNode
 {
 	static {
 		setName(TestDeclNode.class, "test declaration");
