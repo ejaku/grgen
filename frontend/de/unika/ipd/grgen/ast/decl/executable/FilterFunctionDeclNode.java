@@ -181,8 +181,8 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 		// mark this node as already visited
 		setIR(filterFunction);
 
-		filterFunction.setAction(action.getAction());
-		action.getAction().addFilter(filterFunction);
+		filterFunction.setAction(action.getMatcher());
+		action.getMatcher().addFilter(filterFunction);
 
 		// add Params to the IR
 		for(DeclNode decl : params.getChildren()) {

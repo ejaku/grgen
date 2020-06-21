@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -71,6 +72,7 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!(sourceExpr.getType() instanceof GraphTypeNode)
 				&& !(sourceExpr.getType() instanceof MatchTypeNode)
+				&& !(sourceExpr.getType() instanceof MatchTypeIteratedNode)
 				&& !(sourceExpr.getType() instanceof DefinedMatchTypeNode)
 				&& !(sourceExpr.getType() instanceof ContainerTypeNode)) {
 			sourceExpr.reportError("graph or match or container expected as argument to copy");
@@ -90,6 +92,7 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 	public TypeNode getType()
 	{
 		if(sourceExpr.getType() instanceof MatchTypeNode
+				|| sourceExpr.getType() instanceof MatchTypeIteratedNode
 				|| sourceExpr.getType() instanceof DefinedMatchTypeNode
 				|| sourceExpr.getType() instanceof ContainerTypeNode)
 			return sourceExpr.getType();

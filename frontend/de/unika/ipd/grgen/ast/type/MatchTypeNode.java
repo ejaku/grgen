@@ -79,8 +79,8 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 		}
 	}
 
-	protected IdentNode actionUnresolved;
-	protected ActionDeclNode action;
+	private IdentNode actionUnresolved;
+	private ActionDeclNode action;
 
 	// the match type node instances are created in ParserEnvironment as needed
 	public MatchTypeNode(IdentNode actionIdent)
@@ -92,7 +92,7 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		// no children
+		//children.add(getValidVersion(actionUnresolved, action));
 		return children;
 	}
 
@@ -100,7 +100,7 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
-		// no children
+		//childrenNames.add("action");
 		return childrenNames;
 	}
 
@@ -154,7 +154,7 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 
 		setIR(matchType);
 
-		Rule matchAction = action.getAction();
+		Rule matchAction = action.getMatcher();
 		matchType.setAction(matchAction);
 
 		return matchType;

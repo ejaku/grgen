@@ -100,7 +100,7 @@ public class FilterAutoSuppliedDeclNode extends FilterAutoDeclNode
 		// mark this node as already visited
 		setIR(filterAutoSup);
 
-		Rule actionOrIterated = action != null ? action.getAction() : iterated.getAction();
+		Rule actionOrIterated = action != null ? action.getMatcher() : iterated.getMatcher();
 		filterAutoSup.setAction(actionOrIterated);
 		actionOrIterated.addFilter(filterAutoSup);
 

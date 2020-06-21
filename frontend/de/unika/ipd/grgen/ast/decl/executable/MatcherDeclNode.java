@@ -71,11 +71,11 @@ public abstract class MatcherDeclNode extends DeclNode
 	}
 
 	/**
-	 * Get the IR object for this action node.
+	 * Get the IR object for this matcher decl node.
 	 * The IR object is instance of Rule.
 	 * @return The IR object.
 	 */
-	public Rule getAction()
+	public Rule getMatcher()
 	{
 		return checkIR(Rule.class);
 	}

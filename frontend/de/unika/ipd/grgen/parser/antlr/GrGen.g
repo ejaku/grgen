@@ -241,6 +241,7 @@ textActions returns [ UnitNode main = null ]
 		CollectNode<IdentNode> filterChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> matchClassChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> matchClassFilterChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> matchTypeIteratedChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> functionChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> procedureChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
@@ -254,7 +255,7 @@ textActions returns [ UnitNode main = null ]
 		( globalVarDecl
 		| ( pack=packageActionDecl { packages.addChild(pack); } )
 		| (declsPatternMatchingOrAttributeEvaluationUnitWithModifier[patternChilds, actionChilds,
-				matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
+				matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds, matchTypeIteratedChilds,
 				functionChilds, procedureChilds, sequenceChilds])
 		)*
 		EOF
@@ -316,7 +317,7 @@ textActions returns [ UnitNode main = null ]
 			}
 			main = new UnitNode(actionsName, getFilename(),
 					env.getStdModel(), modelChilds, patternChilds, actionChilds,
-					matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
+					matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds, matchTypeIteratedChilds,
 					functionChilds, procedureChilds, sequenceChilds, packages);
 		}
 	;
@@ -402,6 +403,7 @@ packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode<IdentNode> filterChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> matchClassChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> matchClassFilterChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> matchTypeIteratedChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> functionChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> procedureChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
@@ -412,13 +414,13 @@ packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
 				reportError(id.getCoords(), "The package " + id.toString() + " cannot be defined - a builtin package of the same name already exists");
 		}
 			( declsPatternMatchingOrAttributeEvaluationUnitWithModifier[patternChilds, actionChilds, 
-					matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
+					matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds, matchTypeIteratedChilds,
 					functionChilds, procedureChilds, sequenceChilds]
 			)*
 	  RBRACE
 		{
 			PackageActionTypeNode pt = new PackageActionTypeNode(patternChilds, actionChilds, 
-				matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
+				matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds, matchTypeIteratedChilds,
 				functionChilds, procedureChilds, sequenceChilds);
 			id.setDecl(new TypeDeclNode(id, pt));
 			res = id;
@@ -429,13 +431,14 @@ packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
 declsPatternMatchingOrAttributeEvaluationUnitWithModifier [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds,
 		CollectNode<IdentNode> matchTypeChilds, CollectNode<IdentNode> filterChilds,
 		CollectNode<IdentNode> matchClassChilds, CollectNode<IdentNode> matchClassFilterChilds,
+		CollectNode<IdentNode> matchTypeIteratedChilds, 
 		CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> procedureChilds,
 		CollectNode<IdentNode> sequenceChilds ]
 	@init {
 		mod = 0;
 	}
 	: ( mod=patternModifiers declPatternMatchingOrAttributeEvaluationUnit[patternChilds, actionChilds,
-			matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
+			matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds, matchTypeIteratedChilds,
 			functionChilds, procedureChilds, sequenceChilds, mod]
 	  )
 	;
@@ -483,8 +486,9 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 	;
 
 declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds,
-		CollectNode<IdentNode> matchTypeChilds, CollectNode<IdentNode> filterChilds, 
-		CollectNode<IdentNode> matchClassChilds, CollectNode<IdentNode> matchClassFilterChilds, 
+		CollectNode<IdentNode> matchTypeChilds, CollectNode<IdentNode> filterChilds,
+		CollectNode<IdentNode> matchClassChilds, CollectNode<IdentNode> matchClassFilterChilds,
+		CollectNode<IdentNode> matchTypeIteratedChilds,
 		CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> procedureChilds,
 		CollectNode<IdentNode> sequenceChilds, int mod ]
 	@init {
@@ -502,7 +506,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 		ActionDeclNode actionDecl = null;
 		DefinedMatchTypeNode mt = null;
-		env.setMatchTypeChilds(matchTypeChilds);
+		env.setMatchTypeChilds(matchTypeIteratedChilds);
 	}
 	: t=TEST id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
 		params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]

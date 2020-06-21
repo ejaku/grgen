@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
@@ -78,8 +79,9 @@ public class ArrayExtractNode extends ArrayFunctionMethodInvocationBaseExprNode
 		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)
+				&& !(arrayType.valueType instanceof MatchTypeIteratedNode)
 				&& !(arrayType.valueType instanceof DefinedMatchTypeNode)) {
-			targetExpr.reportError("This argument to extract method call must be of type array<match<T>> or array<match<class T>> or array<T> where T extends node/edge");
+			targetExpr.reportError("This argument to extract method call must be of type array<match<T>> or array<match<T.S>> or array<match<class T>> or array<T> where T extends node/edge");
 			return false;
 		}
 
@@ -92,7 +94,9 @@ public class ArrayExtractNode extends ArrayFunctionMethodInvocationBaseExprNode
 		TypeNode type = getTypeOfElementToBeExtracted();
 		if(!(type instanceof DeclaredTypeNode)
 				|| type instanceof ContainerTypeNode 
-				|| type instanceof MatchTypeNode || type instanceof DefinedMatchTypeNode) {
+				|| type instanceof MatchTypeNode
+				|| type instanceof MatchTypeIteratedNode
+				|| type instanceof DefinedMatchTypeNode) {
 			reportError("The type " + type
 					+ " is not an allowed type (basic type or node or edge class - set, map, array, deque are forbidden).");
 			return false;

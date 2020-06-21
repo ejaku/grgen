@@ -436,6 +436,7 @@ public class Main extends Base implements Sys
 					new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
 					new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
 					new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
+					new CollectNode<IdentNode>(),
 					new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
 					new CollectNode<IdentNode>(), new CollectNode<IdentNode>());
 		}

@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -55,7 +56,9 @@ public class MemberAccessExprNode extends ExprNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		if(isResolved() && resolutionResult()) {
-			if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
+			if(targetExpr.getType() instanceof MatchTypeNode
+					|| targetExpr.getType() instanceof MatchTypeIteratedNode
+					|| targetExpr.getType() instanceof DefinedMatchTypeNode) {
 				return children; // behave like a nop in case we're a match access
 			}
 		}
@@ -129,7 +132,9 @@ public class MemberAccessExprNode extends ExprNode
 	public TypeNode getType()
 	{
 		TypeNode declType = null;
-		if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
+		if(targetExpr.getType() instanceof MatchTypeNode
+				|| targetExpr.getType() instanceof MatchTypeIteratedNode
+				|| targetExpr.getType() instanceof DefinedMatchTypeNode) {
 			declType = member.getDeclType();
 		} else {
 			declType = member.getDecl().getDeclType(); // untyped exec var type in case owner is an untyped exec var
@@ -141,7 +146,9 @@ public class MemberAccessExprNode extends ExprNode
 	protected IR constructIR()
 	{
 		targetExpr = targetExpr.evaluate();
-		if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
+		if(targetExpr.getType() instanceof MatchTypeNode
+				|| targetExpr.getType() instanceof MatchTypeIteratedNode
+				|| targetExpr.getType() instanceof DefinedMatchTypeNode) {
 			return new MatchAccess(targetExpr.checkIR(Expression.class), member.checkIR(Entity.class));
 		}
 

@@ -36,6 +36,7 @@ import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
@@ -76,6 +77,9 @@ public class UnitNode extends BaseNode
 	private CollectNode<MatchTypeNode> matchTypes;
 	private CollectNode<IdentNode> matchTypesUnresolved;
 
+	private CollectNode<MatchTypeIteratedNode> matchTypesIterated;
+	private CollectNode<IdentNode> matchTypesIteratedUnresolved;
+
 	private CollectNode<FilterFunctionDeclNode> filterFunctions;
 	private CollectNode<IdentNode> filterFunctionsUnresolved;
 
@@ -112,6 +116,7 @@ public class UnitNode extends BaseNode
 			CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions,
 			CollectNode<IdentNode> matchTypes, CollectNode<IdentNode> filterFunctions,
 			CollectNode<IdentNode> matchClasses, CollectNode<IdentNode> matchClassFilterFunctions,
+			CollectNode<IdentNode> matchTypesIterated,
 			CollectNode<IdentNode> functions, CollectNode<IdentNode> procedures,
 			CollectNode<IdentNode> sequences, CollectNode<IdentNode> packages)
 	{
@@ -130,6 +135,8 @@ public class UnitNode extends BaseNode
 		becomeParent(this.matchClassesUnresolved);
 		this.matchClassFilterFunctionsUnresolved = matchClassFilterFunctions;
 		becomeParent(this.matchClassFilterFunctionsUnresolved);
+		this.matchTypesIteratedUnresolved = matchTypesIterated;
+		becomeParent(this.matchTypesIteratedUnresolved);
 		this.functionsUnresolved = functions;
 		becomeParent(this.functionsUnresolved);
 		this.proceduresUnresolved = procedures;
@@ -164,6 +171,7 @@ public class UnitNode extends BaseNode
 		children.add(getValidVersion(filterFunctionsUnresolved, filterFunctions));
 		children.add(getValidVersion(matchClassesUnresolved, matchClassDecls));
 		children.add(getValidVersion(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
+		children.add(getValidVersion(matchTypesIteratedUnresolved, matchTypesIterated));
 		children.add(getValidVersion(functionsUnresolved, functions));
 		children.add(getValidVersion(proceduresUnresolved, procedures));
 		children.add(getValidVersion(sequencesUnresolved, sequences));
@@ -183,6 +191,7 @@ public class UnitNode extends BaseNode
 		childrenNames.add("filter functions");
 		childrenNames.add("match classes");
 		childrenNames.add("match class filter functions");
+		childrenNames.add("match types iterated");
 		childrenNames.add("functions");
 		childrenNames.add("procedures");
 		childrenNames.add("sequences");
@@ -208,6 +217,9 @@ public class UnitNode extends BaseNode
 	private static final CollectResolver<MatchClassFilterFunctionDeclNode> matchClassFilterFunctionsResolver =
 			new CollectResolver<MatchClassFilterFunctionDeclNode>(new DeclarationResolver<MatchClassFilterFunctionDeclNode>(MatchClassFilterFunctionDeclNode.class));
 
+	private static final CollectResolver<MatchTypeIteratedNode> matchTypesIteratedResolver =
+			new CollectResolver<MatchTypeIteratedNode>(new DeclarationTypeResolver<MatchTypeIteratedNode>(MatchTypeIteratedNode.class));
+
 	private static final CollectResolver<FunctionDeclNode> functionsResolver =
 			new CollectResolver<FunctionDeclNode>(new DeclarationResolver<FunctionDeclNode>(FunctionDeclNode.class));
 
@@ -230,6 +242,7 @@ public class UnitNode extends BaseNode
 		filterFunctions = filterFunctionsResolver.resolve(filterFunctionsUnresolved, this);
 		matchClassDecls = matchClassesResolver.resolve(matchClassesUnresolved, this);
 		matchClassFilterFunctions = matchClassFilterFunctionsResolver.resolve(matchClassFilterFunctionsUnresolved, this);
+		matchTypesIterated = matchTypesIteratedResolver.resolve(matchTypesIteratedUnresolved, this);
 		functions = functionsResolver.resolve(functionsUnresolved, this);
 		procedures = proceduresResolver.resolve(proceduresUnresolved, this);
 		sequences = sequencesResolver.resolve(sequencesUnresolved, this);
@@ -238,6 +251,7 @@ public class UnitNode extends BaseNode
 		return subpatterns != null && actions != null
 				&& matchTypes != null && filterFunctions != null
 				&& matchClassDecls != null && matchClassFilterFunctions != null
+				&& matchTypesIterated != null
 				&& functions != null && procedures != null
 				&& sequences != null && packages != null;
 	}
@@ -371,12 +385,12 @@ public class UnitNode extends BaseNode
 		}
 
 		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {
-			Rule rule = subpattern.getAction();
+			Rule rule = subpattern.getMatcher();
 			res.addSubpatternRule(rule);
 		}
 
 		for(ActionDeclNode action : actions.getChildren()) {
-			Rule rule = action.getAction();
+			Rule rule = action.getMatcher();
 			res.addActionRule(rule);
 		}
 

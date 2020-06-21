@@ -42,7 +42,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 /**
  * AST node for a pattern with replacements.
  */
-public class SubpatternDeclNode extends MatcherDeclNode
+public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 {
 	static {
 		setName(SubpatternDeclNode.class, "subpattern declaration");

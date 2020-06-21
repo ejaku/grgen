@@ -44,7 +44,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 /**
  * base class for actions = tests + rules
  */
-public abstract class ActionDeclNode extends MatcherDeclNode
+public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 {
 	static {
 		setName(ActionDeclNode.class, "action declaration");
