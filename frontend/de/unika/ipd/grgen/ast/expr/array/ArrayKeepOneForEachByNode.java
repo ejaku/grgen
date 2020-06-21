@@ -18,9 +18,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.util.Resolver;
@@ -67,9 +65,7 @@ public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBase
 		// target type already checked during resolving into this node
 		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
-				&& !(arrayType.valueType instanceof MatchTypeActionNode)
-				&& !(arrayType.valueType instanceof MatchTypeIteratedNode)
-				&& !(arrayType.valueType instanceof DefinedMatchTypeNode)) {
+				&& !(arrayType.valueType instanceof MatchTypeNode)) {
 			reportError("keepOneForEach can only be employed on an array of nodes or edges or an array of match types.");
 			return false;
 		}

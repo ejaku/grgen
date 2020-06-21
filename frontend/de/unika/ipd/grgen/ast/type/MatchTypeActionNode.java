@@ -16,7 +16,6 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.MemberAccessor;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
@@ -31,22 +30,18 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.parser.Symbol.Occurrence;
 
-public class MatchTypeActionNode extends DeclaredTypeNode implements MemberAccessor
+public class MatchTypeActionNode extends MatchTypeNode
 {
 	static {
 		setName(MatchTypeActionNode.class, "match type action");
 	}
 
-	@Override
-	public String getName()
-	{
-		return getTypeName();
-	}
+	private IdentNode actionUnresolved;
+	private ActionDeclNode action;
 
-	@Override
-	public String getTypeName()
+	private MatchTypeActionNode(IdentNode actionIdent)
 	{
-		return "match<" + actionUnresolved.toString() + ">";
+		actionUnresolved = becomeParent(actionIdent);
 	}
 
 	public static IdentNode defineMatchType(ParserEnvironment env, IdentNode actionIdent)
@@ -79,13 +74,10 @@ public class MatchTypeActionNode extends DeclaredTypeNode implements MemberAcces
 		}
 	}
 
-	private IdentNode actionUnresolved;
-	private ActionDeclNode action;
-
-	// the match type node instances are created in ParserEnvironment as needed
-	public MatchTypeActionNode(IdentNode actionIdent)
+	@Override
+	public String getTypeName()
 	{
-		actionUnresolved = becomeParent(actionIdent);
+		return "match<" + actionUnresolved.toString() + ">";
 	}
 
 	@Override

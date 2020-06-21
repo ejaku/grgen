@@ -16,7 +16,6 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.MemberAccessor;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
@@ -32,16 +31,22 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.parser.Symbol.Occurrence;
 
-public class MatchTypeIteratedNode extends DeclaredTypeNode implements MemberAccessor
+public class MatchTypeIteratedNode extends MatchTypeNode
 {
 	static {
 		setName(MatchTypeIteratedNode.class, "match type iterated");
 	}
 
-	@Override
-	public String getName()
+	private IdentNode topLevelMatcherUnresolved;
+	private TopLevelMatcherDeclNode topLevelMatcher;
+
+	private IdentNode iteratedUnresolved;
+	private IteratedDeclNode iterated;
+
+	private MatchTypeIteratedNode(IdentNode topLevelMatcherIdent, IdentNode iteratedIdent)
 	{
-		return "match<" + topLevelMatcherUnresolved.toString() + "." + iteratedUnresolved.toString() + "> type";
+		topLevelMatcherUnresolved = becomeParent(topLevelMatcherIdent);
+		iteratedUnresolved = becomeParent(iteratedIdent);
 	}
 
 	public static IdentNode defineMatchType(ParserEnvironment env, IdentNode topLevelMatcherIdent, IdentNode iteratedIdent)
@@ -77,17 +82,10 @@ public class MatchTypeIteratedNode extends DeclaredTypeNode implements MemberAcc
 		}
 	}
 
-	private IdentNode topLevelMatcherUnresolved;
-	private TopLevelMatcherDeclNode topLevelMatcher;
-
-	private IdentNode iteratedUnresolved;
-	private IteratedDeclNode iterated;
-
-	// the match type node instances are created in ParserEnvironment as needed
-	public MatchTypeIteratedNode(IdentNode topLevelMatcherIdent, IdentNode iteratedIdent)
+	@Override
+	public String getTypeName()
 	{
-		topLevelMatcherUnresolved = becomeParent(topLevelMatcherIdent);
-		iteratedUnresolved = becomeParent(iteratedIdent);
+		return "match<" + topLevelMatcherUnresolved.toString() + "." + iteratedUnresolved.toString() + "> type";
 	}
 
 	@Override

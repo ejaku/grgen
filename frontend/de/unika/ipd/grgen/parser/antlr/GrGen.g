@@ -508,7 +508,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		DefinedMatchTypeNode mt = null;
 		env.setMatchTypeChilds(matchTypeIteratedChilds);
 	}
-	: t=TEST id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
+	: t=TEST id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeActionNode.defineMatchType(env, id)); env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
 		params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		ret=returnTypes (IMPLEMENTS matchClasses[implementedMatchTypes])? LBRACE
 		left=patternBody[getCoords(t), params, conn, returnz, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
@@ -527,7 +527,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		filterDecls[id, actionDecl]
 		{ env.popScope(); }
 		{ env.setCurrentActionOrSubpattern(null); }
-	| r=RULE id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
+	| r=RULE id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeActionNode.defineMatchType(env, id)); env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
 		params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		ret=returnTypes (IMPLEMENTS matchClasses[implementedMatchTypes])? LBRACE
 		left=patternBody[getCoords(r), params, conn, new CollectNode<ExprNode>(), namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
@@ -666,7 +666,7 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 			{
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
 						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
-						new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, actionId)),
+						new ArrayTypeNode(MatchTypeActionNode.getMatchTypeIdentNode(env, actionId)),
 						PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
@@ -1487,7 +1487,7 @@ matchTypeIdentUse returns [ IdentNode res = null ]
 	: MATCH LT actionIdent=actionIdentUse (DOT iterIdent=iterIdentUse)? GT
 		{
 			if(iterIdent == null)
-				res = MatchTypeNode.getMatchTypeIdentNode(env, actionIdent);
+				res = MatchTypeActionNode.getMatchTypeIdentNode(env, actionIdent);
 			else
 				res = MatchTypeIteratedNode.getMatchTypeIdentNode(env, actionIdent, iterIdent);
 		}
@@ -1500,7 +1500,7 @@ matchTypeIdentUseInContainerType returns [ IdentNode res = null ]
 	: MATCH LT actionIdent=actionIdentUse (DOT iterIdent=iterIdentUse)?
 		{
 			if(iterIdent == null)
-				res = MatchTypeNode.getMatchTypeIdentNode(env, actionIdent);
+				res = MatchTypeActionNode.getMatchTypeIdentNode(env, actionIdent);
 			else
 				res = MatchTypeIteratedNode.getMatchTypeIdentNode(env, actionIdent, iterIdent);
 		}
@@ -3764,7 +3764,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 		RBRACE { env.popScope(); }
 		{
 			matchesIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			iterVar = new VarDeclNode(leftVar, MatchTypeNode.getMatchTypeIdentNode(env, actionIdent), directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, MatchTypeActionNode.getMatchTypeIdentNode(env, actionIdent), directlyNestingLHSGraph, context);
 			res = new MatchesAccumulationYieldNode(f, iterVar, matchesIdentUse, cs);
 		}
 	| MATCH LT CLASS matchClassIdent=typeIdentUse GT IN i=IDENT RPAREN

@@ -756,7 +756,7 @@ seqCallRuleExpressionForMulti [ ExecNode xg, CollectNode<CallActionNode> ruleCal
 			if(ruleCalls != null) { // must be added to MultiCallActionNode if used from multi rule all call or multi backtrack construct
 				ruleCalls.addChild(ruleCall);
 			}
-			res = new RuleQueryExprNode(id.getCoords(), ruleCall, new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, id)));
+			res = new RuleQueryExprNode(id.getCoords(), ruleCall, new ArrayTypeNode(MatchTypeActionNode.getMatchTypeIdentNode(env, id)));
 		}
 	;
 
@@ -798,7 +798,7 @@ seqCallRuleExpression [ ExecNode xg ] returns [ ExprNode res = env.initExprNode(
 		{
 			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, true);
 			xg.addCallAction(ruleCall);
-			res = new RuleQueryExprNode(id.getCoords(), ruleCall, new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, id)));
+			res = new RuleQueryExprNode(id.getCoords(), ruleCall, new ArrayTypeNode(MatchTypeActionNode.getMatchTypeIdentNode(env, id)));
 		}
 	;
 
@@ -1031,7 +1031,7 @@ seqEntityDeclGenericTypeMatchCont [ ExecNode xg, IdentNode id ] returns [ ExecVa
 	:
 		actionIdent=seqActionIdentUse GT // match decl
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, MatchTypeNode.getMatchTypeIdentNode(env, actionIdent));
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, MatchTypeActionNode.getMatchTypeIdentNode(env, actionIdent));
 			xg.append(id.toString() + ":match<" + actionIdent.toString() + ">");
 			xg.addVarDecl(decl);
 			res = decl;
@@ -1051,7 +1051,7 @@ seqMatchTypeIdentUseInContainerType [ ExecNode xg ] returns [ IdentNode res = nu
 	:
 		MATCH LT actionIdent=seqActionIdentUse // match decl
 		{
-			res = MatchTypeNode.getMatchTypeIdentNode(env, actionIdent);
+			res = MatchTypeActionNode.getMatchTypeIdentNode(env, actionIdent);
 			xg.append("match<" + actionIdent.toString());
 		}
 	|

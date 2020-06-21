@@ -19,9 +19,7 @@ import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.NullTypeNode;
@@ -91,7 +89,7 @@ public abstract class ExprNode extends BaseNode
 			return this;
 		}
 
-		if((tgt instanceof MatchTypeActionNode || tgt instanceof MatchTypeIteratedNode || tgt instanceof DefinedMatchTypeNode)
+		if(tgt instanceof MatchTypeNode
 				&& src instanceof NullTypeNode) {
 			return this;
 		}
