@@ -20,8 +20,8 @@ import de.unika.ipd.grgen.ast.FilterInvocationNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
@@ -39,7 +39,7 @@ public class IteratedFilteringNode extends EvalStatementNode
 	}
 
 	private IdentNode actionUnresolved;
-	private TestDeclNode action;
+	private ActionDeclNode action;
 	private SubpatternDeclNode subpattern;
 
 	private IdentNode iteratedUnresolved;
@@ -74,8 +74,8 @@ public class IteratedFilteringNode extends EvalStatementNode
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<TestDeclNode, SubpatternDeclNode> actionOrSubpatternResolver =
-			new DeclarationPairResolver<TestDeclNode, SubpatternDeclNode>(TestDeclNode.class, SubpatternDeclNode.class);
+	private static final DeclarationPairResolver<ActionDeclNode, SubpatternDeclNode> actionOrSubpatternResolver =
+			new DeclarationPairResolver<ActionDeclNode, SubpatternDeclNode>(ActionDeclNode.class, SubpatternDeclNode.class);
 	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
 			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
 
@@ -86,7 +86,7 @@ public class IteratedFilteringNode extends EvalStatementNode
 		if(!(actionUnresolved instanceof PackageIdentNode))
 			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
 
-		Pair<TestDeclNode, SubpatternDeclNode> actionOrSubpattern = actionOrSubpatternResolver.resolve(actionUnresolved, this);
+		Pair<ActionDeclNode, SubpatternDeclNode> actionOrSubpattern = actionOrSubpatternResolver.resolve(actionUnresolved, this);
 		if(actionOrSubpattern == null || actionOrSubpattern.fst == null && actionOrSubpattern.snd == null)
 			return false;
 		if(actionOrSubpattern.fst != null)

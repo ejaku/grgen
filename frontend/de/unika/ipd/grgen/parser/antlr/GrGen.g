@@ -500,7 +500,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		CollectNode<IdentNode> implementedMatchTypes = new CollectNode<IdentNode>();
 		ExecNode exec = null;
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
-		TestDeclNode actionDecl = null;
+		ActionDeclNode actionDecl = null;
 		DefinedMatchTypeNode mt = null;
 		env.setMatchTypeChilds(matchTypeChilds);
 	}
@@ -786,7 +786,7 @@ returnType returns [ BaseNode res = env.initNode() ]
 	| containerType=containerTypeUse { res = containerType; }
 	;
 
-filterDecls [ IdentNode actionIdent, TestDeclNode actionDecl ]
+filterDecls [ IdentNode actionIdent, ActionDeclNode actionDecl ]
 	@init {
 		ArrayList<FilterAutoDeclNode> filters = new ArrayList<FilterAutoDeclNode>();
 	}

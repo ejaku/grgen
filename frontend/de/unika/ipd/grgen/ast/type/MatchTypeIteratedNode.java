@@ -19,8 +19,8 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
@@ -111,8 +111,8 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<TestDeclNode, SubpatternDeclNode> actionOrSubpatternResolver =
-			new DeclarationPairResolver<TestDeclNode, SubpatternDeclNode>(TestDeclNode.class, SubpatternDeclNode.class);
+	private static final DeclarationPairResolver<ActionDeclNode, SubpatternDeclNode> actionOrSubpatternResolver =
+			new DeclarationPairResolver<ActionDeclNode, SubpatternDeclNode>(ActionDeclNode.class, SubpatternDeclNode.class);
 	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
 			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
 
@@ -122,7 +122,7 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 		if(!(actionUnresolved instanceof PackageIdentNode)) {
 			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
 		}
-		Pair<TestDeclNode, SubpatternDeclNode> actionOrSubpattern = actionOrSubpatternResolver.resolve(actionUnresolved, this);
+		Pair<ActionDeclNode, SubpatternDeclNode> actionOrSubpattern = actionOrSubpatternResolver.resolve(actionUnresolved, this);
 		if(actionOrSubpattern == null || actionOrSubpattern.fst == null && actionOrSubpattern.snd == null)
 			return false;
 		if(actionOrSubpattern.fst != null)

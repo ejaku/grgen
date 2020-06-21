@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
 
 /**
  * AST interface representing filters
@@ -22,5 +22,5 @@ public interface FilterCharacter
 	String getFilterName();
 
 	// returns the action the filter applies to
-	TestDeclNode getActionNode();
+	ActionDeclNode getActionNode();
 }

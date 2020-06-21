@@ -228,7 +228,7 @@ public abstract class MatcherDeclNode extends DeclNode
 		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
 		boolean isLhsEdgeReuseOk = true;
 
-		//get the negative and independent graphs and the pattern of this TestDeclNode
+		// get the negative and independent graphs and the pattern of this ActionDeclNode
 		// NOTE: the order affect the error coords
 		Collection<PatternGraphLhsNode> leftHandGraphs = new LinkedList<PatternGraphLhsNode>();
 		leftHandGraphs.add(pattern);

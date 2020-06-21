@@ -35,7 +35,7 @@ public class FilterAutoSuppliedDeclNode extends FilterAutoDeclNode
 	IdentNode ident;
 
 	protected IdentNode actionUnresolved;
-	protected TestDeclNode action;
+	protected ActionDeclNode action;
 	protected IteratedDeclNode iterated;
 
 	public FilterAutoSuppliedDeclNode(IdentNode ident, IdentNode action)
@@ -64,14 +64,14 @@ public class FilterAutoSuppliedDeclNode extends FilterAutoDeclNode
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<TestDeclNode, IteratedDeclNode> actionOrIteratedResolver =
-			new DeclarationPairResolver<TestDeclNode, IteratedDeclNode>(TestDeclNode.class, IteratedDeclNode.class);
+	private static final DeclarationPairResolver<ActionDeclNode, IteratedDeclNode> actionOrIteratedResolver =
+			new DeclarationPairResolver<ActionDeclNode, IteratedDeclNode>(ActionDeclNode.class, IteratedDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal()
 	{
-		Pair<TestDeclNode, IteratedDeclNode> actionOrIterated = actionOrIteratedResolver.resolve(actionUnresolved, this);
+		Pair<ActionDeclNode, IteratedDeclNode> actionOrIterated = actionOrIteratedResolver.resolve(actionUnresolved, this);
 		if(actionOrIterated == null)
 			return false;
 		action = actionOrIterated.fst;

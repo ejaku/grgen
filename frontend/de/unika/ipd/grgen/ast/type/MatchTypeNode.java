@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.MemberAccessor;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -80,7 +80,7 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 	}
 
 	protected IdentNode actionUnresolved;
-	protected TestDeclNode action;
+	protected ActionDeclNode action;
 
 	// the match type node instances are created in ParserEnvironment as needed
 	public MatchTypeNode(IdentNode actionIdent)
@@ -104,8 +104,8 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<TestDeclNode> actionResolver =
-			new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
+	private static final DeclarationResolver<ActionDeclNode> actionResolver =
+			new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class);
 
 	@Override
 	protected boolean resolveLocal()
@@ -119,7 +119,7 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 		return true;
 	}
 
-	public TestDeclNode getTest()
+	public ActionDeclNode getAction()
 	{
 		assert(isResolved());
 		return action;

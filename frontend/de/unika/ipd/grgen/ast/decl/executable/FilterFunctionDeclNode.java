@@ -51,7 +51,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 	static final FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode();
 
 	protected IdentNode actionUnresolved;
-	public TestDeclNode action;
+	public ActionDeclNode action;
 
 	public FilterFunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params,
 			IdentNode action)
@@ -90,8 +90,8 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<TestDeclNode> actionResolver =
-			new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
+	private static final DeclarationResolver<ActionDeclNode> actionResolver =
+			new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
@@ -132,7 +132,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 	}
 
 	@Override
-	public TestDeclNode getActionNode()
+	public ActionDeclNode getActionNode()
 	{
 		return action;
 	}

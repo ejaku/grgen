@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.ScopeOwner;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
@@ -89,7 +89,7 @@ public abstract class Resolver<T> extends Base
 			if(!matchTypeIterated.resolve()) {
 				return null;
 			}
-			TestDeclNode test = matchTypeIterated.getTest();
+			ActionDeclNode test = matchTypeIterated.getAction();
 			IteratedDeclNode iterated = matchTypeIterated.getIterated();
 			result = matchTypeIterated.tryGetMember(member.toString());
 			if(result == null) {
@@ -103,7 +103,7 @@ public abstract class Resolver<T> extends Base
 			if(!matchType.resolve()) {
 				return null;
 			}
-			TestDeclNode test = matchType.getTest();
+			ActionDeclNode test = matchType.getAction();
 			result = matchType.tryGetMember(member.toString());
 			if(result == null) {
 				String actionName = test.getIdentNode().toString();

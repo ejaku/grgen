@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.MatchClassFilterFunctionDeclNode;
@@ -23,7 +24,6 @@ import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SequenceDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
@@ -70,7 +70,7 @@ public class UnitNode extends BaseNode
 	private CollectNode<SubpatternDeclNode> subpatterns;
 	private CollectNode<IdentNode> subpatternsUnresolved;
 
-	private CollectNode<TestDeclNode> actions; // of type TestDeclNode or RuleDeclNode
+	private CollectNode<ActionDeclNode> actions;
 	private CollectNode<IdentNode> actionsUnresolved;
 
 	private CollectNode<MatchTypeNode> matchTypes;
@@ -193,8 +193,8 @@ public class UnitNode extends BaseNode
 	private static final CollectResolver<SubpatternDeclNode> subpatternsResolver =
 			new CollectResolver<SubpatternDeclNode>(new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class));
 
-	private static final CollectResolver<TestDeclNode> actionsResolver =
-			new CollectResolver<TestDeclNode>(new DeclarationResolver<TestDeclNode>(TestDeclNode.class));
+	private static final CollectResolver<ActionDeclNode> actionsResolver =
+			new CollectResolver<ActionDeclNode>(new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class));
 
 	private static final CollectResolver<MatchTypeNode> matchTypesResolver =
 			new CollectResolver<MatchTypeNode>(new DeclarationTypeResolver<MatchTypeNode>(MatchTypeNode.class));
@@ -268,7 +268,7 @@ public class UnitNode extends BaseNode
 			if(subpattern.right != null)
 				res &= checkStatementsRHS(subpattern, subpattern.right.patternGraph);
 		}
-		for(TestDeclNode action : actions.getChildren()) {
+		for(ActionDeclNode action : actions.getChildren()) {
 			res &= checkStatementsLHS(action, action.pattern);
 			if(action instanceof RuleDeclNode) {
 				RuleDeclNode rule = (RuleDeclNode)action;
@@ -365,54 +365,54 @@ public class UnitNode extends BaseNode
 	{
 		Unit res = new Unit(unitname, filename);
 
-		for(ModelNode n : models.getChildren()) {
-			Model model = n.getModel();
-			res.addModel(model);
+		for(ModelNode model : models.getChildren()) {
+			Model modelIR = model.getModel();
+			res.addModel(modelIR);
 		}
 
-		for(SubpatternDeclNode n : subpatterns.getChildren()) {
-			Rule rule = n.getAction();
+		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {
+			Rule rule = subpattern.getAction();
 			res.addSubpatternRule(rule);
 		}
 
-		for(TestDeclNode n : actions.getChildren()) {
-			Rule rule = n.getAction();
+		for(ActionDeclNode action : actions.getChildren()) {
+			Rule rule = action.getAction();
 			res.addActionRule(rule);
 		}
 
-		for(FilterFunctionDeclNode n : filterFunctions.getChildren()) {
-			FilterFunction filter = n.getFilterFunction();
-			res.addFilterFunction(filter);
+		for(FilterFunctionDeclNode filter : filterFunctions.getChildren()) {
+			FilterFunction filterIR = filter.getFilterFunction();
+			res.addFilterFunction(filterIR);
 		}
 
-		for(TypeDeclNode n : matchClassDecls.getChildren()) {
-			DefinedMatchTypeNode matchClassNode = (DefinedMatchTypeNode)n.getDeclType();
-			DefinedMatchType matchClass = matchClassNode.getDefinedMatchType();
-			res.addMatchClass(matchClass);
+		for(TypeDeclNode matchClass : matchClassDecls.getChildren()) {
+			DefinedMatchTypeNode matchClassDecl = (DefinedMatchTypeNode)matchClass.getDeclType();
+			DefinedMatchType matchClassIR = matchClassDecl.getDefinedMatchType();
+			res.addMatchClass(matchClassIR);
 		}
 
-		for(MatchClassFilterFunctionDeclNode n : matchClassFilterFunctions.getChildren()) {
-			MatchClassFilterFunction matchClassFilter = n.getMatchClassFilterFunction();
-			res.addMatchClassFilterFunction(matchClassFilter);
+		for(MatchClassFilterFunctionDeclNode matchClassFilter : matchClassFilterFunctions.getChildren()) {
+			MatchClassFilterFunction matchClassFilterIR = matchClassFilter.getMatchClassFilterFunction();
+			res.addMatchClassFilterFunction(matchClassFilterIR);
 		}
 
-		for(FunctionDeclNode n : functions.getChildren()) {
-			Function function = n.getFunction();
-			res.addFunction(function);
+		for(FunctionDeclNode function : functions.getChildren()) {
+			Function functionIR = function.getFunction();
+			res.addFunction(functionIR);
 		}
 
-		for(ProcedureDeclNode n : procedures.getChildren()) {
-			Procedure procedure = n.getProcedure();
-			res.addProcedure(procedure);
+		for(ProcedureDeclNode procedure : procedures.getChildren()) {
+			Procedure procedureIR = procedure.getProcedure();
+			res.addProcedure(procedureIR);
 		}
 
-		for(SequenceDeclNode n : sequences.getChildren()) {
-			Sequence sequence = n.getSequence();
-			res.addSequence(sequence);
+		for(SequenceDeclNode sequence : sequences.getChildren()) {
+			Sequence sequenceIR = sequence.getSequence();
+			res.addSequence(sequenceIR);
 		}
 
-		for(TypeDeclNode n : packages.getChildren()) {
-			PackageActionType packageActionType = (PackageActionType)n.getDeclType().getType();
+		for(TypeDeclNode packageType : packages.getChildren()) {
+			PackageActionType packageActionType = (PackageActionType)packageType.getDeclType().getType();
 			res.addPackage(packageActionType);
 		}
 

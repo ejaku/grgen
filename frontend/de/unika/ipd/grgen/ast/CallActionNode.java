@@ -17,9 +17,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SequenceDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeInterfaceTypeChangeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeInterfaceTypeChangeDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
@@ -58,7 +58,7 @@ public class CallActionNode extends BaseNode
 
 	private boolean isAllBracketed;
 
-	private TestDeclNode action;
+	private ActionDeclNode action;
 	private SequenceDeclNode sequence;
 	private ExecVarDeclNode boolVar;
 
@@ -118,7 +118,7 @@ public class CallActionNode extends BaseNode
 		return params;
 	}
 
-	public TestDeclNode getAction()
+	public ActionDeclNode getAction()
 	{
 		return action;
 	}
@@ -161,9 +161,9 @@ public class CallActionNode extends BaseNode
 		}
 	}
 
-	private static final DeclarationTripleResolver<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> actionResolver =
-		new DeclarationTripleResolver<TestDeclNode, SequenceDeclNode, ExecVarDeclNode>(
-				TestDeclNode.class, SequenceDeclNode.class, ExecVarDeclNode.class);
+	private static final DeclarationTripleResolver<ActionDeclNode, SequenceDeclNode, ExecVarDeclNode> actionResolver =
+		new DeclarationTripleResolver<ActionDeclNode, SequenceDeclNode, ExecVarDeclNode>(
+				ActionDeclNode.class, SequenceDeclNode.class, ExecVarDeclNode.class);
 
 	private static final CollectResolver<ExprNode> paramNodeResolver =
 		new CollectResolver<ExprNode>(new DeclarationResolver<ExprNode>(ExprNode.class));
@@ -185,7 +185,7 @@ public class CallActionNode extends BaseNode
 			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
 		}
 
-		Triple<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved =
+		Triple<ActionDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved =
 				actionResolver.resolve(actionUnresolved, this);
 		if(resolved != null) {
 			if(resolved.first != null)

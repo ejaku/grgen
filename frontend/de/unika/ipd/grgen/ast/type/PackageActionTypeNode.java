@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.MatchClassFilterFunctionDeclNode;
@@ -26,7 +27,6 @@ import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SequenceDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.TestDeclNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -55,7 +55,7 @@ public class PackageActionTypeNode extends CompoundTypeNode
 	private CollectNode<SubpatternDeclNode> subpatterns;
 	private CollectNode<IdentNode> subpatternsUnresolved;
 
-	private CollectNode<TestDeclNode> actions; // of type TestDeclNode or RuleDeclNode
+	private CollectNode<ActionDeclNode> actions;
 	private CollectNode<IdentNode> actionsUnresolved;
 
 	private CollectNode<MatchTypeNode> matchTypes;
@@ -142,8 +142,8 @@ public class PackageActionTypeNode extends CompoundTypeNode
 	private static final CollectResolver<SubpatternDeclNode> subpatternsResolver =
 			new CollectResolver<SubpatternDeclNode>(new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class));
 
-	private static final CollectResolver<TestDeclNode> actionsResolver =
-			new CollectResolver<TestDeclNode>(new DeclarationResolver<TestDeclNode>(TestDeclNode.class));
+	private static final CollectResolver<ActionDeclNode> actionsResolver =
+			new CollectResolver<ActionDeclNode>(new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class));
 
 	private static CollectResolver<MatchTypeNode> matchTypesResolver =
 			new CollectResolver<MatchTypeNode>(new DeclarationTypeResolver<MatchTypeNode>(MatchTypeNode.class));
@@ -197,7 +197,7 @@ public class PackageActionTypeNode extends CompoundTypeNode
 			if(subpattern.right != null)
 				res &= UnitNode.checkStatementsRHS(subpattern, subpattern.right.patternGraph);
 		}
-		for(TestDeclNode action : actions.getChildren()) {
+		for(ActionDeclNode action : actions.getChildren()) {
 			res &= UnitNode.checkStatementsLHS(action, action.pattern);
 			if(action instanceof RuleDeclNode) {
 				RuleDeclNode rule = (RuleDeclNode)action;
@@ -235,59 +235,59 @@ public class PackageActionTypeNode extends CompoundTypeNode
 		Ident id = getIdentNode().checkIR(Ident.class);
 		PackageActionType res = new PackageActionType(id);
 
-		for(SubpatternDeclNode n : subpatterns.getChildren()) {
-			Rule subRule = n.getAction();
+		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {
+			Rule subRule = subpattern.getAction();
 			subRule.setPackageContainedIn(id.toString());
 			res.addSubpatternRule(subRule);
 		}
 
-		for(TestDeclNode n : actions.getChildren()) {
-			Rule rule = n.getAction();
+		for(ActionDeclNode action : actions.getChildren()) {
+			Rule rule = action.getAction();
 			rule.setPackageContainedIn(id.toString());
 			res.addActionRule(rule);
 		}
 
-		for(MatchTypeNode n : matchTypes.getChildren()) {
-			MatchType matchType = n.getMatchType();
-			matchType.setPackageContainedIn(id.toString());
+		for(MatchTypeNode matchType : matchTypes.getChildren()) {
+			MatchType matchTypeIR = matchType.getMatchType();
+			matchTypeIR.setPackageContainedIn(id.toString());
 			//no adding to package as nothing needs to be generated from this type / already happens with action
 		}
 
-		for(FilterFunctionDeclNode n : filterFunctions.getChildren()) {
-			FilterFunction filter = n.getFilterFunction();
-			filter.setPackageContainedIn(id.toString());
-			res.addFilterFunction(filter);
+		for(FilterFunctionDeclNode filter : filterFunctions.getChildren()) {
+			FilterFunction filterIR = filter.getFilterFunction();
+			filterIR.setPackageContainedIn(id.toString());
+			res.addFilterFunction(filterIR);
 		}
 
-		for(TypeDeclNode n : matchClassDecls.getChildren()) {
-			DefinedMatchTypeNode matchClassNode = (DefinedMatchTypeNode)n.getDeclType();
-			DefinedMatchType matchClass = matchClassNode.getDefinedMatchType();
-			matchClass.setPackageContainedIn(id.toString());
-			res.addMatchClass(matchClass);
+		for(TypeDeclNode matchClass : matchClassDecls.getChildren()) {
+			DefinedMatchTypeNode matchClassDecl = (DefinedMatchTypeNode)matchClass.getDeclType();
+			DefinedMatchType matchClassIR = matchClassDecl.getDefinedMatchType();
+			matchClassIR.setPackageContainedIn(id.toString());
+			res.addMatchClass(matchClassIR);
 		}
 
-		for(MatchClassFilterFunctionDeclNode n : matchClassFilterFunctions.getChildren()) {
-			MatchClassFilterFunction matchClassFilter = n.getMatchClassFilterFunction();
-			matchClassFilter.setPackageContainedIn(id.toString());
-			res.addMatchClassFilterFunction(matchClassFilter);
+		for(MatchClassFilterFunctionDeclNode matchClassFilter : matchClassFilterFunctions.getChildren()) {
+			MatchClassFilterFunction matchClassFilterIR = matchClassFilter.getMatchClassFilterFunction();
+			matchClassFilterIR.setPackageContainedIn(id.toString());
+			res.addMatchClassFilterFunction(matchClassFilterIR);
 		}
 
-		for(FunctionDeclNode n : functions.getChildren()) {
-			Function function = n.getFunction();
-			function.setPackageContainedIn(id.toString());
-			res.addFunction(function);
+		for(FunctionDeclNode function : functions.getChildren()) {
+			Function functionIR = function.getFunction();
+			functionIR.setPackageContainedIn(id.toString());
+			res.addFunction(functionIR);
 		}
 
-		for(ProcedureDeclNode n : procedures.getChildren()) {
-			Procedure procedure = n.getProcedure();
-			procedure.setPackageContainedIn(id.toString());
-			res.addProcedure(procedure);
+		for(ProcedureDeclNode procedure : procedures.getChildren()) {
+			Procedure procedureIR = procedure.getProcedure();
+			procedureIR.setPackageContainedIn(id.toString());
+			res.addProcedure(procedureIR);
 		}
 
-		for(SequenceDeclNode n : sequences.getChildren()) {
-			Sequence sequence = n.getSequence();
-			sequence.setPackageContainedIn(id.toString());
-			res.addSequence(sequence);
+		for(SequenceDeclNode sequence : sequences.getChildren()) {
+			Sequence sequenceIR = sequence.getSequence();
+			sequenceIR.setPackageContainedIn(id.toString());
+			res.addSequence(sequenceIR);
 		}
 
 		return res;
