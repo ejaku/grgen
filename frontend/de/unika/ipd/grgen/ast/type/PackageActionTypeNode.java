@@ -59,7 +59,7 @@ public class PackageActionTypeNode extends CompoundTypeNode
 	private CollectNode<ActionDeclNode> actions;
 	private CollectNode<IdentNode> actionsUnresolved;
 
-	private CollectNode<MatchTypeNode> matchTypes;
+	private CollectNode<MatchTypeActionNode> matchTypes;
 	private CollectNode<IdentNode> matchTypesUnresolved;
 
 	private CollectNode<FilterFunctionDeclNode> filterFunctions;
@@ -154,8 +154,8 @@ public class PackageActionTypeNode extends CompoundTypeNode
 	private static final CollectResolver<ActionDeclNode> actionsResolver =
 			new CollectResolver<ActionDeclNode>(new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class));
 
-	private static CollectResolver<MatchTypeNode> matchTypesResolver =
-			new CollectResolver<MatchTypeNode>(new DeclarationTypeResolver<MatchTypeNode>(MatchTypeNode.class));
+	private static CollectResolver<MatchTypeActionNode> matchTypesResolver =
+			new CollectResolver<MatchTypeActionNode>(new DeclarationTypeResolver<MatchTypeActionNode>(MatchTypeActionNode.class));
 
 	private static final CollectResolver<FilterFunctionDeclNode> filterFunctionsResolver =
 			new CollectResolver<FilterFunctionDeclNode>(new DeclarationResolver<FilterFunctionDeclNode>(FilterFunctionDeclNode.class));
@@ -261,7 +261,7 @@ public class PackageActionTypeNode extends CompoundTypeNode
 			res.addActionRule(rule);
 		}
 
-		for(MatchTypeNode matchType : matchTypes.getChildren()) {
+		for(MatchTypeActionNode matchType : matchTypes.getChildren()) {
 			MatchType matchTypeIR = matchType.getMatchType();
 			matchTypeIR.setPackageContainedIn(id.toString());
 			//no adding to package as nothing needs to be generated from this type / already happens with action

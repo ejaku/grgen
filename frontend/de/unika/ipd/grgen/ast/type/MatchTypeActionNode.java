@@ -31,10 +31,10 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.parser.Symbol.Occurrence;
 
-public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
+public class MatchTypeActionNode extends DeclaredTypeNode implements MemberAccessor
 {
 	static {
-		setName(MatchTypeNode.class, "match type");
+		setName(MatchTypeActionNode.class, "match type action");
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 		String matchTypeString = "match<" + actionString + ">";
 		IdentNode matchTypeIdentNode = new IdentNode(
 				env.define(ParserEnvironment.TYPES, matchTypeString, actionIdent.getCoords()));
-		MatchTypeNode matchTypeNode = new MatchTypeNode(actionIdent);
+		MatchTypeActionNode matchTypeNode = new MatchTypeActionNode(actionIdent);
 		TypeDeclNode typeDeclNode = new TypeDeclNode(matchTypeIdentNode, matchTypeNode);
 		matchTypeIdentNode.setDecl(typeDeclNode);
 		return matchTypeIdentNode;
@@ -83,7 +83,7 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 	private ActionDeclNode action;
 
 	// the match type node instances are created in ParserEnvironment as needed
-	public MatchTypeNode(IdentNode actionIdent)
+	public MatchTypeActionNode(IdentNode actionIdent)
 	{
 		actionUnresolved = becomeParent(actionIdent);
 	}

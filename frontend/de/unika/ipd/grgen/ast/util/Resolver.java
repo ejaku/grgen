@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.CompoundTypeNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.util.Base;
 
@@ -99,8 +99,8 @@ public abstract class Resolver<T> extends Base
 				member.reportError("Unknown member " + memberName
 						+ ", can't find in match<" + actionName + "." + iteratedName + ">");
 			}
-		} else if(type instanceof MatchTypeNode) {
-			MatchTypeNode matchType = (MatchTypeNode)type;
+		} else if(type instanceof MatchTypeActionNode) {
+			MatchTypeActionNode matchType = (MatchTypeActionNode)type;
 			if(!matchType.resolve()) {
 				return null;
 			}

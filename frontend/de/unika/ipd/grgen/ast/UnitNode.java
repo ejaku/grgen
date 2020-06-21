@@ -37,7 +37,7 @@ import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
@@ -74,7 +74,7 @@ public class UnitNode extends BaseNode
 	private CollectNode<ActionDeclNode> actions;
 	private CollectNode<IdentNode> actionsUnresolved;
 
-	private CollectNode<MatchTypeNode> matchTypes;
+	private CollectNode<MatchTypeActionNode> matchTypes;
 	private CollectNode<IdentNode> matchTypesUnresolved;
 
 	private CollectNode<MatchTypeIteratedNode> matchTypesIterated;
@@ -205,8 +205,8 @@ public class UnitNode extends BaseNode
 	private static final CollectResolver<ActionDeclNode> actionsResolver =
 			new CollectResolver<ActionDeclNode>(new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class));
 
-	private static final CollectResolver<MatchTypeNode> matchTypesResolver =
-			new CollectResolver<MatchTypeNode>(new DeclarationTypeResolver<MatchTypeNode>(MatchTypeNode.class));
+	private static final CollectResolver<MatchTypeActionNode> matchTypesResolver =
+			new CollectResolver<MatchTypeActionNode>(new DeclarationTypeResolver<MatchTypeActionNode>(MatchTypeActionNode.class));
 
 	private static final CollectResolver<FilterFunctionDeclNode> filterFunctionsResolver =
 			new CollectResolver<FilterFunctionDeclNode>(new DeclarationResolver<FilterFunctionDeclNode>(FilterFunctionDeclNode.class));

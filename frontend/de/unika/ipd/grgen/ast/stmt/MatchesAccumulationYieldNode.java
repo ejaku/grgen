@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -116,8 +116,8 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 		}
 		TypeNode matchesArrayValueType = ((ArrayTypeNode)matchesContainerType).valueType;
 
-		MatchTypeNode matchesContainerMatchType = matchesArrayValueType instanceof MatchTypeNode
-				? (MatchTypeNode)matchesArrayValueType
+		MatchTypeActionNode matchesContainerMatchType = matchesArrayValueType instanceof MatchTypeActionNode
+				? (MatchTypeActionNode)matchesArrayValueType
 				: null;
 		DefinedMatchTypeNode matchesContainerDefinedMatchType = matchesArrayValueType instanceof DefinedMatchTypeNode
 				? (DefinedMatchTypeNode)matchesArrayValueType
@@ -129,8 +129,8 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 		}
 
 		TypeNode iterationVariableType = iterationVariable.getDeclType();
-		MatchTypeNode iterationVariableMatchType = iterationVariableType instanceof MatchTypeNode
-				? (MatchTypeNode)iterationVariableType
+		MatchTypeActionNode iterationVariableMatchType = iterationVariableType instanceof MatchTypeActionNode
+				? (MatchTypeActionNode)iterationVariableType
 				: null;
 		DefinedMatchTypeNode iterationVariableDefinedMatchType = iterationVariableType instanceof DefinedMatchTypeNode
 				? (DefinedMatchTypeNode)iterationVariableType
