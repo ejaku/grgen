@@ -103,6 +103,12 @@ public class TestDeclNode extends ActionDeclNode
 				& checkReturns(pattern.returns);
 	}
 
+	@Override
+	protected String getConstructName()
+	{
+		return getKindStr();
+	}
+
 	public boolean checkControlFlow()
 	{
 		return true;

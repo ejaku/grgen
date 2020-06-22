@@ -103,19 +103,19 @@ public class IteratedAccumulationYieldNode extends NestingStatementNode
 		}
 
 		boolean iterationVariableFound = false;
-		for(VarDeclNode var : iterated.getLeft().getDefVariablesToBeYieldedTo().getChildren()) {
+		for(VarDeclNode var : iterated.pattern.getDefVariablesToBeYieldedTo().getChildren()) {
 			if(iterationVariable.toString() == var.toString()) {
 				iterationVariable.typeUnresolved = var.typeUnresolved;
 				iterationVariableFound = true;
 			}
 		}
-		for(NodeDeclNode node : iterated.getLeft().getNodes()) {
+		for(NodeDeclNode node : iterated.pattern.getNodes()) {
 			if(iterationVariable.toString() == node.toString()) {
 				iterationVariable.typeUnresolved = node.typeUnresolved;
 				iterationVariableFound = true;
 			}
 		}
-		for(EdgeDeclNode edge : iterated.getLeft().getEdges()) {
+		for(EdgeDeclNode edge : iterated.pattern.getEdges()) {
 			if(iterationVariable.toString() == edge.toString()) {
 				iterationVariable.typeUnresolved = edge.typeUnresolved;
 				iterationVariableFound = true;

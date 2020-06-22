@@ -51,7 +51,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Set;
 import java.util.Vector;
 
@@ -78,28 +77,6 @@ public abstract class MatcherDeclNode extends DeclNode
 	public Rule getMatcher()
 	{
 		return checkIR(Rule.class);
-	}
-
-	protected static PatternGraphLhsNode getParentPatternGraph(PatternGraphLhsNode pattern)
-	{
-		if(pattern == null) {
-			return null;
-		}
-
-		Queue<Collection<BaseNode>> queue = new LinkedList<Collection<BaseNode>>();
-		for(Collection<BaseNode> parents = pattern.getParents(); parents != null; parents = queue.poll()) {
-			for(BaseNode parent : parents) {
-				if(parent instanceof PatternGraphLhsNode) {
-					return (PatternGraphLhsNode)parent;
-				}
-				Collection<BaseNode> grandParents = parent.getParents();
-				if(grandParents != null && !grandParents.isEmpty()) {
-					queue.add(grandParents);
-				}
-			}
-		}
-
-		return null;
 	}
 
 	protected static boolean resolveFilters(ArrayList<FilterAutoDeclNode> filters)
@@ -222,6 +199,50 @@ public abstract class MatcherDeclNode extends DeclNode
 			return false;
 		}
 	}
+
+	protected boolean checkNonAction(RhsDeclNode right)
+	{
+		boolean leftHandGraphsOk = checkLeft();
+
+		boolean rightHandGraphsOk = true;
+		if(right != null)
+			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
+
+		boolean noReturnInPattern = true;
+		if(pattern.returns.size() > 0) {
+			error.error(getCoords(), "No return statement in (pattern parts of) " + getConstructName() + " allowed");
+			noReturnInPattern = false;
+		}
+
+		boolean noReturnInNestedReplacement = true;
+		if(right != null) {
+			if(right.patternGraph.returns.size() > 0) {
+				error.error(getCoords(), "No return statement in " + getConstructName() + " allowed");
+				noReturnInNestedReplacement = false;
+			}
+		}
+
+		boolean rhsReuseOk = true;
+		boolean execParamsNotDeleted = true;
+		boolean sameNumberOfRewriteParts = sameNumberOfRewriteParts(right, getConstructName());
+		boolean noNestedRewriteParameters = true;
+		if(right != null) {
+			rhsReuseOk = checkRhsReuse(right);
+			execParamsNotDeleted = checkExecParamsNotDeleted(right);
+			noNestedRewriteParameters = noNestedRewriteParameters(right, getConstructName());
+		}
+
+		return leftHandGraphsOk
+				& rightHandGraphsOk
+				& sameNumberOfRewriteParts
+				& noNestedRewriteParameters
+				& rhsReuseOk
+				& noReturnInPattern
+				& noReturnInNestedReplacement
+				& execParamsNotDeleted;
+	}
+
+	protected abstract String getConstructName();
 
 	protected boolean checkLeft()
 	{
@@ -631,67 +652,6 @@ public abstract class MatcherDeclNode extends DeclNode
 		}
 
 		return res;
-	}
-
-	protected boolean noAbstractElementInstantiatedNestedPattern(RhsDeclNode right)
-	{
-		boolean abstr = true;
-
-nodeAbstrLoop:
-		for(NodeDeclNode node : right.patternGraph.getNodes()) {
-			if(!node.inheritsType() && node.getDeclType().isAbstract()) {
-				if((node.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
-					continue;
-				}
-				for(PatternGraphLhsNode pattern = this.pattern; pattern != null; pattern = getParentPatternGraph(pattern)) {
-					if(pattern.getNodes().contains(node)) {
-						continue nodeAbstrLoop;
-					}
-				}
-				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
-				abstr = false;
-			}
-		}
-
-edgeAbstrLoop:
-		for(EdgeDeclNode edge : right.patternGraph.getEdges()) {
-			if(!edge.inheritsType() && edge.getDeclType().isAbstract()) {
-				if((edge.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
-					continue;
-				}
-				for(PatternGraphLhsNode pattern = this.pattern; pattern != null; pattern = getParentPatternGraph(pattern)) {
-					if(pattern.getEdges().contains(edge)) {
-						continue edgeAbstrLoop;
-					}
-				}
-				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
-				abstr = false;
-			}
-		}
-
-		return abstr;
-	}
-
-	protected boolean noAbstractElementInstantiated(RhsDeclNode right)
-	{
-		boolean abstr = true;
-
-		for(NodeDeclNode node : right.patternGraph.getNodes()) {
-			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)
-					&& (node.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER) {
-				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
-				abstr = false;
-			}
-		}
-		for(EdgeDeclNode edge : right.patternGraph.getEdges()) {
-			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)
-					&& (edge.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER) {
-				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
-				abstr = false;
-			}
-		}
-
-		return abstr;
 	}
 	
 	protected boolean noAmbiguousRetypes(RhsDeclNode right)

@@ -142,51 +142,23 @@ public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 		return false;
 	}
 
-	/**
-	 * Check, if the rule type node is right.
-	 * The children of a rule type are
-	 * 1) a pattern for the left side.
-	 * 2) a pattern for the right side.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
 	@Override
 	protected boolean checkLocal()
 	{
-		boolean leftHandGraphsOk = checkLeft();
-
-		boolean rightHandGraphsOk = true;
-		if(right != null)
-			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
-
-		boolean noReturnInPatternOk = true;
-		if(pattern.returns.size() > 0) {
-			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
-			noReturnInPatternOk = false;
-		}
-
+		boolean nonActionIsOk = super.checkNonAction(right);
 		boolean abstr = true;
-		boolean rhsReuseOk = true;
-		boolean execParamsNotDeleted = true;
-		boolean sameNumberOfRewriteParts = sameNumberOfRewriteParts(right, "subpattern");
-		boolean noNestedRewriteParameters = true;
 		boolean noAmbiguousRetypes = true;
 		if(right != null) {
-			rhsReuseOk = checkRhsReuse(right);
-			execParamsNotDeleted = checkExecParamsNotDeleted(right);
-			noNestedRewriteParameters = noNestedRewriteParameters(right, "subpattern");
 			abstr = noAbstractElementInstantiated(right);
 			noAmbiguousRetypes = noAmbiguousRetypes(right);
 		}
-
-		return leftHandGraphsOk
-				& rightHandGraphsOk
-				& sameNumberOfRewriteParts 
-				& noNestedRewriteParameters
-				& rhsReuseOk
-				& noReturnInPatternOk
-				& execParamsNotDeleted
-				& abstr
-				& noAmbiguousRetypes;
+		return nonActionIsOk & abstr & noAmbiguousRetypes;
+	}
+	
+	@Override
+	protected String getConstructName()
+	{
+		return getKindStr();
 	}
 
 	public PatternGraphLhsNode getPattern()
@@ -244,6 +216,6 @@ public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 
 	public static String getKindStr()
 	{
-		return "subpattern";
+		return "(sub)pattern";
 	}
 }

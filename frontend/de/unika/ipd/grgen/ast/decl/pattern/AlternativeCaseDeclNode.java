@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.executable.MatcherDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.NestedMatcherDeclNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.AlternativeCaseTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -30,13 +30,12 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 /**
  * AST node for an alternative case pattern, maybe including replacements.
  */
-public class AlternativeCaseDeclNode extends MatcherDeclNode
+public class AlternativeCaseDeclNode extends NestedMatcherDeclNode
 {
 	static {
 		setName(AlternativeCaseDeclNode.class, "alternative case");
 	}
 
-	public RhsDeclNode right;
 	private AlternativeCaseTypeNode type;
 
 	/** Type for this declaration. */
@@ -50,9 +49,7 @@ public class AlternativeCaseDeclNode extends MatcherDeclNode
 	 */
 	public AlternativeCaseDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)
 	{
-		super(id, alternativeCaseType, left);
-		this.right = right;
-		becomeParent(this.right);
+		super(id, alternativeCaseType, left, right);
 	}
 
 	/** returns children of this node */
@@ -93,57 +90,10 @@ public class AlternativeCaseDeclNode extends MatcherDeclNode
 		return type != null;
 	}
 
-	/**
-	 * Check, if the rule type node is right.
-	 * The children of a rule type are
-	 * 1) a pattern for the left side.
-	 * 2) a pattern for the right side.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
 	@Override
-	protected boolean checkLocal()
+	protected String getConstructName()
 	{
-		boolean leftHandGraphsOk = checkLeft();
-
-		boolean rightHandGraphsOk = true;
-		if(right != null)
-			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
-
-		boolean noReturnInPatternOk = true;
-		if(pattern.returns.size() > 0) {
-			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
-			noReturnInPatternOk = false;
-		}
-
-		boolean noReturnInAlterntiveCaseReplacement = true;
-		if(right != null) {
-			if(right.patternGraph.returns.size() > 0) {
-				error.error(getCoords(), "No return statements in alternative cases allowed");
-				noReturnInAlterntiveCaseReplacement = false;
-			}
-		}
-
-		boolean rhsReuseOk = true;
-		boolean execParamsNotDeleted = true;
-		boolean sameNumberOfRewriteParts = sameNumberOfRewriteParts(right, "alternative case");
-		boolean noNestedRewriteParameters = true;
-		boolean abstr = true;
-		if(right != null) {
-			rhsReuseOk = checkRhsReuse(right);
-			execParamsNotDeleted = checkExecParamsNotDeleted(right);
-			noNestedRewriteParameters = noNestedRewriteParameters(right, "alternative case");
-			abstr = noAbstractElementInstantiatedNestedPattern(right);
-		}
-
-		return leftHandGraphsOk
-				& rightHandGraphsOk
-				& sameNumberOfRewriteParts
-				& noNestedRewriteParameters
-				& rhsReuseOk
-				& noReturnInPatternOk
-				& noReturnInAlterntiveCaseReplacement
-				& execParamsNotDeleted
-				& abstr;
+		return getKindStr();
 	}
 
 	/**

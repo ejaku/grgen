@@ -139,13 +139,13 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 	@Override
 	public DeclNode tryGetMember(String name)
 	{
-		NodeDeclNode node = iterated.getLeft().tryGetNode(name);
+		NodeDeclNode node = iterated.pattern.tryGetNode(name);
 		if(node != null)
 			return node;
-		EdgeDeclNode edge = iterated.getLeft().tryGetEdge(name);
+		EdgeDeclNode edge = iterated.pattern.tryGetEdge(name);
 		if(edge != null)
 			return edge;
-		return iterated.getLeft().tryGetVar(name);
+		return iterated.pattern.tryGetVar(name);
 	}
 
 	/** Returns the IR object for this match type node. */

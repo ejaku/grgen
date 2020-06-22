@@ -443,6 +443,12 @@ public class RuleDeclNode extends ActionDeclNode
 				& checkReturns(right.returns)
 				& noAmbiguousRetypes(this.right);
 	}
+	
+	@Override
+	protected String getConstructName()
+	{
+		return getKindStr();
+	}
 
 	public NodeDeclNode tryGetNode(IdentNode ident)
 	{
