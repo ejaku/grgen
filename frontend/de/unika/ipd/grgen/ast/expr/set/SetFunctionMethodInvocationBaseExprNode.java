@@ -11,6 +11,10 @@
 
 package de.unika.ipd.grgen.ast.expr.set;
 
+import java.util.Collection;
+import java.util.Vector;
+
+import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.expr.ContainerFunctionMethodInvocationBaseExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
@@ -32,5 +36,28 @@ public abstract class SetFunctionMethodInvocationBaseExprNode extends ContainerF
 	protected SetTypeNode getTargetType()
 	{
 		return (SetTypeNode)super.getTargetType();
+	}
+	
+	@Override
+	public Collection<? extends BaseNode> getChildren()
+	{
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(targetExpr);
+		return children;
+	}
+
+	@Override
+	public Collection<String> getChildrenNames()
+	{
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("targetExpr");
+		return childrenNames;
+	}
+
+	@Override
+	protected boolean checkLocal()
+	{
+		// target type already checked during resolving into this node
+		return true;
 	}
 }

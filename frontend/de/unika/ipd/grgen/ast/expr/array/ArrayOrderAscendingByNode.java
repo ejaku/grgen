@@ -11,9 +11,6 @@
 
 package de.unika.ipd.grgen.ast.expr.array;
 
-import java.util.Collection;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
@@ -41,22 +38,6 @@ public class ArrayOrderAscendingByNode extends ArrayFunctionMethodInvocationBase
 	{
 		super(coords, targetExpr);
 		this.attribute = attribute;
-	}
-
-	@Override
-	public Collection<? extends BaseNode> getChildren()
-	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(targetExpr);
-		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("targetExpr");
-		return childrenNames;
 	}
 
 	@Override
