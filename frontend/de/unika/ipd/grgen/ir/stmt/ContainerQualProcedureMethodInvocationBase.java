@@ -11,7 +11,13 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
+import java.util.HashSet;
+
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 public abstract class ContainerQualProcedureMethodInvocationBase extends BuiltinProcedureInvocationBase
 {
@@ -26,5 +32,23 @@ public abstract class ContainerQualProcedureMethodInvocationBase extends Builtin
 	public Qualification getTarget()
 	{
 		return target;
+	}
+	
+	@Override
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		Entity entity = target.getOwner();
+		if(!isGlobalVariable(entity))
+			needs.add((GraphEntity)entity);
+
+		// Temporarily do not collect variables for target
+		HashSet<Variable> varSet = needs.variables;
+		needs.variables = null;
+		target.collectNeededEntities(needs);
+		needs.variables = varSet;
+
+		if(getNext() != null) {
+			getNext().collectNeededEntities(needs);
+		}
 	}
 }

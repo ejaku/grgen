@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.stmt.array;
 
-import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
@@ -20,16 +19,5 @@ public class ArrayVarClear extends ContainerVarProcedureMethodInvocationBase
 	public ArrayVarClear(Variable target)
 	{
 		super("array var clear", target);
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		if(!isGlobalVariable(target))
-			needs.add(target);
-
-		if(getNext() != null) {
-			getNext().collectNeededEntities(needs);
-		}
 	}
 }

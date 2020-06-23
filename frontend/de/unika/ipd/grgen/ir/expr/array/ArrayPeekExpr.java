@@ -32,8 +32,7 @@ public class ArrayPeekExpr extends ArrayFunctionMethodInvocationBaseExpr
 	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
+		super.collectNeededEntities(needs);
 		if(numberExpr != null)
 			numberExpr.collectNeededEntities(needs);
 	}

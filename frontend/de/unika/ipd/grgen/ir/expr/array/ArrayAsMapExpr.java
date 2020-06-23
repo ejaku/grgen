@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.expr.array;
 
-import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.Type;
 
@@ -20,12 +19,5 @@ public class ArrayAsMapExpr extends ArrayFunctionMethodInvocationBaseExpr
 	public ArrayAsMapExpr(Expression targetExpr, Type targetType)
 	{
 		super("array as map expression", targetType, targetExpr);
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
 	}
 }

@@ -11,6 +11,7 @@
 
 package de.unika.ipd.grgen.ir.expr;
 
+import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.type.Type;
@@ -34,5 +35,12 @@ public abstract class ContainerFunctionMethodInvocationBaseExpr extends BuiltinF
 	public ContainerType getTargetType()
 	{
 		return (ContainerType)targetExpr.getType();
+	}
+	
+	@Override
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		needs.add(this);
+		targetExpr.collectNeededEntities(needs);
 	}
 }

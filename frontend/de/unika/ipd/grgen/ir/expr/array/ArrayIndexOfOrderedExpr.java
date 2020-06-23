@@ -32,8 +32,7 @@ public class ArrayIndexOfOrderedExpr extends ArrayFunctionMethodInvocationBaseEx
 	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
+		super.collectNeededEntities(needs);
 		valueExpr.collectNeededEntities(needs);
 	}
 }

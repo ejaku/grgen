@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.expr.map;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
@@ -20,12 +19,5 @@ public class MapSizeExpr extends MapFunctionMethodInvocationBaseExpr
 	public MapSizeExpr(Expression targetExpr)
 	{
 		super("map size expression", IntType.getType(), targetExpr);
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
 	}
 }

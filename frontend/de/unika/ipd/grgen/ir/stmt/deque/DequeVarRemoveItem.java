@@ -34,14 +34,9 @@ public class DequeVarRemoveItem extends ContainerVarProcedureMethodInvocationBas
 	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(target))
-			needs.add(target);
-
+		super.collectNeededEntities(needs);
+		
 		if(indexExpr != null)
 			indexExpr.collectNeededEntities(needs);
-
-		if(getNext() != null) {
-			getNext().collectNeededEntities(needs);
-		}
 	}
 }

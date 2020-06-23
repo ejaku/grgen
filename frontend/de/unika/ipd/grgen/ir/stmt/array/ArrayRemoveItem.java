@@ -11,13 +11,9 @@
 
 package de.unika.ipd.grgen.ir.stmt.array;
 
-import java.util.HashSet;
-
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
 public class ArrayRemoveItem extends ContainerQualProcedureMethodInvocationBase
@@ -38,21 +34,9 @@ public class ArrayRemoveItem extends ContainerQualProcedureMethodInvocationBase
 	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		Entity entity = target.getOwner();
-		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity)entity);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.collectNeededEntities(needs);
-		needs.variables = varSet;
+		super.collectNeededEntities(needs);
 
 		if(indexExpr != null)
 			indexExpr.collectNeededEntities(needs);
-
-		if(getNext() != null) {
-			getNext().collectNeededEntities(needs);
-		}
 	}
 }

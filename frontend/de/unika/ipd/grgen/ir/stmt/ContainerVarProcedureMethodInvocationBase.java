@@ -11,6 +11,7 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
+import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 
 public abstract class ContainerVarProcedureMethodInvocationBase extends BuiltinProcedureInvocationBase
@@ -26,5 +27,16 @@ public abstract class ContainerVarProcedureMethodInvocationBase extends BuiltinP
 	public Variable getTarget()
 	{
 		return target;
+	}
+	
+	@Override
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		if(!isGlobalVariable(target))
+			needs.add(target);
+
+		if(getNext() != null) {
+			getNext().collectNeededEntities(needs);
+		}
 	}
 }

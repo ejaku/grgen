@@ -33,8 +33,7 @@ public class MapPeekExpr extends MapFunctionMethodInvocationBaseExpr
 	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
+		super.collectNeededEntities(needs);
 		numberExpr.collectNeededEntities(needs);
 	}
 }

@@ -39,8 +39,7 @@ public class DequeSubdequeExpr extends DequeFunctionMethodInvocationBaseExpr
 	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
+		super.collectNeededEntities(needs);
 		startExpr.collectNeededEntities(needs);
 		lengthExpr.collectNeededEntities(needs);
 	}

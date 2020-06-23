@@ -10,7 +10,6 @@
  */
 package de.unika.ipd.grgen.ir.expr.array;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
@@ -19,12 +18,5 @@ public class ArrayOrderAscending extends ArrayFunctionMethodInvocationBaseExpr
 	public ArrayOrderAscending(Expression targetExpr)
 	{
 		super("array order ascending expr", (ArrayType)targetExpr.getType(), targetExpr);
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
 	}
 }

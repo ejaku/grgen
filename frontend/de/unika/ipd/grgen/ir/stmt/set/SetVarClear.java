@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.stmt.set;
 
-import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
@@ -20,16 +19,5 @@ public class SetVarClear extends ContainerVarProcedureMethodInvocationBase
 	public SetVarClear(Variable target)
 	{
 		super("set var clear", target);
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		if(!isGlobalVariable(target))
-			needs.add(target);
-
-		if(getNext() != null) {
-			getNext().collectNeededEntities(needs);
-		}
 	}
 }

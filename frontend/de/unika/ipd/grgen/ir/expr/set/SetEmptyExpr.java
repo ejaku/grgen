@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.expr.set;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
@@ -20,12 +19,5 @@ public class SetEmptyExpr extends SetFunctionMethodInvocationBaseExpr
 	public SetEmptyExpr(Expression targetExpr)
 	{
 		super("set empty expression", BooleanType.getType(), targetExpr);
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
 	}
 }

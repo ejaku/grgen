@@ -10,7 +10,6 @@
  */
 package de.unika.ipd.grgen.ir.expr.array;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
@@ -19,12 +18,5 @@ public class ArraySumExpr extends ArrayFunctionMethodInvocationBaseExpr
 	public ArraySumExpr(Expression targetExpr)
 	{
 		super("array sum expr", ((ArrayType)(targetExpr.getType())).valueType, targetExpr);
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
 	}
 }
