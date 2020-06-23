@@ -16,9 +16,6 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
-//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque 
-//should be unified in abstract base classes and algorithms working on them
-
 public abstract class ContainerInitNode extends ExprNode
 {
 	static {

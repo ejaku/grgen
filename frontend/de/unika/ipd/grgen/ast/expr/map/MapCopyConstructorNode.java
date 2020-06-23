@@ -24,9 +24,6 @@ import de.unika.ipd.grgen.ir.expr.map.MapCopyConstructor;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.parser.Coords;
 
-//TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque 
-//should be unified in abstract base classes and algorithms working on them
-
 public class MapCopyConstructorNode extends ExprNode
 {
 	static {
