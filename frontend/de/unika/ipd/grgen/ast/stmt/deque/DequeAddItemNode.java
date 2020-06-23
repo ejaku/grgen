@@ -15,12 +15,10 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
 import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
@@ -114,12 +112,6 @@ public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 			success &= checkType(valueExpr, targetValueType, "deque add item statement", "value");
 			return success;
 		}
-	}
-
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
-	{
-		return true;
 	}
 
 	@Override

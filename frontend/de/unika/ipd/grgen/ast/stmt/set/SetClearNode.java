@@ -11,14 +11,8 @@
 
 package de.unika.ipd.grgen.ast.stmt.set;
 
-import java.util.Collection;
-import java.util.Vector;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.Variable;
@@ -40,35 +34,6 @@ public class SetClearNode extends SetProcedureMethodInvocationBaseNode
 	public SetClearNode(Coords coords, VarDeclNode targetVar)
 	{
 		super(coords, targetVar);
-	}
-
-	@Override
-	public Collection<? extends BaseNode> getChildren()
-	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(target != null ? target : targetVar);
-		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("target");
-		return childrenNames;
-	}
-
-	@Override
-	protected boolean checkLocal()
-	{
-		// target type already checked during resolving into this node
-		return true;
-	}
-
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
-	{
-		return true;
 	}
 
 	@Override

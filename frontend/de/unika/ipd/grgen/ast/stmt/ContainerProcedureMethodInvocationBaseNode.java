@@ -11,6 +11,11 @@
 
 package de.unika.ipd.grgen.ast.stmt;
 
+import java.util.Collection;
+import java.util.Vector;
+
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -47,5 +52,34 @@ public abstract class ContainerProcedureMethodInvocationBaseNode extends Builtin
 			TypeNode targetType = targetVar.getDeclType();
 			return (ContainerTypeNode)targetType;
 		}
+	}
+
+	@Override
+	public Collection<? extends BaseNode> getChildren()
+	{
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(target != null ? target : targetVar);
+		return children;
+	}
+
+	@Override
+	public Collection<String> getChildrenNames()
+	{
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("target");
+		return childrenNames;
+	}
+
+	@Override
+	protected boolean checkLocal()
+	{
+		// target type already checked during resolving into this node
+		return true;
+	}
+
+	@Override
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
+		return true;
 	}
 }
