@@ -1,0 +1,14 @@
+1
+1
+1
+1
+[match<sameCompany>{subject:$0,company:$1,person:$2,_edge0:$C,_edge1:$D},match<sameCompany>{subject:$0,company:$1,person:$3,_edge0:$C,_edge1:$E}]
+2
+[match<sharedInterest>{subject:$0,interest:$4,person:$2,_edge0:$F,_edge1:$10},match<sharedInterest>{subject:$0,interest:$5,person:$6,_edge0:$11,_edge1:$12},match<sharedInterest>{subject:$0,interest:$7,person:$8,_edge0:$13,_edge1:$14}]
+3
+[match<SameCompanySharedInterest>{subject:$0,person:$2,company:$1,interest:$4},match<SameCompanySharedInterest>{subject:$0,person:$2,company:$1,interest:$5},match<SameCompanySharedInterest>{subject:$0,person:$2,company:$1,interest:$7},match<SameCompanySharedInterest>{subject:$0,person:$3,company:$1,interest:$4},match<SameCompanySharedInterest>{subject:$0,person:$3,company:$1,interest:$5},match<SameCompanySharedInterest>{subject:$0,person:$3,company:$1,interest:$7}]
+5
+[match<SameCompanySharedInterestExtracted>{subject:hans,person:frans,company:MegaCorp,interest:cycling},match<SameCompanySharedInterestExtracted>{subject:hans,person:frans,company:MegaCorp,interest:hiking},match<SameCompanySharedInterestExtracted>{subject:hans,person:frans,company:MegaCorp,interest:coding},match<SameCompanySharedInterestExtracted>{subject:hans,person:luise,company:MegaCorp,interest:cycling},match<SameCompanySharedInterestExtracted>{subject:hans,person:luise,company:MegaCorp,interest:hiking},match<SameCompanySharedInterestExtracted>{subject:hans,person:luise,company:MegaCorp,interest:coding}]
+5
+[match<SameCompanySharedInterestExtracted>{subject:hans,person:frans,company:MegaCorp,interest:cycling}]
+5

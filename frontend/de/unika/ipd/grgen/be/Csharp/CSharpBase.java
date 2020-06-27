@@ -673,6 +673,14 @@ public abstract class CSharpBase
 			throw new IllegalArgumentException("Illegal type: " + t);
 	}
 
+	// formats match class name instead of match interface name like formatAttributeType
+	public String formatDefinedMatchType(DefinedMatchType definedMatchType)
+	{
+		String packagePrefix = getPackagePrefixDot(definedMatchType);
+		String matchClassName = definedMatchType.getIdent().toString();
+		return "GRGEN_ACTIONS." + packagePrefix + "Match_" + matchClassName;
+	}
+
 	public String formatAttributeType(Entity e)
 	{
 		return formatAttributeType(e.getType());
@@ -1788,6 +1796,9 @@ public abstract class CSharpBase
 				}
 				sb.append(")");
 			}
+		} else if(expr instanceof MatchInit) {
+			MatchInit mi = (MatchInit)expr;
+			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
 		} else if(expr instanceof MapCopyConstructor) {
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
 			sb.append("GRGEN_LIBGR.ContainerHelper.FillMap(");

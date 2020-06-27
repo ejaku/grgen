@@ -64,8 +64,10 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 import de.unika.ipd.grgen.ir.stmt.ReturnStatementFilter;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
+import de.unika.ipd.grgen.ir.type.MatchType;
 import de.unika.ipd.grgen.ir.type.PackageActionType;
 import de.unika.ipd.grgen.ir.type.Type;
+import de.unika.ipd.grgen.ir.type.container.ArrayType;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ActionsGen extends CSharpBase
@@ -539,6 +541,12 @@ public class ActionsGen extends CSharpBase
 			genExtractor(sb, actionRule, iteratedRule);
 		}
 
+		sb.append("\n");
+
+		String typeName = "GRGEN_ACTIONS." + getPackagePrefixDot(actionRule) + "Rule_" + actionRule.getPattern().getNameOfGraph() + ".IMatch_" + actionRule.getPattern().getNameOfGraph();
+		String listTypeName = "List<" + typeName + ">";
+		EmitMatchClassFiltererConvertAsNeededHelper(sb, typeName, listTypeName);
+
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -548,6 +556,19 @@ public class ActionsGen extends CSharpBase
 			genArraySortBy(sb, actionRule, MemberBearerType.Action, iteratedRule);
 		}
 		sb.append("\n");
+	}
+
+	private static void EmitMatchClassFiltererConvertAsNeededHelper(SourceBuilder sb, String typeName, String listTypeName)
+	{
+		sb.appendFront("public static " + listTypeName + " ConvertAsNeeded(object parameter)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("if(parameter is " + listTypeName + ")\n");
+		sb.appendFrontIndented("return ((" + listTypeName + ")parameter);\n");
+		sb.appendFront("else\n");
+		sb.appendFrontIndented("return GRGEN_LIBGR.MatchListHelper.ToList<" + typeName + ">((IList<GRGEN_LIBGR.IMatch>)parameter);\n");
+		sb.unindent();
+		sb.appendFront("}\n");
 	}
 
 	/**
@@ -750,7 +771,14 @@ public class ActionsGen extends CSharpBase
 				+ "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
 		int i = 0;
 		for(Entity inParam : function.getParameters()) {
-			sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
+			if(inParam.getType() instanceof ArrayType && ((ArrayType)inParam.getType()).getValueType() instanceof MatchType) {
+				MatchType matchType = (MatchType)((ArrayType)inParam.getType()).getValueType();
+				String packagePrefixOfAction = "GRGEN_ACTIONS." + getPackagePrefixDot(matchType.getAction());
+				String actionName = matchType.getAction().getIdent().toString();
+				String ruleClass = packagePrefixOfAction + "Rule_" + actionName;
+				sb.append(", " + ruleClass + ".ConvertAsNeeded(arguments[" + i + "])");
+			} else
+				sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
 			++i;
 		}
 		sb.append(");\n");
@@ -1089,7 +1117,7 @@ public class ActionsGen extends CSharpBase
 			evalGen.genEvalStmt(sb, modifyGenState, new ReturnStatementFilter());
 		}
 		sb.unindent();
-		sb.append("}\n");
+		sb.appendFront("}\n");
 	}
 
 	/**
@@ -1120,6 +1148,16 @@ public class ActionsGen extends CSharpBase
 
 		sb.append("\n");
 
+		// generate contained nodes, edges, variables
+		// and the implementation of the various getters from IMatch and the match class specific match interface
+		// only used by the explicit constructor expression,
+		// match classes are otherwise only used as interfaces implemented by action/pattern matches
+		matchGen.genMatchClassImplementation(sb, matchClass.getPatternGraph(),
+				matchClass.getPatternGraph().getNameOfGraph(),
+				matchClass.getPatternGraph().getNameOfGraph() + "_");
+
+		sb.append("\n");
+
 		genArraySortBy(sb, matchClass);
 		sb.append("\n");
 	}
@@ -1133,9 +1171,10 @@ public class ActionsGen extends CSharpBase
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 
 		SourceBuilder sbElements = new SourceBuilder();
+		sbElements.setIndentationLevel(sb.getIndentationLevel() + 1);
 
 		SourceBuilder aux = new SourceBuilder();
-		aux.indent().indent().indent();
+		aux.setIndentationLevel(sbElements.getIndentationLevel() + 1);
 
 		HashMap<Identifiable, String> alreadyDefinedIdentifiableToName = new HashMap<Identifiable, String>();
 		double max = computePriosMax(-1, matchClass.getPatternGraph());
@@ -1265,7 +1304,7 @@ public class ActionsGen extends CSharpBase
 		// and the implementation of the various getters from IMatch and the pattern specific match interface
 		String patGraphVarName = "pat_" + pattern.getNameOfGraph();
 		matchGen.genPatternMatchImplementation(sb, pattern, pattern.getNameOfGraph(),
-				patGraphVarName, className, pattern.getNameOfGraph() + "_", false, false, parallelized);
+				patGraphVarName, className, pattern.getNameOfGraph() + "_", false, false, parallelized, false);
 	}
 
 	/**
@@ -1418,6 +1457,7 @@ public class ActionsGen extends CSharpBase
 	{
 		sb.appendFront("public class Extractor\n");
 		sb.appendFront("{\n");
+		sb.indent();
 
 		String matchTypeName = "IMatch_" + matchClass.getIdent().toString();
 
@@ -1593,7 +1633,7 @@ public class ActionsGen extends CSharpBase
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		SourceBuilder aux = new SourceBuilder();
-		aux.indent().indent();
+		aux.setIndentationLevel(sb.getIndentationLevel());
 
 		for(Node node : pattern.getNodes()) {
 			if(alreadyDefinedEntityToName.get(node) != null) {
@@ -1638,7 +1678,7 @@ public class ActionsGen extends CSharpBase
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		SourceBuilder aux = new SourceBuilder();
-		aux.indent().indent();
+		aux.setIndentationLevel(sb.getIndentationLevel());
 
 		for(Edge edge : pattern.getEdges()) {
 			if(alreadyDefinedEntityToName.get(edge) != null) {
@@ -1866,7 +1906,7 @@ public class ActionsGen extends CSharpBase
 		double max = computePriosMax(-1, action.getPattern());
 
 		SourceBuilder aux = new SourceBuilder();
-		aux.indent().indent().indent();
+		aux.setIndentationLevel(sb.getIndentationLevel() + 1);
 
 		String patGraphVarName = "pat_" + pattern.getNameOfGraph();
 		sb.appendFront("private void initialize()\n");
@@ -2338,7 +2378,7 @@ public class ActionsGen extends CSharpBase
 					alreadyDefinedEntityToName);
 			sb.append(");\n");
 		} else {
-			sb.append("null);\n");
+			sb.append(" null);\n");
 		}
 		if(isMatchClass)
 			aux.appendFront(varName + ".pointOfDefinition = null;\n");
@@ -2384,7 +2424,7 @@ public class ActionsGen extends CSharpBase
 					alreadyDefinedEntityToName);
 			sb.append(");\n");
 		} else {
-			sb.append("null);\n");
+			sb.append(" null);\n");
 		}
 		if(isMatchClass)
 			aux.appendFront(nodeName + ".pointOfDefinition = null;\n");
@@ -2432,7 +2472,7 @@ public class ActionsGen extends CSharpBase
 					alreadyDefinedEntityToName);
 			sb.append(");\n");
 		} else {
-			sb.append("null);\n");
+			sb.append(" null);\n");
 		}
 		if(isMatchClass)
 			aux.appendFront(edgeName + ".pointOfDefinition = null;\n");

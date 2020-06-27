@@ -1113,6 +1113,9 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 					sb.append(")");
 				sb.append(")");
 			}
+		} else if(expr instanceof MatchInit) {
+			MatchInit mi = (MatchInit)expr;
+			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
 		} else if(expr instanceof MapCopyConstructor) {
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
 			sb.append("new GRGEN_EXPR.MapCopyConstructor(\"" + formatType(mcc.getMapType()) + "\", ");

@@ -489,6 +489,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///////////////////////////////////////////////////////////////
 
         public abstract IPatternGraph Pattern { get; }
+        public abstract IMatchClass MatchClass { get; }
         public IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
         public abstract IMatch Clone();
 

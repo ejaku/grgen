@@ -3983,6 +3983,7 @@ primaryExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.ini
 	| e=constant { res = e; }
 	| e=typeOf { res = e; }
 	| e=initContainerExpr[context] { res = e; }
+	| e=initMatchExpr[context] { res = e; }
 	| e=externalFunctionInvocationExpr[context, inEnumInit] { res = e; }
 	| LPAREN e=expr[context, inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
@@ -4068,6 +4069,11 @@ initContainerExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
 	| { input.LT(1).getText().equals("deque") }?
 		i=IDENT LT valueType=typeIdentUse GT
 		e4=initDequeExpr[context, null, new DequeTypeNode(valueType)] { res = e4; }
+	;
+
+initMatchExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
+	: MATCH LT CLASS matchClassIdent=typeIdentUse GT l=LPAREN RPAREN
+		{ res = new MatchInitNode(getCoords(l), matchClassIdent); }
 	;
 
 constant returns [ ExprNode res = env.initExprNode() ]

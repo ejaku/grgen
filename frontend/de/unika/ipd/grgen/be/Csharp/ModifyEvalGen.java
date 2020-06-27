@@ -1773,7 +1773,7 @@ public class ModifyEvalGen extends CSharpBase
 		String indexVar = "index_" + tmpVarID++;
 		String entryVar = "entry_" + tmpVarID++;
 		sb.appendFront("List<" + arrayValueTypeStr + "> " + entryVar + " = "
-				+ "(List<" + arrayValueTypeStr + ">) this_matches;\n");
+				+ "(List<" + arrayValueTypeStr + ">) " + formatEntity(may.getMatchesVar()) + ";\n");
 		sb.appendFront("for(int " + indexVar + "=0; " + indexVar + "<" + entryVar + ".Count; ++" + indexVar + ")\n");
 		sb.appendFront("{\n");
 		sb.indent();

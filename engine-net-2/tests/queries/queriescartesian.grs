@@ -1,0 +1,21 @@
+new graph queries/queriesjoin
+
+dump add node namedObject shortinfotag name
+dump add edge INTERESTED_IN shortinfotag weight
+dump set edge WORKS_FOR thickness 3
+
+exec initcartesian
+
+exec (::subject) = fetchByName("hans")
+
+eval [?sameCompany(::subject)]
+
+eval [?sharedInterest(::subject)])
+
+eval cartesian([?sameCompany(::subject)],[?sharedInterest(::subject)])
+
+eval extract(cartesian([?sameCompany(::subject)],[?sharedInterest(::subject)]))
+
+eval extract(naturalJoin([?sameCompany(::subject)],[?sharedInterest(::subject)]))
+
+quit

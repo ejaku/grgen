@@ -34,7 +34,7 @@ public class MatchesAccumulationYield extends NestingStatement
 		return iterationVar;
 	}
 
-	public Variable getMatches()
+	public Variable getMatchesVar()
 	{
 		return matchesVar;
 	}

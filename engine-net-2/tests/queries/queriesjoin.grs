@@ -1,0 +1,27 @@
+new graph queries/queriesjoin
+
+dump add node namedObject shortinfotag name
+dump add edge INTERESTED_IN shortinfotag weight
+dump set edge WORKS_FOR thickness 3
+
+exec initjoin
+
+exec (::subject) = fetchByName("hans")
+
+eval [?sameCompany(::subject)]
+
+eval [?sharedInterest(::subject)])
+
+eval naturalJoin([?sameCompany(::subject)],[?sharedInterest(::subject)])
+
+eval extract(naturalJoin([?sameCompany(::subject)],[?sharedInterest(::subject)]))
+
+eval [?sameCompany(::subject)]
+
+eval [?sharedWeightedInterest(::subject)])
+
+eval naturalJoinWeighted([?sameCompany(::subject)],[?sharedWeightedInterest(::subject)])
+
+eval extractWeighted(naturalJoinWeighted([?sameCompany(::subject)],[?sharedWeightedInterest(::subject)]))
+
+quit

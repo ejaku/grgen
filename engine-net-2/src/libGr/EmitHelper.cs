@@ -138,9 +138,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             IMatch match = (IMatch)value;
             StringBuilder sb = new StringBuilder();
-            sb.Append("match<" + match.Pattern.PackagePrefixedName + ">{");
+            string matchName = match.Pattern != null ? match.Pattern.PackagePrefixedName : match.MatchClass.PackagePrefixedName; 
+            sb.Append("match<" + matchName + ">{");
             bool first = true;
-            foreach(IPatternNode patternNode in match.Pattern.Nodes)
+            IPatternNode[] nodes = match.Pattern != null ? match.Pattern.Nodes : match.MatchClass.Nodes;
+            foreach(IPatternNode patternNode in nodes)
             {
                 if(first)
                     first = false;
@@ -150,7 +152,8 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append(":");
                 sb.Append(EmitHelper.ToStringAutomatic(match.getNode(patternNode.UnprefixedName), graph));
             }
-            foreach(IPatternEdge patternEdge in match.Pattern.Edges)
+            IPatternEdge[] edges = match.Pattern != null ? match.Pattern.Edges : match.MatchClass.Edges;
+            foreach(IPatternEdge patternEdge in edges)
             {
                 if(first)
                     first = false;
@@ -160,7 +163,8 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append(":");
                 sb.Append(EmitHelper.ToStringAutomatic(match.getEdge(patternEdge.UnprefixedName), graph));
             }
-            foreach(IPatternVariable patternVar in match.Pattern.Variables)
+            IPatternVariable[] variables = match.Pattern != null ? match.Pattern.Variables : match.MatchClass.Variables;
+            foreach(IPatternVariable patternVar in variables)
             {
                 if(first)
                     first = false;

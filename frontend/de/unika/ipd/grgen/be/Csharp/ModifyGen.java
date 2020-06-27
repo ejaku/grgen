@@ -430,9 +430,9 @@ public class ModifyGen extends CSharpBase
 			String pathPrefix)
 	{
 		SourceBuilder sb2 = new SourceBuilder();
-		sb2.indent().indent().indent();
+		sb2.setIndentationLevel(sb.getIndentationLevel() + 1);
 		SourceBuilder sb3 = new SourceBuilder();
-		sb3.indent().indent().indent();
+		sb3.setIndentationLevel(sb.getIndentationLevel() + 1);
 
 		boolean useAddedElementNames = be.system.mayFireDebugEvents()
 				&& (task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_CREATION

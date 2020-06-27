@@ -92,6 +92,16 @@ public class SourceBuilder
 		return stringBuilder.toString();
 	}
 
+	public int getIndentationLevel()
+	{
+		return indentationLevel;
+	}
+
+	public void setIndentationLevel(int indentationLevel)
+	{
+		this.indentationLevel = indentationLevel;
+	}
+
 	private StringBuilder stringBuilder;
 	private int indentationLevel;
 }

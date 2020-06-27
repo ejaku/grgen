@@ -94,7 +94,7 @@ public class ActionsMatchGen extends CSharpBase
 	public void genPatternMatchImplementation(SourceBuilder sb, PatternGraphLhs pattern, String name,
 			String patGraphVarName, String className,
 			String pathPrefixForElements,
-			boolean iterated, boolean independent, boolean parallelized)
+			boolean iterated, boolean independent, boolean parallelized, boolean matchClass)
 	{
 		genMatchImplementation(sb, pattern, name,
 				patGraphVarName, className, pathPrefixForElements,
@@ -104,14 +104,14 @@ public class ActionsMatchGen extends CSharpBase
 			String negName = neg.getNameOfGraph();
 			genPatternMatchImplementation(sb, neg, pathPrefixForElements + negName,
 					pathPrefixForElements + negName, className,
-					pathPrefixForElements + negName + "_", false, false, false);
+					pathPrefixForElements + negName + "_", false, false, false, false);
 		}
 
 		for(PatternGraphLhs idpt : pattern.getIdpts()) {
 			String idptName = idpt.getNameOfGraph();
 			genPatternMatchImplementation(sb, idpt, pathPrefixForElements + idptName,
 					pathPrefixForElements + idptName, className,
-					pathPrefixForElements + idptName + "_", false, true, false);
+					pathPrefixForElements + idptName + "_", false, true, false, false);
 		}
 
 		for(Alternative alt : pattern.getAlts()) {
@@ -122,7 +122,7 @@ public class ActionsMatchGen extends CSharpBase
 				genPatternMatchImplementation(sb, altCasePattern, altPatName,
 						altPatName, className,
 						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
-						false, false, false);
+						false, false, false, false);
 			}
 		}
 
@@ -131,7 +131,7 @@ public class ActionsMatchGen extends CSharpBase
 			String iterName = iterPattern.getNameOfGraph();
 			genPatternMatchImplementation(sb, iterPattern, pathPrefixForElements + iterName,
 					pathPrefixForElements + iterName, className,
-					pathPrefixForElements + iterName + "_", true, false, false);
+					pathPrefixForElements + iterName + "_", true, false, false, false);
 		}
 	}
 
@@ -181,6 +181,45 @@ public class ActionsMatchGen extends CSharpBase
 		sb.append("\n");
 	}
 
+	public void genMatchClassImplementation(SourceBuilder sb, PatternGraphLhs pattern, String name,
+			String pathPrefixForElements)
+	{
+		String interfaceName = "IMatch_" + name;
+		String className = "Match_" + name;
+		sb.appendFront("public class " + className + " : GRGEN_LGSP.MatchListElement<" + className + ">, "
+				+ interfaceName + "\n");
+		sb.appendFront("{\n");
+		sb.indent();
+
+		for(int i = MATCH_PART_NODES; i < MATCH_PART_END; ++i) {
+			genMatchedEntitiesImplementation(sb, pattern, name,
+					i, pathPrefixForElements);
+			genMatchEnum(sb, pattern, name,
+					i, pathPrefixForElements);
+			genIMatchImplementation(sb, pattern, name,
+					i, pathPrefixForElements);
+			sb.append("\n");
+		}
+
+		sb.appendFront("public override GRGEN_LIBGR.IPatternGraph Pattern { get { return null; } }\n");
+		sb.appendFront("public override GRGEN_LIBGR.IMatchClass MatchClass { get { return MatchClassInfo_" + name + ".Instance; } }\n");
+		sb.appendFront("public override GRGEN_LIBGR.IMatch Clone() { return new " + className + "(this); }\n");
+		sb.appendFront("public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) "
+				+ "{ _matchOfEnclosingPattern = matchOfEnclosingPattern; }\n");
+
+		genCopyConstructor(sb, pattern, name, pathPrefixForElements, className);
+
+		sb.appendFront("public " + className + "()\n");
+		sb.appendFront("{\n");
+		sb.appendFront("}\n");
+
+		sb.append("\n");
+
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.append("\n");
+	}
+
 	private void genMatchImplementation(SourceBuilder sb, PatternGraphLhs pattern, String name,
 			String patGraphVarName, String ruleClassName,
 			String pathPrefixForElements,
@@ -205,6 +244,7 @@ public class ActionsMatchGen extends CSharpBase
 
 		sb.appendFront("public override GRGEN_LIBGR.IPatternGraph Pattern { get { return " + ruleClassName
 				+ ".instance." + patGraphVarName + "; } }\n");
+		sb.appendFront("public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }\n");
 		if(iterated) {
 			sb.appendFront("public bool IsNullMatch { get { return _isNullMatch; } }\n");
 			sb.appendFront("public bool _isNullMatch;\n");
@@ -546,7 +586,7 @@ public class ActionsMatchGen extends CSharpBase
 				sb.appendFront("{\n");
 				sb.indent();
 				sb.appendFront(iterName + "_thatEnumerator.MoveNext();\n");
-				sb.append("if(!(" + iterName + "_thisEnumerator.Current as Match_" + name + iterName + ").IsEqual("
+				sb.appendFront("if(!(" + iterName + "_thisEnumerator.Current as Match_" + name + iterName + ").IsEqual("
 						+ iterName + "_thatEnumerator.Current as Match_" + name + iterName + ")) return false;\n");
 				sb.unindent();
 				sb.appendFront("}\n");
@@ -577,7 +617,7 @@ public class ActionsMatchGen extends CSharpBase
 		sb.appendFront("public override IEnumerator<" + typeOfMatchedEntities + "> " + matchedEntitiesNamePlural
 				+ "Enumerator { get { return new " + enumeratorName + "(this); } }\n");
 		sb.appendFront("public override int NumberOf" + matchedEntitiesNamePlural
-				+ " { get { return " + numberOfMatchedEntities + ";} }\n");
+				+ " { get { return " + numberOfMatchedEntities + "; } }\n");
 
 		// -----------------------------
 

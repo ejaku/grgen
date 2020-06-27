@@ -19,8 +19,15 @@ namespace de.unika.ipd.grGen.libGr
     {
         /// <summary>
         /// The match object represents a match of the pattern given by this member.
+        /// May be null in case of a match class created by a constructor instead of an action.
         /// </summary>
         IPatternGraph Pattern { get; }
+
+        /// <summary>
+        /// The match object represents a match of the match class given by this member.
+        /// Only set in case the match class was created by a constructor, otherwise the pattern is given.
+        /// </summary>
+        IMatchClass MatchClass { get; }
 
         /// <summary>
         /// The match of the enclosing pattern if this is the pattern of

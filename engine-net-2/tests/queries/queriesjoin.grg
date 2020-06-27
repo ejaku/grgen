@@ -1,0 +1,182 @@
+#include "queries.grg"
+
+rule initjoin
+{
+	modify {
+		h:namedObject@(name = "hans") -:WORKS_FOR-> c:namedObject@(name = "MegaCorp") <-:WORKS_FOR- f:namedObject@(name = "frans");
+		h -:INTERESTED_IN@(weight=0.8)-> cy:namedObject@(name = "cycling") <-:INTERESTED_IN@(weight=0.4)- f;
+		h -:INTERESTED_IN@(weight=0.2)-> hi:namedObject@(name = "hiking") <-:INTERESTED_IN@(weight=0.4)- f;
+		h -:INTERESTED_IN@(weight=1.0)-> co:namedObject@(name = "coding");
+										 re:namedObject@(name = "reading") <-:INTERESTED_IN@(weight=0.5)- f;
+		h -:WORKS_FOR-> :namedObject@(name = "Oil Imperium");
+					    :namedObject@(name = "Ports of Call") <-:WORKS_FOR- f;
+		l:namedObject@(name = "luise") -:WORKS_FOR-> f;
+		l -:INTERESTED_IN@(weight=0.6)-> cy;
+		l -:INTERESTED_IN@(weight=0.6)-> co;
+		l -:INTERESTED_IN@(weight=0.3)-> re;
+		g:namedObject@(name = "gustav") -:WORKS_FOR-> c;
+		g -:INTERESTED_IN@(weight=0.6)-> co;
+		:namedObject@(name = "anna belle de jour");
+	}
+}
+
+rule initcartesian
+{
+	modify {
+		h:namedObject@(name = "hans") -:WORKS_FOR-> c:namedObject@(name = "MegaCorp");
+		f:namedObject@(name = "frans") -:WORKS_FOR-> c;
+		l:namedObject@(name = "luise") -:WORKS_FOR-> c;
+		
+		g:namedObject@(name = "gustav");
+		a:namedObject@(name = "anna belle de jour");
+		
+		h -:INTERESTED_IN@(weight=0.8)-> cy:namedObject@(name = "cycling") <-:INTERESTED_IN@(weight=0.4)- f;
+		h -:INTERESTED_IN@(weight=0.2)-> hi:namedObject@(name = "hiking") <-:INTERESTED_IN@(weight=0.4)- g;
+		h -:INTERESTED_IN@(weight=1.0)-> co:namedObject@(name = "coding") <-:INTERESTED_IN@(weight=0.6)- a;
+										 re:namedObject@(name = "reading") <-:INTERESTED_IN@(weight=0.5)- f;
+		h -:WORKS_FOR-> :namedObject@(name = "Oil Imperium");
+					    :namedObject@(name = "Ports of Call") <-:WORKS_FOR- f;
+	}
+}
+
+test sameCompany(subject:namedObject)
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+}
+
+test sharedInterest(subject:namedObject)
+{
+	subject -:INTERESTED_IN-> interest:namedObject <-:INTERESTED_IN- person:namedObject;
+}
+
+match class SameCompanySharedInterest
+{
+	subject:namedObject;
+	person:namedObject;
+	company:namedObject;
+	interest:namedObject;
+}
+
+function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	def ref res:array<match<class SameCompanySharedInterest>> = array<match<class SameCompanySharedInterest>>[];
+	for(matchSameCompany:match<sameCompany> in matchesSameCompany)
+	{
+		for(matchSharedInterest:match<sharedInterest> in matchesSharedInterest)
+		{
+			if(matchSameCompany.subject == matchSharedInterest.subject && matchSameCompany.person == matchSharedInterest.person) {
+				def ref m:match<class SameCompanySharedInterest> = match<class SameCompanySharedInterest>();
+				m.subject = matchSameCompany.subject;
+				m.person = matchSameCompany.person;
+				m.company = matchSameCompany.company;
+				m.interest = matchSharedInterest.interest;
+				res.add(m);
+			}
+		}
+	}
+	return(res);
+}
+
+function cartesian(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	def ref res:array<match<class SameCompanySharedInterest>> = array<match<class SameCompanySharedInterest>>[];
+	for(matchSameCompany:match<sameCompany> in matchesSameCompany)
+	{
+		for(matchSharedInterest:match<sharedInterest> in matchesSharedInterest)
+		{
+			def ref m:match<class SameCompanySharedInterest> = match<class SameCompanySharedInterest>();
+			m.subject = matchSameCompany.subject;
+			m.person = matchSameCompany.person;
+			m.company = matchSameCompany.company;
+			m.interest = matchSharedInterest.interest;
+			res.add(m);
+		}
+	}
+	return(res);
+}
+
+match class SameCompanySharedInterestExtracted
+{
+	var subject:string;
+	var person:string;
+	var company:string;
+	var interest:string;
+}
+
+function extract(ref matchesSameCompanySharedInterest:array<match<class SameCompanySharedInterest>>) : array<match<class SameCompanySharedInterestExtracted>>
+{
+	def ref res:array<match<class SameCompanySharedInterestExtracted>> = array<match<class SameCompanySharedInterestExtracted>>[];
+	for(matchSameCompanySharedInterest:match<class SameCompanySharedInterest> in matchesSameCompanySharedInterest)
+	{
+		def ref m:match<class SameCompanySharedInterestExtracted> = match<class SameCompanySharedInterestExtracted>();
+		m.subject = matchSameCompanySharedInterest.subject.name;
+		m.person = matchSameCompanySharedInterest.person.name;
+		m.company = matchSameCompanySharedInterest.company.name;
+		m.interest = matchSameCompanySharedInterest.interest.name;
+		res.add(m);
+	}
+	return(res);
+}
+
+test sharedWeightedInterest(subject:namedObject)
+{
+	subject -is:INTERESTED_IN-> interest:namedObject <-ip:INTERESTED_IN- person:namedObject;
+---
+	def var sharedWeightedInterest:double = Math::min(is.weight, ip.weight);
+}
+
+match class SameCompanySharedWeightedInterest
+{
+	subject:namedObject;
+	person:namedObject;
+	company:namedObject;
+	interest:namedObject;
+	def var sharedWeightedInterest:double;
+} \ keepOneForEach<person>Accumulate<sharedWeightedInterest>By<sum>
+
+match class SameCompanySharedWeightedInterestExtracted
+{
+	var subject:string;
+	var person:string;
+	var company:string;
+	var interest:string;
+	var sharedWeightedInterest:double;
+}
+
+function naturalJoinWeighted(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedWeightedInterest:array<match<sharedWeightedInterest>>) : array<match<class SameCompanySharedWeightedInterest>>
+{
+	def ref res:array<match<class SameCompanySharedWeightedInterest>> = array<match<class SameCompanySharedWeightedInterest>>[];
+	for(matchSameCompany:match<sameCompany> in matchesSameCompany)
+	{
+		for(matchSharedWeightedInterest:match<sharedWeightedInterest> in matchesSharedWeightedInterest)
+		{
+			if(matchSameCompany.subject == matchSharedWeightedInterest.subject 
+				&& matchSameCompany.person == matchSharedWeightedInterest.person) {
+				def ref m:match<class SameCompanySharedWeightedInterest> = match<class SameCompanySharedWeightedInterest>();
+				m.subject = matchSameCompany.subject;
+				m.person = matchSameCompany.person;
+				m.company = matchSameCompany.company;
+				m.interest = matchSharedWeightedInterest.interest;
+				m.sharedWeightedInterest = matchSharedWeightedInterest.sharedWeightedInterest;
+				res.add(m);
+			}
+		}
+	}
+	return(res);
+}
+
+function extractWeighted(ref matchesSameCompanySharedWeightedInterest:array<match<class SameCompanySharedWeightedInterest>>) : array<match<class SameCompanySharedWeightedInterestExtracted>>
+{
+	def ref res:array<match<class SameCompanySharedWeightedInterestExtracted>> = array<match<class SameCompanySharedWeightedInterestExtracted>>[];
+	for(matchSameCompanySharedWeightedInterest:match<class SameCompanySharedWeightedInterest> in matchesSameCompanySharedWeightedInterest)
+	{
+		def ref m:match<class SameCompanySharedWeightedInterestExtracted> = match<class SameCompanySharedWeightedInterestExtracted>();
+		m.subject = matchSameCompanySharedWeightedInterest.subject.name;
+		m.person = matchSameCompanySharedWeightedInterest.person.name;
+		m.company = matchSameCompanySharedWeightedInterest.company.name;
+		m.interest = matchSameCompanySharedWeightedInterest.interest.name;
+		m.sharedWeightedInterest = matchSameCompanySharedWeightedInterest.sharedWeightedInterest;
+		res.add(m);
+	}
+	return(res);
+}
