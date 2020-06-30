@@ -61,6 +61,16 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		this(id, type, isCopy, context, constraints, directlyNestingLHSGraph, false, false);
 	}
 
+	public EdgeDeclNode cloneForAuto(PatternGraphLhsNode directlyNestingLhsGraph)
+	{
+		EdgeDeclNode clone = new EdgeDeclNode(ident, typeUnresolved,
+				isCopy, context, constraints, directlyNestingLhsGraph, maybeNull, defEntityToBeYieldedTo);
+		clone.resolve();
+		if(typeEdgeDecl != null)
+			reportError("A typeof edge cannot be used in an auto statement.");
+		return clone;
+	}
+
 	/**
 	 * Create EdgeDeclNode and immediately resolve and check it.
 	 * NOTE: Use this to create and insert an EdgeDeclNode into the AST after
@@ -82,9 +92,10 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	public EdgeTypeNode getDeclType()
 	{
 		assert isResolved();
-
 		DeclNode curr = getValidResolvedVersion(typeEdgeDecl, typeTypeDecl);
-		return (EdgeTypeNode)curr.getDeclType();
+		TypeNode type = curr.getDeclType();
+		//assert curr.getDeclType() != null;
+		return (EdgeTypeNode)type;
 	}
 
 	/** returns children of this node */

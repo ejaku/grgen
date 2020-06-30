@@ -104,6 +104,14 @@ public class ConnectionNode extends ConnectionCharacter
 		check();
 	}
 
+	public ConnectionNode cloneForAuto(PatternGraphLhsNode parent)
+	{
+		return new ConnectionNode(this.left.cloneForAuto(parent),
+				this.edge.cloneForAuto(parent),
+				this.right.cloneForAuto(parent),
+				this.connectionKind, parent);
+	}
+
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren()

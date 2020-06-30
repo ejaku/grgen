@@ -803,7 +803,7 @@ seqCallRuleExpression [ ExecNode xg ] returns [ ExprNode res = env.initExprNode(
 	;
 
 seqCallRuleFilter [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter ]
-	: BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? id=IDENT { xg.append(id.getText()); } 
+	: BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? (id=IDENT | id=AUTO) { xg.append(id.getText()); } 
 		seqCallRuleFilterContinuation[xg, filters, isMatchClassFilter, p, id]
 	;
 

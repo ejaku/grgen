@@ -25,6 +25,7 @@ import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
 import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
@@ -62,15 +63,27 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		this(id, type, isCopy, context, constr, directlyNestingLHSGraph, false, false);
 	}
 
+	public NodeDeclNode cloneForAuto(PatternGraphLhsNode directlyNestingLhsGraph)
+	{
+		//new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));	
+		NodeDeclNode clone = new NodeDeclNode(ident, typeUnresolved,
+				isCopy, context, constraints, directlyNestingLhsGraph, maybeNull, defEntityToBeYieldedTo);
+		clone.resolve();
+		if(typeNodeDecl != null)
+			reportError("A typeof node cannot be used in an auto statement.");
+		return clone;
+	}
+
 	/** The TYPE child could be a node in case the type is
 	 *  inherited dynamically via the typeof/copy operator */
 	@Override
 	public NodeTypeNode getDeclType()
 	{
-		assert isResolved() : "not resolved";
-
+		assert isResolved();
 		DeclNode curr = getValidResolvedVersion(typeNodeDecl, typeTypeDecl);
-		return (NodeTypeNode)curr.getDeclType();
+		TypeNode type = curr.getDeclType();
+		//assert type != null;
+		return (NodeTypeNode)type;
 	}
 
 	/** returns children of this node */

@@ -620,13 +620,20 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		}
 	| f=FILTER id=actionIdentDecl filterFunctionDecl[f, id, filterChilds, matchClassFilterChilds]
 	| EXTERNAL f=FILTER id=actionIdentDecl externalFilterFunctionDecl[f, id, filterChilds, matchClassFilterChilds]
-	| MATCH mc=CLASS id=typeIdentDecl { env.pushScope(id); } LBRACE 
-		body=matchClassBody[getCoords(mc), namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
-		{
-			mt = new DefinedMatchTypeNode(body);
-			id.setDecl(new TypeDeclNode(id, mt));
-			matchClassChilds.addChild(id);
-		}
+	| MATCH mc=CLASS id=typeIdentDecl { env.pushScope(id); } LBRACE
+		(body=matchClassBody[getCoords(mc), namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+			{
+				mt = new DefinedMatchTypeNode(body);
+				id.setDecl(new TypeDeclNode(id, mt));
+				matchClassChilds.addChild(id);
+			}
+		| autoBody=matchClassAutoBody[getCoords(mc), namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+			{
+				mt = new DefinedMatchTypeNode(autoBody);
+				id.setDecl(new TypeDeclNode(id, mt));
+				matchClassChilds.addChild(id);
+			}
+		)
 		RBRACE
 		matchClassFilterDecls[id, mt]
 		{ env.popScope(); }
@@ -816,7 +823,7 @@ filterDeclList [ IdentNode actionOrIteratedIdent, ArrayList<FilterAutoDeclNode> 
 	@init {
 		String filterBaseText = null;
 	}
-	: filterBase=IDENT { filterBaseText = filterBase.getText(); } (LT fvl=filterVariableList GT (filterBaseTextExt=filterExtension[filterBaseText, fvl] { filterBaseText = filterBaseTextExt; })?)? 
+	: (filterBase=IDENT | filterBase=AUTO) { filterBaseText = filterBase.getText(); } (LT fvl=filterVariableList GT (filterBaseTextExt=filterExtension[filterBaseText, fvl] { filterBaseText = filterBaseTextExt; })?)? 
 		{
 			String fullName = filterBaseText + (fvl != null ? "<" + join("_", fvl) + ">" : "");
 			IdentNode filterIdent = new IdentNode(env.define(ParserEnvironment.ACTIONS, fullName, getCoords(filterBase)));
@@ -836,7 +843,7 @@ filterDeclList [ IdentNode actionOrIteratedIdent, ArrayList<FilterAutoDeclNode> 
 	;
 
 filterDeclListContinuation [ IdentNode actionOrIteratedIdent, ArrayList<FilterAutoDeclNode> filters ]
-	: COMMA filterBase=IDENT (LT fvl=filterVariableList GT)?
+	: COMMA (filterBase=IDENT | filterBase=AUTO) (LT fvl=filterVariableList GT)?
 		{
 			String fullName = filterBase.getText() + (fvl != null ? "<" + join("_", fvl) + ">" : "");
 			IdentNode filterIdent = new IdentNode(env.define(ParserEnvironment.ACTIONS, fullName, getCoords(filterBase)));
@@ -1070,6 +1077,16 @@ matchClassBody [ Coords coords, AnonymousScopeNamer namer, int mod, int context,
 		res.addYieldings(evals);
 	}
 	: ( matchClassStmt[connections, defVariablesToBeYieldedTo, varDecls, subpatterns, subpatternRepls, context, res] )*
+	;
+
+matchClassAutoBody [ Coords coords, AnonymousScopeNamer namer, int mod, int context, String nameOfGraph ]
+		returns [ MatchClassAutoNode res = null ]
+	@init {
+		CollectNode<IdentNode> matchTypes = new CollectNode<IdentNode>();
+	}
+	: AUTO LPAREN matchTypeIdent=matchTypeIdentUse { matchTypes.addChild(matchTypeIdent); }
+		(BOR matchTypeIdentFollowing=matchTypeIdentUse { matchTypes.addChild(matchTypeIdentFollowing); } )+ RPAREN
+		{ res = new MatchClassAutoNode(nameOfGraph, coords, mod, context, matchTypes); }
 	;
 
 matchClassStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo, CollectNode<BaseNode> varDecls, 
@@ -4408,6 +4425,7 @@ HASHUSING : '#using';
 ABSTRACT : 'abstract';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
+AUTO : 'auto';
 BREAK : 'break';
 CASE : 'case';
 CLASS : 'class';

@@ -74,6 +74,14 @@ public class VarDeclNode extends DeclNode
 		this(id, type, directlyNestingLHSGraph, context, false);
 	}
 
+	public VarDeclNode cloneForAuto(PatternGraphLhsNode parent)
+	{
+		VarDeclNode varDecl = new VarDeclNode(this.ident, this.type, parent, this.context, this.defEntityToBeYieldedTo);
+		varDecl.resolve();
+		varDecl.check();
+		return varDecl;
+	}
+
 	/** Get an invalid var declaration. */
 	public static final VarDeclNode getInvalidVar(PatternGraphLhsNode directlyNestingLHSGraph, int context)
 	{
@@ -154,7 +162,8 @@ public class VarDeclNode extends DeclNode
 	@Override
 	public TypeNode getDeclType()
 	{
-		assert isResolved() : this + " was not resolved";
+		assert isResolved();
+		//assert type != null;
 		return type;
 	}
 

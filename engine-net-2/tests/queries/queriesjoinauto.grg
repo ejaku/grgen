@@ -51,14 +51,12 @@ test sharedInterest(subject:namedObject)
 
 match class SameCompanySharedInterest
 {
-	subject:namedObject;
-	company:namedObject;
-	person:namedObject;
-	interest:namedObject;
+	auto(match<sameCompany> | match<sharedInterest>)
 }
 
 function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
 {
+//	auto(join<natural>(matchesSameCompany, matchesSharedInterest))
 	def ref res:array<match<class SameCompanySharedInterest>> = array<match<class SameCompanySharedInterest>>[];
 	for(matchSameCompany:match<sameCompany> in matchesSameCompany)
 	{
@@ -79,6 +77,7 @@ function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref match
 
 function cartesian(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
 {
+//	auto(join<>(matchesSameCompany, matchesSharedInterest))
 	def ref res:array<match<class SameCompanySharedInterest>> = array<match<class SameCompanySharedInterest>>[];
 	for(matchSameCompany:match<sameCompany> in matchesSameCompany)
 	{
@@ -118,7 +117,7 @@ function extract(ref matchesSameCompanySharedInterest:array<match<class SameComp
 	return(res);
 }
 
-test sharedWeightedInterest(subject:namedObject)
+/*test sharedWeightedInterest(subject:namedObject)
 {
 	subject -is:INTERESTED_IN-> interest:namedObject <-ip:INTERESTED_IN- person:namedObject;
 ---
@@ -127,11 +126,7 @@ test sharedWeightedInterest(subject:namedObject)
 
 match class SameCompanySharedWeightedInterest
 {
-	subject:namedObject;
-	person:namedObject;
-	company:namedObject;
-	interest:namedObject;
-	def var sharedWeightedInterest:double;
+	auto(match<sameCompany> | match<sharedWeightedInterest>)
 } \ keepOneForEach<person>Accumulate<sharedWeightedInterest>By<sum>
 
 match class SameCompanySharedWeightedInterestExtracted
@@ -145,24 +140,7 @@ match class SameCompanySharedWeightedInterestExtracted
 
 function naturalJoinWeighted(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedWeightedInterest:array<match<sharedWeightedInterest>>) : array<match<class SameCompanySharedWeightedInterest>>
 {
-	def ref res:array<match<class SameCompanySharedWeightedInterest>> = array<match<class SameCompanySharedWeightedInterest>>[];
-	for(matchSameCompany:match<sameCompany> in matchesSameCompany)
-	{
-		for(matchSharedWeightedInterest:match<sharedWeightedInterest> in matchesSharedWeightedInterest)
-		{
-			if(matchSameCompany.subject == matchSharedWeightedInterest.subject 
-				&& matchSameCompany.person == matchSharedWeightedInterest.person) {
-				def ref m:match<class SameCompanySharedWeightedInterest> = match<class SameCompanySharedWeightedInterest>();
-				m.subject = matchSameCompany.subject;
-				m.person = matchSameCompany.person;
-				m.company = matchSameCompany.company;
-				m.interest = matchSharedWeightedInterest.interest;
-				m.sharedWeightedInterest = matchSharedWeightedInterest.sharedWeightedInterest;
-				res.add(m);
-			}
-		}
-	}
-	return(res);
+	auto(join<natural>(matchesSameCompany, matchesSharedInterest))
 }
 
 function extractWeighted(ref matchesSameCompanySharedWeightedInterest:array<match<class SameCompanySharedWeightedInterest>>) : array<match<class SameCompanySharedWeightedInterestExtracted>>
@@ -180,3 +158,4 @@ function extractWeighted(ref matchesSameCompanySharedWeightedInterest:array<matc
 	}
 	return(res);
 }
+*/

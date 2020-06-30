@@ -45,6 +45,20 @@ public class SingleNodeConnNode extends ConnectionCharacter
 		becomeParent(this.nodeUnresolved);
 	}
 
+	public SingleNodeConnNode(NodeDeclNode node, BaseNode parent)
+	{
+		this(node);
+		parent.becomeParent(this);
+
+		resolve();
+		check();
+	}
+
+	public SingleNodeConnNode cloneForAuto(PatternGraphLhsNode parent)
+	{
+		return new SingleNodeConnNode(this.node.cloneForAuto(parent), parent);
+	}
+
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren()
