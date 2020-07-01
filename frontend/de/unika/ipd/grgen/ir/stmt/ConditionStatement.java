@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 /**
  * Represents a condition statement in the IR.
  */
-public class ConditionStatement extends NestingStatement
+public class ConditionStatement extends BlockNestingStatement
 {
 	private Expression conditionExpr;
 	private Collection<EvalStatement> falseCaseStatements = null;

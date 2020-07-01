@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 /**
  * Represents an accumulation yielding of a container variable in the IR.
  */
-public class IntegerRangeIterationYield extends NestingStatement
+public class IntegerRangeIterationYield extends BlockNestingStatement
 {
 	private Variable iterationVar;
 	private Expression leftExpr;

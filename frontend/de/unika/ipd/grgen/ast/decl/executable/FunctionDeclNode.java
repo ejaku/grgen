@@ -155,7 +155,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 
 		// add Computation Statements to the IR
 		for(EvalStatementNode eval : evalStatements.getChildren()) {
-			function.addComputationStatement(eval.checkIR(EvalStatement.class));
+			function.addStatement(eval.checkIR(EvalStatement.class));
 		}
 
 		return function;

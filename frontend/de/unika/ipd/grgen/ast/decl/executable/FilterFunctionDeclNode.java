@@ -192,7 +192,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 		if(evalStatements != null) {
 			// add Computation Statements to the IR
 			for(EvalStatementNode eval : evalStatements.getChildren()) {
-				((FilterFunctionInternal)filterFunction).addComputationStatement(eval.checkIR(EvalStatement.class));
+				((FilterFunctionInternal)filterFunction).addStatement(eval.checkIR(EvalStatement.class));
 			}
 		}
 

@@ -16,12 +16,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.Ident;
+import de.unika.ipd.grgen.ir.NestingStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 
 /**
- * An internal filter function.
+ * An internal filter function
+ * (is a top-level object that contains nested statements).
  */
-public class FilterFunctionInternal extends FilterFunction
+public class FilterFunctionInternal extends FilterFunction implements NestingStatement
 {
 	/** The computation statements */
 	private List<EvalStatement> computationStatements = new LinkedList<EvalStatement>();
@@ -31,14 +33,16 @@ public class FilterFunctionInternal extends FilterFunction
 		super(name, ident);
 	}
 
-	/** Add a computation statement to the function. */
-	public void addComputationStatement(EvalStatement eval)
+	/** Add a computation statement to the filter function. */
+	@Override
+	public void addStatement(EvalStatement eval)
 	{
 		computationStatements.add(eval);
 	}
 
-	/** Get all computation statements of this function. */
-	public List<EvalStatement> getComputationStatements()
+	/** Get all computation statements of this filter function. */
+	@Override
+	public List<EvalStatement> getStatements()
 	{
 		return Collections.unmodifiableList(computationStatements);
 	}

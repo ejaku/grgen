@@ -18,13 +18,15 @@ import java.util.List;
 import de.unika.ipd.grgen.ir.ContainedInPackage;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Ident;
+import de.unika.ipd.grgen.ir.NestingStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**
- * A function.
+ * A function (has a return type and parameters,
+ * is a top-level object that contains nested statements, and may be contained in a package).
  */
-public class Function extends FunctionBase implements ContainedInPackage
+public class Function extends FunctionBase implements ContainedInPackage, NestingStatement
 {
 	private String packageContainedIn;
 
@@ -66,18 +68,20 @@ public class Function extends FunctionBase implements ContainedInPackage
 	}
 
 	/** Add a computation statement to the function. */
-	public void addComputationStatement(EvalStatement eval)
+	@Override
+	public void addStatement(EvalStatement eval)
 	{
 		computationStatements.add(eval);
 	}
 
 	/** Get all computation statements of this function. */
-	public List<EvalStatement> getComputationStatements()
+	@Override
+	public List<EvalStatement> getStatements()
 	{
 		return Collections.unmodifiableList(computationStatements);
 	}
 
-	/** Get all parameter types of this external function. */
+	/** Get all parameter types of this function. */
 	@Override
 	public List<Type> getParameterTypes()
 	{

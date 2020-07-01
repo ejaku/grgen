@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 /**
  * Represents an accumulation yielding of an iterated match def variable in the IR.
  */
-public class IteratedAccumulationYield extends NestingStatement
+public class IteratedAccumulationYield extends BlockNestingStatement
 {
 	private Variable iterationVar;
 	private Rule iterated;

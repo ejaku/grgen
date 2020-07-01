@@ -410,7 +410,7 @@ public class ActionsExecGen extends CSharpBase
 	public void genImperativeStatements(SourceBuilder sb, Procedure procedure)
 	{
 		int xgrsID = 0;
-		for(EvalStatement evalStmt : procedure.getComputationStatements()) {
+		for(EvalStatement evalStmt : procedure.getStatements()) {
 			xgrsID = genImperativeStatements(sb, procedure, evalStmt, xgrsID);
 		}
 	}

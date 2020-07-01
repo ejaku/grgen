@@ -160,7 +160,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 
 		// add Computation Statements to the IR
 		for(EvalStatementNode eval : evalStatements.getChildren()) {
-			procedure.addComputationStatement(eval.checkIR(EvalStatement.class));
+			procedure.addStatement(eval.checkIR(EvalStatement.class));
 		}
 
 		return procedure;

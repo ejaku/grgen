@@ -1611,7 +1611,7 @@ deque_init_loop:
 		genApplyProcedureMethodDispatcher(type);
 
 		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
-			forceNotConstant(pm.getComputationStatements());
+			forceNotConstant(pm.getStatements());
 			genParameterPassingReturnArray(type, pm);
 		}
 
@@ -1630,7 +1630,7 @@ deque_init_loop:
 		sb.appendFront("{\n");
 		sb.indent();
 		for(FunctionMethod fm : type.getAllFunctionMethods()) {
-			forceNotConstant(fm.getComputationStatements());
+			forceNotConstant(fm.getStatements());
 			genParameterPassingMethodCall(type, fm);
 		}
 		sb.appendFront("default: throw new NullReferenceException(\"" + formatIdentifiable(type)
@@ -1646,7 +1646,7 @@ deque_init_loop:
 		List<String> staticInitializers = new LinkedList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
-		genLocalContainersEvals(sb, fm.getComputationStatements(), staticInitializers,
+		genLocalContainersEvals(sb, fm.getStatements(), staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
 
 		sb.appendFront("public " + formatType(fm.getReturnType()) + " ");
@@ -1666,7 +1666,7 @@ deque_init_loop:
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
 				be.system.emitProfilingInstrumentation());
 		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix);
-		for(EvalStatement evalStmt : fm.getComputationStatements()) {
+		for(EvalStatement evalStmt : fm.getStatements()) {
 			modifyGenState.functionOrProcedureName = fm.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
 		}
@@ -1690,7 +1690,7 @@ deque_init_loop:
 			sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 			sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 			modifyGenState = new ModifyGenerationState(model, null, "", true, be.system.emitProfilingInstrumentation());
-			for(EvalStatement evalStmt : fm.getComputationStatements()) {
+			for(EvalStatement evalStmt : fm.getStatements()) {
 				modifyGenState.functionOrProcedureName = fm.getIdent().toString();
 				evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
 			}
@@ -1724,7 +1724,7 @@ deque_init_loop:
 		List<String> staticInitializers = new LinkedList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
-		genLocalContainersEvals(sb, pm.getComputationStatements(), staticInitializers,
+		genLocalContainersEvals(sb, pm.getStatements(), staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
 
 		sb.appendFront("public void ");
@@ -1764,7 +1764,7 @@ deque_init_loop:
 			sb.append(");\n");
 		}
 
-		for(EvalStatement evalStmt : pm.getComputationStatements()) {
+		for(EvalStatement evalStmt : pm.getStatements()) {
 			modifyGenState.functionOrProcedureName = pm.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
 		}

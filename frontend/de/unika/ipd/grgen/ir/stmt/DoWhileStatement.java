@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 /**
  * Represents a do while statement in the IR.
  */
-public class DoWhileStatement extends NestingStatement
+public class DoWhileStatement extends BlockNestingStatement
 {
 	private Expression conditionExpr;
 

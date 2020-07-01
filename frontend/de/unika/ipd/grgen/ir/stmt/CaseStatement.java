@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 /**
  * Represents a case statement of a switch statement in the IR.
  */
-public class CaseStatement extends NestingStatement
+public class CaseStatement extends BlockNestingStatement
 {
 	private Expression caseConstantExpr; // null for the "else" (aka default) case
 

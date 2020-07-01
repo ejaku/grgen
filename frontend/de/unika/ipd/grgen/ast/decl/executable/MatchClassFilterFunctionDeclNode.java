@@ -195,7 +195,7 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 		if(evalStatements != null) {
 			// add Computation Statements to the IR
 			for(EvalStatementNode eval : evalStatements.getChildren()) {
-				((MatchClassFilterFunctionInternal)filterFunction).addComputationStatement(eval.checkIR(EvalStatement.class));
+				((MatchClassFilterFunctionInternal)filterFunction).addStatement(eval.checkIR(EvalStatement.class));
 			}
 		}
 

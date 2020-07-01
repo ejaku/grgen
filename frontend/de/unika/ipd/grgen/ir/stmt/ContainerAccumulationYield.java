@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 /**
  * Represents an accumulation yielding of a container variable in the IR.
  */
-public class ContainerAccumulationYield extends NestingStatement
+public class ContainerAccumulationYield extends BlockNestingStatement
 {
 	private Variable iterationVar;
 	private Variable indexVar;

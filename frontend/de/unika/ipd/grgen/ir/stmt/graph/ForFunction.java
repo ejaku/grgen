@@ -17,12 +17,12 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.stmt.NestingStatement;
+import de.unika.ipd.grgen.ir.stmt.BlockNestingStatement;
 
 /**
  * Represents a for lookup of a neighborhood function in the IR.
  */
-public class ForFunction extends NestingStatement
+public class ForFunction extends BlockNestingStatement
 {
 	private Variable iterationVar;
 	private Expression function;

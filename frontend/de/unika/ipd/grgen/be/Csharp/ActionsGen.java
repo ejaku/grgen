@@ -651,7 +651,7 @@ public class ActionsGen extends CSharpBase
 		sb.indent();
 
 		for(Function function : bearer.getFunctions()) {
-			forceNotConstant(function.getComputationStatements());
+			forceNotConstant(function.getStatements());
 			genFunction(sb, function, false, be.system.emitProfilingInstrumentation());
 		}
 		if(model.areFunctionsParallel()) {
@@ -665,7 +665,7 @@ public class ActionsGen extends CSharpBase
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 
 		for(Function function : bearer.getFunctions()) {
-			genLocalContainersEvals(sb, function.getComputationStatements(), staticInitializers,
+			genLocalContainersEvals(sb, function.getStatements(), staticInitializers,
 					pathPrefixForElements, alreadyDefinedEntityToName);
 		}
 
@@ -703,7 +703,7 @@ public class ActionsGen extends CSharpBase
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "",
 				isToBeParallelizedActionExisting, emitProfilingInstrumentation);
 		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix);
-		for(EvalStatement evalStmt : function.getComputationStatements()) {
+		for(EvalStatement evalStmt : function.getStatements()) {
 			modifyGenState.functionOrProcedureName = function.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
 		}
@@ -800,7 +800,7 @@ public class ActionsGen extends CSharpBase
 		sb.indent();
 
 		for(Procedure procedure : bearer.getProcedures()) {
-			forceNotConstant(procedure.getComputationStatements());
+			forceNotConstant(procedure.getStatements());
 			genProcedure(sb, procedure, be.system.emitProfilingInstrumentation());
 		}
 
@@ -809,7 +809,7 @@ public class ActionsGen extends CSharpBase
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 
 		for(Procedure procedure : bearer.getProcedures()) {
-			genLocalContainersEvals(sb, procedure.getComputationStatements(), staticInitializers,
+			genLocalContainersEvals(sb, procedure.getStatements(), staticInitializers,
 					pathPrefixForElements, alreadyDefinedEntityToName);
 		}
 
@@ -869,7 +869,7 @@ public class ActionsGen extends CSharpBase
 			sb.append(");\n");
 		}
 
-		for(EvalStatement evalStmt : procedure.getComputationStatements()) {
+		for(EvalStatement evalStmt : procedure.getStatements()) {
 			modifyGenState.functionOrProcedureName = procedure.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
 		}
@@ -985,7 +985,7 @@ public class ActionsGen extends CSharpBase
 		for(FilterFunction filter : bearer.getFilterFunctions()) {
 			if(filter instanceof FilterFunctionInternal) {
 				FilterFunctionInternal filterFunction = (FilterFunctionInternal)filter;
-				forceNotConstant(filterFunction.getComputationStatements());
+				forceNotConstant(filterFunction.getStatements());
 				genFilterFunction(sb, filterFunction, packageName, be.system.emitProfilingInstrumentation());
 			}
 		}
@@ -997,7 +997,7 @@ public class ActionsGen extends CSharpBase
 		for(FilterFunction filter : bearer.getFilterFunctions()) {
 			if(filter instanceof FilterFunctionInternal) {
 				FilterFunctionInternal filterFunction = (FilterFunctionInternal)filter;
-				genLocalContainersEvals(sb, filterFunction.getComputationStatements(), staticInitializers,
+				genLocalContainersEvals(sb, filterFunction.getStatements(), staticInitializers,
 						pathPrefixForElements, alreadyDefinedEntityToName);
 			}
 		}
@@ -1034,7 +1034,7 @@ public class ActionsGen extends CSharpBase
 				emitProfilingInstrumentation);
 		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix);
 		EvalStatement lastEvalStmt = null;
-		for(EvalStatement evalStmt : filter.getComputationStatements()) {
+		for(EvalStatement evalStmt : filter.getStatements()) {
 			modifyGenState.functionOrProcedureName = filter.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
 			lastEvalStmt = evalStmt;
@@ -1060,7 +1060,7 @@ public class ActionsGen extends CSharpBase
 		for(MatchClassFilterFunction matchClassFilter : bearer.getMatchClassFilterFunctions()) {
 			if(matchClassFilter instanceof MatchClassFilterFunctionInternal) {
 				MatchClassFilterFunctionInternal matchClassFilterFunction = (MatchClassFilterFunctionInternal)matchClassFilter;
-				forceNotConstant(matchClassFilterFunction.getComputationStatements());
+				forceNotConstant(matchClassFilterFunction.getStatements());
 				genMatchClassFilterFunction(sb, matchClassFilterFunction, be.system.emitProfilingInstrumentation());
 			}
 		}
@@ -1072,7 +1072,7 @@ public class ActionsGen extends CSharpBase
 		for(MatchClassFilterFunction matchClassFilter : bearer.getMatchClassFilterFunctions()) {
 			if(matchClassFilter instanceof MatchClassFilterFunctionInternal) {
 				MatchClassFilterFunctionInternal matchClassFilterFunction = (MatchClassFilterFunctionInternal)matchClassFilter;
-				genLocalContainersEvals(sb, matchClassFilterFunction.getComputationStatements(), staticInitializers,
+				genLocalContainersEvals(sb, matchClassFilterFunction.getStatements(), staticInitializers,
 						pathPrefixForElements, alreadyDefinedEntityToName);
 			}
 		}
@@ -1107,7 +1107,7 @@ public class ActionsGen extends CSharpBase
 				emitProfilingInstrumentation);
 		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix);
 		EvalStatement lastEvalStmt = null;
-		for(EvalStatement evalStmt : matchClassFilter.getComputationStatements()) {
+		for(EvalStatement evalStmt : matchClassFilter.getStatements()) {
 			modifyGenState.functionOrProcedureName = matchClassFilter.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
 			lastEvalStmt = evalStmt;

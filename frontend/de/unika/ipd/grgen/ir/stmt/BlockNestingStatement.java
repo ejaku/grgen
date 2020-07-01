@@ -14,23 +14,27 @@ package de.unika.ipd.grgen.ir.stmt;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import de.unika.ipd.grgen.ir.NestingStatement;
+
 /**
- * Represents a nesting statement in the IR.
+ * Represents a block nesting statement in the IR (non top-level statement containing nested statements).
  */
-public abstract class NestingStatement extends EvalStatement
+public abstract class BlockNestingStatement extends EvalStatement implements NestingStatement
 {
 	protected Collection<EvalStatement> statements = new LinkedList<EvalStatement>();
 
-	protected NestingStatement(String name)
+	protected BlockNestingStatement(String name)
 	{
 		super(name);
 	}
 
+	@Override
 	public void addStatement(EvalStatement loopedStatement)
 	{
 		statements.add(loopedStatement);
 	}
 
+	@Override
 	public Collection<EvalStatement> getStatements()
 	{
 		return statements;

@@ -18,13 +18,15 @@ import java.util.List;
 import de.unika.ipd.grgen.ir.ContainedInPackage;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Ident;
+import de.unika.ipd.grgen.ir.NestingStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**
- * A procedure.
+ * A procedure (has return types and parameters,
+ * is a top-level object that contains nested statements, and may be contained in a package).
  */
-public class Procedure extends ProcedureBase implements ContainedInPackage
+public class Procedure extends ProcedureBase implements ContainedInPackage, NestingStatement
 {
 	private String packageContainedIn;
 
@@ -53,31 +55,33 @@ public class Procedure extends ProcedureBase implements ContainedInPackage
 		this.packageContainedIn = packageContainedIn;
 	}
 
-	/** Add a parameter to the computation. */
+	/** Add a parameter to the procedure. */
 	public void addParameter(Entity entity)
 	{
 		params.add(entity);
 	}
 
-	/** Get all parameters of this computation. */
+	/** Get all parameters of this procedure. */
 	public List<Entity> getParameters()
 	{
 		return Collections.unmodifiableList(params);
 	}
 
-	/** Add a computation statement to the computation. */
-	public void addComputationStatement(EvalStatement eval)
+	/** Add a computation statement to the procedure. */
+	@Override
+	public void addStatement(EvalStatement eval)
 	{
 		procedureStatements.add(eval);
 	}
 
-	/** Get all computation statements of this computation. */
-	public List<EvalStatement> getComputationStatements()
+	/** Get all computation statements of this procedure. */
+	@Override
+	public List<EvalStatement> getStatements()
 	{
 		return Collections.unmodifiableList(procedureStatements);
 	}
 
-	/** Get all parameter types of this external function. */
+	/** Get all parameter types of this procedure. */
 	@Override
 	public List<Type> getParameterTypes()
 	{
