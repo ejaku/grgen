@@ -52,6 +52,13 @@ public class DefDeclStatementNode extends EvalStatementNode
 		this.context = context;
 	}
 
+	public DefDeclStatementNode(Coords coords, VarDeclNode defDeclVar, int context)
+	{
+		super(coords);
+		this.defDeclVar = defDeclVar;
+		this.context = context;
+	}
+
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren()
@@ -98,6 +105,9 @@ public class DefDeclStatementNode extends EvalStatementNode
 
 	public DeclNode getDecl()
 	{
+		if(defDeclUnresolved == null)
+			return defDeclVar;
+		
 		if(defDeclUnresolved instanceof VarDeclNode) {
 			defDeclVar = (VarDeclNode)defDeclUnresolved;
 			return defDeclVar;

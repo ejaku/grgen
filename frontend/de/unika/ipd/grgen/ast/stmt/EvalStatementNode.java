@@ -92,7 +92,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 
 		if(evalsAreTopLevel) {
 			if(root instanceof FunctionDeclNode) {
-				if(!(last instanceof ReturnStatementNode)) {
+				if(!(last instanceof ReturnStatementNode) && ((FunctionDeclNode)root).functionAuto == null) {
 					if(last instanceof ConditionStatementNode) {
 						if(!allCasesEndWithReturn((ConditionStatementNode)last)) {
 							last.reportError("all cases of the if in the function must end with a return statement");

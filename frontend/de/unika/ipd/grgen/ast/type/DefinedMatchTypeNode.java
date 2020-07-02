@@ -258,7 +258,7 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 		return pattern.tryGetVar(name);
 	}
 
-	public Collection<NodeDeclNode> getNodes()
+	public Set<NodeDeclNode> getNodes()
 	{
 		Set<NodeDeclNode> nodes = new HashSet<NodeDeclNode>();
 		for(NodeDeclNode node : pattern.getNodes()) {
@@ -268,12 +268,12 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 		return Collections.unmodifiableSet(nodes);
 	}
 
-	public Collection<EdgeDeclNode> getEdges()
+	public Set<EdgeDeclNode> getEdges()
 	{
 		return pattern.getEdges();
 	}
 
-	public Collection<VarDeclNode> getVariables()
+	public Set<VarDeclNode> getVariables()
 	{
 		Set<VarDeclNode> vars = new HashSet<VarDeclNode>(pattern.getDefVariablesToBeYieldedTo().getChildren());
 		for(DeclNode varCand : pattern.getParamDecls()) {
@@ -283,6 +283,11 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 			vars.add(var);
 		}
 		return Collections.unmodifiableSet(vars);
+	}
+
+	public Set<DeclNode> getEntities()
+	{
+		return pattern.getEntities();
 	}
 
 	/** Returns the IR object for this defined match type node. */

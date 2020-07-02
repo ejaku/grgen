@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumpableProxy;
@@ -119,7 +120,7 @@ public abstract class PatternGraphBase extends IR
 	/** Map that maps an edge to an internal edge. */
 	protected final Map<Edge, PatternGraphBase.GraphEdge> edges;
 
-	protected final Collection<Variable> vars = new LinkedHashSet<Variable>();
+	protected final Set<Variable> vars = new LinkedHashSet<Variable>();
 
 	protected final Set<SubpatternUsage> subpatternUsages;
 
@@ -501,5 +502,24 @@ public abstract class PatternGraphBase extends IR
 	public void addSubpatternUsage(SubpatternUsage subpatternUsage)
 	{
 		subpatternUsages.add(subpatternUsage);
+	}
+	
+	/////////////////////////////////////////////////////////////////////
+
+	public Entity tryGetMember(String name)
+	{
+		for(Node node : nodes.keySet()) {
+			if(node.getIdent().toString().equals(name))
+				return node;
+		}
+		for(Edge edge : edges.keySet()) {
+			if(edge.getIdent().toString().equals(name))
+				return edge;
+		}
+		for(Variable var : vars) {
+			if(var.getIdent().toString().equals(name))
+				return var;
+		}
+		return null;
 	}
 }

@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.parser.SymbolTable;
 import de.unika.ipd.grgen.util.Annotated;
 import de.unika.ipd.grgen.util.Annotations;
+import de.unika.ipd.grgen.util.EmptyAnnotations;
 
 /**
  * A class representing an identifier.
@@ -74,6 +75,12 @@ public class Ident extends IR implements Comparable<Ident>, Annotated
 	private Ident(String text, Coords def, Annotations annots)
 	{
 		this(text, SymbolTable.getInvalid(), Scope.getInvalid(), def, annots);
+	}
+	
+	// for internal code generation (in contrast to parsing/buildup from AST)
+	public Ident(String text, Coords def)
+	{
+		this(text, def, EmptyAnnotations.get());
 	}
 
 	/** The string of an identifier is its text.

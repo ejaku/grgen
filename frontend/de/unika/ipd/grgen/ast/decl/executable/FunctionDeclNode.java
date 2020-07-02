@@ -44,18 +44,20 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 	protected CollectNode<DeclNode> parameters;
 
 	public CollectNode<EvalStatementNode> evalStatements;
+	public FunctionAutoNode functionAuto;
 
 	boolean isMethod;
 
 	protected static final FunctionTypeNode functionType = new FunctionTypeNode();
 
 
-	public FunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params,
-			BaseNode ret, boolean isMethod)
+	public FunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, FunctionAutoNode functionAuto,
+			CollectNode<BaseNode> params, BaseNode ret, boolean isMethod)
 	{
 		super(id, functionType);
 		this.evalStatements = evals;
 		becomeParent(this.evalStatements);
+		this.functionAuto = functionAuto;
 		this.parametersUnresolved = params;
 		becomeParent(this.parametersUnresolved);
 		this.resultUnresolved = ret;
@@ -87,6 +89,17 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		return childrenNames;
 	}
 
+	@Override
+	protected boolean resolveLocal()
+	{
+		boolean result = super.resolveLocal();
+		
+		if(functionAuto != null)
+			functionAuto.resolveLocal();
+		
+		return result;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean checkLocal()
@@ -114,6 +127,11 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 			if(parameterType == null || parameterType instanceof ErrorTypeNode) {
 				res = false;
 			}
+		}
+
+		if(functionAuto != null) {
+			functionAuto.checkLocal();
+			functionAuto.checkLocal(this);
 		}
 
 		return res;
@@ -154,8 +172,12 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		}
 
 		// add Computation Statements to the IR
-		for(EvalStatementNode eval : evalStatements.getChildren()) {
-			function.addStatement(eval.checkIR(EvalStatement.class));
+		if(functionAuto != null) {
+			functionAuto.getStatements(this, function);
+		} else {
+			for(EvalStatementNode eval : evalStatements.getChildren()) {
+				function.addStatement(eval.checkIR(EvalStatement.class));
+			}
 		}
 
 		return function;

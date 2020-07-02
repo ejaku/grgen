@@ -34,6 +34,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 /**
  * AST node that represents a base graph pattern with nodes, edges, variables, subpattern usages, and further things
@@ -55,6 +56,8 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	// Cache variables
 	protected Set<NodeDeclNode> nodes;
 	protected Set<EdgeDeclNode> edges;
+	protected Set<VarDeclNode> variables;
+	protected Set<DeclNode> entities;
 
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	protected int context = 0;
@@ -313,6 +316,46 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		return defVariablesToBeYieldedTo;
 	}
 
+	/** Get a set of all variables in this pattern. */
+	public Set<VarDeclNode> getVariables()
+	{
+		if(variables == null) {
+			variables = Collections.unmodifiableSet(getVariablesImpl());
+		}
+		return variables;
+	}
+
+	protected Set<VarDeclNode> getVariablesImpl()
+	{
+		assert isResolved();
+
+		LinkedHashSet<VarDeclNode> tempVariables = new LinkedHashSet<VarDeclNode>();
+
+		for(BaseNode param : params.getChildren()) {
+			if(param instanceof VarDeclNode) {
+				tempVariables.add((VarDeclNode)param);
+			}
+		}
+		
+		for(VarDeclNode defVar : defVariablesToBeYieldedTo.getChildren()) {
+			tempVariables.add(defVar);
+		}
+
+		return tempVariables;
+	}
+
+	public Set<DeclNode> getEntities()
+	{
+		if(entities == null) {
+			LinkedHashSet<DeclNode> tempEntities = new LinkedHashSet<DeclNode>();
+			tempEntities.addAll(getNodes());
+			tempEntities.addAll(getEdges());
+			tempEntities.addAll(getVariables());
+			entities = Collections.unmodifiableSet(tempEntities);
+		}
+		return entities;
+	}
+
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
 	{
 		for(BaseNode param : params.getChildren()) {
@@ -354,5 +397,20 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		}
 
 		return res;
+	}
+	
+	// returns set of entities with same name in given graph and this graph, anonymous entities are excluded
+	public Set<String> getNamesOfCommonEntities(PatternGraphBaseNode that)
+	{
+		Set<String> namesFromThis = this.getEntities().stream()
+				.map((DeclNode entity) -> entity.ident.toString())
+				.filter((String name) -> !name.startsWith("$"))
+				.collect(Collectors.toSet());
+		Set<String> namesFromThat = that.getEntities().stream()
+				.map((DeclNode entity) -> entity.ident.toString())
+				.filter((String name) -> !name.startsWith("$"))
+				.collect(Collectors.toSet());
+		namesFromThis.retainAll(namesFromThat);
+		return namesFromThis;
 	}
 }

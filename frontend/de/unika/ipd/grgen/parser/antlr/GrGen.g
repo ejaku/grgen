@@ -507,6 +507,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		ActionDeclNode actionDecl = null;
 		DefinedMatchTypeNode mt = null;
 		env.setMatchTypeChilds(matchTypeIteratedChilds);
+		FunctionAutoNode functionAutoImplementation = null;
 	}
 	: t=TEST id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeActionNode.defineMatchType(env, id)); env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
 		params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
@@ -595,12 +596,16 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 				reportError(id.getCoords(), "The function " + id.toString() + " cannot be defined - a builtin function of the same name and with the same number of parameters already exists");
 		}
 		LBRACE
-			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
-				{ evals.addChild(c); }
-			)*
+			(
+				AUTO LPAREN functionAuto=autoFunctionBody { functionAutoImplementation = functionAuto; } RPAREN
+			|
+				( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
+					{ evals.addChild(c); }
+				)*
+			)
 		RBRACE { env.popScope(); }
 		{
-			id.setDecl(new FunctionDeclNode(id, evals, params, retType, false));
+			id.setDecl(new FunctionDeclNode(id, evals, functionAutoImplementation, params, retType, false));
 			functionChilds.addChild(id);
 		}
 	| pr=PROCEDURE id=funcOrExtFuncIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphLhsNode.getInvalid()]
@@ -3004,7 +3009,7 @@ inClassFunctionDecl [ IdentNode clsId, boolean isNode ] returns [ FunctionDeclNo
 			)*
 		RBRACE { env.popScope(); }
 		{
-			res = new FunctionDeclNode(id, evals, params, retType, true);
+			res = new FunctionDeclNode(id, evals, null, params, retType, true);
 			id.setDecl(res);
 		}
 	;
@@ -3332,6 +3337,15 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 // Expressions
 //////////////////////////////////////////
 
+
+autoFunctionBody returns [ FunctionAutoNode res = null ]
+	@init {
+		CollectNode<IdentNode> params = new CollectNode<IdentNode>();
+	}
+	: join=IDENT LT natural=IDENT GT LPAREN id=entIdentUse { params.addChild(id); }
+		( COMMA id=entIdentUse { params.addChild(id); } )+ RPAREN
+		{ res = new FunctionAutoNode(getCoords(join), params); }
+	;
 
 computations [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode directlyNestingLHSGraph ] 
 	returns [ CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>() ]

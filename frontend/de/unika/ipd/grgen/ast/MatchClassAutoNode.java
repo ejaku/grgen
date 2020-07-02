@@ -117,6 +117,11 @@ public class MatchClassAutoNode extends BaseNode
 	@Override
 	protected boolean checkLocal()
 	{
+		if(matchTypes.getChildren().size() != 2) {
+			reportError("auto(match<T> | match<S>) is only supported on two types");
+			return false;
+		}
+		
 		return true;
 	}
 
