@@ -57,13 +57,18 @@ public class FunctionAutoNode extends BaseNode
 		setName(FunctionAutoNode.class, "function auto");
 	}
 
+	private String function;
+	private String joinFunction;
+	
 	private CollectNode<VarDeclNode> arguments = new CollectNode<VarDeclNode>();
 	private CollectNode<IdentNode> argumentsUnresolved = new CollectNode<IdentNode>();
 
-	public FunctionAutoNode(Coords coords, CollectNode<IdentNode> arguments)
+	public FunctionAutoNode(Coords coords, String function, String joinFunction, CollectNode<IdentNode> arguments)
 	{
 		super(coords);
-		argumentsUnresolved = arguments;
+		this.function = function;
+		this.joinFunction = joinFunction;
+		this.argumentsUnresolved = arguments;
 	}
 
 	/** returns children of this node */
@@ -101,24 +106,36 @@ public class FunctionAutoNode extends BaseNode
 	@Override
 	public boolean checkLocal()
 	{
-		boolean result = true;
+		if(!function.equals("join")) {
+			reportError("Unknown function in auto(), supported is: join (e.g. join<natural>)");
+			return false;
+		}
 		
+		if(!joinFunction.equals("natural") && !joinFunction.equals("cartesian")) {
+			reportError("Unknown join function in auto(), supported are natural and cartesian (giving e.g. join<natural>)");
+			return false;
+		}
+	
+		boolean result = true;
+
+		int i = 1;
 		for(VarDeclNode argument : arguments.getChildren()) {
 			if(!(argument.getDeclType() instanceof ArrayTypeNode)) {
-				reportError("argument to join<natural> must be an array");
+				reportError("argument " + i + " to " + shortSignature() + " must be an array");
 				result = false;
 				continue;
 			}
 			ArrayTypeNode argumentType = (ArrayTypeNode)argument.getDeclType();
 			if(!(argumentType.getElementType() instanceof MatchTypeActionNode)) {
-				reportError("argument to join<natural> must be an array<match<T>>");
+				reportError("argument " + i + " to " + shortSignature() + " must be an array<match<T>>");
 				result = false;
 				continue;
 			}
+			++i;
 		}
 		
 		if(arguments.getChildren().size() != 2) {
-			reportError("join<natural> must have 2 arguments");
+			reportError(shortSignature() + " must have 2 arguments");
 			result = false;
 		}
 
@@ -149,12 +166,12 @@ public class FunctionAutoNode extends BaseNode
 	public boolean checkLocal(FunctionDeclNode functionDecl)
 	{
 		if(!(functionDecl.getResultType() instanceof ArrayTypeNode)) {
-			reportError("result type of function employing join<natural> must be an array");
+			reportError("result type of function employing " + shortSignature() + " must be an array (not " + functionDecl.getResultType().getTypeName() + ")");
 			return false;
 		}
 		ArrayTypeNode resultType = (ArrayTypeNode)functionDecl.getResultType();
 		if(!(resultType.getElementType() instanceof DefinedMatchTypeNode)) {
-			reportError("result type of function employing join<natural> must be an array<match<class T>>");
+			reportError("result type of function employing " + shortSignature() + " must be an array<match<class T>> (not " + functionDecl.getResultType().getTypeName() + ")");
 			return false;
 		}
 		
@@ -254,29 +271,32 @@ public class FunctionAutoNode extends BaseNode
 
 		PatternGraphLhsNode leftMatchPattern = leftMatchType.getAction().pattern;
 		PatternGraphLhsNode rightMatchPattern = rightMatchType.getAction().pattern;
+
 		Set<String> sharedNames = leftMatchPattern.getNamesOfCommonEntities(rightMatchPattern);
-		Expression condition = new Constant(BasicTypeNode.booleanType.getType(), Boolean.TRUE);
-		for(String sharedName : sharedNames) {
-			DeclNode leftMemberDecl = leftMatchType.tryGetMember(sharedName);
-			Entity leftMember = leftMemberDecl.checkIR(Entity.class);
+		if(joinFunction.equals("natural")) {
+			Expression condition = new Constant(BasicTypeNode.booleanType.getType(), Boolean.TRUE);
+			for(String sharedName : sharedNames) {
+				DeclNode leftMemberDecl = leftMatchType.tryGetMember(sharedName);
+				Entity leftMember = leftMemberDecl.checkIR(Entity.class);
 
-			DeclNode rightMemberDecl = rightMatchType.tryGetMember(sharedName);
-			Entity rightMember = rightMemberDecl.checkIR(Entity.class);
-			
-			Operator opEqual = new Operator(BasicTypeNode.booleanType.getType(), Operator.OperatorCode.EQ);
-			opEqual.addOperand(new MatchAccess(new VariableExpression(leftIterationVar), leftMember));
-			opEqual.addOperand(new MatchAccess(new VariableExpression(rightIterationVar), rightMember));
-			
-			Operator opAnd = new Operator(BasicTypeNode.booleanType.getType(), Operator.OperatorCode.LOG_AND);
-			opAnd.addOperand(condition);
-			opAnd.addOperand(opEqual);
-			
-			condition = opAnd;
+				DeclNode rightMemberDecl = rightMatchType.tryGetMember(sharedName);
+				Entity rightMember = rightMemberDecl.checkIR(Entity.class);
+				
+				Operator opEqual = new Operator(BasicTypeNode.booleanType.getType(), Operator.OperatorCode.EQ);
+				opEqual.addOperand(new MatchAccess(new VariableExpression(leftIterationVar), leftMember));
+				opEqual.addOperand(new MatchAccess(new VariableExpression(rightIterationVar), rightMember));
+				
+				Operator opAnd = new Operator(BasicTypeNode.booleanType.getType(), Operator.OperatorCode.LOG_AND);
+				opAnd.addOperand(condition);
+				opAnd.addOperand(opEqual);
+				
+				condition = opAnd;
+			}
+
+			ConditionStatement condStmt = new ConditionStatement(condition);
+			insertionPoint.addStatement(condStmt);
+			insertionPoint = condStmt;
 		}
-
-		ConditionStatement condStmt = new ConditionStatement(condition);
-		insertionPoint.addStatement(condStmt);
-		insertionPoint = condStmt;
 
 		Ident matchVarIdent = new Ident("$m", getCoords());
 		DefinedMatchType matchVarType = (DefinedMatchType)resultVarType.getValueType();
@@ -326,5 +346,10 @@ public class FunctionAutoNode extends BaseNode
 		Expression returnValueExpr = new VariableExpression(resultVar);
 		ReturnStatement returnStmt = new ReturnStatement(returnValueExpr);
 		function.addStatement(returnStmt);
+	}
+	
+	private String shortSignature()
+	{
+		return "join<" + joinFunction + ">(.,.)";
 	}
 }

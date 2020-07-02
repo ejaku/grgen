@@ -12,9 +12,9 @@ eval [?sameCompany(::subject)]
 
 eval [?sharedInterest(::subject)])
 
-eval cartesian([?sameCompany(::subject)],[?sharedInterest(::subject)])
+eval cartesianJoin([?sameCompany(::subject)],[?sharedInterest(::subject)])
 
-eval extract(cartesian([?sameCompany(::subject)],[?sharedInterest(::subject)]))
+eval extract(cartesianJoin([?sameCompany(::subject)],[?sharedInterest(::subject)]))
 
 eval extract(naturalJoin([?sameCompany(::subject)],[?sharedInterest(::subject)]))
 

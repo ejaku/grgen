@@ -59,23 +59,9 @@ function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref match
 	auto(join<natural>(matchesSameCompany, matchesSharedInterest))
 }
 
-function cartesian(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
+function cartesianJoin(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
 {
-//	auto(join<>(matchesSameCompany, matchesSharedInterest))
-	def ref res:array<match<class SameCompanySharedInterest>> = array<match<class SameCompanySharedInterest>>[];
-	for(matchSameCompany:match<sameCompany> in matchesSameCompany)
-	{
-		for(matchSharedInterest:match<sharedInterest> in matchesSharedInterest)
-		{
-			def ref m:match<class SameCompanySharedInterest> = match<class SameCompanySharedInterest>();
-			m.subject = matchSameCompany.subject;
-			m.person = matchSameCompany.person;
-			m.company = matchSameCompany.company;
-			m.interest = matchSharedInterest.interest;
-			res.add(m);
-		}
-	}
-	return(res);
+	auto(join<cartesian>(matchesSameCompany, matchesSharedInterest))
 }
 
 match class SameCompanySharedInterestExtracted

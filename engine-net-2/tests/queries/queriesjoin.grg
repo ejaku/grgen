@@ -77,7 +77,7 @@ function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref match
 	return(res);
 }
 
-function cartesian(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
+function cartesianJoin(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
 {
 	def ref res:array<match<class SameCompanySharedInterest>> = array<match<class SameCompanySharedInterest>>[];
 	for(matchSameCompany:match<sameCompany> in matchesSameCompany)

@@ -3342,9 +3342,9 @@ autoFunctionBody returns [ FunctionAutoNode res = null ]
 	@init {
 		CollectNode<IdentNode> params = new CollectNode<IdentNode>();
 	}
-	: join=IDENT LT natural=IDENT GT LPAREN id=entIdentUse { params.addChild(id); }
+	: join=IDENT LT joinFunction=IDENT GT LPAREN id=entIdentUse { params.addChild(id); }
 		( COMMA id=entIdentUse { params.addChild(id); } )+ RPAREN
-		{ res = new FunctionAutoNode(getCoords(join), params); }
+		{ res = new FunctionAutoNode(getCoords(join), join.getText(), joinFunction.getText(), params); }
 	;
 
 computations [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode directlyNestingLHSGraph ] 
