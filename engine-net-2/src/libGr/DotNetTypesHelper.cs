@@ -74,35 +74,35 @@ namespace de.unika.ipd.grGen.libGr
             return type != null ? type.Namespace + "." + type.Name : null;
         }*/
 
-        public static String ActionClassForMatchType(String matchType)
+        public static String RuleClassForMatchType(String matchType)
         {
             String prefixedRule = matchType.Substring(6, matchType.Length - 6 - 1); // remove match< begin and > end
             if(prefixedRule.Contains("::"))
             {
                 String packageName = prefixedRule.Substring(0, prefixedRule.IndexOf(':'));
                 String ruleName = prefixedRule.Substring(prefixedRule.LastIndexOf(':') + 1);
-                return "GRGEN_ACTIONS." + packageName + ".Action_" + ruleName;
+                return "GRGEN_ACTIONS." + packageName + ".Rule_" + ruleName;
             }
             else
             {
                 String ruleName = prefixedRule;
-                return "GRGEN_ACTIONS.Action_" + ruleName;
+                return "GRGEN_ACTIONS.Rule_" + ruleName;
             }
         }
 
-        public static String MatchClassFiltererForMatchClassType(String matchClassType)
+        public static String MatchClassInfoForMatchClassType(String matchClassType)
         {
             String prefixedMatchClass = matchClassType.Substring(12, matchClassType.Length - 12 - 1); // remove match<class begin and > end
             if(prefixedMatchClass.Contains("::"))
             {
                 String packageName = prefixedMatchClass.Substring(0, prefixedMatchClass.IndexOf(':'));
                 String matchClassName = prefixedMatchClass.Substring(prefixedMatchClass.LastIndexOf(':') + 1);
-                return "GRGEN_ACTIONS." + packageName + ".MatchClassFilterer_" + matchClassName;
+                return "GRGEN_ACTIONS." + packageName + ".MatchClassInfo_" + matchClassName;
             }
             else
             {
                 String matchClassName = prefixedMatchClass;
-                return "GRGEN_ACTIONS.MatchClassFilterer_" + matchClassName;
+                return "GRGEN_ACTIONS.MatchClassInfo_" + matchClassName;
             }
         }
 

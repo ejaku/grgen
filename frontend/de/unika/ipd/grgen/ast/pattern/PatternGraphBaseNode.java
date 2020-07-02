@@ -399,18 +399,11 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		return res;
 	}
 	
-	// returns set of entities with same name in given graph and this graph, anonymous entities are excluded
-	public Set<String> getNamesOfCommonEntities(PatternGraphBaseNode that)
+	public Set<String> getNamesOfEntities()
 	{
-		Set<String> namesFromThis = this.getEntities().stream()
+		return getEntities().stream()
 				.map((DeclNode entity) -> entity.ident.toString())
 				.filter((String name) -> !name.startsWith("$"))
 				.collect(Collectors.toSet());
-		Set<String> namesFromThat = that.getEntities().stream()
-				.map((DeclNode entity) -> entity.ident.toString())
-				.filter((String name) -> !name.startsWith("$"))
-				.collect(Collectors.toSet());
-		namesFromThis.retainAll(namesFromThat);
-		return namesFromThis;
 	}
 }

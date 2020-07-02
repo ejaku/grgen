@@ -1043,10 +1043,6 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
-            string typeName = TypesHelper.XgrsTypeToCSharpType("match<class " + matchClass.PackagePrefixedName + ">", model);
-            string listTypeName = TypesHelper.XgrsTypeToCSharpType("array<match<class " + matchClass.PackagePrefixedName + ">>", model);
-            EmitMatchClassFiltererConvertAsNeededHelper(source, typeName, listTypeName);
-
             EmitMatchClassFiltererClassEnd(source, matchClass.Package);
         }
 
@@ -1131,19 +1127,6 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Append("); break;\n");
                 }
             }
-        }
-
-        private static void EmitMatchClassFiltererConvertAsNeededHelper(SourceBuilder source, String typeName, String listTypeName)
-        {
-            source.AppendFrontFormat("public static {0} ConvertAsNeeded(object parameter)\n", listTypeName);
-            source.AppendFront("{\n");
-            source.Indent();
-            source.AppendFrontFormat("if(parameter is {0})\n", listTypeName);
-            source.AppendFrontIndentedFormat("return (({0})parameter);\n", listTypeName);
-            source.AppendFrontFormat("else\n");
-            source.AppendFrontIndentedFormat("return GRGEN_LIBGR.MatchListHelper.ToList<{0}>((IList<GRGEN_LIBGR.IMatch>)parameter);\n", typeName);
-            source.Unindent();
-            source.AppendFront("}\n");
         }
 
         private static void EmitMatchClassFiltererClassEnd(SourceBuilder source, String package)

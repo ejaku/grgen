@@ -285,6 +285,7 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 		return Collections.unmodifiableSet(vars);
 	}
 
+	@Override
 	public Set<DeclNode> getEntities()
 	{
 		return pattern.getEntities();

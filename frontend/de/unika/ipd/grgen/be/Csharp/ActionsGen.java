@@ -543,9 +543,11 @@ public class ActionsGen extends CSharpBase
 
 		sb.append("\n");
 
-		String typeName = "GRGEN_ACTIONS." + getPackagePrefixDot(actionRule) + "Rule_" + actionRule.getPattern().getNameOfGraph() + ".IMatch_" + actionRule.getPattern().getNameOfGraph();
+		String typeName = "GRGEN_ACTIONS." + getPackagePrefixDot(actionRule)
+				+ "Rule_" + actionRule.getPattern().getNameOfGraph()
+				+ ".IMatch_" + actionRule.getPattern().getNameOfGraph();
 		String listTypeName = "List<" + typeName + ">";
-		EmitMatchClassFiltererConvertAsNeededHelper(sb, typeName, listTypeName);
+		emitConvertAsNeededHelper(sb, typeName, listTypeName);
 
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -558,7 +560,7 @@ public class ActionsGen extends CSharpBase
 		sb.append("\n");
 	}
 
-	private static void EmitMatchClassFiltererConvertAsNeededHelper(SourceBuilder sb, String typeName, String listTypeName)
+	private static void emitConvertAsNeededHelper(SourceBuilder sb, String typeName, String listTypeName)
 	{
 		sb.appendFront("public static " + listTypeName + " ConvertAsNeeded(object parameter)\n");
 		sb.appendFront("{\n");
@@ -777,6 +779,12 @@ public class ActionsGen extends CSharpBase
 				String actionName = matchType.getAction().getIdent().toString();
 				String ruleClass = packagePrefixOfAction + "Rule_" + actionName;
 				sb.append(", " + ruleClass + ".ConvertAsNeeded(arguments[" + i + "])");
+			} else if(inParam.getType() instanceof ArrayType && ((ArrayType)inParam.getType()).getValueType() instanceof DefinedMatchType) {
+				DefinedMatchType matchType = (DefinedMatchType)((ArrayType)inParam.getType()).getValueType();
+				String packagePrefixOfMatchClass = "GRGEN_ACTIONS." + getPackagePrefixDot(matchType);
+				String matchClassName = matchType.getIdent().toString();
+				String matchClass = packagePrefixOfMatchClass + "MatchClassInfo_" + matchClassName;
+				sb.append(", " + matchClass + ".ConvertAsNeeded(arguments[" + i + "])");
 			} else
 				sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
 			++i;
@@ -1254,6 +1262,11 @@ public class ActionsGen extends CSharpBase
 
 		sb.append("\n");
 		genMatchClassExtractor(sb, matchClass);
+
+		String typeName = "GRGEN_ACTIONS." + getPackagePrefixDot(matchClass) + "IMatch_" + matchClassName;
+		String listTypeName = "List<" + typeName + ">";
+
+		emitConvertAsNeededHelper(sb, typeName, listTypeName);
 
 		sb.unindent();
 		sb.appendFront("}\n");

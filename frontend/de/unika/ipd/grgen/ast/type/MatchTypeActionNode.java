@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ast.type;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
@@ -127,6 +128,12 @@ public class MatchTypeActionNode extends MatchTypeNode
 		if(edge != null)
 			return edge;
 		return action.pattern.tryGetVar(name);
+	}
+
+	@Override
+	public Set<DeclNode> getEntities()
+	{
+		return action.pattern.getEntities();
 	}
 
 	/** Returns the IR object for this match type node. */

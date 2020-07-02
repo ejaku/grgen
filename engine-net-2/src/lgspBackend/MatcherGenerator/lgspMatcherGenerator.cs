@@ -363,9 +363,9 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     String arrayValueType = TypesHelper.ExtractSrc(parameterType);
                     if(parameterType.StartsWith("array<match<class "))
-                        sbInArgumentsFromArray.AppendFormat(", {0}.ConvertAsNeeded(", TypesHelper.MatchClassFiltererForMatchClassType(arrayValueType));
+                        sbInArgumentsFromArray.AppendFormat(", {0}.ConvertAsNeeded(", TypesHelper.MatchClassInfoForMatchClassType(arrayValueType));
                     else
-                        sbInArgumentsFromArray.AppendFormat(", {0}.ConvertAsNeeded(", TypesHelper.ActionClassForMatchType(arrayValueType));
+                        sbInArgumentsFromArray.AppendFormat(", {0}.ConvertAsNeeded(", TypesHelper.RuleClassForMatchType(arrayValueType));
                     sbInArgumentsFromArray.Append("parameters[");
                     sbInArgumentsFromArray.Append(i);
                     sbInArgumentsFromArray.Append("])");
@@ -909,18 +909,6 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("default: throw new Exception(\"Unknown filter name \" + filter.PackagePrefixedName + \"!\");\n");
             sb.Unindent();
             sb.AppendFront("}\n");
-            sb.Unindent();
-            sb.AppendFront("}\n");
-
-            string typeName = TypesHelper.XgrsTypeToCSharpType("match<" + matchingPattern.patternGraph.PackagePrefixedName + ">", model);
-            string listTypeName = TypesHelper.XgrsTypeToCSharpType("array<match<" + matchingPattern.patternGraph.PackagePrefixedName + ">>", model);
-            sb.AppendFrontFormat("public static {0} ConvertAsNeeded(object parameter)\n", listTypeName);
-            sb.AppendFront("{\n");
-            sb.Indent();
-            sb.AppendFrontFormat("if(parameter is {0})\n", listTypeName);
-            sb.AppendFrontIndentedFormat("return (({0})parameter);\n", listTypeName);
-            sb.AppendFrontFormat("else\n");
-            sb.AppendFrontIndentedFormat("return GRGEN_LIBGR.MatchListHelper.ToList<{0}>((IList<GRGEN_LIBGR.IMatch>)parameter);\n", typeName);
             sb.Unindent();
             sb.AppendFront("}\n");
         }

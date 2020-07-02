@@ -18,6 +18,10 @@ eval extract(naturalJoin([?sameCompany(::subject)],[?sharedInterest(::subject)])
 
 eval [?sameCompany(::subject)]
 
+eval naturalJoinMC([?[sameCompany(::subject)]\<class SameCompany>],[?[sharedInterest(::subject)]\<class SharedInterest>])
+
+eval extract(naturalJoinMC([?[sameCompany(::subject)]\<class SameCompany>],[?[sharedInterest(::subject)]\<class SharedInterest>]))
+
 #eval [?sharedWeightedInterest(::subject)])
 
 #eval naturalJoinWeighted([?sameCompany(::subject)],[?sharedWeightedInterest(::subject)])

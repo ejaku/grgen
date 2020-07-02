@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
@@ -126,8 +127,9 @@ public class FunctionAutoNode extends BaseNode
 				continue;
 			}
 			ArrayTypeNode argumentType = (ArrayTypeNode)argument.getDeclType();
-			if(!(argumentType.getElementType() instanceof MatchTypeActionNode)) {
-				reportError("argument " + i + " to " + shortSignature() + " must be an array<match<T>>");
+			if(!(argumentType.getElementType() instanceof MatchTypeActionNode)
+					&& !(argumentType.getElementType() instanceof DefinedMatchTypeNode)) {
+				reportError("argument " + i + " to " + shortSignature() + " must be an array<match<T>> or array<match<class T>>");
 				result = false;
 				continue;
 			}
@@ -141,17 +143,16 @@ public class FunctionAutoNode extends BaseNode
 
 		VarDeclNode leftArgument = arguments.getChildrenAsVector().get(0);
 		ArrayTypeNode leftArrayType = (ArrayTypeNode)leftArgument.getDeclType();
-		MatchTypeActionNode leftMatchType = (MatchTypeActionNode)leftArrayType.valueType;
+		MatchTypeNode leftMatchType = (MatchTypeNode)leftArrayType.valueType;
 
 		VarDeclNode rightArgument = arguments.getChildrenAsVector().get(1);
 		ArrayTypeNode rightArrayType = (ArrayTypeNode)rightArgument.getDeclType();
-		MatchTypeActionNode rightMatchType = (MatchTypeActionNode)rightArrayType.valueType;
+		MatchTypeNode rightMatchType = (MatchTypeNode)rightArrayType.valueType;
 		
-		Set<String> sharedNames = leftMatchType.getAction().pattern.getNamesOfCommonEntities(
-				rightMatchType.getAction().pattern);
+		Set<String> sharedNames = getNamesOfCommonEntities(leftMatchType, rightMatchType);
 		for(String sharedName : sharedNames) {
-			TypeNode leftMemberType = leftMatchType.getAction().pattern.tryGetMember(sharedName).getDeclType();
-			TypeNode rightMemberType = leftMatchType.getAction().pattern.tryGetMember(sharedName).getDeclType();
+			TypeNode leftMemberType = leftMatchType.tryGetMember(sharedName).getDeclType();
+			TypeNode rightMemberType = rightMatchType.tryGetMember(sharedName).getDeclType();
 			if(!leftMemberType.isEqual(rightMemberType)) {
 				reportError("The member " + sharedName + " must be of same type in " 
 						+ leftMatchType.getIdentNode().toString() + " and in "
@@ -161,6 +162,14 @@ public class FunctionAutoNode extends BaseNode
 		}
 
 		return result;
+	}
+	
+	public Set<String> getNamesOfCommonEntities(MatchTypeNode this_, MatchTypeNode that)
+	{
+		Set<String> namesFromThis = this_.getNamesOfEntities();
+		Set<String> namesFromThat = that.getNamesOfEntities();
+		namesFromThis.retainAll(namesFromThat);
+		return namesFromThis;
 	}
 
 	public boolean checkLocal(FunctionDeclNode functionDecl)
@@ -183,7 +192,7 @@ public class FunctionAutoNode extends BaseNode
 			TypeNode resultMemberType = resultMember.getDeclType();
 			for(VarDeclNode argument : arguments.getChildren()) {
 				ArrayTypeNode argumentType = (ArrayTypeNode)argument.getDeclType();
-				MatchTypeActionNode argumentMatchType = (MatchTypeActionNode)argumentType.getElementType();
+				MatchTypeNode argumentMatchType = (MatchTypeNode)argumentType.getElementType();
 				DeclNode argumentMember = argumentMatchType.tryGetMember(resultMemberName);
 				if(argumentMember != null) {
 					TypeNode argumentMemberType = argumentMember.getDeclType();
@@ -247,7 +256,7 @@ public class FunctionAutoNode extends BaseNode
 		String leftIterationVarName = "$match_" + leftArgument.getIdentNode().toString();
 		Ident leftIterationVarIdent = new Ident(leftIterationVarName, getCoords());
 		ArrayTypeNode leftArrayType = (ArrayTypeNode)leftArgument.getDeclType();
-		MatchTypeActionNode leftMatchType = (MatchTypeActionNode)leftArrayType.valueType;
+		MatchTypeNode leftMatchType = (MatchTypeNode)leftArrayType.valueType;
 		Type leftIterationVarType = leftMatchType.checkIR(Type.class);
 		Variable leftIterationVar = new Variable(leftIterationVarName, leftIterationVarIdent, leftIterationVarType,
 				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION);
@@ -260,7 +269,7 @@ public class FunctionAutoNode extends BaseNode
 		String rightIterationVarName = "$match_" + rightArgument.getIdentNode().toString();
 		Ident rightIterationVarIdent = new Ident(rightIterationVarName, getCoords());
 		ArrayTypeNode rightArrayType = (ArrayTypeNode)rightArgument.getDeclType();
-		MatchTypeActionNode rightMatchType = (MatchTypeActionNode)rightArrayType.valueType;
+		MatchTypeNode rightMatchType = (MatchTypeNode)rightArrayType.valueType;
 		Type rightIterationVarType = rightMatchType.checkIR(Type.class);
 		Variable rightIterationVar = new Variable(rightIterationVarName, rightIterationVarIdent, rightIterationVarType,
 				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION);
@@ -269,10 +278,7 @@ public class FunctionAutoNode extends BaseNode
 		insertionPoint.addStatement(rightMatchesIteration);
 		insertionPoint = rightMatchesIteration;
 
-		PatternGraphLhsNode leftMatchPattern = leftMatchType.getAction().pattern;
-		PatternGraphLhsNode rightMatchPattern = rightMatchType.getAction().pattern;
-
-		Set<String> sharedNames = leftMatchPattern.getNamesOfCommonEntities(rightMatchPattern);
+		Set<String> sharedNames = getNamesOfCommonEntities(leftMatchType, rightMatchType);
 		if(joinFunction.equals("natural")) {
 			Expression condition = new Constant(BasicTypeNode.booleanType.getType(), Boolean.TRUE);
 			for(String sharedName : sharedNames) {
@@ -307,7 +313,7 @@ public class FunctionAutoNode extends BaseNode
 		DefDeclVarStatement matchVarDecl = new DefDeclVarStatement(matchVar);
 		insertionPoint.addStatement(matchVarDecl);
 	
-		for(DeclNode leftMember : leftMatchPattern.getEntities())
+		for(DeclNode leftMember : leftMatchType.getEntities())
 		{
 			String memberName = leftMember.getIdentNode().toString();
 			if(memberName.startsWith("$"))
@@ -322,7 +328,7 @@ public class FunctionAutoNode extends BaseNode
 			insertionPoint.addStatement(assignment);
 		}
 		
-		for(DeclNode rightMember : rightMatchPattern.getEntities())
+		for(DeclNode rightMember : rightMatchType.getEntities())
 		{
 			String memberName = rightMember.getIdentNode().toString();
 			if(memberName.startsWith("$"))

@@ -11,6 +11,9 @@
 
 package de.unika.ipd.grgen.ast.type;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import de.unika.ipd.grgen.ast.MemberAccessor;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 
@@ -29,4 +32,15 @@ public abstract class MatchTypeNode extends DeclaredTypeNode implements MemberAc
 
 	@Override
 	public abstract DeclNode tryGetMember(String name);
+
+	public abstract Set<DeclNode> getEntities();
+
+	// get set of names of contained entities excluding anonymous entities
+	public Set<String> getNamesOfEntities()
+	{
+		return getEntities().stream()
+				.map((DeclNode entity) -> entity.ident.toString())
+				.filter((String name) -> !name.startsWith("$"))
+				.collect(Collectors.toSet());
+	}
 }

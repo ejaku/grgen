@@ -18,4 +18,10 @@ eval extract(cartesianJoin([?sameCompany(::subject)],[?sharedInterest(::subject)
 
 eval extract(naturalJoin([?sameCompany(::subject)],[?sharedInterest(::subject)]))
 
+eval cartesianJoinMC([?[sameCompany(::subject)]\<class SameCompany>],[?[sharedInterest(::subject)]\<class SharedInterest>])
+
+eval extract(cartesianJoinMC([?[sameCompany(::subject)]\<class SameCompany>],[?[sharedInterest(::subject)]\<class SharedInterest>]))
+
+eval extract(naturalJoinMC([?[sameCompany(::subject)]\<class SameCompany>],[?[sharedInterest(::subject)]\<class SharedInterest>]))
+
 quit

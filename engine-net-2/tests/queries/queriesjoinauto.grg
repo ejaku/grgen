@@ -39,12 +39,26 @@ rule initcartesian
 	}
 }
 
-test sameCompany(subject:namedObject)
+match class SameCompany
+{
+	subject:namedObject;
+	company:namedObject;
+	person:namedObject;
+}
+
+test sameCompany(subject:namedObject) implements SameCompany
 {
 	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
 }
 
-test sharedInterest(subject:namedObject)
+match class SharedInterest
+{
+	subject:namedObject;
+	interest:namedObject;
+	person:namedObject;
+}
+
+test sharedInterest(subject:namedObject) implements SharedInterest
 {
 	subject -:INTERESTED_IN-> interest:namedObject <-:INTERESTED_IN- person:namedObject;
 }
@@ -60,6 +74,16 @@ function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref match
 }
 
 function cartesianJoin(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	auto(join<cartesian>(matchesSameCompany, matchesSharedInterest))
+}
+
+function naturalJoinMC(ref matchesSameCompany:array<match<class SameCompany>>, ref matchesSharedInterest:array<match<class SharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	auto(join<natural>(matchesSameCompany, matchesSharedInterest))
+}
+
+function cartesianJoinMC(ref matchesSameCompany:array<match<class SameCompany>>, ref matchesSharedInterest:array<match<class SharedInterest>>) : array<match<class SameCompanySharedInterest>>
 {
 	auto(join<cartesian>(matchesSameCompany, matchesSharedInterest))
 }
