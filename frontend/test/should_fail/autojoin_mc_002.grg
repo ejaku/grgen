@@ -1,0 +1,43 @@
+#using "autojoin.gm"
+
+match class SameCompany
+{
+	subject:namedObject;
+	company:namedObject;
+	person:namedObject;
+}
+
+test sameCompany(subject:namedObject) implements SameCompany
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+}
+
+match class SharedInterest
+{
+	subject:namedObject;
+	interest:namedObject;
+	person:namedObject;
+}
+
+test sharedInterest(subject:namedObject) implements SharedInterest
+{
+	subject -:INTERESTED_IN-> interest:namedObject <-:INTERESTED_IN- person:namedObject;
+}
+
+match class SameCompanySharedInterest
+{
+	subject:unnamedObject;
+	company:namedObject;
+	person:namedObject;
+	interest:namedObject;
+}
+
+function naturalJoinMC(ref matchesSameCompany:array<match<class SameCompany>>, ref matchesSharedInterest:array<match<class SharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	auto(join<natural>(matchesSameCompany, matchesSharedInterest))
+}
+
+function cartesianJoinMC(ref matchesSameCompany:array<match<class SameCompany>>, ref matchesSharedInterest:array<match<class SharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	auto(join<cartesian>(matchesSameCompany, matchesSharedInterest))
+}

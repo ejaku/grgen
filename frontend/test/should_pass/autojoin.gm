@@ -1,0 +1,11 @@
+node class namedObject
+{
+	name:string;
+}
+
+edge class WORKS_FOR;
+
+edge class INTERESTED_IN
+{
+	weight : double;
+}
