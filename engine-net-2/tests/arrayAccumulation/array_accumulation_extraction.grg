@@ -29,6 +29,22 @@ rule initDuplicate
 		}
 	}
 }
+
+rule initGroup
+{	
+	modify {
+		a:A; b:A; c:A; n:N;
+
+		eval {
+			a.intValue = 1;
+			b.intValue = 2;
+			c.intValue = 1;
+			
+			n.val = 42;
+		}
+	}
+}
+
 rule r(var offset:int)
 {
 	a:A;
@@ -74,6 +90,13 @@ filter fko<r>
 	}
 }
 
+filter fg<r>
+{
+	if(this.groupBy<i>().extract<i>().sum() > this.groupBy<j>().extract<j>().sum()) {
+		this = deleteAll(this);
+	}
+}
+
 function deleteAll(ref a:array<match<r>>) : array<match<r>>
 {
 	for(i:int in [0:a.size()-1])
@@ -102,4 +125,9 @@ test tbod(ref a:array<match<r>>)
 test tbko(ref a:array<match<r>>)
 {
 	if{ a.keepOneForEach<i>().extract<i>().sum() < a.keepOneForEach<j>().extract<j>().sum(); }
+}
+
+test tbg(ref a:array<match<r>>)
+{
+	if{ a.groupBy<i>().extract<i>().sum() < a.groupBy<j>().extract<j>().sum(); }
 }

@@ -55,6 +55,7 @@ test t2
 	def ref itersSorted:array<match<t2.it>> = yield([?it].orderAscendingBy<i>());
 	def ref itersSortedDescending:array<match<t2.it>> = yield([?it].orderDescendingBy<i>());
 	def ref itersWithoutDuplicates:array<match<t2.it>> = yield([?it].keepOneForEach<i>());
+	def ref itersGrouped:array<match<t2.it>> = yield([?it].groupBy<i>());
 	//def ref itersSet:set<match<t2.it>> = yield(itersSorted.asSet());
 }
 
@@ -85,6 +86,7 @@ rule r : (M)
 			def ref itersSorted:array<match<r.it>> = [?it].orderAscendingBy<i>();
 			def ref itersSortedDescending:array<match<r.it>> = [?it].orderDescendingBy<i>();
 			def ref itersWithoutDuplicates:array<match<r.it>> = [?it].keepOneForEach<i>();
+			def ref itersGrouped:array<match<r.it>> = [?it].groupBy<i>();
 			//def ref itersSet:set<match<r.it>> = itersSorted.asSet();
 			m.i = score + score2;
 		}

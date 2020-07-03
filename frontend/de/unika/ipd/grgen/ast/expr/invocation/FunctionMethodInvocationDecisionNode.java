@@ -26,6 +26,7 @@ import de.unika.ipd.grgen.ast.expr.array.ArrayAvgNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayDevNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayEmptyNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayExtractNode;
+import de.unika.ipd.grgen.ast.expr.array.ArrayGroupByNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayIndexOfByNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayIndexOfNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayIndexOfOrderedByNode;
@@ -462,6 +463,12 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return null;
 			} else
 				return new ArrayOrderDescendingByNode(env.getCoords(), targetExpr, attributeIdent);
+		case "groupBy":
+			if(arguments.size() != 0) {
+				env.reportError("array<T>.groupBy<attribute>() takes no parameters.");
+				return null;
+			} else
+				return new ArrayGroupByNode(env.getCoords(), targetExpr, attributeIdent);
 		case "reverse":
 			if(arguments.size() != 0) {
 				env.reportError("array<T>.reverse() takes no parameters.");

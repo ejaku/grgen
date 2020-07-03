@@ -16,7 +16,7 @@ namespace de.unika.ipd.grGen.libGr
 {
     public enum OrderMethod
     {
-        OrderAscending, OrderDescending, KeepOneForEach
+        OrderAscending, OrderDescending, Group, KeepOneForEach
     }
 
     public static partial class ContainerHelper

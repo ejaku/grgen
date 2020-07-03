@@ -35,6 +35,22 @@ rule initDuplicate
 	}
 }
 
+rule initGroup
+{	
+	modify {
+		a:A; b:A; c:A; n:N;
+		
+		eval {
+			a.intValue = 1;
+			b.intValue = 2;
+			c.intValue = 1;
+			
+			n.val = -1;
+			n.aArray = array<A>[a,b,c];
+		}
+	}
+}
+
 rule r
 {
 	a:A; b:A; c:A; n:N;
@@ -87,6 +103,20 @@ rule rko
 		eval {
 			::avg = array<A>[a,b,c].keepOneForEach<intValue>().extract<intValue>().avg();
 			::med = n.aArray.keepOneForEach<intValue>().extract<intValue>().medUnordered();
+		}
+	}
+}
+
+rule rg
+{
+	a:A; b:A; c:A; n:N;
+	if{ array<A>[a,b,c].groupBy<intValue>().extract<intValue>().sum() > n.aArray.groupBy<intValue>().extract<intValue>().sum() + n.val; }
+	
+	modify {
+	---
+		eval {
+			::avg = array<A>[a,b,c].groupBy<intValue>().extract<intValue>().avg();
+			::med = n.aArray.groupBy<intValue>().extract<intValue>().medUnordered();
 		}
 	}
 }

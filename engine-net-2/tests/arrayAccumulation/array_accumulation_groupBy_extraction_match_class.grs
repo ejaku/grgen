@@ -1,0 +1,26 @@
+new graph arrayAccumulation\array_accumulation_extraction_match_class
+
+exec initGroup
+show num nodes
+exec [[r(1)]\mc.fg]
+show num nodes
+
+clear graph
+exec initGroup
+show num nodes
+exec [[r(-1)]\mc.fg]
+show num nodes
+
+clear graph
+exec initGroup
+show num nodes
+exec tbg([?[r(1)]\<class mc>])
+show num nodes
+
+clear graph
+exec initGroup
+show num nodes
+exec tbg([?[r(-1)]\<class mc>])
+show num nodes
+
+quit

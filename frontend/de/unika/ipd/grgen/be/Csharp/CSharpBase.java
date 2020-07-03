@@ -57,6 +57,7 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayCopyConstructor;
 import de.unika.ipd.grgen.ir.expr.array.ArrayDevExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayEmptyExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayExtract;
+import de.unika.ipd.grgen.ir.expr.array.ArrayGroupBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfByExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedByExpr;
@@ -1402,6 +1403,49 @@ public abstract class CSharpBase
 					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
 					sb.append("GRGEN_ACTIONS." + matchClassPackage + "MatchClassFilters." + arrayFunctionName + "(");
 					genExpression(sb, aodb.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				}
+			}
+		} else if(expr instanceof ArrayGroupBy) {
+			ArrayGroupBy agb = (ArrayGroupBy)expr;
+			Type arrayValueType = agb.getTargetType().getValueType();
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(agb));
+			} else {
+				if(arrayValueType instanceof InheritanceType) {
+					InheritanceType graphElementType = (InheritanceType)arrayValueType;
+					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_"
+							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(agb.getMember());
+					sb.append("GRGEN_MODEL." + comparerName + ".ArrayGroupBy(");
+					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(arrayValueType instanceof MatchTypeIterated) {
+					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String iteratedName = formatIdentifiable(matchType.getIterated());
+					String functionName = "groupBy_" + formatIdentifiable(agb.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(arrayValueType instanceof MatchType) {
+					MatchType matchType = (MatchType)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String functionName = "groupBy_" + formatIdentifiable(agb.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(arrayValueType instanceof DefinedMatchType) {
+					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
+					String matchClassPackage = getPackagePrefixDot(definedMatchType);
+					String matchClassName = formatIdentifiable(definedMatchType);
+					String functionName = "groupBy_" + formatIdentifiable(agb.getMember());
+					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + matchClassPackage + "MatchClassFilters." + arrayFunctionName + "(");
+					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				}
 			}
@@ -3428,6 +3472,46 @@ public abstract class CSharpBase
 					+ attributeOrMemberName + ");\n");
 		else
 			sb.appendFront("return a.@" + attributeOrMemberName + ".CompareTo(b.@" + attributeOrMemberName + ");\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
+	protected static void generateArrayGroupBy(SourceBuilder sb, String arrayFunctionName, String matchInterfaceName,
+			String attributeOrMemberName, String attributeOrMemberType)
+	{
+		sb.appendFront("public static List<" + matchInterfaceName + "> " + arrayFunctionName
+				+ "(List<" + matchInterfaceName + "> list)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+
+		sb.appendFront("Dictionary<" + attributeOrMemberType + ", List<" + matchInterfaceName + ">> seenValues "
+				+ "= new Dictionary<" + attributeOrMemberType + ", List<" + matchInterfaceName + ">>();\n");
+		sb.appendFront("for(int pos = 0; pos < list.Count; ++pos)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("if(seenValues.ContainsKey(list[pos].@" + attributeOrMemberName + ")) {\n");
+		sb.indent();
+		sb.appendFront("seenValues[list[pos].@" + attributeOrMemberName + "].Add(list[pos]);\n");
+		sb.unindent();
+		sb.appendFront("} else {\n");
+		sb.indent();
+		sb.appendFront("List<" + matchInterfaceName + "> tempList = new List<" + matchInterfaceName + ">();\n");
+		sb.appendFront("tempList.Add(list[pos]);\n");
+		sb.appendFront("seenValues.Add(list[pos].@" + attributeOrMemberName + ", tempList);\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.appendFront("List<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
+		sb.appendFront("foreach(List<" + matchInterfaceName + "> entry in seenValues.Values)\n");
+		sb.append("{\n");
+		sb.indent();
+		sb.appendFront("newList.AddRange(entry);\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.appendFront("return newList;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 	}

@@ -1,0 +1,32 @@
+new graph arrayAccumulation\array_accumulation_extraction
+
+exec initGroup
+show num nodes
+exec [r(1)]
+show num nodes
+
+clear graph
+exec initGroup
+show num nodes
+exec [r(1)\fg]
+show num nodes
+
+clear graph
+exec initGroup
+show num nodes
+exec [r(-1)\fg]
+show num nodes
+
+clear graph
+exec initGroup
+show num nodes
+exec tbg([?r(1)])
+show num nodes
+
+clear graph
+exec initGroup
+show num nodes
+exec tbg([?r(-1)])
+show num nodes
+
+quit

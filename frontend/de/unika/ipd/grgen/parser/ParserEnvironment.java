@@ -858,6 +858,7 @@ public abstract class ParserEnvironment extends Base
 		case "lastIndexOfBy":
 		case "orderAscendingBy":
 		case "orderDescendingBy":
+		case "groupBy":
 		case "keepOneForEach":
 		case "extract":
 			return true;

@@ -2710,6 +2710,7 @@ commonLoop:
 			genArrayOrderDescendingByMethod(typeName, reverseComparerClassName);
 		}
 
+		generateArrayGroupBy(sb, "ArrayGroupBy", typeName, attributeName, attributeTypeName);
 		generateArrayKeepOneForEach(sb, "ArrayKeepOneForEachBy", typeName, attributeName, attributeTypeName);
 
 		genArrayExtractMethod(typeName, attributeName, attributeTypeName);

@@ -20,21 +20,21 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEachBy;
+import de.unika.ipd.grgen.ir.expr.array.ArrayGroupBy;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBaseExprNode
+public class ArrayGroupByNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayKeepOneForEachByNode.class, "array keep one for each by");
+		setName(ArrayGroupByNode.class, "array group by");
 	}
 
 	private IdentNode attribute;
 	private DeclNode member;
 
-	public ArrayKeepOneForEachByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
+	public ArrayGroupByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
 	{
 		super(coords, targetExpr);
 		this.attribute = attribute;
@@ -47,7 +47,7 @@ public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBase
 		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)) {
-			reportError("keepOneForEach can only be employed on an array of nodes or edges or an array of match types.");
+			reportError("groupBy can only be employed on an array of nodes or edges or an array of match types.");
 			return false;
 		}
 
@@ -58,7 +58,7 @@ public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBase
 
 		TypeNode memberType = getTypeOfElementToBeExtracted();
 		if(!memberType.isFilterableType()) {
-			targetExpr.reportError("array method keepOneForEach only available for attributes of type "
+			targetExpr.reportError("array method groupBy only available for attributes of type "
 					+ TypeNode.getFilterableTypesAsString());
 			return false;
 		}
@@ -87,7 +87,7 @@ public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBase
 			accessedMember = member.checkIR(Entity.class);
 
 		targetExpr = targetExpr.evaluate();
-		return new ArrayKeepOneForEachBy(targetExpr.checkIR(Expression.class),
+		return new ArrayGroupBy(targetExpr.checkIR(Expression.class),
 				accessedMember);
 	}
 }

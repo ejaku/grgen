@@ -1448,6 +1448,8 @@ namespace de.unika.ipd.grGen.expression
                 return "orderAscendingBy";
             else if(OrderMethod == OrderMethod.OrderDescending)
                 return "orderDescendingBy";
+            else if(OrderMethod == OrderMethod.Group)
+                return "groupBy";
             else
                 return "keepOneForEachBy";
         }

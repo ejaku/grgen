@@ -1380,21 +1380,25 @@ public class ActionsGen extends CSharpBase
 			if(var.getType().isOrderableType()) {
 				generateComparerAndArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, true);
 				generateComparerAndArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, false);
+				generateArrayGroupBy(sb, actionRule, memberBearerType, iteratedRule, var);
 				generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var);
 			}
 		}
 
 		for(Variable var : rule.getPattern().getVars()) {
 			if(var.getType().isFilterableType() && !var.getType().isOrderableType()) {
+				generateArrayGroupBy(sb, actionRule, memberBearerType, iteratedRule, var);
 				generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var);
 			}
 		}
 
 		for(Node node : rule.getPattern().getNodes()) {
+			generateArrayGroupBy(sb, actionRule, memberBearerType, iteratedRule, node);
 			generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, node);
 		}
 
 		for(Edge edge : rule.getPattern().getEdges()) {
+			generateArrayGroupBy(sb, actionRule, memberBearerType, iteratedRule, edge);
 			generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, edge);
 		}
 
@@ -1440,6 +1444,27 @@ public class ActionsGen extends CSharpBase
 
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
+
+	void generateArrayGroupBy(SourceBuilder sb, Identifiable memberBearer,
+			MemberBearerType memberBearerType, Rule iteratedRule, Entity entity)
+	{
+		String name = formatIdentifiable(memberBearer);
+		String iteratedNameComponent = iteratedRule != null ? "_" + formatIdentifiable(iteratedRule) : "";
+		String memberBearerClass;
+		if(memberBearerType == MemberBearerType.Action)
+			memberBearerClass = "Rule_" + name + ".";
+		else if(memberBearerType == MemberBearerType.Subpattern)
+			memberBearerClass = "Pattern_" + name + ".";
+		else //if(memberBearerType == MemberBearerType.MatchClass)
+			memberBearerClass = "";
+		String matchInterfaceName = "GRGEN_ACTIONS." + getPackagePrefixDot(memberBearer)
+				+ memberBearerClass + "IMatch_" + name + iteratedNameComponent;
+		String functionName = "groupBy_" + formatIdentifiable(entity);
+		String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
+
+		generateArrayGroupBy(sb, arrayFunctionName, matchInterfaceName,
+				formatEntity(entity), formatType(entity.getType()));
 	}
 
 	void generateArrayKeepOneForEach(SourceBuilder sb, Identifiable memberBearer,
@@ -1502,21 +1527,25 @@ public class ActionsGen extends CSharpBase
 			if(var.getType().isOrderableType()) {
 				generateComparerAndArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, true);
 				generateComparerAndArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, false);
+				generateArrayGroupBy(sb, matchClass, MemberBearerType.MatchClass, null, var);
 				generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var);
 			}
 		}
 
 		for(Variable var : matchClass.getVars()) {
 			if(var.getType().isFilterableType() && !var.getType().isOrderableType()) {
+				generateArrayGroupBy(sb, matchClass, MemberBearerType.MatchClass, null, var);
 				generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var);
 			}
 		}
 
 		for(Node node : matchClass.getNodes()) {
+			generateArrayGroupBy(sb, matchClass, MemberBearerType.MatchClass, null, node);
 			generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, node);
 		}
 
 		for(Edge edge : matchClass.getEdges()) {
+			generateArrayGroupBy(sb, matchClass, MemberBearerType.MatchClass, null, edge);
 			generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, edge);
 		}
 
