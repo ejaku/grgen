@@ -57,6 +57,7 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayCopyConstructor;
 import de.unika.ipd.grgen.ir.expr.array.ArrayDevExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayEmptyExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayExtract;
+import de.unika.ipd.grgen.ir.expr.array.ArrayGroup;
 import de.unika.ipd.grgen.ir.expr.array.ArrayGroupBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfByExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfExpr;
@@ -1309,6 +1310,15 @@ public abstract class CSharpBase
 			} else {
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayOrderDescending(");
 				genExpression(sb, aod.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		} else if(expr instanceof ArrayGroup) {
+			ArrayGroup ag = (ArrayGroup)expr;
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ag));
+			} else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayGroup(");
+				genExpression(sb, ag.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
 			}
 		} else if(expr instanceof ArrayKeepOneForEach) {

@@ -38,6 +38,26 @@ rule orderDescending : (array<string>, array<string>) {
 	}
 }
 
+rule group : (array<string>, array<string>) {
+---
+	def ref x:array<string>;
+
+	yield { 
+		yield x = array<string>["a1","a2","a3","a2"].group();
+	}
+	
+	modify {
+	---
+		def ref y:array<string>;
+
+		eval {
+			yield y = array<string>["a1","a2","a3","a2"].group();
+		}
+		
+		return(x,y);
+	}
+}
+
 rule keepOneForEach : (array<string>, array<string>) {
 ---
 	def ref x:array<string>;

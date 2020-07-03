@@ -970,6 +970,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
                 return new SequenceExpressionArrayOrderDescending(targetExpr);
             }
+            else if(functionMethodName == "group")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayGroup(targetExpr);
+            }
             else if(functionMethodName == "keepOneForEach")
             {
                 if(argExprs.Count != 0)

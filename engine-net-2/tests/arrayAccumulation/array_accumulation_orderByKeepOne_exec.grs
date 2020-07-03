@@ -6,6 +6,9 @@ show var x
 exec orderDescending
 show var x
 
+exec group
+show var x
+
 exec keepOneForEach
 show var x
 

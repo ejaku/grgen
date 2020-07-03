@@ -17,6 +17,13 @@ rule orderDescending {
 	}
 }
 
+rule group {
+	modify {
+	---
+		exec((::x) = ti(array<string>["a1","a2","a3","a2"].group()));
+	}
+}
+
 rule keepOneForEach {
 	modify {
 	---

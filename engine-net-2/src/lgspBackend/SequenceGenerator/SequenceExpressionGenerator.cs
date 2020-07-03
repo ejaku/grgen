@@ -306,6 +306,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayOrderAscending((SequenceExpressionArrayOrderAscending)expr, source);
             case SequenceExpressionType.ArrayOrderDescending:
                 return GetSequenceExpressionArrayOrderDescending((SequenceExpressionArrayOrderDescending)expr, source);
+            case SequenceExpressionType.ArrayGroup:
+                return GetSequenceExpressionArrayGroup((SequenceExpressionArrayGroup)expr, source);
             case SequenceExpressionType.ArrayKeepOneForEach:
                 return GetSequenceExpressionArrayKeepOneForEach((SequenceExpressionArrayKeepOneForEach)expr, source);
             case SequenceExpressionType.ArrayReverse:
@@ -2114,6 +2116,21 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayOrderDescending.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.ArrayOrderDescending((" + arrayType + ")(" + container + "))";
+            }
+        }
+
+        private string GetSequenceExpressionArrayGroup(SequenceExpressionArrayGroup seqArrayGroup, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayGroup, source);
+
+            if(seqArrayGroup.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.ArrayGroup((IList)(" + container + "))";
+            }
+            else //if(seqArrayGroup.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayGroup.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.ArrayGroup((" + arrayType + ")(" + container + "))";
             }
         }
 

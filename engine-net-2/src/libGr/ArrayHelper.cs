@@ -551,6 +551,67 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates a new array containing the content of the old array with equal elements grouped together.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with equal elements grouped together (in no specific order).</returns>
+        public static IList ArrayGroup(IList a)
+        {
+            Dictionary<object, List<object>> seenValues = new Dictionary<object, List<object>>();
+            for(int pos = 0; pos < a.Count; ++pos)
+            {
+                if(seenValues.ContainsKey(a[pos]))
+                    seenValues[a[pos]].Add(a[pos]);
+                else
+                {
+                    List<object> tempList = new List<object>();
+                    tempList.Add(a[pos]);
+                    seenValues.Add(a[pos], tempList);
+                }
+            }
+
+            IList newList = (IList)Activator.CreateInstance(a.GetType());
+            foreach(List<object> entry in seenValues.Values)
+            {
+                foreach(object element in entry)
+                {
+                    newList.Add(element);
+                }
+            }
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Creates a new array containing the content of the old array with equal elements grouped together.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with equal elements grouped together (in no specific order).</returns>
+        public static List<V> ArrayGroup<V>(List<V> a)
+        {
+            Dictionary<V, List<V>> seenValues = new Dictionary<V, List<V>>();
+            for(int pos = 0; pos < a.Count; ++pos)
+            {
+                if(seenValues.ContainsKey(a[pos]))
+                    seenValues[a[pos]].Add(a[pos]);
+                else
+                {
+                    List<V> tempList = new List<V>();
+                    tempList.Add(a[pos]);
+                    seenValues.Add(a[pos], tempList);
+                }
+            }
+
+            List<V> newList = new List<V>();
+            foreach(List<V> entry in seenValues.Values)
+            {
+                newList.AddRange(entry);
+            }
+
+            return newList;
+        }
+
+        /// <summary>
         /// Creates a new array containing the content of the old array but freed of duplicates.
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>

@@ -27,6 +27,7 @@ import de.unika.ipd.grgen.ast.expr.array.ArrayDevNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayEmptyNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayExtractNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayGroupByNode;
+import de.unika.ipd.grgen.ast.expr.array.ArrayGroupNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayIndexOfByNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayIndexOfNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayIndexOfOrderedByNode;
@@ -437,6 +438,12 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return null;
 			} else
 				return new ArrayOrderDescendingNode(env.getCoords(), targetExpr);
+		case "group":
+			if(arguments.size() != 0) {
+				env.reportError("array<T>.group() takes no parameters.");
+				return null;
+			} else
+				return new ArrayGroupNode(env.getCoords(), targetExpr);
 		case "keepOneForEach":
 			if(attributeIdent == null) {
 				if(arguments.size() != 0) {

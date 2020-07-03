@@ -8,6 +8,10 @@ exec (::x,::y)=orderDescending
 show var x
 show var y
 
+exec (::x,::y)=group
+show var x
+show var y
+
 exec (::x,::y)=keepOneForEach
 show var x
 show var y
