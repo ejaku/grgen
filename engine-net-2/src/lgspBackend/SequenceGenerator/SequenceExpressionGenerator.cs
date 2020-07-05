@@ -2198,7 +2198,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string attribute = seqArrayExtract.memberOrAttributeName;
                     string packageName;
                     string graphElementTypeName = TypesHelper.SeparatePackage(arrayValueType, out packageName);
-                    string comparerName = NamesOfEntities.ComparerClassName(graphElementTypeName, packageName, attribute);
+                    string comparerName = NamesOfEntities.ArrayHelperClassName(graphElementTypeName, packageName, attribute);
                     return "GRGEN_MODEL." + comparerName +".Extract(" + array + ")";
                 }
             }

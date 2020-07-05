@@ -193,9 +193,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Returns name of the comparer class
         /// </summary>
-        public static string ComparerClassName(string graphElementTypeName, string packageName, string entityName)
+        public static string ArrayHelperClassName(string graphElementTypeName, string packageName, string entityName)
         {
-            return (packageName != null ? packageName + "." : "") + "Comparer_" + graphElementTypeName + "_" + entityName;
+            return (packageName != null ? packageName + "." : "") + "ArrayHelper_" + graphElementTypeName + "_" + entityName;
         }
 
         /// <summary>

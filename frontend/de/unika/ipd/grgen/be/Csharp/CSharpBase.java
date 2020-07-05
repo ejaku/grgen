@@ -1213,7 +1213,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aib));
 			} else {
-				sb.append("GRGEN_MODEL.Comparer_"
+				sb.append("GRGEN_MODEL.ArrayHelper_"
 						+ aib.getTargetType().getValueType().getIdent().toString() + "_"
 						+ formatIdentifiable(aib.getMember()) + ".IndexOfBy(");
 				genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
@@ -1241,7 +1241,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aiob));
 			} else {
-				sb.append("GRGEN_MODEL.Comparer_"
+				sb.append("GRGEN_MODEL.ArrayHelper_"
 						+ aiob.getTargetType().getValueType().getIdent().toString() + "_"
 						+ formatIdentifiable(aiob.getMember()) + ".IndexOfOrderedBy(");
 				genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
@@ -1269,7 +1269,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(alib));
 			} else {
-				sb.append("GRGEN_MODEL.Comparer_"
+				sb.append("GRGEN_MODEL.ArrayHelper_"
 						+ alib.getTargetType().getValueType().getIdent().toString() + "_"
 						+ formatIdentifiable(alib.getMember()) + ".LastIndexOfBy(");
 				genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
@@ -1338,9 +1338,9 @@ public abstract class CSharpBase
 			} else {
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
-					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_"
+					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
 							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(aoab.getMember());
-					sb.append("GRGEN_MODEL." + comparerName + ".ArrayOrderAscendingBy(");
+					sb.append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayOrderAscendingBy(");
 					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof MatchTypeIterated) {
@@ -1381,9 +1381,9 @@ public abstract class CSharpBase
 			} else {
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
-					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_"
+					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
 							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(aodb.getMember());
-					sb.append("GRGEN_MODEL." + comparerName + ".ArrayOrderDescendingBy(");
+					sb.append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayOrderDescendingBy(");
 					genExpression(sb, aodb.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof MatchTypeIterated) {
@@ -1424,9 +1424,9 @@ public abstract class CSharpBase
 			} else {
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
-					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_"
+					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
 							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(agb.getMember());
-					sb.append("GRGEN_MODEL." + comparerName + ".ArrayGroupBy(");
+					sb.append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayGroupBy(");
 					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof MatchTypeIterated) {
@@ -1467,9 +1467,9 @@ public abstract class CSharpBase
 			} else {
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
-					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_"
+					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
 							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(akob.getMember());
-					sb.append("GRGEN_MODEL." + comparerName + ".ArrayKeepOneForEachBy(");
+					sb.append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayKeepOneForEachBy(");
 					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof MatchTypeIterated) {
@@ -1519,9 +1519,9 @@ public abstract class CSharpBase
 				Type arrayValueType = ae.getTargetType().getValueType();
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
-					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_"
+					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
 							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(ae.getMember());
-					sb.append("GRGEN_MODEL." + comparerName + ".Extract(");
+					sb.append("GRGEN_MODEL." + arrayHelperClassName + ".Extract(");
 					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof MatchTypeIterated) {

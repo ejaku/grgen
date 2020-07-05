@@ -2655,6 +2655,7 @@ commonLoop:
 		String typeName = formatElementInterfaceRef(type);
 		String attributeName = formatIdentifiable(entity);
 		String attributeTypeName = formatAttributeType(entity.getType());
+		String arrayHelperClassName = "ArrayHelper_" + type.getIdent().toString() + "_" + attributeName;
 		String comparerClassName = "Comparer_" + type.getIdent().toString() + "_" + attributeName;
 		String reverseComparerClassName = "ReverseComparer_" + type.getIdent().toString() + "_" + attributeName;
 
@@ -2673,14 +2674,13 @@ commonLoop:
 		if(nonAbstractTypeOrSubtype == null)
 			return; // can't generate comparer for abstract types that have no concrete subtype
 
-		if(entity.getType().isOrderableType())
+		if(entity.getType().isOrderableType()) {
+			genAttributeArrayComparer(type, entity);
 			genAttributeArrayReverseComparer(type, entity);
+		}
 
 		sb.append("\n");
-		if(entity.getType().isOrderableType())
-			sb.appendFront("public class " + comparerClassName + " : Comparer<" + typeName + ">\n");
-		else
-			sb.appendFront("public class " + comparerClassName + "\n");
+		sb.appendFront("public class " + arrayHelperClassName + "\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
@@ -2692,11 +2692,6 @@ commonLoop:
 					+ "new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "();\n");
 		}
 
-		sb.appendFront("private static " + comparerClassName + " thisComparer = new " + comparerClassName + "();\n");
-
-		if(entity.getType().isOrderableType())
-			genCompareMethod(sb, typeName, formatIdentifiable(entity), entity.getType(), true);
-
 		genIndexOfByMethod(typeName, attributeName, attributeTypeName);
 		genIndexOfByWithStartMethod(typeName, attributeName, attributeTypeName);
 
@@ -2704,9 +2699,9 @@ commonLoop:
 		genLastIndexOfByWithStartMethod(typeName, attributeName, attributeTypeName);
 
 		if(entity.getType().isOrderableType()) {
-			genIndexOfOrderedByMethod(typeName, attributeName, attributeTypeName);
+			genIndexOfOrderedByMethod(typeName, attributeName, attributeTypeName, comparerClassName);
 
-			genArrayOrderAscendingByMethod(typeName);
+			genArrayOrderAscendingByMethod(typeName, comparerClassName);
 			genArrayOrderDescendingByMethod(typeName, reverseComparerClassName);
 		}
 
@@ -2783,25 +2778,27 @@ commonLoop:
 		sb.appendFront("}\n");
 	}
 
-	void genIndexOfOrderedByMethod(String typeName, String attributeName, String attributeTypeName)
+	void genIndexOfOrderedByMethod(String typeName, String attributeName, String attributeTypeName,
+			String comparerClassName)
 	{
 		sb.appendFront("public static int IndexOfOrderedBy(List<" + typeName + "> list, "
 				+ attributeTypeName + " entry)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("nodeBearingAttributeForSearch.@" + attributeName + " = entry;\n");
-		sb.appendFront("return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);\n");
+		sb.appendFront("return list.BinarySearch(nodeBearingAttributeForSearch, "
+				+ comparerClassName + ".thisComparer);\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 	}
 
-	void genArrayOrderAscendingByMethod(String typeName)
+	void genArrayOrderAscendingByMethod(String typeName, String comparerClassName)
 	{
 		sb.appendFront("public static List<" + typeName + "> ArrayOrderAscendingBy(List<" + typeName + "> list)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("List<" + typeName + "> newList = new List<" + typeName + ">(list);\n");
-		sb.appendFront("newList.Sort(thisComparer);\n");
+		sb.appendFront("newList.Sort(" + comparerClassName + ".thisComparer);\n");
 		sb.appendFront("return newList;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -2829,6 +2826,26 @@ commonLoop:
 		sb.appendFront("foreach(" + typeName + " entry in list)\n");
 		sb.appendFrontIndented("resultList.Add(entry.@" + attributeName + ");\n");
 		sb.appendFront("return resultList;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
+	void genAttributeArrayComparer(InheritanceType type, Entity entity)
+	{
+		String typeName = formatElementInterfaceRef(type);
+		String attributeName = formatIdentifiable(entity);
+		String comparerClassName = "Comparer_" + type.getIdent().toString() + "_" + attributeName;
+
+		sb.append("\n");
+		sb.appendFront("public class " + comparerClassName + " : Comparer<" + typeName + ">\n");
+		sb.appendFront("{\n");
+		sb.indent();
+
+		sb.appendFront("public static " + comparerClassName + " thisComparer = "
+				+ "new " + comparerClassName + "();\n");
+
+		genCompareMethod(sb, typeName, formatIdentifiable(entity), entity.getType(), true);
+
 		sb.unindent();
 		sb.appendFront("}\n");
 	}

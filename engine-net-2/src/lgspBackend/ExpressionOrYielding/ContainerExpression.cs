@@ -1116,7 +1116,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("GRGEN_MODEL.Comparer_{0}_{1}.IndexOfBy(", OwnerType, Member);
+            sourceCode.AppendFormat("GRGEN_MODEL.ArrayHelper_{0}_{1}.IndexOfBy(", OwnerType, Member);
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
@@ -1198,7 +1198,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("GRGEN_MODEL.Comparer_{0}_{1}.IndexOfOrderedBy(", OwnerType, Member);
+            sourceCode.AppendFormat("GRGEN_MODEL.ArrayHelper_{0}_{1}.IndexOfOrderedBy(", OwnerType, Member);
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
@@ -1302,7 +1302,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("GRGEN_MODEL.Comparer_{0}_{1}.LastIndexOfBy(", OwnerType, Member);
+            sourceCode.AppendFormat("GRGEN_MODEL.ArrayHelper_{0}_{1}.LastIndexOfBy(", OwnerType, Member);
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
@@ -1508,7 +1508,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("{0}Comparer_{1}_{2}.Array{3}(",
+            sourceCode.AppendFormat("{0}ArrayHelper_{1}_{2}.Array{3}(",
                 "GRGEN_MODEL." + TypesHelper.GetPackagePrefixDot(TypePackage), 
                 OwnerType, Member, OrderMethod.ToString() + "By");
             Target.Emit(sourceCode);
@@ -1801,8 +1801,8 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            string comparerName = NamesOfEntities.ComparerClassName(GraphElementTypeName, PackageName, Member);
-            sourceCode.AppendFormat("GRGEN_MODEL.{0}.Extract(", comparerName);
+            string arrayHelperClassName = NamesOfEntities.ArrayHelperClassName(GraphElementTypeName, PackageName, Member);
+            sourceCode.AppendFormat("GRGEN_MODEL.{0}.Extract(", arrayHelperClassName);
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }
