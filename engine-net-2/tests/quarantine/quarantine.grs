@@ -4,6 +4,8 @@ exec init
 
 exec printQuarantine
 
+exec printQuarantineArray
+
 exec quarantineTopmost(3)
 
 eval [?underQuarantine].extract<person>().extract<name>()
@@ -15,6 +17,9 @@ exec init
 eval [?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\
 		\QuarantineScore.keepOneForEach<person>Accumulate<score>By<sum>\
 		\QuarantineScore.orderDescendingBy<score>\<class QuarantineScore>]
+
+eval keepOneAccumulate([?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\<class QuarantineScore>])
+#		.orderDescendingBy<score>()
 
 exec [[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\
 		\QuarantineScore.keepOneForEach<person>Accumulate<score>By<sum>\

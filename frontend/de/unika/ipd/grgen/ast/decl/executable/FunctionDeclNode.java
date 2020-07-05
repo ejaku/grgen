@@ -95,7 +95,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		boolean result = super.resolveLocal();
 		
 		if(functionAuto != null)
-			functionAuto.resolveLocal();
+			result &= functionAuto.resolveLocal();
 		
 		return result;
 	}
@@ -130,8 +130,8 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		}
 
 		if(functionAuto != null) {
-			functionAuto.checkLocal();
-			functionAuto.checkLocal(this);
+			res &= functionAuto.checkLocal();
+			res &= functionAuto.checkLocal(this);
 		}
 
 		return res;

@@ -9,7 +9,11 @@ exec printQuarantineSimpleLodgingOnly
 
 exec printQuarantineSimpleLodgingOnlyMC
 
+exec printQuarantineSimpleLodgingOnlyKeepOneAccumulateArray
+
 eval [?quarantineByRiskLodging\keepOneForEach<person>]
+
+eval keepOneAccumulateLodging([?quarantineByRiskLodging])
 
 eval [?[quarantineByRiskLodging]\QuarantineScore.keepOneForEach<person>\<class QuarantineScore>]
 
@@ -25,5 +29,14 @@ exec { ::wrappedPersons = set<PersonWrapper>(nodes(PersonWrapper)).asArray() }
 exec { ::wrappedPersons.add(::wrappedPersons[0]) }
 show var wrappedPersons
 exec printQuarantineSimpleLodgingOnlyArrayWrapped(::wrappedPersons.asArray())
+
+#exec initQS
+#eval printQSArray(array<QS>(nodes(QS).asArray()))
+#exec printQS
+#eval printQSArray(array<QS>(nodes(QS).asArray()))
+#eval printQSArray(keepOneAccumulateQS(array<QS>(nodes(QS).asArray())))
+#eval printQSArray(array<QS>(nodes(QS).asArray()))
+#exec printQS
+#eval printQSArray(keepOneAccumulateQS(array<QS>(nodes(QS).asArray())))
 
 quit

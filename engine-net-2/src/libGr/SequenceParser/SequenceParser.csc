@@ -1765,7 +1765,7 @@ SequenceExpression ExpressionBasic():
     }
 |
     LOOKAHEAD(FunctionCall())
-    expr=FunctionCall()
+    expr=FunctionCall() expr=SelectorExpression(expr)
     {
         return expr;
     }

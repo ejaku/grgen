@@ -114,6 +114,18 @@ sequence printQuarantine
 			\QuarantineScore.orderDescendingBy<score>\<class QuarantineScore>], "\n"); }
 }
 
+sequence printQuarantineArray
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		keepOneAccumulate([?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\<class QuarantineScore>])
+			/*.orderDescendingBy<score>()*/, "\n"); }
+}
+
+function keepOneAccumulate(ref matchesSameCompany:array<match<class QuarantineScore>>) : array<match<class QuarantineScore>>
+{
+	auto(matchesSameCompany.keepOneForEach<person>Accumulate<score>By<sum>)
+}
+
 sequence printQuarantineSimpleLodgingOnlyMC
 {
 	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
@@ -124,6 +136,17 @@ sequence printQuarantineSimpleLodgingOnly
 {
 	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
 		[?quarantineByRiskLodging\keepOneForEach<person>], "\n"); }
+}
+
+sequence printQuarantineSimpleLodgingOnlyKeepOneAccumulateArray
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		keepOneAccumulateLodging([?quarantineByRiskLodging]), "\n"); }
+}
+
+function keepOneAccumulateLodging(ref matchesSameCompany:array<match<quarantineByRiskLodging>>) : array<match<quarantineByRiskLodging>>
+{
+	auto(matchesSameCompany.keepOneForEach<person>Accumulate<score>By<sum>)
 }
 
 rule quarantineTopmost(var num:int)
@@ -194,3 +217,47 @@ rule printQuarantineSimpleLodgingOnlyArrayWrapped(ref a:array<PersonWrapper>)
 	}
 }
 
+/*
+no support for keepOneForEachAccumulateBy on node/edge types (which would be possible in general)
+because of the unexpected side-effect of writing the accumulation result to the node/edge in the graph
+
+rule initQS
+{
+	modify {
+		:QS@(person = "Emeli", type = LodgingType::House, score = 100.0);
+		:QS@(person = "Eumeli", type = LodgingType::Flat, score = 50.0);
+		:QS@(person = "Eumeli", type = LodgingType::Staple, score = -50.0);
+		:QS@(person = "Ulli", type = LodgingType::HomeForTheElderly, score = 200.0);
+		:QS@(person = "Schnulli", type = LodgingType::Barracks, score = 70.0);
+		:QS@(person = "Retourkutschenvieh", type = LodgingType::Staple, score = 120.0);
+		:QS@(person = "Krähe", type = LodgingType::Nest, score = 90.0);
+		:QS@(person = "Bob ze builder", type = LodgingType::House, score = 150.0);
+	}
+}
+
+sequence printQS
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		printQSArray(keepOneAccumulateQS(array<QS>(nodes(QS).asArray()))), "\n"); }
+}
+
+function keepOneAccumulateQS(ref qs:array<QS>) : array<QS>
+{
+	auto(qs.keepOneForEach<person>Accumulate<score>By<sum>)
+}
+
+function printQSArray(ref arr:array<QS>) : string
+{
+	def var result:string = "[";
+	def var first:boolean = true; 
+	for(qs:QS in arr) {
+		if(!first) {
+			result = result + ",";
+		} else {
+			first = false;
+		}
+		result = result + "<" + "person:" + qs.person + ",type:" + qs.type + ",score:" + qs.score + ">";
+	}
+	return(result + "]");
+}
+*/

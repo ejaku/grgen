@@ -419,7 +419,7 @@ seqExprBasic [ExecNode xg] returns [ ExprNode res = env.initExprNode() ]
 	}
 	: owner=seqVarUseInExpr[xg] sel=seqExprSelector[owner, xg] { res = sel; }
 	| {input.LT(1).getText().equals("this")}? i=IDENT { xg.append("this"); } sel=seqExprSelector[owner, xg] { res = sel; }
-	| fc=seqFunctionCall[xg] { res = fc; }
+	| fc=seqFunctionCall[xg] { res = fc; } sel=seqExprSelector[fc, xg] { res = sel; }
 	| DEF LPAREN { xg.append("def("); } seqVariableList[xg, returns] RPAREN { xg.append(")"); } 
 	| a=AT LPAREN { xg.append("@("); } 
 		(i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }

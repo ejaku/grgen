@@ -94,9 +94,9 @@ public class NameOrAttributeInitializationNode extends BaseNode
 			if(exprType.isEqual(targetType))
 				return true;
 
-			initialization = becomeParent(initialization.adjustType(targetType, getCoords()));
+			initialization = becomeParent(initialization.adjustType(targetType, owner.getCoords()));
 			if(initialization == ConstNode.getInvalid()) {
-				error.error(getCoords(), "element name must be initialized with a value of type string");
+				error.error(owner.getCoords(), "element name must be initialized with a value of type string");
 				return false;
 			}
 
@@ -104,12 +104,12 @@ public class NameOrAttributeInitializationNode extends BaseNode
 		}
 
 		if(attribute.isConst()) {
-			error.error(getCoords(), "assignment to a const member is not allowed");
+			error.error(owner.getCoords(), "assignment to a const member is not allowed");
 			return false;
 		}
 
 		if(owner.getDeclType().isConst()) {
-			error.error(getCoords(), "assignment to a const type object not allowed");
+			error.error(owner.getCoords(), "assignment to a const type object not allowed");
 			return false;
 		}
 
@@ -119,7 +119,7 @@ public class NameOrAttributeInitializationNode extends BaseNode
 		if(exprType.isEqual(targetType))
 			return true;
 
-		initialization = becomeParent(initialization.adjustType(targetType, getCoords()));
+		initialization = becomeParent(initialization.adjustType(targetType, owner.getCoords()));
 		if(initialization == ConstNode.getInvalid())
 			return false;
 
@@ -128,14 +128,14 @@ public class NameOrAttributeInitializationNode extends BaseNode
 			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 			exprType.doGetCompatibleToTypes(superTypes);
 			if(!superTypes.contains(targetType)) {
-				error.error(getCoords(), "can't initialize-assign value of "
+				error.error(owner.getCoords(), "can't initialize-assign value of "
 						+ exprType + " to attribute of " + targetType);
 				return false;
 			}
 		}
 		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			error.error(getCoords(), "can't initialize-assign value of " + exprType + " to attribute of " + targetType);
+			error.error(owner.getCoords(), "can't initialize-assign value of " + exprType + " to attribute of " + targetType);
 			return false;
 		}
 		return true;

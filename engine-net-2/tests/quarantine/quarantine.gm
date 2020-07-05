@@ -37,3 +37,12 @@ node class PersonWrapper
 {
 	person:Person;
 }
+
+/*
+node class QS
+{
+	person:string;
+	type:LodgingType;
+	score:double;
+}
+*/

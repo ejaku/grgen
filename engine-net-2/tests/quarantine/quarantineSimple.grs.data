@@ -10,7 +10,12 @@
 [match<quarantineByRiskLodging>{person:$0,l:$59,_edge0:$5A,score:100},match<quarantineByRiskLodging>{person:$1F,l:$20,_edge0:$4B,score:100}]
 3
 0
+[match<quarantineByRiskLodging>{person:$0,l:$59,_edge0:$5A,score:200},match<quarantineByRiskLodging>{person:$1F,l:$20,_edge0:$4B,score:100}]
+3
+0
 [match<quarantineByRiskLodging>{person:$0,l:$59,_edge0:$5A,score:100},match<quarantineByRiskLodging>{person:$1F,l:$20,_edge0:$4B,score:100}]
+3
+[match<quarantineByRiskLodging>{person:$0,l:$59,_edge0:$5A,score:200},match<quarantineByRiskLodging>{person:$1F,l:$20,_edge0:$4B,score:100}]
 3
 [match<quarantineByRiskLodging>{person:$0,l:$59,_edge0:$5A,score:100},match<quarantineByRiskLodging>{person:$1F,l:$20,_edge0:$4B,score:100}]
 3

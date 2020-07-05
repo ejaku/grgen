@@ -3344,7 +3344,10 @@ autoFunctionBody returns [ FunctionAutoNode res = null ]
 	}
 	: join=IDENT LT joinFunction=IDENT GT LPAREN id=entIdentUse { params.addChild(id); }
 		( COMMA id=entIdentUse { params.addChild(id); } )+ RPAREN
-		{ res = new FunctionAutoNode(getCoords(join), join.getText(), joinFunction.getText(), params); }
+		{ res = new FunctionAutoJoinNode(getCoords(join), join.getText(), joinFunction.getText(), params); }
+	| target=entIdentUse DOT keepOne=IDENT LT id=entIdentUse GT accumulate=IDENT LT accuId=entIdentUse GT by=IDENT LT accuFunction=IDENT GT 
+		{ res = new FunctionAutoKeepOneForEachAccumulateByNode(getCoords(join), keepOne.getText() + accumulate.getText() + by.getText(),
+			id, accuId, accuFunction.getText(), target); }
 	;
 
 computations [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode directlyNestingLHSGraph ] 

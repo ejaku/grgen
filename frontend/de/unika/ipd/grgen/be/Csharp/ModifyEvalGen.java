@@ -46,6 +46,7 @@ import de.unika.ipd.grgen.ir.stmt.DoWhileStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.stmt.ExecStatement;
+import de.unika.ipd.grgen.ir.stmt.FunctionAutoKeepOneForEachAccumulateBy;
 import de.unika.ipd.grgen.ir.stmt.IntegerRangeIterationYield;
 import de.unika.ipd.grgen.ir.stmt.MatchesAccumulationYield;
 import de.unika.ipd.grgen.ir.stmt.MultiStatement;
@@ -362,6 +363,8 @@ public class ModifyEvalGen extends CSharpBase
 			execGen.genExecStatement(sb, state, (ExecStatement)evalStmt);
 		} else if(evalStmt instanceof ReturnAssignment) {
 			genReturnAssignment(sb, state, (ReturnAssignment)evalStmt); // contains the procedure and method invocations
+		} else if(evalStmt instanceof FunctionAutoKeepOneForEachAccumulateBy) {
+			genFunctionAutoKeepOneForEachAccumulateBy(sb, state, (FunctionAutoKeepOneForEachAccumulateBy)evalStmt);
 		} else {
 			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
 		}
@@ -2565,6 +2568,76 @@ public class ModifyEvalGen extends CSharpBase
 			sb.appendFront(outParams.get(0) + " = ");
 			genEvalComp(sb, state, procedure);
 			sb.append(";\n");
+		}
+	}
+
+	private void genFunctionAutoKeepOneForEachAccumulateBy(SourceBuilder sb,
+			ModifyGenerationStateConst state, FunctionAutoKeepOneForEachAccumulateBy functionAuto)
+	{
+		ArrayType arrayOfMatch = functionAuto.getTargetType();
+		Type matchType = arrayOfMatch.getElementType();
+		String matchInterfaceName = formatType(matchType);
+		Variable inputVariable = functionAuto.getTargetVar();
+		String inputVar = formatEntity(inputVariable);
+		Entity member = functionAuto.getMember();
+		String matchEntity = formatEntity(member);
+		String typeOfEntity = formatType(member.getType());
+		Variable accumulationMember = functionAuto.getAccumulationMember();
+		String accumulationVariable = formatEntity(accumulationMember);
+		String typeOfAccumulationVariable = formatType(accumulationMember.getType());
+		String accumulationMethod = getArrayAccumulationMethodImplementation(functionAuto.getAccumulationMethod());
+
+		sb.appendFront("List<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
+		sb.appendFront("Dictionary<" + typeOfEntity +", List<" + typeOfAccumulationVariable + ">> seenValues"
+				+ " = new Dictionary<" + typeOfEntity + ", List<" + typeOfAccumulationVariable + ">>();\n");
+		sb.appendFront("for(int pos = 0; pos < " + inputVar + ".Count; ++pos)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("if(seenValues.ContainsKey(" + inputVar + "[pos].@" + matchEntity + "))\n");
+		sb.appendFrontIndented("seenValues[" + inputVar + "[pos].@" + matchEntity + 
+				"].Add(" + inputVar + "[pos].@" + accumulationVariable + ");\n");
+		sb.appendFront("else {\n");
+		sb.indent();
+		sb.appendFront("List<" + typeOfAccumulationVariable + "> tempList"
+				+ " = new List<" + typeOfAccumulationVariable + ">();\n");
+		sb.appendFront("tempList.Add(" + inputVar + "[pos].@" + accumulationVariable + ");\n");
+		sb.appendFront("seenValues.Add(" + inputVar + "[pos].@" + matchEntity + ", tempList);\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.appendFront("for(int pos = 0; pos < " + inputVar + ".Count; ++pos)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("if(seenValues.ContainsKey(" + inputVar + "[pos].@" + matchEntity + "))");
+		sb.append(" {\n");
+		sb.indent();
+		sb.appendFront(inputVar + "[pos].@" + accumulationVariable
+				+ " = " + accumulationMethod + "(seenValues[" + inputVar + "[pos].@" + matchEntity + "]);\n");
+		sb.appendFront("seenValues.Remove(" + inputVar + "[pos].@" + matchEntity + ");\n");
+		sb.appendFront("newList.Add(" + inputVar + "[pos]);\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.appendFront("return newList;\n");
+	}
+
+	private static String getArrayAccumulationMethodImplementation(String arrayAccumulationMethod)
+	{
+		switch(arrayAccumulationMethod)
+		{
+		case "sum": return "GRGEN_LIBGR.ContainerHelper.Sum";
+		case "prod": return "GRGEN_LIBGR.ContainerHelper.Prod";
+		case "min": return "GRGEN_LIBGR.ContainerHelper.Min";
+		case "max": return "GRGEN_LIBGR.ContainerHelper.Max";
+		case "avg": return "GRGEN_LIBGR.ContainerHelper.Avg";
+		case "med": return "GRGEN_LIBGR.ContainerHelper.Med";
+		case "medUnordered": return "GRGEN_LIBGR.ContainerHelper.MedUnordered";
+		case "var": return "GRGEN_LIBGR.ContainerHelper.Var";
+		case "dev": return "GRGEN_LIBGR.ContainerHelper.Dev";
+		default: return "INTERNAL ERROR";
 		}
 	}
 
