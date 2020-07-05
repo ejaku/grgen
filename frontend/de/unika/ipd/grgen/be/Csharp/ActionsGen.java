@@ -1367,19 +1367,28 @@ public class ActionsGen extends CSharpBase
 	}
 
 	/**
-	 * Generates the Array_orderAscendingBy_member/Array_orderDescendingBy_member function plus the Comparison helper (shared with the corresponding orderAscendingBy/orderDescendingBy filter)
+	 * Generates the orderAscendingBy/orderDescendingBy/groupBy/keepOneForEach member array functions
+	 * plus the Comparer classes (shared with the corresponding orderAscendingBy/orderDescendingBy filters)
 	 */
 	void genArraySortBy(SourceBuilder sb, Rule actionRule, MemberBearerType memberBearerType, Rule iteratedRule)
 	{
-		sb.appendFront("public partial class MatchFilters\n");
+		Rule rule = iteratedRule != null ? iteratedRule : actionRule;
+
+		for(Variable var : rule.getPattern().getVars()) {
+			if(var.getType().isOrderableType()) {
+				generateComparer(sb, actionRule, memberBearerType, iteratedRule, var, true);
+				generateComparer(sb, actionRule, memberBearerType, iteratedRule, var, false);
+			}
+		}
+
+		sb.appendFront("public partial class ArrayHelper\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
-		Rule rule = iteratedRule != null ? iteratedRule : actionRule;
 		for(Variable var : rule.getPattern().getVars()) {
 			if(var.getType().isOrderableType()) {
-				generateComparerAndArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, true);
-				generateComparerAndArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, false);
+				generateArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, true);
+				generateArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, false);
 				generateArrayGroupBy(sb, actionRule, memberBearerType, iteratedRule, var);
 				generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var);
 			}
@@ -1406,7 +1415,36 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	static void generateComparerAndArrayOrderBy(SourceBuilder sb, Identifiable memberBearer,
+	static void generateComparer(SourceBuilder sb, Identifiable memberBearer,
+			MemberBearerType memberBearerType, Rule iteratedRule, Variable var, boolean ascending)
+	{
+		String name = formatIdentifiable(memberBearer);
+		String iteratedNameComponent = iteratedRule != null ? "_" + formatIdentifiable(iteratedRule) : "";
+		String memberBearerClass;
+		if(memberBearerType == MemberBearerType.Action)
+			memberBearerClass = "Rule_" + name + ".";
+		else if(memberBearerType == MemberBearerType.Subpattern)
+			memberBearerClass = "Pattern_" + name + ".";
+		else //if(memberBearerType == MemberBearerType.MatchClass)
+			memberBearerClass = "";
+		String matchInterfaceName = "GRGEN_ACTIONS." + getPackagePrefixDot(memberBearer)
+				+ memberBearerClass + "IMatch_" + name + iteratedNameComponent;
+		String functionName = ascending
+				? "orderAscendingBy_" + formatIdentifiable(var)
+				: "orderDescendingBy_" + formatIdentifiable(var);
+		String comparerName = "Comparer_" + name + iteratedNameComponent + "_" + functionName;
+
+		sb.appendFront("class " + comparerName + " : Comparer<" + matchInterfaceName + ">\n");
+		sb.appendFront("{\n");
+		sb.indent();
+
+		genCompareMethod(sb, matchInterfaceName, formatEntity(var), var.getType(), ascending);
+
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
+	static void generateArrayOrderBy(SourceBuilder sb, Identifiable memberBearer,
 			MemberBearerType memberBearerType, Rule iteratedRule, Variable var, boolean ascending)
 	{
 		String name = formatIdentifiable(memberBearer);
@@ -1433,15 +1471,6 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("List<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">(list);\n");
 		sb.appendFront("newList.Sort(new " + comparerName + "());\n");
 		sb.appendFront("return newList;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-
-		sb.appendFront("class " + comparerName + " : Comparer<" + matchInterfaceName + ">\n");
-		sb.appendFront("{\n");
-		sb.indent();
-
-		genCompareMethod(sb, matchInterfaceName, formatEntity(var), var.getType(), ascending);
-
 		sb.unindent();
 		sb.appendFront("}\n");
 	}
@@ -1515,18 +1544,26 @@ public class ActionsGen extends CSharpBase
 	}
 
 	/**
-	 * Generates the Array_sortAscendingBy_member function plus the Comparison helper (shared with the corresponding sortAscendingBy filter)
+	 * Generates the orderAscendingBy/orderDescendingBy/groupBy/keepOneForEach member array functions
+	 * plus the Comparer classes (shared with the corresponding orderAscendingBy/orderDescendingBy filters)
 	 */
 	void genArraySortBy(SourceBuilder sb, DefinedMatchType matchClass)
 	{
-		sb.appendFront("public partial class MatchClassFilters\n");
+		for(Variable var : matchClass.getVars()) {
+			if(var.getType().isOrderableType()) {
+				generateComparer(sb, matchClass, MemberBearerType.MatchClass, null, var, true);
+				generateComparer(sb, matchClass, MemberBearerType.MatchClass, null, var, false);
+			}
+		}
+
+		sb.appendFront("public partial class ArrayHelper\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
 		for(Variable var : matchClass.getVars()) {
 			if(var.getType().isOrderableType()) {
-				generateComparerAndArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, true);
-				generateComparerAndArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, false);
+				generateArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, true);
+				generateArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, false);
 				generateArrayGroupBy(sb, matchClass, MemberBearerType.MatchClass, null, var);
 				generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var);
 			}

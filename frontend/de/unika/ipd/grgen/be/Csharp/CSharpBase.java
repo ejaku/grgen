@@ -1350,7 +1350,7 @@ public abstract class CSharpBase
 					String iteratedName = formatIdentifiable(matchType.getIterated());
 					String functionName = "orderAscendingBy_" + formatIdentifiable(aoab.getMember());
 					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof MatchType) {
@@ -1359,7 +1359,7 @@ public abstract class CSharpBase
 					String ruleName = formatIdentifiable(matchType.getAction());
 					String functionName = "orderAscendingBy_" + formatIdentifiable(aoab.getMember());
 					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof DefinedMatchType) {
@@ -1368,7 +1368,7 @@ public abstract class CSharpBase
 					String matchClassName = formatIdentifiable(definedMatchType);
 					String functionName = "orderAscendingBy_" + formatIdentifiable(aoab.getMember());
 					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "MatchClassFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				}
@@ -1393,7 +1393,7 @@ public abstract class CSharpBase
 					String iteratedName = formatIdentifiable(matchType.getIterated());
 					String functionName = "orderDescendingBy_" + formatIdentifiable(aodb.getMember());
 					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, aodb.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof MatchType) {
@@ -1402,7 +1402,7 @@ public abstract class CSharpBase
 					String ruleName = formatIdentifiable(matchType.getAction());
 					String functionName = "orderDescendingBy_" + formatIdentifiable(aodb.getMember());
 					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, aodb.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof DefinedMatchType) {
@@ -1411,7 +1411,7 @@ public abstract class CSharpBase
 					String matchClassName = formatIdentifiable(definedMatchType);
 					String functionName = "orderDescendingBy_" + formatIdentifiable(aodb.getMember());
 					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "MatchClassFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, aodb.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				}
@@ -1436,7 +1436,7 @@ public abstract class CSharpBase
 					String iteratedName = formatIdentifiable(matchType.getIterated());
 					String functionName = "groupBy_" + formatIdentifiable(agb.getMember());
 					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof MatchType) {
@@ -1445,7 +1445,7 @@ public abstract class CSharpBase
 					String ruleName = formatIdentifiable(matchType.getAction());
 					String functionName = "groupBy_" + formatIdentifiable(agb.getMember());
 					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof DefinedMatchType) {
@@ -1454,7 +1454,7 @@ public abstract class CSharpBase
 					String matchClassName = formatIdentifiable(definedMatchType);
 					String functionName = "groupBy_" + formatIdentifiable(agb.getMember());
 					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "MatchClassFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				}
@@ -1479,7 +1479,7 @@ public abstract class CSharpBase
 					String iteratedName = formatIdentifiable(matchType.getIterated());
 					String functionName = "keepOneForEachBy_" + formatIdentifiable(akob.getMember());
 					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof MatchType) {
@@ -1488,7 +1488,7 @@ public abstract class CSharpBase
 					String ruleName = formatIdentifiable(matchType.getAction());
 					String functionName = "keepOneForEachBy_" + formatIdentifiable(akob.getMember());
 					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof DefinedMatchType) {
@@ -1497,7 +1497,7 @@ public abstract class CSharpBase
 					String matchClassName = formatIdentifiable(definedMatchType);
 					String functionName = "keepOneForEachBy_" + formatIdentifiable(akob.getMember());
 					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "MatchClassFilters." + arrayFunctionName + "(");
+					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
 					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				}
@@ -3515,7 +3515,7 @@ public abstract class CSharpBase
 
 		sb.appendFront("List<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
 		sb.appendFront("foreach(List<" + matchInterfaceName + "> entry in seenValues.Values)\n");
-		sb.append("{\n");
+		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("newList.AddRange(entry);\n");
 		sb.unindent();

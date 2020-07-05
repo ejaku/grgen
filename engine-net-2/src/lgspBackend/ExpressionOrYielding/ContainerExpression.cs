@@ -1545,7 +1545,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("{0}MatchFilters.Array_{1}_{2}_{3}(",
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}(",
                 "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
                 PatternName, GetOrderMethodString(), Member);
             Target.Emit(sourceCode);
@@ -1583,7 +1583,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("{0}MatchFilters.Array_{1}_{2}_{3}_{4}(",
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}_{4}(",
                 "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
                 PatternName, IteratedName, GetOrderMethodString(), Member);
             Target.Emit(sourceCode);
@@ -1621,7 +1621,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("{0}MatchClassFilters.Array_{1}_{2}_{3}(",
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}(",
                 "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(MatchClassPackage),
                 MatchClassName, GetOrderMethodString(), Member);
             Target.Emit(sourceCode);
