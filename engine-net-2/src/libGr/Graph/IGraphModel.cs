@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 
 namespace de.unika.ipd.grGen.libGr
@@ -180,6 +181,51 @@ namespace de.unika.ipd.grGen.libGr
         bool IsLower(object this_, object that);
 
         #endregion Comparison of attributes of object or user defined type, external types in general
+
+
+        #region Array processing helpers
+
+        /// <summary>
+        /// Orders the array ascendingly alongside the values in the given member.
+        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// </summary>
+        /// <param name="array">The array to order ascendingly</param>
+        /// <param name="member">The member to order alongside</param>
+        /// <returns>The array ordered by the member or null if the array was not processed because the array 
+        /// did not contain one of the known nodes/edges or the member attribute was not known.</returns>
+        IList ArrayOrderAscendingBy(IList array, string member);
+
+        /// <summary>
+        /// Orders the array descendingly alongside the values in the given member.
+        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// </summary>
+        /// <param name="array">The array to order descendingly</param>
+        /// <param name="member">The member to order alongside</param>
+        /// <returns>The array ordered by the member or null if the array was not processed because the array 
+        /// did not contain one of the known nodes/edges or the member attribute was not known.</returns>
+        IList ArrayOrderDescendingBy(IList array, string member);
+
+        /// <summary>
+        /// Groups the array alongside the values in the given member.
+        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// </summary>
+        /// <param name="array">The array to group</param>
+        /// <param name="member">The member to group by</param>
+        /// <returns>The array grouped by the member or null if the array was not processed because the array 
+        /// did not contain one of the known nodes/edges or the member attribute was not known.</returns>
+        IList ArrayGroupBy(IList array, string member);
+
+        /// <summary>
+        /// Keeps the array members with distinct values in the given member / removes duplicates.
+        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// </summary>
+        /// <param name="array">The array to remove duplicates from</param>
+        /// <param name="member">The member to check for duplicates</param>
+        /// <returns>The array freed from duplicates in the member or null if the array was not processed because the array 
+        /// did not contain one of the known nodes/edges or the member attribute was not known.</returns>
+        IList ArrayKeepOneForEach(IList array, string member);
+
+        #endregion Array processing helpers
 
 
         /// <summary>

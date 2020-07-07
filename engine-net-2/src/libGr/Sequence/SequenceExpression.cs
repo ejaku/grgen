@@ -41,7 +41,7 @@ namespace de.unika.ipd.grGen.libGr
         ArrayOrDequeAsSet, ArrayAsMap, ArrayAsDeque, ArrayAsString,
         ArraySubarray, DequeSubdeque,
         ArrayOrderAscending, ArrayOrderDescending, ArrayGroup, ArrayKeepOneForEach, ArrayReverse,
-        ArrayExtract,
+        ArrayExtract, ArrayOrderAscendingBy, ArrayOrderDescendingBy, ArrayGroupBy, ArrayKeepOneForEachBy,
         ElementFromGraph, NodeByName, EdgeByName, NodeByUnique, EdgeByUnique,
         Source, Target, Opposite,
         GraphElementAttributeOrElementOfMatch, GraphElementAttribute, ElementOfMatch,
@@ -4924,7 +4924,7 @@ namespace de.unika.ipd.grGen.libGr
 
             String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
 
-            // throws exceptions in case the rule does not exist, or it does not contain an element of the given name
+            // throws exceptions in case the match or graph element type does not exist, or it does not contain an element of the given name
             String memberOrAttributeType = env.TypeOfMemberOrAttribute(arrayValueType, memberOrAttributeName);
         }
 
@@ -4965,6 +4965,176 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return Name + ".extract<" + memberOrAttributeName + ">()"; }
+        }
+    }
+
+    public abstract class SequenceExpressionArrayByAttributeAccess : SequenceExpressionContainer
+    {
+        public string memberOrAttributeName;
+
+        public SequenceExpressionArrayByAttributeAccess(SequenceExpressionType type, SequenceExpression containerExpr, String memberOrAttributeName)
+            : base(type, containerExpr)
+        {
+            this.memberOrAttributeName = memberOrAttributeName;
+        }
+
+        protected SequenceExpressionArrayByAttributeAccess(SequenceExpressionArrayByAttributeAccess that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
+
+            // throws exceptions in case the match or graph element type does not exist, or it does not contain an element of the given name
+            String memberOrAttributeType = env.TypeOfMemberOrAttribute(arrayValueType, memberOrAttributeName);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            if(ContainerType(env) == "")
+                return "";
+
+            return ContainerType(env);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+    }
+
+    public class SequenceExpressionArrayOrderAscendingBy : SequenceExpressionArrayByAttributeAccess
+    {
+        public SequenceExpressionArrayOrderAscendingBy(SequenceExpression containerExpr, String memberOrAttributeName)
+            : base(SequenceExpressionType.ArrayOrderAscendingBy, containerExpr, memberOrAttributeName)
+        {
+        }
+
+        protected SequenceExpressionArrayOrderAscendingBy(SequenceExpressionArrayOrderAscendingBy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayOrderAscendingBy(this, originalToCopy, procEnv);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ContainerHelper.OrderAscendingBy(ArrayValue(procEnv), memberOrAttributeName, procEnv);
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".orderAscendingBy<" + memberOrAttributeName + ">()"; }
+        }
+    }
+
+    public class SequenceExpressionArrayOrderDescendingBy : SequenceExpressionArrayByAttributeAccess
+    {
+        public SequenceExpressionArrayOrderDescendingBy(SequenceExpression containerExpr, String memberOrAttributeName)
+            : base(SequenceExpressionType.ArrayOrderDescendingBy, containerExpr, memberOrAttributeName)
+        {
+        }
+
+        protected SequenceExpressionArrayOrderDescendingBy(SequenceExpressionArrayOrderDescendingBy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayOrderDescendingBy(this, originalToCopy, procEnv);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ContainerHelper.OrderDescendingBy(ArrayValue(procEnv), memberOrAttributeName, procEnv);
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".orderDescendingBy<" + memberOrAttributeName + ">()"; }
+        }
+    }
+
+    public class SequenceExpressionArrayGroupBy : SequenceExpressionArrayByAttributeAccess
+    {
+        public SequenceExpressionArrayGroupBy(SequenceExpression containerExpr, String memberOrAttributeName)
+            : base(SequenceExpressionType.ArrayGroupBy, containerExpr, memberOrAttributeName)
+        {
+        }
+
+        protected SequenceExpressionArrayGroupBy(SequenceExpressionArrayGroupBy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayGroupBy(this, originalToCopy, procEnv);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ContainerHelper.GroupBy(ArrayValue(procEnv), memberOrAttributeName, procEnv);
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".groupBy<" + memberOrAttributeName + ">()"; }
+        }
+    }
+
+    public class SequenceExpressionArrayKeepOneForEachBy : SequenceExpressionArrayByAttributeAccess
+    {
+        public SequenceExpressionArrayKeepOneForEachBy(SequenceExpression containerExpr, String memberOrAttributeName)
+            : base(SequenceExpressionType.ArrayKeepOneForEachBy, containerExpr, memberOrAttributeName)
+        {
+        }
+
+        protected SequenceExpressionArrayKeepOneForEachBy(SequenceExpressionArrayKeepOneForEachBy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayKeepOneForEachBy(this, originalToCopy, procEnv);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ContainerHelper.KeepOneForEach(ArrayValue(procEnv), memberOrAttributeName, procEnv);
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".keepOneForEach<" + memberOrAttributeName + ">()"; }
         }
     }
 

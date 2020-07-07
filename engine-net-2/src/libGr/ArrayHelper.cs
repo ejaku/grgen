@@ -435,6 +435,42 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static IList OrderAscendingBy(object container, string memberOrAttribute, IGraphProcessingEnvironment procEnv)
+        {
+            IList array = (IList)container;
+            IList resultingArray = procEnv.Actions.ArrayOrderAscendingBy(array, memberOrAttribute);
+            if(resultingArray != null)
+                return resultingArray;
+            return procEnv.Graph.Model.ArrayOrderAscendingBy(array, memberOrAttribute);
+        }
+
+        public static IList OrderDescendingBy(object container, string memberOrAttribute, IGraphProcessingEnvironment procEnv)
+        {
+            IList array = (IList)container;
+            IList resultingArray = procEnv.Actions.ArrayOrderDescendingBy(array, memberOrAttribute);
+            if(resultingArray != null)
+                return resultingArray;
+            return procEnv.Graph.Model.ArrayOrderDescendingBy(array, memberOrAttribute);
+        }
+
+        public static IList GroupBy(object container, string memberOrAttribute, IGraphProcessingEnvironment procEnv)
+        {
+            IList array = (IList)container;
+            IList resultingArray = procEnv.Actions.ArrayGroupBy(array, memberOrAttribute);
+            if(resultingArray != null)
+                return resultingArray;
+            return procEnv.Graph.Model.ArrayGroupBy(array, memberOrAttribute);
+        }
+
+        public static IList KeepOneForEach(object container, string memberOrAttribute, IGraphProcessingEnvironment procEnv)
+        {
+            IList array = (IList)container;
+            IList resultingArray = procEnv.Actions.ArrayKeepOneForEach(array, memberOrAttribute);
+            if(resultingArray != null)
+                return resultingArray;
+            return procEnv.Graph.Model.ArrayKeepOneForEach(array, memberOrAttribute);
+        }
+
         public static List<T> ConvertIfEmpty<T>(object array)
         {
             if(!(array is List<T>) && array is IList && ((IList)array).Count == 0)

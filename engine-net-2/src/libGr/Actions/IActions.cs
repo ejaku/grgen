@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -127,6 +128,60 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
         void Custom(params object[] args);
 
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        #region Array processing helpers
+        
+        /// <summary>
+        /// Orders the array ascendingly alongside the values in the given member.
+        /// The array must be of match type, of a match of one of the actions in this actions object,
+        /// or one of the match classes in this actions object.
+        /// </summary>
+        /// <param name="array">The array to order ascendingly</param>
+        /// <param name="member">The member to order alongside</param>
+        /// <returns>The array ordered by the member or null if the array was not processed because the array 
+        /// did not contain matches of the known rules/tests or match classes,
+        /// or the member was not known.</returns>
+        IList ArrayOrderAscendingBy(IList array, string member);
+
+        /// <summary>
+        /// Orders the array descendingly alongside the values in the given member.
+        /// The array must be of match type, of a match of one of the actions in this actions object,
+        /// or one of the match classes in this actions object.
+        /// </summary>
+        /// <param name="array">The array to order descendingly</param>
+        /// <param name="member">The member to order alongside</param>
+        /// <returns>The array ordered by the member or null if the array was not processed because the array 
+        /// did not contain matches of the known rules/tests or match classes,
+        /// or the member was not known.</returns>
+        IList ArrayOrderDescendingBy(IList array, string member);
+
+        /// <summary>
+        /// Groups the array alongside the values in the given member.
+        /// The array must be of match type, of a match of one of the actions in this actions object
+        /// or one of the match classes in this actions object.
+        /// </summary>
+        /// <param name="array">The array to group</param>
+        /// <param name="member">The member to group by</param>
+        /// <returns>The array grouped by the member or null if the array was not processed because the array 
+        /// did not contain matches of the known rules/tests or match classes,
+        /// or the member was not known.</returns>
+        IList ArrayGroupBy(IList array, string member);
+
+        /// <summary>
+        /// Keeps the array members with distinct values in the given member / removes duplicates.
+        /// The array must be of match type, of a match of one of the actions in this actions object,
+        /// or one of the match classes in this actions object.
+        /// </summary>
+        /// <param name="array">The array to remove duplicates from</param>
+        /// <param name="member">The member to check for duplicates</param>
+        /// <returns>The array freed from duplicates in the member or null if the array was not processed because the array 
+        /// did not contain matches of the known rules/tests or match classes,
+        /// or the member was not known.</returns>
+        IList ArrayKeepOneForEach(IList array, string member);
+
+        #endregion Array processing helpers
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 

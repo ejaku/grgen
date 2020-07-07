@@ -7,6 +7,8 @@
 
 // by Edgar Jakumeit, Moritz Kroll
 
+using System.Collections.Generic;
+
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
@@ -44,6 +46,11 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of all pattern variables;
         /// </summary>
         IPatternVariable[] Variables { get; }
+
+        /// <summary>
+        /// An enumerable over all pattern elements.
+        /// </summary>
+        IEnumerable<IPatternElement> PatternElements { get; }
 
         /// <summary>
         /// Returns the pattern element with the given name if it is available, otherwise null.

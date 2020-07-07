@@ -107,6 +107,7 @@ public class ModelGen extends CSharpBase
 				+ "\n"
 				+ "using System;\n"
 				+ "using System.Collections.Generic;\n"
+				+ "using System.Collections;\n"
 				+ "using System.IO;\n"
 				+ "using System.Diagnostics;\n"
 				+ "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
@@ -2636,20 +2637,33 @@ commonLoop:
 	void genAttributeArrayHelpersAndComparers(InheritanceType type)
 	{
 		for(Entity entity : type.getAllMembers()) {
-			if(entity.getType().isFilterableType()
-					|| entity.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
-					|| entity.getType().classify() == TypeClass.IS_OBJECT) {
-				if((entity.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
-						|| entity.getType().classify() == TypeClass.IS_OBJECT)
-						&& !(model.isEqualClassDefined() && model.isLowerClassDefined()))
-					continue;
-				if(entity.isConst())
-					continue;
+			if(hasArrayHelpers(entity))
 				genAttributeArrayHelpersAndComparers(type, entity);
-			}
 		}
 	}
 
+	private boolean hasArrayHelpers(Entity entity)
+	{
+		if(entity.getType().isFilterableType()
+				|| entity.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+				|| entity.getType().classify() == TypeClass.IS_OBJECT) {
+			if((entity.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+					|| entity.getType().classify() == TypeClass.IS_OBJECT)
+					&& !(model.isEqualClassDefined() && model.isLowerClassDefined()))
+				return false;
+			if(entity.isConst())
+				return false;
+			return true;
+		}
+		else
+			return false;
+	}
+
+	/**
+	 * Generates the orderAscendingBy/orderDescendingBy/groupBy/keepOneForEach member array functions
+	 * plus the Comparer classes (shared with the corresponding orderAscendingBy/orderDescendingBy filters)
+	 * and further array helper functions
+	 */
 	void genAttributeArrayHelpersAndComparers(InheritanceType type, Entity entity)
 	{
 		String typeName = formatElementInterfaceRef(type);
@@ -2659,18 +2673,7 @@ commonLoop:
 		String comparerClassName = "Comparer_" + type.getIdent().toString() + "_" + attributeName;
 		String reverseComparerClassName = "ReverseComparer_" + type.getIdent().toString() + "_" + attributeName;
 
-		InheritanceType nonAbstractTypeOrSubtype = null;
-		if(!type.isAbstract() && type.getExternalName() == null)
-			nonAbstractTypeOrSubtype = type;
-		else {
-			for(InheritanceType subtype : type.getAllSubTypes()) {
-				if(!subtype.isAbstract() && type.getExternalName() == null) {
-					nonAbstractTypeOrSubtype = subtype;
-					break;
-				}
-			}
-		}
-
+		InheritanceType nonAbstractTypeOrSubtype = getNonAbstractTypeOrSubtype(type);
 		if(nonAbstractTypeOrSubtype == null)
 			return; // can't generate comparer for abstract types that have no concrete subtype
 
@@ -2713,6 +2716,22 @@ commonLoop:
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
+	}
+
+	private static InheritanceType getNonAbstractTypeOrSubtype(InheritanceType type)
+	{
+		InheritanceType nonAbstractTypeOrSubtype = null;
+		if(!type.isAbstract() && type.getExternalName() == null)
+			nonAbstractTypeOrSubtype = type;
+		else {
+			for(InheritanceType subtype : type.getAllSubTypes()) {
+				if(!subtype.isAbstract() && type.getExternalName() == null) {
+					nonAbstractTypeOrSubtype = subtype;
+					break;
+				}
+			}
+		}
+		return nonAbstractTypeOrSubtype;
 	}
 
 	void genIndexOfByMethod(String typeName, String attributeName, String attributeTypeName)
@@ -3222,9 +3241,97 @@ commonLoop:
 
 		genGraphModelBodyAccessToExternalParts();
 
+		genArrayHelperDispatchers();
+		
 		sb.append("\n");
 		sb.appendFront("public override void FailAssertion() { Debug.Assert(false); }\n");
 		sb.appendFront("public override string MD5Hash { get { return \"" + be.unit.getTypeDigest() + "\"; } }\n");
+	}
+
+	private void genArrayHelperDispatchers()
+	{
+		sb.append("\n");
+
+		sb.appendFront("public override IList ArrayOrderAscendingBy(IList array, string member)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		genArrayHelperDispatcher("ArrayOrderAscendingBy", true);
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.append("\n");
+
+		sb.appendFront("public override IList ArrayOrderDescendingBy(IList array, string member)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		genArrayHelperDispatcher("ArrayOrderDescendingBy", true);
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.append("\n");
+
+		sb.appendFront("public override IList ArrayGroupBy(IList array, string member)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		genArrayHelperDispatcher("ArrayGroupBy", false);
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.append("\n");
+
+		sb.appendFront("public override IList ArrayKeepOneForEach(IList array, string member)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		genArrayHelperDispatcher("ArrayKeepOneForEachBy", false);
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
+	private void genArrayHelperDispatcher(String name, boolean requiresOrderable)
+	{
+		sb.appendFront("if(array.Count == 0)\n");
+		sb.appendFrontIndented("return array;\n");
+		sb.appendFront("if(!(array[0] is GRGEN_LIBGR.IGraphElement))\n");
+		sb.appendFrontIndented("return null;\n");
+		sb.appendFront("GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];\n");
+		sb.appendFront("switch(elem.Type.PackagePrefixedName)\n");
+		sb.appendFront("{\n");
+		for(InheritanceType type : model.getAllNodeAndEdgeTypes()) {
+			if(getNonAbstractTypeOrSubtype(type) == null)
+				continue;
+			genArrayHelperByTypeDispatcher(type, name, requiresOrderable);
+		}
+		sb.appendFront("default: return null;\n");
+		sb.appendFront("}\n");
+	}
+
+	private void genArrayHelperByTypeDispatcher(InheritanceType type, String name, boolean requiresOrderable)
+	{
+		sb.appendFront("case \"" + getPackagePrefixDoubleColon(type) + formatIdentifiable(type) + "\":\n");
+		sb.indent();
+		sb.appendFront("switch(member)\n");
+		sb.appendFront("{\n");
+		for(Entity entity : type.getAllMembers()) {
+			if(!hasArrayHelpers(entity))
+				continue;
+			if(requiresOrderable && !entity.getType().isOrderableType())
+				continue;
+			genArrayHelperByMemberDispatcher(type, entity, name);
+		}
+		sb.appendFront("default:\n");
+		sb.appendFrontIndented("return null;\n");
+		sb.appendFront("}\n");
+		sb.unindent();
+	}
+
+	private void genArrayHelperByMemberDispatcher(InheritanceType type, Entity entity, String functionName)
+	{
+		String typeName = formatType(type);
+		String attributeName = formatIdentifiable(entity);
+		String arrayHelperClassName = getPackagePrefixDot(type) + "ArrayHelper_" + type.getIdent().toString() + "_" + attributeName;
+		sb.appendFront("case \"" + attributeName + "\":\n");
+		sb.appendFrontIndented("return " + arrayHelperClassName
+				+ "." + functionName + "((List<" + typeName + ">)array);\n");
 	}
 
 	private void genGraphModelBodyAccessToExternalParts()

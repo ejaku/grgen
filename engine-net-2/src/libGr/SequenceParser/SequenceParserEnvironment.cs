@@ -1076,7 +1076,31 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
                 return new SequenceExpressionArrayExtract(targetExpr, memberOrAttributeName);
             }
-            throw new ParseException("Unknown array attribute access function method name: \"" + functionMethodName + "\"! (available is extract)");
+            else if(functionMethodName == "orderAscendingBy")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayOrderAscendingBy(targetExpr, memberOrAttributeName);
+            }
+            else if(functionMethodName == "orderDescendingBy")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayOrderDescendingBy(targetExpr, memberOrAttributeName);
+            }
+            else if(functionMethodName == "groupBy")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayGroupBy(targetExpr, memberOrAttributeName);
+            }
+            else if(functionMethodName == "keepOneForEach")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayKeepOneForEachBy(targetExpr, memberOrAttributeName);
+            }
+            throw new ParseException("Unknown array attribute access function method name: \"" + functionMethodName + "\"! (available are extract,orderAscendingBy,orderDescendingBy,groupBy,keepOneForEach)");
         }
 
         abstract public bool IsFunctionName(String functionName, String package);

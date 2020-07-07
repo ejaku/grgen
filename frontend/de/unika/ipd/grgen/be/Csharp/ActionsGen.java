@@ -1381,6 +1381,7 @@ public class ActionsGen extends CSharpBase
 			}
 		}
 
+		sb.appendFront("\n");
 		sb.appendFront("public partial class ArrayHelper\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1556,6 +1557,7 @@ public class ActionsGen extends CSharpBase
 			}
 		}
 
+		sb.appendFront("\n");
 		sb.appendFront("public partial class ArrayHelper\n");
 		sb.appendFront("{\n");
 		sb.indent();

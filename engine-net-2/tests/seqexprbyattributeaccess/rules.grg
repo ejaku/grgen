@@ -1,0 +1,127 @@
+#using "model.gm"
+
+rule init
+{
+	modify {
+		n0:N@(i = 0);
+		
+		n1:N@(i = 1) --> n1;
+		
+		n2:N@(i = 2) --> n2 --> n2;
+		
+		n3:N@(i = 3) --> n3 --> n3 --> n3;
+		
+		n2b:N@(i = 2) --> n2b --> n2b;
+		
+		n3b:N@(i = 3) --> n3b --> n3b --> n3b;
+	}
+}
+
+test t
+{
+	n:N;
+---
+	def var i:int = incoming(n).size();
+}
+
+match class mc
+{
+	n:N;
+	def var i:int;
+}
+
+test tmc implements mc
+{
+	n:N;
+---
+	def var i:int = incoming(n).size();
+}
+
+sequence printAscendingBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?t].orderAscendingBy<i>(), "\n"); }
+}
+
+sequence mc_printAscendingBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?[tmc]\<class mc>].orderAscendingBy<i>(), "\n"); }
+}
+
+sequence node_printAscendingBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?t].extract<n>().orderAscendingBy<i>(), "\n"); }
+}
+
+sequence printDescendingBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?t].orderDescendingBy<i>(), "\n"); }
+}
+
+sequence mc_printDescendingBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?[tmc]\<class mc>].orderDescendingBy<i>(), "\n"); }
+}
+
+sequence node_printDescendingBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?t].extract<n>().orderDescendingBy<i>(), "\n"); }
+}
+
+sequence printGroupBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?t].groupBy<i>(), "\n"); }
+}
+
+sequence mc_printGroupBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?[tmc]\<class mc>].groupBy<i>(), "\n"); }
+}
+
+sequence node_printGroupBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?t].extract<n>().groupBy<i>(), "\n"); }
+}
+
+sequence printKeepOneForEachBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?t].keepOneForEach<i>(), "\n"); }
+}
+
+sequence mc_printKeepOneForEachBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?[tmc]\<class mc>].keepOneForEach<i>(), "\n"); }
+}
+
+sequence node_printKeepOneForEachBy
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?t].extract<n>().keepOneForEach<i>(), "\n"); }
+}
+
+function toString(ref matchesArray:array<match<t>>) : string
+{
+	def var out:string = "";
+	def var first:boolean = true;
+	for(m:match<t> in matchesArray)
+	{
+		if(first) {
+			first = false;
+		} else {
+			out = out + ",";
+		}
+		out = out + "n:" + nameof(m.n);
+		out = out + "i:" + m.i;
+	}
+	return(out);
+}

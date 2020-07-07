@@ -76,6 +76,28 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// An enumerable over all pattern elements.
+        /// </summary>
+        public IEnumerable<IPatternElement> PatternElements
+        {
+            get
+            {
+                for(int i = 0; i < nodes.Length; ++i)
+                {
+                    yield return nodes[i];
+                }
+                for(int i = 0; i < edges.Length; ++i)
+                {
+                    yield return edges[i];
+                }
+                for(int i = 0; i < variables.Length; ++i)
+                {
+                    yield return variables[i];
+                }
+            }
+        }
+
+        /// <summary>
         /// Returns the pattern element with the given name if it is available, otherwise null.
         /// </summary>
         public IPatternElement GetPatternElement(string name)

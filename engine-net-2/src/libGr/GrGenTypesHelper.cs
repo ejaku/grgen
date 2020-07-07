@@ -116,22 +116,22 @@ namespace de.unika.ipd.grGen.libGr
                     return package + "::" + type.Substring(9); // remove "EdgeType_"
             }
 
-            if(typeName.StartsWith("IMatch_"))
+            if(typeName.StartsWith("IMatch_") || typeName.StartsWith("Match_"))
             {
-                String potentialRuleName = typeName.Substring(7);
+                String potentialRuleName = typeName.StartsWith("IMatch_") ? typeName.Substring(7) : typeName.Substring(6); // remove "(I)Match_"
                 if(fullTypeName.Contains(".Rule_" + potentialRuleName))
                 {
                     if(package == null)
-                        return "match<" + potentialRuleName + ">"; // remove "IMatch_"
+                        return "match<" + potentialRuleName + ">";
                     else
-                        return "match<" + package + "::" + potentialRuleName + ">"; // remove "IMatch_"
+                        return "match<" + package + "::" + potentialRuleName + ">";
                 }
                 else
                 {
                     if(package == null)
-                        return "match<class " + potentialRuleName + ">"; // remove "IMatch_"
+                        return "match<class " + potentialRuleName + ">";
                     else
-                        return "match<class " + package + "::" + potentialRuleName + ">"; // remove "IMatch_"
+                        return "match<class " + package + "::" + potentialRuleName + ">";
                 }
             }
             if(typeName == "IMatch")

@@ -118,7 +118,7 @@ sequence printQuarantineArray
 {
 	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
 		keepOneAccumulate([?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\<class QuarantineScore>])
-			/*.orderDescendingBy<score>()*/, "\n"); }
+			.orderDescendingBy<score>(), "\n"); }
 }
 
 function keepOneAccumulate(ref matchesSameCompany:array<match<class QuarantineScore>>) : array<match<class QuarantineScore>>

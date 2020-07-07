@@ -1,0 +1,14 @@
+new graph seqexprbyattributeaccess\rules.grg
+
+exec init
+
+eval [?t].orderAscendingBy<i>()
+exec printAscendingBy
+
+eval [?[tmc]\<class mc>].orderAscendingBy<i>()
+exec mc_printAscendingBy
+
+eval [?t].extract<n>().orderAscendingBy<i>()
+exec node_printAscendingBy
+
+quit

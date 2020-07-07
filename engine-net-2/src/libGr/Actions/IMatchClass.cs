@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -50,9 +51,14 @@ namespace de.unika.ipd.grGen.libGr
         IPatternEdge[] Edges { get; }
 
         /// <summary>
-        /// An array of all pattern variables;
+        /// An array of all pattern variables.
         /// </summary>
         IPatternVariable[] Variables { get; }
+
+        /// <summary>
+        /// An enumerable over all pattern elements.
+        /// </summary>
+        IEnumerable<IPatternElement> PatternElements { get; }
 
         /// <summary>
         /// Returns the pattern element with the given name if it is available, otherwise null.
@@ -94,7 +100,25 @@ namespace de.unika.ipd.grGen.libGr
         public IPatternNode[] Nodes { get { return nodes; } }
         public IPatternEdge[] Edges { get { return edges; } }
         public IPatternVariable[] Variables { get { return variables; } }
-        public IFilter[] Filters { get { return filters; } }
+
+        public IEnumerable<IPatternElement> PatternElements
+        {
+            get
+            {
+                for(int i = 0; i < nodes.Length; ++i)
+                {
+                    yield return nodes[i];
+                }
+                for(int i = 0; i < edges.Length; ++i)
+                {
+                    yield return edges[i];
+                }
+                for(int i = 0; i < variables.Length; ++i)
+                {
+                    yield return variables[i];
+                }
+            }
+        }
 
         /// <summary>
         /// Returns the pattern element with the given name if it is available, otherwise null.
@@ -118,6 +142,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             return null;
         }
+
+        public IFilter[] Filters { get { return filters; } }
 
         /// <summary>
         /// Returns the (package prefixed) filter if it is available, otherwise null

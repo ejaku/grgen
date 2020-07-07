@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
@@ -275,6 +276,15 @@ namespace de.unika.ipd.grGen.libGr
 
         public abstract IDictionary<String, String> CustomCommandsAndDescriptions { get; }
         public abstract void Custom(params object[] args);
+
+        #region Array processing helpers
+
+        public abstract IList ArrayOrderAscendingBy(IList array, string member);
+        public abstract IList ArrayOrderDescendingBy(IList array, string member);
+        public abstract IList ArrayGroupBy(IList array, string member);
+        public abstract IList ArrayKeepOneForEach(IList array, string member);
+
+        #endregion Array processing helpers
 
         public abstract bool LazyNIC { get; }
         public abstract bool InlineIndependents { get; }

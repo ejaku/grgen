@@ -1,0 +1,14 @@
+new graph seqexprbyattributeaccess\rules.grg
+
+exec init
+
+eval [?t].groupBy<i>()
+exec printGroupBy
+
+eval [?[tmc]\<class mc>].groupBy<i>()
+exec mc_printGroupBy
+
+eval [?t].extract<n>().groupBy<i>()
+exec node_printGroupBy
+
+quit

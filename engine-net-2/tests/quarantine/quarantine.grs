@@ -18,8 +18,8 @@ eval [?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]
 		\QuarantineScore.keepOneForEach<person>Accumulate<score>By<sum>\
 		\QuarantineScore.orderDescendingBy<score>\<class QuarantineScore>]
 
-eval keepOneAccumulate([?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\<class QuarantineScore>])
-#		.orderDescendingBy<score>()
+eval keepOneAccumulate([?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\<class QuarantineScore>])\
+		.orderDescendingBy<score>()
 
 exec [[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\
 		\QuarantineScore.keepOneForEach<person>Accumulate<score>By<sum>\

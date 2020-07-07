@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using de.unika.ipd.grGen.libGr;
 using System.IO;
 
@@ -68,7 +69,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         #endregion Emitting and parsing of attributes of object or a user defined type
 
-
         #region Comparison of attributes of object or user defined type, external types in general
 
         public abstract ExternalType[] ExternalTypes { get; }
@@ -95,6 +95,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         #endregion Comparison of attributes of object or user defined type, external types in general
 
+        #region Array processing helpers
+
+        public abstract IList ArrayOrderAscendingBy(IList array, string member);
+        public abstract IList ArrayOrderDescendingBy(IList array, string member);
+        public abstract IList ArrayGroupBy(IList array, string member);
+        public abstract IList ArrayKeepOneForEach(IList array, string member);
+
+        #endregion Array processing helpers
 
         public abstract void FailAssertion();
         public abstract String MD5Hash { get; }

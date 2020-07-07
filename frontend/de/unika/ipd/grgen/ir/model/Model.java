@@ -29,6 +29,7 @@ import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.model.type.PackageType;
 import de.unika.ipd.grgen.ir.type.Type;
@@ -58,6 +59,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private int isoParallel;
 	private Collection<NodeType> allNodeTypes;
 	private Collection<EdgeType> allEdgeTypes;
+	private Collection<InheritanceType> allNodeAndEdgeTypes;
 
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
@@ -196,6 +198,17 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 			this.allEdgeTypes = Collections.unmodifiableCollection(allEdgeTypes);
 		}
 		return allEdgeTypes;
+	}
+	
+	public Collection<InheritanceType> getAllNodeAndEdgeTypes()
+	{
+		if(allNodeAndEdgeTypes == null) {
+			Collection<InheritanceType> allNodeAndEdgeTypes = new ArrayList<InheritanceType>();
+			allNodeAndEdgeTypes.addAll(getAllNodeTypes());
+			allNodeAndEdgeTypes.addAll(getAllEdgeTypes());
+			this.allNodeAndEdgeTypes = Collections.unmodifiableCollection(allNodeAndEdgeTypes);
+		}
+		return allNodeAndEdgeTypes;
 	}
 
 	@Override

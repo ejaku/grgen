@@ -1166,12 +1166,226 @@ namespace de.unika.ipd.grGen.lgsp
             endSource.AppendFront("public override string StatisticsPath { get { return " + (statisticsPath != null ? "@\"" + statisticsPath + "\"" : "null") + "; } }\n");
             endSource.AppendFront("public override bool LazyNIC { get { return " + (lazyNIC ? "true" : "false") + "; } }\n");
             endSource.AppendFront("public override bool InlineIndependents { get { return " + (inlineIndependents ? "true" : "false") + "; } }\n");
-            endSource.AppendFront("public override bool Profile { get { return " + (profile ? "true" : "false") + "; } }\n\n");
+            endSource.AppendFront("public override bool Profile { get { return " + (profile ? "true" : "false") + "; } }\n");
+
+            GenerateArrayHelperDispatchers(endSource, ruleAndMatchingPatterns);
+
             endSource.AppendFront("public override void FailAssertion() { Debug.Assert(false); }\n");
             endSource.AppendFront("public override string ModelMD5Hash { get { return \"" + model.MD5Hash + "\"; } }\n");
             endSource.Unindent();
             endSource.AppendFront("}\n");
             return endSource;
+        }
+
+        private void GenerateArrayHelperDispatchers(SourceBuilder sb, LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns)
+        {
+            sb.Append("\n");
+
+            sb.AppendFront("public override IList ArrayOrderAscendingBy(IList array, string member)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            GenerateArrayHelperDispatcher(sb, "orderAscendingBy", ruleAndMatchingPatterns, true);
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.Append("\n");
+
+            sb.AppendFront("public override IList ArrayOrderDescendingBy(IList array, string member)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            GenerateArrayHelperDispatcher(sb, "orderDescendingBy", ruleAndMatchingPatterns, true);
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.Append("\n");
+
+            sb.AppendFront("public override IList ArrayGroupBy(IList array, string member)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            GenerateArrayHelperDispatcher(sb, "groupBy", ruleAndMatchingPatterns, false);
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.Append("\n");
+
+            sb.AppendFront("public override IList ArrayKeepOneForEach(IList array, string member)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            GenerateArrayHelperDispatcher(sb, "keepOneForEachBy", ruleAndMatchingPatterns, false);
+            sb.Unindent();
+            sb.AppendFront("}\n");
+        }
+
+        private void GenerateArrayHelperDispatcher(SourceBuilder sb, String function,
+            LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, bool requiresOrderable)
+        {
+            sb.AppendFront("if(array.Count == 0)\n");
+            sb.AppendFrontIndented("return array;\n");
+            sb.AppendFront("string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());\n");
+            sb.AppendFront("string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);\n");
+            sb.AppendFront("if(!arrayValueType.StartsWith(\"match<\"))\n");
+            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFront("if(array[0] == null)\n");
+            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFront("if(arrayValueType == \"match<>\")\n");
+            sb.AppendFrontIndented("arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());\n");
+            sb.AppendFront("if(arrayValueType.StartsWith(\"match<class \"))\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))\n");
+            sb.AppendFront("{\n");
+            foreach(MatchClassInfo matchClass in ruleAndMatchingPatterns.MatchClasses)
+            {
+                GenerateArrayHelperByTypeDispatcher(sb, function, matchClass, requiresOrderable);
+            }
+            sb.AppendFront("default:\n");
+            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.AppendFront("else\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))\n");
+            sb.AppendFront("{\n");
+            foreach(LGSPRulePattern rule in ruleAndMatchingPatterns.Rules)
+            {
+                GenerateArrayHelperByTypeDispatcher(sb, function, rule, null, requiresOrderable);
+                /*foreach(Iterated iterated in rule.patternGraph.iterateds)
+                {
+                    GenerateArrayHelperByTypeDispatcher(sb, function, rule, iterated, requiresOrderable);
+                }*/
+            }
+            sb.AppendFront("default:\n");
+            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+        }
+
+        private void GenerateArrayHelperByTypeDispatcher(SourceBuilder sb, String function,
+            MatchClassInfo matchClass, bool requiresOrderable)
+        {
+            sb.AppendFrontFormat("case \"{0}\":\n", matchClass.PackagePrefixedName);
+            sb.Indent();
+            sb.AppendFront("switch(member)\n");
+            sb.AppendFront("{\n");
+            foreach(IPatternElement member in matchClass.PatternElements)
+            {
+                if(requiresOrderable && !isOfOrderableType(member))
+                    continue;
+                if(!isOfFilterableType(member))
+                    continue;
+                GenerateArrayHelperByMemberDispatcher(sb, function, matchClass, member);
+            }
+            sb.AppendFront("default:\n");
+            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFront("}\n");
+            sb.Unindent();
+        }
+
+        private void GenerateArrayHelperByMemberDispatcher(SourceBuilder sb, String function,
+            MatchClassInfo matchClass, IPatternElement member)
+        {
+            sb.AppendFrontFormat("case \"{0}\":\n", member.UnprefixedName);
+            String packagePrefix = matchClass.Package != null ? matchClass.Package + "." : "";
+            String arrayHelperFunctionName = "Array_" + matchClass.Name + "_" + function + "_" + member.UnprefixedName;
+            sb.AppendFrontIndentedFormat("return {0}ArrayHelper.{1}({2}.ConvertAsNeeded(array));\n",
+                packagePrefix, arrayHelperFunctionName,
+                TypesHelper.MatchClassInfoForMatchClassType("match<class " + matchClass.PackagePrefixedName + ">"));
+        }
+
+        private void GenerateArrayHelperByTypeDispatcher(SourceBuilder sb, String function,
+            LGSPRulePattern rule, Iterated iterated, bool requiresOrderable)
+        {
+            String iteratedPostfixDot = iterated != null ? "." + iterated.IteratedPattern.Name : "";
+            sb.AppendFrontFormat("case \"{0}\":\n", rule.PatternGraph.PackagePrefixedName + iteratedPostfixDot);
+            sb.Indent();
+            sb.AppendFront("switch(member)\n");
+            sb.AppendFront("{\n");
+            if(iterated != null)
+            {
+                foreach(IPatternElement member in iterated.iteratedPattern.PatternElements)
+                {
+                    if(requiresOrderable && !isOfOrderableType(member))
+                        continue;
+                    if(!isOfFilterableType(member))
+                        continue;
+                    GenerateArrayHelperByMemberDispatcher(sb, function, rule, iterated, member);
+                }
+            }
+            else
+            {
+                foreach(IPatternElement member in rule.patternGraph.PatternElements)
+                {
+                    if(requiresOrderable && !isOfOrderableType(member))
+                        continue;
+                    if(!isOfFilterableType(member))
+                        continue;
+                    GenerateArrayHelperByMemberDispatcher(sb, function, rule, null, member);
+                }
+            }
+            sb.AppendFront("default:\n");
+            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFront("}\n");
+            sb.Unindent();
+        }
+
+        private void GenerateArrayHelperByMemberDispatcher(SourceBuilder sb, String function,
+            LGSPRulePattern rule, Iterated iterated, IPatternElement member)
+        {
+            String iteratedPostfixDot = iterated != null ? "." + iterated.IteratedPattern.Name : "";
+            sb.AppendFrontFormat("case \"{0}\":\n", member.UnprefixedName);
+            String packagePrefix = rule.patternGraph.Package != null ? rule.patternGraph.Package + "." : "";
+            String ruleClassName = "Rule_" + rule.PatternGraph.Name;
+            String iteratedPostfix = iterated != null ? "_" + iterated.IteratedPattern.Name : "";
+            String arrayHelperFunctionName = "Array_" + rule.PatternGraph.Name + iteratedPostfix + "_" + function + "_" + member.UnprefixedName;
+            sb.AppendFrontIndentedFormat("return {0}ArrayHelper.{1}({2}.ConvertAsNeeded(array));\n",
+                packagePrefix, arrayHelperFunctionName,
+                TypesHelper.RuleClassForMatchType("match<" + rule.PatternGraph.PackagePrefixedName+ ">"));
+        }
+
+        private bool isOfOrderableType(IPatternElement member)
+        {
+            if(member is IPatternNode)
+                return false;
+            else if(member is IPatternEdge)
+                return false;
+            else
+                return isOrderableType(((IPatternVariable)member).Type);
+        }
+
+        private bool isOrderableType(VarType type)
+        {
+            if(type.Equals(VarType.GetVarType(typeof(sbyte))))
+                return true;
+            if(type.Equals(VarType.GetVarType(typeof(short))))
+                return true;
+            if(type.Equals(VarType.GetVarType(typeof(int))))
+                return true;
+            if(type.Equals(VarType.GetVarType(typeof(long))))
+                return true;
+            if(type.Equals(VarType.GetVarType(typeof(float))))
+                return true;
+            if(type.Equals(VarType.GetVarType(typeof(double))))
+                return true;
+            if(type.Equals(VarType.GetVarType(typeof(string))))
+                return true;
+            if(type.Equals(VarType.GetVarType(typeof(bool))))
+                return true;
+            if(type.Type.IsEnum)
+                return true;
+            return false;
+        }
+
+        private bool isOfFilterableType(IPatternElement member)
+        {
+            if(member is IPatternNode)
+                return true;
+            else if(member is IPatternEdge)
+                return true;
+            else
+                return isOrderableType(((IPatternVariable)member).Type);
         }
 
         private ErrorType GenerateModelAndIntermediateActions(CompileConfiguration cc)
