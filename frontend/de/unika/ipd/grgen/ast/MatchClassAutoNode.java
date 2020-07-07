@@ -181,7 +181,7 @@ public class MatchClassAutoNode extends BaseNode
 									entitiesToTypes, connections, patternGraph);
 							result &= isTypeMatching(edge, entitiesToTypes);
 						}
-					}					
+					}
 				} else {
 					SingleNodeConnNode singleNode = (SingleNodeConnNode)cc;
 					NodeDeclNode node = singleNode.getNode();
@@ -196,23 +196,7 @@ public class MatchClassAutoNode extends BaseNode
 			}
 			
 			for(BaseNode param : lhsPattern.params.getChildren()) {
-				if(param instanceof ConnectionNode) {
-					ConnectionNode connection = (ConnectionNode)param;
-					EdgeDeclNode edge = connection.getEdge();
-					String edgeName = edge.getIdentNode().getSymbol().getText();
-					if(edgeName.startsWith("$"))
-						continue;
-					if(!entitiesToTypes.containsKey(edge.getIdentNode().getSymbol().getText())) {
-						params.addChild(connection.cloneForAuto(patternGraph));
-						entitiesToTypes.put(edgeName, edge.getDeclType());
-					} else
-						result &= isTypeMatching(edge, entitiesToTypes);
-				} else if(param instanceof SingleNodeConnNode) {
-					SingleNodeConnNode singleNode = (SingleNodeConnNode)param;
-					NodeDeclNode node = singleNode.getNode();
-					result &= addIfNotYetAddedOrTypeCheckIfDuplicate(node, entitiesToTypes,
-							params, () -> singleNode.cloneForAuto(patternGraph));
-				} else if(param instanceof VarDeclNode) {
+				if(param instanceof VarDeclNode) {
 					VarDeclNode var = (VarDeclNode)param;
 					result &= addIfNotYetAddedOrTypeCheckIfDuplicate(var, entitiesToTypes,
 							params, () -> var.cloneForAuto(patternGraph));
