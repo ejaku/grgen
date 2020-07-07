@@ -1,0 +1,4 @@
+match class shared
+{
+	n:Node -e:Edge-> m:Node;
+}
