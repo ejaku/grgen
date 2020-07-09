@@ -255,11 +255,14 @@ String expressions combine string values by string operations, with integer numb
 
 \begin{rail}
   StringExpr: PrimaryExpr (MethodSelector)? | StringExpr '+' StringExpr | StringExpr 'in' StringExpr;
-  MethodSelector: '.' MethodName '(' (Variable*',') ')' ;
+  MethodSelector: '.' FunctionIdent '(' (Variable*',') ')' (MethodSelector)?;
 \end{rail}\ixnterm{StringExpr}\ixnterm{MethodSelector}
 The operator \texttt{+} concatenates two strings.
 The operator \texttt{in} returns \texttt{true} if the left string is contained in the right string (\texttt{false} otherwise).
-There are several operations on strings available in method call notation (MethodSelector), these are
+
+Several operations on strings -- and other types -- are available in method call notation.
+The methods given with the \emph{MethodSelector} may be chained (the function methods -- all string methods are function methods, but the container types introduced in Chapter~\ref{sec:builtingenerictypes} also offer procedure methods, those are statements and not expressions and cannot be chained).
+The available string methods are:
 
 \begin{description}
 \item[\texttt{.length()}] returns length of string, as \texttt{int}
@@ -329,99 +332,25 @@ The type expression \texttt{typeof(x)} stands for the type of the host graph ele
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Primary Expressions}\label{sec:primexpr}
 
-After we've seen the all the ways to combine expressions, finally we'll have a look at the atoms the expressions are built of.
+After we've seen all the ways to combine expressions, finally we'll have a look at the atoms the expressions are built of.
 
 \begin{rail}
-  PrimaryExpr: CastExpr
+  PrimaryExpr: Literal
+		| VarIdent
+		| '::' GlobalVarIdent
 		| MemberAccess
 		| FunctionCall
 		| IteratedQuery
-		| VarIdent
-		| '::' GlobalVarIdent
-		| 'nameof' '(' NodeOrEdge? ')'
-		| 'uniqueof' '(' NodeOrEdge? ')'
-		| 'random' '(' ( IntExpr )? ')'
+		| CastExpr
 		| '(' Expression ')';
-\end{rail}\ixnterm{PrimaryExpr}\ixkeyw{nameof}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
+\end{rail}\ixnterm{PrimaryExpr}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
 
-The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex} or \ref{sec:nameindex}) of the given graph element as \texttt{string}
-(graphs elements of pure \texttt{LGSPGraph}s bear no name, then the query fails, but normally you are using \texttt{LGSPNamedGraph}s).
-Besides nodes or edges, subgraphs may be given, then the name of the subgraph is returned.
-If no argument is given, the name of the graph (the current host graph) is returned.
-
-The \texttt{uniqueof} query returns the unique id (see \ref{sec:uniqueness}) of the given graph element as \texttt{int}
-(you only receive a unique id in case uniqueness was declared in the model).
-Besides nodes or edges, subgraphs may be given, then the unique id of the subgraph is returned.
-If no argument is given, the unique if of the graph (the current host graph) is returned.
-
-The \texttt{random} function returns a double random value in between 0.0 and 1.0 if called without an argument,
-or, if an integer argument value is given, an integer random value in between 0 and the value given, excluding the value itself.
-
-\begin{rail}
-  CastExpr: '(' PrimitiveType ')' PrimaryExpr;
-  MemberAccess: (NodeOrEdge '.' Ident);
-  FunctionCall: FunctionName '(' (() | Expr + ',') ')';
-\end{rail}\ixnterm{CastExpr}\ixnterm{MemberAccess}\ixnterm{FunctionCall}
-
-The cast expression returns the original value casted to the new prefixed type.
-The member access \texttt{n.a} returns the value of the attribute \texttt{a} of the graph element \texttt{n}.
-A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}), or a (internal) user-defined function (see \ref{sub:functions}), or one of the following built-in functions contained in the built-in package \texttt{Math} or in the built-in package \texttt{Time} (for more on packages see \ref{sub:packageaction}):
-
-\begin{rail}
-  IteratedQuery: '[''?' IteratedIdent ']'
-\end{rail}\ixnterm{IteratedQuery}
-
-The iterated query expression \texttt{[?it]} returns an \texttt{array} of \texttt{match<r.it>} 
-where \texttt{it} is the name of a named iterated block (cf. \ref{namednested}) and \texttt{r} the name of the rule that contains it.
-You may apply the \texttt{extract<member>} method and then the array accumulation methods on it to get a value for further processing (cf. \ref{sec:arrayexpr}).
-
-\begin{description}
-\item[\texttt{Math::min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
-\item[\texttt{Math::max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
-\item[\texttt{Math::abs(.)}] returns the absolute value of the argument, which must be of numeric type (i.e. \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
-\item[\texttt{Math::ceil(.)}] returns the ceiling of the argument, which must be of type \texttt{double}
-\item[\texttt{Math::floor(.)}] returns the floor of the argument, which must be of type \texttt{double}
-\item[\texttt{Math::round(.)}] returns the argument rounded, which must be of type \texttt{double}
-\item[\texttt{Math::truncate(.)}] returns the argument truncated, which must be of type \texttt{double}
-\item[\texttt{Math::sqr(.)}] returns the square of the first argument, it must be of type \texttt{double}
-\item[\texttt{Math::sqrt(.)}] returns the square root of the first argument, it must be of type \texttt{double}
-\item[\texttt{Math::pow(.,.)}] returns the first argument value to the power of the second value; both must be of type \texttt{double}
-\item[\texttt{Math::pow(.)}] returns $e$ to the power of the argument value, which must be of type \texttt{double}
-\item[\texttt{Math::log(.,.)}] returns the logarithm of the first argument value regarding the base given by the second value; both must be of type \texttt{double}
-\item[\texttt{Math::log(.,.)}] returns the logarithm of the argument value that must be of type \texttt{double} regarding the base $e$
-\item[\texttt{Math::sgn(.)}] returns the signum of the argument, which must be of type \texttt{double} ($-1$ if negative, $1$ if positive, $0$ if zero)
-\item[\texttt{Math::sin(.)}] returns the sine of the argument, which must be of type \texttt{double}
-\item[\texttt{Math::cos(.)}] returns the cosine of the argument, which must be of type \texttt{double}
-\item[\texttt{Math::tan(.)}] returns the tangent of the argument, which must be of type \texttt{double}
-\item[\texttt{Math::arcsin(.)}] returns the inverse of the sine for the argument, which must be of type \texttt{double}
-\item[\texttt{Math::arccos(.)}] returns the inverse of the cosine for the argument, which must be of type \texttt{double}
-\item[\texttt{Math::arctan(.)}] returns the inverse of the tangent for the argument, which must be of type \texttt{double}
-\item[\texttt{Math::pi()}] returns the constant $\pi$, of type \texttt{double}
-\item[\texttt{Math::e()}] returns the constant $e$, of type \texttt{double}
-\item[\texttt{Math::byteMin()}] returns the smallest number supported by type \texttt{byte}
-\item[\texttt{Math::byteMax()}] returns the largest number supported by type \texttt{byte}
-\item[\texttt{Math::shortMin()}] returns the smallest number supported by type \texttt{short}
-\item[\texttt{Math::shortMax()}] returns the largest number supported by type \texttt{short}
-\item[\texttt{Math::intMin()}] returns the smallest number supported by type \texttt{int}
-\item[\texttt{Math::intMax()}] returns the largest number supported by type \texttt{int}
-\item[\texttt{Math::longMin()}] returns the smallest number supported by type \texttt{long}
-\item[\texttt{Math::longMax()}] returns the largest number supported by type \texttt{long}
-\item[\texttt{Math::floatMin()}] returns the smallest number supported by type \texttt{float}
-\item[\texttt{Math::floatMax()}] returns the largest number supported by type \texttt{float}
-\item[\texttt{Math::doubleMin()}] returns the smallest number supported by type \texttt{double}
-\item[\texttt{Math::doubleMax()}] returns the largest number supported by type \texttt{double}
-\end{description}
-
-\begin{description}
-\item[\texttt{Time::now(.)}] returns the current UTC time as \texttt{long}, given as windows file time (i.e. 100ns ticks since 1601-01-01)
-\end{description}
+The \emph{Literal}s comprise the \emph{Constants} of basic type and the \emph{ContainerConstructors}, more exactly the \emph{SetConstructor}, the \emph{MapConstructor}, the \emph{ArrayConstructor} and the \emph{DequeConstructor}, cf. Chapter~\ref{cha:container}.
 
 \begin{rail}
   Literal: Constant | ContainerConstructor ;
   Constant: EnumLit | Number | HexNumber | FloatingNumber | QuotedText | BoolLit | NullLit;
-\end{rail}\ixnterm{Constant}\ixnterm{Literal}\label{literaldef}
-
-%\pagebreak %layout improvement
+\end{rail}\ixnterm{Literal}\ixnterm{Constant}\label{literaldef}
 
 The Constants are:
 \begin{description}
@@ -451,6 +380,98 @@ true // a bool literal
 null // the object literal
 \end{grgen}
 \end{example}
+
+\begin{rail}
+  MemberAccess: (NodeOrEdge '.' Ident);
+\end{rail}\ixnterm{MemberAccess}
+The member access \texttt{n.a} returns the value of the attribute \texttt{a} of the graph element \texttt{n}.
+A \emph{VarIdent} returns the value of the denoted variable, a \emph{GlobalVarIdent} \texttt{::x} returns the value of the graph-global variable \texttt{x}.
+
+\begin{rail}
+  FunctionCall: FunctionIdent '(' (() | Expr + ',') ')';
+\end{rail}\ixnterm{FunctionCall}
+A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}), or a (internal) user-defined function (see \ref{sub:functions}), or a built-in function.
+Available built-in functions are e.g. \texttt{nameof}, \texttt{uniqueof}, and \texttt{random}.
+
+The \texttt{nameof} function returns the name of the given graph element as \texttt{string}
+(persistent name, see example \ref{persistentex}, and Section~\ref{sec:nameindex} for an explanation of the name index; graphs elements of pure \texttt{LGSPGraph}s bear no name, then the query fails, but normally you are using \texttt{LGSPNamedGraph}s).
+Besides nodes or edges, subgraphs may be given, then the name of the subgraph is returned.
+If no argument is given, the name of the graph (the current host graph) is returned.
+
+The \texttt{uniqueof} function returns the unique id of the given graph element as \texttt{int}
+(see Section~\ref{sec:uniqueness} for an explanation of the uniqueness constraint/index; you only receive a unique id in case uniqueness was declared in the model).
+Besides nodes or edges, subgraphs may be given, then the unique id of the subgraph is returned.
+If no argument is given, the unique id of the graph (the current host graph) is returned.
+
+The \texttt{random} function returns a double random value in between 0.0 and 1.0 if called without an argument,
+or, if an integer argument value is given, an integer random value in between 0 and the given value, excluding the value itself.
+
+A function call may also employ a function from a package, the name \texttt{FunctionIdent} is then prefixed by the \texttt{Ident} of the package, separated by a double colon \texttt{::}.
+A user-defined function from a user-defined package may be called, or one of the following built-in functions contained in the built-in package \texttt{Math} or in the built-in package \texttt{Time} (for more on packages see \ref{sub:packageaction}; other built-in packages are \texttt{File} and \texttt{Transaction}, cf. Chapter~\ref{cha:graph}, as well as \texttt{Debug}, cf. Chapter~\ref{chapdebugger}, the latter two only contain procedures, though):
+
+\begin{description}
+\item[\texttt{Math::min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
+\item[\texttt{Math::max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
+\item[\texttt{Math::abs(.)}] returns the absolute value of the argument, which must be of numeric type (i.e. \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
+\item[\texttt{Math::ceil(.)}] returns the ceiling of the argument, which must be of type \texttt{double}
+\item[\texttt{Math::floor(.)}] returns the floor of the argument, which must be of type \texttt{double}
+\item[\texttt{Math::round(.)}] returns the argument rounded, which must be of type \texttt{double}
+\item[\texttt{Math::truncate(.)}] returns the argument truncated, which must be of type \texttt{double}
+\item[\texttt{Math::sqr(.)}] returns the square of the first argument, it must be of type \texttt{double}
+\item[\texttt{Math::sqrt(.)}] returns the square root of the first argument, it must be of type \texttt{double}
+\item[\texttt{Math::pow(.,.)}] returns the first argument value to the power of the second value; both must be of type \texttt{double}
+\item[\texttt{Math::pow(.)}] returns $e$ to the power of the argument value, which must be of type \texttt{double}
+\item[\texttt{Math::log(.,.)}] returns the logarithm of the first argument value regarding the base given by the second value; both must be of type \texttt{double}
+\item[\texttt{Math::log(.,.)}] returns the logarithm of the argument value that must be of type \texttt{double} regarding the base $e$
+\item[\texttt{Math::sgn(.)}] returns the signum of the argument, which must be of type \texttt{double} ($-1$ if negative, $1$ if positive, $0$ if zero)
+\item[\texttt{Math::sin(.)}] returns the sine of the argument, which must be of type \texttt{double}
+\item[\texttt{Math::cos(.)}] returns the cosine of the argument, which must be of type \texttt{double}
+\item[\texttt{Math::tan(.)}] returns the tangent of the argument, which must be of type \texttt{double}
+\item[\texttt{Math::arcsin(.)}] returns the inverse of the sine for the argument, which must be of type \texttt{double}
+\item[\texttt{Math::arccos(.)}] returns the inverse of the cosine for the argument, which must be of type \texttt{double}
+\item[\texttt{Math::arctan(.)}] returns the inverse of the tangent for the argument, which must be of type \texttt{double}
+\end{description}
+
+\noindent Further null-ary functions, i.e. constants are:
+
+\begin{description}
+\item[\texttt{Math::pi()}] returns the constant $\pi$, of type \texttt{double}
+\item[\texttt{Math::e()}] returns the constant $e$, of type \texttt{double}
+\item[\texttt{Math::byteMin()}] returns the smallest number supported by type \texttt{byte}
+\item[\texttt{Math::byteMax()}] returns the largest number supported by type \texttt{byte}
+\item[\texttt{Math::shortMin()}] returns the smallest number supported by type \texttt{short}
+\item[\texttt{Math::shortMax()}] returns the largest number supported by type \texttt{short}
+\item[\texttt{Math::intMin()}] returns the smallest number supported by type \texttt{int}
+\item[\texttt{Math::intMax()}] returns the largest number supported by type \texttt{int}
+\item[\texttt{Math::longMin()}] returns the smallest number supported by type \texttt{long}
+\item[\texttt{Math::longMax()}] returns the largest number supported by type \texttt{long}
+\item[\texttt{Math::floatMin()}] returns the smallest number supported by type \texttt{float}
+\item[\texttt{Math::floatMax()}] returns the largest number supported by type \texttt{float}
+\item[\texttt{Math::doubleMin()}] returns the smallest number supported by type \texttt{double}
+\item[\texttt{Math::doubleMax()}] returns the largest number supported by type \texttt{double}
+\end{description}
+
+\noindent Another null-ary but not constant function (an environment query) is:
+
+\begin{description}
+\item[\texttt{Time::now()}] returns the current UTC time as \texttt{long}, given as windows file time (i.e. 100ns ticks since 1601-01-01)
+\end{description}
+
+\begin{rail}
+  IteratedQuery: '[''?' IteratedIdent ']' | 'count' '(' IteratedIdent ')'
+\end{rail}\ixnterm{IteratedQuery}
+
+The \indexed{iterated query} expression \texttt{[?it]} returns an \texttt{array} of \texttt{match<r.it>} 
+where \texttt{it} is the name of a named iterated block (cf. \ref{namednested}) and \texttt{r} the name of the rule that contains it.
+You may apply the \texttt{extract<member>} method and then the array accumulation methods on it to get a value for further processing (cf. \ref{sec:arrayexpr}).
+Alternatively, you may directly obtain the \texttt{count} of iterated matches.
+
+\begin{rail}
+  CastExpr: '(' PrimitiveType ')' PrimaryExpr;
+\end{rail}\ixnterm{CastExpr}
+
+The cast expression returns a value casted to a new type, it is specified by a type in parenthesis before the expression computing the original value.
+Another primary expression is an arbitrary expression enclosed in parenthesis.
 
 %\pagebreak
 

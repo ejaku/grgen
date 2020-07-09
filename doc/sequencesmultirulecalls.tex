@@ -117,17 +117,20 @@ the result of the sequence is the result of the chosen subsequence.
 \begin{rail}
   MatchClass: 'match' 'class' IdentDecl \\
     (lbrace (() | MatchClassDeclarations+) rbrace FiltersDecl);
-\end{rail}\ixkeyw{match}\ixkeyw{class}
-
-\begin{rail}
   MatchClassDeclaration: GraphletNode ';' 
 	| GraphletEdge ';' 
 	| ('var'|'ref') IdentDecl ':' VarType
 	| DefVariableDecl;
-\end{rail}\ixnterm{MatchClassDeclarations}
+  MatchClassConstructor: 'match' '<' 'class' MatchClassIdent '>' '(' ')' ;
+\end{rail}\ixkeyw{match}\ixkeyw{class}\ixnterm{MatchClassDeclaration}\ixnterm{MatchClassConstructor}
 
 A match class allows to define a pattern interface that can be implemented by several actions (acting as a kind of view).
 It consists of def node, def edge, and def variable declarations (the primary target of filters), but also normal node, edge, and variable declarations may be given.
+In contrast to a real pattern, only unlinked entities may be given in this "virtual" pattern.
+Normally, a match class instance is created by a test or rule that \texttt{implements} it.
+Alternatively, you may create a match of a match class with a match class constructor call
+\texttt{match<class T>()} (the members are initialized with the default value of their type).
+
 Filter functions can then be defined for a match class (instead of a rule as normal), with syntax \texttt{filter f<class mc>}, see Chapter~\ref{sub:filters}.
 Alternatively, auto-generated filters may be declared at a match class --- the same that can be declared for a rule/test (with exception of \texttt{auto}, also cf. Chapter~\ref{sub:filters}).
 Together with the auto-supplied filters, they allow to filter the matches of a multi rule all call or multi rule backtracking construct, i.e. one filter can be applied on the matches of different rules.
@@ -189,6 +192,16 @@ The rules from Example~\ref{exmatchclass} can be applied with e.g.\\
 \verb#[[r,s]\Score.orderDescendingBy<score>\Score.keepFirst(3)]#.
 \end{example}
 
+To define the match class type of the result array of a multi rule query, a match class specifier must be given.
+The example below is a reduced version of Example~\ref{exkeeponeforeachaccumulateby} -- a multi rule query may be used with a single test/rule and a match class specifier to obtain an array of targeted type.
+
+\begin{example}
+	\begin{grshell}
+	eval keepOneAccumulate([?[quarantineByRiskLodging]\<class QuarantineScore>]).orderDescendingBy<score>()
+	\end{grshell}
+\end{example}
+
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick Reference Table}
@@ -204,7 +217,7 @@ Table~\ref{seqmultitab} lists the multi rule applications and some advanced sing
 \texttt{count[r]=>v} & Rewrites every pattern match produced by \texttt{r}, and writes the count of the matches found to \texttt{v}.\\
 \texttt{for\{v:match<r> in [?r]; s\}} & Execute \texttt{s} for every match \texttt{v} from \texttt{r}. One \texttt{s} failing pins the execution result to false.\\
 \hline
-\texttt{[[r1,r2]\textbackslash mc.f]} & Rewrites every match produced by \texttt{r1} and \texttt{r2} that was left by the filter \texttt{f} of match class \texttt{mc}, in the order left behind by the match class filter.\\
+\texttt{[[r1,r2]\textbackslash mc.f\textbackslash<mc>]} & Rewrites every match produced by \texttt{r1} and \texttt{r2} that was left by the filter \texttt{f} of match class \texttt{mc}, in the order left behind by the match class filter.\\
 \texttt{[[for\{r1;s\},for\{r2;t\}]\textbackslash mc.f]} & For every match of \texttt{r1}: Executes \texttt{r1} then \texttt{s}. For every match of \texttt{r2}: Executes \texttt{r2} then \texttt{s}. For the matches left by the filter \texttt{f} of match class \texttt{mc}, in the order left behind by the match class filter. One \texttt{s} or \texttt{t} failing pins the execution result to false.\\
 \hline
 \texttt{\{<r1,[r2],\$[r3]>\}} & Tries to match all contained rules, then rewrites all of the rules that matched. True if at least one matched.\\

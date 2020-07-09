@@ -59,10 +59,10 @@ You can find out about the available \emph{Expression}s in chapter \ref{cha:type
 
 \begin{rail} 
   LocalVariableDecl: 
-	'def' Name ':' Type ('=' Expression)? ';' |
-	'def' '-' Name ':' Type '->' ('=' Expression)? ';' |
-	'def' 'var' Name ':' Type ('=' Expression)? ';' |
-	'def' 'ref' Name ':' Type ('=' Expression)? ';'
+	'def' IdentDecl ':' Type ('=' Expression)? ';' |
+	'def' '-' IdentDecl ':' Type '->' ('=' Expression)? ';' |
+	'def' 'var' IdentDecl ':' Type ('=' Expression)? ';' |
+	'def' 'ref' IdentDecl ':' Type ('=' Expression)? ';'
 	;
 \end{rail}\ixnterm{LocalVariableDecl}
 
@@ -212,7 +212,7 @@ On the other hand do we consider pure functional programming not a help but a bu
 
 \begin{rail} 
   FunctionDefinition: 
-	'function' Name '(' Parameters ')' ':' ReturnType\\
+	'function' FunctionIdentDecl '(' Parameters ')' ':' ReturnType\\
 	lbrace (Statement+) rbrace;
   Parameters: (Parameter * ',');
   Parameter: IdentDecl ':' NodeType |
@@ -229,7 +229,7 @@ The type of the one return value must be compatible to the return type specified
 \end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
 
 \begin{rail}
-  FunctionCall: Name '(' (Expression * ',') ')' ;
+  FunctionCall: FunctionIdent '(' (Expression * ',') ')' ;
 \end{rail}\ixnterm{FunctionCall}
 
 \begin{example}
@@ -443,7 +443,7 @@ so in a procedure definition you are free to call other procedures (self-defined
 
 \begin{rail} 
   ProcedureDefinition: 
-	'procedure' Name '(' Parameters ')' ReturnTypes \\
+	'procedure' ProcedureIdentDecl '(' Parameters ')' ReturnTypes \\
 	lbrace (Statement+) rbrace;
   ReturnTypes: (':' '(' (ReturnType + ',') ')' )?;
 \end{rail}\ixnterm{ProcedureDefinition}\ixnterm{Parameter}\ixkeyw{procedure}\ixkeyw{var}\ixkeyw{ref}
@@ -458,7 +458,7 @@ It must be always ended with a return statement; the type of the return values m
 \end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
 
 \begin{rail}
-  ProcedureCall: (OutputAssignment)? Name '(' (Expression * ',') ')' ;
+  ProcedureCall: (OutputAssignment)? ProcedureIdent '(' (Expression * ',') ')' ;
   OutputAssignment: '(' (AssignmentTarget + ',') ')' '=' ;
 \end{rail}\ixnterm{ProcedureCall}\ixnterm{OutputAssignment}\ixnterm{AssignmentTarget}
 

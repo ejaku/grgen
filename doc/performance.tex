@@ -499,8 +499,8 @@ This can be only done in an \texttt{eval}-block, or a \texttt{procedure}, with a
 
 \begin{rail}
   NameofAssignment:
-    nameof '(' Element ')' '=' Expression;
-\end{rail}\ixnterm{NameofAssignment}
+    'nameof' '(' Element ')' '=' Expression;
+\end{rail}\ixnterm{NameofAssignment}\ixkeyw{nameof}
 
 When you do so, it is your responsibility to ensure that the name does not already exist, otherwise the assignment will cause a runtime exception.
 The same syntax may be used to assign the name of a (sub)graph, a missing element amounts to the host graph.

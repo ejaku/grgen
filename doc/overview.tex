@@ -56,7 +56,7 @@ All the programs and libraries of \GrG\ are open source licensed under \indexed{
 Notice that the \yComp\ graph viewer is not a part of \GrG ; \yComp\ is closed source and ships with its own license granted by \yFiles\ for academic use --
 this means above all that you are not allowed to ship it with a release of your own commercial software, in contrast to the \GrG\ libraries.
 
-Executing a generated graph rewrite system requires .NET 2.0 or later; compiling and debugging a graph rewrite system in addition requires JAVA 1.5 or later. 
+Executing a generated graph rewrite system requires .NET 4.0 or later (or mono 3.0); compiling and debugging a graph rewrite system in addition requires JAVA 1.8 or later. 
 You find the tools in the \texttt{bin} subdirectory of your \GrG\ installation.
 
 %-----------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
       \texttt{-r} & Link the assembly \emph{assembly-path} as reference to the compilation result.\\
       \texttt{-o} & Store generated assemblies in \emph{output-dir}.
     \end{tabularx}
-  \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above). Java Runtime Environment 1.5 (or above).
+  \item[Requires] .NET 4.0 (or above) or Mono 3.0 (or above). Java Runtime Environment 1.8 (or above).
 \end{description}
 
 \begin{note}
@@ -147,7 +147,7 @@ For further information about the \GrShell\ language see Chapter~\ref{chapgrshel
       \texttt{-SI} & Show Includes prints out to the console when includes are entered and left.\\
       \texttt{-C} & Execute the quoted \GrShell\ commands immediately (before the first script file). If you want the quoted part on a single line (so without line breaks), you have to use a double semicolon \texttt{;;} to separate commands. Take care that an exec inside such a command line needs to be exited with \indexed{\texttt{\#\S}} then (to open and immediately close a shell comment, needed as exec terminator in face of missing newline termination).
     \end{tabularx}
-  \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above).
+  \item[Requires] .NET 4.0 (or above) or Mono 3.0 (or above).
 \end{description}
 
 \begin{note}

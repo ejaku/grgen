@@ -413,10 +413,10 @@ rule oneway {
 
 \begin{rail}
 AttributeInitializationList : railat '(' ((AttributeInitialization)+(',')) ')';
-AttributeInitialization : AttributeName '=' Expression | dollar '=' Expression;
+AttributeInitialization : AttributeIdent '=' Expression | dollar '=' Expression;
 \end{rail}\ixnterm{AttributeInitializationList}\ixnterm{AttributeInitialization}
 
-The initialization list is appended to the declaration with an at-Symbol, the dollar sign stands for the name of the element, whereas the other attributes of the type are simply given by their name. 
+The initialization list is appended to the declaration with an at-Symbol, the dollar sign stands for the name of the element, whereas the other attributes of the type are simply given by their name (i.e. \emph{Ident}ifier).
 The expression must be of the type of the attribute (and string in case of the name). 
 The initialization list is more convenient than the otherwise needed \texttt{eval} block, containing an assignment per line -- in fact it is syntactic sugar that is dissolved to \texttt{eval}-like assignments. 
 Please take into account that the names must be unique if you intend to set them from the rules.

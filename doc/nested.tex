@@ -303,7 +303,7 @@ For every pattern instance, the iterated/... yields only one match, even if in a
 
 \begin{rail}  
   AlternativePatterns: 
-    'alternative' lbrace ((CaseName lbrace NestedBody rbrace)+()) rbrace;
+    'alternative' lbrace ((CaseIdentDecl lbrace NestedBody rbrace)+()) rbrace;
 \end{rail}\ixkeyw{alternative}\ixnterm{AlternativePattern}
 
 With the alternative block you can specify several nested alternative patterns. One of them must get matched for the matching of the alternative (and thus its directly nesting pattern) to succeed, and only one of them is matched per match of the alternative / overall pattern.

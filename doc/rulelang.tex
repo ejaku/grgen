@@ -484,7 +484,7 @@ The semantics of the various pattern statements are given below:
 Keep in mind that using type constraints or the \texttt{typeof} operator might be helpful. See Section~\ref{typeexpressions} for further information.
 
 \begin{rail}
-  ReturnStatement: 'return' '(' ((Ident|Expression)+',') ')' ';' ;
+  ReturnStatement: 'return' '(' ((Expression)+',') ')' ';' ;
 \end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
 \indexmain{return value}Returned graph elements (given by their name) and value entities (given by an expression computing them) must appear in the same order as defined by the return types in the signature (see Section~\ref{ruledecls}, \texttt{ActionSignature}).
 Their types must be compatible to the return types specified.
@@ -573,7 +573,7 @@ In theory the transformation specification is done by defining the preservation 
   \label{rule:figrule}
 \end{figure}
 In \GrG\, the preservation morphism $r$ is defined implicitly by using \indexed{name}s both in pattern \indexed{graphlet}s and rewrite graphlets.
-Remember that to each of the graph elements a name is bound to, either user defined or internally defined. If such a name is used in a rewrite graphlet, the denoted graph element will be kept.
+Remember that a name is bound to each of the graph elements, either user defined or internally defined. If such a name is used in a rewrite graphlet, the denoted graph element will be kept.
 Otherwise the graph element will be deleted.
 By defining a name in a rewrite graphlet a corresponding graph element will be newly created.
 So in a rewrite pattern \indexed{anonymous} graph elements will always be created.
@@ -731,7 +731,7 @@ rule r
     eval { n.i = n.i + 1; }
   }
 }
-\end{grgen}
+\end{grgen}\label{examplebasicpatternmatching}
 
 \end{example}
 

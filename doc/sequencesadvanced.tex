@@ -10,7 +10,7 @@ with the \indexed{subsequences} and the backtracking double angles as the centra
   RewriteSequenceDefinition: 
     ('def' | 'sequence') RewriteSequenceSignature lbrace RewriteSequence rbrace;
   RewriteSequenceSignature: 
-    SequenceName ('(' ((InVariable ':' Type)*',') ')')? \\ (':' '(' ((OutVariable ':' Type)*',') ')')?
+    SequenceIdentDecl ('(' ((InVariable ':' Type)*',') ')')? \\ (':' '(' ((OutVariable ':' Type)*',') ')')?
 	;
 \end{rail}\ixnterm{RewriteSequenceDefinition}\ixnterm{RewriteSequenceSignature}
 

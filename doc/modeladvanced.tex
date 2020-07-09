@@ -51,10 +51,11 @@ and they must be side-effect free, which especially means that they are not allo
 \end{rail}\ixnterm{FunctionMethodDefinition}
 
 \begin{rail}
-  FunctionMethodCall: (Variable | Variable '.' Attribute) '.' Name '(' (Expression * ',') ')' ;
+  FunctionMethodCall: MethodTarget '.' FunctionIdent '(' (Expression * ',') ')' ;
 \end{rail}\ixnterm{FunctionMethodCall}
 
 A such defined function method may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations where an expression is required.
+In contrast to a regular function call with a method target prefix separated by a dot (defining the \texttt{this} value, obtained from a variable or an attribute, or in case of the function methods also a full expression).
 The built-in function methods listed in \ref{funcmethstab} are called with the same syntax.
 
 Inside the function methods, the special entity \texttt{this} is available.
@@ -159,11 +160,13 @@ so you are free to call other procedures -- but in contrast to global procedures
 \end{rail}\ixnterm{ProcedureMethodDefinition}
 
 \begin{rail}
-  ProcedureMethodCall: (OutputAssignment)? (Variable | Variable '.' Attribute) \\
-		'.' Name '(' (Expression * ',') ')' ;
-\end{rail}\ixnterm{ProcedureMethodCall}
+  ProcedureMethodCall: (OutputAssignment)? MethodTarget \\
+        '.' ProcedureIdent '(' (Expression * ',') ')' ;
+  MethodTarget: (Variable | Variable '.' Attribute) ;
+\end{rail}\ixnterm{ProcedureMethodCall}\ixnterm{MethodTarget}
 
 A such defined procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation (/computation) is required; or even from the sequence computations where a statement is required.
+In contrast to a regular procedure call with a method target prefix separated by a dot (defining the \texttt{this} value, obtained from a variable or an attribute).
 The built-in procedure methods listed in \ref{procmethstab} are called with the same syntax.
 
 Inside the procedure method, the special entity \texttt{this} is available.
@@ -306,7 +309,7 @@ Package definitions \emph{cannot} be nested.
 \end{rail}\ixnterm{PackageUsageModel}
 
 In every context where a node, edge, or enum type can be referenced,
-by noting down its declared identifier, 
+by noting down its declared \emph{Ident}ifier, 
 also a type from a package can be referenced,
 by noting down its package as a prefix.
 The package prefix may be omitted inside the package for other entities from the same package.
@@ -365,7 +368,7 @@ The packages \texttt{Math}, \texttt{File}, \texttt{Time}, \texttt{Transaction}, 
   PackageUsageActions: Ident '::' Ident;
 \end{rail}\ixnterm{PackageUsageActions}
 
-In every context where a rule, a test, a subpattern type, a filter function, a function, a procedure, or a sequence can be referenced, by noting down its declared identifier, 
+In every context where a rule, a test, a subpattern type, a filter function, a function, a procedure, or a sequence can be referenced, by noting down its declared \emph{Ident}ifier, 
 also an entity from a package can be referenced,
 by noting down its package as a prefix.
 The package prefix may be omitted inside the package for other entities from the same package -- package content comes before global content.

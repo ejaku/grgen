@@ -52,10 +52,10 @@ So one can return it out, or accumulate information from matched iterated patter
 
 \begin{rail} 
   LHSPatternDefVariableDecl: 
-	('def' Name ':' Type |
-	'def' '-' Name ':' Type '->' |
-	'def' 'var' Name ':' Type |
-	'def' 'ref' Name ':' Type ) \\
+	('def' IdentDecl ':' Type |
+	'def' '-' IdentDecl ':' Type '->' |
+	'def' 'var' IdentDecl ':' Type |
+	'def' 'ref' IdentDecl ':' Type ) \\
 	('=' Expression)? ('=' YieldExpression)? ';'
 	;
 \end{rail}\ixnterm{DefVariableDecl}
@@ -247,7 +247,7 @@ test countOfEdges(start:Node) : (int)
 \end{example}
 
 
-A more general language device that benefits from the yield expression is the iterated query. 
+A more general language device that benefits from the yield expression is the \indexed{iterated query}. 
 It is available in the rule language expressions within a rule (but only during yielding), and returns an array of the matches of the iterated (\texttt{array<match<r.it>>} for iterated \texttt{it} in rule \texttt{r}), cf. Section~\ref{sec:primexpr}, in contrast to the rule query from Chapter~\ref{cha:graphquery} that is available in the sequence expressions, and returns an array of matches of the rule (\texttt{array<match<r>>}).
 Similar to the \texttt{for} iterated accumulation loop, it accesses the matches of the iterated from the outside (in contrast to default bottom-up yielding from inside).
 Employing the iterated query, the example looks as follows; for a larger example, see Example~\ref{exsimplequeryrules}.
@@ -318,10 +318,10 @@ marking them as output parameters.
 
 \begin{rail} 
   RHSPatternDefVariableDecl: 
-	('def' Name ':' Type |
-	'def' '-' Name ':' Type '->' |
-	'def' 'var' Name ':' Type |
-	'def' 'ref' Name ':' Type ) \\
+	('def' IdentDecl ':' Type |
+	'def' '-' IdentDecl ':' Type '->' |
+	'def' 'var' IdentDecl ':' Type |
+	'def' 'ref' IdentDecl ':' Type ) \\
 	('=' Expression)? ';'
 	;
 \end{rail}\ixnterm{RHSPatternDefVariableDecl}

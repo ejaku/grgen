@@ -4,7 +4,7 @@ In this chapter we take a look at sequence computations, which are not concerned
 Graph querying may occur in two ways, for one with global functions that return elementary data, for the other with pattern based queries (with rules/tests), that return an array of pattern matches.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Pattern Matching Based Queries}
+\section{Pattern Matching Based Queries}\label{sec:patternbasedgraphquery}
 
 \begin{rail}
   RuleQuery: '[' '?' Rule ']' ;
@@ -155,8 +155,8 @@ Furthermore, it computes the shared interest in an object as the smaller of the 
 \subsubsection*{Multi Rule Query}
 
 \begin{rail}
-  MultiRuleQuery: '[' '?' '[' (Rule + ',') ']' (MatchClassFilterCalls)? (MatchClassSpec)? ']' ;
-	MatchClassSpec: backslash '<' 'class' MatchClassIdent '>' ;
+  MultiRuleQuery: '[' '?' '[' (Rule + ',') ']' (MatchClassFilterCalls)? MatchClassSpec ']' ;
+  MatchClassSpec: backslash '<' 'class' MatchClassIdent '>' ;
 \end{rail}\ixnterm{MultiRuleQuery}\ixnterm{MatchClassSpec}
 
 The \emph{MultiRuleQuery} clause applies multiple (distinct) rules or tests, that all implement the same match class, cf. Section~\ref{sec:matchclass}).
@@ -275,3 +275,135 @@ The \texttt{count}ed all bracketing \texttt{count[r]=>c} assigns the \indexed{co
 With \texttt{count[?r]=>c} the matches are only counted, no rewrites are carried out.
 
 % todo: beispiele im text bringen
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Query Result Combination (Auto-generated functions)}
+
+You can combine the results of multiple tests or rules with functions that receive arrays of match type as inputs and return an array of match class type.
+You may do so for one by manually implemented functions, and for the other by auto-generated functions.
+
+\begin{example}
+  \begin{grgen}
+test sameCompany(subject:namedObject)
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+}
+
+test sharedInterest(subject:namedObject)
+{
+	subject -:INTERESTED_IN-> interest:namedObject <-:INTERESTED_IN- person:namedObject;
+}
+
+match class SameCompanySharedInterest
+{
+	subject:namedObject;
+	company:namedObject;
+	person:namedObject;
+	interest:namedObject;
+}
+
+function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	def ref res:array<match<class SameCompanySharedInterest>> = array<match<class SameCompanySharedInterest>>[];
+	for(matchSameCompany:match<sameCompany> in matchesSameCompany)
+	{
+		for(matchSharedInterest:match<sharedInterest> in matchesSharedInterest)
+		{
+			if(matchSameCompany.subject == matchSharedInterest.subject && matchSameCompany.person == matchSharedInterest.person) {
+				def ref m:match<class SameCompanySharedInterest> = match<class SameCompanySharedInterest>();
+				m.subject = matchSameCompany.subject;
+				m.person = matchSameCompany.person;
+				m.company = matchSameCompany.company;
+				m.interest = matchSharedInterest.interest;
+				res.add(m);
+			}
+		}
+	}
+	return(res);
+}
+  \end{grgen}\label{exjoins}
+	
+	\begin{grgen}
+match class SameCompanySharedInterest
+{
+	auto(match<sameCompany> | match<sharedInterest>)
+}
+
+function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	auto(join<natural>(matchesSameCompany, matchesSharedInterest))
+}
+  \end{grgen}
+\end{example}
+
+Example \ref{exjoins} shows how to combine the matches of the querying tests \texttt{sameCompany} and \texttt{sharedInterest} in the manner of a SQL natural join statement with the \texttt{naturalJoin} function into a \texttt{SameCompanySharedInterest} match class (cf. \ref{sec:matchclass} for match classes; the natural join is a cartesian product with a selection condition requiring value equivalence for common names (columns) in the matches (single row) of the left array (table) and the right array (table)).
+
+The match of the pattern of the test \texttt{sameCompany} contains the named members \texttt{subject}, \texttt{person}, and \texttt{company}, while the match of the pattern of the test \texttt{sharedInterest} contains the named members \texttt{subject}, \texttt{person}, and \texttt{interest}.
+They are combined into a \texttt{SameCompanySharedInterest} class, with single \texttt{subject} and \texttt{person} entries (a name can only appear once, you'd have to add a disambiguating prefix in order to keep two entries stemming from fields with same name, but as they'd contain the same entries due to the join, we can just use a single unprefixed entry without loosing information), and \texttt{company} as well as \texttt{interest} members.
+The combination is computed from the matches that agree in their \texttt{subject} and \texttt{person} fields (i.e. have equal values), so you get an array of matches of the common companies and shared interests of two persons (i.e. the persons that work in the same (have one common) company and have a shared (the same) interest, with subject being fixed this amounts to his/her colleagues with shared interests).
+
+The upper part gives a manually implemented version, the lower part shows how to compute the natural join with an auto-generated function body -- with the resulting code being the same as in the manually implemented version.
+It also shows how to compute the match class with an auto-generated match class body, combining the specified match types under name merging -- the resulting code is also the same as in the manually implemented version.
+The auto-generated match class body is to be used with care, it is more concise and writing it is more convenient than listing the members explicitly, but readability is severly hampered, you have to mentally compute the cross product modulo name merging.
+Note that only named pattern entities are contained in the result; the join also ignores (projects away) unnamed entities.
+
+\begin{rail}
+  AutoFunctionBody: 'auto' '(' AutoFunctionBodyContent ')';
+  AutoFunctionBodyContent: 'join' '<' ('natural' | 'cartesian') '>' '(' VariableIdent ',' VariableIdent ')' | VariableIdent '.' 'keepOneForEach' '<' MemberIdent '>' \\ 'Accumulate' '<' MemberIdent '>' 'By' '<' AccumulationMethod '>';
+  AutoMatchClassBody: 'auto' '(' VariableIdent '|' VariableIdent ')';
+\end{rail}\ixnterm{AutoFunctionBody}\ixnterm{AutoMatchClassBody}\ixkeyw{auto}
+
+Another auto-generated function body is available for the cartesian product, noted down with \texttt{auto(join<cartesian>(leftArray, rightArray)}.
+The implementation is the same like the one for the natural join, with exception of the missing \texttt{if} condition (so no real cartesian join is available in case of common names thus shared fields, you have to prepend/append name suffixes to obtain a result containing the values from both inputs).
+The auto generated functions also support arrays of match classes as input.
+
+\subsubsection*{Auto-generated array method}
+
+The equivalent of an SQL GROUP BY statement with an accumulation function can be generated with the \texttt{keepOneForEach<X>Accumulate<Y>By<Z>} filter, cf. Section~\ref{filter:auto-generated}.
+It removes the entries in the matches array that are duplicates in/of member X, the member Y of the remaining entry receives the result of accumulating the array of all values of Y of the same X by the array accumulation method Z (the available ones are listed in \ref{arrayaccumulationmethod}).
+It allows to "fuse" results, the quarantine test (\verb#tests\quarantine#) shows how to use it for summing scores of entries that fall together.
+
+\begin{example}
+  \begin{grgen}
+match class QuarantineScore
+{
+	person:Person;
+	def var score:double;
+} \keepOneForEach<person>Accumulate<score>By<sum>, orderDescendingBy<score>
+
+rule quarantineByRiskLodging implements QuarantineScore
+{
+	person:Person -:livesIn-> l:Lodging;
+	if { l.type == LodgingType::HomeForTheElderly; }
+---
+	def var score:double = 100.0;
+	
+	modify {
+		person -:underQuarantine-> person;
+	}
+}
+  \end{grgen}\label{exkeeponeforeachaccumulatebyfilter}
+
+	\begin{grshell}
+	eval [?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]
+		\QuarantineScore.keepOneForEach<person>Accumulate<score>By<sum>
+		\QuarantineScore.orderDescendingBy<score>\<class QuarantineScore>]
+	\end{grshell}
+\end{example}
+
+An equivalent array-of-matches processing function can be generated with the function body \texttt{auto(target.keepOneForEach<X>Accumulate<Y>By<Z>)}.
+Being a function, it can be applied also after combining multiple matches arrays -- filters must be applied directly after matching before the matches array is returned for further processing.
+(It is only supported on arrays of matches but not on arrays of node/edge types, in contrast to the auto-supplied array methods listed in \ref{arraybymemberaccessmethod}, because of the side effect of accumulation on the accumulation attribute of the graph element, thus the graph.)
+
+\begin{example}
+  \begin{grgen}
+function keepOneAccumulate(ref matchesSameCompany:array<match<class QuarantineScore>>) : array<match<class QuarantineScore>>
+{
+	auto(matchesSameCompany.keepOneForEach<person>Accumulate<score>By<sum>)
+}
+  \end{grgen}\label{exkeeponeforeachaccumulateby}
+
+	\begin{grshell}
+	eval keepOneAccumulate([?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\<class QuarantineScore>]).orderDescendingBy<score>()
+	\end{grshell}
+\end{example}

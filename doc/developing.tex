@@ -18,14 +18,13 @@ The frontend was extended and changed since its first version, but not replaced.
 In contrast to the backend, which has seen multiple engines and versions: a MySQL database based version, a PSQL database based version, 
 a C version executing a search plan with a virtual machine, a C\# engine executing code generated from a search plan and finally the current C\# engine version 2 being capable of matching nested and subpatterns.
 
-The frontend is available in the \texttt{frontend} subdirectory of the public mercurial repository at \texttt{https://bitbucket.org/eja/grgen}.
+The frontend is available in the \texttt{frontend} subdirectory of the public git repository at \texttt{https://github.com/ejaku/grgen} (previously at \texttt{https://bitbucket.org/eja/grgen} in form of a mercurial repository).
 It can be built with the included \texttt{Makefile} on Linux or the \texttt{Makefile\_Cygwin} on Windows with the cygwin environment, yielding a \texttt{grgen.jar}. 
 Alternatively, you may add the \texttt{de} subfolder and the jars in the \texttt{jars} subfolder to your favourite IDE, but then you must take care of the ANTLR parser generation pre-build-step on your own. 
 
 The backend is available in the \texttt{engine-net-2} subdirectory. 
 It contains a VisualStudio 2015 solution file containing projects for the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend), and the \texttt{GrShell}.
-Before you can build the solution, you have to execute \texttt{./src/libGr/genparser.bat} and \texttt{./src/Gr\-Shell/genparser.bat} in order 
-to get the CSharpCC parsers for the rewrite sequences and the shell generated.
+Before you can build the solution, you have to execute \texttt{./src/lib\-Gr/gen\-parser.bat} and \texttt{./src/Gr\-Shell/gen\-parser.bat} (or \texttt{./src/lib\-Gr/gen\-parser.sh} and \texttt{./src/Gr\-Shell/gen\-parser.sh}) in order to get the CSharpCC parsers for the rewrite sequences and the shell generated.
 Under LINUX you may use \texttt{make\_linux.sh} to get a complete build.
 To get the API examples generated you must execute \texttt{./genlibs.bat}.
 
@@ -300,7 +299,7 @@ The schedule might work well for some graphs, but for the graph given in figure 
 Why so can be seen on inspecting the search order illustration in figure \ref{figbadsearch}.
 Because only one of the multiple outgoing edges of \texttt{v1} leads to a match for \texttt{e1}, it has to backtrack several times.
 A better search order would be one matching edge \texttt{e1} from \texttt{v2} on in reverse direction 
-(this is possible in \GrG\~because the graph model contains a list of outgoing as well as a list of incoming edges, so each edge can be traversed in either direction).
+(this is possible in \GrG\~ because the graph model contains a list of outgoing as well as a list of incoming edges, so each edge can be traversed in either direction).
 
 And indeed, the search planning component of \GrG~chooses such a schedule:\\
 \texttt{lkp(v3:C); out(v3,e2:a); tgt(e2,v2:B); out(v2,e3:b); in(v2,e1:a); src(e1,v1:A)}
@@ -453,8 +452,8 @@ Finally, an intermediate representation is built from the abstract syntax tree b
 
 \subsubsection*{Intermediate Representation}
 The IR classes given in the \texttt{ir} folder can be seen as more lightweight AST classes; their name is often the same as for their corresponding AST classes, but without the \texttt{Node}-suffix which is appended to all AST classes.
-The most interesting classes are \texttt{Rule} used for rules, alternative cases and iterateds, as well as \texttt{PatternGraph} used for all pattern graphs including negatives and independents;
-several data flow analyses are contained in \texttt{PatternGraph}, some covering the nesting of patterns, some being even global.
+The most interesting classes are \texttt{Rule} used for rules, alternative cases and iterateds, as well as \texttt{PatternGraphLhs} used for all left hand side pattern graphs including negatives and independents, and \texttt{PatternGraphRhs} used for all right hand side pattern graphs;
+several data flow analyses are contained in \texttt{PatternGraphLhs}, some covering the nesting of patterns, some being even global.
 
 A particularly interesting one is \texttt{ensure\-Directly\-Nesting\-Pattern\-Contains\-All\-Non\-Local\-Elements\-Of\-Nested\-Pattern}, it ensures that, from a pattern which contains a certain entity the first time, up to every pattern that references this entity, all intermediate patterns contain that entity, too.
 It is implemented with a recursive walk over the nested patterns in the IR-structure. 
@@ -546,7 +545,7 @@ For a test, the pattern graph is used as left and right graph.
 For alternatives and iterateds, dispatching methods are generated, calling the rewrite methods of the instances of the patterns matched.
 Rewrite parameters are mapped to local parameters of the rewrite methods.
 
-The core method of rewrite code generation named \texttt{gen\-Modify\-Rule\-Or-Subrule} generates the rewriting of the given pattern and the calls to the rewrite methods of the nested patterns.
+The core method of rewrite code generation named \texttt{gen\-Modify\-Rule\-Or\-Subrule} generates the rewriting of the given pattern and the calls to the rewrite methods of the nested patterns.
 The rewrite methods of the nested patterns are prefixed with their nesting path, in order to avoid name conflicts, which may occur as they are placed flatly in their \texttt{Matching\-Pattern} or \texttt{Rule\-Pattern}.
 Their role is distinguished by one of the name postfixes \texttt{Modify}, \texttt{Create} or \texttt{Delete}; for keeping a pattern unmodified obviously no methods are needed.
 

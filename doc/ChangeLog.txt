@@ -1,4 +1,106 @@
-﻿v5.0 (2020-04-27)
+﻿ v5.1 (2020-07-??)
+ More demanding prerequisites:
+  Increased required .NET version from 2.0 to 4.0 (supported by mono 3.0)
+  Increased required JAVA version from 1.5 to 1.8
+
+ Implementation of keepOneForEach<X>Accumulate<Y>By<Z> auto-generated filter 
+  for action (r), iterated in action (r.it), match class (mc)
+  removes entries in array<match<r.it/r/class mc>> that are duplicates in/of entity X,
+  the entity Y of the remaining entry receives the result of accumulating the array of all entries of Y of the same X,
+  by array accumulation method Z (equivalent of SQL GROUP BY with accumulation function)
+  (take a look at quarantine tests showing how to use it for "fusing" results, summing scores of entries that fall together)
+ Implementation of according auto-generated function body for array-of-match functions, 
+  noted down with auto(target.keepOneForEach<X>Accumulate<Y>By<Z>)
+  generating a function with same semantics as the corresponding filter function 
+  supported on array<match<T>>/array<match<class T>> (but not node/edge type,
+  because of the side effect of accumulation on the accumulation attribute of the graph element, thus the graph)
+
+ Implementation of auto-generated function bodies for array-of-match join functions
+  noted down with auto(join<natural>(leftArray, rightArray)) for a "natural join"
+   (cartesian product requiring value equivalence for common names in matches of left array and right array)
+  and with auto(join<cartesian>(leftArray, rightArray) for a "cartesian join"
+   (modulo merging of common names, left takes precedence)
+  both are supported on array<match<T>>/array<match<class T>>
+ Implementation of auto-generated match class body
+  noted down with auto(match<T> | match<S>)
+  combining specified match types under name merging, to be used for the results of "natural joins" of matches
+
+ Array member processing method extensions:
+  Added support for array<T>.groupBy<member>() for T being an (iterated) match (class) or node/edge type
+   to rule language, returning an array with equal elements grouped together (in no specific order)
+  Added support for .orderAscendingBy<member>(), .orderDescendingBy<member>(), .groupBy<member>(), .keepOneForEach<member>() methods
+   to array<T> in sequence expressions, where T = match<r> or match<class mc> or a node/edge class owning the member (attribute)
+
+ Filter extensions:
+  Allowed groupBy filter on variables of node/edge type and nodes and edges
+   switched implementation to hash-map based equality comparison instead of sorting requiring an order relation 
+   (O(n) instead of O(n*log(n))
+  Allowed keepSameAsFirst and keepSameAsLast filter on variables of node/edge type and nodes and edges
+  Allowed keepOneForEach filter and array method on variables of node/edge type and nodes and edges
+  Allowed orderAscendingBy/orderDescendingBy/keepOneForEach filter and array method variables of boolean type and enum type
+
+ Added a match class constructor match<class T>() that allows to create a value of a match class
+  (normally created by a matched pattern/action; with default values according to the type for attributes)
+
+ Added support for array<T>:group() to rule language and sequence expressions
+  returning a new array with equal elements grouped together (in no specific order)
+
+ Language generalizations / Syntax "fixes":
+  Allowed functions with parameters of array of match type
+  Allowed matches accumulation yield loop to iterate over arbitrary variables of array of match type instead of only this
+  Allowed to declare global variables of match type and array of match type
+  Allowed selectors (esp. method calls) after a function call in sequence expressions
+  (allowing to process the function call result further)
+  Alternative now opens a scope so that alternative case labels of different alternatives can be given the same name
+  Allowed return statements of a test/rule for an output parameter of node/edge type to comprise a full expression
+   instead of consisting only of a single element reference
+  Comparison and conditional operators of node/edge/external type expect and return now exact types
+  Allowed usage of >> and >= instead of previously required > > and > = workaround in some more places
+   (esp. auto-generated filter call end before transaction end, container initialization)
+  map, set, array, deque are no keywords anymore (only checks in the context of a generic type)
+  match is no keyword in the interpreted sequences (only) anymore 
+   (only a check in the context of a type, still a keyword in rule language due to match class)
+
+ Re-introduced auto keyword to rule language grammar
+
+ Extended error checks
+  - added check against multiple local retypes
+  - generalized no-ambiguous-retype check from old node to mergees (stemming from a node merge-retype)
+  - implemented input type checking for the array accumulation methods
+  - improved output type computation of the array accumulation methods
+  - added check for incorrect edge (re)use in independents
+  - added check against edge declarations with linked nodes in match classes
+
+ Some error message fixes
+
+ API changes:
+  - introduced INamed base interface for named entities/types that may be global or may be contained in a package
+  - added MatchForQuery to action execution environment interface, with non-exact matches object fitting to the environment,
+    and adapted return type of corresponding implementation method
+  - extended matches interface in API by a member giving the match class
+    (non-null for constructed match class values in contrast to pattern matching results, for those a member giving the pattern is set)
+  - added array processing helper methods ArrayOrderAscendingBy(IList array, string member)
+    as well as ArrayOrderDescendingBy, ArrayGroupBy, ArrayKeepOneForEach to IGraphModel and IActions
+  - added PatternElements Enumerable that allows to iterated over pattern nodes, edges, and variables in a single run 
+    to IMatchClass and IPatternGraph
+
+ Performance optimization: improved constant folding
+
+ Bugfixes:
+  - several bugfixes for compiled multi rule queries with match class filters and compiled rule queries with filters
+    esp.: the filter methods now return the filtered list (so they can be "chained" / used to build expressions)
+  - several bugfixes for (esp. auto-generated and auto-supplied) (match class) filters calls
+    esp.: fix for filtering by node/edge instead of variable, and 
+    match class filters are now really executed for interpreted multi rule all call
+  - usage of InvariantCulture for string comparisons for filtering and array of match type comparison
+  - fix for initialization of def element of edge type
+  - bugfix in array orderAscendingBy/orderDescendingBy/keepOneForEach member type checking
+
+ User manual adaptations, corrections, and improvements
+
+--------------------------------------------------------------------------------------------------------
+
+v5.0 (2020-04-27)
  A --- separator is now needed in between top-down pattern matching/rewriting and bottom-up yielding for result accumulation,
  in the rules and tests of the rule language (it splits the LHS and RHS patterns into two parts)
  - on LHS appear to the left of the separator the elementary pattern entities, nested patterns, and subpattern usages, 

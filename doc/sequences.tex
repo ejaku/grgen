@@ -31,7 +31,7 @@ i) graph global variables\indexmain{graph global variable}\indexmainsee{variable
 ii) sequence local variables\indexmain{sequence local variable}\indexmainsee{variable}{sequence local variable}.
 A variable is alive from its first declaration on: graph global variables are implicitly declared upon first usage of their name,
 sequence local variables are explicitly declared with a typed variable declaration of the form \texttt{name:type}.
-Graph global variables must be prefixed with a double colon \texttt{::}, local variables are referenced just with their name.
+Graph global variables must be prefixed with a double colon \texttt{::}, local variables are referenced just with their name (i.e. \emph{Ident}ifier).
 Graph global variables are untyped; their values are typed, though, so type errors cause an exception at runtime.
 They belong to and are stored in the graph processing environment -- if you save the graph in \GrShell\ 
 then the variables are saved, too, and restored next time you load the saved graph.

@@ -1,4 +1,4 @@
-GrGen.NET v5.1 (2020-??-??)
+GrGen.NET v5.1 (2020-07-??)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -16,7 +16,7 @@ INSTALL
 You need the following system setup for GrGen.NET:
   - Microsoft .NET 4.0 or above
     OR Mono 3.2.8 or above
-  - Java 1.7 or above
+  - Java 1.8 or above
 
 For Linux:
   - Unpack GrGenNET.tar.bz2 to a folder of your choice (referred to
@@ -170,7 +170,7 @@ COPYING
 
 Copyright (C) 2003-2020 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 4.5
+This file is part of GrGen, Version GrGen.NET 5.1
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by

@@ -80,39 +80,26 @@ increments the graph global variable \texttt{i} until it becomes greater than \t
 \end{example}
 
 \begin{rail} 
-	ProcedureMethodCall: ('(' Variables ')' '=')? (Variable | GraphElement '.' Attribute) \\ '.' MethodName '(' Arguments ')';
-	ProcedureCall: ('(' Variables ')' '=')? ProcedureName '(' Arguments ')';
+	ProcedureMethodCall: ('(' Variables ')' '=')? \\ MethodTarget '.' ProcedureIdent '(' Arguments ')';
+	MethodTarget: Variable | GraphElement '.' Attribute;
+	ProcedureCall: ('(' Variables ')' '=')? ProcedureIdent '(' Arguments ')';
 	Arguments: (SequenceExpression * ',');
 	Varibales: (Variable + ',');
-\end{rail}\label{recstmt}\indexmain{record}\indexmain{emit}\indexmain{emitdebug}
+\end{rail}
 
 A method call executes a method on a variable, passing further arguments.
 The method may be one of the predefined container methods, or a user-defined method (cf. \ref{sec:objectoriented}).
 
-A procedure call executes a (built-in or user defined) procedure, passing further arguments.
-In addition to the graph type based functions and procedures that will be explained in more detail further below,
-\texttt{emit}, \texttt{emitdebug}, \texttt{record}, and \texttt{export} procedure calls can be given here. 
-The \texttt{emit} procedure writes a double quoted string or the value of a variable to the emit target.
-The emit target is stdout as default, or a file specified with the shell command \texttt{redirect emit}. 
-In case of \texttt{emitdebug}, the target is always stdout.
-For both emit procedures, a comma-separated sequence of arguments may be given, which is preferable to string concatenation for performance reasons.
-The \texttt{record} procedure writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). 
-This feature allows to mark states reached during the transformation process in order to replay only interesting parts of a recording.
-It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
-The \texttt{export} procedure exports the current graph to the path specified if called with one argument, or it exports the subgraph specified as first argument to the path specified as second argument.
-It behaves like the \texttt{export} command from the GrShell, see \ref{outputcmds}.
-Having it available in the sequences allows for programmed exporting, and exporting of parts of the graph, with the subgraph containment just computed.
+A procedure call executes a user defined procedure from the rules file, cf. \ref{sub:compdef},
+or a built-in procedure, passing further arguments.
+The builtin procedures you may call here are e.g. \texttt{emit}, \texttt{emitdebug}, \texttt{record}, or \texttt{canonize(g:graph):string}, you find more on them in Chapter~\ref{cha:graph}.
 
-Furthermore, a function \texttt{canonize(g:graph):string} is available,
-which is intended to provide a canonical string representation for any graph, but currently does not work for all graphs.
-The function currently uses the SMILES\cite{SMILES} method of producing an equitable partition of graph nodes, not a canonical order; while not offering full fledged graph canonization this algorithm is sufficient for many purposes. 
-It allows to reduce graph comparisons to string comparisons, at the price of computing the Weininger algorithm for equitable partitions of nodes.
+Also procedures from packages may be called, the name \emph{ProcedureIdent} is then prefixed by the \emph{Ident} of the package, separated by a double colon \texttt{::}.
+A user-defined procedure from a user-defined package may be called, or one of the built-in procedures contained in the built-in package \texttt{File}, e.g. \texttt{export}, or in the  built-in package \texttt{Transaction}, cf. Chapter~\ref{cha:graph}, or in the built-in package \texttt{Debug} (for more on packages see \ref{sub:packageaction}).
 
-Moreover, the procedures from the built-in package \texttt{Debug} as explained in detail in \ref{secdebuggersubrule} may be called.
-\texttt{Debug::add} when entering and \texttt{Debug::rem} when leaving a subrule computation of interest (always pairwise!),
+The \texttt{Debug} package procedures, as explained in detail in \ref{secdebuggersubrule}, are of interest in case sequences contained in rule execs are used, these are not directly visible to the debugger.
+You call then \texttt{Debug::add} when entering and \texttt{Debug::rem} when leaving a subrule computation of interest (always pairwise!),
 \texttt{Debug::emit} to recored some subrule computation milestones, \texttt{Debug::halt} to halt the debugger, and \texttt{Debug::highlight} to highlight some graph elements in the debugger (halting it).
-
-Besides those predefined procedures (and functions), you may call user procedures (and functions), defined in the rules file; cf. \ref{sub:compdef}.
 
 Finally, an expression (without side effects) can be evaluated, this allows to return a (boolean) value from a computation.
 
@@ -203,20 +190,20 @@ The atoms of the sequence expressions are the basic and the special sequence exp
 
 \begin{rail}
   BasicSequenceExpression:
+    Literal |
+    Variable | 
+    GraphElement '.' Attribute |
     'def' '(' (Variable+',') ')' |
-	  railat '(' NameString ')' |
- 	  GraphElement '.' Attribute |
-	  Variable | 
-    Literal
+    railat '(' NameString ')'
   ;
 \end{rail}\ixnterm{BasicSequenceExpression}\ixkeyw{def}
 
 The basic sequence expressions are the foundational value sources.
+The literal and variable basic expressions are the same as in the \emph{SimpleOrInteractiveExpression}, cf. \ref{sec:simplevarhandling}, or as in the \emph{PrimaryExpression}s of the rule language, cf. \ref{sec:primexpr},
+this means esp. that a Variable may denote a graph global variable if prefixed with a double colon, here as well as in the \emph{AssignmentTarget}.
+The attribute access clause returns the attribute value of the given graph element.
 A \texttt{def} term is successful iff all the variables are defined (not null).
 The at operator allows to access a graph element by its \indexed{persistent name}.
-The attribute access clause returns the attribute value of the given graph element.
-The variable and literal basic expressions are the same as in the \emph{SimpleOrInteractiveExpression}, cf. \ref{sec:simplevarhandling};
-this means esp. that a Variable may denote a graph global variable if prefixed with a double colon, here as well as in the AssignmentTarget.
 
 \begin{rail}
   SpecialSequenceExpression:
@@ -225,30 +212,46 @@ this means esp. that a Variable may denote a graph global variable if prefixed w
     GraphElement '.' 'visited' '[' SequenceExpression ']' |
     FunctionMethodCall |
     FunctionCall |
-		RuleQuery |
-		MultiRuleQuery;
+    RuleQuery |
+    MultiRuleQuery
   ;
 \end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{visited}
 
-The special sequence expressions are used for storage handling, for graph, subgraph and visited flag handling, for random value queries, for typeof queries, and for index access.
+The special sequence expressions consist of indexed accesses, function method calls, function calls, and rule queries.
 
-The storage oriented ones are used to access a storage or to call a method on a storage (note: here it is not possible to build method call chains). 
+They are esp. used for storage handling, and for graph, subgraph and visited flag handling.
+The storage oriented ones are used to access a storage or to call a method on a storage. 
 They were introduced in chapter \ref{cha:container}, and are summarized below in \ref{sec:storages}.
-
 The graph and subgraph handling expressions allow to query the graph for its elements, the visited flags expressions allow to check whether a value is marked.
 They were introduced in chapter \ref{cha:graph}, and are summarized below in \ref{sec:queryupdate}.
 
-The random value function \texttt{random} behaves like the random function from the expressions, see \ref{sec:primexpr};
-i.e. if noted down with an integer as argument it returns a random integer in between 0 and that upper bound, exclusive; if given without an argument it returns a random double in between 0.0 and 1.0, exclusive.
+\begin{rail} 
+	FunctionMethodCall: MethodTarget MethodSelector;
+	MethodSelector: '.' FunctionIdent '(' Arguments ')' (MethodSelector)?;
+	FunctionCall: FunctionIdent '(' Arguments ')';
+\end{rail}
+
+A method call executes a method on a variable, passing further arguments.
+The method may be one of the predefined container methods, or a user-defined method (cf. \ref{sec:objectoriented}).
+Method calls work as in the rule language, i.e. you can build chains of function method calls, like with the \emph{MethodSelector} from the rule language, cf. Chapter~\ref{cha:typeexpr} (in contrast to procedure method calls).
+
+A function call executes a user defined function from the rules file, cf. \ref{sub:compdef},
+or a built-in function, passing further arguments.
+
+An available built-in function you may call here is e.g. \texttt{random} that behaves like the random function from the expressions, see \ref{sec:primexpr}.
+
+Further available are \texttt{nameof} to fetch the name of a node or edge or graph and \texttt{uniqueof} to fetch the unique id of a node or edge or graph.
+The function \texttt{nodeByName} allows to retrieve a node by its name, \texttt{edgeByName} does the same for an edge.
+The function \texttt{nodeByUnique} allows to retrieve a node by its unique id, \texttt{edgeByUnique} does the same for an edge.
+You find more on them in Chapter~\ref{cha:performance}.
 
 The \texttt{typeof} function returns the type \emph{as string}, for an arbitrary \GrG-object fed as input.
 There is no type type supporting type comparisons as in the rule language existing, you are limited to string comparisons.
 
-The index functions allow to fetch elements based on the name or the unique-id, or to retrieve the name or the unique-id.
-Available are \texttt{nameof} to fetch the name of a node or edge or graph and \texttt{uniqueof} to fetch the unique id of a node or edge or graph.
-The function \texttt{nodeByName} allows to retrieve a node by its name, \texttt{edgeByName} does the same for an edge.
-The function \texttt{nodeByUnique} allows to retrieve a node by its unique id, \texttt{edgeByUnique} does the same for an edge.
-You find more on them in Chapter~\ref{cha:performance}.
+Also functions from packages may be called, the name \emph{FunctionIdent} is then prefixed by the \emph{Ident} of the package, separated by a double colon \texttt{::}.
+A user-defined function from a user-defined package may be called, or one of the built-in functions contained in the built-in package \texttt{File}, e.g. \texttt{import}, or \texttt{now} from the built-in package \texttt{Time}, cf. Chapter~\ref{cha:graph} (for more on packages see \ref{sub:packageaction}).
+
+Regarding the rule queries, take a look at Chapter~\ref{cha:graphquery}.
 
 \begin{example}
 The sequence expression \verb#{{ def(y) && y.meth(x)>=y.a || @("$1").a+1 != func(x) }}# checks whether the node typed variable \texttt{y} is defined, i.e. not null, and if so compares the return value of a method of that type with an attribute value. If the comparison succeeds, it defines the return value of the expression; in case the definedness check failed or the comparison yields false, is a graph element fetched from the graph by its persistent name \verb#$1#, and its attribute \texttt{a} plus 1 compared against the result of a function call. Then the result of this latter comparison defines the outcome of the expression.
@@ -267,10 +270,10 @@ Here we only give some refinements and explanations of the semantics.
 
 \subsubsection*{Common methods and operators}
 
-The methods \texttt{add}, \texttt{rem}, and \texttt{clear} are available for all storages and allow to add elements to the container, remove elements from the container, or clear the container.
+The update methods \texttt{add}, \texttt{rem}, and \texttt{clear} are available for all storages and allow to add elements to the container, remove elements from the container, or clear the container.
 Their return value is the changed container, thus they allow to chain method calls on the container.
 
-The methods \texttt{size}, \texttt{empty}, \texttt{peek} in contrast return the size of the container, whether the container is empty, or a certain element from the container and thus can't be chained.
+The query methods \texttt{size}, \texttt{empty}, \texttt{peek} in contrast return the size of the container, whether the container is empty, or a certain element from the container and thus can't be chained.
 
 The indexed query \texttt{v=m[k]} is available on map and array and deque types and returns the element at the specified index,
 the indexed assignment \texttt{a[i]=v} overwrites the element at the specified index.
@@ -297,7 +300,7 @@ Further support is discussed in the following separated by type.
 
 \subsubsection*{Array Operations}
 All array methods are supported (the array of match is the central data structure in the sequence expressions to support pattern-based graph queries), see \ref{sec:arrayexpr} for a list of them.
-From the array methods specifying and accessing a member of the array value type, \emph{only} the \texttt{extract<member>()} method is supported -- but the ordering methods are available as filter calls.
+From the array methods specifying and accessing a member of the array value type, the \texttt{extract<member>()} method is supported as well as the ordering methods \texttt{order\-Ascending\-By<member>()}, \texttt{order\-Descending\-By<member>()}, \texttt{group\-By<member>()}, \texttt{keep\-One\-For\-Each<member>()} (note that further means of ordering are available as filter calls).
 
 All infix operators are supported, which are array concatenation, as well as the relational operators.
 

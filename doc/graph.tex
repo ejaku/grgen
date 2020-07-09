@@ -464,9 +464,11 @@ The procedures from the built-in package \texttt{File} allow to export subgraphs
 \item[\texttt{File::delete(.)}] deletes the file with the given path.
 \end{description}
 
+The \texttt{export} procedure behaves like the \texttt{export} command from the GrShell, see \ref{outputcmds}. It allows for programmed exporting, and exporting of parts of the graph alongside subgraph containment.
+
 % todo: mehr beispiele
 
-\pagebreak % to improve layout later on
+%\pagebreak % to improve layout later on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph comparison}\label{sec:relationalgraph}
 
@@ -489,7 +491,9 @@ on (sub)graph types they tell whether the (sub)graphs are isomorphic to each oth
 These operators consist just of two characters, but don't underestimate their impact on performance:
 they do graph isomorphy checking, which is expensive.
 They are implemented in an early out style, i.e. the more different the graphs are, the earlier does the check return with the result they are not isomorphic.
-But if the graphs you are checking are isomorphic (which will happen easily if you use automorphic patterns), then you have to pay the full price for isomorphy checking; if this occurs often, your solution may become prohibitively costly (including an external graph canonization library or the \texttt{canonize} function may be of interest in that case).
+But if the graphs you are checking are isomorphic (which will happen easily if you use automorphic patterns), then you have to pay the full price for isomorphy checking; if this occurs often, your solution may become prohibitively costly -- including an external graph canonization library or the \texttt{canonize} function may be of interest in that case.
+The function \texttt{canonize(g:graph):string} is intended to provide a canonical string representation for any graph, but currently does not work for all graphs, because it uses the SMILES\cite{SMILES} method, which is producing an equitable partition of graph nodes, not a canonical order; while not offering full fledged graph canonization this algorithm is sufficient for many purposes.
+It allows to reduce graph comparisons to string comparisons, at the price of computing the Weininger algorithm for equitable partitions of nodes.
 
 Some notes on the early out implementation: first the number of nodes and edges per type are checked, if they are different the graphs can't be isomorphic. The numbers are directly supplied by the \texttt{lgspBackend}, refuting isomorphy based on them is extremely cheap.
 Then the \indexed{V-Structure}s (see \ref{searchplanning}) used in computing better matchers at runtime are first computed and then compared; if they are different the graphs can't be isomorphic. They are a good deal less expensive to compute than trying to match the one graph in the other; on well typed graphs the V-Structure counts are highly discriminating.
@@ -711,11 +715,16 @@ Please note that transactions may be nested; those functions are used in impleme
 
 Besides there are procedures to emit text or record graph changes available: 
 
+\begin{rail}
+  ProcedureName: 'emit' | 'emitdebug' | 'record';
+\end{rail}\label{recstmt}\indexmain{record}\indexmain{emit}\indexmain{emitdebug}
+
 \begin{description}
-\item[\texttt{emit(.(,.)*)}] writes the argument value, or the comma separated list of argument values, to stdout, or to a file if output was redirected. The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
+\item[\texttt{emit(.(,.)*)}] writes the argument value, or the comma separated list of argument values, to stdout, or to a file if output was redirected (with the shell command \texttt{redirect emit}). The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
 \item[\texttt{emitdebug(.(,.)*)}] writes the argument value, or the comma separated list of argument values, always to stdout, even if file output was redirected. Besides that, the other explanations for \texttt{emit} apply.
-\item[\texttt{record(.)}] writes the argument value, typically a text string, to the graph change record.
-\end{description}
+\item[\texttt{record(.)}] writes the argument value, typically a text string, to the currently ongoing graph change recordings (see \ref{recordnreplay}).
+This feature allows to mark states reached during the transformation process in order to replay only interesting parts of a recording.
+It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.\end{description}
 
 A remark on the graph global variables: they are in fact global to the graph processing environment.
 This difference becomes clear when you store graphs in attributes of graph type of another graph, see \ref{sec:graphnesting} for a discussion of this style of programming.
