@@ -11,9 +11,6 @@
 
 package de.unika.ipd.grgen.ir.stmt.invocation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
@@ -30,9 +27,6 @@ public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase
 	/** The owner of the procedure method. */
 	private Qualification ownerQual;
 	private Variable ownerVar;
-
-	/** The arguments of the procedure invocation. */
-	protected List<Expression> arguments = new ArrayList<Expression>();
 
 	/** The procedure of the procedure method invocation expression. */
 	protected ExternalProcedure externalProcedure;

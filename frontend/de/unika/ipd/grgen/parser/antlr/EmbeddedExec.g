@@ -1126,9 +1126,12 @@ seqIndexIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 seqMemberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT
 		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
-	| r=REPLACE
-		{ if(r != null) r.setType(IDENT); res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES,
-				r.getText(), getCoords(r))); } // HACK: For string replace function... better choose another name?
+	| r=REPLACE // HACK: For string replace function... better choose another name?
+		{ if(r != null) {
+			r.setType(IDENT);
+			res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, r.getText(), getCoords(r)));
+		  }
+		}
 	;
 
 seqRangeSpecLoop returns [ RangeSpecNode res = null ]

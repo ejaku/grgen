@@ -32,8 +32,6 @@ public class FilterAutoSuppliedDeclNode extends FilterAutoDeclNode
 		setName(FilterAutoSuppliedDeclNode.class, "auto supplied filter");
 	}
 
-	IdentNode ident;
-
 	protected IdentNode actionUnresolved;
 	protected ActionDeclNode action;
 	protected IteratedDeclNode iterated;

@@ -404,9 +404,7 @@ public class RuleDeclNode extends ActionDeclNode
 	{
 		boolean leftHandGraphsOk = super.checkLocal();
 
-		boolean rightHandGraphsOk = true;
-		if(right != null)
-			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
+		boolean rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
 
 		PatternGraphRhsNode right = this.right.patternGraph;
 

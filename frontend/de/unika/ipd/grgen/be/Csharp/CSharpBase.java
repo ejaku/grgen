@@ -729,7 +729,7 @@ public abstract class CSharpBase
 
 	public static String formatEntity(Entity entity, String pathPrefix)
 	{
-		if(entity.getIdent().toString() == "this") {
+		if(entity.getIdent().toString().equals("this")) {
 			if(entity.getType() instanceof ArrayType)
 				return "this_matches";
 			else

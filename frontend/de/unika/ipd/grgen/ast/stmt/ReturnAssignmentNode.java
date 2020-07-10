@@ -66,7 +66,7 @@ public class ReturnAssignmentNode extends EvalStatementNode
 	{
 		super(coords);
 		this.procedureMethod = procedureMethod;
-		becomeParent(this.builtinProcedure);
+		becomeParent(this.procedureMethod);
 		this.targets = targets;
 		becomeParent(this.targets);
 		this.context = context;

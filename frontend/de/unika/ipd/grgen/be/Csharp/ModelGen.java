@@ -2083,7 +2083,7 @@ deque_init_loop:
 			sb.append(getAttributeKind(t) + ", null, "
 					+ "null, null, "
 					+ "\"" + formatIdentifiable(t) + "\","
-					+ (((ContainedInPackage)t).getPackageContainedIn() != ""
+					+ (((ContainedInPackage)t).getPackageContainedIn() != null
 							? "\"" + ((ContainedInPackage)t).getPackageContainedIn() + "\""
 							: "null")
 					+ ","

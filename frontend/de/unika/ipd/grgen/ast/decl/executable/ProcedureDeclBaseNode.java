@@ -35,9 +35,10 @@ public abstract class ProcedureDeclBaseNode extends DeclNode implements Procedur
 	{
 		resultTypesCollectNode = resultTypeResolver.resolve(resultsUnresolved, this);
 
-		resultTypes = resultTypesCollectNode.getChildrenAsVector();
+		if(resultTypesCollectNode != null)
+			resultTypes = resultTypesCollectNode.getChildrenAsVector();
 		
-		return resultTypesCollectNode != null;
+		return resultTypes != null;
 	}
 
 	@Override

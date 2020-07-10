@@ -1569,7 +1569,7 @@ public class ModifyEvalGen extends CSharpBase
 			DefDeclGraphEntityStatement ddges)
 	{
 		GraphEntity graphEntity = ddges.getTarget();
-		if(graphEntity.getIdent().toString() == "this") {
+		if(graphEntity.getIdent().toString().equals("this")) {
 			return; // don't emit a declaration for the fake "this" entity of a method
 		}
 		sb.appendFront(formatType(graphEntity.getType()) + " " + formatEntity(graphEntity));
@@ -3206,12 +3206,11 @@ public class ModifyEvalGen extends CSharpBase
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
 			isDeletedElem = state.delEdges().contains(element);
-		} else if(element instanceof Variable && ((Variable)element).getType() instanceof NodeType) {
-			kindStr = "Node";
-			isDeletedElem = state.delNodes().contains(element);
-		} else if(element instanceof Variable && ((Variable)element).getType() instanceof EdgeType) {
-			kindStr = "Edge";
-			isDeletedElem = state.delEdges().contains(element);
+		} else if(element instanceof Variable) {
+			if(((Variable)element).getType() instanceof NodeType)
+				kindStr = "Node";
+			else
+				kindStr = "Edge";
 		} else
 			assert false : "Entity is neither a node nor an edge (" + element + ")!";
 
@@ -3250,11 +3249,10 @@ public class ModifyEvalGen extends CSharpBase
 			kindStr = "Edge";
 			isDeletedElem = state.delEdges().contains(element);
 		} else if(element instanceof Variable && ((Variable)element).getType() instanceof NodeType) {
-			kindStr = "Node";
-			isDeletedElem = state.delNodes().contains(element);
-		} else if(element instanceof Variable && ((Variable)element).getType() instanceof EdgeType) {
-			kindStr = "Edge";
-			isDeletedElem = state.delEdges().contains(element);
+			if(((Variable)element).getType() instanceof NodeType)
+				kindStr = "Node";
+			else if(element instanceof Variable && ((Variable)element).getType() instanceof EdgeType)
+				kindStr = "Edge";
 		} else
 			assert false : "Entity is neither a node nor an edge (" + element + ")!";
 

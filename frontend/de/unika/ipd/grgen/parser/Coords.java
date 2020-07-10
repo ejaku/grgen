@@ -117,7 +117,7 @@ public class Coords implements Location
 			Coords c = (Coords)obj;
 			res = line == c.line && column == c.column &&
 					((filename == null && c.filename == null)
-							|| (filename.equals(c.filename)));
+							|| (filename != null && filename.equals(c.filename)));
 		}
 		return res;
 	}

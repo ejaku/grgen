@@ -87,16 +87,6 @@ public class ConnAssert extends IR
 		fields.put("tgt_type", Collections.singleton(getTgtType()));
 	}
 
-	public boolean equals(ConnAssert ca)
-	{
-		return srcLower == ca.srcLower &&
-				srcUpper == ca.srcUpper &&
-				tgtLower == ca.tgtLower &&
-				tgtUpper == ca.tgtUpper &&
-				getSrcType() == ca.getSrcType() &&
-				getTgtType() == ca.getTgtType();
-	}
-
 	/**
 	 * Compares a given connection assert with <code>this</code> one.
 	 * @return a negative integer, zero, or a positive integer as the
@@ -105,8 +95,14 @@ public class ConnAssert extends IR
 	 */
 	public int compareTo(ConnAssert ca)
 	{
-		if(this.equals(ca))
+		if(srcLower == ca.srcLower &&
+			srcUpper == ca.srcUpper &&
+			tgtLower == ca.tgtLower &&
+			tgtUpper == ca.tgtUpper &&
+			getSrcType() == ca.getSrcType() &&
+			getTgtType() == ca.getTgtType()) {
 			return 0;
+		}
 
 		if(this.srcLower < ca.srcLower) {
 			if(this.srcUpper < ca.srcUpper) {

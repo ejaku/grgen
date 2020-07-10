@@ -931,7 +931,6 @@ replacePart [ CollectNode<BaseNode> params, AnonymousScopeNamer namer,
 		CollectNode<OrderedReplacementsNode> orderedReplacements = new CollectNode<OrderedReplacementsNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
-		CollectNode<SubpatternUsageDeclNode> subpatterns = new CollectNode<SubpatternUsageDeclNode>();
 	}
 	: r=REPLACE ( id=rhsIdentDecl { nameOfRHS = id; } )?
 		LBRACE
@@ -963,7 +962,6 @@ modifyPart [ CollectNode<IdentNode> dels, CollectNode<BaseNode> params, Anonymou
 		CollectNode<OrderedReplacementsNode> orderedReplacements = new CollectNode<OrderedReplacementsNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
-		CollectNode<SubpatternUsageDeclNode> subpatterns = new CollectNode<SubpatternUsageDeclNode>();
 	}
 	: m=MODIFY ( id=rhsIdentDecl { nameOfRHS = id; } )?
 		LBRACE
@@ -1130,10 +1128,8 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageD
 		id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
 		TypeExprNode constr = TypeExprNode.getEmpty();
-		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
 		CollectNode<ExprNode> subpatternReplConn = new CollectNode<ExprNode>();
 		IdentNode curId = env.getDummyIdent();
-		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
 		NodeDeclNode nodeDecl = null;
 	}
 	: id=entIdentUse firstEdgeContinuation[id, conn, context, directlyNestingLHSGraph] // use of already declared node, continue looking for first edge

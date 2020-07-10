@@ -36,7 +36,6 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 		setName(AttributeIndexDeclNode.class, "attribute index declaration");
 	}
 
-	protected IdentNode typeUnresolved;
 	public InheritanceTypeNode type;
 	protected IdentNode memberUnresolved;
 	public MemberDeclNode member;
