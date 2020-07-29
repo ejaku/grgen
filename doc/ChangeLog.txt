@@ -1,11 +1,11 @@
-﻿ v5.1 (2020-07-??)
+﻿v5.1 (2020-07-29)
  More demanding prerequisites:
-  Increased required .NET version from 2.0 to 4.0 (supported by mono 3.0)
+  Increased required .NET version from 2.0 to 4.0 (or mono 3.8.0)
   Increased required JAVA version from 1.5 to 1.8
 
  Implementation of keepOneForEach<X>Accumulate<Y>By<Z> auto-generated filter 
   for action (r), iterated in action (r.it), match class (mc)
-  removes entries in array<match<r.it/r/class mc>> that are duplicates in/of entity X,
+  removes entries in array<match<r/r.it/class mc>> that are duplicates in/of entity X,
   the entity Y of the remaining entry receives the result of accumulating the array of all entries of Y of the same X,
   by array accumulation method Z (equivalent of SQL GROUP BY with accumulation function)
   (take a look at quarantine tests showing how to use it for "fusing" results, summing scores of entries that fall together)

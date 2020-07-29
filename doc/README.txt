@@ -1,4 +1,4 @@
-GrGen.NET v5.1 (2020-07-??)
+GrGen.NET v5.1 (2020-07-29)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -15,7 +15,7 @@ INSTALL
 
 You need the following system setup for GrGen.NET:
   - Microsoft .NET 4.0 or above
-    OR Mono 3.2.8 or above
+    OR Mono 3.8.0 or above
   - Java 1.8 or above
 
 For Linux:
