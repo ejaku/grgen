@@ -239,6 +239,11 @@
             Class representing an array sort expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayGroup">
+            <summary>
+            Class representing an array group expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayKeepOneForEach">
             <summary>
             Class representing an array keep one for each expression.
@@ -4578,6 +4583,11 @@
             An array of all pattern variables.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.PatternElements">
+            <summary>
+            An enumerable over all pattern elements.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.GetPatternElement(System.String)">
             <summary>
             Returns the pattern element with the given name if it is available, otherwise null.
@@ -6665,7 +6675,7 @@
             Returns name of the match class
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.ComparerClassName(System.String,System.String,System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.ArrayHelperClassName(System.String,System.String,System.String)">
             <summary>
             Returns name of the comparer class
             </summary>

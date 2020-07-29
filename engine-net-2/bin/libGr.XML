@@ -444,7 +444,12 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatchClass.Variables">
             <summary>
-            An array of all pattern variables;
+            An array of all pattern variables.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatchClass.PatternElements">
+            <summary>
+            An enumerable over all pattern elements.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatchClass.GetPatternElement(System.String)">
@@ -923,6 +928,20 @@
             </summary>
             <param name="a">A List, i.e. dynamic array.</param>
             <returns>A new List with the content of the old list sorted.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ArrayGroup(System.Collections.IList)">
+            <summary>
+            Creates a new array containing the content of the old array with equal elements grouped together.
+            </summary>
+            <param name="a">A List, i.e. dynamic array.</param>
+            <returns>A new List with equal elements grouped together (in no specific order).</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ArrayGroup``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Creates a new array containing the content of the old array with equal elements grouped together.
+            </summary>
+            <param name="a">A List, i.e. dynamic array.</param>
+            <returns>A new List with equal elements grouped together (in no specific order).</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ArrayKeepOneForEach(System.Collections.IList)">
             <summary>
@@ -1775,6 +1794,13 @@
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.Pattern">
             <summary>
             The match object represents a match of the pattern given by this member.
+            May be null in case of a match class created by a constructor instead of an action.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.MatchClass">
+            <summary>
+            The match object represents a match of the match class given by this member.
+            Only set in case the match class was created by a constructor, otherwise the pattern is given.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.MatchOfEnclosingPattern">
@@ -2304,6 +2330,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.Variables">
             <summary>
             An array of all pattern variables;
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.PatternElements">
+            <summary>
+            An enumerable over all pattern elements.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IPatternGraph.GetPatternElement(System.String)">
@@ -4662,6 +4693,54 @@
             </summary>
             <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActions.ArrayOrderAscendingBy(System.Collections.IList,System.String)">
+            <summary>
+            Orders the array ascendingly alongside the values in the given member.
+            The array must be of match type, of a match of one of the actions in this actions object,
+            or one of the match classes in this actions object.
+            </summary>
+            <param name="array">The array to order ascendingly</param>
+            <param name="member">The member to order alongside</param>
+            <returns>The array ordered by the member or null if the array was not processed because the array 
+            did not contain matches of the known rules/tests or match classes,
+            or the member was not known.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActions.ArrayOrderDescendingBy(System.Collections.IList,System.String)">
+            <summary>
+            Orders the array descendingly alongside the values in the given member.
+            The array must be of match type, of a match of one of the actions in this actions object,
+            or one of the match classes in this actions object.
+            </summary>
+            <param name="array">The array to order descendingly</param>
+            <param name="member">The member to order alongside</param>
+            <returns>The array ordered by the member or null if the array was not processed because the array 
+            did not contain matches of the known rules/tests or match classes,
+            or the member was not known.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActions.ArrayGroupBy(System.Collections.IList,System.String)">
+            <summary>
+            Groups the array alongside the values in the given member.
+            The array must be of match type, of a match of one of the actions in this actions object
+            or one of the match classes in this actions object.
+            </summary>
+            <param name="array">The array to group</param>
+            <param name="member">The member to group by</param>
+            <returns>The array grouped by the member or null if the array was not processed because the array 
+            did not contain matches of the known rules/tests or match classes,
+            or the member was not known.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActions.ArrayKeepOneForEach(System.Collections.IList,System.String)">
+            <summary>
+            Keeps the array members with distinct values in the given member / removes duplicates.
+            The array must be of match type, of a match of one of the actions in this actions object,
+            or one of the match classes in this actions object.
+            </summary>
+            <param name="array">The array to remove duplicates from</param>
+            <param name="member">The member to check for duplicates</param>
+            <returns>The array freed from duplicates in the member or null if the array was not processed because the array 
+            did not contain matches of the known rules/tests or match classes,
+            or the member was not known.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IActions.FailAssertion">
             <summary>
             Debugging helper. Fails in a debug build with an assertion.
@@ -5860,6 +5939,46 @@
             when an attribute of object or external type is compared for ordering in the interpreted sequences;
             you may dispatch from there to the type exact comparisons, which are called directly from the compiled sequences.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.ArrayOrderAscendingBy(System.Collections.IList,System.String)">
+            <summary>
+            Orders the array ascendingly alongside the values in the given member.
+            The array must be of node or edge type, of a graph element type of this model object.
+            </summary>
+            <param name="array">The array to order ascendingly</param>
+            <param name="member">The member to order alongside</param>
+            <returns>The array ordered by the member or null if the array was not processed because the array 
+            did not contain one of the known nodes/edges or the member attribute was not known.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.ArrayOrderDescendingBy(System.Collections.IList,System.String)">
+            <summary>
+            Orders the array descendingly alongside the values in the given member.
+            The array must be of node or edge type, of a graph element type of this model object.
+            </summary>
+            <param name="array">The array to order descendingly</param>
+            <param name="member">The member to order alongside</param>
+            <returns>The array ordered by the member or null if the array was not processed because the array 
+            did not contain one of the known nodes/edges or the member attribute was not known.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.ArrayGroupBy(System.Collections.IList,System.String)">
+            <summary>
+            Groups the array alongside the values in the given member.
+            The array must be of node or edge type, of a graph element type of this model object.
+            </summary>
+            <param name="array">The array to group</param>
+            <param name="member">The member to group by</param>
+            <returns>The array grouped by the member or null if the array was not processed because the array 
+            did not contain one of the known nodes/edges or the member attribute was not known.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.ArrayKeepOneForEach(System.Collections.IList,System.String)">
+            <summary>
+            Keeps the array members with distinct values in the given member / removes duplicates.
+            The array must be of node or edge type, of a graph element type of this model object.
+            </summary>
+            <param name="array">The array to remove duplicates from</param>
+            <param name="member">The member to check for duplicates</param>
+            <returns>The array freed from duplicates in the member or null if the array was not processed because the array 
+            did not contain one of the known nodes/edges or the member attribute was not known.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.FailAssertion">
             <summary>
