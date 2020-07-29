@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun May 24 19:21:31 CEST 2020
+// Generated from "test.grg" on Wed Jul 29 12:19:48 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -80,11 +80,11 @@ namespace de.unika.ipd.grGen.Action_test
 			};
 			bool[] testRule_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] testRule_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode testRule_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D231_4121, GRGEN_MODEL.NodeType_D231_4121.typeVar, "GRGEN_MODEL.ID231_4121", "testRule_node_a", "a", testRule_node_a_AllowedTypes, testRule_node_a_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode testRule_node_f = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B21, GRGEN_MODEL.NodeType_B21.typeVar, "GRGEN_MODEL.IB21", "testRule_node_f", "f", testRule_node_f_AllowedTypes, testRule_node_f_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode testRule_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D2211_2222_31, GRGEN_MODEL.NodeType_D2211_2222_31.typeVar, "GRGEN_MODEL.ID2211_2222_31", "testRule_node_m", "m", testRule_node_m_AllowedTypes, testRule_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge testRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "testRule_edge__edge0", "_edge0", testRule_edge__edge0_AllowedTypes, testRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge testRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "testRule_edge__edge1", "_edge1", testRule_edge__edge1_AllowedTypes, testRule_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode testRule_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D231_4121, GRGEN_MODEL.NodeType_D231_4121.typeVar, "GRGEN_MODEL.ID231_4121", "testRule_node_a", "a", testRule_node_a_AllowedTypes, testRule_node_a_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode testRule_node_f = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B21, GRGEN_MODEL.NodeType_B21.typeVar, "GRGEN_MODEL.IB21", "testRule_node_f", "f", testRule_node_f_AllowedTypes, testRule_node_f_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode testRule_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D2211_2222_31, GRGEN_MODEL.NodeType_D2211_2222_31.typeVar, "GRGEN_MODEL.ID2211_2222_31", "testRule_node_m", "m", testRule_node_m_AllowedTypes, testRule_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge testRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "testRule_edge__edge0", "_edge0", testRule_edge__edge0_AllowedTypes, testRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge testRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "testRule_edge__edge1", "_edge1", testRule_edge__edge1_AllowedTypes, testRule_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_testRule = new GRGEN_LGSP.PatternGraph(
 				"testRule",
 				"",
@@ -195,7 +195,7 @@ namespace de.unika.ipd.grGen.Action_test
 			public enum testRule_NodeNums { @a, @f, @m, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -222,7 +222,7 @@ namespace de.unika.ipd.grGen.Action_test
 			public enum testRule_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 2;} }
+			public override int NumberOfEdges { get { return 2; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -243,7 +243,7 @@ namespace de.unika.ipd.grGen.Action_test
 			public enum testRule_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -260,7 +260,7 @@ namespace de.unika.ipd.grGen.Action_test
 			public enum testRule_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -277,7 +277,7 @@ namespace de.unika.ipd.grGen.Action_test
 			public enum testRule_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -294,7 +294,7 @@ namespace de.unika.ipd.grGen.Action_test
 			public enum testRule_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -311,7 +311,7 @@ namespace de.unika.ipd.grGen.Action_test
 			public enum testRule_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -326,6 +326,7 @@ namespace de.unika.ipd.grGen.Action_test
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_testRule.instance.pat_testRule; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_testRule(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_testRule nextWithSameHash;
@@ -407,10 +408,39 @@ namespace de.unika.ipd.grGen.Action_test
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>)
+				return ((List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_groupBy_a(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
+		{
+			Dictionary<GRGEN_MODEL.ID231_4121, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>> seenValues = new Dictionary<GRGEN_MODEL.ID231_4121, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_a)) {
+					seenValues[list[pos].@node_a].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> tempList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_a, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+			foreach(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_keepOneForEachBy_a(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
 		{
 			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
@@ -421,6 +451,26 @@ namespace de.unika.ipd.grGen.Action_test
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_a, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_groupBy_f(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
+		{
+			Dictionary<GRGEN_MODEL.IB21, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>> seenValues = new Dictionary<GRGEN_MODEL.IB21, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_f)) {
+					seenValues[list[pos].@node_f].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> tempList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_f, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+			foreach(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -437,6 +487,26 @@ namespace de.unika.ipd.grGen.Action_test
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_groupBy_m(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
+		{
+			Dictionary<GRGEN_MODEL.ID2211_2222_31, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>> seenValues = new Dictionary<GRGEN_MODEL.ID2211_2222_31, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_m)) {
+					seenValues[list[pos].@node_m].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> tempList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_m, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+			foreach(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_keepOneForEachBy_m(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
 		{
 			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
@@ -450,6 +520,26 @@ namespace de.unika.ipd.grGen.Action_test
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_groupBy__edge0(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> tempList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+			foreach(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
 		{
 			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
@@ -460,6 +550,26 @@ namespace de.unika.ipd.grGen.Action_test
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge0, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_groupBy__edge1(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge1)) {
+					seenValues[list[pos].@edge__edge1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> tempList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> newList = new List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>();
+			foreach(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -838,13 +948,6 @@ namespace de.unika.ipd.grGen.Action_test
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>)
-                return ((List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
 
@@ -894,6 +997,169 @@ namespace de.unika.ipd.grGen.Action_test
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override IList ArrayOrderAscendingBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "testRule":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayOrderDescendingBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "testRule":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayGroupBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "testRule":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_testRule_groupBy_a(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array));
+                    case "f":
+                        return ArrayHelper.Array_testRule_groupBy_f(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array));
+                    case "m":
+                        return ArrayHelper.Array_testRule_groupBy_m(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_testRule_groupBy__edge0(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_testRule_groupBy__edge1(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayKeepOneForEach(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "testRule":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_testRule_keepOneForEachBy_a(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array));
+                    case "f":
+                        return ArrayHelper.Array_testRule_keepOneForEachBy_f(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array));
+                    case "m":
+                        return ArrayHelper.Array_testRule_keepOneForEachBy_m(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_testRule_keepOneForEachBy__edge0(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_testRule_keepOneForEachBy__edge1(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
         public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
     }

@@ -1,9 +1,10 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Sun May 24 19:21:40 CEST 2020
+// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Wed Jul 29 12:20:17 CEST 2020
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -480,6 +481,15 @@ public static ProcedureMethodInfo_bar_N Instance { get { if(instance==null) { in
 	}
 
 
+	public class Comparer_N_i : Comparer<GRGEN_MODEL.IN>
+	{
+		public static Comparer_N_i thisComparer = new Comparer_N_i();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return a.@i.CompareTo(b.@i);
+		}
+	}
+
 	public class ReverseComparer_N_i : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_i thisComparer = new ReverseComparer_N_i();
@@ -489,14 +499,9 @@ public static ProcedureMethodInfo_bar_N Instance { get { if(instance==null) { in
 		}
 	}
 
-	public class Comparer_N_i : Comparer<GRGEN_MODEL.IN>
+	public class ArrayHelper_N_i
 	{
 		private static GRGEN_MODEL.IN nodeBearingAttributeForSearch = new GRGEN_MODEL.@N();
-		private static Comparer_N_i thisComparer = new Comparer_N_i();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
-		{
-			return a.@i.CompareTo(b.@i);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IN> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -528,18 +533,38 @@ public static ProcedureMethodInfo_bar_N Instance { get { if(instance==null) { in
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IN> list, int entry)
 		{
 			nodeBearingAttributeForSearch.@i = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_N_i.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderAscendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_N_i.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
 			newList.Sort(ReverseComparer_N_i.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayGroupBy(List<GRGEN_MODEL.IN> list)
+		{
+			Dictionary<int, List<GRGEN_MODEL.IN>> seenValues = new Dictionary<int, List<GRGEN_MODEL.IN>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@i)) {
+					seenValues[list[pos].@i].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IN> tempList = new List<GRGEN_MODEL.IN>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@i, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			foreach(List<GRGEN_MODEL.IN> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
@@ -570,7 +595,6 @@ public static ProcedureMethodInfo_bar_N Instance { get { if(instance==null) { in
 	public interface INN : IN
 	{
 		string @s { get; set; }
-		int foo(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, int var_j);
 		void bla(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string var_t, out string _out_param_0);
 	}
 
@@ -946,6 +970,15 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 	}
 
 
+	public class Comparer_NN_i : Comparer<GRGEN_MODEL.INN>
+	{
+		public static Comparer_NN_i thisComparer = new Comparer_NN_i();
+		public override int Compare(GRGEN_MODEL.INN a, GRGEN_MODEL.INN b)
+		{
+			return a.@i.CompareTo(b.@i);
+		}
+	}
+
 	public class ReverseComparer_NN_i : Comparer<GRGEN_MODEL.INN>
 	{
 		public static ReverseComparer_NN_i thisComparer = new ReverseComparer_NN_i();
@@ -955,14 +988,9 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 		}
 	}
 
-	public class Comparer_NN_i : Comparer<GRGEN_MODEL.INN>
+	public class ArrayHelper_NN_i
 	{
 		private static GRGEN_MODEL.INN nodeBearingAttributeForSearch = new GRGEN_MODEL.@NN();
-		private static Comparer_NN_i thisComparer = new Comparer_NN_i();
-		public override int Compare(GRGEN_MODEL.INN a, GRGEN_MODEL.INN b)
-		{
-			return a.@i.CompareTo(b.@i);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.INN> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -994,18 +1022,38 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.INN> list, int entry)
 		{
 			nodeBearingAttributeForSearch.@i = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_NN_i.thisComparer);
 		}
 		public static List<GRGEN_MODEL.INN> ArrayOrderAscendingBy(List<GRGEN_MODEL.INN> list)
 		{
 			List<GRGEN_MODEL.INN> newList = new List<GRGEN_MODEL.INN>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_NN_i.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.INN> ArrayOrderDescendingBy(List<GRGEN_MODEL.INN> list)
 		{
 			List<GRGEN_MODEL.INN> newList = new List<GRGEN_MODEL.INN>(list);
 			newList.Sort(ReverseComparer_NN_i.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.INN> ArrayGroupBy(List<GRGEN_MODEL.INN> list)
+		{
+			Dictionary<int, List<GRGEN_MODEL.INN>> seenValues = new Dictionary<int, List<GRGEN_MODEL.INN>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@i)) {
+					seenValues[list[pos].@i].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.INN> tempList = new List<GRGEN_MODEL.INN>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@i, tempList);
+				}
+			}
+			List<GRGEN_MODEL.INN> newList = new List<GRGEN_MODEL.INN>();
+			foreach(List<GRGEN_MODEL.INN> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.INN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.INN> list)
@@ -1031,6 +1079,15 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 	}
 
 
+	public class Comparer_NN_s : Comparer<GRGEN_MODEL.INN>
+	{
+		public static Comparer_NN_s thisComparer = new Comparer_NN_s();
+		public override int Compare(GRGEN_MODEL.INN a, GRGEN_MODEL.INN b)
+		{
+			return StringComparer.InvariantCulture.Compare(a.@s, b.@s);
+		}
+	}
+
 	public class ReverseComparer_NN_s : Comparer<GRGEN_MODEL.INN>
 	{
 		public static ReverseComparer_NN_s thisComparer = new ReverseComparer_NN_s();
@@ -1040,14 +1097,9 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 		}
 	}
 
-	public class Comparer_NN_s : Comparer<GRGEN_MODEL.INN>
+	public class ArrayHelper_NN_s
 	{
 		private static GRGEN_MODEL.INN nodeBearingAttributeForSearch = new GRGEN_MODEL.@NN();
-		private static Comparer_NN_s thisComparer = new Comparer_NN_s();
-		public override int Compare(GRGEN_MODEL.INN a, GRGEN_MODEL.INN b)
-		{
-			return StringComparer.InvariantCulture.Compare(a.@s, b.@s);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.INN> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -1079,18 +1131,38 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.INN> list, string entry)
 		{
 			nodeBearingAttributeForSearch.@s = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_NN_s.thisComparer);
 		}
 		public static List<GRGEN_MODEL.INN> ArrayOrderAscendingBy(List<GRGEN_MODEL.INN> list)
 		{
 			List<GRGEN_MODEL.INN> newList = new List<GRGEN_MODEL.INN>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_NN_s.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.INN> ArrayOrderDescendingBy(List<GRGEN_MODEL.INN> list)
 		{
 			List<GRGEN_MODEL.INN> newList = new List<GRGEN_MODEL.INN>(list);
 			newList.Sort(ReverseComparer_NN_s.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.INN> ArrayGroupBy(List<GRGEN_MODEL.INN> list)
+		{
+			Dictionary<string, List<GRGEN_MODEL.INN>> seenValues = new Dictionary<string, List<GRGEN_MODEL.INN>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@s)) {
+					seenValues[list[pos].@s].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.INN> tempList = new List<GRGEN_MODEL.INN>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@s, tempList);
+				}
+			}
+			List<GRGEN_MODEL.INN> newList = new List<GRGEN_MODEL.INN>();
+			foreach(List<GRGEN_MODEL.INN> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.INN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.INN> list)
@@ -1800,6 +1872,15 @@ public static ProcedureMethodInfo_bar_E Instance { get { if(instance==null) { in
 	}
 
 
+	public class Comparer_E_i : Comparer<GRGEN_MODEL.IE>
+	{
+		public static Comparer_E_i thisComparer = new Comparer_E_i();
+		public override int Compare(GRGEN_MODEL.IE a, GRGEN_MODEL.IE b)
+		{
+			return a.@i.CompareTo(b.@i);
+		}
+	}
+
 	public class ReverseComparer_E_i : Comparer<GRGEN_MODEL.IE>
 	{
 		public static ReverseComparer_E_i thisComparer = new ReverseComparer_E_i();
@@ -1809,14 +1890,9 @@ public static ProcedureMethodInfo_bar_E Instance { get { if(instance==null) { in
 		}
 	}
 
-	public class Comparer_E_i : Comparer<GRGEN_MODEL.IE>
+	public class ArrayHelper_E_i
 	{
 		private static GRGEN_MODEL.IE nodeBearingAttributeForSearch = new GRGEN_MODEL.@E(null, null);
-		private static Comparer_E_i thisComparer = new Comparer_E_i();
-		public override int Compare(GRGEN_MODEL.IE a, GRGEN_MODEL.IE b)
-		{
-			return a.@i.CompareTo(b.@i);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IE> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -1848,18 +1924,38 @@ public static ProcedureMethodInfo_bar_E Instance { get { if(instance==null) { in
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IE> list, int entry)
 		{
 			nodeBearingAttributeForSearch.@i = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_E_i.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IE> ArrayOrderAscendingBy(List<GRGEN_MODEL.IE> list)
 		{
 			List<GRGEN_MODEL.IE> newList = new List<GRGEN_MODEL.IE>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_E_i.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IE> ArrayOrderDescendingBy(List<GRGEN_MODEL.IE> list)
 		{
 			List<GRGEN_MODEL.IE> newList = new List<GRGEN_MODEL.IE>(list);
 			newList.Sort(ReverseComparer_E_i.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IE> ArrayGroupBy(List<GRGEN_MODEL.IE> list)
+		{
+			Dictionary<int, List<GRGEN_MODEL.IE>> seenValues = new Dictionary<int, List<GRGEN_MODEL.IE>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@i)) {
+					seenValues[list[pos].@i].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IE> tempList = new List<GRGEN_MODEL.IE>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@i, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IE> newList = new List<GRGEN_MODEL.IE>();
+			foreach(List<GRGEN_MODEL.IE> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IE> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IE> list)
@@ -1890,7 +1986,6 @@ public static ProcedureMethodInfo_bar_E Instance { get { if(instance==null) { in
 	public interface IEE : IE
 	{
 		string @s { get; set; }
-		int foo(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, int var_j);
 		void bla(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string var_t, out string _out_param_0);
 	}
 
@@ -2275,6 +2370,15 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 	}
 
 
+	public class Comparer_EE_i : Comparer<GRGEN_MODEL.IEE>
+	{
+		public static Comparer_EE_i thisComparer = new Comparer_EE_i();
+		public override int Compare(GRGEN_MODEL.IEE a, GRGEN_MODEL.IEE b)
+		{
+			return a.@i.CompareTo(b.@i);
+		}
+	}
+
 	public class ReverseComparer_EE_i : Comparer<GRGEN_MODEL.IEE>
 	{
 		public static ReverseComparer_EE_i thisComparer = new ReverseComparer_EE_i();
@@ -2284,14 +2388,9 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		}
 	}
 
-	public class Comparer_EE_i : Comparer<GRGEN_MODEL.IEE>
+	public class ArrayHelper_EE_i
 	{
 		private static GRGEN_MODEL.IEE nodeBearingAttributeForSearch = new GRGEN_MODEL.@EE(null, null);
-		private static Comparer_EE_i thisComparer = new Comparer_EE_i();
-		public override int Compare(GRGEN_MODEL.IEE a, GRGEN_MODEL.IEE b)
-		{
-			return a.@i.CompareTo(b.@i);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IEE> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -2323,18 +2422,38 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IEE> list, int entry)
 		{
 			nodeBearingAttributeForSearch.@i = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_EE_i.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IEE> ArrayOrderAscendingBy(List<GRGEN_MODEL.IEE> list)
 		{
 			List<GRGEN_MODEL.IEE> newList = new List<GRGEN_MODEL.IEE>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_EE_i.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IEE> ArrayOrderDescendingBy(List<GRGEN_MODEL.IEE> list)
 		{
 			List<GRGEN_MODEL.IEE> newList = new List<GRGEN_MODEL.IEE>(list);
 			newList.Sort(ReverseComparer_EE_i.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IEE> ArrayGroupBy(List<GRGEN_MODEL.IEE> list)
+		{
+			Dictionary<int, List<GRGEN_MODEL.IEE>> seenValues = new Dictionary<int, List<GRGEN_MODEL.IEE>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@i)) {
+					seenValues[list[pos].@i].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IEE> tempList = new List<GRGEN_MODEL.IEE>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@i, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IEE> newList = new List<GRGEN_MODEL.IEE>();
+			foreach(List<GRGEN_MODEL.IEE> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IEE> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IEE> list)
@@ -2360,6 +2479,15 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 	}
 
 
+	public class Comparer_EE_s : Comparer<GRGEN_MODEL.IEE>
+	{
+		public static Comparer_EE_s thisComparer = new Comparer_EE_s();
+		public override int Compare(GRGEN_MODEL.IEE a, GRGEN_MODEL.IEE b)
+		{
+			return StringComparer.InvariantCulture.Compare(a.@s, b.@s);
+		}
+	}
+
 	public class ReverseComparer_EE_s : Comparer<GRGEN_MODEL.IEE>
 	{
 		public static ReverseComparer_EE_s thisComparer = new ReverseComparer_EE_s();
@@ -2369,14 +2497,9 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		}
 	}
 
-	public class Comparer_EE_s : Comparer<GRGEN_MODEL.IEE>
+	public class ArrayHelper_EE_s
 	{
 		private static GRGEN_MODEL.IEE nodeBearingAttributeForSearch = new GRGEN_MODEL.@EE(null, null);
-		private static Comparer_EE_s thisComparer = new Comparer_EE_s();
-		public override int Compare(GRGEN_MODEL.IEE a, GRGEN_MODEL.IEE b)
-		{
-			return StringComparer.InvariantCulture.Compare(a.@s, b.@s);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IEE> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -2408,18 +2531,38 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IEE> list, string entry)
 		{
 			nodeBearingAttributeForSearch.@s = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_EE_s.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IEE> ArrayOrderAscendingBy(List<GRGEN_MODEL.IEE> list)
 		{
 			List<GRGEN_MODEL.IEE> newList = new List<GRGEN_MODEL.IEE>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_EE_s.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IEE> ArrayOrderDescendingBy(List<GRGEN_MODEL.IEE> list)
 		{
 			List<GRGEN_MODEL.IEE> newList = new List<GRGEN_MODEL.IEE>(list);
 			newList.Sort(ReverseComparer_EE_s.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IEE> ArrayGroupBy(List<GRGEN_MODEL.IEE> list)
+		{
+			Dictionary<string, List<GRGEN_MODEL.IEE>> seenValues = new Dictionary<string, List<GRGEN_MODEL.IEE>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@s)) {
+					seenValues[list[pos].@s].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IEE> tempList = new List<GRGEN_MODEL.IEE>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@s, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IEE> newList = new List<GRGEN_MODEL.IEE>();
+			foreach(List<GRGEN_MODEL.IEE> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IEE> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IEE> list)
@@ -2750,6 +2893,298 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		private void FullyInitializeExternalTypes()
 		{
 			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public override IList ArrayOrderAscendingBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayOrderAscendingBy((List<GRGEN_MODEL.IN>)array);
+				default:
+					return null;
+				}
+			case "NN":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_NN_i.ArrayOrderAscendingBy((List<GRGEN_MODEL.INN>)array);
+				case "s":
+					return ArrayHelper_NN_s.ArrayOrderAscendingBy((List<GRGEN_MODEL.INN>)array);
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "E":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_E_i.ArrayOrderAscendingBy((List<GRGEN_MODEL.IE>)array);
+				default:
+					return null;
+				}
+			case "EE":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_EE_i.ArrayOrderAscendingBy((List<GRGEN_MODEL.IEE>)array);
+				case "s":
+					return ArrayHelper_EE_s.ArrayOrderAscendingBy((List<GRGEN_MODEL.IEE>)array);
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayOrderDescendingBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayOrderDescendingBy((List<GRGEN_MODEL.IN>)array);
+				default:
+					return null;
+				}
+			case "NN":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_NN_i.ArrayOrderDescendingBy((List<GRGEN_MODEL.INN>)array);
+				case "s":
+					return ArrayHelper_NN_s.ArrayOrderDescendingBy((List<GRGEN_MODEL.INN>)array);
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "E":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_E_i.ArrayOrderDescendingBy((List<GRGEN_MODEL.IE>)array);
+				default:
+					return null;
+				}
+			case "EE":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_EE_i.ArrayOrderDescendingBy((List<GRGEN_MODEL.IEE>)array);
+				case "s":
+					return ArrayHelper_EE_s.ArrayOrderDescendingBy((List<GRGEN_MODEL.IEE>)array);
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayGroupBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayGroupBy((List<GRGEN_MODEL.IN>)array);
+				default:
+					return null;
+				}
+			case "NN":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_NN_i.ArrayGroupBy((List<GRGEN_MODEL.INN>)array);
+				case "s":
+					return ArrayHelper_NN_s.ArrayGroupBy((List<GRGEN_MODEL.INN>)array);
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "E":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_E_i.ArrayGroupBy((List<GRGEN_MODEL.IE>)array);
+				default:
+					return null;
+				}
+			case "EE":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_EE_i.ArrayGroupBy((List<GRGEN_MODEL.IEE>)array);
+				case "s":
+					return ArrayHelper_EE_s.ArrayGroupBy((List<GRGEN_MODEL.IEE>)array);
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayKeepOneForEach(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IN>)array);
+				default:
+					return null;
+				}
+			case "NN":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_NN_i.ArrayKeepOneForEachBy((List<GRGEN_MODEL.INN>)array);
+				case "s":
+					return ArrayHelper_NN_s.ArrayKeepOneForEachBy((List<GRGEN_MODEL.INN>)array);
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "E":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_E_i.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IE>)array);
+				default:
+					return null;
+				}
+			case "EE":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_EE_i.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IEE>)array);
+				case "s":
+					return ArrayHelper_EE_s.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IEE>)array);
+				default:
+					return null;
+				}
+			default: return null;
+			}
 		}
 
 		public override void FailAssertion() { Debug.Assert(false); }

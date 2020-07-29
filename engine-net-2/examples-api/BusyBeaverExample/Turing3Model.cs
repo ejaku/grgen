@@ -1,9 +1,10 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun May 24 19:21:30 CEST 2020
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Wed Jul 29 12:19:52 CEST 2020
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -379,6 +380,15 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	}
 
+	public class Comparer_BandPosition_value : Comparer<GRGEN_MODEL.IBandPosition>
+	{
+		public static Comparer_BandPosition_value thisComparer = new Comparer_BandPosition_value();
+		public override int Compare(GRGEN_MODEL.IBandPosition a, GRGEN_MODEL.IBandPosition b)
+		{
+			return a.@value.CompareTo(b.@value);
+		}
+	}
+
 	public class ReverseComparer_BandPosition_value : Comparer<GRGEN_MODEL.IBandPosition>
 	{
 		public static ReverseComparer_BandPosition_value thisComparer = new ReverseComparer_BandPosition_value();
@@ -388,14 +398,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public class Comparer_BandPosition_value : Comparer<GRGEN_MODEL.IBandPosition>
+	public class ArrayHelper_BandPosition_value
 	{
 		private static GRGEN_MODEL.IBandPosition nodeBearingAttributeForSearch = new GRGEN_MODEL.@BandPosition();
-		private static Comparer_BandPosition_value thisComparer = new Comparer_BandPosition_value();
-		public override int Compare(GRGEN_MODEL.IBandPosition a, GRGEN_MODEL.IBandPosition b)
-		{
-			return a.@value.CompareTo(b.@value);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IBandPosition> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -427,18 +432,38 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IBandPosition> list, int entry)
 		{
 			nodeBearingAttributeForSearch.@value = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_BandPosition_value.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IBandPosition> ArrayOrderAscendingBy(List<GRGEN_MODEL.IBandPosition> list)
 		{
 			List<GRGEN_MODEL.IBandPosition> newList = new List<GRGEN_MODEL.IBandPosition>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_BandPosition_value.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IBandPosition> ArrayOrderDescendingBy(List<GRGEN_MODEL.IBandPosition> list)
 		{
 			List<GRGEN_MODEL.IBandPosition> newList = new List<GRGEN_MODEL.IBandPosition>(list);
 			newList.Sort(ReverseComparer_BandPosition_value.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IBandPosition> ArrayGroupBy(List<GRGEN_MODEL.IBandPosition> list)
+		{
+			Dictionary<int, List<GRGEN_MODEL.IBandPosition>> seenValues = new Dictionary<int, List<GRGEN_MODEL.IBandPosition>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@value)) {
+					seenValues[list[pos].@value].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IBandPosition> tempList = new List<GRGEN_MODEL.IBandPosition>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@value, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IBandPosition> newList = new List<GRGEN_MODEL.IBandPosition>();
+			foreach(List<GRGEN_MODEL.IBandPosition> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IBandPosition> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IBandPosition> list)
@@ -824,6 +849,15 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	}
 
+	public class Comparer_WriteValue_value : Comparer<GRGEN_MODEL.IWriteValue>
+	{
+		public static Comparer_WriteValue_value thisComparer = new Comparer_WriteValue_value();
+		public override int Compare(GRGEN_MODEL.IWriteValue a, GRGEN_MODEL.IWriteValue b)
+		{
+			return a.@value.CompareTo(b.@value);
+		}
+	}
+
 	public class ReverseComparer_WriteValue_value : Comparer<GRGEN_MODEL.IWriteValue>
 	{
 		public static ReverseComparer_WriteValue_value thisComparer = new ReverseComparer_WriteValue_value();
@@ -833,14 +867,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public class Comparer_WriteValue_value : Comparer<GRGEN_MODEL.IWriteValue>
+	public class ArrayHelper_WriteValue_value
 	{
 		private static GRGEN_MODEL.IWriteValue nodeBearingAttributeForSearch = new GRGEN_MODEL.@WriteValue();
-		private static Comparer_WriteValue_value thisComparer = new Comparer_WriteValue_value();
-		public override int Compare(GRGEN_MODEL.IWriteValue a, GRGEN_MODEL.IWriteValue b)
-		{
-			return a.@value.CompareTo(b.@value);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IWriteValue> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -872,18 +901,38 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IWriteValue> list, int entry)
 		{
 			nodeBearingAttributeForSearch.@value = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_WriteValue_value.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IWriteValue> ArrayOrderAscendingBy(List<GRGEN_MODEL.IWriteValue> list)
 		{
 			List<GRGEN_MODEL.IWriteValue> newList = new List<GRGEN_MODEL.IWriteValue>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_WriteValue_value.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IWriteValue> ArrayOrderDescendingBy(List<GRGEN_MODEL.IWriteValue> list)
 		{
 			List<GRGEN_MODEL.IWriteValue> newList = new List<GRGEN_MODEL.IWriteValue>(list);
 			newList.Sort(ReverseComparer_WriteValue_value.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IWriteValue> ArrayGroupBy(List<GRGEN_MODEL.IWriteValue> list)
+		{
+			Dictionary<int, List<GRGEN_MODEL.IWriteValue>> seenValues = new Dictionary<int, List<GRGEN_MODEL.IWriteValue>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@value)) {
+					seenValues[list[pos].@value].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IWriteValue> tempList = new List<GRGEN_MODEL.IWriteValue>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@value, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IWriteValue> newList = new List<GRGEN_MODEL.IWriteValue>();
+			foreach(List<GRGEN_MODEL.IWriteValue> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IWriteValue> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IWriteValue> list)
@@ -2478,6 +2527,362 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		private void FullyInitializeExternalTypes()
 		{
 			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public override IList ArrayOrderAscendingBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "BandPosition":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_BandPosition_value.ArrayOrderAscendingBy((List<GRGEN_MODEL.IBandPosition>)array);
+				default:
+					return null;
+				}
+			case "State":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "WriteValue":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_WriteValue_value.ArrayOrderAscendingBy((List<GRGEN_MODEL.IWriteValue>)array);
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "right":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "readZero":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "readOne":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "moveLeft":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "moveRight":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayOrderDescendingBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "BandPosition":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_BandPosition_value.ArrayOrderDescendingBy((List<GRGEN_MODEL.IBandPosition>)array);
+				default:
+					return null;
+				}
+			case "State":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "WriteValue":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_WriteValue_value.ArrayOrderDescendingBy((List<GRGEN_MODEL.IWriteValue>)array);
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "right":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "readZero":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "readOne":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "moveLeft":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "moveRight":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayGroupBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "BandPosition":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_BandPosition_value.ArrayGroupBy((List<GRGEN_MODEL.IBandPosition>)array);
+				default:
+					return null;
+				}
+			case "State":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "WriteValue":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_WriteValue_value.ArrayGroupBy((List<GRGEN_MODEL.IWriteValue>)array);
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "right":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "readZero":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "readOne":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "moveLeft":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "moveRight":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayKeepOneForEach(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "BandPosition":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_BandPosition_value.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IBandPosition>)array);
+				default:
+					return null;
+				}
+			case "State":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "WriteValue":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_WriteValue_value.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IWriteValue>)array);
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "right":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "readZero":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "readOne":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "moveLeft":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "moveRight":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
 		}
 
 		public override void FailAssertion() { Debug.Assert(false); }

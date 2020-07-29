@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun May 24 19:21:43 CEST 2020
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Wed Jul 29 12:20:26 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -72,7 +72,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] SpanningTree_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] SpanningTree_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] SpanningTree_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode SpanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTree_node_root", "root", SpanningTree_node_root_AllowedTypes, SpanningTree_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SpanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTree_node_root", "root", SpanningTree_node_root_AllowedTypes, SpanningTree_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
 			bool[,] SpanningTree_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -82,8 +82,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			};
 			bool[] SpanningTree_iter_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] SpanningTree_iter_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode SpanningTree_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTree_iter_0_node_next", "next", SpanningTree_iter_0_node_next_AllowedTypes, SpanningTree_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge SpanningTree_iter_0_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, GRGEN_MODEL.EdgeType_UEdge.typeVar, "GRGEN_LIBGR.IUEdge", "SpanningTree_iter_0_edge_e", "e", SpanningTree_iter_0_edge_e_AllowedTypes, SpanningTree_iter_0_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SpanningTree_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTree_iter_0_node_next", "next", SpanningTree_iter_0_node_next_AllowedTypes, SpanningTree_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge SpanningTree_iter_0_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, GRGEN_MODEL.EdgeType_UEdge.typeVar, "GRGEN_LIBGR.IUEdge", "SpanningTree_iter_0_edge_e", "e", SpanningTree_iter_0_edge_e_AllowedTypes, SpanningTree_iter_0_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding SpanningTree_iter_0_sptr = new GRGEN_LGSP.PatternGraphEmbedding("sptr", Pattern_SpanningTree.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTree_iter_0_node_next"),
@@ -192,7 +192,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		{
 			GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
 			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0> iterated_iter_0 = curMatch._iter_0;
-			SpanningTree_iter_0_Delete(actionEnv, iterated_iter_0);
 		}
 
 		public void SpanningTree_iter_0_Modify(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0> curMatches)
@@ -287,7 +286,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public enum SpanningTree_NodeNums { @root, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -306,7 +305,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public enum SpanningTree_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -323,7 +322,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public enum SpanningTree_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -340,7 +339,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public enum SpanningTree_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -357,7 +356,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public enum SpanningTree_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -376,7 +375,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public enum SpanningTree_IterNums { @iter_0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 1;} }
+			public override int NumberOfIterateds { get { return 1; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -395,7 +394,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public enum SpanningTree_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -410,6 +409,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTree.instance.pat_SpanningTree; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTree(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTree nextWithSameHash;
@@ -446,7 +446,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				while(_iter_0_thisEnumerator.MoveNext())
 				{
 					_iter_0_thatEnumerator.MoveNext();
-if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_SpanningTree_iter_0)) return false;
+					if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_SpanningTree_iter_0)) return false;
 				}
 				return true;
 			}
@@ -461,7 +461,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTree_iter_0_NodeNums { @root, @next, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -484,7 +484,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTree_iter_0_EdgeNums { @e, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 1;} }
+			public override int NumberOfEdges { get { return 1; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -503,7 +503,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTree_iter_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -522,7 +522,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTree_iter_0_SubNums { @sptr, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -541,7 +541,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTree_iter_0_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -558,7 +558,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTree_iter_0_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -575,7 +575,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTree_iter_0_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -590,6 +590,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTree.instance.SpanningTree_iter_0; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public bool IsNullMatch { get { return _isNullMatch; } }
 			public bool _isNullMatch;
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTree_iter_0(this); }
@@ -633,8 +634,29 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_groupBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_root)) {
+					seenValues[list[pos].@node_root].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_root, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_keepOneForEachBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
 		{
 			List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
@@ -648,6 +670,26 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_groupBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_next)) {
+					seenValues[list[pos].@node_next].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_next, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_keepOneForEachBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
 		{
 			List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
@@ -658,6 +700,26 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_next, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_groupBy_e(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.IUEdge, List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.IUEdge, List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge_e)) {
+					seenValues[list[pos].@edge_e].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge_e, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -731,7 +793,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			bool[,] SpanningTreeReverse_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] SpanningTreeReverse_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] SpanningTreeReverse_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode SpanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeReverse_node_root", "root", SpanningTreeReverse_node_root_AllowedTypes, SpanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SpanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeReverse_node_root", "root", SpanningTreeReverse_node_root_AllowedTypes, SpanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
 			bool[,] SpanningTreeReverse_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -741,8 +803,8 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			};
 			bool[] SpanningTreeReverse_iter_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] SpanningTreeReverse_iter_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode SpanningTreeReverse_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeReverse_iter_0_node_next", "next", SpanningTreeReverse_iter_0_node_next_AllowedTypes, SpanningTreeReverse_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge SpanningTreeReverse_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "SpanningTreeReverse_iter_0_edge__edge0", "_edge0", SpanningTreeReverse_iter_0_edge__edge0_AllowedTypes, SpanningTreeReverse_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SpanningTreeReverse_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeReverse_iter_0_node_next", "next", SpanningTreeReverse_iter_0_node_next_AllowedTypes, SpanningTreeReverse_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge SpanningTreeReverse_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "SpanningTreeReverse_iter_0_edge__edge0", "_edge0", SpanningTreeReverse_iter_0_edge__edge0_AllowedTypes, SpanningTreeReverse_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeReverse_iter_0_sptrr = new GRGEN_LGSP.PatternGraphEmbedding("sptrr", Pattern_SpanningTreeReverse.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeReverse_iter_0_node_next"),
@@ -851,7 +913,6 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 		{
 			GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
 			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> iterated_iter_0 = curMatch._iter_0;
-			SpanningTreeReverse_iter_0_Delete(actionEnv, iterated_iter_0);
 		}
 
 		public void SpanningTreeReverse_iter_0_Modify(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> curMatches)
@@ -945,7 +1006,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTreeReverse_NodeNums { @root, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -964,7 +1025,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTreeReverse_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -981,7 +1042,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTreeReverse_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -998,7 +1059,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTreeReverse_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -1015,7 +1076,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTreeReverse_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -1034,7 +1095,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTreeReverse_IterNums { @iter_0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 1;} }
+			public override int NumberOfIterateds { get { return 1; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -1053,7 +1114,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			public enum SpanningTreeReverse_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -1068,6 +1129,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTreeReverse.instance.pat_SpanningTreeReverse; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeReverse(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTreeReverse nextWithSameHash;
@@ -1104,7 +1166,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTree_iter_0).IsEqual(_iter_
 				while(_iter_0_thisEnumerator.MoveNext())
 				{
 					_iter_0_thatEnumerator.MoveNext();
-if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_SpanningTreeReverse_iter_0)) return false;
+					if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_SpanningTreeReverse_iter_0)) return false;
 				}
 				return true;
 			}
@@ -1119,7 +1181,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeReverse_iter_0_NodeNums { @root, @next, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -1142,7 +1204,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeReverse_iter_0_EdgeNums { @_edge0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 1;} }
+			public override int NumberOfEdges { get { return 1; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -1161,7 +1223,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeReverse_iter_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -1180,7 +1242,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeReverse_iter_0_SubNums { @sptrr, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -1199,7 +1261,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeReverse_iter_0_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -1216,7 +1278,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeReverse_iter_0_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -1233,7 +1295,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeReverse_iter_0_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -1248,6 +1310,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTreeReverse.instance.SpanningTreeReverse_iter_0; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public bool IsNullMatch { get { return _isNullMatch; } }
 			public bool _isNullMatch;
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeReverse_iter_0(this); }
@@ -1291,8 +1354,29 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_groupBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_root)) {
+					seenValues[list[pos].@node_root].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_root, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_keepOneForEachBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
 		{
 			List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
@@ -1306,6 +1390,26 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_groupBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_next)) {
+					seenValues[list[pos].@node_next].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_next, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_keepOneForEachBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
 		{
 			List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
@@ -1316,6 +1420,26 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_next, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_groupBy__edge0(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -1385,7 +1509,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			bool[,] SpanningTreeOutgoing_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] SpanningTreeOutgoing_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] SpanningTreeOutgoing_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_node_root", "root", SpanningTreeOutgoing_node_root_AllowedTypes, SpanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_node_root", "root", SpanningTreeOutgoing_node_root_AllowedTypes, SpanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
 			bool[,] SpanningTreeOutgoing_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1395,8 +1519,8 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			};
 			bool[] SpanningTreeOutgoing_iter_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] SpanningTreeOutgoing_iter_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_iter_0_node_next", "next", SpanningTreeOutgoing_iter_0_node_next_AllowedTypes, SpanningTreeOutgoing_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge SpanningTreeOutgoing_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "SpanningTreeOutgoing_iter_0_edge__edge0", "_edge0", SpanningTreeOutgoing_iter_0_edge__edge0_AllowedTypes, SpanningTreeOutgoing_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_iter_0_node_next", "next", SpanningTreeOutgoing_iter_0_node_next_AllowedTypes, SpanningTreeOutgoing_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge SpanningTreeOutgoing_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "SpanningTreeOutgoing_iter_0_edge__edge0", "_edge0", SpanningTreeOutgoing_iter_0_edge__edge0_AllowedTypes, SpanningTreeOutgoing_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeOutgoing_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeOutgoing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeOutgoing_iter_0_node_next"),
@@ -1493,7 +1617,6 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 		{
 			GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
 			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeOutgoing_iter_0, IMatch_SpanningTreeOutgoing_iter_0> iterated_iter_0 = curMatch._iter_0;
-			SpanningTreeOutgoing_iter_0_Delete(actionEnv, iterated_iter_0);
 		}
 
 		public void SpanningTreeOutgoing_iter_0_Delete(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeOutgoing_iter_0, IMatch_SpanningTreeOutgoing_iter_0> curMatches)
@@ -1561,7 +1684,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeOutgoing_NodeNums { @root, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -1580,7 +1703,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeOutgoing_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -1597,7 +1720,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeOutgoing_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -1614,7 +1737,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeOutgoing_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -1631,7 +1754,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeOutgoing_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -1650,7 +1773,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeOutgoing_IterNums { @iter_0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 1;} }
+			public override int NumberOfIterateds { get { return 1; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -1669,7 +1792,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			public enum SpanningTreeOutgoing_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -1684,6 +1807,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTreeOutgoing.instance.pat_SpanningTreeOutgoing; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeOutgoing(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTreeOutgoing nextWithSameHash;
@@ -1720,7 +1844,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeReverse_iter_0).IsEqual
 				while(_iter_0_thisEnumerator.MoveNext())
 				{
 					_iter_0_thatEnumerator.MoveNext();
-if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_SpanningTreeOutgoing_iter_0)) return false;
+					if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_SpanningTreeOutgoing_iter_0)) return false;
 				}
 				return true;
 			}
@@ -1735,7 +1859,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeOutgoing_iter_0_NodeNums { @root, @next, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -1758,7 +1882,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeOutgoing_iter_0_EdgeNums { @_edge0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 1;} }
+			public override int NumberOfEdges { get { return 1; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -1777,7 +1901,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeOutgoing_iter_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -1796,7 +1920,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeOutgoing_iter_0_SubNums { @_sub0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -1815,7 +1939,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeOutgoing_iter_0_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -1832,7 +1956,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeOutgoing_iter_0_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -1849,7 +1973,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeOutgoing_iter_0_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -1864,6 +1988,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTreeOutgoing.instance.SpanningTreeOutgoing_iter_0; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public bool IsNullMatch { get { return _isNullMatch; } }
 			public bool _isNullMatch;
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeOutgoing_iter_0(this); }
@@ -1907,8 +2032,29 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_groupBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_root)) {
+					seenValues[list[pos].@node_root].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_root, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_keepOneForEachBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
 		{
 			List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
@@ -1922,6 +2068,26 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_groupBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_next)) {
+					seenValues[list[pos].@node_next].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_next, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_keepOneForEachBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
 		{
 			List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
@@ -1932,6 +2098,26 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_next, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_groupBy__edge0(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -2001,7 +2187,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			bool[,] SpanningTreeIncoming_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] SpanningTreeIncoming_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] SpanningTreeIncoming_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode SpanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_node_root", "root", SpanningTreeIncoming_node_root_AllowedTypes, SpanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SpanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_node_root", "root", SpanningTreeIncoming_node_root_AllowedTypes, SpanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
 			bool[,] SpanningTreeIncoming_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -2011,8 +2197,8 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			};
 			bool[] SpanningTreeIncoming_iter_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] SpanningTreeIncoming_iter_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode SpanningTreeIncoming_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_iter_0_node_next", "next", SpanningTreeIncoming_iter_0_node_next_AllowedTypes, SpanningTreeIncoming_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge SpanningTreeIncoming_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "SpanningTreeIncoming_iter_0_edge__edge0", "_edge0", SpanningTreeIncoming_iter_0_edge__edge0_AllowedTypes, SpanningTreeIncoming_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode SpanningTreeIncoming_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_iter_0_node_next", "next", SpanningTreeIncoming_iter_0_node_next_AllowedTypes, SpanningTreeIncoming_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge SpanningTreeIncoming_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "SpanningTreeIncoming_iter_0_edge__edge0", "_edge0", SpanningTreeIncoming_iter_0_edge__edge0_AllowedTypes, SpanningTreeIncoming_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeIncoming_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeIncoming.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeIncoming_iter_0_node_next"),
@@ -2109,7 +2295,6 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 		{
 			GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
 			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeIncoming_iter_0, IMatch_SpanningTreeIncoming_iter_0> iterated_iter_0 = curMatch._iter_0;
-			SpanningTreeIncoming_iter_0_Delete(actionEnv, iterated_iter_0);
 		}
 
 		public void SpanningTreeIncoming_iter_0_Delete(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeIncoming_iter_0, IMatch_SpanningTreeIncoming_iter_0> curMatches)
@@ -2177,7 +2362,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeIncoming_NodeNums { @root, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -2196,7 +2381,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeIncoming_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -2213,7 +2398,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeIncoming_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -2230,7 +2415,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeIncoming_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -2247,7 +2432,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeIncoming_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -2266,7 +2451,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeIncoming_IterNums { @iter_0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 1;} }
+			public override int NumberOfIterateds { get { return 1; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -2285,7 +2470,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			public enum SpanningTreeIncoming_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -2300,6 +2485,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTreeIncoming.instance.pat_SpanningTreeIncoming; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeIncoming(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTreeIncoming nextWithSameHash;
@@ -2336,7 +2522,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeOutgoing_iter_0).IsEqua
 				while(_iter_0_thisEnumerator.MoveNext())
 				{
 					_iter_0_thatEnumerator.MoveNext();
-if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_SpanningTreeIncoming_iter_0)) return false;
+					if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqual(_iter_0_thatEnumerator.Current as Match_SpanningTreeIncoming_iter_0)) return false;
 				}
 				return true;
 			}
@@ -2351,7 +2537,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum SpanningTreeIncoming_iter_0_NodeNums { @next, @root, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -2374,7 +2560,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum SpanningTreeIncoming_iter_0_EdgeNums { @_edge0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 1;} }
+			public override int NumberOfEdges { get { return 1; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -2393,7 +2579,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum SpanningTreeIncoming_iter_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -2412,7 +2598,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum SpanningTreeIncoming_iter_0_SubNums { @_sub0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -2431,7 +2617,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum SpanningTreeIncoming_iter_0_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -2448,7 +2634,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum SpanningTreeIncoming_iter_0_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -2465,7 +2651,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum SpanningTreeIncoming_iter_0_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -2480,6 +2666,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTreeIncoming.instance.SpanningTreeIncoming_iter_0; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public bool IsNullMatch { get { return _isNullMatch; } }
 			public bool _isNullMatch;
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeIncoming_iter_0(this); }
@@ -2523,8 +2710,29 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_groupBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_next)) {
+					seenValues[list[pos].@node_next].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_next, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_keepOneForEachBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
 		{
 			List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
@@ -2538,6 +2746,26 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_groupBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_root)) {
+					seenValues[list[pos].@node_root].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_root, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_keepOneForEachBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
 		{
 			List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
@@ -2548,6 +2776,26 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_root, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_groupBy__edge0(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> tempList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> newList = new List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>();
+			foreach(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -2694,7 +2942,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initTree_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -2711,7 +2959,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initTree_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -2728,7 +2976,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initTree_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -2745,7 +2993,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initTree_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -2762,7 +3010,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initTree_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -2779,7 +3027,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initTree_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -2796,7 +3044,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initTree_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -2811,6 +3059,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_initTree.instance.pat_initTree; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_initTree(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_initTree nextWithSameHash;
@@ -2847,9 +3096,18 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>)
+				return ((List<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -2975,7 +3233,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initUndirected_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -2992,7 +3250,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initUndirected_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -3009,7 +3267,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initUndirected_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -3026,7 +3284,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initUndirected_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -3043,7 +3301,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initUndirected_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -3060,7 +3318,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initUndirected_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -3077,7 +3335,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initUndirected_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -3092,6 +3350,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_initUndirected.instance.pat_initUndirected; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_initUndirected(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_initUndirected nextWithSameHash;
@@ -3128,9 +3387,18 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>)
+				return ((List<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -3256,7 +3524,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initDirected_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -3273,7 +3541,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initDirected_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -3290,7 +3558,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initDirected_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -3307,7 +3575,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initDirected_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -3324,7 +3592,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initDirected_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -3341,7 +3609,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initDirected_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -3358,7 +3626,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum initDirected_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -3373,6 +3641,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_initDirected.instance.pat_initDirected; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_initDirected(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_initDirected nextWithSameHash;
@@ -3409,9 +3678,18 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>)
+				return ((List<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -3466,7 +3744,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			bool[,] spanningTree_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] spanningTree_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] spanningTree_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode spanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "spanningTree_node_root", "root", spanningTree_node_root_AllowedTypes, spanningTree_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode spanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "spanningTree_node_root", "root", spanningTree_node_root_AllowedTypes, spanningTree_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding spanningTree_sptr = new GRGEN_LGSP.PatternGraphEmbedding("sptr", Pattern_SpanningTree.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTree_node_root"),
@@ -3550,7 +3828,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTree_NodeNums { @root, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -3569,7 +3847,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTree_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -3586,7 +3864,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTree_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -3605,7 +3883,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTree_SubNums { @sptr, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -3624,7 +3902,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTree_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -3641,7 +3919,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTree_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -3658,7 +3936,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTree_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -3673,6 +3951,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_spanningTree.instance.pat_spanningTree; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_spanningTree(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_spanningTree nextWithSameHash;
@@ -3720,10 +3999,39 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>)
+				return ((List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> Array_spanningTree_groupBy_root(List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_root)) {
+					seenValues[list[pos].@node_root].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> tempList = new List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_root, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> newList = new List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>();
+			foreach(List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> Array_spanningTree_keepOneForEachBy_root(List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> list)
 		{
 			List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> newList = new List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>();
@@ -3787,7 +4095,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			};
 			bool[] edgesVisited_isNodeTotallyHomomorphic = new bool[0];
 			bool[] edgesVisited_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge edgesVisited_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, GRGEN_MODEL.EdgeType_UEdge.typeVar, "GRGEN_LIBGR.IUEdge", "edgesVisited_edge_e", "e", edgesVisited_edge_e_AllowedTypes, edgesVisited_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge edgesVisited_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, GRGEN_MODEL.EdgeType_UEdge.typeVar, "GRGEN_LIBGR.IUEdge", "edgesVisited_edge_e", "e", edgesVisited_edge_e_AllowedTypes, edgesVisited_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternCondition edgesVisited_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("edgesVisited_edge_e"), new GRGEN_EXPR.Constant("0")),
 				new string[] {  }, new string[] { "edgesVisited_edge_e" }, new string[] {  },
@@ -3852,7 +4160,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum edgesVisited_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -3871,7 +4179,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum edgesVisited_EdgeNums { @e, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 1;} }
+			public override int NumberOfEdges { get { return 1; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -3890,7 +4198,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum edgesVisited_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -3907,7 +4215,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum edgesVisited_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -3924,7 +4232,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum edgesVisited_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -3941,7 +4249,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum edgesVisited_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -3958,7 +4266,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum edgesVisited_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -3973,6 +4281,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_edgesVisited.instance.pat_edgesVisited; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_edgesVisited(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_edgesVisited nextWithSameHash;
@@ -4018,10 +4327,39 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>)
+				return ((List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> Array_edgesVisited_groupBy_e(List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> list)
+		{
+			Dictionary<GRGEN_LIBGR.IUEdge, List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>> seenValues = new Dictionary<GRGEN_LIBGR.IUEdge, List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge_e)) {
+					seenValues[list[pos].@edge_e].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> tempList = new List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge_e, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> newList = new List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>();
+			foreach(List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> Array_edgesVisited_keepOneForEachBy_e(List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> list)
 		{
 			List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> newList = new List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>();
@@ -4085,7 +4423,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			bool[,] nodesVisited_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] nodesVisited_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] nodesVisited_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode nodesVisited_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "nodesVisited_node_n", "n", nodesVisited_node_n_AllowedTypes, nodesVisited_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode nodesVisited_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "nodesVisited_node_n", "n", nodesVisited_node_n_AllowedTypes, nodesVisited_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternCondition nodesVisited_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited(new GRGEN_EXPR.GraphEntityExpression("nodesVisited_node_n"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "nodesVisited_node_n" }, new string[] {  }, new string[] {  },
@@ -4152,7 +4490,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum nodesVisited_NodeNums { @n, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -4171,7 +4509,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum nodesVisited_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -4188,7 +4526,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum nodesVisited_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -4205,7 +4543,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum nodesVisited_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -4222,7 +4560,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum nodesVisited_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -4239,7 +4577,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum nodesVisited_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4256,7 +4594,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum nodesVisited_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4271,6 +4609,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_nodesVisited.instance.pat_nodesVisited; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_nodesVisited(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_nodesVisited nextWithSameHash;
@@ -4316,10 +4655,39 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>)
+				return ((List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> Array_nodesVisited_groupBy_n(List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_n)) {
+					seenValues[list[pos].@node_n].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> tempList = new List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_n, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> newList = new List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>();
+			foreach(List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> Array_nodesVisited_keepOneForEachBy_n(List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> list)
 		{
 			List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> newList = new List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>();
@@ -4385,7 +4753,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			bool[,] spanningTreeReverse_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] spanningTreeReverse_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] spanningTreeReverse_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode spanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "spanningTreeReverse_node_root", "root", spanningTreeReverse_node_root_AllowedTypes, spanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode spanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "spanningTreeReverse_node_root", "root", spanningTreeReverse_node_root_AllowedTypes, spanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding spanningTreeReverse_sptrr = new GRGEN_LGSP.PatternGraphEmbedding("sptrr", Pattern_SpanningTreeReverse.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeReverse_node_root"),
@@ -4465,7 +4833,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeReverse_NodeNums { @root, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -4484,7 +4852,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeReverse_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -4501,7 +4869,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeReverse_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -4520,7 +4888,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeReverse_SubNums { @sptrr, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -4539,7 +4907,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeReverse_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -4556,7 +4924,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeReverse_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4573,7 +4941,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeReverse_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4588,6 +4956,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_spanningTreeReverse.instance.pat_spanningTreeReverse; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_spanningTreeReverse(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_spanningTreeReverse nextWithSameHash;
@@ -4635,10 +5004,39 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>)
+				return ((List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> Array_spanningTreeReverse_groupBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_root)) {
+					seenValues[list[pos].@node_root].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> tempList = new List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_root, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> newList = new List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>();
+			foreach(List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> Array_spanningTreeReverse_keepOneForEachBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> list)
 		{
 			List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> newList = new List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>();
@@ -4702,7 +5100,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			bool[,] spanningTreeOutgoing_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] spanningTreeOutgoing_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] spanningTreeOutgoing_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode spanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "spanningTreeOutgoing_node_root", "root", spanningTreeOutgoing_node_root_AllowedTypes, spanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode spanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "spanningTreeOutgoing_node_root", "root", spanningTreeOutgoing_node_root_AllowedTypes, spanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding spanningTreeOutgoing__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeOutgoing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeOutgoing_node_root"),
@@ -4776,7 +5174,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeOutgoing_NodeNums { @root, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -4795,7 +5193,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeOutgoing_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -4812,7 +5210,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeOutgoing_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -4831,7 +5229,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeOutgoing_SubNums { @_sub0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -4850,7 +5248,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeOutgoing_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -4867,7 +5265,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeOutgoing_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4884,7 +5282,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeOutgoing_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4899,6 +5297,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_spanningTreeOutgoing.instance.pat_spanningTreeOutgoing; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_spanningTreeOutgoing(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_spanningTreeOutgoing nextWithSameHash;
@@ -4946,10 +5345,39 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>)
+				return ((List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> Array_spanningTreeOutgoing_groupBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_root)) {
+					seenValues[list[pos].@node_root].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> tempList = new List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_root, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> newList = new List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>();
+			foreach(List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> Array_spanningTreeOutgoing_keepOneForEachBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> list)
 		{
 			List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> newList = new List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>();
@@ -5013,7 +5441,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			bool[,] spanningTreeIncoming_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] spanningTreeIncoming_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] spanningTreeIncoming_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode spanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "spanningTreeIncoming_node_root", "root", spanningTreeIncoming_node_root_AllowedTypes, spanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode spanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "spanningTreeIncoming_node_root", "root", spanningTreeIncoming_node_root_AllowedTypes, spanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding spanningTreeIncoming__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeIncoming.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeIncoming_node_root"),
@@ -5087,7 +5515,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeIncoming_NodeNums { @root, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -5106,7 +5534,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeIncoming_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -5123,7 +5551,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeIncoming_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -5142,7 +5570,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeIncoming_SubNums { @_sub0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -5161,7 +5589,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeIncoming_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -5178,7 +5606,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeIncoming_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -5195,7 +5623,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			public enum spanningTreeIncoming_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -5210,6 +5638,7 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_spanningTreeIncoming.instance.pat_spanningTreeIncoming; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_spanningTreeIncoming(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_spanningTreeIncoming nextWithSameHash;
@@ -5257,10 +5686,39 @@ if(!(_iter_0_thisEnumerator.Current as Match_SpanningTreeIncoming_iter_0).IsEqua
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>)
+				return ((List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> Array_spanningTreeIncoming_groupBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_root)) {
+					seenValues[list[pos].@node_root].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> tempList = new List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_root, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> newList = new List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>();
+			foreach(List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> Array_spanningTreeIncoming_keepOneForEachBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> list)
 		{
 			List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> newList = new List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>();
@@ -7449,13 +7907,6 @@ maxMatchesIterReached:
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>)
-                return ((List<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initTree.IMatch_initTree>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -7709,13 +8160,6 @@ maxMatchesIterReached:
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>)
-                return ((List<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -7968,13 +8412,6 @@ maxMatchesIterReached:
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>)
-                return ((List<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -8251,13 +8688,6 @@ maxMatchesIterReached:
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>)
-                return ((List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -8688,13 +9118,6 @@ maxMatchesIterReached:
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>)
-                return ((List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -8946,13 +9369,6 @@ maxMatchesIterReached:
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>)
-                return ((List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -9229,13 +9645,6 @@ maxMatchesIterReached:
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>)
-                return ((List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -9686,13 +10095,6 @@ maxMatchesIterReached:
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>)
-                return ((List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     public class IteratedAction_SpanningTreeOutgoing_iter_0_inlined__sub0_6_in_spanningTreeOutgoing : GRGEN_LGSP.LGSPSubpatternAction
@@ -10142,13 +10544,6 @@ maxMatchesIterReached:
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>)
-                return ((List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     public class IteratedAction_SpanningTreeIncoming_iter_0_inlined__sub0_7_in_spanningTreeIncoming : GRGEN_LGSP.LGSPSubpatternAction
@@ -10479,6 +10874,365 @@ maxMatchesIterReached:
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override IList ArrayOrderAscendingBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "initTree":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "initUndirected":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "initDirected":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "spanningTree":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "edgesVisited":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "nodesVisited":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "spanningTreeReverse":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "spanningTreeOutgoing":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "spanningTreeIncoming":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayOrderDescendingBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "initTree":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "initUndirected":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "initDirected":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "spanningTree":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "edgesVisited":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "nodesVisited":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "spanningTreeReverse":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "spanningTreeOutgoing":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "spanningTreeIncoming":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayGroupBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "initTree":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "initUndirected":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "initDirected":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "spanningTree":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTree_groupBy_root(GRGEN_ACTIONS.Rule_spanningTree.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "edgesVisited":
+                    switch(member)
+                    {
+                    case "e":
+                        return ArrayHelper.Array_edgesVisited_groupBy_e(GRGEN_ACTIONS.Rule_edgesVisited.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "nodesVisited":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_nodesVisited_groupBy_n(GRGEN_ACTIONS.Rule_nodesVisited.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "spanningTreeReverse":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeReverse_groupBy_root(GRGEN_ACTIONS.Rule_spanningTreeReverse.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "spanningTreeOutgoing":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeOutgoing_groupBy_root(GRGEN_ACTIONS.Rule_spanningTreeOutgoing.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "spanningTreeIncoming":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeIncoming_groupBy_root(GRGEN_ACTIONS.Rule_spanningTreeIncoming.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayKeepOneForEach(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "initTree":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "initUndirected":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "initDirected":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "spanningTree":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTree_keepOneForEachBy_root(GRGEN_ACTIONS.Rule_spanningTree.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "edgesVisited":
+                    switch(member)
+                    {
+                    case "e":
+                        return ArrayHelper.Array_edgesVisited_keepOneForEachBy_e(GRGEN_ACTIONS.Rule_edgesVisited.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "nodesVisited":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_nodesVisited_keepOneForEachBy_n(GRGEN_ACTIONS.Rule_nodesVisited.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "spanningTreeReverse":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeReverse_keepOneForEachBy_root(GRGEN_ACTIONS.Rule_spanningTreeReverse.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "spanningTreeOutgoing":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeOutgoing_keepOneForEachBy_root(GRGEN_ACTIONS.Rule_spanningTreeOutgoing.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "spanningTreeIncoming":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeIncoming_keepOneForEachBy_root(GRGEN_ACTIONS.Rule_spanningTreeIncoming.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
         public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
     }

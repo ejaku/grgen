@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun May 24 19:21:41 CEST 2020
+// Generated from "..\..\tests\independent\Independent.grg" on Wed Jul 29 12:20:22 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -84,8 +84,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 			bool[,] iteratedPath_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] iteratedPath_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] iteratedPath_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode iteratedPath_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "iteratedPath_node_beg", "beg", iteratedPath_node_beg_AllowedTypes, iteratedPath_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode iteratedPath_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "iteratedPath_node_end", "end", iteratedPath_node_end_AllowedTypes, iteratedPath_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode iteratedPath_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "iteratedPath_node_beg", "beg", iteratedPath_node_beg_AllowedTypes, iteratedPath_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode iteratedPath_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "iteratedPath_node_end", "end", iteratedPath_node_end_AllowedTypes, iteratedPath_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false, null);
 			bool[,] iteratedPath_alt_0_base_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -95,7 +95,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] iteratedPath_alt_0_base_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] iteratedPath_alt_0_base_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternEdge iteratedPath_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "iteratedPath_alt_0_base_edge__edge0", "_edge0", iteratedPath_alt_0_base_edge__edge0_AllowedTypes, iteratedPath_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternEdge iteratedPath_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "iteratedPath_alt_0_base_edge__edge0", "_edge0", iteratedPath_alt_0_base_edge__edge0_AllowedTypes, iteratedPath_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			iteratedPath_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"iteratedPath_alt_0_",
@@ -136,8 +136,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] iteratedPath_alt_0_recursive_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] iteratedPath_alt_0_recursive_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode iteratedPath_alt_0_recursive_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "iteratedPath_alt_0_recursive_node_intermediate", "intermediate", iteratedPath_alt_0_recursive_node_intermediate_AllowedTypes, iteratedPath_alt_0_recursive_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge iteratedPath_alt_0_recursive_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "iteratedPath_alt_0_recursive_edge__edge0", "_edge0", iteratedPath_alt_0_recursive_edge__edge0_AllowedTypes, iteratedPath_alt_0_recursive_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode iteratedPath_alt_0_recursive_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "iteratedPath_alt_0_recursive_node_intermediate", "intermediate", iteratedPath_alt_0_recursive_node_intermediate_AllowedTypes, iteratedPath_alt_0_recursive_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge iteratedPath_alt_0_recursive_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "iteratedPath_alt_0_recursive_edge__edge0", "_edge0", iteratedPath_alt_0_recursive_edge__edge0_AllowedTypes, iteratedPath_alt_0_recursive_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding iteratedPath_alt_0_recursive__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPath.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("iteratedPath_alt_0_recursive_node_intermediate"),
@@ -231,7 +231,6 @@ namespace de.unika.ipd.grGen.Action_Independent
 		{
 			GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
 			IMatch_iteratedPath_alt_0 alternative_alt_0 = curMatch._alt_0;
-			iteratedPath_alt_0_Delete(actionEnv, alternative_alt_0);
 		}
 
 		public void iteratedPath_alt_0_Delete(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, IMatch_iteratedPath_alt_0 curMatch)
@@ -345,7 +344,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_NodeNums { @beg, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -366,7 +365,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -383,7 +382,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -400,7 +399,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -419,7 +418,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_AltNums { @alt_0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 1;} }
+			public override int NumberOfAlternatives { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -438,7 +437,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -455,7 +454,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -470,6 +469,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPath.instance.pat_iteratedPath; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPath(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_iteratedPath nextWithSameHash;
@@ -517,7 +517,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_base_NodeNums { @beg, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -540,7 +540,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_base_EdgeNums { @_edge0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 1;} }
+			public override int NumberOfEdges { get { return 1; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -559,7 +559,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_base_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -576,7 +576,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_base_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -593,7 +593,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_base_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -610,7 +610,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_base_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -627,7 +627,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_base_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -642,6 +642,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPath.instance.iteratedPath_alt_0_base; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPath_alt_0_base(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_iteratedPath_alt_0_base nextWithSameHash;
@@ -690,7 +691,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_recursive_NodeNums { @beg, @intermediate, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -715,7 +716,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_recursive_EdgeNums { @_edge0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 1;} }
+			public override int NumberOfEdges { get { return 1; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -734,7 +735,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_recursive_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -753,7 +754,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_recursive_SubNums { @_sub0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -772,7 +773,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_recursive_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -789,7 +790,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_recursive_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -806,7 +807,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPath_alt_0_recursive_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -821,6 +822,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPath.instance.iteratedPath_alt_0_recursive; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPath_alt_0_recursive(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_iteratedPath_alt_0_recursive nextWithSameHash;
@@ -932,7 +934,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			bool[,] iteratedPathToIntNode_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] iteratedPathToIntNode_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] iteratedPathToIntNode_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode iteratedPathToIntNode_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "iteratedPathToIntNode_node_beg", "beg", iteratedPathToIntNode_node_beg_AllowedTypes, iteratedPathToIntNode_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode iteratedPathToIntNode_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "iteratedPathToIntNode_node_beg", "beg", iteratedPathToIntNode_node_beg_AllowedTypes, iteratedPathToIntNode_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
 			bool[,] iteratedPathToIntNode_alt_0_base_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -942,8 +944,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] iteratedPathToIntNode_alt_0_base_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] iteratedPathToIntNode_alt_0_base_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode iteratedPathToIntNode_alt_0_base_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@intNode, GRGEN_MODEL.NodeType_intNode.typeVar, "GRGEN_MODEL.IintNode", "iteratedPathToIntNode_alt_0_base_node_end", "end", iteratedPathToIntNode_alt_0_base_node_end_AllowedTypes, iteratedPathToIntNode_alt_0_base_node_end_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge iteratedPathToIntNode_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "iteratedPathToIntNode_alt_0_base_edge__edge0", "_edge0", iteratedPathToIntNode_alt_0_base_edge__edge0_AllowedTypes, iteratedPathToIntNode_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode iteratedPathToIntNode_alt_0_base_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@intNode, GRGEN_MODEL.NodeType_intNode.typeVar, "GRGEN_MODEL.IintNode", "iteratedPathToIntNode_alt_0_base_node_end", "end", iteratedPathToIntNode_alt_0_base_node_end_AllowedTypes, iteratedPathToIntNode_alt_0_base_node_end_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge iteratedPathToIntNode_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "iteratedPathToIntNode_alt_0_base_edge__edge0", "_edge0", iteratedPathToIntNode_alt_0_base_edge__edge0_AllowedTypes, iteratedPathToIntNode_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			iteratedPathToIntNode_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"iteratedPathToIntNode_alt_0_",
@@ -983,8 +985,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] iteratedPathToIntNode_alt_0_recursive_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] iteratedPathToIntNode_alt_0_recursive_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode iteratedPathToIntNode_alt_0_recursive_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "iteratedPathToIntNode_alt_0_recursive_node_intermediate", "intermediate", iteratedPathToIntNode_alt_0_recursive_node_intermediate_AllowedTypes, iteratedPathToIntNode_alt_0_recursive_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge iteratedPathToIntNode_alt_0_recursive_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "iteratedPathToIntNode_alt_0_recursive_edge__edge0", "_edge0", iteratedPathToIntNode_alt_0_recursive_edge__edge0_AllowedTypes, iteratedPathToIntNode_alt_0_recursive_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode iteratedPathToIntNode_alt_0_recursive_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "iteratedPathToIntNode_alt_0_recursive_node_intermediate", "intermediate", iteratedPathToIntNode_alt_0_recursive_node_intermediate_AllowedTypes, iteratedPathToIntNode_alt_0_recursive_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge iteratedPathToIntNode_alt_0_recursive_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "iteratedPathToIntNode_alt_0_recursive_edge__edge0", "_edge0", iteratedPathToIntNode_alt_0_recursive_edge__edge0_AllowedTypes, iteratedPathToIntNode_alt_0_recursive_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding iteratedPathToIntNode_alt_0_recursive__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPathToIntNode.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("iteratedPathToIntNode_alt_0_recursive_node_intermediate"),
@@ -1075,7 +1077,6 @@ namespace de.unika.ipd.grGen.Action_Independent
 		{
 			GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
 			IMatch_iteratedPathToIntNode_alt_0 alternative_alt_0 = curMatch._alt_0;
-			iteratedPathToIntNode_alt_0_Delete(actionEnv, alternative_alt_0);
 		}
 
 		public void iteratedPathToIntNode_alt_0_Delete(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, IMatch_iteratedPathToIntNode_alt_0 curMatch)
@@ -1182,7 +1183,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_NodeNums { @beg, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -1201,7 +1202,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -1218,7 +1219,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -1235,7 +1236,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -1254,7 +1255,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_AltNums { @alt_0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 1;} }
+			public override int NumberOfAlternatives { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -1273,7 +1274,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -1290,7 +1291,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -1305,6 +1306,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPathToIntNode.instance.pat_iteratedPathToIntNode; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPathToIntNode(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_iteratedPathToIntNode nextWithSameHash;
@@ -1350,7 +1352,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_base_NodeNums { @beg, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -1373,7 +1375,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_base_EdgeNums { @_edge0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 1;} }
+			public override int NumberOfEdges { get { return 1; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -1392,7 +1394,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_base_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -1409,7 +1411,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_base_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -1426,7 +1428,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_base_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -1443,7 +1445,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_base_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -1460,7 +1462,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_base_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -1475,6 +1477,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPathToIntNode.instance.iteratedPathToIntNode_alt_0_base; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPathToIntNode_alt_0_base(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_iteratedPathToIntNode_alt_0_base nextWithSameHash;
@@ -1521,7 +1524,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_recursive_NodeNums { @beg, @intermediate, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -1544,7 +1547,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_recursive_EdgeNums { @_edge0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 1;} }
+			public override int NumberOfEdges { get { return 1; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -1563,7 +1566,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_recursive_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -1582,7 +1585,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_recursive_SubNums { @_sub0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -1601,7 +1604,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_recursive_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -1618,7 +1621,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_recursive_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -1635,7 +1638,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum iteratedPathToIntNode_alt_0_recursive_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -1650,6 +1653,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPathToIntNode.instance.iteratedPathToIntNode_alt_0_recursive; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_iteratedPathToIntNode_alt_0_recursive(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_iteratedPathToIntNode_alt_0_recursive nextWithSameHash;
@@ -1807,7 +1811,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum create_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -1824,7 +1828,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum create_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -1841,7 +1845,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum create_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -1858,7 +1862,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum create_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -1875,7 +1879,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum create_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -1892,7 +1896,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum create_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -1909,7 +1913,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum create_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -1924,6 +1928,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_create.instance.pat_create; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_create(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_create nextWithSameHash;
@@ -1960,9 +1965,18 @@ namespace de.unika.ipd.grGen.Action_Independent
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_create.IMatch_create> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_create.IMatch_create>)
+				return ((List<GRGEN_ACTIONS.Rule_create.IMatch_create>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_create.IMatch_create>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -2036,14 +2050,14 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] find_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
 			bool[] find_isEdgeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
-			GRGEN_LGSP.PatternNode find_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "find_node_beg", "beg", find_node_beg_AllowedTypes, find_node_beg_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode find_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "find_node__node0", "_node0", find_node__node0_AllowedTypes, find_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode find_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "find_node_end", "end", find_node_end_AllowedTypes, find_node_end_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode find_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "find_node__node1", "_node1", find_node__node1_AllowedTypes, find_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge find_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "find_edge__edge0", "_edge0", find_edge__edge0_AllowedTypes, find_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge find_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "find_edge__edge1", "_edge1", find_edge__edge1_AllowedTypes, find_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge find_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "find_edge__edge2", "_edge2", find_edge__edge2_AllowedTypes, find_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge find_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "find_edge__edge3", "_edge3", find_edge__edge3_AllowedTypes, find_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode find_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "find_node_beg", "beg", find_node_beg_AllowedTypes, find_node_beg_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode find_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "find_node__node0", "_node0", find_node__node0_AllowedTypes, find_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode find_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "find_node_end", "end", find_node_end_AllowedTypes, find_node_end_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode find_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "find_node__node1", "_node1", find_node__node1_AllowedTypes, find_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge find_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "find_edge__edge0", "_edge0", find_edge__edge0_AllowedTypes, find_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge find_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "find_edge__edge1", "_edge1", find_edge__edge1_AllowedTypes, find_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge find_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "find_edge__edge2", "_edge2", find_edge__edge2_AllowedTypes, find_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge find_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "find_edge__edge3", "_edge3", find_edge__edge3_AllowedTypes, find_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_find = new GRGEN_LGSP.PatternGraph(
 				"find",
 				"",
@@ -2142,7 +2156,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum find_NodeNums { @beg, @_node0, @end, @_node1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 4;} }
+			public override int NumberOfNodes { get { return 4; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -2175,7 +2189,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum find_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 4;} }
+			public override int NumberOfEdges { get { return 4; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -2200,7 +2214,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum find_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -2217,7 +2231,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum find_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -2234,7 +2248,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum find_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -2251,7 +2265,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum find_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -2268,7 +2282,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum find_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -2283,6 +2297,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_find.instance.pat_find; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_find(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_find nextWithSameHash;
@@ -2391,10 +2406,39 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_find.IMatch_find>)
+				return ((List<GRGEN_ACTIONS.Rule_find.IMatch_find>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_find.IMatch_find>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy_beg(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_beg)) {
+					seenValues[list[pos].@node_beg].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_find.IMatch_find> tempList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_beg, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			foreach(List<GRGEN_ACTIONS.Rule_find.IMatch_find> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
 			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
@@ -2405,6 +2449,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_beg, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__node0(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node0)) {
+					seenValues[list[pos].@node__node0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_find.IMatch_find> tempList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			foreach(List<GRGEN_ACTIONS.Rule_find.IMatch_find> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -2421,6 +2485,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy_end(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_end)) {
+					seenValues[list[pos].@node_end].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_find.IMatch_find> tempList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_end, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			foreach(List<GRGEN_ACTIONS.Rule_find.IMatch_find> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
 			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
@@ -2431,6 +2515,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_end, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__node1(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node1)) {
+					seenValues[list[pos].@node__node1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_find.IMatch_find> tempList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			foreach(List<GRGEN_ACTIONS.Rule_find.IMatch_find> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -2447,6 +2551,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__edge0(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_find.IMatch_find> tempList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			foreach(List<GRGEN_ACTIONS.Rule_find.IMatch_find> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
 			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
@@ -2457,6 +2581,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge0, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__edge1(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge1)) {
+					seenValues[list[pos].@edge__edge1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_find.IMatch_find> tempList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			foreach(List<GRGEN_ACTIONS.Rule_find.IMatch_find> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -2473,6 +2617,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__edge2(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge2)) {
+					seenValues[list[pos].@edge__edge2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_find.IMatch_find> tempList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			foreach(List<GRGEN_ACTIONS.Rule_find.IMatch_find> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
 			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
@@ -2483,6 +2647,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge2, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__edge3(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge3)) {
+					seenValues[list[pos].@edge__edge3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_find.IMatch_find> tempList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_find.IMatch_find> newList = new List<GRGEN_ACTIONS.Rule_find.IMatch_find>();
+			foreach(List<GRGEN_ACTIONS.Rule_find.IMatch_find> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -2578,11 +2762,11 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] findIndependent_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] findIndependent_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode findIndependent_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findIndependent_node_beg", "beg", findIndependent_node_beg_AllowedTypes, findIndependent_node_beg_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode findIndependent_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findIndependent_node__node0", "_node0", findIndependent_node__node0_AllowedTypes, findIndependent_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode findIndependent_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findIndependent_node_end", "end", findIndependent_node_end_AllowedTypes, findIndependent_node_end_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findIndependent_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findIndependent_edge__edge0", "_edge0", findIndependent_edge__edge0_AllowedTypes, findIndependent_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findIndependent_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findIndependent_edge__edge1", "_edge1", findIndependent_edge__edge1_AllowedTypes, findIndependent_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode findIndependent_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findIndependent_node_beg", "beg", findIndependent_node_beg_AllowedTypes, findIndependent_node_beg_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode findIndependent_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findIndependent_node__node0", "_node0", findIndependent_node__node0_AllowedTypes, findIndependent_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode findIndependent_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findIndependent_node_end", "end", findIndependent_node_end_AllowedTypes, findIndependent_node_end_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findIndependent_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findIndependent_edge__edge0", "_edge0", findIndependent_edge__edge0_AllowedTypes, findIndependent_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findIndependent_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findIndependent_edge__edge1", "_edge1", findIndependent_edge__edge1_AllowedTypes, findIndependent_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			bool[,] findIndependent_idpt_0_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -2594,9 +2778,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] findIndependent_idpt_0_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] findIndependent_idpt_0_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode findIndependent_idpt_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findIndependent_idpt_0_node__node0", "_node0", findIndependent_idpt_0_node__node0_AllowedTypes, findIndependent_idpt_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findIndependent_idpt_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findIndependent_idpt_0_edge__edge0", "_edge0", findIndependent_idpt_0_edge__edge0_AllowedTypes, findIndependent_idpt_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findIndependent_idpt_0_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findIndependent_idpt_0_edge__edge1", "_edge1", findIndependent_idpt_0_edge__edge1_AllowedTypes, findIndependent_idpt_0_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode findIndependent_idpt_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findIndependent_idpt_0_node__node0", "_node0", findIndependent_idpt_0_node__node0_AllowedTypes, findIndependent_idpt_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findIndependent_idpt_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findIndependent_idpt_0_edge__edge0", "_edge0", findIndependent_idpt_0_edge__edge0_AllowedTypes, findIndependent_idpt_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findIndependent_idpt_0_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findIndependent_idpt_0_edge__edge1", "_edge1", findIndependent_idpt_0_edge__edge1_AllowedTypes, findIndependent_idpt_0_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			findIndependent_idpt_0 = new GRGEN_LGSP.PatternGraph(
 				"idpt_0",
 				"findIndependent_",
@@ -2737,7 +2921,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_NodeNums { @beg, @_node0, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -2764,7 +2948,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 2;} }
+			public override int NumberOfEdges { get { return 2; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -2785,7 +2969,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -2802,7 +2986,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -2819,7 +3003,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -2836,7 +3020,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -2855,7 +3039,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_IdptNums { @idpt_0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 1;} }
+			public override int NumberOfIndependents { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -2872,6 +3056,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findIndependent.instance.pat_findIndependent; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_findIndependent(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_findIndependent nextWithSameHash;
@@ -2925,7 +3110,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_idpt_0_NodeNums { @_node0, @beg, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -2952,7 +3137,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_idpt_0_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 2;} }
+			public override int NumberOfEdges { get { return 2; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -2973,7 +3158,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_idpt_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -2990,7 +3175,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_idpt_0_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -3007,7 +3192,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_idpt_0_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -3024,7 +3209,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_idpt_0_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -3041,7 +3226,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findIndependent_idpt_0_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -3056,6 +3241,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findIndependent.instance.findIndependent_idpt_0; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_findIndependent_idpt_0(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_findIndependent_idpt_0 nextWithSameHash;
@@ -3137,10 +3323,39 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>)
+				return ((List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_groupBy_beg(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_beg)) {
+					seenValues[list[pos].@node_beg].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> tempList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_beg, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+			foreach(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
 		{
 			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
@@ -3151,6 +3366,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_beg, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_groupBy__node0(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node0)) {
+					seenValues[list[pos].@node__node0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> tempList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+			foreach(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -3167,6 +3402,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_groupBy_end(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_end)) {
+					seenValues[list[pos].@node_end].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> tempList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_end, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+			foreach(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
 		{
 			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
@@ -3180,6 +3435,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_groupBy__edge0(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> tempList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+			foreach(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
 		{
 			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
@@ -3190,6 +3465,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge0, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_groupBy__edge1(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge1)) {
+					seenValues[list[pos].@edge__edge1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> tempList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> newList = new List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>();
+			foreach(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -3333,11 +3628,11 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] findMultiNested_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] findMultiNested_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode findMultiNested_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_node_beg", "beg", findMultiNested_node_beg_AllowedTypes, findMultiNested_node_beg_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode findMultiNested_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_node__node0", "_node0", findMultiNested_node__node0_AllowedTypes, findMultiNested_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode findMultiNested_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_node_end", "end", findMultiNested_node_end_AllowedTypes, findMultiNested_node_end_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findMultiNested_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_edge__edge0", "_edge0", findMultiNested_edge__edge0_AllowedTypes, findMultiNested_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findMultiNested_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_edge__edge1", "_edge1", findMultiNested_edge__edge1_AllowedTypes, findMultiNested_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode findMultiNested_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_node_beg", "beg", findMultiNested_node_beg_AllowedTypes, findMultiNested_node_beg_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode findMultiNested_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_node__node0", "_node0", findMultiNested_node__node0_AllowedTypes, findMultiNested_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode findMultiNested_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_node_end", "end", findMultiNested_node_end_AllowedTypes, findMultiNested_node_end_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findMultiNested_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_edge__edge0", "_edge0", findMultiNested_edge__edge0_AllowedTypes, findMultiNested_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findMultiNested_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_edge__edge1", "_edge1", findMultiNested_edge__edge1_AllowedTypes, findMultiNested_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			bool[,] findMultiNested_idpt_0_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -3349,9 +3644,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] findMultiNested_idpt_0_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] findMultiNested_idpt_0_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode findMultiNested_idpt_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_idpt_0_node__node0", "_node0", findMultiNested_idpt_0_node__node0_AllowedTypes, findMultiNested_idpt_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findMultiNested_idpt_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_0_edge__edge0", "_edge0", findMultiNested_idpt_0_edge__edge0_AllowedTypes, findMultiNested_idpt_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findMultiNested_idpt_0_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_0_edge__edge1", "_edge1", findMultiNested_idpt_0_edge__edge1_AllowedTypes, findMultiNested_idpt_0_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode findMultiNested_idpt_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_idpt_0_node__node0", "_node0", findMultiNested_idpt_0_node__node0_AllowedTypes, findMultiNested_idpt_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findMultiNested_idpt_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_0_edge__edge0", "_edge0", findMultiNested_idpt_0_edge__edge0_AllowedTypes, findMultiNested_idpt_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findMultiNested_idpt_0_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_0_edge__edge1", "_edge1", findMultiNested_idpt_0_edge__edge1_AllowedTypes, findMultiNested_idpt_0_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			bool[,] findMultiNested_idpt_0_idpt_1_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -3363,9 +3658,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] findMultiNested_idpt_0_idpt_1_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] findMultiNested_idpt_0_idpt_1_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode findMultiNested_idpt_0_idpt_1_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_idpt_0_idpt_1_node__node0", "_node0", findMultiNested_idpt_0_idpt_1_node__node0_AllowedTypes, findMultiNested_idpt_0_idpt_1_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findMultiNested_idpt_0_idpt_1_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_0_idpt_1_edge__edge0", "_edge0", findMultiNested_idpt_0_idpt_1_edge__edge0_AllowedTypes, findMultiNested_idpt_0_idpt_1_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findMultiNested_idpt_0_idpt_1_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_0_idpt_1_edge__edge1", "_edge1", findMultiNested_idpt_0_idpt_1_edge__edge1_AllowedTypes, findMultiNested_idpt_0_idpt_1_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode findMultiNested_idpt_0_idpt_1_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_idpt_0_idpt_1_node__node0", "_node0", findMultiNested_idpt_0_idpt_1_node__node0_AllowedTypes, findMultiNested_idpt_0_idpt_1_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findMultiNested_idpt_0_idpt_1_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_0_idpt_1_edge__edge0", "_edge0", findMultiNested_idpt_0_idpt_1_edge__edge0_AllowedTypes, findMultiNested_idpt_0_idpt_1_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findMultiNested_idpt_0_idpt_1_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_0_idpt_1_edge__edge1", "_edge1", findMultiNested_idpt_0_idpt_1_edge__edge1_AllowedTypes, findMultiNested_idpt_0_idpt_1_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			findMultiNested_idpt_0_idpt_1 = new GRGEN_LGSP.PatternGraph(
 				"idpt_1",
 				"findMultiNested_idpt_0_",
@@ -3446,9 +3741,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] findMultiNested_idpt_2_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] findMultiNested_idpt_2_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode findMultiNested_idpt_2_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_idpt_2_node__node0", "_node0", findMultiNested_idpt_2_node__node0_AllowedTypes, findMultiNested_idpt_2_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findMultiNested_idpt_2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_2_edge__edge0", "_edge0", findMultiNested_idpt_2_edge__edge0_AllowedTypes, findMultiNested_idpt_2_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findMultiNested_idpt_2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_2_edge__edge1", "_edge1", findMultiNested_idpt_2_edge__edge1_AllowedTypes, findMultiNested_idpt_2_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode findMultiNested_idpt_2_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_idpt_2_node__node0", "_node0", findMultiNested_idpt_2_node__node0_AllowedTypes, findMultiNested_idpt_2_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findMultiNested_idpt_2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_2_edge__edge0", "_edge0", findMultiNested_idpt_2_edge__edge0_AllowedTypes, findMultiNested_idpt_2_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findMultiNested_idpt_2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_2_edge__edge1", "_edge1", findMultiNested_idpt_2_edge__edge1_AllowedTypes, findMultiNested_idpt_2_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			bool[,] findMultiNested_idpt_2_idpt_3_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -3460,9 +3755,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			bool[] findMultiNested_idpt_2_idpt_3_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] findMultiNested_idpt_2_idpt_3_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode findMultiNested_idpt_2_idpt_3_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_idpt_2_idpt_3_node__node0", "_node0", findMultiNested_idpt_2_idpt_3_node__node0_AllowedTypes, findMultiNested_idpt_2_idpt_3_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findMultiNested_idpt_2_idpt_3_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_2_idpt_3_edge__edge0", "_edge0", findMultiNested_idpt_2_idpt_3_edge__edge0_AllowedTypes, findMultiNested_idpt_2_idpt_3_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge findMultiNested_idpt_2_idpt_3_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_2_idpt_3_edge__edge1", "_edge1", findMultiNested_idpt_2_idpt_3_edge__edge1_AllowedTypes, findMultiNested_idpt_2_idpt_3_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode findMultiNested_idpt_2_idpt_3_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findMultiNested_idpt_2_idpt_3_node__node0", "_node0", findMultiNested_idpt_2_idpt_3_node__node0_AllowedTypes, findMultiNested_idpt_2_idpt_3_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findMultiNested_idpt_2_idpt_3_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_2_idpt_3_edge__edge0", "_edge0", findMultiNested_idpt_2_idpt_3_edge__edge0_AllowedTypes, findMultiNested_idpt_2_idpt_3_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge findMultiNested_idpt_2_idpt_3_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "findMultiNested_idpt_2_idpt_3_edge__edge1", "_edge1", findMultiNested_idpt_2_idpt_3_edge__edge1_AllowedTypes, findMultiNested_idpt_2_idpt_3_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			findMultiNested_idpt_2_idpt_3 = new GRGEN_LGSP.PatternGraph(
 				"idpt_3",
 				"findMultiNested_idpt_2_",
@@ -3705,7 +4000,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_NodeNums { @beg, @_node0, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -3732,7 +4027,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 2;} }
+			public override int NumberOfEdges { get { return 2; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -3753,7 +4048,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -3770,7 +4065,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -3787,7 +4082,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -3804,7 +4099,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -3825,7 +4120,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_IdptNums { @idpt_0, @idpt_2, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 2;} }
+			public override int NumberOfIndependents { get { return 2; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -3844,6 +4139,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.pat_findMultiNested; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_findMultiNested(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_findMultiNested nextWithSameHash;
@@ -3898,7 +4194,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_NodeNums { @_node0, @beg, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -3925,7 +4221,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 2;} }
+			public override int NumberOfEdges { get { return 2; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -3946,7 +4242,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -3963,7 +4259,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -3980,7 +4276,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -3997,7 +4293,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4016,7 +4312,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_IdptNums { @idpt_1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 1;} }
+			public override int NumberOfIndependents { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4033,6 +4329,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_0; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_findMultiNested_idpt_0(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_findMultiNested_idpt_0 nextWithSameHash;
@@ -4086,7 +4383,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_idpt_1_NodeNums { @beg, @_node0, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -4113,7 +4410,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_idpt_1_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 2;} }
+			public override int NumberOfEdges { get { return 2; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -4134,7 +4431,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_idpt_1_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -4151,7 +4448,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_idpt_1_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -4168,7 +4465,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_idpt_1_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -4185,7 +4482,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_idpt_1_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4202,7 +4499,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_0_idpt_1_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4217,6 +4514,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_0_idpt_1; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_findMultiNested_idpt_0_idpt_1(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_findMultiNested_idpt_0_idpt_1 nextWithSameHash;
@@ -4269,7 +4567,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_NodeNums { @beg, @_node0, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -4296,7 +4594,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 2;} }
+			public override int NumberOfEdges { get { return 2; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -4317,7 +4615,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -4334,7 +4632,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -4351,7 +4649,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -4368,7 +4666,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4387,7 +4685,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_IdptNums { @idpt_3, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 1;} }
+			public override int NumberOfIndependents { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4404,6 +4702,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_2; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_findMultiNested_idpt_2(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_findMultiNested_idpt_2 nextWithSameHash;
@@ -4457,7 +4756,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_idpt_3_NodeNums { @_node0, @beg, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -4484,7 +4783,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_idpt_3_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 2;} }
+			public override int NumberOfEdges { get { return 2; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -4505,7 +4804,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_idpt_3_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -4522,7 +4821,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_idpt_3_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -4539,7 +4838,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_idpt_3_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -4556,7 +4855,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_idpt_3_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4573,7 +4872,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findMultiNested_idpt_2_idpt_3_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4588,6 +4887,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_2_idpt_3; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_findMultiNested_idpt_2_idpt_3(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_findMultiNested_idpt_2_idpt_3 nextWithSameHash;
@@ -4669,10 +4969,39 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>)
+				return ((List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_groupBy_beg(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_beg)) {
+					seenValues[list[pos].@node_beg].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> tempList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_beg, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+			foreach(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
 		{
 			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
@@ -4683,6 +5012,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_beg, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_groupBy__node0(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node0)) {
+					seenValues[list[pos].@node__node0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> tempList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+			foreach(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -4699,6 +5048,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_groupBy_end(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_end)) {
+					seenValues[list[pos].@node_end].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> tempList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_end, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+			foreach(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_keepOneForEachBy_end(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
 		{
 			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
@@ -4712,6 +5081,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_groupBy__edge0(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> tempList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+			foreach(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
 		{
 			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
@@ -4722,6 +5111,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge0, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_groupBy__edge1(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge1)) {
+					seenValues[list[pos].@edge__edge1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> tempList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> newList = new List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>();
+			foreach(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -4862,7 +5271,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum createIterated_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -4879,7 +5288,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum createIterated_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -4896,7 +5305,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum createIterated_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -4913,7 +5322,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum createIterated_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -4930,7 +5339,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum createIterated_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -4947,7 +5356,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum createIterated_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4964,7 +5373,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum createIterated_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4979,6 +5388,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createIterated.instance.pat_createIterated; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_createIterated(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_createIterated nextWithSameHash;
@@ -5015,9 +5425,18 @@ namespace de.unika.ipd.grGen.Action_Independent
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>)
+				return ((List<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -5072,8 +5491,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 			bool[,] findChainPlusChainToInt_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] findChainPlusChainToInt_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] findChainPlusChainToInt_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode findChainPlusChainToInt_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findChainPlusChainToInt_node_beg", "beg", findChainPlusChainToInt_node_beg_AllowedTypes, findChainPlusChainToInt_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode findChainPlusChainToInt_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findChainPlusChainToInt_node_end", "end", findChainPlusChainToInt_node_end_AllowedTypes, findChainPlusChainToInt_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode findChainPlusChainToInt_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findChainPlusChainToInt_node_beg", "beg", findChainPlusChainToInt_node_beg_AllowedTypes, findChainPlusChainToInt_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode findChainPlusChainToInt_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findChainPlusChainToInt_node_end", "end", findChainPlusChainToInt_node_end_AllowedTypes, findChainPlusChainToInt_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToInt__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPath.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToInt_node_beg"),
@@ -5164,7 +5583,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToInt_NodeNums { @beg, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -5185,7 +5604,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToInt_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -5202,7 +5621,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToInt_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -5223,7 +5642,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToInt_SubNums { @_sub0, @_sub1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 2;} }
+			public override int NumberOfEmbeddedGraphs { get { return 2; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -5244,7 +5663,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToInt_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -5261,7 +5680,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToInt_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -5278,7 +5697,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToInt_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -5293,6 +5712,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findChainPlusChainToInt.instance.pat_findChainPlusChainToInt; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_findChainPlusChainToInt(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_findChainPlusChainToInt nextWithSameHash;
@@ -5351,10 +5771,39 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>)
+				return ((List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> Array_findChainPlusChainToInt_groupBy_beg(List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_beg)) {
+					seenValues[list[pos].@node_beg].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> tempList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_beg, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> newList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>();
+			foreach(List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> Array_findChainPlusChainToInt_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list)
 		{
 			List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> newList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>();
@@ -5365,6 +5814,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_beg, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> Array_findChainPlusChainToInt_groupBy_end(List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_end)) {
+					seenValues[list[pos].@node_end].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> tempList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_end, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> newList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>();
+			foreach(List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -5444,8 +5913,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 			bool[,] findChainPlusChainToIntIndependent_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] findChainPlusChainToIntIndependent_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] findChainPlusChainToIntIndependent_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode findChainPlusChainToIntIndependent_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findChainPlusChainToIntIndependent_node_beg", "beg", findChainPlusChainToIntIndependent_node_beg_AllowedTypes, findChainPlusChainToIntIndependent_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode findChainPlusChainToIntIndependent_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findChainPlusChainToIntIndependent_node_end", "end", findChainPlusChainToIntIndependent_node_end_AllowedTypes, findChainPlusChainToIntIndependent_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode findChainPlusChainToIntIndependent_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findChainPlusChainToIntIndependent_node_beg", "beg", findChainPlusChainToIntIndependent_node_beg_AllowedTypes, findChainPlusChainToIntIndependent_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode findChainPlusChainToIntIndependent_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, GRGEN_MODEL.NodeType_Node.typeVar, "GRGEN_LIBGR.INode", "findChainPlusChainToIntIndependent_node_end", "end", findChainPlusChainToIntIndependent_node_end_AllowedTypes, findChainPlusChainToIntIndependent_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToIntIndependent__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPath.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToIntIndependent_node_beg"),
@@ -5582,7 +6051,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_NodeNums { @beg, @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -5603,7 +6072,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -5620,7 +6089,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -5639,7 +6108,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_SubNums { @_sub0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -5658,7 +6127,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -5675,7 +6144,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -5694,7 +6163,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_IdptNums { @idpt_0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 1;} }
+			public override int NumberOfIndependents { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -5711,6 +6180,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findChainPlusChainToIntIndependent.instance.pat_findChainPlusChainToIntIndependent; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_findChainPlusChainToIntIndependent(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_findChainPlusChainToIntIndependent nextWithSameHash;
@@ -5756,7 +6226,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_idpt_0_NodeNums { @end, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -5775,7 +6245,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_idpt_0_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -5792,7 +6262,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_idpt_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -5811,7 +6281,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_idpt_0_SubNums { @_sub0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -5830,7 +6300,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_idpt_0_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -5847,7 +6317,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_idpt_0_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -5864,7 +6334,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			public enum findChainPlusChainToIntIndependent_idpt_0_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -5879,6 +6349,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findChainPlusChainToIntIndependent.instance.findChainPlusChainToIntIndependent_idpt_0; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_findChainPlusChainToIntIndependent_idpt_0(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_findChainPlusChainToIntIndependent_idpt_0 nextWithSameHash;
@@ -5933,10 +6404,39 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>)
+				return ((List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> Array_findChainPlusChainToIntIndependent_groupBy_beg(List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_beg)) {
+					seenValues[list[pos].@node_beg].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> tempList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_beg, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> newList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>();
+			foreach(List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> Array_findChainPlusChainToIntIndependent_keepOneForEachBy_beg(List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list)
 		{
 			List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> newList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>();
@@ -5947,6 +6447,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_beg, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> Array_findChainPlusChainToIntIndependent_groupBy_end(List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list)
+		{
+			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_end)) {
+					seenValues[list[pos].@node_end].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> tempList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_end, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> newList = new List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>();
+			foreach(List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -7476,13 +7996,6 @@ namespace de.unika.ipd.grGen.Action_Independent
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_create.IMatch_create> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_create.IMatch_create>)
-                return ((List<GRGEN_ACTIONS.Rule_create.IMatch_create>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_create.IMatch_create>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -7848,13 +8361,6 @@ namespace de.unika.ipd.grGen.Action_Independent
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_find.IMatch_find>)
-                return ((List<GRGEN_ACTIONS.Rule_find.IMatch_find>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_find.IMatch_find>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -8237,13 +8743,6 @@ label2: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>)
-                return ((List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -8876,13 +9375,6 @@ label14: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>)
-                return ((List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -9147,13 +9639,6 @@ label14: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>)
-                return ((List<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -9473,13 +9958,6 @@ label14: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>)
-                return ((List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -10309,13 +10787,6 @@ label15: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>)
-                return ((List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     public class AlternativeAction_findChainPlusChainToIntIndependent_alt_0_inlined__sub0_4_in_findChainPlusChainToIntIndependent : GRGEN_LGSP.LGSPSubpatternAction
@@ -10917,6 +11388,381 @@ label15: ;
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override IList ArrayOrderAscendingBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "create":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "find":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "findIndependent":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "findMultiNested":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createIterated":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "findChainPlusChainToInt":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "findChainPlusChainToIntIndependent":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayOrderDescendingBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "create":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "find":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "findIndependent":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "findMultiNested":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createIterated":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "findChainPlusChainToInt":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "findChainPlusChainToIntIndependent":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayGroupBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "create":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "find":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_find_groupBy_beg(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_find_groupBy__node0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "end":
+                        return ArrayHelper.Array_find_groupBy_end(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_node1":
+                        return ArrayHelper.Array_find_groupBy__node1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_find_groupBy__edge0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_find_groupBy__edge1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_find_groupBy__edge2(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_find_groupBy__edge3(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "findIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findIndependent_groupBy_beg(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_findIndependent_groupBy__node0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array));
+                    case "end":
+                        return ArrayHelper.Array_findIndependent_groupBy_end(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_findIndependent_groupBy__edge0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_findIndependent_groupBy__edge1(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "findMultiNested":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findMultiNested_groupBy_beg(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_findMultiNested_groupBy__node0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array));
+                    case "end":
+                        return ArrayHelper.Array_findMultiNested_groupBy_end(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_findMultiNested_groupBy__edge0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_findMultiNested_groupBy__edge1(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "createIterated":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "findChainPlusChainToInt":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToInt_groupBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array));
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToInt_groupBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "findChainPlusChainToIntIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_groupBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array));
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_groupBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayKeepOneForEach(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "create":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "find":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_find_keepOneForEachBy_beg(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_find_keepOneForEachBy__node0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "end":
+                        return ArrayHelper.Array_find_keepOneForEachBy_end(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_node1":
+                        return ArrayHelper.Array_find_keepOneForEachBy__node1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_find_keepOneForEachBy__edge0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_find_keepOneForEachBy__edge1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_find_keepOneForEachBy__edge2(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_find_keepOneForEachBy__edge3(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "findIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findIndependent_keepOneForEachBy_beg(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_findIndependent_keepOneForEachBy__node0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array));
+                    case "end":
+                        return ArrayHelper.Array_findIndependent_keepOneForEachBy_end(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_findIndependent_keepOneForEachBy__edge0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_findIndependent_keepOneForEachBy__edge1(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "findMultiNested":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findMultiNested_keepOneForEachBy_beg(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_findMultiNested_keepOneForEachBy__node0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array));
+                    case "end":
+                        return ArrayHelper.Array_findMultiNested_keepOneForEachBy_end(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_findMultiNested_keepOneForEachBy__edge0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_findMultiNested_keepOneForEachBy__edge1(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "createIterated":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "findChainPlusChainToInt":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToInt_keepOneForEachBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array));
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToInt_keepOneForEachBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "findChainPlusChainToIntIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_keepOneForEachBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array));
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_keepOneForEachBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
         public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
     }

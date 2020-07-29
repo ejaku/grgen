@@ -1,9 +1,10 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun May 24 19:21:50 CEST 2020
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Wed Jul 29 12:20:44 CEST 2020
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -2222,6 +2223,15 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	}
 
+	public class Comparer_annotationTestEdge_attrib : Comparer<GRGEN_MODEL.IannotationTestEdge>
+	{
+		public static Comparer_annotationTestEdge_attrib thisComparer = new Comparer_annotationTestEdge_attrib();
+		public override int Compare(GRGEN_MODEL.IannotationTestEdge a, GRGEN_MODEL.IannotationTestEdge b)
+		{
+			return a.@attrib.CompareTo(b.@attrib);
+		}
+	}
+
 	public class ReverseComparer_annotationTestEdge_attrib : Comparer<GRGEN_MODEL.IannotationTestEdge>
 	{
 		public static ReverseComparer_annotationTestEdge_attrib thisComparer = new ReverseComparer_annotationTestEdge_attrib();
@@ -2231,14 +2241,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 	}
 
-	public class Comparer_annotationTestEdge_attrib : Comparer<GRGEN_MODEL.IannotationTestEdge>
+	public class ArrayHelper_annotationTestEdge_attrib
 	{
 		private static GRGEN_MODEL.IannotationTestEdge nodeBearingAttributeForSearch = new GRGEN_MODEL.@annotationTestEdge(null, null);
-		private static Comparer_annotationTestEdge_attrib thisComparer = new Comparer_annotationTestEdge_attrib();
-		public override int Compare(GRGEN_MODEL.IannotationTestEdge a, GRGEN_MODEL.IannotationTestEdge b)
-		{
-			return a.@attrib.CompareTo(b.@attrib);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -2270,18 +2275,38 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IannotationTestEdge> list, int entry)
 		{
 			nodeBearingAttributeForSearch.@attrib = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_annotationTestEdge_attrib.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IannotationTestEdge> ArrayOrderAscendingBy(List<GRGEN_MODEL.IannotationTestEdge> list)
 		{
 			List<GRGEN_MODEL.IannotationTestEdge> newList = new List<GRGEN_MODEL.IannotationTestEdge>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_annotationTestEdge_attrib.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IannotationTestEdge> ArrayOrderDescendingBy(List<GRGEN_MODEL.IannotationTestEdge> list)
 		{
 			List<GRGEN_MODEL.IannotationTestEdge> newList = new List<GRGEN_MODEL.IannotationTestEdge>(list);
 			newList.Sort(ReverseComparer_annotationTestEdge_attrib.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IannotationTestEdge> ArrayGroupBy(List<GRGEN_MODEL.IannotationTestEdge> list)
+		{
+			Dictionary<int, List<GRGEN_MODEL.IannotationTestEdge>> seenValues = new Dictionary<int, List<GRGEN_MODEL.IannotationTestEdge>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@attrib)) {
+					seenValues[list[pos].@attrib].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IannotationTestEdge> tempList = new List<GRGEN_MODEL.IannotationTestEdge>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@attrib, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IannotationTestEdge> newList = new List<GRGEN_MODEL.IannotationTestEdge>();
+			foreach(List<GRGEN_MODEL.IannotationTestEdge> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IannotationTestEdge> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IannotationTestEdge> list)
@@ -2723,6 +2748,402 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private void FullyInitializeExternalTypes()
 		{
 			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public override IList ArrayOrderAscendingBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Process":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Resource":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AnnotationTestNode":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "next":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "blocked":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "held_by":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "token":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "release":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "request":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "annotationTestEdge":
+				switch(member)
+				{
+				case "attrib":
+					return ArrayHelper_annotationTestEdge_attrib.ArrayOrderAscendingBy((List<GRGEN_MODEL.IannotationTestEdge>)array);
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayOrderDescendingBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Process":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Resource":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AnnotationTestNode":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "next":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "blocked":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "held_by":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "token":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "release":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "request":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "annotationTestEdge":
+				switch(member)
+				{
+				case "attrib":
+					return ArrayHelper_annotationTestEdge_attrib.ArrayOrderDescendingBy((List<GRGEN_MODEL.IannotationTestEdge>)array);
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayGroupBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Process":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Resource":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AnnotationTestNode":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "next":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "blocked":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "held_by":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "token":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "release":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "request":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "annotationTestEdge":
+				switch(member)
+				{
+				case "attrib":
+					return ArrayHelper_annotationTestEdge_attrib.ArrayGroupBy((List<GRGEN_MODEL.IannotationTestEdge>)array);
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayKeepOneForEach(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Process":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Resource":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AnnotationTestNode":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "next":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "blocked":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "held_by":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "token":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "release":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "request":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "annotationTestEdge":
+				switch(member)
+				{
+				case "attrib":
+					return ArrayHelper_annotationTestEdge_attrib.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IannotationTestEdge>)array);
+				default:
+					return null;
+				}
+			default: return null;
+			}
 		}
 
 		public override void FailAssertion() { Debug.Assert(false); }

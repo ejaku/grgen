@@ -1,9 +1,10 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sun May 24 19:21:36 CEST 2020
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Wed Jul 29 12:20:08 CEST 2020
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -604,6 +605,15 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 	}
 
+	public class Comparer_N_i : Comparer<GRGEN_MODEL.IN>
+	{
+		public static Comparer_N_i thisComparer = new Comparer_N_i();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return a.@i.CompareTo(b.@i);
+		}
+	}
+
 	public class ReverseComparer_N_i : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_i thisComparer = new ReverseComparer_N_i();
@@ -613,14 +623,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public class Comparer_N_i : Comparer<GRGEN_MODEL.IN>
+	public class ArrayHelper_N_i
 	{
 		private static GRGEN_MODEL.IN nodeBearingAttributeForSearch = new GRGEN_MODEL.@N();
-		private static Comparer_N_i thisComparer = new Comparer_N_i();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
-		{
-			return a.@i.CompareTo(b.@i);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IN> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -652,18 +657,38 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IN> list, int entry)
 		{
 			nodeBearingAttributeForSearch.@i = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_N_i.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderAscendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_N_i.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
 			newList.Sort(ReverseComparer_N_i.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayGroupBy(List<GRGEN_MODEL.IN> list)
+		{
+			Dictionary<int, List<GRGEN_MODEL.IN>> seenValues = new Dictionary<int, List<GRGEN_MODEL.IN>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@i)) {
+					seenValues[list[pos].@i].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IN> tempList = new List<GRGEN_MODEL.IN>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@i, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			foreach(List<GRGEN_MODEL.IN> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
@@ -689,6 +714,15 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	}
 
 
+	public class Comparer_N_s : Comparer<GRGEN_MODEL.IN>
+	{
+		public static Comparer_N_s thisComparer = new Comparer_N_s();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return StringComparer.InvariantCulture.Compare(a.@s, b.@s);
+		}
+	}
+
 	public class ReverseComparer_N_s : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_s thisComparer = new ReverseComparer_N_s();
@@ -698,14 +732,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public class Comparer_N_s : Comparer<GRGEN_MODEL.IN>
+	public class ArrayHelper_N_s
 	{
 		private static GRGEN_MODEL.IN nodeBearingAttributeForSearch = new GRGEN_MODEL.@N();
-		private static Comparer_N_s thisComparer = new Comparer_N_s();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
-		{
-			return StringComparer.InvariantCulture.Compare(a.@s, b.@s);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IN> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -737,18 +766,38 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IN> list, string entry)
 		{
 			nodeBearingAttributeForSearch.@s = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_N_s.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderAscendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_N_s.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
 			newList.Sort(ReverseComparer_N_s.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayGroupBy(List<GRGEN_MODEL.IN> list)
+		{
+			Dictionary<string, List<GRGEN_MODEL.IN>> seenValues = new Dictionary<string, List<GRGEN_MODEL.IN>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@s)) {
+					seenValues[list[pos].@s].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IN> tempList = new List<GRGEN_MODEL.IN>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@s, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			foreach(List<GRGEN_MODEL.IN> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
@@ -774,6 +823,15 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	}
 
 
+	public class Comparer_N_b : Comparer<GRGEN_MODEL.IN>
+	{
+		public static Comparer_N_b thisComparer = new Comparer_N_b();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return a.@b.CompareTo(b.@b);
+		}
+	}
+
 	public class ReverseComparer_N_b : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_b thisComparer = new ReverseComparer_N_b();
@@ -783,14 +841,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public class Comparer_N_b : Comparer<GRGEN_MODEL.IN>
+	public class ArrayHelper_N_b
 	{
 		private static GRGEN_MODEL.IN nodeBearingAttributeForSearch = new GRGEN_MODEL.@N();
-		private static Comparer_N_b thisComparer = new Comparer_N_b();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
-		{
-			return a.@b.CompareTo(b.@b);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IN> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -822,18 +875,38 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IN> list, bool entry)
 		{
 			nodeBearingAttributeForSearch.@b = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_N_b.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderAscendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_N_b.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
 			newList.Sort(ReverseComparer_N_b.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayGroupBy(List<GRGEN_MODEL.IN> list)
+		{
+			Dictionary<bool, List<GRGEN_MODEL.IN>> seenValues = new Dictionary<bool, List<GRGEN_MODEL.IN>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@b)) {
+					seenValues[list[pos].@b].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IN> tempList = new List<GRGEN_MODEL.IN>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@b, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			foreach(List<GRGEN_MODEL.IN> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
@@ -859,6 +932,15 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	}
 
 
+	public class Comparer_N_f : Comparer<GRGEN_MODEL.IN>
+	{
+		public static Comparer_N_f thisComparer = new Comparer_N_f();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return a.@f.CompareTo(b.@f);
+		}
+	}
+
 	public class ReverseComparer_N_f : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_f thisComparer = new ReverseComparer_N_f();
@@ -868,14 +950,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public class Comparer_N_f : Comparer<GRGEN_MODEL.IN>
+	public class ArrayHelper_N_f
 	{
 		private static GRGEN_MODEL.IN nodeBearingAttributeForSearch = new GRGEN_MODEL.@N();
-		private static Comparer_N_f thisComparer = new Comparer_N_f();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
-		{
-			return a.@f.CompareTo(b.@f);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IN> list, float entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -907,18 +984,38 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IN> list, float entry)
 		{
 			nodeBearingAttributeForSearch.@f = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_N_f.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderAscendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_N_f.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
 			newList.Sort(ReverseComparer_N_f.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayGroupBy(List<GRGEN_MODEL.IN> list)
+		{
+			Dictionary<float, List<GRGEN_MODEL.IN>> seenValues = new Dictionary<float, List<GRGEN_MODEL.IN>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@f)) {
+					seenValues[list[pos].@f].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IN> tempList = new List<GRGEN_MODEL.IN>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@f, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			foreach(List<GRGEN_MODEL.IN> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
@@ -944,6 +1041,15 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	}
 
 
+	public class Comparer_N_d : Comparer<GRGEN_MODEL.IN>
+	{
+		public static Comparer_N_d thisComparer = new Comparer_N_d();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return a.@d.CompareTo(b.@d);
+		}
+	}
+
 	public class ReverseComparer_N_d : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_d thisComparer = new ReverseComparer_N_d();
@@ -953,14 +1059,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public class Comparer_N_d : Comparer<GRGEN_MODEL.IN>
+	public class ArrayHelper_N_d
 	{
 		private static GRGEN_MODEL.IN nodeBearingAttributeForSearch = new GRGEN_MODEL.@N();
-		private static Comparer_N_d thisComparer = new Comparer_N_d();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
-		{
-			return a.@d.CompareTo(b.@d);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IN> list, double entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -992,18 +1093,38 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IN> list, double entry)
 		{
 			nodeBearingAttributeForSearch.@d = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_N_d.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderAscendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_N_d.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
 			newList.Sort(ReverseComparer_N_d.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayGroupBy(List<GRGEN_MODEL.IN> list)
+		{
+			Dictionary<double, List<GRGEN_MODEL.IN>> seenValues = new Dictionary<double, List<GRGEN_MODEL.IN>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@d)) {
+					seenValues[list[pos].@d].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IN> tempList = new List<GRGEN_MODEL.IN>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@d, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			foreach(List<GRGEN_MODEL.IN> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
@@ -1029,6 +1150,15 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	}
 
 
+	public class Comparer_N_enu : Comparer<GRGEN_MODEL.IN>
+	{
+		public static Comparer_N_enu thisComparer = new Comparer_N_enu();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return a.@enu.CompareTo(b.@enu);
+		}
+	}
+
 	public class ReverseComparer_N_enu : Comparer<GRGEN_MODEL.IN>
 	{
 		public static ReverseComparer_N_enu thisComparer = new ReverseComparer_N_enu();
@@ -1038,14 +1168,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 	}
 
-	public class Comparer_N_enu : Comparer<GRGEN_MODEL.IN>
+	public class ArrayHelper_N_enu
 	{
 		private static GRGEN_MODEL.IN nodeBearingAttributeForSearch = new GRGEN_MODEL.@N();
-		private static Comparer_N_enu thisComparer = new Comparer_N_enu();
-		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
-		{
-			return a.@enu.CompareTo(b.@enu);
-		}
 		public static int IndexOfBy(IList<GRGEN_MODEL.IN> list, GRGEN_MODEL.ENUM_Enu entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
@@ -1077,18 +1202,38 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IN> list, GRGEN_MODEL.ENUM_Enu entry)
 		{
 			nodeBearingAttributeForSearch.@enu = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);
+			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_N_enu.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderAscendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
-			newList.Sort(thisComparer);
+			newList.Sort(Comparer_N_enu.thisComparer);
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
 		{
 			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
 			newList.Sort(ReverseComparer_N_enu.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayGroupBy(List<GRGEN_MODEL.IN> list)
+		{
+			Dictionary<GRGEN_MODEL.ENUM_Enu, List<GRGEN_MODEL.IN>> seenValues = new Dictionary<GRGEN_MODEL.ENUM_Enu, List<GRGEN_MODEL.IN>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@enu)) {
+					seenValues[list[pos].@enu].Add(list[pos]);
+				} else {
+					List<GRGEN_MODEL.IN> tempList = new List<GRGEN_MODEL.IN>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@enu, tempList);
+				}
+			}
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			foreach(List<GRGEN_MODEL.IN> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
 			return newList;
 		}
 		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
@@ -2095,6 +2240,274 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		private void FullyInitializeExternalTypes()
 		{
 			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public override IList ArrayOrderAscendingBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayOrderAscendingBy((List<GRGEN_MODEL.IN>)array);
+				case "s":
+					return ArrayHelper_N_s.ArrayOrderAscendingBy((List<GRGEN_MODEL.IN>)array);
+				case "b":
+					return ArrayHelper_N_b.ArrayOrderAscendingBy((List<GRGEN_MODEL.IN>)array);
+				case "f":
+					return ArrayHelper_N_f.ArrayOrderAscendingBy((List<GRGEN_MODEL.IN>)array);
+				case "d":
+					return ArrayHelper_N_d.ArrayOrderAscendingBy((List<GRGEN_MODEL.IN>)array);
+				case "enu":
+					return ArrayHelper_N_enu.ArrayOrderAscendingBy((List<GRGEN_MODEL.IN>)array);
+				default:
+					return null;
+				}
+			case "M":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "E":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayOrderDescendingBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayOrderDescendingBy((List<GRGEN_MODEL.IN>)array);
+				case "s":
+					return ArrayHelper_N_s.ArrayOrderDescendingBy((List<GRGEN_MODEL.IN>)array);
+				case "b":
+					return ArrayHelper_N_b.ArrayOrderDescendingBy((List<GRGEN_MODEL.IN>)array);
+				case "f":
+					return ArrayHelper_N_f.ArrayOrderDescendingBy((List<GRGEN_MODEL.IN>)array);
+				case "d":
+					return ArrayHelper_N_d.ArrayOrderDescendingBy((List<GRGEN_MODEL.IN>)array);
+				case "enu":
+					return ArrayHelper_N_enu.ArrayOrderDescendingBy((List<GRGEN_MODEL.IN>)array);
+				default:
+					return null;
+				}
+			case "M":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "E":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayGroupBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayGroupBy((List<GRGEN_MODEL.IN>)array);
+				case "s":
+					return ArrayHelper_N_s.ArrayGroupBy((List<GRGEN_MODEL.IN>)array);
+				case "b":
+					return ArrayHelper_N_b.ArrayGroupBy((List<GRGEN_MODEL.IN>)array);
+				case "f":
+					return ArrayHelper_N_f.ArrayGroupBy((List<GRGEN_MODEL.IN>)array);
+				case "d":
+					return ArrayHelper_N_d.ArrayGroupBy((List<GRGEN_MODEL.IN>)array);
+				case "enu":
+					return ArrayHelper_N_enu.ArrayGroupBy((List<GRGEN_MODEL.IN>)array);
+				default:
+					return null;
+				}
+			case "M":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "E":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayKeepOneForEach(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IN>)array);
+				case "s":
+					return ArrayHelper_N_s.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IN>)array);
+				case "b":
+					return ArrayHelper_N_b.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IN>)array);
+				case "f":
+					return ArrayHelper_N_f.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IN>)array);
+				case "d":
+					return ArrayHelper_N_d.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IN>)array);
+				case "enu":
+					return ArrayHelper_N_enu.ArrayKeepOneForEachBy((List<GRGEN_MODEL.IN>)array);
+				default:
+					return null;
+				}
+			case "M":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "E":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
 		}
 
 		public override void FailAssertion() { Debug.Assert(false); }

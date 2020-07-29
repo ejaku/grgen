@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun May 24 19:21:58 CEST 2020
+// Generated from "..\..\tests\TNT\TNT.grg" on Wed Jul 29 12:20:59 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -95,21 +95,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] BenzolRing_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] BenzolRing_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
-			GRGEN_LGSP.PatternNode BenzolRing_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c1", "c1", BenzolRing_node_c1_AllowedTypes, BenzolRing_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRing_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c2", "c2", BenzolRing_node_c2_AllowedTypes, BenzolRing_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRing_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c3", "c3", BenzolRing_node_c3_AllowedTypes, BenzolRing_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRing_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c4", "c4", BenzolRing_node_c4_AllowedTypes, BenzolRing_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRing_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c5", "c5", BenzolRing_node_c5_AllowedTypes, BenzolRing_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRing_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c6", "c6", BenzolRing_node_c6_AllowedTypes, BenzolRing_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge0", "_edge0", BenzolRing_edge__edge0_AllowedTypes, BenzolRing_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge1", "_edge1", BenzolRing_edge__edge1_AllowedTypes, BenzolRing_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge2", "_edge2", BenzolRing_edge__edge2_AllowedTypes, BenzolRing_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge3", "_edge3", BenzolRing_edge__edge3_AllowedTypes, BenzolRing_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge4", "_edge4", BenzolRing_edge__edge4_AllowedTypes, BenzolRing_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge5", "_edge5", BenzolRing_edge__edge5_AllowedTypes, BenzolRing_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge6", "_edge6", BenzolRing_edge__edge6_AllowedTypes, BenzolRing_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge7", "_edge7", BenzolRing_edge__edge7_AllowedTypes, BenzolRing_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge8", "_edge8", BenzolRing_edge__edge8_AllowedTypes, BenzolRing_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c1", "c1", BenzolRing_node_c1_AllowedTypes, BenzolRing_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c2", "c2", BenzolRing_node_c2_AllowedTypes, BenzolRing_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c3", "c3", BenzolRing_node_c3_AllowedTypes, BenzolRing_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c4", "c4", BenzolRing_node_c4_AllowedTypes, BenzolRing_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c5", "c5", BenzolRing_node_c5_AllowedTypes, BenzolRing_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRing_node_c6", "c6", BenzolRing_node_c6_AllowedTypes, BenzolRing_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge0", "_edge0", BenzolRing_edge__edge0_AllowedTypes, BenzolRing_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge1", "_edge1", BenzolRing_edge__edge1_AllowedTypes, BenzolRing_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge2", "_edge2", BenzolRing_edge__edge2_AllowedTypes, BenzolRing_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge3", "_edge3", BenzolRing_edge__edge3_AllowedTypes, BenzolRing_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge4", "_edge4", BenzolRing_edge__edge4_AllowedTypes, BenzolRing_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge5", "_edge5", BenzolRing_edge__edge5_AllowedTypes, BenzolRing_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge6", "_edge6", BenzolRing_edge__edge6_AllowedTypes, BenzolRing_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge7", "_edge7", BenzolRing_edge__edge7_AllowedTypes, BenzolRing_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRing_edge__edge8", "_edge8", BenzolRing_edge__edge8_AllowedTypes, BenzolRing_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_BenzolRing = new GRGEN_LGSP.PatternGraph(
 				"BenzolRing",
 				"",
@@ -301,7 +301,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -348,7 +348,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 9;} }
+			public override int NumberOfEdges { get { return 9; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -383,7 +383,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -400,7 +400,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -417,7 +417,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -434,7 +434,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -451,7 +451,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -466,6 +466,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRing.instance.pat_BenzolRing; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_BenzolRing(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_BenzolRing nextWithSameHash;
@@ -609,21 +610,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] BenzolRingC123456Exposed_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] BenzolRingC123456Exposed_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c1", "c1", BenzolRingC123456Exposed_node_c1_AllowedTypes, BenzolRingC123456Exposed_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c2", "c2", BenzolRingC123456Exposed_node_c2_AllowedTypes, BenzolRingC123456Exposed_node_c2_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c3", "c3", BenzolRingC123456Exposed_node_c3_AllowedTypes, BenzolRingC123456Exposed_node_c3_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c4", "c4", BenzolRingC123456Exposed_node_c4_AllowedTypes, BenzolRingC123456Exposed_node_c4_IsAllowedType, 5.5F, 3, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c5", "c5", BenzolRingC123456Exposed_node_c5_AllowedTypes, BenzolRingC123456Exposed_node_c5_IsAllowedType, 5.5F, 4, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c6", "c6", BenzolRingC123456Exposed_node_c6_AllowedTypes, BenzolRingC123456Exposed_node_c6_IsAllowedType, 5.5F, 5, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge0", "_edge0", BenzolRingC123456Exposed_edge__edge0_AllowedTypes, BenzolRingC123456Exposed_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge1", "_edge1", BenzolRingC123456Exposed_edge__edge1_AllowedTypes, BenzolRingC123456Exposed_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge2", "_edge2", BenzolRingC123456Exposed_edge__edge2_AllowedTypes, BenzolRingC123456Exposed_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge3", "_edge3", BenzolRingC123456Exposed_edge__edge3_AllowedTypes, BenzolRingC123456Exposed_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge4", "_edge4", BenzolRingC123456Exposed_edge__edge4_AllowedTypes, BenzolRingC123456Exposed_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge5", "_edge5", BenzolRingC123456Exposed_edge__edge5_AllowedTypes, BenzolRingC123456Exposed_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge6", "_edge6", BenzolRingC123456Exposed_edge__edge6_AllowedTypes, BenzolRingC123456Exposed_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge7", "_edge7", BenzolRingC123456Exposed_edge__edge7_AllowedTypes, BenzolRingC123456Exposed_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge8", "_edge8", BenzolRingC123456Exposed_edge__edge8_AllowedTypes, BenzolRingC123456Exposed_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c1", "c1", BenzolRingC123456Exposed_node_c1_AllowedTypes, BenzolRingC123456Exposed_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c2", "c2", BenzolRingC123456Exposed_node_c2_AllowedTypes, BenzolRingC123456Exposed_node_c2_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c3", "c3", BenzolRingC123456Exposed_node_c3_AllowedTypes, BenzolRingC123456Exposed_node_c3_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c4", "c4", BenzolRingC123456Exposed_node_c4_AllowedTypes, BenzolRingC123456Exposed_node_c4_IsAllowedType, 5.5F, 3, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c5", "c5", BenzolRingC123456Exposed_node_c5_AllowedTypes, BenzolRingC123456Exposed_node_c5_IsAllowedType, 5.5F, 4, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c6", "c6", BenzolRingC123456Exposed_node_c6_AllowedTypes, BenzolRingC123456Exposed_node_c6_IsAllowedType, 5.5F, 5, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge0", "_edge0", BenzolRingC123456Exposed_edge__edge0_AllowedTypes, BenzolRingC123456Exposed_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge1", "_edge1", BenzolRingC123456Exposed_edge__edge1_AllowedTypes, BenzolRingC123456Exposed_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge2", "_edge2", BenzolRingC123456Exposed_edge__edge2_AllowedTypes, BenzolRingC123456Exposed_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge3", "_edge3", BenzolRingC123456Exposed_edge__edge3_AllowedTypes, BenzolRingC123456Exposed_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge4", "_edge4", BenzolRingC123456Exposed_edge__edge4_AllowedTypes, BenzolRingC123456Exposed_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge5", "_edge5", BenzolRingC123456Exposed_edge__edge5_AllowedTypes, BenzolRingC123456Exposed_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge6", "_edge6", BenzolRingC123456Exposed_edge__edge6_AllowedTypes, BenzolRingC123456Exposed_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge7", "_edge7", BenzolRingC123456Exposed_edge__edge7_AllowedTypes, BenzolRingC123456Exposed_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC123456Exposed_edge__edge8", "_edge8", BenzolRingC123456Exposed_edge__edge8_AllowedTypes, BenzolRingC123456Exposed_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_BenzolRingC123456Exposed = new GRGEN_LGSP.PatternGraph(
 				"BenzolRingC123456Exposed",
 				"",
@@ -791,7 +792,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC123456Exposed_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -838,7 +839,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC123456Exposed_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 9;} }
+			public override int NumberOfEdges { get { return 9; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -873,7 +874,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC123456Exposed_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -890,7 +891,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC123456Exposed_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -907,7 +908,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC123456Exposed_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -924,7 +925,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC123456Exposed_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -941,7 +942,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC123456Exposed_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -956,6 +957,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC123456Exposed.instance.pat_BenzolRingC123456Exposed; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_BenzolRingC123456Exposed(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_BenzolRingC123456Exposed nextWithSameHash;
@@ -1099,21 +1101,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] BenzolRingC1Exposed_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] BenzolRingC1Exposed_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c1", "c1", BenzolRingC1Exposed_node_c1_AllowedTypes, BenzolRingC1Exposed_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c2", "c2", BenzolRingC1Exposed_node_c2_AllowedTypes, BenzolRingC1Exposed_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c3", "c3", BenzolRingC1Exposed_node_c3_AllowedTypes, BenzolRingC1Exposed_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c4", "c4", BenzolRingC1Exposed_node_c4_AllowedTypes, BenzolRingC1Exposed_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c5", "c5", BenzolRingC1Exposed_node_c5_AllowedTypes, BenzolRingC1Exposed_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c6", "c6", BenzolRingC1Exposed_node_c6_AllowedTypes, BenzolRingC1Exposed_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge0", "_edge0", BenzolRingC1Exposed_edge__edge0_AllowedTypes, BenzolRingC1Exposed_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge1", "_edge1", BenzolRingC1Exposed_edge__edge1_AllowedTypes, BenzolRingC1Exposed_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge2", "_edge2", BenzolRingC1Exposed_edge__edge2_AllowedTypes, BenzolRingC1Exposed_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge3", "_edge3", BenzolRingC1Exposed_edge__edge3_AllowedTypes, BenzolRingC1Exposed_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge4", "_edge4", BenzolRingC1Exposed_edge__edge4_AllowedTypes, BenzolRingC1Exposed_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge5", "_edge5", BenzolRingC1Exposed_edge__edge5_AllowedTypes, BenzolRingC1Exposed_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge6", "_edge6", BenzolRingC1Exposed_edge__edge6_AllowedTypes, BenzolRingC1Exposed_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge7", "_edge7", BenzolRingC1Exposed_edge__edge7_AllowedTypes, BenzolRingC1Exposed_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge8", "_edge8", BenzolRingC1Exposed_edge__edge8_AllowedTypes, BenzolRingC1Exposed_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c1", "c1", BenzolRingC1Exposed_node_c1_AllowedTypes, BenzolRingC1Exposed_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c2", "c2", BenzolRingC1Exposed_node_c2_AllowedTypes, BenzolRingC1Exposed_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c3", "c3", BenzolRingC1Exposed_node_c3_AllowedTypes, BenzolRingC1Exposed_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c4", "c4", BenzolRingC1Exposed_node_c4_AllowedTypes, BenzolRingC1Exposed_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c5", "c5", BenzolRingC1Exposed_node_c5_AllowedTypes, BenzolRingC1Exposed_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c6", "c6", BenzolRingC1Exposed_node_c6_AllowedTypes, BenzolRingC1Exposed_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge0", "_edge0", BenzolRingC1Exposed_edge__edge0_AllowedTypes, BenzolRingC1Exposed_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge1", "_edge1", BenzolRingC1Exposed_edge__edge1_AllowedTypes, BenzolRingC1Exposed_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge2", "_edge2", BenzolRingC1Exposed_edge__edge2_AllowedTypes, BenzolRingC1Exposed_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge3", "_edge3", BenzolRingC1Exposed_edge__edge3_AllowedTypes, BenzolRingC1Exposed_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge4", "_edge4", BenzolRingC1Exposed_edge__edge4_AllowedTypes, BenzolRingC1Exposed_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge5", "_edge5", BenzolRingC1Exposed_edge__edge5_AllowedTypes, BenzolRingC1Exposed_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge6", "_edge6", BenzolRingC1Exposed_edge__edge6_AllowedTypes, BenzolRingC1Exposed_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge7", "_edge7", BenzolRingC1Exposed_edge__edge7_AllowedTypes, BenzolRingC1Exposed_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1Exposed_edge__edge8", "_edge8", BenzolRingC1Exposed_edge__edge8_AllowedTypes, BenzolRingC1Exposed_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_BenzolRingC1Exposed = new GRGEN_LGSP.PatternGraph(
 				"BenzolRingC1Exposed",
 				"",
@@ -1301,7 +1303,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1Exposed_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -1348,7 +1350,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1Exposed_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 9;} }
+			public override int NumberOfEdges { get { return 9; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -1383,7 +1385,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1Exposed_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -1400,7 +1402,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1Exposed_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -1417,7 +1419,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1Exposed_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -1434,7 +1436,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1Exposed_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -1451,7 +1453,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1Exposed_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -1466,6 +1468,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC1Exposed.instance.pat_BenzolRingC1Exposed; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_BenzolRingC1Exposed(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_BenzolRingC1Exposed nextWithSameHash;
@@ -1631,21 +1634,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] BenzolRingC1ExposedNotC6Nitro_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] BenzolRingC1ExposedNotC6Nitro_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c1", "c1", BenzolRingC1ExposedNotC6Nitro_node_c1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c2", "c2", BenzolRingC1ExposedNotC6Nitro_node_c2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c3", "c3", BenzolRingC1ExposedNotC6Nitro_node_c3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c4", "c4", BenzolRingC1ExposedNotC6Nitro_node_c4_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c5", "c5", BenzolRingC1ExposedNotC6Nitro_node_c5_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c6", "c6", BenzolRingC1ExposedNotC6Nitro_node_c6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge0", "_edge0", BenzolRingC1ExposedNotC6Nitro_edge__edge0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge1", "_edge1", BenzolRingC1ExposedNotC6Nitro_edge__edge1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge2", "_edge2", BenzolRingC1ExposedNotC6Nitro_edge__edge2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge3", "_edge3", BenzolRingC1ExposedNotC6Nitro_edge__edge3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge4", "_edge4", BenzolRingC1ExposedNotC6Nitro_edge__edge4_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge5", "_edge5", BenzolRingC1ExposedNotC6Nitro_edge__edge5_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge6", "_edge6", BenzolRingC1ExposedNotC6Nitro_edge__edge6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge7", "_edge7", BenzolRingC1ExposedNotC6Nitro_edge__edge7_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge8", "_edge8", BenzolRingC1ExposedNotC6Nitro_edge__edge8_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c1", "c1", BenzolRingC1ExposedNotC6Nitro_node_c1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c2", "c2", BenzolRingC1ExposedNotC6Nitro_node_c2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c3", "c3", BenzolRingC1ExposedNotC6Nitro_node_c3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c4", "c4", BenzolRingC1ExposedNotC6Nitro_node_c4_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c5", "c5", BenzolRingC1ExposedNotC6Nitro_node_c5_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c6", "c6", BenzolRingC1ExposedNotC6Nitro_node_c6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge0", "_edge0", BenzolRingC1ExposedNotC6Nitro_edge__edge0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge1", "_edge1", BenzolRingC1ExposedNotC6Nitro_edge__edge1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge2", "_edge2", BenzolRingC1ExposedNotC6Nitro_edge__edge2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge3", "_edge3", BenzolRingC1ExposedNotC6Nitro_edge__edge3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge4", "_edge4", BenzolRingC1ExposedNotC6Nitro_edge__edge4_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge5", "_edge5", BenzolRingC1ExposedNotC6Nitro_edge__edge5_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge6", "_edge6", BenzolRingC1ExposedNotC6Nitro_edge__edge6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge7", "_edge7", BenzolRingC1ExposedNotC6Nitro_edge__edge7_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge8", "_edge8", BenzolRingC1ExposedNotC6Nitro_edge__edge8_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			bool[,] BenzolRingC1ExposedNotC6Nitro_neg_0_isNodeHomomorphicGlobal = new bool[4, 4] {
 				{ false, false, false, false, },
 				{ false, false, false, false, },
@@ -1659,12 +1662,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] BenzolRingC1ExposedNotC6Nitro_neg_0_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
 			bool[] BenzolRingC1ExposedNotC6Nitro_neg_0_isEdgeTotallyHomomorphic = new bool[3] { false, false, false,  };
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "BenzolRingC1ExposedNotC6Nitro_neg_0_node_n", "n", BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0", "_node0", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1", "_node1", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0", "_edge0", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1", "_edge1", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2", "_edge2", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "BenzolRingC1ExposedNotC6Nitro_neg_0_node_n", "n", BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0", "_node0", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1", "_node1", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0", "_edge0", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1", "_edge1", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2", "_edge2", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			BenzolRingC1ExposedNotC6Nitro_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"BenzolRingC1ExposedNotC6Nitro_",
@@ -1917,7 +1920,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -1964,7 +1967,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 9;} }
+			public override int NumberOfEdges { get { return 9; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -1999,7 +2002,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -2016,7 +2019,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -2033,7 +2036,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -2050,7 +2053,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -2067,7 +2070,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -2082,6 +2085,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC1ExposedNotC6Nitro.instance.pat_BenzolRingC1ExposedNotC6Nitro; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_BenzolRingC1ExposedNotC6Nitro(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_BenzolRingC1ExposedNotC6Nitro nextWithSameHash;
@@ -2156,7 +2160,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_NodeNums { @c6, @n, @_node0, @_node1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 4;} }
+			public override int NumberOfNodes { get { return 4; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -2187,7 +2191,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_EdgeNums { @_edge0, @_edge1, @_edge2, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 3;} }
+			public override int NumberOfEdges { get { return 3; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -2210,7 +2214,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -2227,7 +2231,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -2244,7 +2248,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -2261,7 +2265,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -2278,7 +2282,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -2293,6 +2297,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC1ExposedNotC6Nitro.instance.BenzolRingC1ExposedNotC6Nitro_neg_0; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_BenzolRingC1ExposedNotC6Nitro_neg_0(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_BenzolRingC1ExposedNotC6Nitro_neg_0 nextWithSameHash;
@@ -2387,10 +2392,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] Oxygen_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] Oxygen_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode Oxygen_node_o1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "Oxygen_node_o1", "o1", Oxygen_node_o1_AllowedTypes, Oxygen_node_o1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Oxygen_node_o2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "Oxygen_node_o2", "o2", Oxygen_node_o2_AllowedTypes, Oxygen_node_o2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Oxygen_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Oxygen_edge__edge0", "_edge0", Oxygen_edge__edge0_AllowedTypes, Oxygen_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Oxygen_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Oxygen_edge__edge1", "_edge1", Oxygen_edge__edge1_AllowedTypes, Oxygen_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode Oxygen_node_o1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "Oxygen_node_o1", "o1", Oxygen_node_o1_AllowedTypes, Oxygen_node_o1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Oxygen_node_o2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "Oxygen_node_o2", "o2", Oxygen_node_o2_AllowedTypes, Oxygen_node_o2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Oxygen_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Oxygen_edge__edge0", "_edge0", Oxygen_edge__edge0_AllowedTypes, Oxygen_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Oxygen_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Oxygen_edge__edge1", "_edge1", Oxygen_edge__edge1_AllowedTypes, Oxygen_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_Oxygen = new GRGEN_LGSP.PatternGraph(
 				"Oxygen",
 				"",
@@ -2490,7 +2495,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Oxygen_NodeNums { @o1, @o2, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -2515,7 +2520,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Oxygen_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 2;} }
+			public override int NumberOfEdges { get { return 2; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -2536,7 +2541,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Oxygen_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -2553,7 +2558,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Oxygen_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -2570,7 +2575,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Oxygen_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -2587,7 +2592,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Oxygen_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -2604,7 +2609,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Oxygen_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -2619,6 +2624,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Oxygen.instance.pat_Oxygen; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_Oxygen(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_Oxygen nextWithSameHash;
@@ -2704,9 +2710,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] Hydrogen_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
 			bool[] Hydrogen_isEdgeTotallyHomomorphic = new bool[1] { false,  };
-			GRGEN_LGSP.PatternNode Hydrogen_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Hydrogen_node_anchor", "anchor", Hydrogen_node_anchor_AllowedTypes, Hydrogen_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Hydrogen_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "Hydrogen_node__node0", "_node0", Hydrogen_node__node0_AllowedTypes, Hydrogen_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Hydrogen_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Hydrogen_edge__edge0", "_edge0", Hydrogen_edge__edge0_AllowedTypes, Hydrogen_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode Hydrogen_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Hydrogen_node_anchor", "anchor", Hydrogen_node_anchor_AllowedTypes, Hydrogen_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Hydrogen_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "Hydrogen_node__node0", "_node0", Hydrogen_node__node0_AllowedTypes, Hydrogen_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Hydrogen_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Hydrogen_edge__edge0", "_edge0", Hydrogen_edge__edge0_AllowedTypes, Hydrogen_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_Hydrogen = new GRGEN_LGSP.PatternGraph(
 				"Hydrogen",
 				"",
@@ -2794,7 +2800,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydrogen_NodeNums { @anchor, @_node0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 2;} }
+			public override int NumberOfNodes { get { return 2; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -2817,7 +2823,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydrogen_EdgeNums { @_edge0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 1;} }
+			public override int NumberOfEdges { get { return 1; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -2836,7 +2842,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydrogen_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -2853,7 +2859,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydrogen_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -2870,7 +2876,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydrogen_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -2887,7 +2893,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydrogen_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -2904,7 +2910,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydrogen_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -2919,6 +2925,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Hydrogen.instance.pat_Hydrogen; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_Hydrogen(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_Hydrogen nextWithSameHash;
@@ -3008,11 +3015,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] Hydroxyl_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] Hydroxyl_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
-			GRGEN_LGSP.PatternNode Hydroxyl_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Hydroxyl_node_anchor", "anchor", Hydroxyl_node_anchor_AllowedTypes, Hydroxyl_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Hydroxyl_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "Hydroxyl_node__node0", "_node0", Hydroxyl_node__node0_AllowedTypes, Hydroxyl_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Hydroxyl_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "Hydroxyl_node__node1", "_node1", Hydroxyl_node__node1_AllowedTypes, Hydroxyl_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Hydroxyl_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Hydroxyl_edge__edge0", "_edge0", Hydroxyl_edge__edge0_AllowedTypes, Hydroxyl_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Hydroxyl_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Hydroxyl_edge__edge1", "_edge1", Hydroxyl_edge__edge1_AllowedTypes, Hydroxyl_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode Hydroxyl_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Hydroxyl_node_anchor", "anchor", Hydroxyl_node_anchor_AllowedTypes, Hydroxyl_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Hydroxyl_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "Hydroxyl_node__node0", "_node0", Hydroxyl_node__node0_AllowedTypes, Hydroxyl_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Hydroxyl_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "Hydroxyl_node__node1", "_node1", Hydroxyl_node__node1_AllowedTypes, Hydroxyl_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Hydroxyl_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Hydroxyl_edge__edge0", "_edge0", Hydroxyl_edge__edge0_AllowedTypes, Hydroxyl_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Hydroxyl_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Hydroxyl_edge__edge1", "_edge1", Hydroxyl_edge__edge1_AllowedTypes, Hydroxyl_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_Hydroxyl = new GRGEN_LGSP.PatternGraph(
 				"Hydroxyl",
 				"",
@@ -3117,7 +3124,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydroxyl_NodeNums { @anchor, @_node0, @_node1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -3144,7 +3151,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydroxyl_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 2;} }
+			public override int NumberOfEdges { get { return 2; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -3165,7 +3172,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydroxyl_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -3182,7 +3189,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydroxyl_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -3199,7 +3206,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydroxyl_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -3216,7 +3223,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydroxyl_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -3233,7 +3240,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Hydroxyl_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -3248,6 +3255,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Hydroxyl.instance.pat_Hydroxyl; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_Hydroxyl(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_Hydroxyl nextWithSameHash;
@@ -3353,15 +3361,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] Methyl_isNodeTotallyHomomorphic = new bool[5] { false, false, false, false, false,  };
 			bool[] Methyl_isEdgeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
-			GRGEN_LGSP.PatternNode Methyl_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Methyl_node_anchor", "anchor", Methyl_node_anchor_AllowedTypes, Methyl_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Methyl_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Methyl_node_c", "c", Methyl_node_c_AllowedTypes, Methyl_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Methyl_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "Methyl_node__node0", "_node0", Methyl_node__node0_AllowedTypes, Methyl_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Methyl_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "Methyl_node__node1", "_node1", Methyl_node__node1_AllowedTypes, Methyl_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Methyl_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "Methyl_node__node2", "_node2", Methyl_node__node2_AllowedTypes, Methyl_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Methyl_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Methyl_edge__edge0", "_edge0", Methyl_edge__edge0_AllowedTypes, Methyl_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Methyl_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Methyl_edge__edge1", "_edge1", Methyl_edge__edge1_AllowedTypes, Methyl_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Methyl_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Methyl_edge__edge2", "_edge2", Methyl_edge__edge2_AllowedTypes, Methyl_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Methyl_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Methyl_edge__edge3", "_edge3", Methyl_edge__edge3_AllowedTypes, Methyl_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode Methyl_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Methyl_node_anchor", "anchor", Methyl_node_anchor_AllowedTypes, Methyl_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Methyl_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Methyl_node_c", "c", Methyl_node_c_AllowedTypes, Methyl_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Methyl_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "Methyl_node__node0", "_node0", Methyl_node__node0_AllowedTypes, Methyl_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Methyl_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "Methyl_node__node1", "_node1", Methyl_node__node1_AllowedTypes, Methyl_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Methyl_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "Methyl_node__node2", "_node2", Methyl_node__node2_AllowedTypes, Methyl_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Methyl_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Methyl_edge__edge0", "_edge0", Methyl_edge__edge0_AllowedTypes, Methyl_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Methyl_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Methyl_edge__edge1", "_edge1", Methyl_edge__edge1_AllowedTypes, Methyl_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Methyl_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Methyl_edge__edge2", "_edge2", Methyl_edge__edge2_AllowedTypes, Methyl_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Methyl_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Methyl_edge__edge3", "_edge3", Methyl_edge__edge3_AllowedTypes, Methyl_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_Methyl = new GRGEN_LGSP.PatternGraph(
 				"Methyl",
 				"",
@@ -3500,7 +3508,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Methyl_NodeNums { @anchor, @c, @_node0, @_node1, @_node2, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 5;} }
+			public override int NumberOfNodes { get { return 5; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -3535,7 +3543,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Methyl_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 4;} }
+			public override int NumberOfEdges { get { return 4; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -3560,7 +3568,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Methyl_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -3577,7 +3585,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Methyl_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -3594,7 +3602,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Methyl_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -3611,7 +3619,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Methyl_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -3628,7 +3636,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Methyl_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -3643,6 +3651,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Methyl.instance.pat_Methyl; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_Methyl(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_Methyl nextWithSameHash;
@@ -3750,13 +3759,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] Nitro_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
 			bool[] Nitro_isEdgeTotallyHomomorphic = new bool[3] { false, false, false,  };
-			GRGEN_LGSP.PatternNode Nitro_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Nitro_node_anchor", "anchor", Nitro_node_anchor_AllowedTypes, Nitro_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Nitro_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "Nitro_node_n", "n", Nitro_node_n_AllowedTypes, Nitro_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Nitro_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "Nitro_node__node0", "_node0", Nitro_node__node0_AllowedTypes, Nitro_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Nitro_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "Nitro_node__node1", "_node1", Nitro_node__node1_AllowedTypes, Nitro_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Nitro_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Nitro_edge__edge0", "_edge0", Nitro_edge__edge0_AllowedTypes, Nitro_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Nitro_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Nitro_edge__edge1", "_edge1", Nitro_edge__edge1_AllowedTypes, Nitro_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge Nitro_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Nitro_edge__edge2", "_edge2", Nitro_edge__edge2_AllowedTypes, Nitro_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode Nitro_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Nitro_node_anchor", "anchor", Nitro_node_anchor_AllowedTypes, Nitro_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Nitro_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "Nitro_node_n", "n", Nitro_node_n_AllowedTypes, Nitro_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Nitro_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "Nitro_node__node0", "_node0", Nitro_node__node0_AllowedTypes, Nitro_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Nitro_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "Nitro_node__node1", "_node1", Nitro_node__node1_AllowedTypes, Nitro_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Nitro_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Nitro_edge__edge0", "_edge0", Nitro_edge__edge0_AllowedTypes, Nitro_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Nitro_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Nitro_edge__edge1", "_edge1", Nitro_edge__edge1_AllowedTypes, Nitro_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge Nitro_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "Nitro_edge__edge2", "_edge2", Nitro_edge__edge2_AllowedTypes, Nitro_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_Nitro = new GRGEN_LGSP.PatternGraph(
 				"Nitro",
 				"",
@@ -3878,7 +3887,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Nitro_NodeNums { @anchor, @n, @_node0, @_node1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 4;} }
+			public override int NumberOfNodes { get { return 4; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -3909,7 +3918,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Nitro_EdgeNums { @_edge0, @_edge1, @_edge2, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 3;} }
+			public override int NumberOfEdges { get { return 3; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -3932,7 +3941,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Nitro_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -3949,7 +3958,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Nitro_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -3966,7 +3975,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Nitro_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -3983,7 +3992,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Nitro_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4000,7 +4009,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Nitro_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4015,6 +4024,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Nitro.instance.pat_Nitro; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_Nitro(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_Nitro nextWithSameHash;
@@ -4105,9 +4115,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] TriNitro_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] TriNitro_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
 			bool[] TriNitro_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode TriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TriNitro_node_c2", "c2", TriNitro_node_c2_AllowedTypes, TriNitro_node_c2_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TriNitro_node_c4", "c4", TriNitro_node_c4_AllowedTypes, TriNitro_node_c4_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TriNitro_node_c6", "c6", TriNitro_node_c6_AllowedTypes, TriNitro_node_c6_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode TriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TriNitro_node_c2", "c2", TriNitro_node_c2_AllowedTypes, TriNitro_node_c2_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TriNitro_node_c4", "c4", TriNitro_node_c4_AllowedTypes, TriNitro_node_c4_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TriNitro_node_c6", "c6", TriNitro_node_c6_AllowedTypes, TriNitro_node_c6_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding TriNitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Nitro.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TriNitro_node_c2"),
@@ -4223,7 +4233,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TriNitro_NodeNums { @c2, @c4, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 3;} }
+			public override int NumberOfNodes { get { return 3; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -4246,7 +4256,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TriNitro_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -4263,7 +4273,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TriNitro_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -4286,7 +4296,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TriNitro_SubNums { @_sub0, @_sub1, @_sub2, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 3;} }
+			public override int NumberOfEmbeddedGraphs { get { return 3; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -4309,7 +4319,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TriNitro_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -4326,7 +4336,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TriNitro_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4343,7 +4353,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TriNitro_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4358,6 +4368,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_TriNitro.instance.pat_TriNitro; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_TriNitro(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_TriNitro nextWithSameHash;
@@ -4455,12 +4466,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] ToluolCoreThenTriNitro_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] ToluolCoreThenTriNitro_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] ToluolCoreThenTriNitro_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c1", "c1", ToluolCoreThenTriNitro_node_c1_AllowedTypes, ToluolCoreThenTriNitro_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c2", "c2", ToluolCoreThenTriNitro_node_c2_AllowedTypes, ToluolCoreThenTriNitro_node_c2_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c3", "c3", ToluolCoreThenTriNitro_node_c3_AllowedTypes, ToluolCoreThenTriNitro_node_c3_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c4", "c4", ToluolCoreThenTriNitro_node_c4_AllowedTypes, ToluolCoreThenTriNitro_node_c4_IsAllowedType, 5.5F, 3, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c5", "c5", ToluolCoreThenTriNitro_node_c5_AllowedTypes, ToluolCoreThenTriNitro_node_c5_IsAllowedType, 5.5F, 4, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c6", "c6", ToluolCoreThenTriNitro_node_c6_AllowedTypes, ToluolCoreThenTriNitro_node_c6_IsAllowedType, 5.5F, 5, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c1", "c1", ToluolCoreThenTriNitro_node_c1_AllowedTypes, ToluolCoreThenTriNitro_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c2", "c2", ToluolCoreThenTriNitro_node_c2_AllowedTypes, ToluolCoreThenTriNitro_node_c2_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c3", "c3", ToluolCoreThenTriNitro_node_c3_AllowedTypes, ToluolCoreThenTriNitro_node_c3_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c4", "c4", ToluolCoreThenTriNitro_node_c4_AllowedTypes, ToluolCoreThenTriNitro_node_c4_IsAllowedType, 5.5F, 3, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c5", "c5", ToluolCoreThenTriNitro_node_c5_AllowedTypes, ToluolCoreThenTriNitro_node_c5_IsAllowedType, 5.5F, 4, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c6", "c6", ToluolCoreThenTriNitro_node_c6_AllowedTypes, ToluolCoreThenTriNitro_node_c6_IsAllowedType, 5.5F, 5, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c1"),
@@ -4605,7 +4616,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreThenTriNitro_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -4634,7 +4645,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreThenTriNitro_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -4651,7 +4662,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreThenTriNitro_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -4676,7 +4687,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreThenTriNitro_SubNums { @_sub0, @_sub1, @_sub2, @_sub3, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 4;} }
+			public override int NumberOfEmbeddedGraphs { get { return 4; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -4701,7 +4712,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreThenTriNitro_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -4718,7 +4729,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreThenTriNitro_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -4735,7 +4746,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreThenTriNitro_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -4750,6 +4761,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_ToluolCoreThenTriNitro.instance.pat_ToluolCoreThenTriNitro; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_ToluolCoreThenTriNitro(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_ToluolCoreThenTriNitro nextWithSameHash;
@@ -4913,7 +4925,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -4930,7 +4942,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -4947,7 +4959,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -4966,7 +4978,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_SubNums { @_sub0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -4985,7 +4997,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -5002,7 +5014,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -5019,7 +5031,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum BenzolRing_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -5034,6 +5046,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_BenzolRing.instance.pat_BenzolRing; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_BenzolRing(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_BenzolRing nextWithSameHash;
@@ -5072,9 +5085,18 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>)
+				return ((List<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -5141,12 +5163,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] TNTTotallyFolded_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] TNTTotallyFolded_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] TNTTotallyFolded_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c1", "c1", TNTTotallyFolded_node_c1_AllowedTypes, TNTTotallyFolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c2", "c2", TNTTotallyFolded_node_c2_AllowedTypes, TNTTotallyFolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c3", "c3", TNTTotallyFolded_node_c3_AllowedTypes, TNTTotallyFolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c4", "c4", TNTTotallyFolded_node_c4_AllowedTypes, TNTTotallyFolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c5", "c5", TNTTotallyFolded_node_c5_AllowedTypes, TNTTotallyFolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c6", "c6", TNTTotallyFolded_node_c6_AllowedTypes, TNTTotallyFolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c1", "c1", TNTTotallyFolded_node_c1_AllowedTypes, TNTTotallyFolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c2", "c2", TNTTotallyFolded_node_c2_AllowedTypes, TNTTotallyFolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c3", "c3", TNTTotallyFolded_node_c3_AllowedTypes, TNTTotallyFolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c4", "c4", TNTTotallyFolded_node_c4_AllowedTypes, TNTTotallyFolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c5", "c5", TNTTotallyFolded_node_c5_AllowedTypes, TNTTotallyFolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c6", "c6", TNTTotallyFolded_node_c6_AllowedTypes, TNTTotallyFolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c1"),
@@ -5315,7 +5337,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTTotallyFolded_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -5344,7 +5366,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTTotallyFolded_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -5361,7 +5383,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTTotallyFolded_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -5392,7 +5414,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTTotallyFolded_SubNums { @_sub0, @_sub1, @_sub2, @_sub3, @_sub4, @_sub5, @_sub6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 7;} }
+			public override int NumberOfEmbeddedGraphs { get { return 7; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -5423,7 +5445,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTTotallyFolded_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -5440,7 +5462,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTTotallyFolded_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -5457,7 +5479,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTTotallyFolded_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -5472,6 +5494,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNTTotallyFolded.instance.pat_TNTTotallyFolded; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_TNTTotallyFolded(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_TNTTotallyFolded nextWithSameHash;
@@ -5576,10 +5599,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>)
+				return ((List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
@@ -5590,6 +5642,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c2)) {
+					seenValues[list[pos].@node_c2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -5606,6 +5678,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c3)) {
+					seenValues[list[pos].@node_c3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
@@ -5616,6 +5708,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c4)) {
+					seenValues[list[pos].@node_c4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -5632,6 +5744,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c5)) {
+					seenValues[list[pos].@node_c5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
@@ -5642,6 +5774,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c6)) {
+					seenValues[list[pos].@node_c6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> newList = new List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -5723,12 +5875,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] TNTChain_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] TNTChain_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] TNTChain_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode TNTChain_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c1", "c1", TNTChain_node_c1_AllowedTypes, TNTChain_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTChain_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c2", "c2", TNTChain_node_c2_AllowedTypes, TNTChain_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTChain_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c3", "c3", TNTChain_node_c3_AllowedTypes, TNTChain_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTChain_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c4", "c4", TNTChain_node_c4_AllowedTypes, TNTChain_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTChain_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c5", "c5", TNTChain_node_c5_AllowedTypes, TNTChain_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTChain_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c6", "c6", TNTChain_node_c6_AllowedTypes, TNTChain_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode TNTChain_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c1", "c1", TNTChain_node_c1_AllowedTypes, TNTChain_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTChain_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c2", "c2", TNTChain_node_c2_AllowedTypes, TNTChain_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTChain_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c3", "c3", TNTChain_node_c3_AllowedTypes, TNTChain_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTChain_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c4", "c4", TNTChain_node_c4_AllowedTypes, TNTChain_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTChain_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c5", "c5", TNTChain_node_c5_AllowedTypes, TNTChain_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTChain_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTChain_node_c6", "c6", TNTChain_node_c6_AllowedTypes, TNTChain_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding TNTChain__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c1"),
@@ -5852,7 +6004,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTChain_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -5881,7 +6033,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTChain_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -5898,7 +6050,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTChain_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -5919,7 +6071,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTChain_SubNums { @_sub0, @_sub1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 2;} }
+			public override int NumberOfEmbeddedGraphs { get { return 2; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -5940,7 +6092,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTChain_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -5957,7 +6109,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTChain_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -5974,7 +6126,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTChain_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -5989,6 +6141,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNTChain.instance.pat_TNTChain; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_TNTChain(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_TNTChain nextWithSameHash;
@@ -6083,10 +6236,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>)
+				return ((List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> tempList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
@@ -6097,6 +6279,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c2)) {
+					seenValues[list[pos].@node_c2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> tempList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -6113,6 +6315,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c3)) {
+					seenValues[list[pos].@node_c3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> tempList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
@@ -6123,6 +6345,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c4)) {
+					seenValues[list[pos].@node_c4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> tempList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -6139,6 +6381,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c5)) {
+					seenValues[list[pos].@node_c5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> tempList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
@@ -6149,6 +6411,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c6)) {
+					seenValues[list[pos].@node_c6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> tempList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> newList = new List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -6215,7 +6497,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] ToluolCore_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] ToluolCore_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] ToluolCore_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode ToluolCore_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCore_node_c1", "c1", ToluolCore_node_c1_AllowedTypes, ToluolCore_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ToluolCore_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCore_node_c1", "c1", ToluolCore_node_c1_AllowedTypes, ToluolCore_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC1Exposed.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCore_node_c1"),
@@ -6299,7 +6581,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCore_NodeNums { @c1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -6318,7 +6600,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCore_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -6335,7 +6617,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCore_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -6356,7 +6638,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCore_SubNums { @_sub0, @_sub1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 2;} }
+			public override int NumberOfEmbeddedGraphs { get { return 2; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -6377,7 +6659,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCore_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -6394,7 +6676,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCore_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -6411,7 +6693,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCore_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -6426,6 +6708,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ToluolCore.instance.pat_ToluolCore; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_ToluolCore(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_ToluolCore nextWithSameHash;
@@ -6475,10 +6758,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>)
+				return ((List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> Array_ToluolCore_groupBy_c1(List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> tempList = new List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> newList = new List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>();
+			foreach(List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> Array_ToluolCore_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> list)
 		{
 			List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> newList = new List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>();
@@ -6542,7 +6854,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] ToluolCoreNotC6Nitro_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] ToluolCoreNotC6Nitro_isNodeTotallyHomomorphic = new bool[1] { false,  };
 			bool[] ToluolCoreNotC6Nitro_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode ToluolCoreNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreNotC6Nitro_node_c1", "c1", ToluolCoreNotC6Nitro_node_c1_AllowedTypes, ToluolCoreNotC6Nitro_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode ToluolCoreNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "ToluolCoreNotC6Nitro_node_c1", "c1", ToluolCoreNotC6Nitro_node_c1_AllowedTypes, ToluolCoreNotC6Nitro_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC1ExposedNotC6Nitro.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreNotC6Nitro_node_c1"),
@@ -6626,7 +6938,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreNotC6Nitro_NodeNums { @c1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 1;} }
+			public override int NumberOfNodes { get { return 1; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -6645,7 +6957,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreNotC6Nitro_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -6662,7 +6974,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreNotC6Nitro_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -6683,7 +6995,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreNotC6Nitro_SubNums { @_sub0, @_sub1, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 2;} }
+			public override int NumberOfEmbeddedGraphs { get { return 2; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -6704,7 +7016,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreNotC6Nitro_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -6721,7 +7033,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreNotC6Nitro_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -6738,7 +7050,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum ToluolCoreNotC6Nitro_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -6753,6 +7065,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ToluolCoreNotC6Nitro.instance.pat_ToluolCoreNotC6Nitro; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_ToluolCoreNotC6Nitro(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_ToluolCoreNotC6Nitro nextWithSameHash;
@@ -6802,10 +7115,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>)
+				return ((List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> Array_ToluolCoreNotC6Nitro_groupBy_c1(List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> tempList = new List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> newList = new List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>();
+			foreach(List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> Array_ToluolCoreNotC6Nitro_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> list)
 		{
 			List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> newList = new List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>();
@@ -6884,12 +7226,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] Toluol_isEdgeHomomorphicGlobal = new bool[0, 0];
 			bool[] Toluol_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] Toluol_isEdgeTotallyHomomorphic = new bool[0];
-			GRGEN_LGSP.PatternNode Toluol_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c1", "c1", Toluol_node_c1_AllowedTypes, Toluol_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Toluol_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c2", "c2", Toluol_node_c2_AllowedTypes, Toluol_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Toluol_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c3", "c3", Toluol_node_c3_AllowedTypes, Toluol_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Toluol_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c4", "c4", Toluol_node_c4_AllowedTypes, Toluol_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Toluol_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c5", "c5", Toluol_node_c5_AllowedTypes, Toluol_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode Toluol_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c6", "c6", Toluol_node_c6_AllowedTypes, Toluol_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode Toluol_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c1", "c1", Toluol_node_c1_AllowedTypes, Toluol_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Toluol_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c2", "c2", Toluol_node_c2_AllowedTypes, Toluol_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Toluol_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c3", "c3", Toluol_node_c3_AllowedTypes, Toluol_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Toluol_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c4", "c4", Toluol_node_c4_AllowedTypes, Toluol_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Toluol_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c5", "c5", Toluol_node_c5_AllowedTypes, Toluol_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode Toluol_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "Toluol_node_c6", "c6", Toluol_node_c6_AllowedTypes, Toluol_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c1"),
@@ -7058,7 +7400,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Toluol_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -7087,7 +7429,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Toluol_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -7104,7 +7446,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Toluol_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -7135,7 +7477,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Toluol_SubNums { @_sub0, @_sub1, @_sub2, @_sub3, @_sub4, @_sub5, @_sub6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 7;} }
+			public override int NumberOfEmbeddedGraphs { get { return 7; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -7166,7 +7508,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Toluol_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -7183,7 +7525,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Toluol_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -7200,7 +7542,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum Toluol_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -7215,6 +7557,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_Toluol.instance.pat_Toluol; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_Toluol(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_Toluol nextWithSameHash;
@@ -7319,10 +7662,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>)
+				return ((List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c1(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> tempList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			foreach(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
 		{
 			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
@@ -7333,6 +7705,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c2(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c2)) {
+					seenValues[list[pos].@node_c2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> tempList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			foreach(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -7349,6 +7741,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c3(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c3)) {
+					seenValues[list[pos].@node_c3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> tempList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			foreach(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
 		{
 			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
@@ -7359,6 +7771,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c4(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c4)) {
+					seenValues[list[pos].@node_c4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> tempList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			foreach(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -7375,6 +7807,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c5(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c5)) {
+					seenValues[list[pos].@node_c5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> tempList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			foreach(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
 		{
 			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
@@ -7385,6 +7837,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c6(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c6)) {
+					seenValues[list[pos].@node_c6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> tempList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> newList = new List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>();
+			foreach(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -7494,21 +7966,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] TNT_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] TNT_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
-			GRGEN_LGSP.PatternNode TNT_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c1", "c1", TNT_node_c1_AllowedTypes, TNT_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNT_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c2", "c2", TNT_node_c2_AllowedTypes, TNT_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNT_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c3", "c3", TNT_node_c3_AllowedTypes, TNT_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNT_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c4", "c4", TNT_node_c4_AllowedTypes, TNT_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNT_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c5", "c5", TNT_node_c5_AllowedTypes, TNT_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNT_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c6", "c6", TNT_node_c6_AllowedTypes, TNT_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge0", "_edge0", TNT_edge__edge0_AllowedTypes, TNT_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge1", "_edge1", TNT_edge__edge1_AllowedTypes, TNT_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge2", "_edge2", TNT_edge__edge2_AllowedTypes, TNT_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge3", "_edge3", TNT_edge__edge3_AllowedTypes, TNT_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge4", "_edge4", TNT_edge__edge4_AllowedTypes, TNT_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge5", "_edge5", TNT_edge__edge5_AllowedTypes, TNT_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge6", "_edge6", TNT_edge__edge6_AllowedTypes, TNT_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge7", "_edge7", TNT_edge__edge7_AllowedTypes, TNT_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge8", "_edge8", TNT_edge__edge8_AllowedTypes, TNT_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode TNT_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c1", "c1", TNT_node_c1_AllowedTypes, TNT_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNT_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c2", "c2", TNT_node_c2_AllowedTypes, TNT_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNT_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c3", "c3", TNT_node_c3_AllowedTypes, TNT_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNT_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c4", "c4", TNT_node_c4_AllowedTypes, TNT_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNT_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c5", "c5", TNT_node_c5_AllowedTypes, TNT_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNT_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNT_node_c6", "c6", TNT_node_c6_AllowedTypes, TNT_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge0", "_edge0", TNT_edge__edge0_AllowedTypes, TNT_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge1", "_edge1", TNT_edge__edge1_AllowedTypes, TNT_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge2", "_edge2", TNT_edge__edge2_AllowedTypes, TNT_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge3", "_edge3", TNT_edge__edge3_AllowedTypes, TNT_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge4", "_edge4", TNT_edge__edge4_AllowedTypes, TNT_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge5", "_edge5", TNT_edge__edge5_AllowedTypes, TNT_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge6", "_edge6", TNT_edge__edge6_AllowedTypes, TNT_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge7", "_edge7", TNT_edge__edge7_AllowedTypes, TNT_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNT_edge__edge8", "_edge8", TNT_edge__edge8_AllowedTypes, TNT_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding TNT__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c1"),
@@ -7708,7 +8180,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNT_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -7755,7 +8227,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNT_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 9;} }
+			public override int NumberOfEdges { get { return 9; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -7790,7 +8262,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNT_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -7819,7 +8291,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNT_SubNums { @_sub0, @_sub1, @_sub2, @_sub3, @_sub4, @_sub5, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 6;} }
+			public override int NumberOfEmbeddedGraphs { get { return 6; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -7848,7 +8320,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNT_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -7865,7 +8337,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNT_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -7882,7 +8354,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNT_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -7897,6 +8369,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNT.instance.pat_TNT; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_TNT(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_TNT nextWithSameHash;
@@ -8080,10 +8553,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>)
+				return ((List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
@@ -8094,6 +8596,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c2)) {
+					seenValues[list[pos].@node_c2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -8110,6 +8632,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c3)) {
+					seenValues[list[pos].@node_c3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
@@ -8120,6 +8662,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c4)) {
+					seenValues[list[pos].@node_c4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -8136,6 +8698,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c5)) {
+					seenValues[list[pos].@node_c5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
@@ -8146,6 +8728,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c6)) {
+					seenValues[list[pos].@node_c6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -8162,6 +8764,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge0(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
@@ -8172,6 +8794,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge0, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge1(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge1)) {
+					seenValues[list[pos].@edge__edge1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -8188,6 +8830,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge2(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge2)) {
+					seenValues[list[pos].@edge__edge2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
@@ -8198,6 +8860,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge2, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge3(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge3)) {
+					seenValues[list[pos].@edge__edge3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -8214,6 +8896,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge4(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge4)) {
+					seenValues[list[pos].@edge__edge4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge4(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
@@ -8224,6 +8926,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge4, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge5(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge5)) {
+					seenValues[list[pos].@edge__edge5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -8240,6 +8962,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge6(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge6)) {
+					seenValues[list[pos].@edge__edge6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge6(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
@@ -8253,6 +8995,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge7(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge7)) {
+					seenValues[list[pos].@edge__edge7].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge7, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
@@ -8263,6 +9025,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge7, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge8(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge8)) {
+					seenValues[list[pos].@edge__edge8].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> tempList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge8, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> newList = new List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -8462,51 +9244,51 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] TNTUnfolded_isNodeTotallyHomomorphic = new bool[21] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
 			bool[] TNTUnfolded_isEdgeTotallyHomomorphic = new bool[24] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c1", "c1", TNTUnfolded_node_c1_AllowedTypes, TNTUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c2", "c2", TNTUnfolded_node_c2_AllowedTypes, TNTUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c3", "c3", TNTUnfolded_node_c3_AllowedTypes, TNTUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c4", "c4", TNTUnfolded_node_c4_AllowedTypes, TNTUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c5", "c5", TNTUnfolded_node_c5_AllowedTypes, TNTUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c6", "c6", TNTUnfolded_node_c6_AllowedTypes, TNTUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c", "c", TNTUnfolded_node_c_AllowedTypes, TNTUnfolded_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNTUnfolded_node__node0", "_node0", TNTUnfolded_node__node0_AllowedTypes, TNTUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNTUnfolded_node__node1", "_node1", TNTUnfolded_node__node1_AllowedTypes, TNTUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNTUnfolded_node__node2", "_node2", TNTUnfolded_node__node2_AllowedTypes, TNTUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNTUnfolded_node_n2", "n2", TNTUnfolded_node_n2_AllowedTypes, TNTUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node3", "_node3", TNTUnfolded_node__node3_AllowedTypes, TNTUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node4", "_node4", TNTUnfolded_node__node4_AllowedTypes, TNTUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNTUnfolded_node__node5", "_node5", TNTUnfolded_node__node5_AllowedTypes, TNTUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNTUnfolded_node_n4", "n4", TNTUnfolded_node_n4_AllowedTypes, TNTUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node6", "_node6", TNTUnfolded_node__node6_AllowedTypes, TNTUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node7", "_node7", TNTUnfolded_node__node7_AllowedTypes, TNTUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNTUnfolded_node__node8", "_node8", TNTUnfolded_node__node8_AllowedTypes, TNTUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_n6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNTUnfolded_node_n6", "n6", TNTUnfolded_node_n6_AllowedTypes, TNTUnfolded_node_n6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node9 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node9", "_node9", TNTUnfolded_node__node9_AllowedTypes, TNTUnfolded_node__node9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node10 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node10", "_node10", TNTUnfolded_node__node10_AllowedTypes, TNTUnfolded_node__node10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge0", "_edge0", TNTUnfolded_edge__edge0_AllowedTypes, TNTUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge1", "_edge1", TNTUnfolded_edge__edge1_AllowedTypes, TNTUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge2", "_edge2", TNTUnfolded_edge__edge2_AllowedTypes, TNTUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge3", "_edge3", TNTUnfolded_edge__edge3_AllowedTypes, TNTUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge4", "_edge4", TNTUnfolded_edge__edge4_AllowedTypes, TNTUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge5", "_edge5", TNTUnfolded_edge__edge5_AllowedTypes, TNTUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge6", "_edge6", TNTUnfolded_edge__edge6_AllowedTypes, TNTUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge7", "_edge7", TNTUnfolded_edge__edge7_AllowedTypes, TNTUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge8", "_edge8", TNTUnfolded_edge__edge8_AllowedTypes, TNTUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge9", "_edge9", TNTUnfolded_edge__edge9_AllowedTypes, TNTUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge10", "_edge10", TNTUnfolded_edge__edge10_AllowedTypes, TNTUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge11", "_edge11", TNTUnfolded_edge__edge11_AllowedTypes, TNTUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge12", "_edge12", TNTUnfolded_edge__edge12_AllowedTypes, TNTUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge13", "_edge13", TNTUnfolded_edge__edge13_AllowedTypes, TNTUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge14", "_edge14", TNTUnfolded_edge__edge14_AllowedTypes, TNTUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge15", "_edge15", TNTUnfolded_edge__edge15_AllowedTypes, TNTUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge16", "_edge16", TNTUnfolded_edge__edge16_AllowedTypes, TNTUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge17", "_edge17", TNTUnfolded_edge__edge17_AllowedTypes, TNTUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge18", "_edge18", TNTUnfolded_edge__edge18_AllowedTypes, TNTUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge19", "_edge19", TNTUnfolded_edge__edge19_AllowedTypes, TNTUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge20", "_edge20", TNTUnfolded_edge__edge20_AllowedTypes, TNTUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge21 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge21", "_edge21", TNTUnfolded_edge__edge21_AllowedTypes, TNTUnfolded_edge__edge21_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge22 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge22", "_edge22", TNTUnfolded_edge__edge22_AllowedTypes, TNTUnfolded_edge__edge22_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge23 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge23", "_edge23", TNTUnfolded_edge__edge23_AllowedTypes, TNTUnfolded_edge__edge23_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c1", "c1", TNTUnfolded_node_c1_AllowedTypes, TNTUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c2", "c2", TNTUnfolded_node_c2_AllowedTypes, TNTUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c3", "c3", TNTUnfolded_node_c3_AllowedTypes, TNTUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c4", "c4", TNTUnfolded_node_c4_AllowedTypes, TNTUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c5", "c5", TNTUnfolded_node_c5_AllowedTypes, TNTUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c6", "c6", TNTUnfolded_node_c6_AllowedTypes, TNTUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNTUnfolded_node_c", "c", TNTUnfolded_node_c_AllowedTypes, TNTUnfolded_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNTUnfolded_node__node0", "_node0", TNTUnfolded_node__node0_AllowedTypes, TNTUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNTUnfolded_node__node1", "_node1", TNTUnfolded_node__node1_AllowedTypes, TNTUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNTUnfolded_node__node2", "_node2", TNTUnfolded_node__node2_AllowedTypes, TNTUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNTUnfolded_node_n2", "n2", TNTUnfolded_node_n2_AllowedTypes, TNTUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node3", "_node3", TNTUnfolded_node__node3_AllowedTypes, TNTUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node4", "_node4", TNTUnfolded_node__node4_AllowedTypes, TNTUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNTUnfolded_node__node5", "_node5", TNTUnfolded_node__node5_AllowedTypes, TNTUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNTUnfolded_node_n4", "n4", TNTUnfolded_node_n4_AllowedTypes, TNTUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node6", "_node6", TNTUnfolded_node__node6_AllowedTypes, TNTUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node7", "_node7", TNTUnfolded_node__node7_AllowedTypes, TNTUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNTUnfolded_node__node8", "_node8", TNTUnfolded_node__node8_AllowedTypes, TNTUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_n6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNTUnfolded_node_n6", "n6", TNTUnfolded_node_n6_AllowedTypes, TNTUnfolded_node_n6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node9 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node9", "_node9", TNTUnfolded_node__node9_AllowedTypes, TNTUnfolded_node__node9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node10 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNTUnfolded_node__node10", "_node10", TNTUnfolded_node__node10_AllowedTypes, TNTUnfolded_node__node10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge0", "_edge0", TNTUnfolded_edge__edge0_AllowedTypes, TNTUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge1", "_edge1", TNTUnfolded_edge__edge1_AllowedTypes, TNTUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge2", "_edge2", TNTUnfolded_edge__edge2_AllowedTypes, TNTUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge3", "_edge3", TNTUnfolded_edge__edge3_AllowedTypes, TNTUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge4", "_edge4", TNTUnfolded_edge__edge4_AllowedTypes, TNTUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge5", "_edge5", TNTUnfolded_edge__edge5_AllowedTypes, TNTUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge6", "_edge6", TNTUnfolded_edge__edge6_AllowedTypes, TNTUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge7", "_edge7", TNTUnfolded_edge__edge7_AllowedTypes, TNTUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge8", "_edge8", TNTUnfolded_edge__edge8_AllowedTypes, TNTUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge9", "_edge9", TNTUnfolded_edge__edge9_AllowedTypes, TNTUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge10", "_edge10", TNTUnfolded_edge__edge10_AllowedTypes, TNTUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge11", "_edge11", TNTUnfolded_edge__edge11_AllowedTypes, TNTUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge12", "_edge12", TNTUnfolded_edge__edge12_AllowedTypes, TNTUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge13", "_edge13", TNTUnfolded_edge__edge13_AllowedTypes, TNTUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge14", "_edge14", TNTUnfolded_edge__edge14_AllowedTypes, TNTUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge15", "_edge15", TNTUnfolded_edge__edge15_AllowedTypes, TNTUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge16", "_edge16", TNTUnfolded_edge__edge16_AllowedTypes, TNTUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge17", "_edge17", TNTUnfolded_edge__edge17_AllowedTypes, TNTUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge18", "_edge18", TNTUnfolded_edge__edge18_AllowedTypes, TNTUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge19", "_edge19", TNTUnfolded_edge__edge19_AllowedTypes, TNTUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge20", "_edge20", TNTUnfolded_edge__edge20_AllowedTypes, TNTUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge21 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge21", "_edge21", TNTUnfolded_edge__edge21_AllowedTypes, TNTUnfolded_edge__edge21_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge22 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge22", "_edge22", TNTUnfolded_edge__edge22_AllowedTypes, TNTUnfolded_edge__edge22_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge23 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNTUnfolded_edge__edge23", "_edge23", TNTUnfolded_edge__edge23_AllowedTypes, TNTUnfolded_edge__edge23_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_TNTUnfolded = new GRGEN_LGSP.PatternGraph(
 				"TNTUnfolded",
 				"",
@@ -8790,7 +9572,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTUnfolded_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, @c, @_node0, @_node1, @_node2, @n2, @_node3, @_node4, @_node5, @n4, @_node6, @_node7, @_node8, @n6, @_node9, @_node10, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 21;} }
+			public override int NumberOfNodes { get { return 21; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -8897,7 +9679,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTUnfolded_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, @_edge9, @_edge10, @_edge11, @_edge12, @_edge13, @_edge14, @_edge15, @_edge16, @_edge17, @_edge18, @_edge19, @_edge20, @_edge21, @_edge22, @_edge23, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 24;} }
+			public override int NumberOfEdges { get { return 24; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -8962,7 +9744,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTUnfolded_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -8979,7 +9761,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTUnfolded_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -8996,7 +9778,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTUnfolded_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -9013,7 +9795,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTUnfolded_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -9030,7 +9812,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNTUnfolded_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -9045,6 +9827,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNTUnfolded.instance.pat_TNTUnfolded; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_TNTUnfolded(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_TNTUnfolded nextWithSameHash;
@@ -9486,10 +10269,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>)
+				return ((List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9500,6 +10312,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c2)) {
+					seenValues[list[pos].@node_c2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9516,6 +10348,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c3)) {
+					seenValues[list[pos].@node_c3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9526,6 +10378,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c4)) {
+					seenValues[list[pos].@node_c4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9542,6 +10414,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c5)) {
+					seenValues[list[pos].@node_c5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9552,6 +10444,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c6)) {
+					seenValues[list[pos].@node_c6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9568,6 +10480,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c)) {
+					seenValues[list[pos].@node_c].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_c(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9578,6 +10510,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node0(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node0)) {
+					seenValues[list[pos].@node__node0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9594,6 +10546,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node1)) {
+					seenValues[list[pos].@node__node1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9604,6 +10576,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node2)) {
+					seenValues[list[pos].@node__node2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9620,6 +10612,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_n2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_n2)) {
+					seenValues[list[pos].@node_n2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_n2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_n2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9630,6 +10642,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_n2, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node3)) {
+					seenValues[list[pos].@node__node3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9646,6 +10678,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node4)) {
+					seenValues[list[pos].@node__node4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9656,6 +10708,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node4, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node5)) {
+					seenValues[list[pos].@node__node5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9672,6 +10744,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_n4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_n4)) {
+					seenValues[list[pos].@node_n4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_n4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_n4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9682,6 +10774,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_n4, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node6)) {
+					seenValues[list[pos].@node__node6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9698,6 +10810,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node7(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node7)) {
+					seenValues[list[pos].@node__node7].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node7, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node7(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9708,6 +10840,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node7, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node8(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node8)) {
+					seenValues[list[pos].@node__node8].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node8, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9724,6 +10876,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_n6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_n6)) {
+					seenValues[list[pos].@node_n6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_n6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy_n6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9734,6 +10906,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_n6, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node9(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node9)) {
+					seenValues[list[pos].@node__node9].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node9, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9750,6 +10942,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node10(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node10)) {
+					seenValues[list[pos].@node__node10].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node10, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__node10(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9760,6 +10972,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node10, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge0(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9776,6 +11008,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge1)) {
+					seenValues[list[pos].@edge__edge1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9786,6 +11038,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge2)) {
+					seenValues[list[pos].@edge__edge2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9802,6 +11074,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge3)) {
+					seenValues[list[pos].@edge__edge3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9812,6 +11104,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge4)) {
+					seenValues[list[pos].@edge__edge4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9828,6 +11140,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge5)) {
+					seenValues[list[pos].@edge__edge5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9838,6 +11170,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge6)) {
+					seenValues[list[pos].@edge__edge6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9854,6 +11206,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge7(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge7)) {
+					seenValues[list[pos].@edge__edge7].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge7, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9864,6 +11236,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge7, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge8(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge8)) {
+					seenValues[list[pos].@edge__edge8].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge8, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9880,6 +11272,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge9(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge9)) {
+					seenValues[list[pos].@edge__edge9].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge9, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge9(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9890,6 +11302,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge9, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge10(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge10)) {
+					seenValues[list[pos].@edge__edge10].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge10, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9906,6 +11338,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge11(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge11)) {
+					seenValues[list[pos].@edge__edge11].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge11, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge11(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9916,6 +11368,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge11, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge12(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge12)) {
+					seenValues[list[pos].@edge__edge12].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge12, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9932,6 +11404,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge13(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge13)) {
+					seenValues[list[pos].@edge__edge13].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge13, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge13(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9942,6 +11434,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge13, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge14(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge14)) {
+					seenValues[list[pos].@edge__edge14].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge14, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9958,6 +11470,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge15(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge15)) {
+					seenValues[list[pos].@edge__edge15].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge15, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge15(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9968,6 +11500,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge15, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge16(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge16)) {
+					seenValues[list[pos].@edge__edge16].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge16, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -9984,6 +11536,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge17(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge17)) {
+					seenValues[list[pos].@edge__edge17].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge17, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge17(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -9994,6 +11566,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge17, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge18(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge18)) {
+					seenValues[list[pos].@edge__edge18].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge18, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -10010,6 +11602,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge19(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge19)) {
+					seenValues[list[pos].@edge__edge19].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge19, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge19(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -10020,6 +11632,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge19, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge20(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge20)) {
+					seenValues[list[pos].@edge__edge20].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge20, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -10036,6 +11668,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge21(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge21)) {
+					seenValues[list[pos].@edge__edge21].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge21, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge21(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -10049,6 +11701,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge22(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge22)) {
+					seenValues[list[pos].@edge__edge22].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge22, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_keepOneForEachBy__edge22(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
@@ -10059,6 +11731,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge22, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge23(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge23)) {
+					seenValues[list[pos].@edge__edge23].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge23, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -10228,7 +11920,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNT_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -10245,7 +11937,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNT_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -10262,7 +11954,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNT_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -10279,7 +11971,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNT_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -10296,7 +11988,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNT_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -10313,7 +12005,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNT_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -10330,7 +12022,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNT_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -10345,6 +12037,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createTNT.instance.pat_createTNT; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_createTNT(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_createTNT nextWithSameHash;
@@ -10381,9 +12074,18 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>)
+				return ((List<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -10478,21 +12180,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] DNT_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] DNT_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
-			GRGEN_LGSP.PatternNode DNT_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c1", "c1", DNT_node_c1_AllowedTypes, DNT_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNT_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c2", "c2", DNT_node_c2_AllowedTypes, DNT_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNT_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c3", "c3", DNT_node_c3_AllowedTypes, DNT_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNT_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c4", "c4", DNT_node_c4_AllowedTypes, DNT_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNT_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c5", "c5", DNT_node_c5_AllowedTypes, DNT_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNT_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c6", "c6", DNT_node_c6_AllowedTypes, DNT_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge0", "_edge0", DNT_edge__edge0_AllowedTypes, DNT_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge1", "_edge1", DNT_edge__edge1_AllowedTypes, DNT_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge2", "_edge2", DNT_edge__edge2_AllowedTypes, DNT_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge3", "_edge3", DNT_edge__edge3_AllowedTypes, DNT_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge4", "_edge4", DNT_edge__edge4_AllowedTypes, DNT_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge5", "_edge5", DNT_edge__edge5_AllowedTypes, DNT_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge6", "_edge6", DNT_edge__edge6_AllowedTypes, DNT_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge7", "_edge7", DNT_edge__edge7_AllowedTypes, DNT_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge8", "_edge8", DNT_edge__edge8_AllowedTypes, DNT_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode DNT_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c1", "c1", DNT_node_c1_AllowedTypes, DNT_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNT_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c2", "c2", DNT_node_c2_AllowedTypes, DNT_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNT_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c3", "c3", DNT_node_c3_AllowedTypes, DNT_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNT_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c4", "c4", DNT_node_c4_AllowedTypes, DNT_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNT_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c5", "c5", DNT_node_c5_AllowedTypes, DNT_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNT_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNT_node_c6", "c6", DNT_node_c6_AllowedTypes, DNT_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge0", "_edge0", DNT_edge__edge0_AllowedTypes, DNT_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge1", "_edge1", DNT_edge__edge1_AllowedTypes, DNT_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge2", "_edge2", DNT_edge__edge2_AllowedTypes, DNT_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge3", "_edge3", DNT_edge__edge3_AllowedTypes, DNT_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge4", "_edge4", DNT_edge__edge4_AllowedTypes, DNT_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge5", "_edge5", DNT_edge__edge5_AllowedTypes, DNT_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge6", "_edge6", DNT_edge__edge6_AllowedTypes, DNT_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge7", "_edge7", DNT_edge__edge7_AllowedTypes, DNT_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNT_edge__edge8", "_edge8", DNT_edge__edge8_AllowedTypes, DNT_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding DNT__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c1"),
@@ -10692,7 +12394,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNT_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -10739,7 +12441,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNT_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 9;} }
+			public override int NumberOfEdges { get { return 9; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -10774,7 +12476,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNT_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -10803,7 +12505,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNT_SubNums { @_sub0, @_sub1, @_sub2, @_sub3, @_sub4, @_sub5, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 6;} }
+			public override int NumberOfEmbeddedGraphs { get { return 6; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -10832,7 +12534,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNT_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -10849,7 +12551,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNT_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -10866,7 +12568,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNT_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -10881,6 +12583,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_DNT.instance.pat_DNT; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_DNT(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_DNT nextWithSameHash;
@@ -11064,10 +12767,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>)
+				return ((List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c1(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
@@ -11078,6 +12810,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c2(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c2)) {
+					seenValues[list[pos].@node_c2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -11094,6 +12846,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c3(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c3)) {
+					seenValues[list[pos].@node_c3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
@@ -11104,6 +12876,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c4(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c4)) {
+					seenValues[list[pos].@node_c4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -11120,6 +12912,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c5(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c5)) {
+					seenValues[list[pos].@node_c5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
@@ -11130,6 +12942,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c6(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c6)) {
+					seenValues[list[pos].@node_c6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -11146,6 +12978,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge0(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
@@ -11156,6 +13008,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge0, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge1(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge1)) {
+					seenValues[list[pos].@edge__edge1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -11172,6 +13044,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge2(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge2)) {
+					seenValues[list[pos].@edge__edge2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
@@ -11182,6 +13074,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge2, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge3(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge3)) {
+					seenValues[list[pos].@edge__edge3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -11198,6 +13110,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge4(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge4)) {
+					seenValues[list[pos].@edge__edge4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge4(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
@@ -11208,6 +13140,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge4, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge5(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge5)) {
+					seenValues[list[pos].@edge__edge5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -11224,6 +13176,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge6(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge6)) {
+					seenValues[list[pos].@edge__edge6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge6(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
@@ -11237,6 +13209,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge7(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge7)) {
+					seenValues[list[pos].@edge__edge7].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge7, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
@@ -11247,6 +13239,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge7, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge8(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge8)) {
+					seenValues[list[pos].@edge__edge8].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> tempList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge8, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> newList = new List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -11434,47 +13446,47 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] DNTUnfolded_isNodeTotallyHomomorphic = new bool[19] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
 			bool[] DNTUnfolded_isEdgeTotallyHomomorphic = new bool[22] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c1", "c1", DNTUnfolded_node_c1_AllowedTypes, DNTUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c2", "c2", DNTUnfolded_node_c2_AllowedTypes, DNTUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c3", "c3", DNTUnfolded_node_c3_AllowedTypes, DNTUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c4", "c4", DNTUnfolded_node_c4_AllowedTypes, DNTUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c5", "c5", DNTUnfolded_node_c5_AllowedTypes, DNTUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c6", "c6", DNTUnfolded_node_c6_AllowedTypes, DNTUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c", "c", DNTUnfolded_node_c_AllowedTypes, DNTUnfolded_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node0", "_node0", DNTUnfolded_node__node0_AllowedTypes, DNTUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node1", "_node1", DNTUnfolded_node__node1_AllowedTypes, DNTUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node2", "_node2", DNTUnfolded_node__node2_AllowedTypes, DNTUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "DNTUnfolded_node_n2", "n2", DNTUnfolded_node_n2_AllowedTypes, DNTUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "DNTUnfolded_node__node3", "_node3", DNTUnfolded_node__node3_AllowedTypes, DNTUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "DNTUnfolded_node__node4", "_node4", DNTUnfolded_node__node4_AllowedTypes, DNTUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node5", "_node5", DNTUnfolded_node__node5_AllowedTypes, DNTUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "DNTUnfolded_node_n4", "n4", DNTUnfolded_node_n4_AllowedTypes, DNTUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "DNTUnfolded_node__node6", "_node6", DNTUnfolded_node__node6_AllowedTypes, DNTUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "DNTUnfolded_node__node7", "_node7", DNTUnfolded_node__node7_AllowedTypes, DNTUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node8", "_node8", DNTUnfolded_node__node8_AllowedTypes, DNTUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node9 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node9", "_node9", DNTUnfolded_node__node9_AllowedTypes, DNTUnfolded_node__node9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge0", "_edge0", DNTUnfolded_edge__edge0_AllowedTypes, DNTUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge1", "_edge1", DNTUnfolded_edge__edge1_AllowedTypes, DNTUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge2", "_edge2", DNTUnfolded_edge__edge2_AllowedTypes, DNTUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge3", "_edge3", DNTUnfolded_edge__edge3_AllowedTypes, DNTUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge4", "_edge4", DNTUnfolded_edge__edge4_AllowedTypes, DNTUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge5", "_edge5", DNTUnfolded_edge__edge5_AllowedTypes, DNTUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge6", "_edge6", DNTUnfolded_edge__edge6_AllowedTypes, DNTUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge7", "_edge7", DNTUnfolded_edge__edge7_AllowedTypes, DNTUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge8", "_edge8", DNTUnfolded_edge__edge8_AllowedTypes, DNTUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge9", "_edge9", DNTUnfolded_edge__edge9_AllowedTypes, DNTUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge10", "_edge10", DNTUnfolded_edge__edge10_AllowedTypes, DNTUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge11", "_edge11", DNTUnfolded_edge__edge11_AllowedTypes, DNTUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge12", "_edge12", DNTUnfolded_edge__edge12_AllowedTypes, DNTUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge13", "_edge13", DNTUnfolded_edge__edge13_AllowedTypes, DNTUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge14", "_edge14", DNTUnfolded_edge__edge14_AllowedTypes, DNTUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge15", "_edge15", DNTUnfolded_edge__edge15_AllowedTypes, DNTUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge16", "_edge16", DNTUnfolded_edge__edge16_AllowedTypes, DNTUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge17", "_edge17", DNTUnfolded_edge__edge17_AllowedTypes, DNTUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge18", "_edge18", DNTUnfolded_edge__edge18_AllowedTypes, DNTUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge19", "_edge19", DNTUnfolded_edge__edge19_AllowedTypes, DNTUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge20", "_edge20", DNTUnfolded_edge__edge20_AllowedTypes, DNTUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge21 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge21", "_edge21", DNTUnfolded_edge__edge21_AllowedTypes, DNTUnfolded_edge__edge21_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c1", "c1", DNTUnfolded_node_c1_AllowedTypes, DNTUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c2", "c2", DNTUnfolded_node_c2_AllowedTypes, DNTUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c3", "c3", DNTUnfolded_node_c3_AllowedTypes, DNTUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c4", "c4", DNTUnfolded_node_c4_AllowedTypes, DNTUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c5", "c5", DNTUnfolded_node_c5_AllowedTypes, DNTUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c6", "c6", DNTUnfolded_node_c6_AllowedTypes, DNTUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "DNTUnfolded_node_c", "c", DNTUnfolded_node_c_AllowedTypes, DNTUnfolded_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node0", "_node0", DNTUnfolded_node__node0_AllowedTypes, DNTUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node1", "_node1", DNTUnfolded_node__node1_AllowedTypes, DNTUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node2", "_node2", DNTUnfolded_node__node2_AllowedTypes, DNTUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "DNTUnfolded_node_n2", "n2", DNTUnfolded_node_n2_AllowedTypes, DNTUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "DNTUnfolded_node__node3", "_node3", DNTUnfolded_node__node3_AllowedTypes, DNTUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "DNTUnfolded_node__node4", "_node4", DNTUnfolded_node__node4_AllowedTypes, DNTUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node5", "_node5", DNTUnfolded_node__node5_AllowedTypes, DNTUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "DNTUnfolded_node_n4", "n4", DNTUnfolded_node_n4_AllowedTypes, DNTUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "DNTUnfolded_node__node6", "_node6", DNTUnfolded_node__node6_AllowedTypes, DNTUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "DNTUnfolded_node__node7", "_node7", DNTUnfolded_node__node7_AllowedTypes, DNTUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node8", "_node8", DNTUnfolded_node__node8_AllowedTypes, DNTUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node9 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "DNTUnfolded_node__node9", "_node9", DNTUnfolded_node__node9_AllowedTypes, DNTUnfolded_node__node9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge0", "_edge0", DNTUnfolded_edge__edge0_AllowedTypes, DNTUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge1", "_edge1", DNTUnfolded_edge__edge1_AllowedTypes, DNTUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge2", "_edge2", DNTUnfolded_edge__edge2_AllowedTypes, DNTUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge3", "_edge3", DNTUnfolded_edge__edge3_AllowedTypes, DNTUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge4", "_edge4", DNTUnfolded_edge__edge4_AllowedTypes, DNTUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge5", "_edge5", DNTUnfolded_edge__edge5_AllowedTypes, DNTUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge6", "_edge6", DNTUnfolded_edge__edge6_AllowedTypes, DNTUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge7", "_edge7", DNTUnfolded_edge__edge7_AllowedTypes, DNTUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge8", "_edge8", DNTUnfolded_edge__edge8_AllowedTypes, DNTUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge9", "_edge9", DNTUnfolded_edge__edge9_AllowedTypes, DNTUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge10", "_edge10", DNTUnfolded_edge__edge10_AllowedTypes, DNTUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge11", "_edge11", DNTUnfolded_edge__edge11_AllowedTypes, DNTUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge12", "_edge12", DNTUnfolded_edge__edge12_AllowedTypes, DNTUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge13", "_edge13", DNTUnfolded_edge__edge13_AllowedTypes, DNTUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge14", "_edge14", DNTUnfolded_edge__edge14_AllowedTypes, DNTUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge15", "_edge15", DNTUnfolded_edge__edge15_AllowedTypes, DNTUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge16", "_edge16", DNTUnfolded_edge__edge16_AllowedTypes, DNTUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge17", "_edge17", DNTUnfolded_edge__edge17_AllowedTypes, DNTUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge18", "_edge18", DNTUnfolded_edge__edge18_AllowedTypes, DNTUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge19", "_edge19", DNTUnfolded_edge__edge19_AllowedTypes, DNTUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge20", "_edge20", DNTUnfolded_edge__edge20_AllowedTypes, DNTUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge21 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "DNTUnfolded_edge__edge21", "_edge21", DNTUnfolded_edge__edge21_AllowedTypes, DNTUnfolded_edge__edge21_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_DNTUnfolded = new GRGEN_LGSP.PatternGraph(
 				"DNTUnfolded",
 				"",
@@ -11738,7 +13750,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNTUnfolded_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, @c, @_node0, @_node1, @_node2, @n2, @_node3, @_node4, @_node5, @n4, @_node6, @_node7, @_node8, @_node9, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 19;} }
+			public override int NumberOfNodes { get { return 19; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -11837,7 +13849,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNTUnfolded_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, @_edge9, @_edge10, @_edge11, @_edge12, @_edge13, @_edge14, @_edge15, @_edge16, @_edge17, @_edge18, @_edge19, @_edge20, @_edge21, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 22;} }
+			public override int NumberOfEdges { get { return 22; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -11898,7 +13910,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNTUnfolded_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -11915,7 +13927,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNTUnfolded_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -11932,7 +13944,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNTUnfolded_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -11949,7 +13961,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNTUnfolded_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -11966,7 +13978,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum DNTUnfolded_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -11981,6 +13993,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_DNTUnfolded.instance.pat_DNTUnfolded; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_DNTUnfolded(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_DNTUnfolded nextWithSameHash;
@@ -12386,10 +14399,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>)
+				return ((List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12400,6 +14442,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c2)) {
+					seenValues[list[pos].@node_c2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12416,6 +14478,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c3)) {
+					seenValues[list[pos].@node_c3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12426,6 +14508,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c4)) {
+					seenValues[list[pos].@node_c4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12442,6 +14544,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c5)) {
+					seenValues[list[pos].@node_c5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12452,6 +14574,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c6(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c6)) {
+					seenValues[list[pos].@node_c6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12468,6 +14610,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c)) {
+					seenValues[list[pos].@node_c].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_c(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12478,6 +14640,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node0(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node0)) {
+					seenValues[list[pos].@node__node0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12494,6 +14676,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node1)) {
+					seenValues[list[pos].@node__node1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12504,6 +14706,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node2)) {
+					seenValues[list[pos].@node__node2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12520,6 +14742,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_n2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_n2)) {
+					seenValues[list[pos].@node_n2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_n2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_n2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12530,6 +14772,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_n2, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node3)) {
+					seenValues[list[pos].@node__node3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12546,6 +14808,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node4)) {
+					seenValues[list[pos].@node__node4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12556,6 +14838,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node4, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node5)) {
+					seenValues[list[pos].@node__node5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12572,6 +14874,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_n4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_n4)) {
+					seenValues[list[pos].@node_n4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_n4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy_n4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12582,6 +14904,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_n4, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node6(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node6)) {
+					seenValues[list[pos].@node__node6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12598,6 +14940,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node7(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node7)) {
+					seenValues[list[pos].@node__node7].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node7, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node7(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12608,6 +14970,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node7, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node8(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node8)) {
+					seenValues[list[pos].@node__node8].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node8, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12624,6 +15006,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node9(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node9)) {
+					seenValues[list[pos].@node__node9].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node9, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__node9(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12634,6 +15036,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node9, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge0(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12650,6 +15072,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge1)) {
+					seenValues[list[pos].@edge__edge1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12660,6 +15102,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge2)) {
+					seenValues[list[pos].@edge__edge2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12676,6 +15138,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge3)) {
+					seenValues[list[pos].@edge__edge3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12686,6 +15168,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge4)) {
+					seenValues[list[pos].@edge__edge4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12702,6 +15204,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge5)) {
+					seenValues[list[pos].@edge__edge5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12712,6 +15234,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge6(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge6)) {
+					seenValues[list[pos].@edge__edge6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12728,6 +15270,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge7(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge7)) {
+					seenValues[list[pos].@edge__edge7].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge7, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12738,6 +15300,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge7, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge8(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge8)) {
+					seenValues[list[pos].@edge__edge8].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge8, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12754,6 +15336,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge9(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge9)) {
+					seenValues[list[pos].@edge__edge9].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge9, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge9(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12764,6 +15366,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge9, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge10(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge10)) {
+					seenValues[list[pos].@edge__edge10].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge10, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12780,6 +15402,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge11(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge11)) {
+					seenValues[list[pos].@edge__edge11].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge11, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge11(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12790,6 +15432,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge11, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge12(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge12)) {
+					seenValues[list[pos].@edge__edge12].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge12, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12806,6 +15468,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge13(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge13)) {
+					seenValues[list[pos].@edge__edge13].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge13, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge13(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12816,6 +15498,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge13, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge14(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge14)) {
+					seenValues[list[pos].@edge__edge14].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge14, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12832,6 +15534,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge15(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge15)) {
+					seenValues[list[pos].@edge__edge15].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge15, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge15(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12842,6 +15564,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge15, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge16(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge16)) {
+					seenValues[list[pos].@edge__edge16].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge16, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12858,6 +15600,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge17(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge17)) {
+					seenValues[list[pos].@edge__edge17].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge17, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge17(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12868,6 +15630,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge17, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge18(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge18)) {
+					seenValues[list[pos].@edge__edge18].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge18, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -12884,6 +15666,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge19(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge19)) {
+					seenValues[list[pos].@edge__edge19].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge19, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge19(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12897,6 +15699,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge20(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge20)) {
+					seenValues[list[pos].@edge__edge20].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge20, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_keepOneForEachBy__edge20(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
@@ -12907,6 +15729,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge20, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge21(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge21)) {
+					seenValues[list[pos].@edge__edge21].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge21, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> newList = new List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -13072,7 +15914,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createDNT_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -13089,7 +15931,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createDNT_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -13106,7 +15948,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createDNT_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -13123,7 +15965,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createDNT_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -13140,7 +15982,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createDNT_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -13157,7 +15999,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createDNT_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -13174,7 +16016,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createDNT_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -13189,6 +16031,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createDNT.instance.pat_createDNT; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_createDNT(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_createDNT nextWithSameHash;
@@ -13225,9 +16068,18 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>)
+				return ((List<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -13322,21 +16174,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] TNB_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
 			bool[] TNB_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
-			GRGEN_LGSP.PatternNode TNB_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c1", "c1", TNB_node_c1_AllowedTypes, TNB_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNB_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c2", "c2", TNB_node_c2_AllowedTypes, TNB_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNB_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c3", "c3", TNB_node_c3_AllowedTypes, TNB_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNB_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c4", "c4", TNB_node_c4_AllowedTypes, TNB_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNB_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c5", "c5", TNB_node_c5_AllowedTypes, TNB_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNB_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c6", "c6", TNB_node_c6_AllowedTypes, TNB_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge0", "_edge0", TNB_edge__edge0_AllowedTypes, TNB_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge1", "_edge1", TNB_edge__edge1_AllowedTypes, TNB_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge2", "_edge2", TNB_edge__edge2_AllowedTypes, TNB_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge3", "_edge3", TNB_edge__edge3_AllowedTypes, TNB_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge4", "_edge4", TNB_edge__edge4_AllowedTypes, TNB_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge5", "_edge5", TNB_edge__edge5_AllowedTypes, TNB_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge6", "_edge6", TNB_edge__edge6_AllowedTypes, TNB_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge7", "_edge7", TNB_edge__edge7_AllowedTypes, TNB_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge8", "_edge8", TNB_edge__edge8_AllowedTypes, TNB_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode TNB_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c1", "c1", TNB_node_c1_AllowedTypes, TNB_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNB_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c2", "c2", TNB_node_c2_AllowedTypes, TNB_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNB_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c3", "c3", TNB_node_c3_AllowedTypes, TNB_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNB_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c4", "c4", TNB_node_c4_AllowedTypes, TNB_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNB_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c5", "c5", TNB_node_c5_AllowedTypes, TNB_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNB_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNB_node_c6", "c6", TNB_node_c6_AllowedTypes, TNB_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge0", "_edge0", TNB_edge__edge0_AllowedTypes, TNB_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge1", "_edge1", TNB_edge__edge1_AllowedTypes, TNB_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge2", "_edge2", TNB_edge__edge2_AllowedTypes, TNB_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge3", "_edge3", TNB_edge__edge3_AllowedTypes, TNB_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge4", "_edge4", TNB_edge__edge4_AllowedTypes, TNB_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge5", "_edge5", TNB_edge__edge5_AllowedTypes, TNB_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge6", "_edge6", TNB_edge__edge6_AllowedTypes, TNB_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge7", "_edge7", TNB_edge__edge7_AllowedTypes, TNB_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNB_edge__edge8", "_edge8", TNB_edge__edge8_AllowedTypes, TNB_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternGraphEmbedding TNB__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Hydrogen.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c1"),
@@ -13536,7 +16388,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNB_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 6;} }
+			public override int NumberOfNodes { get { return 6; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -13583,7 +16435,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNB_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 9;} }
+			public override int NumberOfEdges { get { return 9; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -13618,7 +16470,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNB_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -13647,7 +16499,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNB_SubNums { @_sub0, @_sub1, @_sub2, @_sub3, @_sub4, @_sub5, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 6;} }
+			public override int NumberOfEmbeddedGraphs { get { return 6; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -13676,7 +16528,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNB_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -13693,7 +16545,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNB_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -13710,7 +16562,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNB_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -13725,6 +16577,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNB.instance.pat_TNB; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_TNB(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_TNB nextWithSameHash;
@@ -13908,10 +16761,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>)
+				return ((List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
@@ -13922,6 +16804,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c2)) {
+					seenValues[list[pos].@node_c2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -13938,6 +16840,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c3)) {
+					seenValues[list[pos].@node_c3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
@@ -13948,6 +16870,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c4)) {
+					seenValues[list[pos].@node_c4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -13964,6 +16906,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c5)) {
+					seenValues[list[pos].@node_c5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
@@ -13974,6 +16936,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c6)) {
+					seenValues[list[pos].@node_c6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -13990,6 +16972,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge0(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
@@ -14000,6 +17002,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge0, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge1(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge1)) {
+					seenValues[list[pos].@edge__edge1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -14016,6 +17038,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge2(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge2)) {
+					seenValues[list[pos].@edge__edge2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
@@ -14026,6 +17068,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge2, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge3(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge3)) {
+					seenValues[list[pos].@edge__edge3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -14042,6 +17104,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge4(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge4)) {
+					seenValues[list[pos].@edge__edge4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge4(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
@@ -14052,6 +17134,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge4, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge5(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge5)) {
+					seenValues[list[pos].@edge__edge5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -14068,6 +17170,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge6(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge6)) {
+					seenValues[list[pos].@edge__edge6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge6(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
@@ -14081,6 +17203,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge7(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge7)) {
+					seenValues[list[pos].@edge__edge7].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge7, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_keepOneForEachBy__edge7(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
@@ -14091,6 +17233,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge7, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge8(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge8)) {
+					seenValues[list[pos].@edge__edge8].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> tempList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge8, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> newList = new List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -14272,45 +17434,45 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[] TNBUnfolded_isNodeTotallyHomomorphic = new bool[18] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
 			bool[] TNBUnfolded_isEdgeTotallyHomomorphic = new bool[21] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c1", "c1", TNBUnfolded_node_c1_AllowedTypes, TNBUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c2", "c2", TNBUnfolded_node_c2_AllowedTypes, TNBUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c3", "c3", TNBUnfolded_node_c3_AllowedTypes, TNBUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c4", "c4", TNBUnfolded_node_c4_AllowedTypes, TNBUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c5", "c5", TNBUnfolded_node_c5_AllowedTypes, TNBUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c6", "c6", TNBUnfolded_node_c6_AllowedTypes, TNBUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNBUnfolded_node__node0", "_node0", TNBUnfolded_node__node0_AllowedTypes, TNBUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNBUnfolded_node_n2", "n2", TNBUnfolded_node_n2_AllowedTypes, TNBUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node1", "_node1", TNBUnfolded_node__node1_AllowedTypes, TNBUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node2", "_node2", TNBUnfolded_node__node2_AllowedTypes, TNBUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNBUnfolded_node__node3", "_node3", TNBUnfolded_node__node3_AllowedTypes, TNBUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNBUnfolded_node_n4", "n4", TNBUnfolded_node_n4_AllowedTypes, TNBUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node4", "_node4", TNBUnfolded_node__node4_AllowedTypes, TNBUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node5", "_node5", TNBUnfolded_node__node5_AllowedTypes, TNBUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNBUnfolded_node__node6", "_node6", TNBUnfolded_node__node6_AllowedTypes, TNBUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_n6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNBUnfolded_node_n6", "n6", TNBUnfolded_node_n6_AllowedTypes, TNBUnfolded_node_n6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node7", "_node7", TNBUnfolded_node__node7_AllowedTypes, TNBUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node8", "_node8", TNBUnfolded_node__node8_AllowedTypes, TNBUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge0", "_edge0", TNBUnfolded_edge__edge0_AllowedTypes, TNBUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge1", "_edge1", TNBUnfolded_edge__edge1_AllowedTypes, TNBUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge2", "_edge2", TNBUnfolded_edge__edge2_AllowedTypes, TNBUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge3", "_edge3", TNBUnfolded_edge__edge3_AllowedTypes, TNBUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge4", "_edge4", TNBUnfolded_edge__edge4_AllowedTypes, TNBUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge5", "_edge5", TNBUnfolded_edge__edge5_AllowedTypes, TNBUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge6", "_edge6", TNBUnfolded_edge__edge6_AllowedTypes, TNBUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge7", "_edge7", TNBUnfolded_edge__edge7_AllowedTypes, TNBUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge8", "_edge8", TNBUnfolded_edge__edge8_AllowedTypes, TNBUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge9", "_edge9", TNBUnfolded_edge__edge9_AllowedTypes, TNBUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge10", "_edge10", TNBUnfolded_edge__edge10_AllowedTypes, TNBUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge11", "_edge11", TNBUnfolded_edge__edge11_AllowedTypes, TNBUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge12", "_edge12", TNBUnfolded_edge__edge12_AllowedTypes, TNBUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge13", "_edge13", TNBUnfolded_edge__edge13_AllowedTypes, TNBUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge14", "_edge14", TNBUnfolded_edge__edge14_AllowedTypes, TNBUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge15", "_edge15", TNBUnfolded_edge__edge15_AllowedTypes, TNBUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge16", "_edge16", TNBUnfolded_edge__edge16_AllowedTypes, TNBUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge17", "_edge17", TNBUnfolded_edge__edge17_AllowedTypes, TNBUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge18", "_edge18", TNBUnfolded_edge__edge18_AllowedTypes, TNBUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge19", "_edge19", TNBUnfolded_edge__edge19_AllowedTypes, TNBUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge20", "_edge20", TNBUnfolded_edge__edge20_AllowedTypes, TNBUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false,null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c1", "c1", TNBUnfolded_node_c1_AllowedTypes, TNBUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c2", "c2", TNBUnfolded_node_c2_AllowedTypes, TNBUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c3", "c3", TNBUnfolded_node_c3_AllowedTypes, TNBUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c4", "c4", TNBUnfolded_node_c4_AllowedTypes, TNBUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c5", "c5", TNBUnfolded_node_c5_AllowedTypes, TNBUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, GRGEN_MODEL.NodeType_C.typeVar, "GRGEN_MODEL.IC", "TNBUnfolded_node_c6", "c6", TNBUnfolded_node_c6_AllowedTypes, TNBUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNBUnfolded_node__node0", "_node0", TNBUnfolded_node__node0_AllowedTypes, TNBUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNBUnfolded_node_n2", "n2", TNBUnfolded_node_n2_AllowedTypes, TNBUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node1", "_node1", TNBUnfolded_node__node1_AllowedTypes, TNBUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node2", "_node2", TNBUnfolded_node__node2_AllowedTypes, TNBUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNBUnfolded_node__node3", "_node3", TNBUnfolded_node__node3_AllowedTypes, TNBUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNBUnfolded_node_n4", "n4", TNBUnfolded_node_n4_AllowedTypes, TNBUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node4", "_node4", TNBUnfolded_node__node4_AllowedTypes, TNBUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node5", "_node5", TNBUnfolded_node__node5_AllowedTypes, TNBUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, GRGEN_MODEL.NodeType_H.typeVar, "GRGEN_MODEL.IH", "TNBUnfolded_node__node6", "_node6", TNBUnfolded_node__node6_AllowedTypes, TNBUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_n6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "TNBUnfolded_node_n6", "n6", TNBUnfolded_node_n6_AllowedTypes, TNBUnfolded_node_n6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node7", "_node7", TNBUnfolded_node__node7_AllowedTypes, TNBUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, GRGEN_MODEL.NodeType_O.typeVar, "GRGEN_MODEL.IO", "TNBUnfolded_node__node8", "_node8", TNBUnfolded_node__node8_AllowedTypes, TNBUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge0", "_edge0", TNBUnfolded_edge__edge0_AllowedTypes, TNBUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge1", "_edge1", TNBUnfolded_edge__edge1_AllowedTypes, TNBUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge2", "_edge2", TNBUnfolded_edge__edge2_AllowedTypes, TNBUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge3", "_edge3", TNBUnfolded_edge__edge3_AllowedTypes, TNBUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge4", "_edge4", TNBUnfolded_edge__edge4_AllowedTypes, TNBUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge5", "_edge5", TNBUnfolded_edge__edge5_AllowedTypes, TNBUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge6", "_edge6", TNBUnfolded_edge__edge6_AllowedTypes, TNBUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge7", "_edge7", TNBUnfolded_edge__edge7_AllowedTypes, TNBUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge8", "_edge8", TNBUnfolded_edge__edge8_AllowedTypes, TNBUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge9", "_edge9", TNBUnfolded_edge__edge9_AllowedTypes, TNBUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge10", "_edge10", TNBUnfolded_edge__edge10_AllowedTypes, TNBUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge11", "_edge11", TNBUnfolded_edge__edge11_AllowedTypes, TNBUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge12", "_edge12", TNBUnfolded_edge__edge12_AllowedTypes, TNBUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge13", "_edge13", TNBUnfolded_edge__edge13_AllowedTypes, TNBUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge14", "_edge14", TNBUnfolded_edge__edge14_AllowedTypes, TNBUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge15", "_edge15", TNBUnfolded_edge__edge15_AllowedTypes, TNBUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge16", "_edge16", TNBUnfolded_edge__edge16_AllowedTypes, TNBUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge17", "_edge17", TNBUnfolded_edge__edge17_AllowedTypes, TNBUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge18", "_edge18", TNBUnfolded_edge__edge18_AllowedTypes, TNBUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge19", "_edge19", TNBUnfolded_edge__edge19_AllowedTypes, TNBUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, GRGEN_MODEL.EdgeType_Edge.typeVar, "GRGEN_LIBGR.IDEdge", "TNBUnfolded_edge__edge20", "_edge20", TNBUnfolded_edge__edge20_AllowedTypes, TNBUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			pat_TNBUnfolded = new GRGEN_LGSP.PatternGraph(
 				"TNBUnfolded",
 				"",
@@ -14564,7 +17726,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNBUnfolded_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, @_node0, @n2, @_node1, @_node2, @_node3, @n4, @_node4, @_node5, @_node6, @n6, @_node7, @_node8, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 18;} }
+			public override int NumberOfNodes { get { return 18; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -14659,7 +17821,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNBUnfolded_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, @_edge9, @_edge10, @_edge11, @_edge12, @_edge13, @_edge14, @_edge15, @_edge16, @_edge17, @_edge18, @_edge19, @_edge20, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 21;} }
+			public override int NumberOfEdges { get { return 21; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -14718,7 +17880,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNBUnfolded_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -14735,7 +17897,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNBUnfolded_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -14752,7 +17914,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNBUnfolded_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -14769,7 +17931,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNBUnfolded_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -14786,7 +17948,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum TNBUnfolded_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -14801,6 +17963,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNBUnfolded.instance.pat_TNBUnfolded; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_TNBUnfolded(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_TNBUnfolded nextWithSameHash;
@@ -15188,10 +18351,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>)
+				return ((List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c1)) {
+					seenValues[list[pos].@node_c1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_c1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15202,6 +18394,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c2)) {
+					seenValues[list[pos].@node_c2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15218,6 +18430,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c3)) {
+					seenValues[list[pos].@node_c3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_c3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15228,6 +18460,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c4)) {
+					seenValues[list[pos].@node_c4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15244,6 +18496,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c5)) {
+					seenValues[list[pos].@node_c5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy_c5(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15254,6 +18526,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node_c5, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_c6)) {
+					seenValues[list[pos].@node_c6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_c6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15270,6 +18562,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node0(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node0)) {
+					seenValues[list[pos].@node__node0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node0(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15280,6 +18592,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node0, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_n2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_n2)) {
+					seenValues[list[pos].@node_n2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_n2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15296,6 +18628,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node1)) {
+					seenValues[list[pos].@node__node1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15306,6 +18658,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node1, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node2)) {
+					seenValues[list[pos].@node__node2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15322,6 +18694,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node3)) {
+					seenValues[list[pos].@node__node3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15332,6 +18724,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node3, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_n4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_n4)) {
+					seenValues[list[pos].@node_n4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_n4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15348,6 +18760,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node4)) {
+					seenValues[list[pos].@node__node4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15358,6 +18790,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node4, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node5(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node5)) {
+					seenValues[list[pos].@node__node5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15374,6 +18826,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node6)) {
+					seenValues[list[pos].@node__node6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15384,6 +18856,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node6, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_n6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node_n6)) {
+					seenValues[list[pos].@node_n6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node_n6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15400,6 +18892,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node7(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node7)) {
+					seenValues[list[pos].@node__node7].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node7, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__node7(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15410,6 +18922,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@node__node7, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node8(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@node__node8)) {
+					seenValues[list[pos].@node__node8].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@node__node8, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15426,6 +18958,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge0(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge0)) {
+					seenValues[list[pos].@edge__edge0].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge0, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge0(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15436,6 +18988,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge0, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge1)) {
+					seenValues[list[pos].@edge__edge1].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge1, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15452,6 +19024,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge2)) {
+					seenValues[list[pos].@edge__edge2].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge2, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15462,6 +19054,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge2, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge3)) {
+					seenValues[list[pos].@edge__edge3].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge3, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15478,6 +19090,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge4)) {
+					seenValues[list[pos].@edge__edge4].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge4, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15488,6 +19120,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge4, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge5(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge5)) {
+					seenValues[list[pos].@edge__edge5].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge5, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15504,6 +19156,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge6)) {
+					seenValues[list[pos].@edge__edge6].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge6, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15514,6 +19186,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge6, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge7(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge7)) {
+					seenValues[list[pos].@edge__edge7].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge7, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15530,6 +19222,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge8(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge8)) {
+					seenValues[list[pos].@edge__edge8].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge8, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge8(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15540,6 +19252,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge8, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge9(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge9)) {
+					seenValues[list[pos].@edge__edge9].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge9, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15556,6 +19288,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge10(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge10)) {
+					seenValues[list[pos].@edge__edge10].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge10, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge10(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15566,6 +19318,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge10, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge11(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge11)) {
+					seenValues[list[pos].@edge__edge11].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge11, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15582,6 +19354,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge12(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge12)) {
+					seenValues[list[pos].@edge__edge12].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge12, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge12(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15592,6 +19384,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge12, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge13(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge13)) {
+					seenValues[list[pos].@edge__edge13].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge13, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15608,6 +19420,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge14(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge14)) {
+					seenValues[list[pos].@edge__edge14].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge14, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge14(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15618,6 +19450,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge14, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge15(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge15)) {
+					seenValues[list[pos].@edge__edge15].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge15, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15634,6 +19486,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge16(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge16)) {
+					seenValues[list[pos].@edge__edge16].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge16, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge16(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15644,6 +19516,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge16, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge17(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge17)) {
+					seenValues[list[pos].@edge__edge17].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge17, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15660,6 +19552,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge18(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge18)) {
+					seenValues[list[pos].@edge__edge18].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge18, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge18(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15673,6 +19585,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge19(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge19)) {
+					seenValues[list[pos].@edge__edge19].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge19, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
+			}
+			return newList;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_keepOneForEachBy__edge19(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
@@ -15683,6 +19615,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 					newList.Add(element);
 					alreadySeenMembers.Add(element.@edge__edge19, null);
 				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge20(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
+		{
+			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
+			for(int pos = 0; pos < list.Count; ++pos)
+			{
+				if(seenValues.ContainsKey(list[pos].@edge__edge20)) {
+					seenValues[list[pos].@edge__edge20].Add(list[pos]);
+				} else {
+					List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> tempList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+					tempList.Add(list[pos]);
+					seenValues.Add(list[pos].@edge__edge20, tempList);
+				}
+			}
+			List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> newList = new List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>();
+			foreach(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> entry in seenValues.Values)
+			{
+				newList.AddRange(entry);
 			}
 			return newList;
 		}
@@ -15846,7 +19798,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNB_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -15863,7 +19815,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNB_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -15880,7 +19832,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNB_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -15897,7 +19849,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNB_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -15914,7 +19866,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNB_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -15931,7 +19883,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNB_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -15948,7 +19900,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createTNB_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -15963,6 +19915,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createTNB.instance.pat_createTNB; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_createTNB(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_createTNB nextWithSameHash;
@@ -15999,9 +19952,18 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>)
+				return ((List<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -16120,7 +20082,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum keepBenzolRingPattern_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -16137,7 +20099,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum keepBenzolRingPattern_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -16154,7 +20116,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum keepBenzolRingPattern_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -16173,7 +20135,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum keepBenzolRingPattern_SubNums { @br, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -16192,7 +20154,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum keepBenzolRingPattern_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -16209,7 +20171,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum keepBenzolRingPattern_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -16226,7 +20188,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum keepBenzolRingPattern_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -16241,6 +20203,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_keepBenzolRingPattern.instance.pat_keepBenzolRingPattern; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_keepBenzolRingPattern(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_keepBenzolRingPattern nextWithSameHash;
@@ -16279,9 +20242,18 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>)
+				return ((List<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -16392,7 +20364,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createBenzolRingPattern_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -16409,7 +20381,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createBenzolRingPattern_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -16426,7 +20398,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createBenzolRingPattern_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -16443,7 +20415,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createBenzolRingPattern_SubNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 0;} }
+			public override int NumberOfEmbeddedGraphs { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -16460,7 +20432,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createBenzolRingPattern_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -16477,7 +20449,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createBenzolRingPattern_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -16494,7 +20466,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum createBenzolRingPattern_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -16509,6 +20481,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createBenzolRingPattern.instance.pat_createBenzolRingPattern; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_createBenzolRingPattern(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_createBenzolRingPattern nextWithSameHash;
@@ -16545,9 +20518,18 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>)
+				return ((List<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -16667,7 +20649,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteBenzolRingPattern_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -16684,7 +20666,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteBenzolRingPattern_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -16701,7 +20683,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteBenzolRingPattern_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -16720,7 +20702,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteBenzolRingPattern_SubNums { @_sub0, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -16739,7 +20721,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteBenzolRingPattern_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -16756,7 +20738,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteBenzolRingPattern_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -16773,7 +20755,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteBenzolRingPattern_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -16788,6 +20770,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_deleteBenzolRingPattern.instance.pat_deleteBenzolRingPattern; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_deleteBenzolRingPattern(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_deleteBenzolRingPattern nextWithSameHash;
@@ -16826,9 +20809,18 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>)
+				return ((List<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -16948,7 +20940,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteInModifyBenzolRingPattern_NodeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
-			public override int NumberOfNodes { get { return 0;} }
+			public override int NumberOfNodes { get { return 0; } }
 			public override GRGEN_LIBGR.INode getNodeAt(int index)
 			{
 				switch(index) {
@@ -16965,7 +20957,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteInModifyBenzolRingPattern_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
-			public override int NumberOfEdges { get { return 0;} }
+			public override int NumberOfEdges { get { return 0; } }
 			public override GRGEN_LIBGR.IEdge getEdgeAt(int index)
 			{
 				switch(index) {
@@ -16982,7 +20974,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteInModifyBenzolRingPattern_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public override IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public override int NumberOfVariables { get { return 0;} }
+			public override int NumberOfVariables { get { return 0; } }
 			public override object getVariableAt(int index)
 			{
 				switch(index) {
@@ -17001,7 +20993,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteInModifyBenzolRingPattern_SubNums { @br, END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
-			public override int NumberOfEmbeddedGraphs { get { return 1;} }
+			public override int NumberOfEmbeddedGraphs { get { return 1; } }
 			public override GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
@@ -17020,7 +21012,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteInModifyBenzolRingPattern_AltNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
-			public override int NumberOfAlternatives { get { return 0;} }
+			public override int NumberOfAlternatives { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getAlternativeAt(int index)
 			{
 				switch(index) {
@@ -17037,7 +21029,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteInModifyBenzolRingPattern_IterNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
-			public override int NumberOfIterateds { get { return 0;} }
+			public override int NumberOfIterateds { get { return 0; } }
 			public override GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
@@ -17054,7 +21046,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			public enum deleteInModifyBenzolRingPattern_IdptNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public override IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
-			public override int NumberOfIndependents { get { return 0;} }
+			public override int NumberOfIndependents { get { return 0; } }
 			public override GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
@@ -17069,6 +21061,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_deleteInModifyBenzolRingPattern.instance.pat_deleteInModifyBenzolRingPattern; } }
+			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_deleteInModifyBenzolRingPattern(this); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_deleteInModifyBenzolRingPattern nextWithSameHash;
@@ -17107,9 +21100,18 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 		}
 
+
+		public static List<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern> ConvertAsNeeded(object parameter)
+		{
+			if(parameter is List<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>)
+				return ((List<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>)parameter);
+			else
+				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
 	}
 
-	public partial class MatchFilters
+	
+	public partial class ArrayHelper
 	{
 	}
 
@@ -22103,13 +26105,6 @@ label0: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>)
-                return ((List<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -23368,13 +27363,6 @@ label0: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>)
-                return ((List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -24177,13 +28165,6 @@ label0: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>)
-                return ((List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -24910,13 +28891,6 @@ label0: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>)
-                return ((List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -25738,13 +29712,6 @@ label3: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>)
-                return ((List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -26777,13 +30744,6 @@ label3: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>)
-                return ((List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -27984,13 +31944,6 @@ label3: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>)
-                return ((List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -29120,13 +33073,6 @@ label3: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>)
-                return ((List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -29367,13 +33313,6 @@ label3: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>)
-                return ((List<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -30492,13 +34431,6 @@ label3: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>)
-                return ((List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -31546,13 +35478,6 @@ label3: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>)
-                return ((List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -31793,13 +35718,6 @@ label3: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>)
-                return ((List<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -32877,13 +36795,6 @@ label3: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>)
-                return ((List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -33890,13 +37801,6 @@ label3: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>)
-                return ((List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -34137,13 +38041,6 @@ label3: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>)
-                return ((List<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -34411,13 +38308,6 @@ label3: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>)
-                return ((List<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -34658,13 +38548,6 @@ label3: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>)
-                return ((List<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -34932,13 +38815,6 @@ label3: ;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
         }
-        public static List<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>)
-                return ((List<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
-        }
     }
     
     /// <summary>
@@ -35204,13 +39080,6 @@ label3: ;
                 case "removeLastFraction": matches.Filter_removeLastFraction((System.Double)(filter.Arguments[0])); break;
                 default: throw new Exception("Unknown filter name " + filter.PackagePrefixedName + "!");
             }
-        }
-        public static List<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern> ConvertAsNeeded(object parameter)
-        {
-            if(parameter is List<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>)
-                return ((List<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>)parameter);
-            else
-                return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>((IList<GRGEN_LIBGR.IMatch>)parameter);
         }
     }
     
@@ -35518,6 +39387,1341 @@ label3: ;
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override IList ArrayOrderAscendingBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "BenzolRing":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNTTotallyFolded":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNTChain":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "ToluolCore":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "ToluolCoreNotC6Nitro":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "Toluol":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNTUnfolded":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createTNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "DNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "DNTUnfolded":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createDNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNB":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNBUnfolded":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createTNB":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "keepBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "deleteBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "deleteInModifyBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayOrderDescendingBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "BenzolRing":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNTTotallyFolded":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNTChain":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "ToluolCore":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "ToluolCoreNotC6Nitro":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "Toluol":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNTUnfolded":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createTNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "DNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "DNTUnfolded":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createDNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNB":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNBUnfolded":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createTNB":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "keepBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "deleteBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "deleteInModifyBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayGroupBy(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "BenzolRing":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNTTotallyFolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTTotallyFolded_groupBy_c1(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNTTotallyFolded_groupBy_c2(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNTTotallyFolded_groupBy_c3(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNTTotallyFolded_groupBy_c4(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNTTotallyFolded_groupBy_c5(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNTTotallyFolded_groupBy_c6(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "TNTChain":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTChain_groupBy_c1(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNTChain_groupBy_c2(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNTChain_groupBy_c3(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNTChain_groupBy_c4(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNTChain_groupBy_c5(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNTChain_groupBy_c6(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "ToluolCore":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCore_groupBy_c1(GRGEN_ACTIONS.Rule_ToluolCore.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "ToluolCoreNotC6Nitro":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCoreNotC6Nitro_groupBy_c1(GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "Toluol":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_Toluol_groupBy_c1(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_Toluol_groupBy_c2(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_Toluol_groupBy_c3(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_Toluol_groupBy_c4(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_Toluol_groupBy_c5(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_Toluol_groupBy_c6(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "TNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNT_groupBy_c1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNT_groupBy_c2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNT_groupBy_c3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNT_groupBy_c4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNT_groupBy_c5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNT_groupBy_c6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_TNT_groupBy__edge0(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_TNT_groupBy__edge1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_TNT_groupBy__edge2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_TNT_groupBy__edge3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_TNT_groupBy__edge4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_TNT_groupBy__edge5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_TNT_groupBy__edge6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_TNT_groupBy__edge7(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_TNT_groupBy__edge8(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "TNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy_c1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy_c2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy_c3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy_c4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy_c5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy_c6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy_c(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node1":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node2":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "n2":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy_n2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node3":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node4":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node5":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "n4":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy_n4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node6":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node7":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node8":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "n6":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy_n6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node9":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node10":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__node10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge9":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge10":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge11":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge11(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge12":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge12(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge13":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge13(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge14":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge14(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge15":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge15(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge16":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge16(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge17":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge17(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge18":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge18(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge19":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge19(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge20":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge20(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge21":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge21(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge22":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge22(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge23":
+                        return ArrayHelper.Array_TNTUnfolded_groupBy__edge23(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "createTNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "DNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNT_groupBy_c1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_DNT_groupBy_c2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_DNT_groupBy_c3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_DNT_groupBy_c4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_DNT_groupBy_c5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_DNT_groupBy_c6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_DNT_groupBy__edge0(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_DNT_groupBy__edge1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_DNT_groupBy__edge2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_DNT_groupBy__edge3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_DNT_groupBy__edge4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_DNT_groupBy__edge5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_DNT_groupBy__edge6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_DNT_groupBy__edge7(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_DNT_groupBy__edge8(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "DNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy_c1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy_c2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy_c3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy_c4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy_c5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy_c6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy_c(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__node0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node1":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__node1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node2":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__node2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "n2":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy_n2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node3":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__node3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node4":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__node4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node5":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__node5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "n4":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy_n4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node6":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__node6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node7":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__node7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node8":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__node8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node9":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__node9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge9":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge10":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge10(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge11":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge11(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge12":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge12(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge13":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge13(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge14":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge14(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge15":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge15(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge16":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge16(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge17":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge17(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge18":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge18(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge19":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge19(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge20":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge20(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge21":
+                        return ArrayHelper.Array_DNTUnfolded_groupBy__edge21(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "createDNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNB":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNB_groupBy_c1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNB_groupBy_c2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNB_groupBy_c3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNB_groupBy_c4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNB_groupBy_c5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNB_groupBy_c6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_TNB_groupBy__edge0(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_TNB_groupBy__edge1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_TNB_groupBy__edge2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_TNB_groupBy__edge3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_TNB_groupBy__edge4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_TNB_groupBy__edge5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_TNB_groupBy__edge6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_TNB_groupBy__edge7(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_TNB_groupBy__edge8(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "TNBUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy_c1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy_c2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy_c3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy_c4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy_c5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy_c6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__node0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "n2":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy_n2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node1":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__node1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node2":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__node2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node3":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__node3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "n4":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy_n4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node4":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__node4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node5":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__node5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node6":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__node6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "n6":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy_n6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node7":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__node7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node8":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__node8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge9":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge9(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge10":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge10(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge11":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge11(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge12":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge12(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge13":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge13(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge14":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge14(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge15":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge15(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge16":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge16(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge17":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge17(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge18":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge18(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge19":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge19(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge20":
+                        return ArrayHelper.Array_TNBUnfolded_groupBy__edge20(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "createTNB":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "keepBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "deleteBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "deleteInModifyBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
+
+        public override IList ArrayKeepOneForEach(IList array, string member)
+        {
+            if(array.Count == 0)
+                return array;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return null;
+            if(array[0] == null)
+                return null;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return null;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "BenzolRing":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNTTotallyFolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTTotallyFolded_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNTTotallyFolded_keepOneForEachBy_c2(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNTTotallyFolded_keepOneForEachBy_c3(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNTTotallyFolded_keepOneForEachBy_c4(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNTTotallyFolded_keepOneForEachBy_c5(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNTTotallyFolded_keepOneForEachBy_c6(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "TNTChain":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTChain_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNTChain_keepOneForEachBy_c2(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNTChain_keepOneForEachBy_c3(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNTChain_keepOneForEachBy_c4(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNTChain_keepOneForEachBy_c5(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNTChain_keepOneForEachBy_c6(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "ToluolCore":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCore_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_ToluolCore.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "ToluolCoreNotC6Nitro":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCoreNotC6Nitro_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "Toluol":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_Toluol_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_Toluol_keepOneForEachBy_c2(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_Toluol_keepOneForEachBy_c3(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_Toluol_keepOneForEachBy_c4(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_Toluol_keepOneForEachBy_c5(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_Toluol_keepOneForEachBy_c6(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "TNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy_c2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy_c3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy_c4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy_c5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy_c6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy__edge0(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy__edge1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy__edge2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy__edge3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy__edge4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy__edge5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy__edge6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy__edge7(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_TNT_keepOneForEachBy__edge8(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "TNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy_c2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy_c3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy_c4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy_c5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy_c6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "c":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy_c(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node1":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node2":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "n2":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy_n2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node3":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node4":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node5":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "n4":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy_n4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node6":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node7":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node8":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "n6":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy_n6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node9":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_node10":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__node10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge9":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge10":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge11":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge11(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge12":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge12(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge13":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge13(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge14":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge14(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge15":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge15(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge16":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge16(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge17":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge17(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge18":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge18(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge19":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge19(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge20":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge20(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge21":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge21(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge22":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge22(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge23":
+                        return ArrayHelper.Array_TNTUnfolded_keepOneForEachBy__edge23(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "createTNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "DNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy_c2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy_c3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy_c4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy_c5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy_c6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy__edge0(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy__edge1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy__edge2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy__edge3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy__edge4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy__edge5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy__edge6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy__edge7(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_DNT_keepOneForEachBy__edge8(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "DNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy_c2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy_c3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy_c4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy_c5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy_c6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "c":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy_c(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__node0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node1":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__node1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node2":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__node2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "n2":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy_n2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node3":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__node3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node4":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__node4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node5":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__node5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "n4":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy_n4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node6":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__node6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node7":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__node7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node8":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__node8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_node9":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__node9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge9":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge10":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge10(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge11":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge11(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge12":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge12(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge13":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge13(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge14":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge14(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge15":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge15(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge16":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge16(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge17":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge17(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge18":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge18(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge19":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge19(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge20":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge20(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    case "_edge21":
+                        return ArrayHelper.Array_DNTUnfolded_keepOneForEachBy__edge21(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "createDNT":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "TNB":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy_c2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy_c3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy_c4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy_c5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy_c6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy__edge0(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy__edge1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy__edge2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy__edge3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy__edge4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy__edge5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy__edge6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy__edge7(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_TNB_keepOneForEachBy__edge8(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "TNBUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy_c1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "c2":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy_c2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "c3":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy_c3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "c4":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy_c4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "c5":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy_c5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "c6":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy_c6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node0":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__node0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "n2":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy_n2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node1":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__node1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node2":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__node2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node3":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__node3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "n4":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy_n4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node4":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__node4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node5":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__node5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node6":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__node6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "n6":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy_n6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node7":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__node7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_node8":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__node8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge0":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge1":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge2":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge3":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge4":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge5":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge6":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge7":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge8":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge9":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge9(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge10":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge10(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge11":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge11(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge12":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge12(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge13":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge13(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge14":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge14(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge15":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge15(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge16":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge16(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge17":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge17(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge18":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge18(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge19":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge19(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    case "_edge20":
+                        return ArrayHelper.Array_TNBUnfolded_keepOneForEachBy__edge20(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array));
+                    default:
+                        return null;
+                    }
+                case "createTNB":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "keepBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "createBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "deleteBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                case "deleteInModifyBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return null;
+                    }
+                default:
+                    return null;
+                }
+            }
+        }
         public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
     }

@@ -1,9 +1,10 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun May 24 19:21:52 CEST 2020
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Wed Jul 29 12:20:50 CEST 2020
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -3914,6 +3915,610 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		private void FullyInitializeExternalTypes()
 		{
 			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+		}
+
+		public override IList ArrayOrderAscendingBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Entity":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "MethodBody":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Expression":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Declaration":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Class":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Feature":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "MethodSignature":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Attribute":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Constant":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Variabel":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "contains":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "references":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "hasType":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "bindsTo":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "uses":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "writesTo":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "calls":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "methodBodyContains":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "classContainsClass":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayOrderDescendingBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Entity":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "MethodBody":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Expression":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Declaration":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Class":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Feature":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "MethodSignature":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Attribute":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Constant":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Variabel":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "contains":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "references":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "hasType":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "bindsTo":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "uses":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "writesTo":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "calls":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "methodBodyContains":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "classContainsClass":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayGroupBy(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Entity":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "MethodBody":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Expression":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Declaration":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Class":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Feature":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "MethodSignature":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Attribute":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Constant":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Variabel":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "contains":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "references":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "hasType":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "bindsTo":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "uses":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "writesTo":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "calls":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "methodBodyContains":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "classContainsClass":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
+		}
+
+		public override IList ArrayKeepOneForEach(IList array, string member)
+		{
+			if(array.Count == 0)
+				return array;
+			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+				return null;
+			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Entity":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "MethodBody":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Expression":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Declaration":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Class":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Feature":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "MethodSignature":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Attribute":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Constant":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Variabel":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "contains":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "references":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "hasType":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "bindsTo":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "uses":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "writesTo":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "calls":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "methodBodyContains":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "classContainsClass":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			default: return null;
+			}
 		}
 
 		public override void FailAssertion() { Debug.Assert(false); }
