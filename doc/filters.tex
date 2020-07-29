@@ -26,7 +26,7 @@ You can access the members of a match type value in form of the known \emph{Memb
 In Example~\ref{examplebasicpatternmatching}, the match type \texttt{match<r>} contains the nodes \texttt{n:N} and \texttt{m:Node}. The edge \texttt{\_edge0:Edge} only appears at API level, it stems from automatic naming of the anonymous edge in the pattern -- if you want to access a pattern element, assign it a name.
 
 Furthermore, you may execute a \indexed{\texttt{copy}} function to get a clone of a match; it is defined with the signature \texttt{copy(match<T>):match<T>}.\indexmain{copy}
-Exceeding the already introduced match type operations, you can also apply a \emph{MatchClassConstructor} \texttt{match<class mc>()} in order to create a value of a match class type; the values of the action match types in contrast are always created by pattern matching.
+Exceeding these already introduced match type operations, you can also apply a \emph{MatchClassConstructor} \texttt{match<class mc>()} in order to create a value of a match class type; the values of the action match types in contrast are always created by pattern matching.
 
 A rule query with test \texttt{t} specified by \texttt{[?t]} (cf. \ref{sec:patternbasedgraphquery}) yields an  \texttt{array<match<t>>}.
 An iterated query specified by \texttt{[?it]} (cf. \ref{sec:primexpr}) yields an \texttt{array<match<t.it>>}.

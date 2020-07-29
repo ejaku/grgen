@@ -1,7 +1,7 @@
 \chapter{Sequence Graph Queries and Updates}\label{cha:graphquery}%\indexmain{sequence computations}\label{seqcomp}
 
-In this chapter we take a look at sequence computations, which are not concerned with controlling rules, but with querying the graph (sequence expressions) or directly manipulating the graph (sequence statements).
-Graph querying may occur in two ways, for one with global functions that return elementary data, for the other with pattern based queries (with rules/tests), that return an array of pattern matches.
+In this chapter we take a look at the sequence computations, which are not concerned with controlling rules, but with querying the graph (in the form of sequence expressions) or directly manipulating the graph (in the form of sequence statements).
+Graph querying may occur in two ways, for one with global functions that return elementary data, for the other with pattern based queries (employing rules/tests), that return an array of pattern matches.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Pattern Matching Based Queries}\label{sec:patternbasedgraphquery}
@@ -12,15 +12,15 @@ Graph querying may occur in two ways, for one with global functions that return 
 
 The \emph{RuleQuery} clause applies a single rule or test.
 Note that this is a \emph{Rule} as specified in Section~\ref{sec:ruleapplication}, that may receive input parameters, and may have filters applied to.
-The filter calls (which allow e.g. to order the matches list and rewrite only the top ones, or to filter symmetric matches) are explained in \ref{sub:filters}.
+The filter calls (which allow e.g. to order the matches list and rewrite only the top ones, or to filter symmetric matches) are explained in Chapter~\ref{sub:filters}.
 
-The square braces (\texttt{[]}) and the \texttt{?} are part of the syntax, but act like the corresponding rule modifiers specified in \label{sec:ruleapplication}, switching for one a rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule, and for the other searching for all pattern matches.
+The square braces (\texttt{[]}) and the \texttt{?} are part of the syntax, but act like the corresponding rule modifiers specified in Section~\ref{sec:ruleapplication}, switching for one a rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule, and searching for the other for all pattern matches.
 
 The execution semantics is: all matches of the rule pattern in the host graph are searched for, and returned as an \texttt{array} of \texttt{match<r>}.
-For dedicated query purpose, a test is to be preferred, as the rewrite part won't be applied anyway. 
+For query purpose, a \texttt{test} is to be preferred over a \texttt{rule}, as the rewrite part won't be applied anyway. 
 No values are returned in either case, and no return assignments specified.
 The data of interest is to be extracted from the array of matches, or the match (type) respectively.
-Towards this goal, esp. the array accumulation methods are to be applied, cf. Section~\ref{sec:arrayexpr}, and the filters before, cf. \ref{sub:filters}, as only the extract method is available from the array query methods.
+Towards this goal, the filters are to be applied, cf. Chapter~\ref{sub:filters}, but esp. the array accumulation and query methods, cf. Section~\ref{sec:arrayexpr}, notably the \texttt{extract} method.
 No debugging modifier \texttt{\%} may be applied, rule queries are evaluated silently.
 
 \begin{example}
@@ -108,7 +108,7 @@ In order to obtain all interests (\texttt{namedObject}s) all persons are interes
 eval [?interests(null)\keepOneForEach<interestString>]
   \end{grshell}
 
-It fetches for an unspecified subject (\texttt{null}, thus for all subjects, due to the \texttt{null} specifier at the parameter in the test, which causes searching) all interests, in the form of \texttt{array<match<interests>>}. The array is freed from duplicates within the \texttt{interestString} member, so only matches with distinct \texttt{interestString}s remain (the first distinct value from the member in the array is kept).
+For an unspecified subject (\texttt{null}, thus for all subjects, due to the \texttt{null} specifier at the parameter in the test, which causes searching), it fetches all interests, in the form of \texttt{array<match<interests>>}. The array is freed from duplicates within the \texttt{interestString} member, so only matches with distinct \texttt{interestString}s remain (the first distinct value from the member in the array is kept).
 
 In order to obtain the overall intensity of interests of a single person, we use the following query in \GrShell:
 
@@ -138,9 +138,9 @@ eval [?sameCompanySharedInterest(::subject)\orderDescendingBy<score>\keepFirst(3
 
 It searches for all matches of pattern \texttt{sameCompanySharedInterest} for the given subject, in the form of \texttt{array<match<sameCompanySharedInterest>>}.
 The array is then ordered descendingly alongside \texttt{score} (which just gives the amount of shared interests), and clipped to the first 3 matches, thus persons.
-Besides the order-by known from other query languages that shows up directly in the query expression, is a kind of group-by employed, in the test used, with a common pattern giving the shared part, and differences encapsulated in the iterated (we don't obtain a cartesian product of all matches and then group afterwards to factor out common parts, but match common parts and extend them by the differences to give the complete match).
-The interesting information from the iterated is extracted and accumulated with an iterated query (cf. \ref{sec:primexpr}), which returns an array of the matched iterated pattern (\texttt{array<match<sameCompanySharedInterest.it>>}).
-(It can be seen as an get-all-matches rule query inside a rule, and an iterated as a nested all-bracketed rule).
+Besides the order-by that shows up directly in the query expression, is a kind of group-by employed in the used test, with a common pattern giving the shared part, and the differences being encapsulated in the iterated (we don't obtain a cartesian product of all matches and then group afterwards to factor out common parts, but match common parts and extend them by the differences to give the complete match).
+The interesting information from the iterated is extracted and accumulated with an iterated query (cf. \ref{sec:primexpr}), which returns an array of matches of the iterated pattern (\texttt{array<match<sameCompanySharedInterest.it>>}).
+(The iterated query can be seen as a get-all-matches rule query inside a rule, and the iterated as a nested all-bracketed rule).
 
 We improve upon the last query by obtaining the persons working in the same company with the highest intensity of interest regarding their shared interests:
 
@@ -149,7 +149,7 @@ eval [?sameCompanySharedWeightedInterestClipped([?fetchByName("hans")][0].namedO
   \end{grshell}
 	
 It employs a subquery \texttt{fetchByName} to obtain a dedicated person, i.e. \texttt{namedObject} by name, reducing the resulting array of matches first to a single array element (the first one) and then to a single member of the match (using the name from the named graph would be preferable in a model fully fitting to the \GrG-technological space); utilizing a query to compute an argument is also of interest in regular rule applications.
-Furthermore, it computes the shared interest in an object as the smaller of the interests of both subjects in the object, accumulating over all objects the subjects are interested in, with a cut-off applied by a clipAmount.
+Furthermore, it computes the shared interest in an object as the smaller of the interests of both subjects in the object, accumulating over all objects the subjects are interested in, with a cut-off applied by a \texttt{clipAmount}.
 \end{example}
 
 \subsubsection*{Multi Rule Query}
@@ -161,9 +161,9 @@ Furthermore, it computes the shared interest in an object as the smaller of the 
 
 The \emph{MultiRuleQuery} clause applies multiple (distinct) rules or tests, that all implement the same match class, cf. Section~\ref{sec:matchclass}).
 It defines a query version of the \emph{MultiRuleExecution}, cf. Section~\ref{sec:multiruleapplication}.
-It does not allow return assignments in contrast to that one, as with all pattern-based query constructs only the pattern elements -- but all of them -- are accessible.
-In contrast to the \emph{MultiRuleExecution}, a \emph{MatchClassSpec} is required. 
-It defines the type of the result (it cannot be derived from the rules, as these may implement multiple match classes).
+It does not allow return assignments in contrast to the latter one, as no output values are available; only the pattern elements -- but all of them -- are accessible (this holds for all pattern-based query constructs).
+In contrast to the \emph{MultiRuleExecution}, a \emph{MatchClassSpec} is required.
+It defines the type of the result (it cannot be derived from the rules, as these may implement multiple (shared) match classes).
 
 \begin{example}
 The rules from Example~\ref{exmatchclass} can be applied as a query with e.g. \\
@@ -260,7 +260,7 @@ Instead of querying the graph with a sequence expression, and continuing process
 The \texttt{for} matches loop allows to iterate through the matches found for an all-bracketed rule reduced to a test (or a test); i.e. the rule is not applied, we only iterate its matches.
 The loop variable must be of type \texttt{match<r>} with \texttt{r} being the name of the rule matched (the type must be statically known).
 The elements (esp. the nodes and edges) of the pattern of the matched rule can then be accessed by applying the \texttt{.}-operator on the loop variable, giving the name of the element of interest after the dot.
-Note: the elements must be assigned to a variable in order to access their attributes, a direct attribute access after the match access is not possible.
+Note: the elements must be assigned to a variable so their attributes can be accessed, a direct attribute access after the match access is not possible.
 Note: the match object allows only to access the top level nodes, edges, or variables.
 If you use subpatterns or nested patterns and want to access elements found by them, you have to \texttt{yield}(\ref{sub:yield}) them out to the top-level pattern.
 
@@ -279,7 +279,7 @@ With \texttt{count[?r]=>c} the matches are only counted, no rewrites are carried
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Query Result Combination (Auto-generated functions)}
 
-You can combine the results of multiple tests or rules with functions that receive arrays of match type as inputs and return an array of match class type.
+You can combine the results of multiple tests or rules with functions that receive arrays of match types as inputs and return an array of match class type.
 You may do so for one by manually implemented functions, and for the other by auto-generated functions.
 
 \begin{example}
@@ -336,11 +336,11 @@ function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref match
   \end{grgen}
 \end{example}
 
-Example \ref{exjoins} shows how to combine the matches of the querying tests \texttt{sameCompany} and \texttt{sharedInterest} in the manner of a SQL natural join statement with the \texttt{naturalJoin} function into a \texttt{SameCompanySharedInterest} match class (cf. \ref{sec:matchclass} for match classes; the natural join is a cartesian product with a selection condition requiring value equivalence for common names (columns) in the matches (single row) of the left array (table) and the right array (table)).
+Example \ref{exjoins} shows how to combine the matches of the querying tests \texttt{sameCompany} and \texttt{sharedInterest} in the manner of a SQL natural join statement with the \texttt{naturalJoin} function into a \texttt{SameCompanySharedInterest} match class (cf. Section~\ref{sec:matchclass} for match classes; the natural join is a cartesian product with a selection condition requiring value equivalence for common names (to be seen as columns) in the matches (each one to be seen as a row) of the left array (table) and the right array (table)).
 
 The match of the pattern of the test \texttt{sameCompany} contains the named members \texttt{subject}, \texttt{person}, and \texttt{company}, while the match of the pattern of the test \texttt{sharedInterest} contains the named members \texttt{subject}, \texttt{person}, and \texttt{interest}.
-They are combined into a \texttt{SameCompanySharedInterest} class, with single \texttt{subject} and \texttt{person} entries (a name can only appear once, you'd have to add a disambiguating prefix in order to keep two entries stemming from fields with same name, but as they'd contain the same entries due to the join, we can just use a single unprefixed entry without loosing information), and \texttt{company} as well as \texttt{interest} members.
-The combination is computed from the matches that agree in their \texttt{subject} and \texttt{person} fields (i.e. have equal values), so you get an array of matches of the common companies and shared interests of two persons (i.e. the persons that work in the same (have one common) company and have a shared (the same) interest, with subject being fixed this amounts to his/her colleagues with shared interests).
+They are combined into a \texttt{SameCompanySharedInterest} class, with single \texttt{subject} and \texttt{person} entries (a name can only appear once, you'd have to add a disambiguating prefix in order to keep two entries stemming from fields with same name, but as they'd contain the same entries due to the join anyway, we can just use a single unprefixed entry without loosing information), and \texttt{company} as well as \texttt{interest} members.
+The combination is computed from the matches that agree in their \texttt{subject} and \texttt{person} fields (i.e. have equal values), so you get an array of matches of the common companies and shared interests of two persons -- i.e. the persons that work in the same (have one common) company and have a shared (the same) interest, with subject being fixed this amounts to his/her colleagues with shared interests.
 
 The upper part gives a manually implemented version, the lower part shows how to compute the natural join with an auto-generated function body -- with the resulting code being the same as in the manually implemented version.
 It also shows how to compute the match class with an auto-generated match class body, combining the specified match types under name merging -- the resulting code is also the same as in the manually implemented version.
@@ -353,7 +353,7 @@ Note that only named pattern entities are contained in the result; the join also
   AutoMatchClassBody: 'auto' '(' VariableIdent '|' VariableIdent ')';
 \end{rail}\ixnterm{AutoFunctionBody}\ixnterm{AutoMatchClassBody}\ixkeyw{auto}
 
-Another auto-generated function body is available for the cartesian product, noted down with \texttt{auto(join<cartesian>(leftArray, rightArray)}.
+Another auto-generated function body is available for the cartesian product, noted down with \texttt{auto(join<cartesian>(leftArray, rightArray))}.
 The implementation is the same like the one for the natural join, with exception of the missing \texttt{if} condition (so no real cartesian join is available in case of common names thus shared fields, you have to prepend/append name suffixes to obtain a result containing the values from both inputs).
 The auto generated functions also support arrays of match classes as input.
 
@@ -361,7 +361,7 @@ The auto generated functions also support arrays of match classes as input.
 
 The equivalent of an SQL GROUP BY statement with an accumulation function can be generated with the \texttt{keepOneForEach<X>Accumulate<Y>By<Z>} filter, cf. Section~\ref{filter:auto-generated}.
 It removes the entries in the matches array that are duplicates in/of member X, the member Y of the remaining entry receives the result of accumulating the array of all values of Y of the same X by the array accumulation method Z (the available ones are listed in \ref{arrayaccumulationmethod}).
-It allows to "fuse" results, the quarantine test (\verb#tests\quarantine#) shows how to use it for summing scores of entries that fall together.
+This \emph{filter} allows to "fuse" results, the quarantine test (to be found under \verb#tests\quarantine#) shows how to use it for summing scores of entries that fall together.
 
 \begin{example}
   \begin{grgen}
@@ -391,9 +391,10 @@ rule quarantineByRiskLodging implements QuarantineScore
 	\end{grshell}
 \end{example}
 
-An equivalent array-of-matches processing function can be generated with the function body \texttt{auto(target.keepOneForEach<X>Accumulate<Y>By<Z>)}.
-Being a function, it can be applied also after combining multiple matches arrays -- filters must be applied directly after matching before the matches array is returned for further processing.
-(It is only supported on arrays of matches but not on arrays of node/edge types, in contrast to the auto-supplied array methods listed in \ref{arraybymemberaccessmethod}, because of the side effect of accumulation on the accumulation attribute of the graph element, thus the graph.)
+An equivalent array-of-matches processing \emph{function} can be generated with the function body \texttt{auto(target.keepOneForEach<X>Accumulate<Y>By<Z>)}.
+(The auto-generation is only supported for arrays of matches but not for arrays of node/edge types, in contrast to the auto-supplying of the array methods listed in \ref{arraybymemberaccessmethod} that support node/edge types (and attributes), because of the side effect of accumulation on the accumulation attribute of the graph element, thus the graph.)
+Being a function, it can be applied also after matches array return, in contrast to filters that must be applied directly after matching before the matches array is returned for further processing.
+Applying a function is esp. of interest for the use case of combining multiple matches arrays.
 
 \begin{example}
   \begin{grgen}

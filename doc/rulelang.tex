@@ -345,7 +345,7 @@ For graph rewrite sequences in \GrShell\ see Section~\ref{grsthings}.
 \end{example}
 
 \begin{rail}
-  ActionSignature: IdentDecl (() | Parameters) (() | ':' ReturnTypes) (() | ':' Implements);
+  ActionSignature: IdentDecl (() | Parameters) (() | ':' ReturnTypes) (() | Implements);
 \end{rail}\ixnterm{ActionSignature}
 The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and optionally names and types of formal \indexed{parameter}s as well as a list of \indexed{return type}s.
 Parameters and return types provide users with the ability to exchange graph elements between rules, similar to parameters of procedural languages.

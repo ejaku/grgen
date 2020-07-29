@@ -16,7 +16,7 @@ The result of the rule prefixed sequence is \texttt{true} when at least one of t
 
 Note that this is a \emph{Rule} as specified in Section~\ref{sec:ruleapplication}, that may receive input parameters, and may have filters applied to.
 Furthermore, its return values may get assigned.
-This happens like for a regular rule call, i.e. \emph{not} in the form of an array per return parameter like for an all-bracketed rule, but in the form of a scalar -- for every rewrite performed, the return parameters resulting of that rewrite are bound.
+This happens like for a regular rule call, i.e. \emph{not} in the form of an array per return parameter like for an all-bracketed rule, but in the form of a scalar -- for every rewrite performed, the return parameters resulting from exactly that rewrite are bound.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -184,7 +184,7 @@ test s implements Score
   MatchClassFilterCall: ( MatchClassIdent '.' FilterIdent ('(' Arguments ')'|()) | MatchClassIdent '.' FilterIdent '<' VariableIdent '>' );
 \end{rail}\ixnterm{MatchClassFilterCalls}\ixnterm{MatchClassFilterCall}
 
-Match class filters (defined on the match class) are employed with \verb#\mc.f# notation at multi rule calls from the sequences language cf. \ref{sec:multiruleapplication} and \ref{sec:multitransaction}, i.e. the match class identifier must be given as a prefix before the regular filter call.
+Match class filters (defined on the match class) are employed with \verb#\mc.f# notation at multi rule calls from the sequences language, cf. Section~\ref{sec:multiruleapplication} and Section~\ref{sec:multitransaction}, i.e. the match class identifier must be given as a prefix before the regular filter call.
 This holds for user-implemented, auto-generated, and auto-supplied filters; the name resolving rules for filter calls apply, cf. Section~\ref{sec:filtercalls}.
 
 \begin{example}

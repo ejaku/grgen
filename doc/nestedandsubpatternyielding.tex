@@ -23,7 +23,7 @@ The content before the split is mostly related to declarative pattern matching a
 \end{table}
 
 As a refinement regarding the execution semantics:
-we have two runs, the first matching run constructs a match object tree (reflecting the LHS pattern parts and their nesting structure),
+there are two runs, the first matching run constructs a match object tree (reflecting the LHS pattern parts and their nesting structure),
 the second run walks the match object tree and carries out rewriting alongside it.
 After the rewriting run are the embedded execs executed (they get encapsulated and stored in closures during the walk, the top-level ones are executed directly).
 
@@ -45,7 +45,7 @@ and of new LHS def elements that receive the data from bottom-up yielding
 
 \section{Yielding Outwards After Pattern Matching} 
 
-Sometimes one needs to bring something matched within a nested or subpattern to an outer pattern containing it (nested patterns) or calling it (subpatterns).
+Sometimes one needs to bring something matched within a nested or subpattern to an outer pattern containing it (in case of nested patterns) or calling it (in case of subpatterns).
 So one can return it out, or accumulate information from matched iterated pattern instances. 
 
 \subsection{LHS def variables} 
@@ -69,7 +69,7 @@ marking them as output parameters.
 
 \subsubsection*{Yield blocks} 
 
-These elements can then be yielded to by \texttt{eval} statements from within a \texttt{yield} block
+These elements can then be yielded to by eval statements from within a \texttt{yield} block
 (maybe with iterated accumulation) and subpattern usages.
 A \texttt{yield} block is a constrained \texttt{eval} block that can be given in the pattern part;
 it does not allow to assign to or change non-\texttt{def} variables, or carry out graph-changing commands.
@@ -220,6 +220,8 @@ test countOfEdges(start:Node) : (int)
   \end{grgen}
 \end{example}
 
+\pagebreak
+
 \subsubsection*{Yield expressions} 
 
 \begin{rail} 
@@ -227,7 +229,7 @@ test countOfEdges(start:Node) : (int)
 \end{rail}\ixnterm{YieldExpression}\ixkeyw{yield}
 
 For more convenience, the notational shorthand of in-place yielding at a def variable declaration is available.
-The syntactic sugar with the syntax \texttt{def var v:T = yield(expr);} is de-sugared to a plain \texttt{def var v:T;} declaration and an assignment in an implicitly added \verb#yield { v = expr; }# block.
+This syntactic sugar with the syntax \texttt{def var v:T = yield(expr);} is de-sugared to a plain \texttt{def var v:T;} declaration and an assignment in an implicitly added \verb#yield { v = expr; }# block.
 It is not to be confused with separate initialization, combined: \texttt{def var v:T = init-expr = yields(expr)} --- the init-expr is evaluated before the yields of nested patterns and can thus be used to give a start value for bottom-up accumulation, the in-place yielding is evaluated after nested and subpatterns were matched and yielded (only then are iterated matches available).
 
 The example from above can be formulated succintly with the yield expression.
@@ -266,6 +268,7 @@ test countOfEdges(start:Node) : (int)
   \end{grgen}
 \end{example}
 	
+\pagebreak
 	
 \subsubsection*{Iterated Filtering}\label{sub:iteratedfilter}
 
@@ -277,8 +280,8 @@ For this to work, the iterated must be firstly given a name, as described in \re
     'iterated' IteratedIdent FilterCalls ';';
 \end{rail}\ixkeyw{IteratedFiltering}
 
-The syntax of the iterated filtering specification past the \texttt{iterated} \emph{IteratedIdent} part is the same as for filter calls on a rule, e.g. \verb#r\f#, see Chapter~\ref{sub:filters} for more on this.
-Note that the feature is limited to top-level iterateds for now.
+The syntax of the iterated filtering specification past the \texttt{iterated} \emph{IteratedIdent} part is the same as for filter calls on a rule, i.e. e.g. \verb#r\f#, see Chapter~\ref{sub:filters} for more on this.
+Note that the feature is limited to top-level iterateds (for now).
 
 \begin{example}
   \begin{grgen}
