@@ -33,13 +33,20 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>();\n", matchListName);
 
             // emit code for matching all the contained rules
+            SequenceRuleCallMatcherGenerator[] ruleMatcherGenerator =
+                new SequenceRuleCallMatcherGenerator[seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences.Count];
             for(int i = 0; i < seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences.Count; ++i)
             {
-                new SequenceMultiSequenceBacktrackRuleGenerator(seqMulti, 
-                    seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule,
-                    seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Sequence,
-                    seqExprGen, seqHelper)
-                    .EmitMatching(source, seqGen, matchListName);
+                ruleMatcherGenerator[i] = new SequenceRuleCallMatcherGenerator(
+                    seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule, seqExprGen, seqHelper);
+                ruleMatcherGenerator[i].EmitMatchingAndCloning(source, "procEnv.MaxMatches");
+            }
+
+            // emit code for rule-based filtering
+            for(int i = 0; i < seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences.Count; ++i)
+            {
+                ruleMatcherGenerator[i].EmitFiltering(source);
+                ruleMatcherGenerator[i].EmitAddRange(source, matchListName);
             }
 
             // emit code for match class (non-rule-based) filtering
@@ -81,11 +88,10 @@ namespace de.unika.ipd.grGen.lgsp
             // and code for executing the corresponding sequence
             for(int i = 0; i < seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences.Count; ++i)
             {
-                new SequenceMultiSequenceBacktrackRuleGenerator(seqMulti,
-                    seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule,
-                    seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Sequence,
-                    seqExprGen, seqHelper)
-                    .EmitRewriting(source, seqGen, matchListName, enumeratorName, fireDebugEvents);
+                SequenceMultiSequenceBacktrackRuleRewritingGenerator ruleRewritingGenerator = new SequenceMultiSequenceBacktrackRuleRewritingGenerator(
+                    seqMulti, seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule,
+                    seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Sequence, seqExprGen, seqHelper);
+                ruleRewritingGenerator.EmitRewriting(source, seqGen, matchListName, enumeratorName, fireDebugEvents);
             }
 
             source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);

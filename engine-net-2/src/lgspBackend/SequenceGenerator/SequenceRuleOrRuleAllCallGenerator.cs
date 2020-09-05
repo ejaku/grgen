@@ -104,13 +104,13 @@ namespace de.unika.ipd.grGen.lgsp
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
-            SequenceRuleOrRuleAllCallRewritingGenerator rewritingGen = new SequenceRuleOrRuleAllCallRewritingGenerator(this);
+            SequenceRuleOrRuleAllCallRewritingGenerator ruleRewritingGenerator = new SequenceRuleOrRuleAllCallRewritingGenerator(this);
             if(seqRule.SequenceType == SequenceType.RuleCall)
-                rewritingGen.EmitRewritingRuleCall(source);
+                ruleRewritingGenerator.EmitRewritingRuleCall(source);
             else if(seqRule.SequenceType == SequenceType.RuleCountAllCall || !((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
-                rewritingGen.EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(source);
+                ruleRewritingGenerator.EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(source);
             else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
-                rewritingGen.EmitRewritingRuleAllCallRandom(source);
+                ruleRewritingGenerator.EmitRewritingRuleAllCallRandom(source);
 
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
