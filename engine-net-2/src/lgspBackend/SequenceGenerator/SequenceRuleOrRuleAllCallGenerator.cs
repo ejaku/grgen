@@ -69,8 +69,9 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
 
-            seqMatcherGen.EmitMatching(source, seqGen, parameters,
+            seqMatcherGen.EmitMatching(source, parameters,
                 (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches"));
+            seqMatcherGen.EmitFiltering(source);
 
             if(seqRule is SequenceRuleCountAllCall)
             {

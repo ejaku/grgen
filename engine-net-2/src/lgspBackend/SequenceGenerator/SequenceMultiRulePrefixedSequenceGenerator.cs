@@ -67,13 +67,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitMatching(SourceBuilder source, SequenceGenerator seqGen, String matchListName)
         {
-            seqMatcherGen.EmitMatchingAndClone(source, seqGen, "procEnv.MaxMatches");
-
-            source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
-            source.Indent();
-            source.AppendFrontFormat("{0}.AddRange({1});\n", matchListName, matchesName);
-            source.Unindent();
-            source.AppendFront("}\n");
+            seqMatcherGen.EmitMatchingAndCloning(source, "procEnv.MaxMatches");
+            seqMatcherGen.EmitFiltering(source);
+            seqMatcherGen.EmitAddRange(source, matchListName);
         }
 
         public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName,

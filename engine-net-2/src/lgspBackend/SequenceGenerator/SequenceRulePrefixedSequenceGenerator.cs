@@ -40,9 +40,9 @@ namespace de.unika.ipd.grGen.lgsp
             this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
 
+            seqRule = seq.Rule;
             seqMatcherGen = new SequenceRuleCallMatcherGenerator(seqRule, seqExprGen, seqHelper);
 
-            seqRule = seq.Rule;
             ArgumentExpressions = seqRule.ArgumentExpressions;
             ReturnVars = seqRule.ReturnVars;
             specialStr = seqRule.Special ? "true" : "false";
@@ -59,7 +59,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             String parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
 
-            seqMatcherGen.EmitMatching(source, seqGen, parameters, "procEnv.MaxMatches");
+            seqMatcherGen.EmitMatching(source, parameters, "procEnv.MaxMatches");
+            seqMatcherGen.EmitFiltering(source);
+            seqMatcherGen.EmitCloning(source);
 
             source.AppendFront("if(" + matchesName + ".Count == 0) {\n");
             source.Indent();
@@ -68,7 +70,6 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("} else {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seq, "false"));
-            source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 

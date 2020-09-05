@@ -41,12 +41,22 @@ namespace de.unika.ipd.grGen.lgsp
             matchesName = "matches_" + seqRule.Id;
         }
 
-        public void EmitMatchingAndClone(SourceBuilder source, SequenceGenerator seqGen, String maxMatches)
+        public void EmitMatchingAndCloning(SourceBuilder source, String maxMatches)
         {
             String parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
+            EmitMatching(source, parameters, maxMatches);
+            EmitCloning(source);
+        }
 
-            EmitMatching(source, seqGen, parameters, maxMatches);
+        public void EmitMatching(SourceBuilder source, String parameters, String maxMatches)
+        {
+            source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
+                + ".Match(procEnv, " + maxMatches + parameters + ");\n");
+            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
+        }
 
+        public void EmitCloning(SourceBuilder source)
+        {
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
             source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
@@ -54,29 +64,22 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        public void EmitMatchingAndCloneForBacktracking(SourceBuilder source, SequenceGenerator seqGen, String matchListName)
+        public void EmitFiltering(SourceBuilder source)
         {
-            String parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
+            for(int i = 0; i < seqRule.Filters.Count; ++i)
+            {
+                seqExprGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], 
+                    patternName, matchesName, seqRule.PackagePrefixedName, false);
+            }
+        }
 
-            EmitMatching(source, seqGen, parameters, "procEnv.MaxMatches");
-
+        public void EmitAddRange(SourceBuilder source, String matchListName)
+        {
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
             source.AppendFrontFormat("{0}.AddRange({1});\n", matchListName, matchesName);
             source.Unindent();
             source.AppendFront("}\n");
-        }
-
-        public void EmitMatching(SourceBuilder source, SequenceGenerator seqGen, String parameters, String maxMatches)
-        {
-            source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
-                + ".Match(procEnv, " + maxMatches + parameters + ");\n");
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-
-            for(int i = 0; i < seqRule.Filters.Count; ++i)
-            {
-                seqExprGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName, false);
-            }
         }
     }
 }

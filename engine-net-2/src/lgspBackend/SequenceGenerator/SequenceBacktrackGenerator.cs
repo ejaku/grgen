@@ -15,21 +15,23 @@ namespace de.unika.ipd.grGen.lgsp
 {
     class SequenceBacktrackGenerator
     {
-        readonly SequenceBacktrack seq;
-        readonly SequenceExpressionGenerator seqExprGen;
-        readonly SequenceGeneratorHelper seqHelper;
+        internal readonly SequenceBacktrack seq;
+        internal readonly SequenceExpressionGenerator seqExprGen;
+        internal readonly SequenceGeneratorHelper seqHelper;
 
-        readonly SequenceRuleCall seqRule;
-        readonly SequenceExpression[] ArgumentExpressions;
-        readonly SequenceVariable[] ReturnVars;
-        readonly String specialStr;
-        readonly String matchingPatternClassName;
-        readonly String patternName;
-        readonly String ruleName;
-        readonly String matchType;
-        readonly String matchName;
-        readonly String matchesType;
-        readonly String matchesName;
+        internal readonly SequenceRuleCall seqRule;
+        internal readonly SequenceRuleCallMatcherGenerator seqMatcherGen;
+
+        internal readonly SequenceExpression[] ArgumentExpressions;
+        internal readonly SequenceVariable[] ReturnVars;
+        internal readonly String specialStr;
+        internal readonly String matchingPatternClassName;
+        internal readonly String patternName;
+        internal readonly String ruleName;
+        internal readonly String matchType;
+        internal readonly String matchName;
+        internal readonly String matchesType;
+        internal readonly String matchesName;
 
 
         public SequenceBacktrackGenerator(SequenceBacktrack seq, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
@@ -39,6 +41,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.seqHelper = seqHelper;
 
             seqRule = seq.Rule;
+            seqMatcherGen = new SequenceRuleCallMatcherGenerator(seqRule, seqExprGen, seqHelper);
+
             ArgumentExpressions = seqRule.ArgumentExpressions;
             ReturnVars = seqRule.ReturnVars;
             specialStr = seqRule.Special ? "true" : "false";
@@ -46,21 +50,17 @@ namespace de.unika.ipd.grGen.lgsp
             patternName = seqRule.Name;
             ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.Package, seqRule.Name);
             matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
-            matchName = "match_" + seq.Id;
+            matchName = "match_" + seqRule.Id;
             matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
-            matchesName = "matches_" + seq.Id;
+            matchesName = "matches_" + seqRule.Id;
         }
 
         public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
             String parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
-            source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
-                + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            for(int i = 0; i < seqRule.Filters.Count; ++i)
-            {
-                seqExprGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName, false);
-            }
+            seqMatcherGen.EmitMatching(source, parameters, "procEnv.MaxMatches");
+            seqMatcherGen.EmitFiltering(source);
+            seqMatcherGen.EmitCloning(source);
 
             source.AppendFront("if(" + matchesName + ".Count == 0) {\n");
             source.Indent();
@@ -69,7 +69,6 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("} else {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seq, "true")); // shut up compiler
-            source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 

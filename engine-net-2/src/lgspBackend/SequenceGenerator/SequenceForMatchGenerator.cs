@@ -41,9 +41,9 @@ namespace de.unika.ipd.grGen.lgsp
             this.seqHelper = seqHelper;
 
             seqRule = seqFor.Rule;
-            ArgumentExpressions = seqRule.ArgumentExpressions;
             seqMatcherGen = new SequenceRuleCallMatcherGenerator(seqRule, seqExprGen, seqHelper);
 
+            ArgumentExpressions = seqRule.ArgumentExpressions;
             ReturnVars = seqRule.ReturnVars;
             specialStr = seqRule.Special ? "true" : "false";
             matchingPatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Rule_" + seqRule.Name;
@@ -59,7 +59,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             source.AppendFront(COMP_HELPER.SetResultVar(seqFor, "true"));
 
-            seqMatcherGen.EmitMatchingAndClone(source, seqGen, "procEnv.MaxMatches");
+            seqMatcherGen.EmitMatchingAndCloning(source, "procEnv.MaxMatches");
+            seqMatcherGen.EmitFiltering(source);
 
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
