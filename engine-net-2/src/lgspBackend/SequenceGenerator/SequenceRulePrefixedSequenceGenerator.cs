@@ -20,6 +20,8 @@ namespace de.unika.ipd.grGen.lgsp
         readonly SequenceGeneratorHelper seqHelper;
 
         readonly SequenceRuleCall seqRule;
+        internal readonly SequenceRuleCallMatcherGenerator seqMatcherGen;
+
         readonly SequenceExpression[] ArgumentExpressions;
         readonly SequenceVariable[] ReturnVars;
         readonly String specialStr;
@@ -38,6 +40,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
 
+            seqMatcherGen = new SequenceRuleCallMatcherGenerator(seqRule, seqExprGen, seqHelper);
+
             seqRule = seq.Rule;
             ArgumentExpressions = seqRule.ArgumentExpressions;
             ReturnVars = seqRule.ReturnVars;
@@ -54,13 +58,8 @@ namespace de.unika.ipd.grGen.lgsp
         public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
             String parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
-            source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
-                + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            for(int i = 0; i < seqRule.Filters.Count; ++i)
-            {
-                seqExprGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName, false);
-            }
+
+            seqMatcherGen.EmitMatching(source, seqGen, parameters, "procEnv.MaxMatches");
 
             source.AppendFront("if(" + matchesName + ".Count == 0) {\n");
             source.Indent();

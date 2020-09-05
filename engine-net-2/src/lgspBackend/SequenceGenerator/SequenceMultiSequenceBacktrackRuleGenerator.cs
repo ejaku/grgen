@@ -15,34 +15,36 @@ namespace de.unika.ipd.grGen.lgsp
 {
     class SequenceMultiSequenceBacktrackRuleGenerator
     {
-        readonly SequenceMultiSequenceBacktrack seqMulti;
-        readonly SequenceRuleCall seqRule;
-        readonly Sequence seqSeq;
-        readonly SequenceExpressionGenerator seqExprGen;
-        readonly SequenceGeneratorHelper seqHelper;
+        internal readonly SequenceMultiSequenceBacktrack seqMulti;
+        internal readonly Sequence seqSeq;
+        internal readonly SequenceExpressionGenerator seqExprGen;
+        internal readonly SequenceGeneratorHelper seqHelper;
 
-        readonly SequenceExpression[] ArgumentExpressions;
-        readonly SequenceVariable[] ReturnVars;
-        readonly String specialStr;
-        readonly String matchingPatternClassName;
-        readonly String patternName;
-        readonly String plainRuleName;
-        readonly String ruleName;
-        readonly String matchType;
-        readonly String matchName;
-        readonly String matchesType;
-        readonly String matchesName;
+        internal readonly SequenceRuleCall seqRule;
+        internal readonly SequenceRuleCallMatcherGenerator seqMatcherGen;
+
+        internal readonly SequenceVariable[] ReturnVars;
+        internal readonly String specialStr;
+        internal readonly String matchingPatternClassName;
+        internal readonly String patternName;
+        internal readonly String plainRuleName;
+        internal readonly String ruleName;
+        internal readonly String matchType;
+        internal readonly String matchName;
+        internal readonly String matchesType;
+        internal readonly String matchesName;
 
 
         public SequenceMultiSequenceBacktrackRuleGenerator(SequenceMultiSequenceBacktrack seqMulti, SequenceRuleCall seqRule, Sequence seqSeq, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
         {
             this.seqMulti = seqMulti;
-            this.seqRule = seqRule;
             this.seqSeq = seqSeq;
             this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
 
-            ArgumentExpressions = seqRule.ArgumentExpressions;
+            this.seqRule = seqRule;
+            seqMatcherGen = new SequenceRuleCallMatcherGenerator(seqRule, seqExprGen, seqHelper);
+
             ReturnVars = seqRule.ReturnVars;
             specialStr = seqRule.Special ? "true" : "false";
             matchingPatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Rule_" + seqRule.Name;
@@ -57,20 +59,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitMatching(SourceBuilder source, SequenceGenerator seqGen, String matchListName)
         {
-            String parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
-            source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
-                + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            for(int i = 0; i < seqRule.Filters.Count; ++i)
-            {
-                seqExprGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName, false);
-            }
-
-            source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
-            source.Indent();
-            source.AppendFrontFormat("{0}.AddRange({1});\n", matchListName, matchesName);
-            source.Unindent();
-            source.AppendFront("}\n");
+            seqMatcherGen.EmitMatchingAndCloneForBacktracking(source, seqGen, matchListName);
         }
 
         public void EmitCloning(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String originalToCloneName)

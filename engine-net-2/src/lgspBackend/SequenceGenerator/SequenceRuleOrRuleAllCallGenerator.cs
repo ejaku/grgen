@@ -15,9 +15,11 @@ namespace de.unika.ipd.grGen.lgsp
 {
     class SequenceRuleOrRuleAllCallGenerator
     {
-        internal readonly SequenceRuleCall seqRule;
         internal readonly SequenceExpressionGenerator seqExprGen;
         internal readonly SequenceGeneratorHelper seqHelper;
+
+        internal readonly SequenceRuleCall seqRule;
+        internal readonly SequenceRuleCallMatcherGenerator seqMatcherGen;
 
         internal readonly SequenceExpression[] ArgumentExpressions;
         internal readonly SequenceVariable[] ReturnVars;
@@ -33,9 +35,11 @@ namespace de.unika.ipd.grGen.lgsp
 
         public SequenceRuleOrRuleAllCallGenerator(SequenceRuleCall seqRule, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
         {
-            this.seqRule = seqRule;
             this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
+
+            this.seqRule = seqRule;
+            seqMatcherGen = new SequenceRuleCallMatcherGenerator(seqRule, seqExprGen, seqHelper);
 
             ArgumentExpressions = seqRule.ArgumentExpressions;
             ReturnVars = seqRule.ReturnVars;
@@ -65,14 +69,8 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
 
-            source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
-                + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
-                + parameters + ");\n");
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            for(int i = 0; i < seqRule.Filters.Count; ++i)
-            {
-                seqExprGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName, false);
-            }
+            seqMatcherGen.EmitMatching(source, seqGen, parameters,
+                (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches"));
 
             if(seqRule is SequenceRuleCountAllCall)
             {

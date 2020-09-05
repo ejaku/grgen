@@ -16,11 +16,12 @@ namespace de.unika.ipd.grGen.lgsp
     {
         internal readonly SequenceMultiRulePrefixedSequence seqMulti;
         internal readonly SequenceRulePrefixedSequence seqRulePrefixedSequence;
-        internal readonly SequenceRuleCall seqRule;
         internal readonly SequenceExpressionGenerator seqExprGen;
         internal readonly SequenceGeneratorHelper seqHelper;
 
-        internal readonly SequenceExpression[] ArgumentExpressions;
+        internal readonly SequenceRuleCall seqRule;
+        internal readonly SequenceRuleCallMatcherGenerator seqMatcherGen;
+
         internal readonly String specialStr;
         internal readonly String matchingPatternClassName;
         internal readonly String patternName;
@@ -47,8 +48,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.seqHelper = seqHelper;
 
             seqRule = seqRulePrefixedSequence.Rule;
+            seqMatcherGen = new SequenceRuleCallMatcherGenerator(seqRule, seqExprGen, seqHelper);
 
-            ArgumentExpressions = seqRule.ArgumentExpressions;
             specialStr = seqRule.Special ? "true" : "false";
             matchingPatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Rule_" + seqRule.Name;
             patternName = seqRule.Name;
@@ -66,19 +67,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitMatching(SourceBuilder source, SequenceGenerator seqGen, String matchListName)
         {
-            String parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
-            source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
-                + ".Match(procEnv, procEnv.MaxMatches"
-                + parameters + ");\n");
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            for(int i = 0; i < seqRule.Filters.Count; ++i)
-            {
-                seqExprGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName, false);
-            }
+            seqMatcherGen.EmitMatchingAndClone(source, seqGen, "procEnv.MaxMatches");
 
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
-            source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
             source.AppendFrontFormat("{0}.AddRange({1});\n", matchListName, matchesName);
             source.Unindent();
             source.AppendFront("}\n");
