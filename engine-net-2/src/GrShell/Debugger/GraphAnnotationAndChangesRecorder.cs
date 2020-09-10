@@ -24,7 +24,8 @@ namespace de.unika.ipd.grGen.grShell
         private readonly Dictionary<INode, String> annotatedNodes = new Dictionary<INode, String>();
         private readonly Dictionary<IEdge, String> annotatedEdges = new Dictionary<IEdge, String>();
 
-        private IRulePattern curRulePattern = null;
+        private IRulePattern curRulePattern = null; // for node/edge addition
+        private IRulePattern curRulePatternForMatchAnnotation = null; // for pre matched event
 
         private int nextAddedNodeIndex = 0;
         private int nextAddedEdgeIndex = 0;
@@ -44,18 +45,20 @@ namespace de.unika.ipd.grGen.grShell
 
         public void AddNodeAnnotation(INode node, String name)
         {
+            String rulePrefix = curRulePatternForMatchAnnotation != null ? curRulePatternForMatchAnnotation.PatternGraph.Name + "." : "";
             if(annotatedNodes.ContainsKey(node))
-                annotatedNodes[node] += ", " + name;
+                annotatedNodes[node] += ", " + rulePrefix + name;
             else
-                annotatedNodes[node] = name;
+                annotatedNodes[node] = rulePrefix + name;
         }
 
         public void AddEdgeAnnotation(IEdge edge, String name)
         {
+            String rulePrefix = curRulePatternForMatchAnnotation != null ? curRulePatternForMatchAnnotation.PatternGraph.Name + "." : "";
             if(annotatedEdges.ContainsKey(edge))
-                annotatedEdges[edge] += ", " + name;
+                annotatedEdges[edge] += ", " + rulePrefix + name;
             else
-                annotatedEdges[edge] = name;
+                annotatedEdges[edge] = rulePrefix + name;
         }
 
         public void RemoveNodeAnnotation(INode node)
@@ -89,6 +92,11 @@ namespace de.unika.ipd.grGen.grShell
         public void SetCurrentRule(IRulePattern curRulePattern)
         {
             this.curRulePattern = curRulePattern;
+        }
+
+        public void SetCurrentRuleForMatchAnnotation(IRulePattern curRulePattern)
+        {
+            this.curRulePatternForMatchAnnotation = curRulePattern;
         }
 
         public void SetAddedNodeNames(string[] namesOfNodesAdded)

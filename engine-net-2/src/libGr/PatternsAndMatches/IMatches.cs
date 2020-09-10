@@ -13,7 +13,7 @@ namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
-    /// If it is a match of an action, it is returned by IAction.Match() and given to the OnMatched event.
+    /// If it is a match of an action, it is returned by IAction.Match() and given to the OnMatched and OnPreMatched events.
     /// Otherwise it's the match of an iterated-pattern, and the producing action is null.
     /// </summary>
     public interface IMatches : IEnumerable<IMatch>

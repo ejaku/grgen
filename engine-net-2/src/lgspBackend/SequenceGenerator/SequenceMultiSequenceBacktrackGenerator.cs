@@ -33,20 +33,22 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>();\n", matchListName);
 
             // emit code for matching all the contained rules
-            SequenceRuleCallMatcherGenerator[] ruleMatcherGenerator =
+            SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators =
                 new SequenceRuleCallMatcherGenerator[seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences.Count];
             for(int i = 0; i < seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences.Count; ++i)
             {
-                ruleMatcherGenerator[i] = new SequenceRuleCallMatcherGenerator(
+                ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator(
                     seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule, seqExprGen, seqHelper);
-                ruleMatcherGenerator[i].EmitMatchingAndCloning(source, "procEnv.MaxMatches");
+                ruleMatcherGenerators[i].EmitMatchingAndCloning(source, "procEnv.MaxMatches");
             }
+
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators);
 
             // emit code for rule-based filtering
             for(int i = 0; i < seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences.Count; ++i)
             {
-                ruleMatcherGenerator[i].EmitFiltering(source);
-                ruleMatcherGenerator[i].EmitAddRange(source, matchListName);
+                ruleMatcherGenerators[i].EmitFiltering(source);
+                ruleMatcherGenerators[i].EmitAddRange(source, matchListName);
             }
 
             // emit code for match class (non-rule-based) filtering

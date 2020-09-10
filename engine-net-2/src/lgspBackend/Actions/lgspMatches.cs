@@ -564,7 +564,7 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
-    /// It is returned by IAction.Match() and given to the OnMatched, OnFinishing and OnFinished event.
+    /// It is returned by IAction.Match() and given to the OnMatched, OnPreMatched, OnFinishing and OnFinished event.
     /// Generic to be instantiated with the exact interface and the exact implementation type of the match object
     /// Every generated Action contains a LGSPMatchesList,
     /// the matches contain one LGSPMatchesList per iterated pattern.

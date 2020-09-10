@@ -60,6 +60,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(COMP_HELPER.SetResultVar(seqFor, "true"));
 
             seqMatcherGen.EmitMatchingAndCloning(source, "procEnv.MaxMatches");
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, matchesName);
             seqMatcherGen.EmitFiltering(source);
 
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");

@@ -8,7 +8,6 @@
 // by Edgar Jakumeit
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,20 +19,20 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public static class MatchListHelper
     {
-        public static void Add(List<IMatch> matchList, List<IMatches> matchesList)
+        public static void Add(List<IMatch> matchList, IMatches[] matchesArray)
         {
-            foreach(IMatches matches in matchesList)
+            foreach(IMatches matches in matchesArray)
             {
                 matchList.AddRange(matches);
             }
         }
 
-        public static void Clone(List<IMatches> matchesList, List<IMatch> matchList)
+        public static void Clone(IMatches[] matchesArray, List<IMatch> matchList)
         {
             Dictionary<IMatch, IMatch> originalToClone = new Dictionary<IMatch, IMatch>();
-            for(int i = 0; i < matchesList.Count; ++i)
+            for(int i = 0; i < matchesArray.Length; ++i)
             {
-                matchesList[i] = matchesList[i].Clone(originalToClone);
+                matchesArray[i] = matchesArray[i].Clone(originalToClone);
             }
             List<IMatch> originalMatchList = new List<IMatch>(matchList);
             matchList.Clear();

@@ -1217,6 +1217,13 @@ namespace de.unika.ipd.grGen.lgsp
 
                 ruleMatcherGenerators[i].EmitMatchingAndCloning(source,
                     (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches"));
+            }
+
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators);
+
+            for(int i = 0; i < seqSome.Sequences.Count; ++i)
+            {
+                SequenceRuleCall seqRule = (SequenceRuleCall)seqSome.Sequences[i];
                 ruleMatcherGenerators[i].EmitFiltering(source);
 
                 String matchesName = "matches_" + seqRule.Id;
@@ -1275,6 +1282,8 @@ namespace de.unika.ipd.grGen.lgsp
                 ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator((SequenceRuleCall)seqMulti.Sequences[i], exprGen, seqHelper);
                 ruleMatcherGenerators[i].EmitMatchingAndCloning(source, "procEnv.MaxMatches");
             }
+
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators);
 
             // emit code for rule-based filtering
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
@@ -1355,6 +1364,8 @@ namespace de.unika.ipd.grGen.lgsp
                 ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator(seqRulePrefixedSequence.Rule, exprGen, seqHelper);
                 ruleMatcherGenerators[i].EmitMatchingAndCloning(source, "procEnv.MaxMatches");
             }
+
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators);
 
             // emit code for rule-based filtering
             for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)

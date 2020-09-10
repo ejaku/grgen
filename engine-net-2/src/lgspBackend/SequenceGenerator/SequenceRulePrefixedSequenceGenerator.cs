@@ -60,6 +60,7 @@ namespace de.unika.ipd.grGen.lgsp
             String parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
 
             seqMatcherGen.EmitMatching(source, parameters, "procEnv.MaxMatches");
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, matchesName);
             seqMatcherGen.EmitFiltering(source);
             seqMatcherGen.EmitCloning(source);
 

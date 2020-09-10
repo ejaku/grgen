@@ -71,6 +71,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             seqMatcherGen.EmitMatching(source, parameters,
                 (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches"));
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, matchesName);
             seqMatcherGen.EmitFiltering(source);
 
             if(seqRule is SequenceRuleCountAllCall)

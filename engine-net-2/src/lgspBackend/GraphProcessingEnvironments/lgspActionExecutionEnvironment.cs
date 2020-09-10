@@ -30,6 +30,8 @@ namespace de.unika.ipd.grGen.lgsp
         private int maxMatches = 0;
         protected readonly Dictionary<String, String> customCommandsToDescriptions;
 
+        private readonly IMatches[] singleElementMatchesArray = new IMatches[1]; // performance optimization
+
 
         public LGSPActionExecutionEnvironment(LGSPGraph graph, LGSPActions actions)
         {
@@ -192,6 +194,9 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
             PerformanceInfo.MatchesFound += matches.Count;
 
+            if(matches.Count > 0)
+                PreMatched(matches);
+
             for(int i = 0; i < filters.Count; ++i)
             {
                 action.Filter(this, matches, filters[i]);
@@ -211,19 +216,43 @@ namespace de.unika.ipd.grGen.lgsp
             PerformanceInfo.StartLocal();
 #endif
             IMatches matches = action.Match(this, curMaxMatches, arguments);
+
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             PerformanceInfo.StopMatch();
 #endif
             PerformanceInfo.MatchesFound += matches.Count;
 
+            if(matches.Count > 0)
+                PreMatched(matches);
+
             return matches;
         }
 
-        public IMatches MatchForQuery(IAction action, object[] arguments, int localMaxMatches)
+        public IMatches[] MatchWithoutEvent(params ActionCall[] actions)
         {
-            IMatches matches = MatchWithoutEvent(action, arguments, localMaxMatches);
-            matches = matches.Clone();
-            return matches;
+            IMatches[] matchesArray = new IMatches[actions.Length];
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StartLocal();
+#endif
+            int matchesFound = 0;
+            for(int i = 0; i < actions.Length; ++i)
+            {
+                ActionCall actionCall = actions[i];
+                IMatches matches = actionCall.Action.Match(this, actionCall.MaxMatches, actionCall.Arguments);
+                matchesFound += matches.Count;
+                matchesArray[i] = matches;
+            }
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StopMatch();
+#endif
+            PerformanceInfo.MatchesFound += matchesFound;
+
+            if(matchesFound > 0)
+                PreMatched(matchesArray);
+
+            return matchesArray;
         }
 
         public List<object[]> Replace(IMatches matches, int which)
@@ -270,12 +299,48 @@ namespace de.unika.ipd.grGen.lgsp
             return returns;
         }
 
+        public IMatches MatchForQuery(IAction action, object[] arguments, int localMaxMatches)
+        {
+            IMatches matches = MatchWithoutEvent(action, arguments, localMaxMatches);
+            matches = matches.Clone();
+            return matches;
+        }
+
+        public IMatches[] MatchForQuery(params ActionCall[] actions)
+        {
+            IMatches[] matchesArray = new IMatches[actions.Length];
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StartLocal();
+#endif
+            int matchesFound = 0;
+            for(int i = 0; i < actions.Length; ++i)
+            {
+                ActionCall actionCall = actions[i];
+                IMatches matches = actionCall.Action.Match(this, actionCall.MaxMatches, actionCall.Arguments);
+                matchesFound += matches.Count;
+                matches = matches.Clone(); // must be cloned before the next iteration step, as that could be the same action
+                matchesArray[i] = matches;
+            }
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StopMatch();
+#endif
+            PerformanceInfo.MatchesFound += matchesFound;
+
+            if(matchesFound > 0)
+                PreMatched(matchesArray);
+
+            return matchesArray;
+        }
+
         #endregion Graph rewriting
 
 
         #region Events
 
         public event AfterMatchHandler OnMatched;
+        public event PreMatchHandler OnPreMatched;
         public event BeforeFinishHandler OnFinishing;
         public event RewriteNextMatchHandler OnRewritingNextMatch;
         public event AfterFinishHandler OnFinished;
@@ -284,6 +349,19 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(OnMatched != null)
                 OnMatched(matches, match, special);
+        }
+
+        public void PreMatched(params IMatches[] matchesArray)
+        {
+            if(OnPreMatched != null)
+                OnPreMatched(matchesArray);
+        }
+
+        public void PreMatched(IMatches matches)
+        {
+            singleElementMatchesArray[0] = matches;
+            if(OnPreMatched != null)
+                OnPreMatched(singleElementMatchesArray);
         }
 
         public void Finishing(IMatches matches, bool special)

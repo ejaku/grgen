@@ -18,6 +18,7 @@ using System.IO;
 using System.Reflection;
 
 using de.unika.ipd.grGen.libGr;
+using System.Text;
 
 namespace de.unika.ipd.grGen.grShell
 {
@@ -785,7 +786,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.highlightSeq = seq.Sequences[rule];
                 context.choice = true;
                 context.sequences = seq.Sequences;
-                context.matches = seq.Matches;
+                context.matches = new List<IMatches>(seq.Matches);
                 SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
                 context.choice = false;
@@ -1167,6 +1168,84 @@ namespace de.unika.ipd.grGen.grShell
         private void DebugSettingAddedEdgeNames(string[] namesOfEdgesAdded)
         {
             renderRecorder.SetAddedEdgeNames(namesOfEdgesAdded);
+        }
+
+        private void DebugPreMatched(IList<IMatches> matchesList)
+        {
+            if(!detailedMode)
+                return;
+
+            Console.WriteLine("PreMatched " + PreMatchedActions(matchesList));
+
+            renderRecorder.RemoveAllAnnotations();
+ 
+            if(ycompClient.dumpInfo.IsExcludedGraph())
+            {
+                if(!recordMode)
+                    ycompClient.ClearGraph();
+
+                foreach(IMatches matches in matchesList)
+                {
+                    DebugPreMatchedAddNeeded(matches);
+                }
+            }
+
+            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
+
+            foreach(IMatches matches in matchesList)
+            {
+                DebugPreMatchedMark(matchMarkerAndAnnotator, matches);
+            }
+            renderRecorder.SetCurrentRuleForMatchAnnotation(null);
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+            Console.WriteLine("Press any key to continue (with the matches remaining after filtering/of the selected rule)...");
+            env.ReadKeyWithCancel();
+
+            foreach(IMatches matches in matchesList)
+            {
+                DebugPreMatchedUnmark(matchMarkerAndAnnotator, matches);
+            }
+
+            renderRecorder.RemoveAllAnnotations();
+        }
+
+        private string PreMatchedActions(IList<IMatches> matchesList)
+        {
+            StringBuilder sb = new StringBuilder();
+            bool first = true;
+            foreach(IMatches matches in matchesList)
+            {
+                if(first)
+                    first = false;
+                else
+                    sb.Append(",");
+                sb.Append(matches.Producer.Name);
+            }
+            return sb.ToString();
+        }
+
+        private void DebugPreMatchedAddNeeded(IMatches matches)
+        {
+            // add all elements from match to graph and excludedGraphElementsIncluded
+            AddNeededGraphElements(matches);
+
+            ycompClient.AddNeighboursAndParentsOfNeededGraphElements();
+        }
+
+        private void DebugPreMatchedMark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches matches)
+        {
+            renderRecorder.SetCurrentRuleForMatchAnnotation(matches.Producer.RulePattern);
+
+            matchMarkerAndAnnotator.MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+            matchMarkerAndAnnotator.AnnotateMatches(matches, true);
+        }
+
+        private void DebugPreMatchedUnmark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches matches)
+        {
+            matchMarkerAndAnnotator.MarkMatches(matches, null, null);
+            matchMarkerAndAnnotator.AnnotateMatches(matches, false);
         }
 
         private void DebugMatched(IMatches matches, IMatch match, bool special)
@@ -1858,6 +1937,7 @@ namespace de.unika.ipd.grGen.grShell
             graph.OnSettingAddedNodeNames += DebugSettingAddedNodeNames;
             graph.OnSettingAddedEdgeNames += DebugSettingAddedEdgeNames;
 
+            shellProcEnv.ProcEnv.OnPreMatched += DebugPreMatched;
             shellProcEnv.ProcEnv.OnMatched += DebugMatched;
             shellProcEnv.ProcEnv.OnRewritingNextMatch += DebugNextMatch;
             shellProcEnv.ProcEnv.OnFinished += DebugFinished;
@@ -1893,6 +1973,7 @@ namespace de.unika.ipd.grGen.grShell
             graph.OnSettingAddedNodeNames -= DebugSettingAddedNodeNames;
             graph.OnSettingAddedEdgeNames -= DebugSettingAddedEdgeNames;
 
+            shellProcEnv.ProcEnv.OnPreMatched -= DebugPreMatched;
             shellProcEnv.ProcEnv.OnMatched -= DebugMatched;
             shellProcEnv.ProcEnv.OnRewritingNextMatch -= DebugNextMatch;
             shellProcEnv.ProcEnv.OnFinished -= DebugFinished;

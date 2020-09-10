@@ -81,5 +81,25 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
         }
+
+        public static void EmitPreMatchEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators)
+        {
+            source.AppendFront("procEnv.PreMatched(");
+            bool first = true;
+            foreach(SequenceRuleCallMatcherGenerator ruleMatcherGenerator in ruleMatcherGenerators)
+            {
+                if(first)
+                    first = false;
+                else
+                    source.Append(",");
+                source.AppendFormat("{0}", ruleMatcherGenerator.matchesName);
+            }
+            source.Append(");\n");
+        }
+
+        public static void EmitPreMatchEventFiring(SourceBuilder source, string matchesName)
+        {
+            source.AppendFrontFormat("procEnv.PreMatched({0});\n", matchesName);
+        }
     }
 }

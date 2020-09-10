@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\ActionCall.cs" />
     <Compile Include="Actions\ActionNames.cs" />
     <Compile Include="Actions\ActionsTypeInformation.cs" />
     <Compile Include="Actions\IAction.cs" />

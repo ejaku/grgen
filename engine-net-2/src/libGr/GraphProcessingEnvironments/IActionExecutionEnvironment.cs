@@ -23,6 +23,13 @@ namespace de.unika.ipd.grGen.libGr
     public delegate void AfterMatchHandler(IMatches matches, IMatch match, bool special);
 
     /// <summary>
+    /// Represents a method called after all requested matches of a multi action or an action have been matched,
+    /// yet before filtering/selection (single element array in case of a single rule/test application).
+    /// </summary>
+    /// <param name="matches">The matches found (an array of matches objects, one matches object per rule).</param>
+    public delegate void PreMatchHandler(IMatches[] matches);
+
+    /// <summary>
     /// Represents a method called before the rewrite step of an action, when at least one match has been found.
     /// </summary>
     /// <param name="matches">The matches found.</param>
@@ -130,7 +137,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="action">The rule to invoke</param>
         /// <param name="arguments">The input arguments</param>
         /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
-        /// depends on MaxMatches)</param>
+        /// depends on the MaxMatches property)</param>
         /// <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
         /// the application</param>
         /// <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
@@ -138,14 +145,21 @@ namespace de.unika.ipd.grGen.libGr
         IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters);
 
         /// <summary>
-        /// Matches a rewrite rule, without firing the Matched event (for internal or non-debugger use).
+        /// Matches a rewrite rule, without firing the Matched event (but fires the PreMatched event - for internal or non-debugger use).
         /// </summary>
         /// <param name="action">The rule to invoke</param>
         /// <param name="arguments">The input arguments</param>
         /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
-        /// depends on MaxMatches)</param>
+        /// depends on the MaxMatches property)</param>
         /// <returns>A matches object containing the found matches.</returns>
         IMatches MatchWithoutEvent(IAction action, object[] arguments, int localMaxMatches);
+
+        /// <summary>
+        /// Matches the rewrite rules, without firing the Matched event, but fires the PreMatched event (for internal or non-debugger use).
+        /// </summary>
+        /// <param name="actions">The rules to invoke</param>
+        /// <returns>A list of matches objects containing the found matches.</returns>
+        IMatches[] MatchWithoutEvent(params ActionCall[] actions);
 
         /// <summary>
         /// Executes the modifications of the according rule to the given match/matches.
@@ -159,16 +173,24 @@ namespace de.unika.ipd.grGen.libGr
         List<object[]> Replace(IMatches matches, int which);
 
         /// <summary>
-        /// Matches a rewrite rule, without firing the Matched event, but with Cloning of the matches
+        /// Matches a rewrite rule, without firing the Matched event, but with firing the PreMatch event and Cloning of the matches
         /// (so they can stored, or used in an expression combining multiple queries like [?r] + [?r], 
         /// or the action can be called multiple times in a multi rule all call query (on different parameters)).
         /// </summary>
         /// <param name="action">The rule to invoke</param>
         /// <param name="arguments">The input arguments</param>
         /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
-        /// depends on MaxMatches)</param>
+        /// depends on the MaxMatches property)</param>
         /// <returns>A matches object containing the found matches.</returns>
         IMatches MatchForQuery(IAction action, object[] arguments, int localMaxMatches);
+
+        /// <summary>
+        /// Matches the rewrite rules, without firing the Matched event, but with firing the PreMatch event and Cloning of the matches
+        /// (so they can stored, or used in an expression combining multiple queries).
+        /// </summary>
+        /// <param name="actions">The rules to invoke</param>
+        /// <returns>A list of matches objects containing the found matches.</returns>
+        IMatches[] MatchForQuery(params ActionCall[] actions);
 
         #endregion Graph rewriting
 
@@ -176,9 +198,16 @@ namespace de.unika.ipd.grGen.libGr
         #region Events
 
         /// <summary>
-        /// Fired after all requested matches of a rule have been matched.
+        /// Fired after all requested matches of a rule have been matched (after filtering/selection of matches).
         /// </summary>
         event AfterMatchHandler OnMatched;
+
+        /// <summary>
+        /// Fired after all requested matches of a multi rule or rule have been matched, yet before filtering/selection of the matches.
+        /// Allows a lookahead on the matches, on all found matches, in contrast to OnMatched that only reports the ones that are applied in the end.
+        /// Also fired for queries, esp. for queries used for computing rule(/test) arguments, which don't cause a firing of other events.
+        /// </summary>
+        event PreMatchHandler OnPreMatched;
 
         /// <summary>
         /// Fired before the rewrite step of a rule, when at least one match has been found.
@@ -206,6 +235,18 @@ namespace de.unika.ipd.grGen.libGr
         /// (to highlight the currently processed match during backtracking and the for matches loop).</param>
         /// <param name="special">Whether this is a 'special' match (user defined).</param>
         void Matched(IMatches matches, IMatch match, bool special);
+
+        /// <summary>
+        /// Fires an OnPreMatched event.
+        /// </summary>
+        /// <param name="matchesArray">The IMatches objects returned by the matchers of the actions (of the multi-rule application).</param>
+        void PreMatched(IMatches[] matchesArray);
+
+        /// <summary>
+        /// Fires an OnPreMatched event.
+        /// </summary>
+        /// <param name="matches">The IMatches object returned by the matcher of the single action.</param>
+        void PreMatched(IMatches matches);
 
         /// <summary>
         /// Fires an OnFinishing event.

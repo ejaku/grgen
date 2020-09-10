@@ -8874,9 +8874,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            List<IMatches> MatchesList;
+            IMatches[] MatchesArray;
             List<IMatch> MatchList;
-            MultiRuleCall.MatchAll(procEnv, out MatchesList, out MatchList);
+            MultiRuleCall.MatchAll(procEnv, out MatchesArray, out MatchList);
             // MatchAll clones single matches because of potentially multiple calls of same rule, overall list is created anew anyway
             // - without that cloning an additional clone would be needed here like for the single rule query, 
             // as the maches array must be available (at least) through continued sequence expression processing

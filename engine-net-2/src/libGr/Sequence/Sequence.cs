@@ -3039,7 +3039,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class SequenceSomeFromSet : SequenceGeneralNAry
     {
-        public readonly List<IMatches> Matches;
+        public IMatches[] Matches;
         public override bool Random { get { return chooseRandom; } set { chooseRandom = value; } }
         bool chooseRandom;
 
@@ -3047,7 +3047,7 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceType.SomeFromSet, sequences, choice)
         {
             this.chooseRandom = chooseRandom;
-            Matches = new List<IMatches>(Sequences.Count);
+            Matches = new IMatches[Sequences.Count];
             for(int i = 0; i < Sequences.Count; ++i)
             {
                 if(Sequences[i] is SequenceRuleAllCall)
@@ -3059,7 +3059,6 @@ namespace de.unika.ipd.grGen.libGr
                         ruleAll.Choice = false;
                     }
                 }
-                Matches.Add(null);
             }
         }
 
@@ -3067,11 +3066,7 @@ namespace de.unika.ipd.grGen.libGr
             : base(that, originalToCopy, procEnv)
         {
             chooseRandom = that.chooseRandom;
-            Matches = new List<IMatches>(that.Sequences.Count);
-            for(int i = 0; i < that.Sequences.Count; ++i)
-            {
-                Matches.Add(null);
-            }
+            Matches = new IMatches[that.Sequences.Count];
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3194,31 +3189,21 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        protected void MatchAll(IGraphProcessingEnvironment procEnv)
+        public void MatchAll(IGraphProcessingEnvironment procEnv)
         {
+            SequenceRuleCall[] rules = new SequenceRuleCall[Sequences.Count];
+
             for(int i = 0; i < Sequences.Count; ++i)
             {
                 if(!(Sequences[i] is SequenceRuleCall))
                     throw new InvalidOperationException("Internal error: some from set containing non-rule sequences");
 
                 SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
-                int maxMatches = 1;
-                if(rule is SequenceRuleAllCall || rule is SequenceRuleCountAllCall)
-                    maxMatches = procEnv.MaxMatches;
-
-                FillArgumentsFromArgumentExpressions(rule.ArgumentExpressions, rule.Arguments, procEnv);
-
-                IAction action = GetAction(rule);
-                IMatches matches = procEnv.MatchWithoutEvent(action, rule.Arguments, maxMatches);
-
-                for(int j = 0; j < rule.Filters.Count; ++j)
-                {
-                    SequenceFilterCallInterpreted filter = (SequenceFilterCallInterpreted)rule.Filters[j];
-                    filter.Execute(procEnv, action, matches);
-                }
-
-                Matches[i] = matches;
+                rules[i] = rule;
             }
+
+            List<IMatch> matchList;
+            SequenceMultiRuleAllCall.MatchAll(procEnv, rules, true, out Matches, out matchList);
         }
 
         protected bool ApplyRule(SequenceRuleCall rule, IGraphProcessingEnvironment procEnv, IMatches matches, IMatch match)
@@ -3322,9 +3307,9 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            List<IMatches> MatchesList;
+            IMatches[] MatchesArray;
             List<IMatch> MatchList;
-            MatchAll(procEnv, out MatchesList, out MatchList);
+            MatchAll(procEnv, out MatchesArray, out MatchList);
 
             foreach(SequenceFilterCall filter in Filters)
             {
@@ -3338,7 +3323,7 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = 0; i < Sequences.Count; ++i)
             {
                 SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
-                IMatches matches = MatchesList[i];
+                IMatches matches = MatchesArray[i];
                 ruleState.Add(rule.PackagePrefixedName, i);
 
                 if(matches.Count == 0)
@@ -3353,7 +3338,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 int index = ruleState[match.Pattern.PackagePrefixedName];
                 SequenceRuleCall rule = (SequenceRuleCall)Sequences[index];
-                IMatches matches = MatchesList[index];
+                IMatches matches = MatchesArray[index];
                 List<object[]> returnValues = ReturnValues[index];
                 int resultNum = ResultNums[index];
                 ApplyMatch(rule, procEnv, matches, first, match, returnValues, ref resultNum);
@@ -3364,7 +3349,7 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = 0; i < Sequences.Count; ++i)
             {
                 SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
-                IMatches matches = MatchesList[i];
+                IMatches matches = MatchesArray[i];
                 List<object[]> returnValues = ReturnValues[i];
                 FillReturnVariablesFromValues(rule.ReturnVars, matches.Producer, procEnv, returnValues, -1);
             }
@@ -3372,9 +3357,9 @@ namespace de.unika.ipd.grGen.libGr
             return MatchList.Count > 0;
         }
 
-        public void MatchAll(IGraphProcessingEnvironment procEnv, out List<IMatches> MatchesList, out List<IMatch> MatchList)
+        public void MatchAll(IGraphProcessingEnvironment procEnv, out IMatches[] MatchesArray, out List<IMatch> MatchList)
         {
-            MatchesList = new List<IMatches>(Sequences.Count);
+            SequenceRuleCall[] rules = new SequenceRuleCall[Sequences.Count];
 
             for(int i = 0; i < Sequences.Count; ++i)
             {
@@ -3382,33 +3367,65 @@ namespace de.unika.ipd.grGen.libGr
                     throw new InvalidOperationException("Internal error: multi rule all call containing non-rule sequences");
 
                 SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
-                int maxMatches = procEnv.MaxMatches;
+                rules[i] = rule;
+            }
+
+            MatchAll(procEnv, rules, false, out MatchesArray, out MatchList);
+        }
+
+        public static void MatchAll(IGraphProcessingEnvironment procEnv, SequenceRuleCall[] rules, bool defineMaxMatches,
+            out IMatches[] MatchesArray, out List<IMatch> MatchList)
+        {
+            ActionCall[] actions = new ActionCall[rules.Length]; // performance TODO: don't allocate, use buffer like with arguments
+            for(int i = 0; i < rules.Length; ++i)
+            {
+                SequenceRuleCall rule = rules[i];
 
                 FillArgumentsFromArgumentExpressions(rule.ArgumentExpressions, rule.Arguments, procEnv);
 
-                SequenceRuleCallInterpreted ruleInterpreted = (SequenceRuleCallInterpreted)rule;
-                IMatches matches = procEnv.MatchForQuery(ruleInterpreted.Action, rule.Arguments, maxMatches);
+                IAction action = null;
+                if(rule is SequenceRuleAllCallInterpreted)
+                    action = ((SequenceRuleAllCallInterpreted)rule).Action;
+                else if(rule is SequenceRuleCountAllCallInterpreted)
+                    action = ((SequenceRuleCountAllCallInterpreted)rule).Action;
+                else
+                    action = ((SequenceRuleCallInterpreted)rule).Action;
 
-                // MatchForQuery clones all matches, as query matches may be stored,
-                // or the action may be called again before processing of the matches finished (simple [?r] + [?r] sufficient)
-                // or the rule may be called multiple times in the multi rule all call sequence (on different parameters), 
-                // overwriting the matches object of the action
-                // normally it's safe to assume the rule is not called again until its matches were processed,
-                // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
-                // TODO: optimization; if it's ensured the sequence doesn't call this action again, and it's not a query, 
-                // we can omit this, requires inspection of contained rules
+                int maxMatches = procEnv.MaxMatches;
+                if(defineMaxMatches)
+                {
+                    maxMatches = 1;
+                    if(rule is SequenceRuleAllCall || rule is SequenceRuleCountAllCall)
+                        maxMatches = procEnv.MaxMatches;
+                }
 
+                actions[i] = new ActionCall(action, maxMatches, rule.Arguments); // performance TODO: don't allocate, use buffer like with arguments
+            }
+
+            MatchesArray = procEnv.MatchForQuery(actions);
+
+            for(int i = 0; i < rules.Length; ++i)
+            {
+                SequenceRuleCall rule = rules[i];
+
+                IAction action = null;
+                if(rule is SequenceRuleAllCallInterpreted)
+                    action = ((SequenceRuleAllCallInterpreted)rule).Action;
+                else if(rule is SequenceRuleCountAllCallInterpreted)
+                    action = ((SequenceRuleCountAllCallInterpreted)rule).Action;
+                else
+                    action = ((SequenceRuleCallInterpreted)rule).Action;
+
+                IMatches matches = MatchesArray[i];
                 for(int j = 0; j < rule.Filters.Count; ++j)
                 {
                     SequenceFilterCallInterpreted filter = (SequenceFilterCallInterpreted)rule.Filters[j];
-                    filter.Execute(procEnv, ruleInterpreted.Action, matches);
+                    filter.Execute(procEnv, action, matches);
                 }
-
-                MatchesList.Add(matches);
             }
 
             MatchList = new List<IMatch>();
-            MatchListHelper.Add(MatchList, MatchesList);
+            MatchListHelper.Add(MatchList, MatchesArray);
         }
 
         public bool ApplyMatch(SequenceRuleCall rule, IGraphProcessingEnvironment procEnv, IMatches matches, bool first, IMatch match, List<object[]> returnValues, ref int curResultNum)
@@ -3768,9 +3785,9 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Matching rule prefixed multi sequence " + GetRuleCallString(procEnv));
 #endif
-            List<IMatches> MatchesList;
+            IMatches[] MatchesArray;
             List<IMatch> MatchList;
-            MatchAll(procEnv, out MatchesList, out MatchList);
+            MatchAll(procEnv, out MatchesArray, out MatchList);
 
             foreach(SequenceFilterCall filter in Filters)
             {
@@ -3799,13 +3816,6 @@ namespace de.unika.ipd.grGen.libGr
 
             // cloning already occurred to allow multiple calls of the same rule
 
-#if LOG_SEQUENCE_EXECUTION
-            for(int i = 0; i < matches.Count; ++i)
-            {
-                procEnv.Recorder.WriteLine("cloned match " + i + ": " + MatchPrinter.ToString(MatchList[i], procEnv.Graph, ""));
-            }
-#endif
-
             // apply the rule and its sequence for every match found
             int matchesTried = 0;
 
@@ -3813,7 +3823,7 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = 0; i < RulePrefixedSequences.Count; ++i)
             {
                 SequenceRuleCall rule = (SequenceRuleCall)RulePrefixedSequences[i].Rule;
-                IMatches matches = MatchesList[i];
+                IMatches matches = MatchesArray[i];
                 ruleNameToComponentIndex.Add(rule.PackagePrefixedName, i);
 
                 if(matches.Count == 0)
@@ -3832,7 +3842,7 @@ namespace de.unika.ipd.grGen.libGr
                 int index = ruleNameToComponentIndex[match.Pattern.PackagePrefixedName];
                 SequenceRuleCall rule = (SequenceRuleCall)RulePrefixedSequences[index].Rule;
                 Sequence seq = RulePrefixedSequences[index].Sequence;
-                IMatches matches = MatchesList[index];
+                IMatches matches = MatchesArray[index];
 
                 procEnv.EnteringSequence(rule);
                 rule.executionState = SequenceExecutionState.Underway;
@@ -3869,9 +3879,9 @@ namespace de.unika.ipd.grGen.libGr
             return result;
         }
 
-        public void MatchAll(IGraphProcessingEnvironment procEnv, out List<IMatches> MatchesList, out List<IMatch> MatchList)
+        public void MatchAll(IGraphProcessingEnvironment procEnv, out IMatches[] MatchesArray, out List<IMatch> MatchList)
         {
-            MatchesList = new List<IMatches>(RulePrefixedSequences.Count);
+            SequenceRuleCall[] rules = new SequenceRuleCall[RulePrefixedSequences.Count];
 
             for(int i = 0; i < RulePrefixedSequences.Count; ++i)
             {
@@ -3879,19 +3889,11 @@ namespace de.unika.ipd.grGen.libGr
                     throw new InvalidOperationException("Internal error: rule prefixed multi sequence containing non-rule prefixed sequence");
 
                 SequenceRulePrefixedSequence rulePrefixedSequence = (SequenceRulePrefixedSequence)RulePrefixedSequences[i];
-                IMatches matches = rulePrefixedSequence.Match(procEnv);
-
-                // the rule may be called multiple times in the sequence (on different parameters), overwriting the matches object of the action
-                // normally it's safe to assume the rule is not called again until its matches were processed,
-                // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
-                // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires inspection of contained rules
-                matches = matches.Clone();
-
-                MatchesList.Add(matches);
+                SequenceRuleCall rule = rulePrefixedSequence.Rule;
+                rules[i] = rule;
             }
 
-            MatchList = new List<IMatch>();
-            MatchListHelper.Add(MatchList, MatchesList);
+            SequenceMultiRuleAllCall.MatchAll(procEnv, rules, false, out MatchesArray, out MatchList);
         }
 
         public override Sequence GetCurrentlyExecutedSequence()
@@ -4240,9 +4242,9 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Matching multi backtrack all " + Rule.GetRuleCallString(procEnv));
 #endif
-            List<IMatches> MatchesList;
+            IMatches[] MatchesArray;
             List<IMatch> MatchList;
-            Rules.MatchAll(procEnv, out MatchesList, out MatchList);
+            Rules.MatchAll(procEnv, out MatchesArray, out MatchList);
 
             foreach(SequenceFilterCall filter in Rules.Filters)
             {
@@ -4265,18 +4267,7 @@ namespace de.unika.ipd.grGen.libGr
             }
 #endif
 
-            // the rule might be called again in the sequence, overwriting the matches object of the action
-            // normally it's safe to assume the rule is not called again until its matches were processed,
-            // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
-            // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires call analysis
-            MatchListHelper.Clone(MatchesList, MatchList);
-
-#if LOG_SEQUENCE_EXECUTION
-            for(int i = 0; i < matches.Count; ++i)
-            {
-                procEnv.Recorder.WriteLine("cloned match " + i + ": " + MatchPrinter.ToString(MatchList[i], procEnv.Graph, ""));
-            }
-#endif
+            // cloning already occurred to allow multiple calls of the same rule
 
             // apply the rule and the following sequence for every match found,
             // until the first rule and sequence execution succeeded
@@ -4287,7 +4278,7 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = 0; i < Rules.Sequences.Count; ++i)
             {
                 SequenceRuleCall rule = (SequenceRuleCall)Rules.Sequences[i];
-                IMatches matches = MatchesList[i];
+                IMatches matches = MatchesArray[i];
                 ruleState.Add(rule.PackagePrefixedName, i);
 
                 if(matches.Count == 0)
@@ -4308,7 +4299,7 @@ namespace de.unika.ipd.grGen.libGr
 
                 int index = ruleState[match.Pattern.PackagePrefixedName];
                 SequenceRuleCall rule = (SequenceRuleCall)Rules.Sequences[index];
-                IMatches matches = MatchesList[index];
+                IMatches matches = MatchesArray[index];
 
                 procEnv.EnteringSequence(rule);
                 rule.executionState = SequenceExecutionState.Underway;
@@ -4438,9 +4429,9 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Matching multi rule prefixed backtrack " + GetRuleCallString(procEnv));
 #endif
-            List<IMatches> MatchesList;
+            IMatches[] MatchesArray;
             List<IMatch> MatchList;
-            MultiRulePrefixedSequence.MatchAll(procEnv, out MatchesList, out MatchList);
+            MultiRulePrefixedSequence.MatchAll(procEnv, out MatchesArray, out MatchList);
 
             foreach(SequenceFilterCall filter in MultiRulePrefixedSequence.Filters)
             {
@@ -4465,13 +4456,6 @@ namespace de.unika.ipd.grGen.libGr
 
             // cloning already occurred to allow multiple calls of the same rule
 
-#if LOG_SEQUENCE_EXECUTION
-            for(int i = 0; i < matches.Count; ++i)
-            {
-                procEnv.Recorder.WriteLine("cloned match " + i + ": " + MatchPrinter.ToString(MatchList[i], procEnv.Graph, ""));
-            }
-#endif
-
             // apply the rule and its sequence for every match found,
             // until the first rule and sequence execution succeeded
             // rolling back the changes of failing executions until then
@@ -4481,7 +4465,7 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = 0; i < MultiRulePrefixedSequence.RulePrefixedSequences.Count; ++i)
             {
                 SequenceRuleCall rule = (SequenceRuleCall)MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule;
-                IMatches matches = MatchesList[i];
+                IMatches matches = MatchesArray[i];
                 ruleNameToComponentIndex.Add(rule.PackagePrefixedName, i);
 
                 if(matches.Count == 0)
@@ -4503,7 +4487,7 @@ namespace de.unika.ipd.grGen.libGr
                 int index = ruleNameToComponentIndex[match.Pattern.PackagePrefixedName];
                 SequenceRuleCall rule = (SequenceRuleCall)MultiRulePrefixedSequence.RulePrefixedSequences[index].Rule;
                 Sequence seq = MultiRulePrefixedSequence.RulePrefixedSequences[index].Sequence;
-                IMatches matches = MatchesList[index];
+                IMatches matches = MatchesArray[index];
 
                 procEnv.EnteringSequence(rule);
                 rule.executionState = SequenceExecutionState.Underway;

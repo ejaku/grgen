@@ -758,11 +758,6 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqRuleQuery, SourceBuilder source)
         {
             SequenceRuleAllCall ruleCall = seqRuleQuery.RuleCall;
-            return GetSequenceExpressionRuleCall(ruleCall, source);
-        }
-
-        private string GetSequenceExpressionRuleCall(SequenceRuleCall ruleCall, SourceBuilder source)
-        {
             String matchingPatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Rule_" + ruleCall.Name;
             String patternName = ruleCall.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
@@ -817,9 +812,70 @@ namespace de.unika.ipd.grGen.lgsp
         {
             SequenceRuleCall ruleCall = (SequenceRuleCall)seqMulti.Sequences[index];
             if(index == 0)
-                return "GRGEN_LIBGR.MatchListHelper.AddReturn(" + matchListName + ", " + GetSequenceExpressionRuleCall(ruleCall, source) + ")";
+                return "GRGEN_LIBGR.MatchListHelper.AddReturn(" + matchListName + ", " + GetSequenceExpressionMultiRuleCallAssignment(seqMulti, source) + ")";
             else
-                return "GRGEN_LIBGR.MatchListHelper.AddReturn(" + GetRuleCallOfSequenceMultiRuleAllCall(seqMulti, index - 1, matchListName, source) + ",\n" + GetSequenceExpressionRuleCall(ruleCall, source) + ")";
+                return "GRGEN_LIBGR.MatchListHelper.AddReturn(" + GetRuleCallOfSequenceMultiRuleAllCall(seqMulti, index - 1, matchListName, source) + ",\n" + GetSequenceExpressionMultiRuleCall(seqMulti, index, source) + ")";
+        }
+
+        private string GetSequenceExpressionMultiRuleCallAssignment(SequenceMultiRuleAllCall seqMulti, SourceBuilder source)
+        {
+            SequenceRuleCall ruleCall = (SequenceRuleCall)seqMulti.Sequences[0];
+            String matchingPatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Rule_" + ruleCall.Name;
+            String patternName = ruleCall.Name;
+            String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
+            String multiRuleCallResultName = "multi_rule_call_result_" + seqMulti.Id;
+            source.AppendFrontFormat("GRGEN_LIBGR.IMatches[] {0} = null;\n", multiRuleCallResultName);
+            SourceBuilder matchesSourceBuilder = new SourceBuilder();
+            matchesSourceBuilder.AppendFormat("((GRGEN_LIBGR.IMatchesExact<{0}>)(({1} = procEnv.MatchForQuery({2}))[0]))",
+                matchType, multiRuleCallResultName, GetActionCallObjects(seqMulti, source));
+            for(int i = 0; i < ruleCall.Filters.Count; ++i)
+            {
+                String matchesSource = matchesSourceBuilder.ToString();
+                matchesSourceBuilder.Reset();
+                EmitFilterCall(matchesSourceBuilder, (SequenceFilterCallCompiled)ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
+            }
+            return matchesSourceBuilder.ToString() + ".ToListExact()";
+        }
+
+        private string GetActionCallObjects(SequenceMultiRuleAllCall seqMulti, SourceBuilder source)
+        {
+            SourceBuilder matchesSourceBuilder = new SourceBuilder();
+
+            bool first = true;
+            for(int i = 0; i < seqMulti.Sequences.Count; ++i)
+            {
+                SequenceRuleCall ruleCall = (SequenceRuleCall)seqMulti.Sequences[i];
+
+                if(first)
+                    first = false;
+                else
+                    matchesSourceBuilder.Append(",");
+
+                matchesSourceBuilder.AppendFormat("new GRGEN_LIBGR.ActionCall({0}, procEnv.MaxMatches{1})",
+                    "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Action_" + ruleCall.Name + ".Instance",
+                    seqHelper.BuildParametersInObject(ruleCall, ruleCall.ArgumentExpressions, source));
+            }
+
+            return matchesSourceBuilder.ToString();
+        }
+
+        private string GetSequenceExpressionMultiRuleCall(SequenceMultiRuleAllCall seqMulti, int index, SourceBuilder source)
+        {
+            SequenceRuleCall ruleCall = (SequenceRuleCall)seqMulti.Sequences[index];
+            String matchingPatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Rule_" + ruleCall.Name;
+            String patternName = ruleCall.Name;
+            String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
+            String multiRuleCallResultName = "multi_rule_call_result_" + seqMulti.Id;
+            SourceBuilder matchesSourceBuilder = new SourceBuilder();
+            matchesSourceBuilder.AppendFormat("((GRGEN_LIBGR.IMatchesExact<{0}>)(({1})[{2}]))",
+                matchType, multiRuleCallResultName, index);
+            for(int i = 0; i < ruleCall.Filters.Count; ++i)
+            {
+                String matchesSource = matchesSourceBuilder.ToString();
+                matchesSourceBuilder.Reset();
+                EmitFilterCall(matchesSourceBuilder, (SequenceFilterCallCompiled)ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
+            }
+            return matchesSourceBuilder.ToString() + ".ToListExact()";
         }
 
         private string GetSequenceExpressionFunctionCall(SequenceExpressionFunctionCall seqFuncCall, SourceBuilder source)
