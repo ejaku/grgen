@@ -123,6 +123,8 @@ namespace de.unika.ipd.grGen.grShell
         bool nonDebugNonGuiExitOnError { get; }
         String debugLayout { get; }
         Dictionary<String, Dictionary<String, String>> debugLayoutOptions { get; }
+        bool detailModePreMatchEnabled { get; }
+        bool detailModePostMatchEnabled { get; }
         GrGenType GetGraphElementType(String typeName);
         void HandleSequenceParserException(SequenceParserException ex);
         string ShowGraphWith(String programName, String arguments, bool keep);
@@ -203,6 +205,14 @@ namespace de.unika.ipd.grGen.grShell
         {
             get { return debugLayoutOptions; }
         }
+        bool IGrShellImplForSequenceApplierAndDebugger.detailModePreMatchEnabled
+        {
+            get { return detailModePreMatchEnabled; }
+        }
+        bool IGrShellImplForSequenceApplierAndDebugger.detailModePostMatchEnabled
+        {
+            get { return detailModePostMatchEnabled; }
+        }
         GrGenType IGrShellImplForSequenceApplierAndDebugger.GetGraphElementType(String typeName)
         {
             return GetGraphElementType(typeName);
@@ -264,6 +274,9 @@ namespace de.unika.ipd.grGen.grShell
         /// if the options were set before yComp was attached.
         /// </summary>
         private readonly Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
+
+        bool detailModePreMatchEnabled = false;
+        bool detailModePostMatchEnabled = true;
 
 
         public GrShellImpl()
@@ -3968,6 +3981,18 @@ showavail:
                 Debug.Assert(false, "Unknown orientation: " + optionValue);
                 break;
             }
+        }
+
+        public void SetDebugMatchModePre(bool enable)
+        {
+            detailModePreMatchEnabled = enable;
+            seqApplierAndDebugger.SetMatchModePre(enable);
+        }
+
+        public void SetDebugMatchModePost(bool enable)
+        {
+            detailModePostMatchEnabled = enable;
+            seqApplierAndDebugger.SetMatchModePost(enable);
         }
 
         public bool SetDebugNodeModeColor(String modeName, String colorName)

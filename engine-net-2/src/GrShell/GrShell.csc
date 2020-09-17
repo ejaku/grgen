@@ -1719,7 +1719,10 @@ void DebugCommand():
         LOOKAHEAD(2)
         "set" "node" DebugSetNode()
     |
+        LOOKAHEAD(2)
         "set" "edge" DebugSetEdge()
+    |
+        "set" "match" DebugSetMatch()
     |
         LOOKAHEAD(2)
         "on" "add" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
@@ -1864,6 +1867,30 @@ void DebugSetEdge():
             noError = impl.SetDebugEdgeModeStyle(mode, styleName);
         }
     )
+}
+
+void DebugSetMatch():
+{
+    String mode;
+    bool enable;
+}
+{
+    "mode" mode=WordOrText() ("enable" { enable = true; } | "disable" { enable = false; }) LineEnd()
+    {
+        if(mode == "pre") 
+        {
+            impl.SetDebugMatchModePre(enable);
+        }
+        else if(mode == "post")
+        {
+            impl.SetDebugMatchModePost(enable);
+        }
+        else
+        {
+            Console.WriteLine("Unknown match mode (available are pre and post)!");
+            noError = false;
+        }
+    }
 }
 
 /////////////////////

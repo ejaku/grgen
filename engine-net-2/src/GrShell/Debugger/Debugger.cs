@@ -39,7 +39,10 @@ namespace de.unika.ipd.grGen.grShell
         bool detailedMode = false;
         bool outOfDetailedMode = false;
         int outOfDetailedModeTarget = -1;
+        bool detailedModeShowPreMatches;
+        bool detailedModeShowPostMatches;
         bool recordMode = false;
+        bool topLevelRuleChanged = true;
         bool alwaysShow = true;
         Sequence curStepSequence = null;
 
@@ -103,7 +106,8 @@ namespace de.unika.ipd.grGen.grShell
         /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
         /// It may be null, if no options are to be applied.</param>
         public Debugger(IDebuggerEnvironment env, ShellGraphProcessingEnvironment shellProcEnv, 
-            ElementRealizers realizers, String debugLayout, Dictionary<String, String> layoutOptions)
+            ElementRealizers realizers, String debugLayout, Dictionary<String, String> layoutOptions,
+            bool debugModePreMatchEnabled, bool debugModePostMatchEnabled)
         {
             this.env = env;
             this.shellProcEnv = shellProcEnv;
@@ -170,6 +174,9 @@ namespace de.unika.ipd.grGen.grShell
             {
                 throw new Exception("Connection to yComp lost");
             }
+
+            detailedModeShowPreMatches = debugModePreMatchEnabled;
+            detailedModeShowPostMatches = debugModePostMatchEnabled;
 
             NotifyOnConnectionLost = false;
             RegisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
@@ -340,6 +347,16 @@ namespace de.unika.ipd.grGen.grShell
             if(errorMessage != null)
                 Console.WriteLine(errorMessage);
             return errorMessage == null;
+        }
+
+        public void SetMatchModePre(bool enable)
+        {
+            detailedModeShowPreMatches = enable;
+        }
+
+        public void SetMatchModePost(bool enable)
+        {
+            detailedModeShowPostMatches = enable;
         }
 
         /// <summary>
@@ -1175,6 +1192,12 @@ namespace de.unika.ipd.grGen.grShell
             if(!detailedMode)
                 return;
 
+            if(!detailedModeShowPreMatches)
+                return;
+
+            if(computationsEnteredStack.Count > 0)
+                return;
+
             Console.WriteLine("PreMatched " + PreMatchedActions(matchesList));
 
             renderRecorder.RemoveAllAnnotations();
@@ -1253,6 +1276,13 @@ namespace de.unika.ipd.grGen.grShell
             if(matches.Count == 0) // happens e.g. from compiled sequences firing the event always, but the Finishing only comes in case of Count!=0
                 return;
 
+            DebugMatchedImpl(matches, match, special);
+
+            topLevelRuleChanged = false;
+        }
+
+        private void DebugMatchedImpl(IMatches matches, IMatch match, bool special)
+        {
             // integrate matched actions into subrule traces stack
             computationsEnteredStack.Add(new SubruleComputation(matches.Producer.Name));
 
@@ -1307,6 +1337,9 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
             }
+
+            if(!detailedModeShowPostMatches && computationsEnteredStack.Count > 1)
+                return;
 
             if(matchDepth++ > 0 || computationsEnteredStack.Count > 0)
                 Console.WriteLine("Matched " + matches.Producer.Name);
@@ -1377,10 +1410,24 @@ namespace de.unika.ipd.grGen.grShell
             if(!detailedMode)
                 return;
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            if(computationsEnteredStack.Count > 3 && !detailedModeShowPostMatches)
+                return;
 
-            QueryContinueOrTrace(false);
+            if(detailedModeShowPostMatches)
+            {
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+
+                QueryContinueOrTrace(false);
+            }
+            else
+            {
+                if(topLevelRuleChanged)
+                {
+                    QueryContinueWhenShowPostDisabled();
+                    return;
+                }
+            }
 
             renderRecorder.ApplyChanges(ycompClient);
 
@@ -1390,6 +1437,31 @@ namespace de.unika.ipd.grGen.grShell
             renderRecorder.ResetAllChangedElements();
             recordMode = false;
             matchDepth--;
+        }
+
+        private void QueryContinueWhenShowPostDisabled()
+        {
+            do
+            {
+                Console.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
+
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case 'a':
+                    env.Cancel();
+                    return;                               // never reached
+                case 'f':
+                    HandleFullState();
+                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    Console.WriteLine();
+                    PrintDebugTracesStack(true);
+                    break;
+                default:
+                    return;
+                }
+            }
+            while(true);
         }
 
         private void DebugEnteringSequence(Sequence seq)
@@ -1608,7 +1680,7 @@ namespace de.unika.ipd.grGen.grShell
             SubruleComputation entry = new SubruleComputation(shellProcEnv.ProcEnv.NamedGraph, 
                 SubruleComputationType.Entry, message, values);
             computationsEnteredStack.Add(entry);
-            if(detailedMode)
+            if(detailedMode && detailedModeShowPostMatches)
                 Console.WriteLine(entry.ToString(false));
         }
 
@@ -1620,7 +1692,7 @@ namespace de.unika.ipd.grGen.grShell
                 InternalHalt(cr, message, values);
 
             RemoveUpToEntryForExit(message);
-            if(detailedMode)
+            if(detailedMode && detailedModeShowPostMatches)
             {
                 SubruleComputation exit = new SubruleComputation(shellProcEnv.ProcEnv.NamedGraph,
                     SubruleComputationType.Exit, message, values);
@@ -1658,6 +1730,8 @@ namespace de.unika.ipd.grGen.grShell
                 throw new Exception("Mismatch of debug enter / exit, mismatch in Debug::add(message,...) / Debug::rem(message,...)");
             }
             computationsEnteredStack.RemoveRange(posOfEntry, computationsEnteredStack.Count - posOfEntry);
+            if(computationsEnteredStack.Count == 0)
+                topLevelRuleChanged = true; // todo: refine - gives wrong result in case an embedded exec is called from a procedure
         }
 
         private void DebugEmit(string message, params object[] values)

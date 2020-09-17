@@ -198,6 +198,22 @@ namespace de.unika.ipd.grGen.grShell
             return debugger.SetLayoutOption(optionName, optionValue);
         }
 
+        public void SetMatchModePre(bool enable)
+        {
+            if(!InDebugMode)
+                return;
+
+            debugger.SetMatchModePre(enable);
+        }
+
+        public void SetMatchModePost(bool enable)
+        {
+            if(!InDebugMode)
+                return;
+
+            debugger.SetMatchModePost(enable);
+        }
+
         public bool SilenceExec
         {
             get
@@ -557,7 +573,8 @@ namespace de.unika.ipd.grGen.grShell
                 impl.debugLayoutOptions.TryGetValue(impl.debugLayout, out optMap);
                 try
                 {
-                    debugger = new Debugger(this, impl.curShellProcEnv, impl.realizers, impl.debugLayout, optMap);
+                    debugger = new Debugger(this, impl.curShellProcEnv, impl.realizers, impl.debugLayout,
+                        optMap, impl.detailModePreMatchEnabled, impl.detailModePostMatchEnabled);
                     impl.curShellProcEnv.ProcEnv.UserProxy = debugger;
                 }
                 catch(Exception ex)
