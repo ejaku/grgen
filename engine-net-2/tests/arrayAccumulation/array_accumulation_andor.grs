@@ -1,0 +1,27 @@
+new graph arrayAccumulation/array_accumulation
+
+exec (::x,::y)=andtruetrue
+show var x
+show var y
+
+exec (::x,::y)=andtruefalse
+show var x
+show var y
+
+exec (::x,::y)=andfalsefalse
+show var x
+show var y
+
+exec (::x,::y)=ortruetrue
+show var x
+show var y
+
+exec (::x,::y)=ortruefalse
+show var x
+show var y
+
+exec (::x,::y)=orfalsefalse
+show var x
+show var y
+
+quit

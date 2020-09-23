@@ -29,6 +29,10 @@ node class A
 		et::b,
 		et::c
 	];
+	shiceArray:array<boolean> = [
+		true,
+		false
+	];
 }
 
 edge class E

@@ -74,6 +74,10 @@ public abstract class ArrayAccumulationMethodNode extends ArrayFunctionMethodInv
 			return new ArrayVarNode(null, null);
 		case "dev":
 			return new ArrayDevNode(null, null);
+		case "and":
+			return new ArrayAndNode(null, null);
+		case "or":
+			return new ArrayOrNode(null, null);
 		default:
 			return null;
 		}

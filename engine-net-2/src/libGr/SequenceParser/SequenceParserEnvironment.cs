@@ -958,6 +958,18 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
                 return new SequenceExpressionArrayDev(targetExpr);
             }
+            else if(functionMethodName == "and")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayAnd(targetExpr);
+            }
+            else if(functionMethodName == "or")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayOr(targetExpr);
+            }
             else if(functionMethodName == "orderAscending")
             {
                 if(argExprs.Count != 0)

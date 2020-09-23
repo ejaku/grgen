@@ -8,6 +8,11 @@ test td(var x:double) : (double)
 	return(x);
 }
 
+test tb(var x:boolean) : (boolean)
+{
+	return(x);
+}
+
 rule sum {
 	modify {
 	---
@@ -68,5 +73,47 @@ rule dev {
 	modify {
 	---
 		exec((::x) = td(array<int>[1,2,3].dev()));
+	}
+}
+
+rule andtruetrue {
+	modify {
+	---
+		exec((::x) = tb(array<boolean>[true,true].and()));
+	}
+}
+
+rule andtruefalse {
+	modify {
+	---
+		exec((::x) = tb(array<boolean>[true,false].and()));
+	}
+}
+
+rule andfalsefalse {
+	modify {
+	---
+		exec((::x) = tb(array<boolean>[false,false].and()));
+	}
+}
+
+rule ortruetrue {
+	modify {
+	---
+		exec((::x) = tb(array<boolean>[true,true].or()));
+	}
+}
+
+rule ortruefalse {
+	modify {
+	---
+		exec((::x) = tb(array<boolean>[true,false].or()));
+	}
+}
+
+rule orfalsefalse {
+	modify {
+	---
+		exec((::x) = tb(array<boolean>[false,false].or()));
 	}
 }

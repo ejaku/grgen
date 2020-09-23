@@ -1,0 +1,21 @@
+new graph arrayAccumulation/array_accumulation_exec
+
+exec andtruetrue
+show var x
+
+exec andtruefalse
+show var x
+
+exec andfalsefalse
+show var x
+
+exec ortruetrue
+show var x
+
+exec ortruefalse
+show var x
+
+exec orfalsefalse
+show var x
+
+quit

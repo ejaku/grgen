@@ -2214,6 +2214,66 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array and expression.
+    /// </summary>
+    public class ArrayAnd : Expression
+    {
+        public ArrayAnd(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayAnd(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.And(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array or expression.
+    /// </summary>
+    public class ArrayOr : Expression
+    {
+        public ArrayOr(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOr(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Or(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
     /// Class representing a deque size expression.
     /// </summary>
     public class DequeSize : Expression

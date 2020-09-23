@@ -177,3 +177,123 @@ rule dev : (double, double) {
 		return(x,y);
 	}
 }
+
+rule andtruetrue : (boolean, boolean) {
+---
+	def var x:boolean;
+
+	yield { 
+		yield x = array<boolean>[true,true].and();
+	}
+	
+	modify {
+	---
+		def var y:boolean;
+
+		eval {
+			yield y = array<boolean>[true,true].and();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule andtruefalse : (boolean, boolean) {
+---
+	def var x:boolean;
+
+	yield { 
+		yield x = array<boolean>[true,false].and();
+	}
+	
+	modify {
+	---
+		def var y:boolean;
+
+		eval {
+			yield y = array<boolean>[true,false].and();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule andfalsefalse : (boolean, boolean) {
+---
+	def var x:boolean;
+
+	yield { 
+		yield x = array<boolean>[false,false].and();
+	}
+	
+	modify {
+	---
+		def var y:boolean;
+
+		eval {
+			yield y = array<boolean>[false,false].and();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule ortruetrue : (boolean, boolean) {
+---
+	def var x:boolean;
+
+	yield { 
+		yield x = array<boolean>[true,true].or();
+	}
+	
+	modify {
+	---
+		def var y:boolean;
+
+		eval {
+			yield y = array<boolean>[true,true].or();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule ortruefalse : (boolean, boolean) {
+---
+	def var x:boolean;
+
+	yield { 
+		yield x = array<boolean>[true,false].or();
+	}
+	
+	modify {
+	---
+		def var y:boolean;
+
+		eval {
+			yield y = array<boolean>[true,false].or();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule orfalsefalse : (boolean, boolean) {
+---
+	def var x:boolean;
+
+	yield { 
+		yield x = array<boolean>[false,false].or();
+	}
+	
+	modify {
+	---
+		def var y:boolean;
+
+		eval {
+			yield y = array<boolean>[false,false].or();
+		}
+		
+		return(x,y);
+	}
+}

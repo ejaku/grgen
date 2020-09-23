@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
+import de.unika.ipd.grgen.ast.expr.array.ArrayAndNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayAsDequeNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayAsMapNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayAsSetNode;
@@ -40,6 +41,7 @@ import de.unika.ipd.grgen.ast.expr.array.ArrayMaxNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayMedNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayMedUnorderedNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayMinNode;
+import de.unika.ipd.grgen.ast.expr.array.ArrayOrNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayOrderAscendingByNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayOrderAscendingNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayOrderDescendingByNode;
@@ -574,6 +576,20 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return null;
 			} else {
 				return new ArrayDevNode(env.getCoords(), targetExpr);
+			}
+		case "and":
+			if(arguments.size() != 0) {
+				env.reportError("array<T>.and() takes no parameters.");
+				return null;
+			} else {
+				return new ArrayAndNode(env.getCoords(), targetExpr);
+			}
+		case "or":
+			if(arguments.size() != 0) {
+				env.reportError("array<T>.or() takes no parameters.");
+				return null;
+			} else {
+				return new ArrayOrNode(env.getCoords(), targetExpr);
 			}
 		default:
 			env.reportError("array<T> does not have a function method named \"" + methodName + "\"");

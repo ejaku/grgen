@@ -48,6 +48,7 @@ import de.unika.ipd.grgen.ir.type.container.DequeType;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.ir.type.container.SetType;
 import de.unika.ipd.grgen.ir.expr.*;
+import de.unika.ipd.grgen.ir.expr.array.ArrayAndExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayAsDequeExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayAsMapExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayAsSetExpr;
@@ -72,6 +73,7 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayMaxExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMedExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMedUnorderedExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMinExpr;
+import de.unika.ipd.grgen.ir.expr.array.ArrayOrExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayOrderAscending;
 import de.unika.ipd.grgen.ir.expr.array.ArrayOrderAscendingBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescending;
@@ -1668,6 +1670,24 @@ public abstract class CSharpBase
 			} else {
 				sb.append("GRGEN_LIBGR.ContainerHelper.Dev(");
 				genExpression(sb, ad.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		} else if(expr instanceof ArrayAndExpr) {
+			ArrayAndExpr aa = (ArrayAndExpr)expr;
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(aa));
+			} else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.And(");
+				genExpression(sb, aa.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		} else if(expr instanceof ArrayOrExpr) {
+			ArrayOrExpr ao = (ArrayOrExpr)expr;
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ao));
+			} else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.Or(");
+				genExpression(sb, ao.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
 			}
 		} else if(expr instanceof DequeSizeExpr) {

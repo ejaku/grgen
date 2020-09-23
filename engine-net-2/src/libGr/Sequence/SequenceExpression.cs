@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.libGr
         IsVisited,
         InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
         ArrayOrDequeIndexOf, ArrayOrDequeLastIndexOf, ArrayIndexOfOrdered,
-        ArraySum, ArrayProd, ArrayMin, ArrayMax, ArrayAvg, ArrayMed, ArrayMedUnordered, ArrayVar, ArrayDev,
+        ArraySum, ArrayProd, ArrayMin, ArrayMax, ArrayAvg, ArrayMed, ArrayMedUnordered, ArrayVar, ArrayDev, ArrayAnd, ArrayOr,
         ArrayOrDequeAsSet, ArrayAsMap, ArrayAsDeque, ArrayAsString,
         ArraySubarray, DequeSubdeque,
         ArrayOrderAscending, ArrayOrderDescending, ArrayGroup, ArrayKeepOneForEach, ArrayReverse,
@@ -4027,6 +4027,130 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return Name + ".dev()"; }
+        }
+    }
+
+    public class SequenceExpressionArrayAnd : SequenceExpressionContainer
+    {
+        public SequenceExpressionArrayAnd(SequenceExpression containerExpr)
+            : base(SequenceExpressionType.ArrayAnd, containerExpr)
+        {
+        }
+
+        protected SequenceExpressionArrayAnd(SequenceExpressionArrayAnd that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayAnd(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ContainerHelper.And(ArrayValue(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".and()"; }
+        }
+    }
+
+    public class SequenceExpressionArrayOr : SequenceExpressionContainer
+    {
+        public SequenceExpressionArrayOr(SequenceExpression containerExpr)
+            : base(SequenceExpressionType.ArrayOr, containerExpr)
+        {
+        }
+
+        protected SequenceExpressionArrayOr(SequenceExpressionArrayOr that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayOr(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ContainerHelper.Or(ArrayValue(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".or()"; }
         }
     }
 

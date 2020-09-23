@@ -1012,6 +1012,8 @@ namespace de.unika.ipd.grGen.lgsp
             case "medUnordered": return "GRGEN_LIBGR.ContainerHelper.MedUnordered";
             case "var": return "GRGEN_LIBGR.ContainerHelper.Var";
             case "dev": return "GRGEN_LIBGR.ContainerHelper.Dev";
+            case "and": return "GRGEN_LIBGR.ContainerHelper.And";
+            case "or": return "GRGEN_LIBGR.ContainerHelper.Or";
             default: return "INTERNAL ERROR";
             }
         }

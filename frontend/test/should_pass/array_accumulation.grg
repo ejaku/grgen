@@ -1,0 +1,166 @@
+using array_model_001;
+
+rule sum {
+	a:A;
+
+	if { array<int>[1,2].sum() == 42; }
+	if { a.spiceArray.sum() == 42; }
+	
+	modify {
+	---
+		eval {
+			def var x:int = array<int>[1,2].sum();
+			a.val = a.spiceArray.sum();
+		}
+	}
+}
+
+rule prod {
+	a:A;
+
+	if { array<int>[1,2].prod() == 42; }
+	if { a.spiceArray.prod() == 42; }
+	
+	modify {
+	---
+		eval {
+			def var x:int = array<int>[1,2].prod();
+			a.val = a.spiceArray.prod();
+		}
+	}
+}
+
+rule min {
+	a:A;
+
+	if { array<int>[1,2].min() == 42; }
+	if { a.spiceArray.min() == 42; }
+	
+	modify {
+	---
+		eval {
+			def var x:int = array<int>[1,2].min();
+			a.val = a.spiceArray.min();
+		}
+	}
+}
+
+rule max {
+	a:A;
+
+	if { array<int>[1,2].max() == 42; }
+	if { a.spiceArray.max() == 42; }
+	
+	modify {
+	---
+		eval {
+			def var x:int = array<int>[1,2].max();
+			a.val = a.spiceArray.max();
+		}
+	}
+}
+
+rule avg {
+	a:A;
+
+	if { array<int>[1,2].avg() == 42.0; }
+	if { a.spiceArray.avg() == 42.0; }
+	
+	modify {
+	---
+		eval {
+			def var x:double = array<int>[1,2].avg();
+			a.valDouble = a.spiceArray.avg();
+		}
+	}
+}
+
+rule med {
+	a:A;
+
+	if { array<int>[1,2].med() == 42.0; }
+	if { a.spiceArray.med() == 42.0; }
+	
+	modify {
+	---
+		eval {
+			def var x:double = array<int>[1,2].med();
+			a.valDouble = a.spiceArray.med();
+		}
+	}
+}
+
+rule medUnordered {
+	a:A;
+
+	if { array<int>[1,2].medUnordered() == 42.0; }
+	if { a.spiceArray.medUnordered() == 42.0; }
+	
+	modify {
+	---
+		eval {
+			def var x:double = array<int>[1,2].medUnordered();
+			a.valDouble = a.spiceArray.medUnordered();
+		}
+	}
+}
+
+rule var {
+	a:A;
+
+	if { array<int>[1,2].var() == 42.0; }
+	if { a.spiceArray.var() == 42.0; }
+	
+	modify {
+	---
+		eval {
+			def var x:double = array<int>[1,2].var();
+			a.valDouble = a.spiceArray.var();
+		}
+	}
+}
+
+rule dev {
+	a:A;
+
+	if { array<int>[1,2].dev() == 42.0; }
+	if { a.spiceArray.dev() == 42.0; }
+	
+	modify {
+	---
+		eval {
+			def var x:double = array<int>[1,2].dev();
+			a.valDouble = a.spiceArray.dev();
+		}
+	}
+}
+
+rule and {
+	a:A;
+
+	if { array<boolean>[true,false].and() == false; }
+	if { a.shiceArray.and() == false; }
+	
+	modify {
+	---
+		eval {
+			def var x:boolean = array<boolean>[true,false].and();
+			a.b = a.shiceArray.and();
+		}
+	}
+}
+
+rule or {
+	a:A;
+
+	if { array<boolean>[true,false].or() == true; }
+	if { a.shiceArray.or() == true; }
+	
+	modify {
+	---
+		eval {
+			def var x:boolean = array<boolean>[true,false].or();
+			a.b = a.shiceArray.or();
+		}
+	}
+}

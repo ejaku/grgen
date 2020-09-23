@@ -76,6 +76,7 @@ import de.unika.ipd.grgen.ir.type.container.SetType;
 import de.unika.ipd.grgen.util.Direction;
 import de.unika.ipd.grgen.util.SourceBuilder;
 import de.unika.ipd.grgen.ir.expr.*;
+import de.unika.ipd.grgen.ir.expr.array.ArrayAndExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayAsDequeExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayAsMapExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayAsSetExpr;
@@ -100,6 +101,7 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayMaxExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMedExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMedUnorderedExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMinExpr;
+import de.unika.ipd.grgen.ir.expr.array.ArrayOrExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayOrderAscending;
 import de.unika.ipd.grgen.ir.expr.array.ArrayOrderAscendingBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescending;
@@ -1014,6 +1016,16 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			ArrayDevExpr ad = (ArrayDevExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayDev(");
 			genExpressionTree(sb, ad.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof ArrayAndExpr) {
+			ArrayAndExpr aa = (ArrayAndExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayAnd(");
+			genExpressionTree(sb, aa.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof ArrayOrExpr) {
+			ArrayOrExpr ao = (ArrayOrExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayOr(");
+			genExpressionTree(sb, ao.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof DequeSizeExpr) {
 			DequeSizeExpr ds = (DequeSizeExpr)expr;

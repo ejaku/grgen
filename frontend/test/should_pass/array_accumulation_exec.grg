@@ -8,6 +8,10 @@ test td(var x:double, var y:double)
 {
 }
 
+test tb(var x:boolean, var y:boolean)
+{
+}
+
 rule sum {
 	a:A;
 	
@@ -68,5 +72,41 @@ rule medUnordered {
 	modify {
 	---
 		exec(td(array<int>[1,2].medUnordered(), a.spiceArray.medUnordered()));
+	}
+}
+
+rule var {
+	a:A;
+
+	modify {
+	---
+		exec(td(array<int>[1,2].var(), a.spiceArray.var()));
+	}
+}
+
+rule dev {
+	a:A;
+
+	modify {
+	---
+		exec(td(array<int>[1,2].dev(), a.spiceArray.dev()));
+	}
+}
+
+rule and {
+	a:A;
+
+	modify {
+	---
+		exec(tb(array<boolean>[true,false].and(), a.shiceArray.and()));
+	}
+}
+
+rule or {
+	a:A;
+
+	modify {
+	---
+		exec(tb(array<boolean>[true,false].or(), a.shiceArray.or()));
 	}
 }

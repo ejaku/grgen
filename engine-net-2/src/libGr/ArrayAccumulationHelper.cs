@@ -708,5 +708,45 @@ namespace de.unika.ipd.grGen.libGr
             else
                 return Dev(array as List<Double>);
         }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static bool And(List<Boolean> array)
+        {
+            if(array.Count == 0)
+                return true;
+
+            bool and = true;
+            foreach(bool elem in array)
+            {
+                and = and && elem;
+            }
+            return and;
+        }
+
+        public static bool And(IList array)
+        {
+            return And(array as List<Boolean>);
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static bool Or(List<Boolean> array)
+        {
+            if(array.Count == 0)
+                return false;
+
+            bool or = false;
+            foreach(bool elem in array)
+            {
+                or = or || elem;
+            }
+            return or;
+        }
+
+        public static bool Or(IList array)
+        {
+            return Or(array as List<Boolean>);
+        }
     }
 }
