@@ -188,6 +188,22 @@ namespace de.unika.ipd.grGen.libGr
             else
                 return inputType;
         }
+
+        protected bool IsNumericType(String inputType)
+        {
+            switch(inputType)
+            {
+            case "byte":
+            case "short":
+            case "int":
+            case "long":
+            case "float":
+            case "double":
+                return true;
+            default:
+                return false;
+            }
+        }
     }
 
     /// <summary>
@@ -3485,6 +3501,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(!IsNumericType(TypesHelper.ExtractSrc(containerType)))
+                {
+                    throw new SequenceParserException(Symbol, "array<T> type where T=number", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -3550,6 +3574,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(!IsNumericType(TypesHelper.ExtractSrc(containerType)))
+                {
+                    throw new SequenceParserException(Symbol, "array<T> type where T=number", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -3615,6 +3647,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(!IsNumericType(TypesHelper.ExtractSrc(containerType)))
+                {
+                    throw new SequenceParserException(Symbol, "array<T> type where T=number", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -3680,6 +3720,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(!IsNumericType(TypesHelper.ExtractSrc(containerType)))
+                {
+                    throw new SequenceParserException(Symbol, "array<T> type where T=number", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -3745,6 +3793,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(!IsNumericType(TypesHelper.ExtractSrc(containerType)))
+                {
+                    throw new SequenceParserException(Symbol, "array<T> type where T=number", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -3807,6 +3863,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(!IsNumericType(TypesHelper.ExtractSrc(containerType)))
+                {
+                    throw new SequenceParserException(Symbol, "array<T> type where T=number", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -3869,6 +3933,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(!IsNumericType(TypesHelper.ExtractSrc(containerType)))
+                {
+                    throw new SequenceParserException(Symbol, "array<T> type where T=number", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -3931,6 +4003,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(!IsNumericType(TypesHelper.ExtractSrc(containerType)))
+                {
+                    throw new SequenceParserException(Symbol, "array<T> type where T=number", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -3993,6 +4073,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(!IsNumericType(TypesHelper.ExtractSrc(containerType)))
+                {
+                    throw new SequenceParserException(Symbol, "array<T> type where T=number", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -4055,6 +4143,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(TypesHelper.ExtractSrc(containerType) != "boolean")
+                {
+                    throw new SequenceParserException(Symbol, "array<boolean>", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -4117,6 +4213,14 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType.StartsWith("array<"))
+            {
+                if(TypesHelper.ExtractSrc(containerType) != "boolean")
+                {
+                    throw new SequenceParserException(Symbol, "array<boolean>", containerType);
+                }
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)

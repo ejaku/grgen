@@ -1,0 +1,14 @@
+using array_model_001b;
+
+test tb(var x:boolean, var y:boolean)
+{
+}
+
+rule or {
+	a:A;
+
+	modify {
+	---
+		exec(tb(array<int>[1,2].or(), a.spiceArray.or()));
+	}
+}

@@ -1,0 +1,14 @@
+using array_model_001b;
+
+test td(var x:double, var y:double)
+{
+}
+
+rule avg {
+	a:A;
+
+	modify {
+	---
+		exec(td(array<string>["1","2"].avg(), a.niceArray.avg()));
+	}
+}

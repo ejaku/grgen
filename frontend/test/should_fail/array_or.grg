@@ -1,0 +1,4 @@
+function or(ref a:array<int>) : boolean
+{
+	return(a.or());
+}

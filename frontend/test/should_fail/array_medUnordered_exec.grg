@@ -1,0 +1,14 @@
+using array_model_001b;
+
+test td(var x:double, var y:double)
+{
+}
+
+rule medUnordered {
+	a:A;
+
+	modify {
+	---
+		exec(td(array<string>["1","2"].medUnordered(), a.niceArray.medUnordered()));
+	}
+}

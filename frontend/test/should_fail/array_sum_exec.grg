@@ -1,0 +1,15 @@
+using array_model_001b;
+
+test ti(var x:int, var y:int)
+{
+}
+
+rule sum {
+	a:A;
+	
+	modify {
+	---
+		exec(ti(array<string>["1","2"].sum(), a.niceArray.sum()));
+	}
+}
+

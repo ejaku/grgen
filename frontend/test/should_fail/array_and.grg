@@ -1,0 +1,4 @@
+function and(ref a:array<int>) : boolean
+{
+	return(a.and());
+}

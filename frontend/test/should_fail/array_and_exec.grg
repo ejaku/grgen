@@ -1,0 +1,14 @@
+using array_model_001b;
+
+test tb(var x:boolean, var y:boolean)
+{
+}
+
+rule and {
+	a:A;
+
+	modify {
+	---
+		exec(tb(array<int>[1,2].and(), a.spiceArray.and()));
+	}
+}
