@@ -1,0 +1,13 @@
+using arraysort;
+
+rule reverseshuffle(ref a:array<int>)
+{
+	if{ a == a.reverse().reverse(); }
+	if{ a != a.shuffle(); }
+	
+	modify {
+	---
+		emit("the value of variable a of type unknown is: ", a.reverse(), "\n");
+		emit("the value of variable a of type unknown is: ", a.shuffle(), "\n");
+	}
+}

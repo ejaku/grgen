@@ -38,3 +38,10 @@ rule reverse {
 	}
 }
 
+rule shuffle {
+	modify {
+	---
+		exec((::x) = ti(array<int>[1,2,3,4].shuffle()));
+	}
+}
+

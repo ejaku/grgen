@@ -97,3 +97,23 @@ rule reverse : (array<int>, array<int>) {
 		return(x,y);
 	}
 }
+
+rule shuffle : (array<int>, array<int>) {
+---
+	def ref x:array<int>;
+
+	yield { 
+		yield x = array<int>[1,2,3,4].shuffle();
+	}
+	
+	modify {
+	---
+		def ref y:array<int>;
+
+		eval {
+			yield y = array<int>[1,2,3,4].shuffle();
+		}
+		
+		return(x,y);
+	}
+}

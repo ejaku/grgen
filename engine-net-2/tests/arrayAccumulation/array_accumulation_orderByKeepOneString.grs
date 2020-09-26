@@ -20,4 +20,10 @@ exec (::x,::y)=reverse
 show var x
 show var y
 
+randomseed 0
+
+exec (::x,::y)=shuffle
+show var x
+show var y
+
 quit

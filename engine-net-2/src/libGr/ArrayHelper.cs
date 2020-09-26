@@ -334,6 +334,72 @@ namespace de.unika.ipd.grGen.libGr
             return newList;
         }
 
+        public static IList Shuffle(IList array)
+        {
+            IList newList = NewList(array.GetType().GetGenericArguments()[0], array); // cannot create new array value, have to clone and shuffle in-place
+
+            for(int positionReached = 0; positionReached < newList.Count - 1; ++positionReached) // -1 to save assignment of last element to itself
+            {
+                int pos = Sequence.randomGenerator.Next(positionReached, newList.Count); // todo: ensure it is the one random generator to get deterministic results - testability
+                Swap(newList, positionReached, pos);
+            }
+
+            return newList;
+        }
+
+        private static void Swap(IList array, int index, int otherIndex)
+        {
+            object temp = array[index];
+            array[index] = array[otherIndex];
+            array[otherIndex] = temp;
+        }
+
+        /// <summary>
+        /// Creates a new dynamic array with permuted content.
+        /// </summary>
+        /// <param name="array">A List, i.e. dynamic array.</param>
+        /// <returns>A new List, i.e. dynamic array, containing the elements of the input array in randomly different order.</returns>
+        public static List<V> Shuffle<V>(List<V> array) where V : new()
+        {
+            List<V> newList = new List<V>(array.Count);
+
+            for(int positionInSourceReached = 0; positionInSourceReached < array.Count; ++positionInSourceReached)
+            {
+                int pos = Sequence.randomGenerator.Next(0, positionInSourceReached + 1); // todo: ensure it is the one random generator to get deterministic results - testability
+                if(pos == positionInSourceReached) // move old element at pos away by adding it at the end, or add unitialized element if insertion position is the one past end
+                    newList.Add(new V());
+                else
+                    newList.Add(newList[pos]);
+                newList[pos] = array[positionInSourceReached];
+            }
+
+            return newList;
+        }
+
+        public static List<String> Shuffle(List<String> array)
+        {
+            List<String> newList = new List<String>(array.Count);
+
+            for(int positionInSourceReached = 0; positionInSourceReached < array.Count; ++positionInSourceReached)
+            {
+                int pos = Sequence.randomGenerator.Next(0, positionInSourceReached + 1); // todo: ensure it is the one random generator to get deterministic results - testability
+                if(pos == positionInSourceReached) // move old element at pos away by adding it at the end, or add unitialized element if insertion position is the one past end
+                    newList.Add(String.Empty);
+                else
+                    newList.Add(newList[pos]);
+                newList[pos] = array[positionInSourceReached];
+            }
+
+            return newList;
+        }
+
+        private static void Swap<V>(List<V> array, int firstIndex, int secondIndex)
+        {
+            V temp = array[firstIndex];
+            array[firstIndex] = array[secondIndex];
+            array[secondIndex] = temp;
+        }
+
         public static IList Extract(object container, string memberOrAttribute, IGraphProcessingEnvironment procEnv)
         {
             IList array = (IList)container;

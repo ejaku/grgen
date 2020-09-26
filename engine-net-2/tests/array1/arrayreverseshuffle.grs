@@ -1,0 +1,7 @@
+new graph array1/arrayreverseshuffle
+
+randomseed 0
+
+exec a:array<int>=array<int>[1,2,3,4,5] ;> reverseshuffle(a)
+
+quit

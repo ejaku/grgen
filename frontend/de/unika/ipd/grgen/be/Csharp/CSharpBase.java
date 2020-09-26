@@ -81,6 +81,7 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescendingBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayPeekExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayProdExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayReverseExpr;
+import de.unika.ipd.grgen.ir.expr.array.ArrayShuffleExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArraySizeExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArraySubarrayExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArraySumExpr;
@@ -1510,6 +1511,15 @@ public abstract class CSharpBase
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ar));
 			} else {
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayReverse(");
+				genExpression(sb, ar.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		} else if(expr instanceof ArrayShuffleExpr) {
+			ArrayShuffleExpr ar = (ArrayShuffleExpr)expr;
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ar));
+			} else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.Shuffle(");
 				genExpression(sb, ar.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
 			}

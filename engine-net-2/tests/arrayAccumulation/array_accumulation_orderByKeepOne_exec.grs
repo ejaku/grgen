@@ -15,4 +15,9 @@ show var x
 exec reverse
 show var x
 
+randomseed 0
+
+exec shuffle
+show var x
+
 quit

@@ -1669,6 +1669,36 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array shuffle expression.
+    /// </summary>
+    public class ArrayShuffle : Expression
+    {
+        public ArrayShuffle(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayShuffle(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Shuffle(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
     /// Class representing an array extract (from match type of rule) expression.
     /// </summary>
     public class ArrayExtract : Expression

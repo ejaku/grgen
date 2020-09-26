@@ -1000,6 +1000,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
                 return new SequenceExpressionArrayReverse(targetExpr);
             }
+            else if(functionMethodName == "shuffle")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayShuffle(targetExpr);
+            }
             else if(functionMethodName == "subarray")
             {
                 if(argExprs.Count != 2)

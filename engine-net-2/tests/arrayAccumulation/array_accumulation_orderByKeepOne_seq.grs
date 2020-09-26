@@ -15,4 +15,9 @@ show var x
 exec {::x = array<int>[1,2,3].reverse()}
 show var x
 
+randomseed 0
+
+exec {::x = array<int>[1,2,3,4].shuffle()}
+show var x
+
 quit

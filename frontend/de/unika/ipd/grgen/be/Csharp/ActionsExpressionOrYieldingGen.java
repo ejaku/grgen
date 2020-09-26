@@ -109,6 +109,7 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescendingBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayPeekExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayProdExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayReverseExpr;
+import de.unika.ipd.grgen.ir.expr.array.ArrayShuffleExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArraySizeExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArraySubarrayExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArraySumExpr;
@@ -908,6 +909,11 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			ArrayReverseExpr ar = (ArrayReverseExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayReverse(");
 			genExpressionTree(sb, ar.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof ArrayShuffleExpr) {
+			ArrayShuffleExpr as = (ArrayShuffleExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayShuffle(");
+			genExpressionTree(sb, as.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof ArrayExtract) {
 			ArrayExtract ae = (ArrayExtract)expr;

@@ -316,6 +316,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayKeepOneForEach((SequenceExpressionArrayKeepOneForEach)expr, source);
             case SequenceExpressionType.ArrayReverse:
                 return GetSequenceExpressionArrayReverse((SequenceExpressionArrayReverse)expr, source);
+            case SequenceExpressionType.ArrayShuffle:
+                return GetSequenceExpressionArrayShuffle((SequenceExpressionArrayShuffle)expr, source);
             case SequenceExpressionType.ArrayExtract:
                 return GetSequenceExpressionArrayExtract((SequenceExpressionArrayExtract)expr, source);
             case SequenceExpressionType.ArrayOrderAscendingBy:
@@ -2259,6 +2261,21 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayReverse.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.ArrayReverse((" + arrayType + ")(" + container + "))";
+            }
+        }
+
+        private string GetSequenceExpressionArrayShuffle(SequenceExpressionArrayShuffle seqArrayShuffle, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayShuffle, source);
+
+            if(seqArrayShuffle.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Shuffle((IList)(" + container + "))";
+            }
+            else //if(seqArrayShuffle.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayShuffle.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Shuffle((" + arrayType + ")(" + container + "))";
             }
         }
 

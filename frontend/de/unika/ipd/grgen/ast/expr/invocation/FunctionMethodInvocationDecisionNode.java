@@ -49,6 +49,7 @@ import de.unika.ipd.grgen.ast.expr.array.ArrayOrderDescendingNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayPeekNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayProdNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayReverseNode;
+import de.unika.ipd.grgen.ast.expr.array.ArrayShuffleNode;
 import de.unika.ipd.grgen.ast.expr.array.ArraySizeNode;
 import de.unika.ipd.grgen.ast.expr.array.ArraySubarrayNode;
 import de.unika.ipd.grgen.ast.expr.array.ArraySumNode;
@@ -484,6 +485,12 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return null;
 			} else
 				return new ArrayReverseNode(env.getCoords(), targetExpr);
+		case "shuffle":
+			if(arguments.size() != 0) {
+				env.reportError("array<T>.shuffle() takes no parameters.");
+				return null;
+			} else
+				return new ArrayShuffleNode(env.getCoords(), targetExpr);
 		case "extract":
 			if(arguments.size() != 0) {
 				env.reportError("array<T>.extract<attribute>() takes no parameters.");
