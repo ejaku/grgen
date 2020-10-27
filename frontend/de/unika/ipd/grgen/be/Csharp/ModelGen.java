@@ -1041,7 +1041,7 @@ deque_init_loop:
 
 	private void genMemberInitsNonConstPrimitiveType(InheritanceType type, InheritanceType targetType, String varName)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, false, false, true);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, false, false, true, false);
 		for(MemberInit memberInit : type.getMemberInits()) {
 			memberInit.getExpression().collectNeededEntities(needs);
 		}

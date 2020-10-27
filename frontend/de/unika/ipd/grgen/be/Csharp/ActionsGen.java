@@ -711,6 +711,8 @@ public class ActionsGen extends CSharpBase
 		}
 		sb.unindent();
 		sb.appendFront("}\n");
+
+		sb.append(modifyGenState.perElementMethodSourceBuilder().toString());
 	}
 
 	/**
@@ -883,6 +885,8 @@ public class ActionsGen extends CSharpBase
 		}
 		sb.unindent();
 		sb.appendFront("}\n");
+
+		sb.append(modifyGenState.perElementMethodSourceBuilder().toString());
 	}
 
 	/**
@@ -1054,6 +1058,8 @@ public class ActionsGen extends CSharpBase
 
 		sb.unindent();
 		sb.appendFront("}\n");
+
+		sb.append(modifyGenState.perElementMethodSourceBuilder().toString());
 	}
 
 	/**
@@ -1126,6 +1132,8 @@ public class ActionsGen extends CSharpBase
 		}
 		sb.unindent();
 		sb.appendFront("}\n");
+
+		sb.append(modifyGenState.perElementMethodSourceBuilder().toString());
 	}
 
 	/**
@@ -1888,7 +1896,7 @@ public class ActionsGen extends CSharpBase
 			PatternGraphLhs directlyNestingLHSPattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false, false);
 		for(Variable var : rhsPattern.getVars()) {
 			if(var.initialization != null) {
 				if(var.directlyNestingLHSGraph == directlyNestingLHSPattern
@@ -1904,7 +1912,7 @@ public class ActionsGen extends CSharpBase
 			List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false, false);
 		for(Variable var : pattern.getVars()) {
 			if(var.initialization != null) {
 				if(var.directlyNestingLHSGraph == pattern) {
@@ -1918,7 +1926,7 @@ public class ActionsGen extends CSharpBase
 	private void genLocalContainersConditions(SourceBuilder sb, PatternGraphLhs pattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false, false);
 		for(Expression expr : pattern.getConditions()) {
 			expr.collectNeededEntities(needs);
 		}
@@ -1929,7 +1937,7 @@ public class ActionsGen extends CSharpBase
 	private void genLocalContainersReturns(SourceBuilder sb, List<Expression> returns, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false, false);
 		for(Expression expr : returns) {
 			expr.collectNeededEntities(needs);
 		}
@@ -1940,7 +1948,7 @@ public class ActionsGen extends CSharpBase
 			List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false, false);
 		for(ImperativeStmt istmt : istmts) {
 			if(istmt instanceof Emit) {
 				Emit emit = (Emit)istmt;
@@ -2578,7 +2586,7 @@ public class ActionsGen extends CSharpBase
 		sb.indent();
 
 		sb.appendFront("new GRGEN_EXPR.Expression[] {\n");
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 		for(Expression expr : sub.getSubpatternConnections()) {
 			expr.collectNeededEntities(needs);
 			sb.appendFrontIndented("");
@@ -2648,7 +2656,7 @@ public class ActionsGen extends CSharpBase
 			HashMap<Entity, String> alreadyDefinedEntityToName,
 			String pathPrefixForElements, Expression expr, String condName)
 	{
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 		expr.collectNeededEntities(needs);
 		sb.appendFront("GRGEN_LGSP.PatternCondition " + condName + " = new GRGEN_LGSP.PatternCondition(\n");
 		sb.indent();
@@ -2690,7 +2698,7 @@ public class ActionsGen extends CSharpBase
 		sb.unindent();
 		sb.appendFront("}, \n");
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 		yields.collectNeededEntities(needs);
 		sb.appendFront("new string[] ");
 		genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
@@ -2793,7 +2801,7 @@ public class ActionsGen extends CSharpBase
 		if(entity.indexAccess != null) {
 			if(entity.indexAccess instanceof IndexAccessEquality) {
 				IndexAccessEquality indexAccess = (IndexAccessEquality)entity.indexAccess;
-				NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+				NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 				indexAccess.expr.collectNeededEntities(needs);
 				Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
 				sb.append("new GRGEN_LGSP.IndexAccessEquality(");
@@ -2808,7 +2816,7 @@ public class ActionsGen extends CSharpBase
 				sb.append("), ");
 			} else if(entity.indexAccess instanceof IndexAccessOrdering) {
 				IndexAccessOrdering indexAccess = (IndexAccessOrdering)entity.indexAccess;
-				NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+				NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 				if(indexAccess.from() != null)
 					indexAccess.from().collectNeededEntities(needs);
 				if(indexAccess.to() != null)
@@ -2850,7 +2858,7 @@ public class ActionsGen extends CSharpBase
 	{
 		if(entity.nameMapAccess != null) {
 			NameLookup nameMapAccess = entity.nameMapAccess;
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 			nameMapAccess.expr.collectNeededEntities(needs);
 			Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
 			sb.append("new GRGEN_LGSP.NameLookup(");
@@ -2872,7 +2880,7 @@ public class ActionsGen extends CSharpBase
 	{
 		if(entity.uniqueIndexAccess != null) {
 			UniqueLookup uniqueIndexAccess = entity.uniqueIndexAccess;
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 			uniqueIndexAccess.expr.collectNeededEntities(needs);
 			Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
 			sb.append("new GRGEN_LGSP.UniqueLookup(");

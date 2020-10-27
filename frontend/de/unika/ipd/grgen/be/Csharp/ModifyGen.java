@@ -498,7 +498,7 @@ public class ModifyGen extends CSharpBase
 
 		collectElementsAccessedByInterface(task, state.accessViaInterface);
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false, false);
 		collectElementsAndAttributesNeededByImperativeStatements(task, needs);
 		needs.collectContainerExprs = false;
 		collectElementsAndAttributesNeededByReturns(task, needs);
@@ -618,6 +618,8 @@ public class ModifyGen extends CSharpBase
 		sb.unindent();
 
 		// ----------
+
+		sb.append(state.perElementMethodSourceBuilder().toString());
 
 		if(createAddedElementNames) {
 			genAddedGraphElementsArray(sb, stateConst, prefix, task.typeOfTask);
@@ -1427,7 +1429,7 @@ public class ModifyGen extends CSharpBase
 		sb.appendFront("GRGEN_ACTIONS." + getPackagePrefixDot(subRule) + "Pattern_" + formatIdentifiable(subRule)
 				+ ".Instance." + formatIdentifiable(subRule) +
 				"_Modify(actionEnv, subpattern_" + subName);
-		NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false, false);
 		List<Entity> replParameters = subRule.getRight().getReplParameters();
 		for(int i = 0; i < subRep.getReplConnections().size(); ++i) {
 			Expression expr = subRep.getReplConnections().get(i);

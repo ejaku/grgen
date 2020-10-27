@@ -42,41 +42,47 @@ public class VarDeclNode extends DeclNode
 
 	public int context;
 
+	public boolean lambdaExpressionVariable = false;
+
 
 	public VarDeclNode(IdentNode id, IdentNode type,
-			PatternGraphLhsNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo)
+			PatternGraphLhsNode directlyNestingLHSGraph, int context,
+			boolean defEntityToBeYieldedTo, boolean lambdaExpressionVariable)
 	{
 		super(id, type);
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		this.defEntityToBeYieldedTo = defEntityToBeYieldedTo;
 		this.context = context;
+		this.lambdaExpressionVariable = lambdaExpressionVariable;
 	}
 
 	public VarDeclNode(IdentNode id, IdentNode type,
 			PatternGraphLhsNode directlyNestingLHSGraph, int context)
 	{
-		this(id, type, directlyNestingLHSGraph, context, false);
+		this(id, type, directlyNestingLHSGraph, context, false, false);
 	}
 
 	public VarDeclNode(IdentNode id, TypeNode type,
-			PatternGraphLhsNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo)
+			PatternGraphLhsNode directlyNestingLHSGraph, int context,
+			boolean defEntityToBeYieldedTo, boolean lambdaExpressionVariable)
 	{
 		super(id, type);
 		this.type = type;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		this.defEntityToBeYieldedTo = defEntityToBeYieldedTo;
 		this.context = context;
+		this.lambdaExpressionVariable = lambdaExpressionVariable;
 	}
 
 	public VarDeclNode(IdentNode id, TypeNode type,
 			PatternGraphLhsNode directlyNestingLHSGraph, int context)
 	{
-		this(id, type, directlyNestingLHSGraph, context, false);
+		this(id, type, directlyNestingLHSGraph, context, false, false);
 	}
 
 	public VarDeclNode cloneForAuto(PatternGraphLhsNode parent)
 	{
-		VarDeclNode varDecl = new VarDeclNode(this.ident, this.type, parent, this.context, this.defEntityToBeYieldedTo);
+		VarDeclNode varDecl = new VarDeclNode(this.ident, this.type, parent, this.context, this.defEntityToBeYieldedTo, this.lambdaExpressionVariable);
 		varDecl.resolve();
 		varDecl.check();
 		return varDecl;
@@ -189,7 +195,8 @@ public class VarDeclNode extends DeclNode
 		}
 
 		Variable var = new Variable("Var", getIdentNode().getIdent(), type.getType(), defEntityToBeYieldedTo,
-				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getPatternGraph() : null, context);
+				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getPatternGraph() : null,
+				context, lambdaExpressionVariable);
 
 		setIR(var);
 

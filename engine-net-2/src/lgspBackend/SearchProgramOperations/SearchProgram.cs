@@ -87,6 +87,8 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly string Name;
         public readonly bool Parallel;
 
+        public string ArrayPerElementMethods;
+
         // List because of potentially nested independents, flattened, and also alternative cases combined in alternative
         protected readonly List<string> MatchingPatternClassTypeName;
         protected readonly List<Dictionary<PatternGraph, bool>> NestedIndependents;

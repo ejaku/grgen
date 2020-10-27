@@ -1736,6 +1736,150 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array map expression.
+    /// </summary>
+    public class ArrayMap : Expression
+    {
+        public ArrayMap(Expression target, String targetType, String elementVariable, Expression mapping, String resultingType,
+            PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
+        {
+            Target = target;
+            TargetType = targetType;
+            ElementVariable = elementVariable;
+            Mapping = mapping;
+            ResultingType = resultingType;
+            PatternNodes = patternNodes;
+            PatternEdges = patternEdges;
+            PatternVariables = patternVariables;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            PatternNode[] newPatternNodes = new PatternNode[PatternNodes.Length];
+            for(int i = 0; i < PatternNodes.Length; ++i)
+            {
+                newPatternNodes[i] = new PatternNode(PatternNodes[i], renameSuffix);
+            }
+            PatternEdge[] newPatternEdges = new PatternEdge[PatternEdges.Length];
+            for(int i = 0; i < PatternEdges.Length; ++i)
+            {
+                newPatternEdges[i] = new PatternEdge(PatternEdges[i], renameSuffix);
+            }
+            PatternVariable[] newPatternVariables = new PatternVariable[PatternVariables.Length];
+            for(int i = 0; i < PatternVariables.Length; ++i)
+            {
+                newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
+            }
+            return new ArrayMap(Target.Copy(renameSuffix), TargetType, ElementVariable, Mapping.Copy(renameSuffix), ResultingType,
+                newPatternNodes, newPatternEdges, newPatternVariables);
+        }
+
+        public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        {
+            base.EmitArrayPerElementMethods(sourceCode);
+
+            string TargetArrayType = "List<" + TargetType + ">"; // call target
+            string ResultingArrayType = "List<" + ResultingType + ">";
+            string ArrayMapMethodName = "ArrayMap_" + "expr" + Id;
+            sourceCode.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", ResultingArrayType, ArrayMapMethodName);
+            sourceCode.Append(", ");
+            sourceCode.AppendFormat("{0} {1}", TargetArrayType, "source");
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternNode.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternEdge.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternVariable.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+            sourceCode.Append(")\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sourceCode.AppendFront(ResultingArrayType + " target = new " + ResultingArrayType + "();\n");
+
+            sourceCode.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            sourceCode.AppendFront(TargetType + " " + NamesOfEntities.Variable(ElementVariable) + " = source[index_name];\n");
+            sourceCode.AppendFront(ResultingType + " result_name = ");
+
+            Mapping.Emit(sourceCode);
+
+            sourceCode.Append(";\n");
+            sourceCode.AppendFront("target.Add(result_name);\n");
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            sourceCode.AppendFront("return target;\n");
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string ArrayMapMethodName = "ArrayMap_" + "expr" + Id;
+            sourceCode.AppendFormat("{0}(actionEnv", ArrayMapMethodName);
+            sourceCode.Append(", ");
+            Target.Emit(sourceCode);
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                sourceCode.Append(", (");
+                sourceCode.Append(TypesHelper.TypeName(patternNode.type));
+                sourceCode.Append(")");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                sourceCode.Append(", (");
+                sourceCode.Append(TypesHelper.TypeName(patternEdge.type));
+                sourceCode.Append(")");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                sourceCode.Append(", (");
+                sourceCode.Append(TypesHelper.TypeName(patternVariable.type));
+                sourceCode.Append(")");
+                sourceCode.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Mapping;
+        }
+
+        readonly Expression Target;
+        readonly String TargetType;
+        readonly String ElementVariable;
+        readonly Expression Mapping;
+        readonly String ResultingType;
+        readonly PatternNode[] PatternNodes;
+        readonly PatternEdge[] PatternEdges;
+        readonly PatternVariable[] PatternVariables;
+    }
+
+    /// <summary>
     /// Class representing an array extract (from match type of rule iterated) expression.
     /// </summary>
     public class ArrayExtractIterated : Expression

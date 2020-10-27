@@ -1,0 +1,24 @@
+#using "array_map.gm"
+
+function f(ref a:array<int>, ref aa:array<N>, nn:N, value:Node) : N
+{
+	if(a != null && aa != null) {
+		if(value != null) {
+			return((N)value);
+		} else {
+			return(aa[0]);
+		}
+	} else {
+		return(nn);
+	}
+}
+
+rule array_map_exec(ref a:array<int>, ref aa:array<N>) {
+	modify {
+		nn:N;
+
+		---
+		exec({ ra:array<double> = a.map<double>{value:int -> value * 1.5} });
+		exec({ raa:array<Node> = aa.map<Node>{value:Node -> f(a, aa, nn, value)} });
+	}
+}

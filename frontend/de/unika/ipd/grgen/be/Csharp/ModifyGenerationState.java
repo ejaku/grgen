@@ -32,6 +32,7 @@ import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.pattern.Variable;
+import de.unika.ipd.grgen.util.SourceBuilder;
 
 class ModifyGenerationState implements ModifyGenerationStateConst
 {
@@ -232,6 +233,12 @@ class ModifyGenerationState implements ModifyGenerationStateConst
 	{
 		return emitProfiling;
 	}
+	
+	@Override
+	public SourceBuilder perElementMethodSourceBuilder()
+	{
+		return perElementMethodSourceBuilder;
+	}
 
 	// --------------------
 
@@ -284,6 +291,9 @@ class ModifyGenerationState implements ModifyGenerationStateConst
 	private boolean isToBeParallelizedActionExisting;
 	private boolean emitProfiling;
 
+	private SourceBuilder perElementMethodSourceBuilder;
+
+
 	public void InitNeeds(NeededEntities needs)
 	{
 		neededAttributes = needs.attrEntityMap;
@@ -330,5 +340,7 @@ class ModifyGenerationState implements ModifyGenerationStateConst
 		this.packagePrefix = packagePrefix;
 		this.isToBeParallelizedActionExisting = isToBeParallelizedActionExisting;
 		this.emitProfiling = emitProfiling;
+		this.perElementMethodSourceBuilder = new SourceBuilder();
+		this.perElementMethodSourceBuilder.indent().indent();
 	}
 }

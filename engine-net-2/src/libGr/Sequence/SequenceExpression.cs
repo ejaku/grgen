@@ -42,6 +42,7 @@ namespace de.unika.ipd.grGen.libGr
         ArraySubarray, DequeSubdeque,
         ArrayOrderAscending, ArrayOrderDescending, ArrayGroup, ArrayKeepOneForEach, ArrayReverse, ArrayShuffle,
         ArrayExtract, ArrayOrderAscendingBy, ArrayOrderDescendingBy, ArrayGroupBy, ArrayKeepOneForEachBy,
+        ArrayMap,
         ElementFromGraph, NodeByName, EdgeByName, NodeByUnique, EdgeByUnique,
         Source, Target, Opposite,
         GraphElementAttributeOrElementOfMatch, GraphElementAttribute, ElementOfMatch,
@@ -5255,6 +5256,98 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return Name + ".extract<" + memberOrAttributeName + ">()"; }
+        }
+    }
+
+    public class SequenceExpressionArrayMap : SequenceExpressionContainer
+    {
+        public string TypeName;
+        public SequenceVariable Var;
+        public SequenceExpression MappingExpr;
+
+        public SequenceExpressionArrayMap(SequenceExpression containerExpr, String typeName, SequenceVariable var, SequenceExpression mappingExpr)
+            : base(SequenceExpressionType.ArrayMap, containerExpr)
+        {
+            TypeName = typeName;
+            Var = var;
+            MappingExpr = mappingExpr;
+        }
+
+        protected SequenceExpressionArrayMap(SequenceExpressionArrayMap that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+            TypeName = that.TypeName;
+            Var = that.Var.Copy(originalToCopy, procEnv);
+            MappingExpr = that.MappingExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayMap(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
+
+            if(!TypesHelper.IsSameOrSubtype(MappingExpr.Type(env), TypeName, env.Model))
+                throw new SequenceParserException(Symbol, TypeName, MappingExpr.Type(env));
+            if(!TypesHelper.IsSameOrSubtype(arrayValueType, Var.Type, env.Model))
+                throw new SequenceParserException(Symbol, Var.Type, arrayValueType);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "array<" + TypeName + ">";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            IList result = ContainerHelper.NewList(TypesHelper.GetType(TypeName, procEnv.Graph.Model));
+            IList source = ArrayValue(procEnv);
+
+            for(int index_name = 0; index_name < source.Count; ++index_name)
+            {
+                Var.SetVariableValue(source[index_name], procEnv);
+                object result_name = MappingExpr.Evaluate(procEnv);
+                result.Add(result_name);
+            }
+
+            return result;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, containerConstructors);
+            // maybe todo: add Var (could make a difference in case it does not appear in MappingExpr)
+            MappingExpr.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+                yield return MappingExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".map<" + TypeName + ">{" + MappingExpr.Symbol + "}"; }
         }
     }
 

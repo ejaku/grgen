@@ -69,7 +69,7 @@ public class PatternGraphBuilder
 
 		// add Condition elements only mentioned there to the IR
 		// (they're declared in an enclosing pattern graph and locally only show up in the condition)
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 		for(Expression condition : patternGraph.getConditions()) {
 			condition.collectNeededEntities(needs);
 		}
@@ -77,7 +77,7 @@ public class PatternGraphBuilder
 
 		// add Yielded elements only mentioned there to the IR
 		// (they're declared in an enclosing pattern graph and locally only show up in the yield)
-		needs = new NeededEntities(true, true, true, false, false, true, false, false);
+		needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 		for(EvalStatements yield : patternGraph.getYields()) {
 			yield.collectNeededEntities(needs);
 		}
@@ -115,7 +115,7 @@ public class PatternGraphBuilder
 
 		// add index access elements only mentioned there to the IR
 		// (they're declared in an enclosing pattern graph and locally only show up in the index access)
-		needs = new NeededEntities(true, true, true, false, false, true, false, false);
+		needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 		for(Node node : patternGraph.getNodes()) {
 			if(node.indexAccess != null) {
 				node.indexAccess.collectNeededEntities(needs);
@@ -164,7 +164,7 @@ public class PatternGraphBuilder
 					assert(false);
 				}
 			} else {
-				NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
+				NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false, false);
 				expr.collectNeededEntities(needs);
 				for(Variable neededVariable : needs.variables) {
 					if(!patternGraph.hasVar(neededVariable)) {
@@ -189,7 +189,7 @@ public class PatternGraphBuilder
 					assert(false);
 				}
 			} else {
-				NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
+				NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false, false);
 				expr.collectNeededEntities(needs);
 				for(Variable neededVariable : needs.variables) {
 					if(!patternGraph.hasVar(neededVariable)) {
@@ -400,7 +400,7 @@ public class PatternGraphBuilder
 				assert(false);
 			}
 		} else {
-			NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
+			NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false, false);
 			expr.collectNeededEntities(needs);
 			for(Variable neededVariable : needs.variables) {
 				if(!patternGraph.hasVar(neededVariable)) {

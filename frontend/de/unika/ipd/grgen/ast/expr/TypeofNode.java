@@ -139,7 +139,7 @@ public class TypeofNode extends ExprNode
 			}
 		}
 		if(entityVarDecl != null) {
-			if(entityVarDecl.defEntityToBeYieldedTo) {
+			if(entityVarDecl.defEntityToBeYieldedTo && !entityVarDecl.lambdaExpressionVariable) {
 				entityVarDecl.reportError("A def variable (" + entityVarDecl
 						+ ") can't be accessed from a " + containingConstruct);
 				return false;

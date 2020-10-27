@@ -1,0 +1,6 @@
+test array_map(ref a:array<int>) {
+	n:Node;	
+	if {
+		a.map<Edge>{value:int -> n}.empty();
+	}	
+}

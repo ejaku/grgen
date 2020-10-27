@@ -1810,16 +1810,24 @@ SequenceExpression ExpressionBasic():
 SequenceExpression SelectorExpression(SequenceExpression fromExpr):
 {
     String methodOrAttrName;
-    String memberOrAttribute;
+    String memberOrAttribute = null;
+    String typeName;
+    SequenceVariable var;
     SequenceExpression expr = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
+    List<SequenceVariable> variableList = new List<SequenceVariable>();
 }
 {
     LOOKAHEAD(2)
     "." methodOrAttrName=Word()
-    (
-        "<" memberOrAttribute=Word() ">" "(" (Arguments(argExprs))? ")"
+    ( LOOKAHEAD(4)
+        "<" memberOrAttribute=Word() ">"
+        "(" (Arguments(argExprs))? ")"
             { expr = env.CreateSequenceExpressionArrayAttributeAccessMethodCall(fromExpr, methodOrAttrName, memberOrAttribute, argExprs); }
+    |
+        "<" (LOOKAHEAD(2) typeName=TypeNonGeneric() | typeName=MatchType()) ">"
+        "{" { varDecls.PushScope(ScopeType.Computation); } var=VariableDefinition() "->" expr=Expression() { varDecls.PopScope(variableList); } "}"
+            { expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, typeName, var, expr); }
     |
         "(" (Arguments(argExprs))? ")"
             { expr = env.CreateSequenceExpressionFunctionMethodCall(fromExpr, methodOrAttrName, argExprs); }

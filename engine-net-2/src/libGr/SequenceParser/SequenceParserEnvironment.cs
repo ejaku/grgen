@@ -1121,6 +1121,16 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             throw new ParseException("Unknown array attribute access function method name: \"" + functionMethodName + "\"! (available are extract,orderAscendingBy,orderDescendingBy,groupBy,keepOneForEach)");
         }
 
+        public SequenceExpression CreateSequenceExpressionPerElementMethodCall(SequenceExpression targetExpr,
+            String functionMethodName, String typeName, SequenceVariable var, SequenceExpression argExpr)
+        {
+            if(functionMethodName == "map")
+            {
+                return new SequenceExpressionArrayMap(targetExpr, typeName, var, argExpr);
+            }
+            throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"! (available is map)");
+        }
+
         abstract public bool IsFunctionName(String functionName, String package);
 
         abstract public string GetFunctionNames();

@@ -1,0 +1,87 @@
+ref ::aa:array<int>;
+
+rule array_map(ref a:array<int>, var val:double) : (array<double>) {
+	if {
+		a.map<double>{value:int -> value * 1.5}.sum() == val;
+	}
+	
+	modify {
+		return(a.map<double>{value:int -> value * Math::pi()});
+	}
+}
+
+rule array_map2(ref a:array<Node>, var val:int) {
+	if {
+		a.map<double>{value:Node -> (nameof(value)!="$0" ? 1 : 0)}.sum() == val;
+	}
+	
+	modify {
+	---
+		eval {
+			def var y:int = 42;
+			::aa = a.map<int>{value:Node -> (nameof(value)!="$0" ? 1 : 0) + y};
+		}
+	}
+}
+
+test array_map3(ref a:array<Node>, ref ai:array<string>) {
+---
+	def ref laa:array<string>;
+	def ref laai:array<Node>;
+	yield {
+		yield laa = a.map<string>{value:Node -> nameof(value)};
+		yield laai = ai.map<Node>{value:string -> nodeByName(value)};
+	}
+}
+
+function array_map4(ref a:array<int>) : array<double> {
+	return(a.map<double>{value:int -> value * Math::pi()});
+}
+
+procedure array_map5(ref a:array<Node>, var y:int) : (array<int>) {
+	return(a.map<int>{value:Node -> (nameof(value)!="$0" ? 1 : 0) + y});
+}
+
+test t implements mc
+{
+	n:Node;
+---
+	def var attr:int = incident(n).size();
+} \ orderAscendingBy<attr>
+
+filter f<t>()
+{
+	def ref a:array<int> = this.map<int>{value:match<t> -> value.attr};
+	for(i:int in [0:this.size()-1])
+	{
+		def ref m:match<t> = this[i];
+		m.attr = this[i].attr + a[i];
+	}
+}
+
+match class mc
+{
+	def var attr:int;
+} \ orderAscendingBy<attr>
+
+filter fmc<class mc>()
+{
+	def ref a:array<int> = this.map<int>{value:match<class mc> -> value.attr};
+	for(i:int in [0:this.size()-1])
+	{
+		def ref m:match<class mc> = this[i];
+		m.attr = this[i].attr + a[i];
+	}
+}
+
+rule rexec : (array<int>, double)
+{
+	modify {
+	---
+		def ref x:array<int>;
+		def var y:double;
+		exec({yield x = [?t].map<int>{value:match<t> -> value.attr}});
+		exec({yield y = [?t].map<int>{value:match<t> -> value.attr}.map<double>{value:int -> value * 1.5}.sum()});
+		return(x,y);
+	}
+}

@@ -123,6 +123,9 @@ namespace de.unika.ipd.grGen.lgsp
                 if(searchProgramParallelized != null)
                     searchProgramParallelized.Emit(sb);
                 GenerateActionImplementation(sb, (LGSPRulePattern)matchingPattern);
+                GenerateArrayPerElementMethods(sb, searchProgram.ArrayPerElementMethods);
+                //if(searchProgramParallelized != null)
+                //    sb.Append(searchProgramParallelized.ArrayPerElementMethods);
                 GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package != null);
             }
             else
@@ -131,6 +134,9 @@ namespace de.unika.ipd.grGen.lgsp
                 searchProgram.Emit(sb);
                 if(searchProgramParallelized != null)
                     searchProgramParallelized.Emit(sb);
+                GenerateArrayPerElementMethods(sb, searchProgram.ArrayPerElementMethods);
+                //if(searchProgramParallelized != null)
+                //    sb.Append(searchProgramParallelized.ArrayPerElementMethods);
                 GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package != null);
             }
 
@@ -172,6 +178,9 @@ namespace de.unika.ipd.grGen.lgsp
             searchProgram.Emit(sb);
             if(searchProgramParallelized != null)
                 searchProgramParallelized.Emit(sb);
+            GenerateArrayPerElementMethods(sb, searchProgram.ArrayPerElementMethods);
+            //if(searchProgramParallelized != null)
+            //    sb.Append(searchProgramParallelized.ArrayPerElementMethods);
             GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package != null);
 
             // handle alternatives or iterateds nested in the alternative cases
@@ -215,6 +224,9 @@ namespace de.unika.ipd.grGen.lgsp
             searchProgram.Emit(sb);
             if(searchProgramParallelized != null)
                 searchProgramParallelized.Emit(sb);
+            GenerateArrayPerElementMethods(sb, searchProgram.ArrayPerElementMethods);
+            //if(searchProgramParallelized != null)
+            //    sb.Append(searchProgramParallelized.ArrayPerElementMethods);
             GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package != null);
 
             // finally generate matcher source for all the nested alternatives or iterateds of the iterated pattern graph
@@ -235,6 +247,11 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, idpt, isInitialStatic);
             }
+        }
+
+        private void GenerateArrayPerElementMethods(SourceBuilder sb, String arrayPerElementMethods)
+        {
+            sb.Append(arrayPerElementMethods);
         }
 
         /// <summary>

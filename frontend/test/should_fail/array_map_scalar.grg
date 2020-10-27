@@ -1,0 +1,5 @@
+test array_map(ref a:array<int>) {
+	if {
+		a.map<int>{value:int -> value * Math::pi()}.empty();
+	}	
+}

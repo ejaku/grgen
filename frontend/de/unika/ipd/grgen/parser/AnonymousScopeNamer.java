@@ -35,12 +35,14 @@ public class AnonymousScopeNamer
 
 		curYield = IdentNode.getInvalid();
 		curEval = IdentNode.getInvalid();
+		curExprBlock = IdentNode.getInvalid();
 
 		altCount = 0;
 		altCaseCount = 0;
 		iterCount = 0;
 		negCount = 0;
 		idptCount = 0;
+		exprBlockCount = 0;
 
 		yieldCount = 0;
 		evalCount = 0;
@@ -187,6 +189,25 @@ public class AnonymousScopeNamer
 		return curEval;
 	}
 
+	public void defExprBlock(IdentNode maybeIdent, Coords coords)
+	{
+		if(maybeIdent != null)
+			curExprBlock = maybeIdent;
+		else
+			curExprBlock = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "expr_block_" + exprBlockCount, coords));
+		++exprBlockCount;
+	}
+
+	public void undefExprBlock()
+	{
+		curExprBlock = IdentNode.getInvalid();
+	}
+
+	public IdentNode exprBlock()
+	{
+		return curExprBlock;
+	}
+
 	private int altCount;
 	private int altCaseCount;
 	private int iterCount;
@@ -195,6 +216,7 @@ public class AnonymousScopeNamer
 
 	private int yieldCount;
 	private int evalCount;
+	private int exprBlockCount;
 
 	private Stack<IdentNode> curAlt;
 	private Stack<IdentNode> curAltCase;
@@ -204,6 +226,7 @@ public class AnonymousScopeNamer
 
 	private IdentNode curYield;
 	private IdentNode curEval;
+	private IdentNode curExprBlock;
 
 	private ParserEnvironment env;
 }

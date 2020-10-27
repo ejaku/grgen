@@ -20,6 +20,23 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public abstract class ExpressionOrYielding
     {
+        public ExpressionOrYielding()
+        {
+            Id = ++IdSource;
+        }
+
+        /// <summary>
+        /// pre-run for emitting array per element methods employing lambda expressions (that are then called in the expression/yielding)
+        /// default implementation: recursively walk the tree, real functionality is to be attached to the nodes that require it
+        /// </summary>
+        public virtual void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        {
+            foreach(ExpressionOrYielding exprOrYield in this)
+            {
+                exprOrYield.EmitArrayPerElementMethods(sourceCode);
+            }
+        }
+
         /// <summary>
         /// emits c# code implementing the construct into the source builder
         /// to be implemented by concrete subclasses
@@ -54,6 +71,9 @@ namespace de.unika.ipd.grGen.expression
             // only the node/edge and the incident/adjacent/reachable-constructs need to call a special version
             // counting up the search steps with each visited element/graph element accessed (but not the implicit operations)
         }
+
+        private static int IdSource = 0;
+        protected readonly int Id;
     }
 
 
@@ -1304,7 +1324,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((" + OwnerType + ")"+ NamesOfEntities.CandidateVariable(Owner) + ").@" + Member);
+            sourceCode.Append("((" + OwnerType + ")" + NamesOfEntities.CandidateVariable(Owner) + ").@" + Member);
         }
 
         readonly String OwnerType;

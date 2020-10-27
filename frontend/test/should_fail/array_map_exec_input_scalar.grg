@@ -1,0 +1,6 @@
+rule array_map_exec(ref a:array<double>) {
+	modify {
+		---
+		exec({ aa:array<int> = a.map<int>{value:int -> value} });
+	}
+}

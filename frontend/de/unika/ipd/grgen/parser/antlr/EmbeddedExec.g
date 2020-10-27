@@ -446,9 +446,21 @@ seqExprSelector [ ExprNode prefix, ExecNode xg ] returns [ ExprNode res = prefix
 		CollectNode<ExprNode> arguments = new CollectNode<ExprNode>();
 	}
 	: d=DOT methodOrAttrName=seqMemberIdentUse { xg.append("."+methodOrAttrName.getSymbol().getText()); } 
-			({ env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }? 
-				LT mi=memberIdentUse GT { xg.append("<" + mi.getSymbol().getText() + ">"); })?
 		(
+			{ env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }?
+				LT mi=memberIdentUse GT { xg.append("<" + mi.getSymbol().getText() + ">"); }
+			LPAREN { xg.append("("); } 
+			( arg=seqExpression[xg] { arguments.addChild(arg); }
+				( COMMA { xg.append(","); } arg=seqExpression[xg] { arguments.addChild(arg); } )*
+				)? RPAREN { xg.append(")"); }
+			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, mi); }
+		|
+			{ env.isArrayPerElementMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }?
+				LT ti=typeIdentUse GT { xg.append("<" + ti.getSymbol().getText() + ">"); }
+			LBRACE { xg.append("{"); } { env.pushScope("arraymap/exec", getCoords(l)); } seqEntityDecl[xg] 
+				RARROW { xg.append("->"); } seqExpression[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, ti); }
+		|
 			LPAREN { xg.append("("); } 
 			( arg=seqExpression[xg] { arguments.addChild(arg); }
 				( COMMA { xg.append(","); } arg=seqExpression[xg] { arguments.addChild(arg); } )*

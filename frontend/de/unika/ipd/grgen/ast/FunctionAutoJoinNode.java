@@ -246,7 +246,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		ArrayType resultVarType = (ArrayType)function.getReturnType();
 		PatternGraphLhs fakePatternGraph = PatternGraphLhsNode.getInvalid().checkIR(PatternGraphLhs.class);
 		Variable resultVar = new Variable("res", resultVarIdent, resultVarType,
-				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION);
+				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION, false);
 		Expression emptyArray = new ArrayInit(new Vector<Expression>(), null, resultVarType, true);
 		resultVar.setInitialization(emptyArray);
 		DefDeclVarStatement resultVarDecl = new DefDeclVarStatement(resultVar);
@@ -259,7 +259,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		MatchTypeNode leftMatchType = (MatchTypeNode)leftArrayType.valueType;
 		Type leftIterationVarType = leftMatchType.checkIR(Type.class);
 		Variable leftIterationVar = new Variable(leftIterationVarName, leftIterationVarIdent, leftIterationVarType,
-				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION);
+				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION, false);
 		ContainerAccumulationYield leftMatchesIteration = new ContainerAccumulationYield(leftIterationVar, null,
 				leftArgument.checkIR(Variable.class));
 		insertionPoint.addStatement(leftMatchesIteration);
@@ -272,7 +272,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		MatchTypeNode rightMatchType = (MatchTypeNode)rightArrayType.valueType;
 		Type rightIterationVarType = rightMatchType.checkIR(Type.class);
 		Variable rightIterationVar = new Variable(rightIterationVarName, rightIterationVarIdent, rightIterationVarType,
-				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION);
+				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION, false);
 		ContainerAccumulationYield rightMatchesIteration = new ContainerAccumulationYield(rightIterationVar, null,
 				rightArgument.checkIR(Variable.class));
 		insertionPoint.addStatement(rightMatchesIteration);
@@ -307,7 +307,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		Ident matchVarIdent = new Ident("$m", getCoords());
 		DefinedMatchType matchVarType = (DefinedMatchType)resultVarType.getValueType();
 		Variable matchVar = new Variable("$m", matchVarIdent, matchVarType,
-				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION);
+				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION, false);
 		Expression matchInit = new MatchInit(matchVarType);
 		matchVar.setInitialization(matchInit);
 		DefDeclVarStatement matchVarDecl = new DefDeclVarStatement(matchVar);

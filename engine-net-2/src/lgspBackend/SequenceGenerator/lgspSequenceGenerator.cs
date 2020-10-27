@@ -77,12 +77,12 @@ namespace de.unika.ipd.grGen.lgsp
             this.emitProfiling = emitProfiling;
         }
 
-		public bool GenerateXGRSCode(string xgrsName, String package, String xgrsStr,
+        public bool GenerateXGRSCode(string xgrsName, String package, String xgrsStr,
             String[] paramNames, GrGenType[] paramTypes,
             String[] defToBeYieldedToNames, GrGenType[] defToBeYieldedToTypes,
             SourceBuilder source, int lineNr)
-		{
-			Dictionary<String, String> varDecls = new Dictionary<String, String>();
+        {
+            Dictionary<String, String> varDecls = new Dictionary<String, String>();
             for(int i = 0; i < paramNames.Length; ++i)
             {
                 varDecls.Add(paramNames[i], TypesHelper.DotNetTypeToXgrsType(paramTypes[i]));
@@ -92,7 +92,7 @@ namespace de.unika.ipd.grGen.lgsp
                 varDecls.Add(defToBeYieldedToNames[i], TypesHelper.DotNetTypeToXgrsType(defToBeYieldedToTypes[i]));
             }
 
-			Sequence seq;
+            Sequence seq;
             try
             {
                 SequenceParserEnvironmentCompiled parserEnv = new SequenceParserEnvironmentCompiled(package, actionNames, model);
@@ -122,24 +122,24 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Append("\n");
             source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
-			for(int i = 0; i < paramNames.Length; ++i)
-			{
-				source.Append(", " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(paramTypes[i]), model) + " var_");
-				source.Append(paramNames[i]);
-			}
+            for(int i = 0; i < paramNames.Length; ++i)
+            {
+                source.Append(", " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(paramTypes[i]), model) + " var_");
+                source.Append(paramNames[i]);
+            }
             for(int i = 0; i < defToBeYieldedToTypes.Length; ++i)
             {
                 source.Append(", ref " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(defToBeYieldedToTypes[i]), model) + " var_");
                 source.Append(defToBeYieldedToNames[i]);
             }
             source.Append(")\n");
-			source.AppendFront("{\n");
-			source.Indent();
+            source.AppendFront("{\n");
+            source.Indent();
 
             source.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
             source.AppendFront("GRGEN_LGSP.LGSPActions actions = procEnv.curActions;\n");
 
-			neededEntitiesEmitter.Reset();
+            neededEntitiesEmitter.Reset();
 
             if(fireDebugEvents)
             {
@@ -149,7 +149,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             neededEntitiesEmitter.EmitNeededVarAndRuleEntities(seq, source);
 
-			seqGen.EmitSequence(seq, source);
+            seqGen.EmitSequence(seq, source);
 
             if(fireDebugEvents)
             {
@@ -158,8 +158,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             source.AppendFront("return " + seqGen.GetSequenceResult(seq) + ";\n");
-			source.Unindent();
-			source.AppendFront("}\n");
+            source.Unindent();
+            source.AppendFront("}\n");
 
             List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
@@ -168,9 +168,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 SequenceContainerConstructorEmitter.GenerateContainerConstructor(model, cc, source);
             }
+            source.Append(seqGen.exprGen.arrayPerElementMethodSource.ToString());
+            seqGen.exprGen.arrayPerElementMethodSource.Reset();
+            seqGen.exprGen.arrayPerElementMethodSource.Indent();
+            seqGen.exprGen.arrayPerElementMethodSource.Indent();
 
-			return true;
-		}
+            return true;
+        }
 
         private string InjectExec(string execName)
         {

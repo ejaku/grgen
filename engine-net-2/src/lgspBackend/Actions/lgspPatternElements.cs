@@ -785,6 +785,22 @@ namespace de.unika.ipd.grGen.lgsp
             originalVariable = original;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding;
         }
+
+        /// <summary>
+        /// Instantiates a new PatternVariable object as a copy from an original variable under renaming.
+        /// </summary>
+        /// <param name="original">The original pattern variable to be copy constructed.</param>
+        /// <param name="nameSuffix">The suffix to be added to the name of the pattern variable (to avoid name collisions).</param>
+        public PatternVariable(PatternVariable original, String nameSuffix)
+        {
+            type = original.type;
+            name = original.name + nameSuffix;
+            unprefixedName = original.unprefixedName + nameSuffix;
+            defToBeYieldedTo = original.defToBeYieldedTo;
+            initialization = original.initialization;
+            annotations = original.annotations;
+            ParameterIndex = original.ParameterIndex;
+        }
     }
 
     /// <summary>

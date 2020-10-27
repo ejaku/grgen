@@ -1,0 +1,7 @@
+rule array_map_exec(ref a:array<int>) {
+	n:Node;
+	modify {
+		---
+		exec({ aa:array<Edge> = a.map<Edge>{value:int -> n} });
+	}
+}

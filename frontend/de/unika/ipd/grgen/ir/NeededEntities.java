@@ -15,6 +15,7 @@ import java.util.LinkedHashSet;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.MemberExpression;
+import de.unika.ipd.grgen.ir.expr.array.ArrayMapExpr;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
@@ -41,10 +42,12 @@ public class NeededEntities
 	 * @param collectComputationContext Specifies, whether entities declared in computation context shall be collected.
 	 * @param collectMembers Specifies, whether entities referenced in member expressions 
 	 *      of member initializations in the model shall be collected.
+	 * @param collectLambdas Specifies, whether lamba expressions (to be evaluated multiple times) shall be collected
+	 *      -- also causes lambda expression variables to appear in the variables/entities in case these are collected.
 	 */
 	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars,
 			boolean collectAllEntities, boolean collectAllAttributes, boolean collectContainerExprs,
-			boolean collectComputationContext, boolean collectMembers)
+			boolean collectComputationContext, boolean collectMembers, boolean collectLambdas)
 	{
 		if(collectNodes)
 			nodes = new LinkedHashSet<Node>();
@@ -67,6 +70,9 @@ public class NeededEntities
 			members = new LinkedHashSet<Entity>();
 		}
 		this.collectComputationContext = collectComputationContext;
+		if(collectLambdas) {
+			lambdaExprs = new LinkedHashSet<Expression>();
+		}
 	}
 
 	/**
@@ -131,6 +137,11 @@ public class NeededEntities
 	public boolean collectComputationContext;
 
 	/**
+	 * The lambda expressions.
+	 */
+	public HashSet<Expression> lambdaExprs;
+
+	/**
 	 * Adds a needed graph entity.
 	 * @param entity The needed entity.
 	 */
@@ -192,9 +203,9 @@ public class NeededEntities
 		if((var.getContext() & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION
 				&& !collectComputationContext)
 			return;
-		if(variables != null)
+		if(variables != null && (!var.isLambdaExpressionVariable || lambdaExprs != null))
 			variables.add(var);
-		if(entities != null)
+		if(entities != null && (!var.isLambdaExpressionVariable || lambdaExprs != null))
 			entities.add(var);
 	}
 
@@ -245,6 +256,16 @@ public class NeededEntities
 	{
 		if(members != null)
 			members.add(expr.getMember());
+	}
+
+	/**
+	 * Adds a container expression.
+	 * @param expr The container expressions.
+	 */
+	public void add(ArrayMapExpr expr)
+	{
+		if(lambdaExprs != null)
+			lambdaExprs.add(expr);
 	}
 
 	public void needsGraph()

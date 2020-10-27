@@ -693,7 +693,7 @@ public class PatternGraphLhs extends PatternGraphBase
 			for(OrderedReplacement orderedRepl : orderedRepls.orderedReplacements) {
 				if(orderedRepl instanceof EvalStatement) {
 					EvalStatement evalStmt = (EvalStatement)orderedRepl;
-					NeededEntities needs = new NeededEntities(false, true, false, false, true, false, false, false);
+					NeededEntities needs = new NeededEntities(false, true, false, false, true, false, false, false, false);
 					evalStmt.collectNeededEntities(needs);
 					for(Edge edge : needs.edges) {
 						if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {

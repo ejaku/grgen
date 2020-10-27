@@ -58,7 +58,7 @@ public class Exec extends IR implements ImperativeStmt
 	{
 		if(forComputation) {
 			if(neededEntitiesForComputation == null) {
-				NeededEntities needs = new NeededEntities(false, false, false, true, false, false, true, false); // collect all entities
+				NeededEntities needs = new NeededEntities(false, false, false, true, false, false, true, false, false); // collect all entities
 				for(Expression param : getArguments()) {
 					param.collectNeededEntities(needs);
 				}
@@ -67,7 +67,7 @@ public class Exec extends IR implements ImperativeStmt
 			return neededEntitiesForComputation;
 		} else {
 			if(neededEntities == null) {
-				NeededEntities needs = new NeededEntities(false, false, false, true, false, false, false, false); // collect all entities
+				NeededEntities needs = new NeededEntities(false, false, false, true, false, false, false, false, false); // collect all entities
 				for(Expression param : getArguments()) {
 					param.collectNeededEntities(needs);
 				}

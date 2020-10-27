@@ -126,5 +126,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get { return bodyBuilder.firstLoopPassed; }
         }
+
+        public SourceBuilder arrayPerElementMethodBuilder
+        {
+            get { return bodyBuilder.arrayPerElementMethodBuilder; }
+        }
     }
 }

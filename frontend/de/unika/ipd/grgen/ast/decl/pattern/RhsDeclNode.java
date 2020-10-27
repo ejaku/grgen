@@ -234,7 +234,7 @@ public abstract class RhsDeclNode extends DeclNode
 		// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
 		// will add them to the left hand side, too
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false, false);
 		Collection<EvalStatements> evalStatements = patternGraph.getEvalStatements();
 		for(EvalStatements evalStatement : evalStatements) {
 			evalStatement.collectNeededEntities(needs);
@@ -276,7 +276,7 @@ public abstract class RhsDeclNode extends DeclNode
 		// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
 		// will add them to the left hand side, too
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false, false);
 		Collection<OrderedReplacements> evalStatements = patternGraph.getOrderedReplacements();
 		for(OrderedReplacements evalStatement : evalStatements) {
 			for(OrderedReplacement orderedReplacement : evalStatement.orderedReplacements) {

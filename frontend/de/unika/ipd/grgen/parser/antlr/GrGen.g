@@ -373,21 +373,21 @@ globalVarDecl
 		(
 			type=typeIdentUse
 			{
-				id.setDecl(new VarDeclNode(id, type, null, 0, false));
+				id.setDecl(new VarDeclNode(id, type, null, 0, false, false));
 				if(!modifier.getText().equals("var")) 
 					{ reportError(getCoords(modifier), "var keyword needed before non graph element and non container global variable"); }
 			}
 		|
 			containerType=containerTypeUse
 			{
-				id.setDecl(new VarDeclNode(id, containerType, null, 0, false));
+				id.setDecl(new VarDeclNode(id, containerType, null, 0, false, false));
 				if(!modifier.getText().equals("ref"))
 					{ reportError(getCoords(modifier), "ref keyword needed before container typed def variable"); }
 			}
 		|
 			matchTypeIdent=matchTypeIdentUse
 			{
-				id.setDecl(new VarDeclNode(id, matchTypeIdent, null, 0, false));
+				id.setDecl(new VarDeclNode(id, matchTypeIdent, null, 0, false, false));
 				if(!modifier.getText().equals("ref"))
 					{ reportError(getCoords(modifier), "ref keyword needed before match typed def variable"); }
 			}
@@ -557,8 +557,8 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		{ env.popScope(); }
 		{ env.setCurrentActionOrSubpattern(null); }
 	| p=PATTERN id=patIdentDecl { env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
-		params=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
-		((MODIFY|REPLACE) mp=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })?
+		params=patternParameters[namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
+		((MODIFY|REPLACE) mp=patternParameters[namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })?
 		LBRACE
 		left=patternBody[getCoords(p), params, conn, new CollectNode<ExprNode>(), namer, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
 		defEntitiesOrYieldings[conn, defVariablesToBeYieldedTo, evalss, new CollectNode<ExprNode>(), namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, left]
@@ -599,7 +599,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			(
 				AUTO LPAREN functionAuto=autoFunctionBody { functionAutoImplementation = functionAuto; } RPAREN
 			|
-				( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
+				( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
 					{ evals.addChild(c); }
 				)*
 			)
@@ -615,7 +615,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 				reportError(id.getCoords(), "The procedure " + id.toString() + " cannot be defined - a builtin procedure of the same name and with the same number of parameters already exists");
 		}
 		LBRACE
-			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphLhsNode.getInvalid()]
+			( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphLhsNode.getInvalid()]
 				{ evals.addChild(c); }
 			)*
 		RBRACE { env.popScope(); }
@@ -647,23 +647,23 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 defEntitiesOrYieldings [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 		CollectNode<EvalStatementsNode> evals, CollectNode<ExprNode> returnz,
 		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-	: reportErrorOnDefEntityOrYielding[context]
+	: reportErrorOnDefEntityOrYielding[namer, context]
 	  ( TRIPLEMINUS
-		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, evals, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
-		| iteratedFiltering[evals, context]
+		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, evals, namer, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
+		| iteratedFiltering[evals, namer, context]
 		| yielding[evals, namer, context, directlyNestingLHSGraph]
-		| rets[returnz, context] SEMI
+		| rets[returnz, namer, context] SEMI
 		)*
 	  )?
 	  { directlyNestingLHSGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo); }
 	  { directlyNestingLHSGraph.addYieldings(evals); }
 	;
 
-reportErrorOnDefEntityOrYielding [ int context ]
+reportErrorOnDefEntityOrYielding [ AnonymousScopeNamer namer, int context ]
 	: ( 
 		( d=DEF { reportError(getCoords(d), "A def entity declaration is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing"); }
 		//the iterated filter declaration collides with the iterated declaration, would require additional lookahead, but was not available before, so no help in transforming old grgen specifications, thus way less of importance -> left out
-		//| i=ITERATED ident=iterIdentUse ( filter=filterUse[ident, context] )+ SEMI { reportError(getCoords(i), "An iterated filter declaration is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing"); } 
+		//| i=ITERATED ident=iterIdentUse ( filter=filterUse[ident, namer, context] )+ SEMI { reportError(getCoords(i), "An iterated filter declaration is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing"); } 
 		| y=YIELD { reportError(getCoords(y), "A yield block is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing"); }
 		)
 	  )?
@@ -672,6 +672,7 @@ reportErrorOnDefEntityOrYielding [ int context ]
 filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds, CollectNode<IdentNode> matchClassFilterChilds ]
 	@init {
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
+		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 	}
 	: LT actionId=actionIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
 		LBRACE
@@ -679,10 +680,10 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
 						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 						new ArrayTypeNode(MatchTypeActionNode.getMatchTypeIdentNode(env, actionId)),
-						PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
+						PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true, false),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
-			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
+			( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
 				{ evals.addChild(c); }
 			)*
 		RBRACE { env.popScope(); }
@@ -697,10 +698,10 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
 						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 						new ArrayTypeNode(typeId),
-						PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
+						PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true, false),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
-			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
+			( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
 				{ evals.addChild(c); }
 			)*
 		RBRACE { env.popScope(); }
@@ -738,9 +739,9 @@ parameters [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns 
 	|
 	;
 
-patternParameters [ int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+patternParameters [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
-	: LPAREN ( patternParamList [ res, context, directlyNestingLHSGraph ] )? ( TRIPLEMINUS patternDefParamList [ res, context, directlyNestingLHSGraph ] )? RPAREN
+	: LPAREN ( patternParamList [ res, context, directlyNestingLHSGraph ] )? ( TRIPLEMINUS patternDefParamList [ res, namer, context, directlyNestingLHSGraph ] )? RPAREN
 	|
 	;
 
@@ -754,9 +755,9 @@ patternParamList [ CollectNode<BaseNode> params, int context, PatternGraphLhsNod
 		( COMMA p=param[context, directlyNestingLHSGraph] { params.addChild(p); } )*
 	;
 
-patternDefParamList [ CollectNode<BaseNode> params, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-	: dp=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph] { params.addChild(dp); }
-		( COMMA dp=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph] { params.addChild(dp); } )*
+patternDefParamList [ CollectNode<BaseNode> params, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+	: dp=defEntityToBeYieldedTo[null, null, null, namer, context, directlyNestingLHSGraph] { params.addChild(dp); }
+		( COMMA dp=defEntityToBeYieldedTo[null, null, null, namer, context, directlyNestingLHSGraph] { params.addChild(dp); } )*
 	;
 
 param [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
@@ -1038,15 +1039,15 @@ patternStmt [ CollectNode<BaseNode> conn,
 		AnonymousScopeNamer namer, CollectNode<ExprNode> conds,
 		CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<TotallyHomNode> totallyhoms,
 		CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
-		int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-	: connectionsOrSubpattern[conn, subpatterns, subpatternRepls, context, directlyNestingLHSGraph] SEMI
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+	: connectionsOrSubpattern[conn, subpatterns, subpatternRepls, namer, context, directlyNestingLHSGraph] SEMI
 	| (iteratedEBNFNotation[AnonymousScopeNamer.getDummyNamer(), 0]) => iter=iteratedEBNFNotation[namer, context] { iters.addChild(iter); } // must scan ahead to end of () to see if *,+,?,[ is following in order to distinguish from one-case alternative ()
 	| iter=iterated[namer, context] { iters.addChild(iter); }
 	| alt=alternative[namer, context] { alts.addChild(alt); }
 	| neg=negative[namer, context] { negs.addChild(neg); }
 	| idpt=independent[namer, context] { idpts.addChild(idpt); }
-	| condition[conds,context]
-	| rets[returnz, context] SEMI
+	| condition[conds, namer, context]
+	| rets[returnz, namer, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| totallyhom=totallyHomStatement { totallyhoms.addChild(totallyhom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
@@ -1079,7 +1080,7 @@ matchClassBody [ Coords coords, AnonymousScopeNamer namer, int mod, int context,
 		res.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
 		res.addYieldings(evals);
 	}
-	: ( matchClassStmt[connections, defVariablesToBeYieldedTo, varDecls, subpatterns, subpatternRepls, context, res] )*
+	: ( matchClassStmt[connections, defVariablesToBeYieldedTo, varDecls, subpatterns, subpatternRepls, namer, context, res] )*
 	;
 
 matchClassAutoBody [ Coords coords, AnonymousScopeNamer namer, int mod, int context, String nameOfGraph ]
@@ -1094,36 +1095,37 @@ matchClassAutoBody [ Coords coords, AnonymousScopeNamer namer, int mod, int cont
 
 matchClassStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo, CollectNode<BaseNode> varDecls, 
 		CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
-		int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-	: connectionsOrSubpattern[conn, subpatterns, subpatternRepls, context, directlyNestingLHSGraph] SEMI
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+	: connectionsOrSubpattern[conn, subpatterns, subpatternRepls, namer, context, directlyNestingLHSGraph] SEMI
 	| v=varDecl[context, directlyNestingLHSGraph] { varDecls.addChild(v); } SEMI
-	| defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, null, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
+	| defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, null, namer, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
 	;
 
 connectionsOrSubpattern [ CollectNode<BaseNode> conn,
 		CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
-		int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-	: firstEdge[conn, context, directlyNestingLHSGraph] // connection starts with an edge which dangles on the left
-	| firstNodeOrSubpattern[conn, subpatterns, subpatternRepls, context, directlyNestingLHSGraph] // there's a subpattern or a connection that starts with a node
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+	: firstEdge[conn, namer, context, directlyNestingLHSGraph] // connection starts with an edge which dangles on the left
+	| firstNodeOrSubpattern[conn, subpatterns, subpatternRepls, namer, context, directlyNestingLHSGraph] // there's a subpattern or a connection that starts with a node
 	;
 
-firstEdge [ CollectNode<BaseNode> conn, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+firstEdge [ CollectNode<BaseNode> conn, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	@init {
 		boolean forward = true;
 		Mutable<ConnectionNode.ConnectionKind> direction =
 				new Mutable<ConnectionNode.ConnectionKind>(ConnectionNode.ConnectionKind.ARBITRARY);
 		Mutable<Integer> redirection = new Mutable<Integer>(ConnectionNode.NO_REDIRECTION);
 	}
-	:   ( e=forwardOrUndirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=true; } // get first edge
-		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
-		| e=arbitraryEdgeOcc[context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY); }
+	:   ( e=forwardOrUndirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=true; } // get first edge
+		| e=backwardOrArbitraryDirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
+		| e=arbitraryEdgeOcc[namer, context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY); }
 		)
-		nodeContinuation[e, env.getDummyNodeDecl(context, directlyNestingLHSGraph), forward, direction, redirection,
-				conn, context, directlyNestingLHSGraph] // and continue looking for node
+		nodeContinuation[e, env.getDummyNodeDecl(context, directlyNestingLHSGraph), forward, direction, redirection, conn,
+				namer, context, directlyNestingLHSGraph] // and continue looking for node
 	;
 
-firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageDeclNode> subpatterns, 
-		CollectNode<SubpatternReplNode> subpatternRepls, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+firstNodeOrSubpattern [ CollectNode<BaseNode> conn,
+		CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	@init {
 		id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
@@ -1132,21 +1134,21 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageD
 		IdentNode curId = env.getDummyIdent();
 		NodeDeclNode nodeDecl = null;
 	}
-	: id=entIdentUse firstEdgeContinuation[id, conn, context, directlyNestingLHSGraph] // use of already declared node, continue looking for first edge
-	| id=entIdentUse l=LPAREN arguments[subpatternReplConn, context] RPAREN // use of already declared subpattern
+	: id=entIdentUse firstEdgeContinuation[id, conn, namer, context, directlyNestingLHSGraph] // use of already declared node, continue looking for first edge
+	| id=entIdentUse l=LPAREN arguments[subpatternReplConn, namer, context] RPAREN // use of already declared subpattern
 		{ subpatternRepls.addChild(new SubpatternReplNode(id, subpatternReplConn)); }
 	| id=entIdentDecl cc=COLON // node or subpattern declaration
-		firstNodeOrSubpatternDeclaration[id, conn, subpatterns, context, directlyNestingLHSGraph]
+		firstNodeOrSubpatternDeclaration[id, conn, subpatterns, namer, context, directlyNestingLHSGraph]
 	| c=COLON // anonymous node or subpattern declaration
-		anonymousFirstNodeOrSubpatternDeclaration[c, conn, subpatterns, context, directlyNestingLHSGraph]
+		anonymousFirstNodeOrSubpatternDeclaration[c, conn, subpatterns, namer, context, directlyNestingLHSGraph]
 	| d=DOT { id = env.defineAnonymousEntity("node", getCoords(d)); } // anonymous node declaration of type node		
 		{ nodeDecl = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
 		//( AT LPAREN nameAndAttributesInitializationList[nodeDecl, context] RPAREN )?
-		firstEdgeContinuation[nodeDecl, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	;
 
 firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageDeclNode> subpatterns, 
-		int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	options { k = 4; }
 	@init {
 		type = env.getNodeRoot();
@@ -1163,11 +1165,11 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, Col
 			{ nodeDecl = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
 		| LT oldid=entIdentUse ( COMMA curId=entIdentUse { mergees.addChild(curId); } )* GT
 			{ nodeDecl = new NodeTypeChangeDeclNode(id, type, context, oldid, mergees, directlyNestingLHSGraph); }
-		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
+		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, namer, context, directlyNestingLHSGraph ] RBRACE
 			{ nodeDecl = nsic; }
 		)
-		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, context] RPAREN )?
-		firstEdgeContinuation[nodeDecl, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
+		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node typeof declaration
 		TYPEOF LPAREN type=entIdentUse RPAREN
 		( constr=typeConstraint )?
@@ -1179,20 +1181,20 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, Col
 				nodeDecl = new NodeTypeChangeDeclNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
 		}
-		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, context] RPAREN )?
-		firstEdgeContinuation[nodeDecl, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
+		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node copy declaration
 		COPY LT type=entIdentUse GT 
 		{ nodeDecl = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph); }
-		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, context] RPAREN )?
-		firstEdgeContinuation[nodeDecl, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
+		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // subpattern declaration
-		type=patIdentUse LPAREN arguments[subpatternConn, context] RPAREN
+		type=patIdentUse LPAREN arguments[subpatternConn, namer, context] RPAREN
 		{ subpatterns.addChild(new SubpatternUsageDeclNode(id, type, context, subpatternConn)); }
 	;
 
-nodeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-		returns [ NodeDeclNode nodeDecl = null ]
+nodeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer namer, int context,
+		PatternGraphLhsNode directlyNestingLHSGraph ] returns [ NodeDeclNode nodeDecl = null ]
 	: (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)?
 		{
 			if(mapAccess == null) {
@@ -1203,12 +1205,12 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 					attr == null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 			}
 		}
-	| idx=indexIdentUse EQUAL e=expr[context, false]
+	| idx=indexIdentUse EQUAL e=expr[namer, context, false]
 		{
 			nodeDecl = new MatchNodeByIndexAccessEqualityDeclNode(id, type, context, 
 						idx, e, directlyNestingLHSGraph);
 		}
-	| i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[context, false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[context, false])?)? RPAREN
+	| i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[namer, context, false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false])?)? RPAREN
 		{
 			if(i.getText().equals("ascending")) {
 				nodeDecl = new MatchNodeByIndexAccessOrderingDeclNode(id, type, context, 
@@ -1221,12 +1223,12 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 			if(idx2 != null && !idx.toString().equals(idx2.toString()))
 				reportError(idx2.getCoords(), "the same index must be used in an ordered index access expression with two constraints");
 		}
-	| AT LPAREN e=expr[context, false] RPAREN
+	| AT LPAREN e=expr[namer, context, false] RPAREN
 		{
 			nodeDecl = new MatchNodeByNameLookupDeclNode(id, type, context, 
 						e, directlyNestingLHSGraph);
 		}
-	| {input.LT(1).getText().equals("unique")}? i=IDENT LBRACK e=expr[context, false] RBRACK
+	| {input.LT(1).getText().equals("unique")}? i=IDENT LBRACK e=expr[namer, context, false] RBRACK
 		{
 			nodeDecl = new MatchNodeByUniqueLookupDeclNode(id, type, context,
 						e, directlyNestingLHSGraph);
@@ -1241,7 +1243,7 @@ relOS returns [ OperatorDeclNode.Operator os = OperatorDeclNode.Operator.ERROR ]
 	;
 
 anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageDeclNode> subpatterns, 
-		int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ IdentNode id = env.getDummyIdent() ]
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ IdentNode id = env.getDummyIdent() ]
 	options { k = 4; }
 	@init {
 		type = env.getNodeRoot();
@@ -1259,11 +1261,11 @@ anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn,
 			{ nodeDecl = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
 		| LT oldid=entIdentUse ( COMMA curId=entIdentUse { mergees.addChild(curId); } )* GT
 			{ nodeDecl = new NodeTypeChangeDeclNode(id, type, context, oldid, mergees, directlyNestingLHSGraph); }
-		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
+		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, namer, context, directlyNestingLHSGraph ] RBRACE
 			{ nodeDecl = nsic; }
 		)
-		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, context] RPAREN )?
-		firstEdgeContinuation[nodeDecl, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
+		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node typeof declaration
 		{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 		TYPEOF LPAREN type=entIdentUse RPAREN
@@ -1276,21 +1278,21 @@ anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn,
 				nodeDecl = new NodeTypeChangeDeclNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
 		}
-		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, context] RPAREN )?
-		firstEdgeContinuation[nodeDecl, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
+		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node copy declaration
 		COPY LT type=entIdentUse GT 
 		{ nodeDecl = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph); }
-		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, context] RPAREN )?
-		firstEdgeContinuation[nodeDecl, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
+		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
+		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // subpattern declaration
 		{ id = env.defineAnonymousEntity("sub", getCoords(c)); }
-		type=patIdentUse LPAREN arguments[subpatternConn, context] RPAREN
+		type=patIdentUse LPAREN arguments[subpatternConn, namer, context] RPAREN
 		{ subpatterns.addChild(new SubpatternUsageDeclNode(id, type, context, subpatternConn)); }
 	;
 
 defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
-		CollectNode<EvalStatementsNode> evals, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+		CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ BaseNode res = env.initNode() ]
 	: DEF (
 		MINUS edge=defEdgeToBeYieldedTo[context, directlyNestingLHSGraph] direction=forwardOrUndirectedEdgeParam
@@ -1300,7 +1302,7 @@ defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclN
 				if(connections != null)
 					connections.addChild(res);
 			}
-		  ( defGraphElementInitialization[context, edge] )? 
+		  ( defGraphElementInitialization[namer, context, edge] )? 
 		| LARROW edge=defEdgeToBeYieldedTo[context, directlyNestingLHSGraph] RARROW
 			{
 				BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
@@ -1309,7 +1311,7 @@ defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclN
 				if(connections != null)
 					connections.addChild(res);
 			}
-		  ( defGraphElementInitialization[context, edge] )? 
+		  ( defGraphElementInitialization[namer, context, edge] )? 
 		| QUESTIONMINUS edge=defEdgeToBeYieldedTo[context, directlyNestingLHSGraph] MINUSQUESTION
 			{
 				BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
@@ -1318,8 +1320,8 @@ defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclN
 				if(connections != null)
 					connections.addChild(res);
 			}
-		  ( defGraphElementInitialization[context, edge] )? 
-		| v=defVarDeclToBeYieldedTo[evals, context, directlyNestingLHSGraph]
+		  ( defGraphElementInitialization[namer, context, edge] )? 
+		| v=defVarDeclToBeYieldedTo[evals, namer, context, directlyNestingLHSGraph]
 			{
 				res = v;
 				if(defVariablesToBeYieldedTo != null)
@@ -1331,7 +1333,7 @@ defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclN
 				if(connections != null)
 					connections.addChild(res);
 			}
-		  ( defGraphElementInitialization[context, node] )? 
+		  ( defGraphElementInitialization[namer, context, node] )? 
 		)
 	;
 
@@ -1345,8 +1347,8 @@ defEdgeToBeYieldedTo [ int context, PatternGraphLhsNode directlyNestingLHSGraph 
 		{ res = new EdgeDeclNode(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false, true); }
 	;
 
-defGraphElementInitialization [ int context, ConstraintDeclNode graphElement ]
-	: a=ASSIGN e=expr[context, false]
+defGraphElementInitialization [ AnonymousScopeNamer namer, int context, ConstraintDeclNode graphElement ]
+	: a=ASSIGN e=expr[namer, context, false]
 		{
 			if((context & BaseNode.CONTEXT_COMPUTATION) != BaseNode.CONTEXT_COMPUTATION) {
 				reportError(getCoords(a), "initialization of a def node/edge only allowed in a function");
@@ -1357,7 +1359,8 @@ defGraphElementInitialization [ int context, ConstraintDeclNode graphElement ]
 		}
 	;
 
-defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals,
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ VarDeclNode res = env.initVarNode(directlyNestingLHSGraph, context) ]
 	@init {
 		EvalStatementsNode curEval = null;
@@ -1367,14 +1370,14 @@ defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals, int context, Pa
 		(
 			type=typeIdentUse
 			{
-				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true);
+				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true, false);
 				if(!modifier.getText().equals("var")) 
 					{ reportError(getCoords(modifier), "var keyword needed before non graph element and non container def variable"); }
 			}
 		|
 			containerType=containerTypeUse
 			{
-				var = new VarDeclNode(id, containerType, directlyNestingLHSGraph, context, true);
+				var = new VarDeclNode(id, containerType, directlyNestingLHSGraph, context, true, false);
 				if(!modifier.getText().equals("ref"))
 					{ reportError(getCoords(modifier), "ref keyword needed before container typed def variable"); }
 			}
@@ -1387,16 +1390,14 @@ defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals, int context, Pa
 			}
 		)
 		{
-			if(var != null)
-				res = var;
+			res = var;
 		}
-		(ASSIGN e=expr[context, false]
+		(ASSIGN e=expr[namer, context, false]
 			{
-				if(var != null)
-					var.setInitialization(e);
+				var.setInitialization(e);
 			}
 		)?
-		(a=ASSIGN y=YIELD LPAREN e=expr[context, false]
+		(a=ASSIGN y=YIELD LPAREN e=expr[namer, context, false]
 			{
 				if(evals != null) {
 					curEval = new EvalStatementsNode(getCoords(y), "initialization_of_" + id.toString());
@@ -1411,11 +1412,11 @@ defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals, int context, Pa
 		)?
 	;
 
-iteratedFiltering [ CollectNode<EvalStatementsNode> evals, int context ]
+iteratedFiltering [ CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int context ]
 	@init {
 		CollectNode<FilterInvocationNode> filters = new CollectNode<FilterInvocationNode>();
 	}
-	: i=ITERATED ident=iterIdentUse ( filter=filterUse[ident, context] { filters.addChild(filter); } )+ SEMI
+	: i=ITERATED ident=iterIdentUse ( filter=filterUse[ident, namer, context] { filters.addChild(filter); } )+ SEMI
 		{
 			EvalStatementsNode curEval = new EvalStatementsNode(getCoords(i), "iterated_" + ident.toString() + "_filter_call");
 			evals.addChild(curEval);
@@ -1423,14 +1424,14 @@ iteratedFiltering [ CollectNode<EvalStatementsNode> evals, int context ]
 		}
 	;
 
-filterUse [ IdentNode iterated, int context ] returns [ FilterInvocationNode res = null ]
+filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns [ FilterInvocationNode res = null ]
 	@init {
 		CollectNode<ExprNode> args = new CollectNode<ExprNode>();
 		String idText = null;
 	}
 	: BACKSLASH id=IDENT { idText = id.getText(); } ( LT fvl=filterVariableList GT 
 			(idTextExt=filterExtension[idText, fvl] { idText = idTextExt; })? )? 
-			(LPAREN arguments[args, context] RPAREN)?
+			(LPAREN arguments[args, namer, context] RPAREN)?
 		{
 			if(fvl != null)
 			{
@@ -1527,11 +1528,12 @@ matchTypeIdentUseInContainerType returns [ IdentNode res = null ]
 	;
 
 nodeContinuation [ BaseNode edge, BaseNode node1, boolean forward, Mutable<ConnectionNode.ConnectionKind> direction,
-					Mutable<Integer> redirection, CollectNode<BaseNode> conn, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+					Mutable<Integer> redirection, CollectNode<BaseNode> conn, 
+					AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	@init {
 		node2 = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 	}
-	: node2=nodeOcc[context, directlyNestingLHSGraph] // node following - get it and build connection with it, then continue with looking for follwing edge
+	: node2=nodeOcc[namer, context, directlyNestingLHSGraph] // node following - get it and build connection with it, then continue with looking for follwing edge
 		{
 			if(direction.getValue() == ConnectionNode.ConnectionKind.DIRECTED && !forward) {
 				conn.addChild(new ConnectionNode(node2, edge, node1, direction.getValue(), redirection.getValue()));
@@ -1539,7 +1541,7 @@ nodeContinuation [ BaseNode edge, BaseNode node1, boolean forward, Mutable<Conne
 				conn.addChild(new ConnectionNode(node1, edge, node2, direction.getValue(), redirection.getValue()));
 			}
 		}
-		edgeContinuation[node2, conn, context, directlyNestingLHSGraph]
+		edgeContinuation[node2, conn, namer, context, directlyNestingLHSGraph]
 	|   // nothing following - build connection with edge dangeling on the right (see node2 initialization)
 		{
 			if(direction.getValue() == ConnectionNode.ConnectionKind.DIRECTED && !forward) {
@@ -1550,7 +1552,7 @@ nodeContinuation [ BaseNode edge, BaseNode node1, boolean forward, Mutable<Conne
 		}
 	;
 
-firstEdgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+firstEdgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	@init {
 		boolean forward = true;
 		Mutable<ConnectionNode.ConnectionKind> direction =
@@ -1565,14 +1567,14 @@ firstEdgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, int context, 
 				conn.addChild(new SingleNodeConnNode(node));
 			}
 		}
-	|   ( edge=forwardOrUndirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=true; }
-		| edge=backwardOrArbitraryDirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
-		| edge=arbitraryEdgeOcc[context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY);}
+	|   ( edge=forwardOrUndirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=true; }
+		| edge=backwardOrArbitraryDirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
+		| edge=arbitraryEdgeOcc[namer, context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY);}
 		)
-			nodeContinuation[edge, node, forward, direction, redirection, conn, context, directlyNestingLHSGraph] // continue looking for node
+			nodeContinuation[edge, node, forward, direction, redirection, conn, namer, context, directlyNestingLHSGraph] // continue looking for node
 	;
 
-edgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+edgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	@init {
 		boolean forward = true;
 		Mutable<ConnectionNode.ConnectionKind> direction =
@@ -1580,27 +1582,27 @@ edgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, int context, Patte
 		Mutable<Integer> redirection = new Mutable<Integer>(ConnectionNode.NO_REDIRECTION);
 	}
 	:   // nothing following? -> connection end reached
-	|   ( edge=forwardOrUndirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=true; }
-		| edge=backwardOrArbitraryDirectedEdgeOcc[context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
-		| edge=arbitraryEdgeOcc[context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY);}
+	|   ( edge=forwardOrUndirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=true; }
+		| edge=backwardOrArbitraryDirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
+		| edge=arbitraryEdgeOcc[namer, context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY);}
 		)
-			nodeContinuation[edge, node, forward, direction, redirection, conn, context, directlyNestingLHSGraph] // continue looking for node
+			nodeContinuation[edge, node, forward, direction, redirection, conn, namer, context, directlyNestingLHSGraph] // continue looking for node
 	;
 
-nodeOcc [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+nodeOcc [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
 	@init {
 		id = env.getDummyIdent();
 	}
 	: e=entIdentUse { res = e; } // use of already declared node
-	| id=entIdentDecl COLON co=nodeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } // node declaration
+	| id=entIdentDecl COLON co=nodeTypeContinuation[id, namer, context, directlyNestingLHSGraph] { res = co; } // node declaration
 	| c=COLON { id = env.defineAnonymousEntity("node", getCoords(c)); } // anonymous node declaration
-		co=nodeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; }
+		co=nodeTypeContinuation[id, namer, context, directlyNestingLHSGraph] { res = co; }
 	| d=DOT { id = env.defineAnonymousEntity("node", getCoords(d)); } // anonymous node declaration of type node		
-		//( AT LPAREN nameAndAttributesInitializationList[n, context] RPAREN )?
+		//( AT LPAREN nameAndAttributesInitializationList[n, namer, context] RPAREN )?
 		{ res = new NodeDeclNode(id, env.getNodeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph); }
 	;
 
-nodeTypeContinuation [ IdentNode id, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ NodeDeclNode res = null ]
+nodeTypeContinuation [ IdentNode id, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ NodeDeclNode res = null ]
 	@init {
 		type = env.getNodeRoot();
 		constr = TypeExprNode.getEmpty();
@@ -1615,13 +1617,13 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphLhsNode directlyNe
 			{ res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
 		| LT oldid=entIdentUse ( COMMA curId=entIdentUse { mergees.addChild(curId); } )* GT
 			{ res = new NodeTypeChangeDeclNode(id, type, context, oldid, mergees, directlyNestingLHSGraph); }
-		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
+		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, namer, context, directlyNestingLHSGraph ] RBRACE
 			{ res = nsic; }
 		)
-		( AT LPAREN nameAndAttributesInitializationList[res, context] RPAREN )?
+		( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	| COPY LT type=entIdentUse GT
 		{ res = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph); }
-		( AT LPAREN nameAndAttributesInitializationList[res, context] RPAREN )?
+		( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	;
 
 nodeDeclParam [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
@@ -1661,11 +1663,11 @@ varDecl [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ B
 		)
 	;
 
-forwardOrUndirectedEdgeOcc [ int context, Mutable<ConnectionNode.ConnectionKind> direction,
+forwardOrUndirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mutable<ConnectionNode.ConnectionKind> direction,
 		Mutable<Integer> redirection, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ BaseNode res = env.initNode() ]
 	: (NOT { redirection.setValue(ConnectionNode.REDIRECT_SOURCE); })? MINUS 
-		( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; } 
+		( e1=edgeDecl[namer, context, directlyNestingLHSGraph] { res = e1; } 
 		| e2=entIdentUse { res = e2; } ) 
 		forwardOrUndirectedEdgeOccContinuation[direction, redirection]
 	| da=DOUBLE_RARROW
@@ -1674,14 +1676,14 @@ forwardOrUndirectedEdgeOcc [ int context, Mutable<ConnectionNode.ConnectionKind>
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.ConnectionKind.DIRECTED);
 		}
-		//( AT LPAREN nameAndAttributesInitializationList[res, context] RPAREN )?
+		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	| mm=MINUSMINUS
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 			res = new EdgeDeclNode(id, env.getUndirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.ConnectionKind.UNDIRECTED);
 		}
-		//( AT LPAREN nameAndAttributesInitializationList[res, context] RPAREN )?
+		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	;
 
 forwardOrUndirectedEdgeOccContinuation [ Mutable<ConnectionNode.ConnectionKind> direction, Mutable<Integer> redirection ]
@@ -1691,11 +1693,11 @@ forwardOrUndirectedEdgeOccContinuation [ Mutable<ConnectionNode.ConnectionKind> 
 			(NOT { redirection.setValue(ConnectionNode.REDIRECT_TARGET | redirection.getValue()); })?
 	;
 
-backwardOrArbitraryDirectedEdgeOcc [ int context, Mutable<ConnectionNode.ConnectionKind> direction,
+backwardOrArbitraryDirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mutable<ConnectionNode.ConnectionKind> direction,
 		Mutable<Integer> redirection, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ BaseNode res = env.initNode() ]
 	: (NOT { redirection.setValue(ConnectionNode.REDIRECT_TARGET); })? LARROW 
-		( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; }
+		( e1=edgeDecl[namer, context, directlyNestingLHSGraph] { res = e1; }
 		| e2=entIdentUse { res = e2; } )
 		backwardOrArbitraryDirectedEdgeOccContinuation[ direction, redirection ]
 	| da=DOUBLE_LARROW
@@ -1704,14 +1706,14 @@ backwardOrArbitraryDirectedEdgeOcc [ int context, Mutable<ConnectionNode.Connect
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.ConnectionKind.DIRECTED);
 		}
-		//( AT LPAREN nameAndAttributesInitializationList[res, context] RPAREN )?
+		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	| lr=LRARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(lr));
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY_DIRECTED);
 		}
-		//( AT LPAREN nameAndAttributesInitializationList[res, context] RPAREN )?
+		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	;
 
 backwardOrArbitraryDirectedEdgeOccContinuation [ Mutable<ConnectionNode.ConnectionKind> direction, Mutable<Integer> redirection ]
@@ -1721,9 +1723,9 @@ backwardOrArbitraryDirectedEdgeOccContinuation [ Mutable<ConnectionNode.Connecti
 			(NOT { redirection.setValue(ConnectionNode.REDIRECT_SOURCE | redirection.getValue()); })? // redirection not allowd but semantic error is better
 	;
 
-arbitraryEdgeOcc [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+arbitraryEdgeOcc [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
 	: QUESTIONMINUS
-		( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; }
+		( e1=edgeDecl[namer, context, directlyNestingLHSGraph] { res = e1; }
 		| e2=entIdentUse { res = e2; } )
 		MINUSQUESTION
 	| q=QMMQ
@@ -1734,15 +1736,15 @@ arbitraryEdgeOcc [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] re
 		//( AT LPAREN nameAndAttributesInitializationList[res, context] RPAREN )?
 	;
 
-edgeDecl [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
+edgeDecl [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
 	@init {
 		id = env.getDummyIdent();
 	}
 	:   ( id=entIdentDecl COLON
-			co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } 
+			co=edgeTypeContinuation[id, namer, context, directlyNestingLHSGraph] { res = co; } 
 		| c=COLON
 			{ id = env.defineAnonymousEntity("edge", getCoords(c)); }
-			co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } 
+			co=edgeTypeContinuation[id, namer, context, directlyNestingLHSGraph] { res = co; } 
 		)
 	;
 
@@ -1765,7 +1767,8 @@ edgeDeclParam [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] retur
 			}
 	;
 
-edgeTypeContinuation [ IdentNode id, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
+edgeTypeContinuation [ IdentNode id, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+		returns [ EdgeDeclNode res = null ]
 	@init {
 		type = env.getNodeRoot();
 		constr = TypeExprNode.getEmpty();
@@ -1778,17 +1781,17 @@ edgeTypeContinuation [ IdentNode id, int context, PatternGraphLhsNode directlyNe
 			{ res = new EdgeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
 		| LT oldid=entIdentUse GT
 			{ res = new EdgeTypeChangeDeclNode(id, type, context, oldid, directlyNestingLHSGraph); }
-		| LBRACE esic=edgeStorageIndexContinuation [ id, type, context, directlyNestingLHSGraph ] RBRACE
+		| LBRACE esic=edgeStorageIndexContinuation [ id, type, namer, context, directlyNestingLHSGraph ] RBRACE
 			{ res = esic; }
 		)
-		( AT LPAREN nameAndAttributesInitializationList[res, context] RPAREN )?
+		( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	| COPY LT type=entIdentUse GT
 		{ res = new EdgeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph); }
-		( AT LPAREN nameAndAttributesInitializationList[res, context] RPAREN )?
+		( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	;
 
-edgeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-		returns [ EdgeDeclNode res = null ]
+edgeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer namer, int context,
+		PatternGraphLhsNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
 	: (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)?
 		{
 			if(mapAccess == null) {
@@ -1799,12 +1802,12 @@ edgeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 					attr == null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 			}
 		}
-	| idx=indexIdentUse EQUAL e=expr[context, false]
+	| idx=indexIdentUse EQUAL e=expr[namer, context, false]
 		{
 			res = new MatchEdgeByIndexAccessEqualityDeclNode(id, type, context, 
 						idx, e, directlyNestingLHSGraph);
 		}
-	| i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[context, false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[context, false])?)? RPAREN
+	| i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[namer, context, false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false])?)? RPAREN
 		{
 			if(i.getText().equals("ascending")) {
 				res = new MatchEdgeByIndexAccessOrderingDeclNode(id, type, context, 
@@ -1817,40 +1820,40 @@ edgeStorageIndexContinuation [ IdentNode id, IdentNode type, int context, Patter
 			if(idx2 != null && !idx.toString().equals(idx2.toString()))
 				reportError(idx2.getCoords(), "the same index must be used in an ordered index access expression with two constraints");
 		}
-	| AT LPAREN e=expr[context, false] RPAREN
+	| AT LPAREN e=expr[namer, context, false] RPAREN
 		{
 			res = new MatchEdgeByNameLookupDeclNode(id, type, context, 
 						e, directlyNestingLHSGraph);
 		}
-	| {input.LT(1).getText().equals("unique")}? i=IDENT LBRACK e=expr[context, false] RBRACK
+	| {input.LT(1).getText().equals("unique")}? i=IDENT LBRACK e=expr[namer, context, false] RBRACK
 		{
 			res = new MatchEdgeByUniqueLookupDeclNode(id, type, context,
 						e, directlyNestingLHSGraph);
 		}
 	;
 
-nameAndAttributesInitializationList [ ConstraintDeclNode cdl, int context ]
-	: nameOrAttributeInitialization[cdl, context] ( COMMA nameOrAttributeInitialization[cdl, context] )*
+nameAndAttributesInitializationList [ ConstraintDeclNode cdl, AnonymousScopeNamer namer, int context ]
+	: nameOrAttributeInitialization[cdl, namer, context] ( COMMA nameOrAttributeInitialization[cdl, namer, context] )*
 	;
 
-nameOrAttributeInitialization [ ConstraintDeclNode n, int context ]
-	: DOLLAR ASSIGN arg=expr[context, false]
+nameOrAttributeInitialization [ ConstraintDeclNode n, AnonymousScopeNamer namer, int context ]
+	: DOLLAR ASSIGN arg=expr[namer, context, false]
 		{ n.addNameOrAttributeInitialization(new NameOrAttributeInitializationNode(n, arg)); }
-	| attr=memberIdentUse ASSIGN arg=expr[context, false]
+	| attr=memberIdentUse ASSIGN arg=expr[namer, context, false]
 		{ n.addNameOrAttributeInitialization(new NameOrAttributeInitializationNode(n, attr, arg)); }
 	;
 
-arguments [ CollectNode<ExprNode> args, int context ]
-	: ( arg=argument[args, context] ( COMMA argument[args, context] )* )?
-		( TRIPLEMINUS ( arg=yieldArgument[args, context] ( COMMA yieldArgument[args, context] )* )? )?
+arguments [ CollectNode<ExprNode> args, AnonymousScopeNamer namer, int context ]
+	: ( arg=argument[args, namer, context] ( COMMA argument[args, namer, context] )* )?
+		( TRIPLEMINUS ( arg=yieldArgument[args, namer, context] ( COMMA yieldArgument[args, namer, context] )* )? )?
 	;
 
-argument [ CollectNode<ExprNode> args, int context ] // argument for a subpattern usage or subpattern dependent rewrite usage
-	: arg=expr[context, false] { args.addChild(arg); }
+argument [ CollectNode<ExprNode> args, AnonymousScopeNamer namer, int context ] // argument for a subpattern usage or subpattern dependent rewrite usage
+	: arg=expr[namer, context, false] { args.addChild(arg); }
  	;
 
-yieldArgument [ CollectNode<ExprNode> args, int context ] // argument for a subpattern usage or subpattern dependent rewrite usage
-	: y=YIELD arg=expr[context, false]
+yieldArgument [ CollectNode<ExprNode> args, AnonymousScopeNamer namer, int context ] // argument for a subpattern usage or subpattern dependent rewrite usage
+	: y=YIELD arg=expr[namer, context, false]
 		{ args.addChild(arg); if(arg instanceof IdentExprNode) ((IdentExprNode)arg).setYieldedTo(); else reportError(getCoords(y), "Can only yield to an element/variable, defined to by yielded to (def)"); }
  	;
 
@@ -1911,7 +1914,7 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params,
 	}
 	: ( replaceStmt[coords, connections, defVariablesToBeYieldedTo, subpatterns, subpatternRepls,
 				evals, namer, context, directlyNestingLHSGraph] 
-		| rets[returnz, context] SEMI
+		| rets[returnz, namer, context] SEMI
 		)*
 	;
 
@@ -1919,7 +1922,7 @@ replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<VarD
 		CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
 		CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer,
 		int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-	: connectionsOrSubpattern[connections, subpatterns, subpatternRepls, context, directlyNestingLHSGraph] SEMI
+	: connectionsOrSubpattern[connections, subpatterns, subpatternRepls, namer, context, directlyNestingLHSGraph] SEMI
 	| simpleEvaluation[evals, namer, context, directlyNestingLHSGraph]
 	;
 
@@ -1942,15 +1945,15 @@ modifyBody [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNode> p
 	}
 	: ( modifyStmt[coords, connections, defVariablesToBeYieldedTo, subpatterns, subpatternRepls,
 				evals, dels, namer, context, directlyNestingLHSGraph] 
-		| rets[returnz, context] SEMI
+		| rets[returnz, namer, context] SEMI
 		)*
 	;
 
 modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 		CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
-		CollectNode<EvalStatementsNode> evals, CollectNode<IdentNode> dels, AnonymousScopeNamer namer,
-		int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-	: connectionsOrSubpattern[connections, subpatterns, subpatternRepls, context, directlyNestingLHSGraph] SEMI
+		CollectNode<EvalStatementsNode> evals, CollectNode<IdentNode> dels,
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+	: connectionsOrSubpattern[connections, subpatterns, subpatternRepls, namer, context, directlyNestingLHSGraph] SEMI
 	| deleteStmt[dels] SEMI
 	| simpleEvaluation[evals, namer, context, directlyNestingLHSGraph]
 	;
@@ -1961,12 +1964,12 @@ defEntitiesOrEvals [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVar
 		AnonymousScopeNamer namer, int context, PatternGraphRhsNode patternGraph, PatternGraphLhsNode directlyNestingLHSGraph ]
 	: reportErrorOnDefEntityOrEval
 	  ( TRIPLEMINUS
-		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, null, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
+		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, null, namer, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
 		| evaluation[evals, orderedReplacements, namer, context, directlyNestingLHSGraph]
-		| rets[returnz, context] SEMI
+		| rets[returnz, namer, context] SEMI
 		| alternativeOrIteratedOrSubpatternRewriteOrder[orderedReplacements]
 		| execStmt[imperativeStmts, context, directlyNestingLHSGraph] SEMI
-		| emitStmt[imperativeStmts, orderedReplacements, context] SEMI
+		| emitStmt[imperativeStmts, orderedReplacements, namer, context] SEMI
 		)*
 	  )?
 	  { patternGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo); }
@@ -2173,12 +2176,12 @@ independent [ AnonymousScopeNamer namer, int context ] returns [ PatternGraphLhs
 		RPAREN { env.popScope(); namer.undefIdpt(); }
 	;
 
-condition [ CollectNode<ExprNode> conds, int context ]
+condition [ CollectNode<ExprNode> conds, AnonymousScopeNamer namer, int context ]
 	: IF
 		LBRACE
-			( e=expr[context, false] { conds.addChild(e); } SEMI )* 
+			( e=expr[namer, context, false] { conds.addChild(e); } SEMI )* 
 		RBRACE
-	| IF LPAREN e=expr[context, false] { conds.addChild(e); } RPAREN SEMI
+	| IF LPAREN e=expr[namer, context, false] { conds.addChild(e); } RPAREN SEMI
 	;
 
 simpleEvaluation [ CollectNode<EvalStatementsNode> evals,
@@ -2193,7 +2196,7 @@ simpleEvaluation [ CollectNode<EvalStatementsNode> evals,
 				evals.addChild(curEval);
 			}
 		LBRACE { env.pushScope(namer.eval()); }
-			( c=computation[false, true, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph]
+			( c=computation[false, true, namer, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph]
 				{ curEval.addChild(c); }
 			)*
 		RBRACE { env.popScope(); namer.undefEval(); }
@@ -2212,7 +2215,7 @@ evaluation [ CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplaceme
 				evals.addChild(curEval);
 			}
 		LBRACE { env.pushScope(namer.eval()); }
-			( c=computation[false, false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph]
+			( c=computation[false, false, namer, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph]
 				{ curEval.addChild(c); }
 			)*
 		RBRACE { env.popScope(); namer.undefEval(); }
@@ -2223,7 +2226,7 @@ evaluation [ CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplaceme
 				orderedReplacements.addChild(curOrderedRepl);
 			}
 		LBRACE { env.pushScope(namer.eval()); }
-			( c=computation[false, false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] 
+			( c=computation[false, false, namer, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] 
 				{ curOrderedRepl.addChild(c); }
 			)*
 		RBRACE { env.popScope(); namer.undefEval(); }
@@ -2240,13 +2243,13 @@ yielding [ CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int
 				evals.addChild(curEval);
 			}
 		LBRACE { env.pushScope(namer.yield()); }
-			( c=computation[true, false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, directlyNestingLHSGraph]
+			( c=computation[true, false, namer, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, directlyNestingLHSGraph]
 				{ curEval.addChild(c); }
 			)*
 		RBRACE { env.popScope(); namer.undefYield(); }
 	;
 	
-rets [ CollectNode<ExprNode> res, int context ]
+rets [ CollectNode<ExprNode> res, AnonymousScopeNamer namer, int context ]
 	@init {
 		boolean multipleReturns = !res.getChildren().isEmpty();
 	}
@@ -2260,12 +2263,12 @@ rets [ CollectNode<ExprNode> res, int context ]
 			}
 			res.setCoords(getCoords(r));
 		}
-		LPAREN exp=expr[context, false]
+		LPAREN exp=expr[namer, context, false]
 			{
 				if(!multipleReturns)
 					res.addChild(exp);
 			}
-		( COMMA exp=expr[context, false]
+		( COMMA exp=expr[namer, context, false]
 			{
 				if(!multipleReturns)
 					res.addChild(exp);
@@ -2313,7 +2316,8 @@ execStmt [ CollectNode<BaseNode> imperativeStmts, int context, PatternGraphLhsNo
 		{ env.popScope(); }
 	;
 
-emitStmt [ CollectNode<BaseNode> imperativeStmts, CollectNode<OrderedReplacementsNode> orderedReplacements, int context ]
+emitStmt [ CollectNode<BaseNode> imperativeStmts, CollectNode<OrderedReplacementsNode> orderedReplacements,
+		AnonymousScopeNamer namer, int context ]
 	@init {
 		EmitNode emit = null;
 		boolean isHere = false;
@@ -2322,8 +2326,8 @@ emitStmt [ CollectNode<BaseNode> imperativeStmts, CollectNode<OrderedReplacement
 	: (e=EMIT | e=EMITDEBUG { isDebug = true; } | e=EMITHERE { isHere = true; } | e=EMITHEREDEBUG { isHere = true; isDebug = true; })
 		{ emit = new EmitNode(getCoords(e), isDebug); }
 		LPAREN
-			exp=expr[context, false] { emit.addChild(exp); }
-			( COMMA exp=expr[context, false] { emit.addChild(exp); } )*
+			exp=expr[namer, context, false] { emit.addChild(exp); }
+			( COMMA exp=expr[namer, context, false] { emit.addChild(exp); } )*
 		RPAREN
 		{ 
 			if(isHere) {
@@ -2368,6 +2372,7 @@ textTypes returns [ ModelNode model = null ]
 		CollectNode<IdentNode> externalFuncs = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> externalProcs = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> indices = new CollectNode<IdentNode>();
+		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 		IdentNode id = env.getDummyIdent();
 
 		String modelName = Util.removeFileSuffix(Util.removePathPrefix(getFilename()), "gm");
@@ -2376,7 +2381,7 @@ textTypes returns [ ModelNode model = null ]
 			new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
 	}
 	: ( usingDecl[modelChilds] )*
-		specialClasses = typeDecls[types, packages, externalFuncs, externalProcs, indices] EOF
+		specialClasses = typeDecls[namer, types, packages, externalFuncs, externalProcs, indices] EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
@@ -2388,7 +2393,7 @@ textTypes returns [ ModelNode model = null ]
 		}
 	;
 
-typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
+typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 		CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
 		CollectNode<IdentNode> indices ]
 		returns [ boolean isEmitClassDefined = false, boolean isEmitGraphClassDefined = false, boolean isCopyClassDefined = false, 
@@ -2399,9 +2404,9 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 		boolean graphFound = false;
 	}
 	: (
-		type=typeDecl { types.addChild(type); }
+		type=typeDecl[namer] { types.addChild(type); }
 	  |
-		pack=packageDecl { packages.addChild(pack); }
+		pack=packageDecl[namer] { packages.addChild(pack); }
 	  |
 		externalFunctionOrProcedureDecl[externalFuncs, externalProcs]
 	  |
@@ -2508,18 +2513,18 @@ paramTypes returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
 	: LPAREN (returnTypeList[res])? RPAREN // we reuse the return type list cause it's of format we need
 	;
 
-typeDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: d=classDecl { res = d; } 
+typeDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = env.getDummyIdent() ]
+	: d=classDecl[namer] { res = d; } 
 	| d=enumDecl { res = d; } 
 	| d=extClassDecl { res = d; }
 	;
 
-packageDecl returns [ IdentNode res = env.getDummyIdent() ]
+packageDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = env.getDummyIdent() ]
 	@init {
 		CollectNode<IdentNode> types = new CollectNode<IdentNode>(); 
 	}
 	: PACKAGE id=packageIdentDecl LBRACE { env.pushScope(id); }
-		( type=typeDecl { types.addChild(type); }
+		( type=typeDecl[namer] { types.addChild(type); }
 		)*
 	  RBRACE
 		{
@@ -2530,11 +2535,11 @@ packageDecl returns [ IdentNode res = env.getDummyIdent() ]
 		{ env.popScope(); }
 	;
 	
-classDecl returns [ IdentNode res = env.getDummyIdent() ]
+classDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = env.getDummyIdent() ]
 	@init {
 		mods = 0;
 	}
-	: (mods=typeModifiers)? ( d=edgeClassDecl[mods] { res = d; } | d=nodeClassDecl[mods] { res = d; } )
+	: (mods=typeModifiers)? ( d=edgeClassDecl[namer, mods] { res = d; } | d=nodeClassDecl[namer, mods] { res = d; } )
 	;
 
 typeModifiers returns [ int res = 0; ]
@@ -2553,7 +2558,7 @@ typeModifier returns [ int res = 0; ]
  * An edge class decl makes a new type decl node with the declaring id and
  * a new edge type node as children
  */
-edgeClassDecl [ int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
+edgeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
 	@init {
 		boolean arbitrary = false;
 		boolean undirected = false;
@@ -2570,7 +2575,7 @@ edgeClassDecl [ int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
 		EDGE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 		ext=edgeExtends[id, arbitrary, undirected] cas=connectAssertions { env.pushScope(id); }
 		(
-			LBRACE body=classBody[id, false] RBRACE
+			LBRACE body=classBody[namer, id, false] RBRACE
 		|	SEMI
 			{ body = new CollectNode<BaseNode>(); }
 		)
@@ -2591,11 +2596,11 @@ edgeClassDecl [ int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
 		{ env.popScope(); }
   ;
 
-nodeClassDecl [ int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
+nodeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
 	: 	NODE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 		ext=nodeExtends[id] { env.pushScope(id); }
 		(
-			LBRACE body=classBody[id, true] RBRACE
+			LBRACE body=classBody[namer, id, true] RBRACE
 		|	
 			SEMI { body = new CollectNode<BaseNode>(); }
 		)
@@ -2711,18 +2716,18 @@ nodeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 		}
 	;
 
-classBody [ IdentNode clsId, boolean isNode ] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
+classBody [ AnonymousScopeNamer namer, IdentNode clsId, boolean isNode ] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 	:	(
 			(
-				basicAndContainerDecl[c] SEMI
+				basicAndContainerDecl[namer, c] SEMI
 			|
 				funcMethod=inClassFunctionDecl[clsId, isNode] { c.addChild(funcMethod); }
 			|
 				procMethod=inClassProcedureDecl[clsId, isNode] { c.addChild(procMethod); }
 			|
-				init=initExpr { c.addChild(init); } SEMI
+				init=initExpr[namer] { c.addChild(init); } SEMI
 			|
-				constr=constrDecl[clsId] { c.addChild(constr); } SEMI
+				constr=constrDecl[namer, clsId] { c.addChild(constr); } SEMI
 			)
 		)*
 	;
@@ -2754,7 +2759,7 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemDeclNode> coll, ExprNode defI
 	@init {
 		ExprNode value;
 	}
-	: id=entIdentDecl ( ASSIGN init=expr[0, true] )? //'true' means that expr initializes an enum item
+	: id=entIdentDecl ( ASSIGN init=expr[null, 0, true] )? //'true' means that expr initializes an enum item
 		{
 			if(init != null) {
 				value = init;
@@ -2840,7 +2845,7 @@ inClassExtProcedureDecl [ IdentNode clsId ] returns [ ExternalProcedureDeclNode 
 		}
 	;
 	
-basicAndContainerDecl [ CollectNode<BaseNode> c ]
+basicAndContainerDecl [ AnonymousScopeNamer namer, CollectNode<BaseNode> c ]
 	@init {
 		id = env.getDummyIdent();
 		boolean isConst = false;
@@ -2852,19 +2857,19 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 		}
 	| ( CONST { isConst = true; } )? id=entIdentDecl COLON 
 		(
-			basicDecl[id, isConst, c]
+			basicDecl[namer, id, isConst, c]
 		|
-			mapDecl[id, isConst, c]
+			mapDecl[namer, id, isConst, c]
 		|
-			setDecl[id, isConst, c]
+			setDecl[namer, id, isConst, c]
 		|
-			arrayDecl[id, isConst, c]
+			arrayDecl[namer, id, isConst, c]
 		|
-			dequeDecl[id, isConst, c]
+			dequeDecl[namer, id, isConst, c]
 		)
 	;
 
-basicDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
+basicDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 	@init {
 		MemberDeclNode decl = null;
 	}
@@ -2875,7 +2880,7 @@ basicDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 			c.addChild(decl);
 		}
 		(
-			init=initExprDecl[decl.getIdentNode()]
+			init=initExprDecl[namer, decl.getIdentNode()]
 				{
 					c.addChild(init);
 					if(isConst)
@@ -2884,7 +2889,7 @@ basicDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 		)?
 	;
 
-mapDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
+mapDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 	@init {
 		MemberDeclNode decl = null;
 	}
@@ -2898,7 +2903,7 @@ mapDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 		(
 			GT
 		|
-			(GT ASSIGN | GE) init=initMapExpr[0, decl.getIdentNode(), null]
+			(GT ASSIGN | GE) init=initMapExpr[namer, 0, decl.getIdentNode(), null]
 				{
 					c.addChild(init);
 					if(isConst)
@@ -2907,7 +2912,7 @@ mapDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 		)
 	;
 
-setDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
+setDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 	@init {
 		MemberDeclNode decl = null;
 	}
@@ -2921,7 +2926,7 @@ setDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 		(
 			GT
 		|
-			(GT ASSIGN | GE) init=initSetExpr[0, decl.getIdentNode(), null]
+			(GT ASSIGN | GE) init=initSetExpr[namer, 0, decl.getIdentNode(), null]
 				{
 					c.addChild(init);
 					if(isConst)
@@ -2930,7 +2935,7 @@ setDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 		)
 	;
 
-arrayDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
+arrayDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 	@init {
 		MemberDeclNode decl = null;
 	}
@@ -2944,7 +2949,7 @@ arrayDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 		(
 			GT
 		|
-			(GT ASSIGN | GE) init=initArrayExpr[0, decl.getIdentNode(), null]
+			(GT ASSIGN | GE) init=initArrayExpr[namer, 0, decl.getIdentNode(), null]
 				{
 					c.addChild(init);
 					if(isConst)
@@ -2953,7 +2958,7 @@ arrayDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 		)
 	;
 
-dequeDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
+dequeDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 	@init {
 		MemberDeclNode decl = null;
 	}
@@ -2967,7 +2972,7 @@ dequeDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 		(
 			GT
 		|
-			(GT ASSIGN | GE) init=initDequeExpr[0, decl.getIdentNode(), null]
+			(GT ASSIGN | GE) init=initDequeExpr[namer, 0, decl.getIdentNode(), null]
 				{
 					c.addChild(init);
 					if(isConst)
@@ -2979,6 +2984,7 @@ dequeDecl [ IdentNode id, boolean isConst, CollectNode<BaseNode> c ]
 inClassFunctionDecl [ IdentNode clsId, boolean isNode ] returns [ FunctionDeclNode res = null ]
 	@init {
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
+		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 	}
 	: f=FUNCTION id=methodOrExtMethodIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
 		COLON retType=returnType
@@ -3000,7 +3006,7 @@ inClassFunctionDecl [ IdentNode clsId, boolean isNode ] returns [ FunctionDeclNo
 							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
 				}
 			}
-			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
+			( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
 				{ evals.addChild(c); }
 			)*
 		RBRACE { env.popScope(); }
@@ -3014,6 +3020,7 @@ inClassProcedureDecl [ IdentNode clsId, boolean isNode ] returns [ ProcedureDecl
 	@init {
 		CollectNode<BaseNode> retTypes = new CollectNode<BaseNode>();
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
+		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 	}
 	: pr=PROCEDURE id=methodOrExtMethodIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
@@ -3035,7 +3042,7 @@ inClassProcedureDecl [ IdentNode clsId, boolean isNode ] returns [ ProcedureDecl
 							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
 				}
 			}
-			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
+			( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
 				{ evals.addChild(c); }
 			)*
 		RBRACE { env.popScope(); }
@@ -3045,82 +3052,82 @@ inClassProcedureDecl [ IdentNode clsId, boolean isNode ] returns [ ProcedureDecl
 		}
 	;
 
-initExpr returns [ MemberInitNode res = null ]
-	: id=entIdentUse init=initExprDecl[id] { res = init; }
+initExpr [ AnonymousScopeNamer namer ] returns [ MemberInitNode res = null ]
+	: id=entIdentUse init=initExprDecl[namer, id] { res = init; }
 	;
 
-initExprDecl [ IdentNode id ] returns [ MemberInitNode res = null ]
-	: a=ASSIGN e=expr[0, false]
+initExprDecl [ AnonymousScopeNamer namer, IdentNode id ] returns [ MemberInitNode res = null ]
+	: a=ASSIGN e=expr[namer, 0, false]
 		{
 			res = new MemberInitNode(getCoords(a), id, e);
 		}
 	;
 
-initMapExpr [ int context, IdentNode id, MapTypeNode mapType ] returns [ ExprNode res = null ]
+initMapExpr [ AnonymousScopeNamer namer, int context, IdentNode id, MapTypeNode mapType ] returns [ ExprNode res = null ]
 	@init {
 		MapInitNode mapInit = null;
 	}
 	: l=LBRACE { res = mapInit = new MapInitNode(getCoords(l), id, mapType); }
-		( item1=keyToValue[context] { mapInit.addPairItem(item1); }
-			( COMMA item2=keyToValue[context] { mapInit.addPairItem(item2); } )*
+		( item1=keyToValue[namer, context] { mapInit.addPairItem(item1); }
+			( COMMA item2=keyToValue[namer, context] { mapInit.addPairItem(item2); } )*
 		)?
 	  RBRACE
-	| lp=LPAREN value=expr[context, false]
+	| lp=LPAREN value=expr[namer, context, false]
 		{ res = new MapCopyConstructorNode(getCoords(lp), id, mapType, value); }
 	  RPAREN 
 	;
 
-initSetExpr [ int context, IdentNode id, SetTypeNode setType ] returns [ ExprNode res = null ]
+initSetExpr [ AnonymousScopeNamer namer, int context, IdentNode id, SetTypeNode setType ] returns [ ExprNode res = null ]
 	@init {
 		SetInitNode setInit = null;
 	}
 	: l=LBRACE { res = setInit = new SetInitNode(getCoords(l), id, setType); }
-		( initializerOfSingleElements[context, setInit] )?
+		( initializerOfSingleElements[namer, context, setInit] )?
 	  RBRACE
-	| lp=LPAREN value=expr[context, false]
+	| lp=LPAREN value=expr[namer, context, false]
 		{ res = new SetCopyConstructorNode(getCoords(lp), id, setType, value); }
 	  RPAREN 
 	;
 
-initArrayExpr [ int context, IdentNode id, ArrayTypeNode arrayType ] returns [ ExprNode res = null ]
+initArrayExpr [ AnonymousScopeNamer namer, int context, IdentNode id, ArrayTypeNode arrayType ] returns [ ExprNode res = null ]
 	@init {
 		ArrayInitNode arrayInit = null;
 	}
 	: l=LBRACK { res = arrayInit = new ArrayInitNode(getCoords(l), id, arrayType); }
-		( initializerOfSingleElements[context, arrayInit] )?
+		( initializerOfSingleElements[namer, context, arrayInit] )?
 	  RBRACK
-	| lp=LPAREN value=expr[context, false]
+	| lp=LPAREN value=expr[namer, context, false]
 		{ res = new ArrayCopyConstructorNode(getCoords(lp), id, arrayType, value); }
 	  RPAREN 
 	;
 
-initDequeExpr [ int context, IdentNode id, DequeTypeNode dequeType ] returns [ ExprNode res = null ]
+initDequeExpr [ AnonymousScopeNamer namer, int context, IdentNode id, DequeTypeNode dequeType ] returns [ ExprNode res = null ]
 	@init {
 		DequeInitNode dequeInit = null;
 	}
 	: l=LBRACK { res = dequeInit = new DequeInitNode(getCoords(l), id, dequeType); }
-		( initializerOfSingleElements[context, dequeInit] )?
+		( initializerOfSingleElements[namer, context, dequeInit] )?
 	  RBRACK
-	| lp=LPAREN value=expr[context, false]
+	| lp=LPAREN value=expr[namer, context, false]
 		{ res = new DequeCopyConstructorNode(getCoords(lp), id, dequeType, value); }
 	  RPAREN 
 	;
 
-initializerOfSingleElements [ int context, ContainerSingleElementInitNode initNode ]
-	: item1=expr[context, false] { initNode.addItem(item1); }
-		( COMMA item2=expr[context, false] { initNode.addItem(item2); } )*
+initializerOfSingleElements [ AnonymousScopeNamer namer, int context, ContainerSingleElementInitNode initNode ]
+	: item1=expr[namer, context, false] { initNode.addItem(item1); }
+		( COMMA item2=expr[namer, context, false] { initNode.addItem(item2); } )*
 	;
 
-keyToValue [ int context ] returns [ ExprPairNode res = null ]
-	: key=expr[context, false] a=RARROW value=expr[context, false]
+keyToValue [ AnonymousScopeNamer namer, int context ] returns [ ExprPairNode res = null ]
+	: key=expr[namer, context, false] a=RARROW value=expr[namer, context, false]
 		{ res = new ExprPairNode(getCoords(a), key, value); }
 	;
 
-constrDecl [ IdentNode clsId ] returns [ ConstructorDeclNode res = null ]
+constrDecl [ AnonymousScopeNamer namer, IdentNode clsId ] returns [ ConstructorDeclNode res = null ]
 	@init {
 		CollectNode<ConstructorParamNode> params = new CollectNode<ConstructorParamNode>();
 	}
-	: id=typeIdentUse LPAREN constrParamList[params] RPAREN
+	: id=typeIdentUse LPAREN constrParamList[namer, params] RPAREN
 		{
 			res = new ConstructorDeclNode(id, params);
 			
@@ -3129,12 +3136,12 @@ constrDecl [ IdentNode clsId ] returns [ ConstructorDeclNode res = null ]
 		}
 	;
 
-constrParamList [ CollectNode<ConstructorParamNode> params ]
-	: p=constrParam { params.addChild(p); } ( COMMA p=constrParam { params.addChild(p); } )*
+constrParamList [ AnonymousScopeNamer namer, CollectNode<ConstructorParamNode> params ]
+	: p=constrParam[namer] { params.addChild(p); } ( COMMA p=constrParam[namer] { params.addChild(p); } )*
 	;
 
-constrParam returns [ ConstructorParamNode res = null ]
-	: id=entIdentUse ( ASSIGN e=expr[0, false] )?
+constrParam [ AnonymousScopeNamer namer ] returns [ ConstructorParamNode res = null ]
+	: id=entIdentUse ( ASSIGN e=expr[namer, 0, false] )?
 		{ res = new ConstructorParamNode(id, e); }
 	;
 
@@ -3347,14 +3354,17 @@ autoFunctionBody returns [ FunctionAutoNode res = null ]
 	;
 
 computations [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode directlyNestingLHSGraph ] 
-	returns [ CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>() ]
+		returns [ CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>() ]
+	@init {
+		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
+	}
 	: ( 
-		c=computation[onLHS, isSimple, context, directlyNestingLHSGraph]
+		c=computation[onLHS, isSimple, namer, context, directlyNestingLHSGraph]
 			{ evals.addChild(c); }
 	  )*
 	;
 
-computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ EvalStatementNode res = null ]
 	options { k = 5; }
 	@init {
@@ -3368,7 +3378,7 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 		CollectNode<EvalStatementNode> targets = new CollectNode<EvalStatementNode>();
 		MultiStatementNode ms = new MultiStatementNode();
 	}
-	: (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[context, false] SEMI//'false' because this rule is not used for the assignments in enum item decls
+	: (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[namer, context, false] SEMI//'false' because this rule is not used for the assignments in enum item decls
 		{
 			res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, context); 
 			if(onLHS)
@@ -3377,7 +3387,7 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 				reportError(getCoords(dc), "Assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator.");
 		}
 	|
-	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse a=ASSIGN e=expr[context, false] SEMI
+	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse a=ASSIGN e=expr[namer, context, false] SEMI
 		{
 			res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context, onLHS);
 			if(isSimple && dc!=null)
@@ -3386,21 +3396,21 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 				reportError(getCoords(y), "Yield assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator.");
 		}
 	|
-	  vis=visited[context] a=ASSIGN e=expr[context, false] SEMI
+	  vis=visited[namer, context] a=ASSIGN e=expr[namer, context, false] SEMI
 		{
 			res = new AssignVisitedNode(getCoords(a), vis, e, context);
 			if(onLHS)
 				reportError(getCoords(a), "Assignment to a visited flag is forbidden in yield.");
 		}
 	|
-	  n=NAMEOF LPAREN (id=expr[context, false])? RPAREN a=ASSIGN e=expr[context, false] SEMI
+	  n=NAMEOF LPAREN (id=expr[namer, context, false])? RPAREN a=ASSIGN e=expr[namer, context, false] SEMI
 		{
 			res = new AssignNameofNode(getCoords(a), id, e, context);
 			if(onLHS)
 				reportError(getCoords(a), "Name assignment is forbidden in yield.");
 		}
 	|
-	  (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[context, false] RBRACK a=ASSIGN e=expr[context, false] SEMI //'false' because this rule is not used for the assignments in enum item decls
+	  (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[namer, context, false] RBRACK a=ASSIGN e=expr[namer, context, false] SEMI //'false' because this rule is not used for the assignments in enum item decls
 		{
 			res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx, context);
 			if(onLHS)
@@ -3409,7 +3419,7 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 				reportError(getCoords(dc), "Indexed assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator.");
 		}
 	|
-	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[context, false] RBRACK a=ASSIGN e=expr[context, false] SEMI
+	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[namer, context, false] RBRACK a=ASSIGN e=expr[namer, context, false] SEMI
 		{
 			res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx, context, onLHS);
 			if(isSimple && dc!=null)
@@ -3421,7 +3431,7 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 	  (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
 		(a=BOR_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.UNION; } | a=BAND_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.INTERSECTION; }
 			| a=BACKSLASH_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.WITHOUT; } | a=PLUS_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.CONCATENATE; })
-		e=expr[context, false] ( at=assignTo[context] { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
+		e=expr[namer, context, false] ( at=assignTo[namer, context] { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
 		{
 			res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged);
 			if(onLHS)
@@ -3435,7 +3445,7 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse 
 		(a=BOR_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.UNION; } | a=BAND_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.INTERSECTION; } 
 			| a=BACKSLASH_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.WITHOUT; } | a=PLUS_ASSIGN { cat = CompoundAssignNode.CompoundAssignmentType.CONCATENATE; })
-		e=expr[context, false] ( at=assignTo[context] { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
+		e=expr[namer, context, false] ( at=assignTo[namer, context] { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
 		{
 			res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, yielded), cat, e, ccat, tgtChanged);
 			if(cat == CompoundAssignNode.CompoundAssignmentType.CONCATENATE && ccat!=CompoundAssignNode.CompoundAssignmentType.NONE)
@@ -3446,10 +3456,10 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 				reportError(getCoords(y), "Yield compound assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator.");
 		}
 	|
-	  de=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph] SEMI
+	  de=defEntityToBeYieldedTo[null, null, null, namer, context, directlyNestingLHSGraph] SEMI
 		{ res = new DefDeclStatementNode(de.getCoords(), de, context); }
 	|
-	  r=RETURN ( retValues=paramExprs[context, false] { returnValues = retValues; } )? SEMI
+	  r=RETURN ( retValues=paramExprs[namer, context, false] { returnValues = retValues; } )? SEMI
 		{
 			res = new ReturnStatementNode(getCoords(r), returnValues);
 			if(onLHS)
@@ -3458,7 +3468,7 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 				reportError(getCoords(r), "Return statement is forbidden in simple eval.");
 		}
 	|
-	  f=FOR LPAREN { env.pushScope("for", getCoords(f)); } fc=forContent[getCoords(f), onLHS, isSimple, context, directlyNestingLHSGraph]
+	  f=FOR LPAREN { env.pushScope("for", getCoords(f)); } fc=forContent[getCoords(f), onLHS, isSimple, namer, context, directlyNestingLHSGraph]
 		{
 			res = fc;
 			if(isSimple)
@@ -3479,21 +3489,21 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 				reportError(getCoords(b), "break statement is forbidden in simple eval, move it to full eval after --- separator.");
 		}
 	|
-	  ie=ifelse[onLHS, isSimple, context, directlyNestingLHSGraph]
+	  ie=ifelse[onLHS, isSimple, namer, context, directlyNestingLHSGraph]
 		{
 			res = ie;
 			if(isSimple)
 				reportError(ie.getCoords(), "if statement is forbidden in simple eval, move it to full eval after --- separator.");
 		}
 	|
-	  sc=switchcase[onLHS, isSimple, context, directlyNestingLHSGraph]
+	  sc=switchcase[onLHS, isSimple, namer, context, directlyNestingLHSGraph]
 		{
 			res = sc;
 			if(isSimple)
 				reportError(sc.getCoords(), "switch statement is forbidden in simple eval, move it to full eval after --- separator.");
 		}
 	|
-	  w=WHILE LPAREN e=expr[context, false] RPAREN
+	  w=WHILE LPAREN e=expr[namer, context, false] RPAREN
 		LBRACE { env.pushScope("while", getCoords(w)); }
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
@@ -3507,16 +3517,16 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 		LBRACE { env.pushScope("do", getCoords(d)); }
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
-	  WHILE LPAREN e=expr[context, false] RPAREN
+	  WHILE LPAREN e=expr[namer, context, false] RPAREN
 		{
 			res = new DoWhileStatementNode(getCoords(d), cs, e);
 			if(isSimple)
 				reportError(getCoords(d), "do while statement is forbidden in simple eval, move it to full eval after --- separator.");
 		}
 	|
-	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
+	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, namer, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
 		( (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
-		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT | i=EMITDEBUG | i=DELETE) params=paramExprs[context, false] SEMI
+		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT | i=EMITDEBUG | i=DELETE) params=paramExprs[namer, context, false] SEMI
 			{ 
 				if(!methodCall)
 				{
@@ -3620,7 +3630,8 @@ computation [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode 
 		}
 	;
 
-targets	[ boolean onLHS, Coords coords, MultiStatementNode ms, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+targets	[ boolean onLHS, Coords coords, MultiStatementNode ms,
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ CollectNode<ProjectionExprNode> tgtProjs = new CollectNode<ProjectionExprNode>(),
 				CollectNode<EvalStatementNode> tgts = new CollectNode<EvalStatementNode>() ]
 	@init {
@@ -3628,15 +3639,16 @@ targets	[ boolean onLHS, Coords coords, MultiStatementNode ms, int context, Patt
 		ProjectionExprNode e = null;
 	}
 	: ( { e = new ProjectionExprNode(coords, index); $tgtProjs.addChild(e); } 
-			tgt=assignmentTarget[onLHS, coords, e, ms, context, directlyNestingLHSGraph] { $tgts.addChild(tgt); ++index; } 
+			tgt=assignmentTarget[onLHS, coords, e, ms, namer, context, directlyNestingLHSGraph] { $tgts.addChild(tgt); ++index; } 
 		  ( c=COMMA { e = new ProjectionExprNode(getCoords(c), index); $tgtProjs.addChild(e); }
-				tgt=assignmentTarget[onLHS, coords, e, ms, context, directlyNestingLHSGraph] { $tgts.addChild(tgt); ++index; }
+				tgt=assignmentTarget[onLHS, coords, e, ms, namer, context, directlyNestingLHSGraph] { $tgts.addChild(tgt); ++index; }
 		  )*
 	  )?
 	;
 
 assignmentTarget [ boolean onLHS, Coords coords, ProjectionExprNode e, MultiStatementNode ms,
-		int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+		returns [ EvalStatementNode res = null ]
 	options { k = 5; }
 	@init {
 		boolean yielded = false;
@@ -3647,16 +3659,16 @@ assignmentTarget [ boolean onLHS, Coords coords, ProjectionExprNode e, MultiStat
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse
 		{ res = new AssignNode(coords, new IdentExprNode(variable, yielded), e, context, onLHS); }
 	|
-	  vis=visited[context]
+	  vis=visited[namer, context]
 		{ res = new AssignVisitedNode(coords, vis, e, context); }
 	| 
-	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[context, false] RBRACK
+	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[namer, context, false] RBRACK
 		{ res = new AssignIndexedNode(coords, new QualIdentNode(getCoords(d), owner, member), e, idx, context); }
 	|
-	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[context, false] RBRACK
+	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[namer, context, false] RBRACK
 		{ res = new AssignIndexedNode(coords, new IdentExprNode(variable, yielded), e, idx, context, onLHS); }
 	|
-	  de=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph]
+	  de=defEntityToBeYieldedTo[null, null, null, namer, context, directlyNestingLHSGraph]
 		{
 			DefDeclStatementNode tgt = new DefDeclStatementNode(coords, de, context);
 			ms.addStatement(tgt);
@@ -3664,18 +3676,18 @@ assignmentTarget [ boolean onLHS, Coords coords, ProjectionExprNode e, MultiStat
 		}
 	;
 
-ifelse [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+ifelse [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ EvalStatementNode res = null ]
 	@init {
 		CollectNode<EvalStatementNode> elseRemainder = new CollectNode<EvalStatementNode>();
 	}
-	: i=IF LPAREN e=expr[context, false] RPAREN
+	: i=IF LPAREN e=expr[namer, context, false] RPAREN
 		LBRACE { env.pushScope("if", getCoords(i)); }
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 	  (el=ELSE // allow else { statements } as well as else if{ expr; statements} else { statements}, and so on (nesting mapped to linear syntax)
 		(
-			ie = ifelse[onLHS, isSimple, context, directlyNestingLHSGraph]
+			ie = ifelse[onLHS, isSimple, namer, context, directlyNestingLHSGraph]
 				{ elseRemainder.addChild(ie); }
 		| 
 			LBRACE { env.pushScope("else", getCoords(el)); }
@@ -3687,7 +3699,7 @@ ifelse [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode direc
 		{ res=new ConditionStatementNode(getCoords(i), e, cs, elseRemainder); }
 	;
 
-switchcase [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+switchcase [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ EvalStatementNode res = null ]
 	@init {
 		CollectNode<CaseStatementNode> cases = new CollectNode<CaseStatementNode>();
@@ -3695,7 +3707,7 @@ switchcase [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode d
 		Token branch = null;
 		ExprNode caseExpr = null;
 	}
-	: s=SWITCH LPAREN e=expr[context, false] RPAREN 
+	: s=SWITCH LPAREN e=expr[namer, context, false] RPAREN 
 		LBRACE
 			(
 				( ca=CASE 
@@ -3723,7 +3735,7 @@ switchcase [ boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode d
 			{ res=new SwitchStatementNode(getCoords(s), e, cases); }
 	;
 
-forContent [ Coords f, boolean onLHS, boolean isSimple, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+forContent [ Coords f, boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ EvalStatementNode res = null ]
 	options { k = *; }
 	@init {
@@ -3739,12 +3751,12 @@ forContent [ Coords f, boolean onLHS, boolean isSimple, int context, PatternGrap
 			iterVar = new VarDeclNode(variable, IdentNode.getInvalid(), directlyNestingLHSGraph, context);
 			res = new IteratedAccumulationYieldNode(f, iterVar, iterIdentUse, cs);
 		}
-	| variable=entIdentDecl COLON dres=forContentTypedIteration[f, variable, onLHS, isSimple, context, directlyNestingLHSGraph]
+	| variable=entIdentDecl COLON dres=forContentTypedIteration[f, variable, onLHS, isSimple, namer, context, directlyNestingLHSGraph]
 		{ res = dres; }
 	;
 
 forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean isSimple,
-		int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ EvalStatementNode res = null ]
 	options { k = *; }
 	@init {
@@ -3776,7 +3788,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 		}
 	| type=typeIdentUse IN
 			{ env.isKnownForFunction(input.LT(1).getText()) }?
-			function=externalFunctionInvocationExpr[context, false] RPAREN
+			function=externalFunctionInvocationExpr[namer, context, false] RPAREN
 			{
 				if(!(function instanceof FunctionInvocationDecisionNode))
 					reportError(function.getCoords(), "unknown function or wrong parameters in for loop over graph access function");
@@ -3806,7 +3818,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			iterVar = new VarDeclNode(leftVar, matchClassIdent, directlyNestingLHSGraph, context);
 			res = new MatchesAccumulationYieldNode(f, iterVar, matchesIdentUse, cs);
 		}
-	| type=typeIdentUse IN LBRACK left=expr[context, false] COLON right=expr[context, false] RBRACK RPAREN
+	| type=typeIdentUse IN LBRACK left=expr[namer, context, false] COLON right=expr[namer, context, false] RBRACK RPAREN
 		LBRACE
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
@@ -3814,7 +3826,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
 			res = new IntegerRangeIterationYieldNode(f, iterVar, left, right, cs);
 		}
-	| type=typeIdentUse IN LBRACE idx=indexIdentUse EQUAL e=expr[context, false] RBRACE RPAREN
+	| type=typeIdentUse IN LBRACE idx=indexIdentUse EQUAL e=expr[namer, context, false] RBRACE RPAREN
 		LBRACE
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
@@ -3822,8 +3834,8 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
 			res = new ForIndexAccessEqualityYieldNode(f, iterVar, context, idx, e, directlyNestingLHSGraph, cs);
 		}
-	| type=typeIdentUse IN LBRACE i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[context, false]
-			(COMMA idx2=indexIdentUse os2=relOS e2=expr[context, false])?)? RPAREN RBRACE RPAREN
+	| type=typeIdentUse IN LBRACE i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[namer, context, false]
+			(COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false])?)? RPAREN RBRACE RPAREN
 		LBRACE
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
@@ -3842,74 +3854,74 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 		}
 	;
 
-assignTo [ int context ]
+assignTo [ AnonymousScopeNamer namer, int context ]
 		returns [ CompoundAssignNode.CompoundAssignmentType ccat = CompoundAssignNode.CompoundAssignmentType.NONE,
 				BaseNode tgtChanged = null ]
 	: (ASSIGN_TO { $ccat = CompoundAssignNode.CompoundAssignmentType.ASSIGN; }
 		| BOR_TO { $ccat = CompoundAssignNode.CompoundAssignmentType.UNION; }
 		| BAND_TO { $ccat = CompoundAssignNode.CompoundAssignmentType.INTERSECTION; })
-	  tgtc=assignToTgt[context] { $tgtChanged = tgtc; }
+	  tgtc=assignToTgt[namer, context] { $tgtChanged = tgtc; }
 	;
 
-assignToTgt [int context] returns [ BaseNode tgtChanged = null ]
+assignToTgt [ AnonymousScopeNamer namer, int context ] returns [ BaseNode tgtChanged = null ]
 	options { k = 4; }
 	@init {
 		boolean yielded = false;
 	}
 	: tgtOwner=entIdentUse d=DOT tgtMember=entIdentUse { tgtChanged = new QualIdentNode(getCoords(d), tgtOwner, tgtMember); }
 		| (y=YIELD { yielded = true; })? tgtVariable=entIdentUse { tgtChanged = new IdentExprNode(tgtVariable, yielded); }
-		| vis=visited[context] { tgtChanged = vis; }
+		| vis=visited[namer, context] { tgtChanged = vis; }
 	;
 
-expr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: e=condExpr[context, inEnumInit] { res = e; }
+expr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: e=condExpr[namer, context, inEnumInit] { res = e; }
 	;
 
-condExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrCond=logOrExpr[context, inEnumInit] { res = exprOrCond; }
-		( op=QUESTION trueCase=expr[context, inEnumInit] COLON falseCase=condExpr[context, inEnumInit]
+condExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrCond=logOrExpr[namer, context, inEnumInit] { res = exprOrCond; }
+		( op=QUESTION trueCase=expr[namer, context, inEnumInit] COLON falseCase=condExpr[namer, context, inEnumInit]
 			{ res = makeTernOp(op, exprOrCond, trueCase, falseCase); }
 		)?
 	;
 
-logOrExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=logAndExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=LOR right=logAndExpr[context, inEnumInit]
+logOrExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=logAndExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=LOR right=logAndExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-logAndExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=bitOrExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=LAND right=bitOrExpr[context, inEnumInit]
+logAndExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=bitOrExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=LAND right=bitOrExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-bitOrExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=bitXOrExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=BOR right=bitXOrExpr[context, inEnumInit]
+bitOrExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=bitXOrExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=BOR right=bitXOrExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-bitXOrExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=bitAndExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=BXOR right=bitAndExpr[context, inEnumInit]
+bitXOrExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=bitAndExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=BXOR right=bitAndExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-bitAndExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=exceptExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=BAND right=exceptExpr[context, inEnumInit]
+bitAndExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=exceptExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=BAND right=exceptExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-exceptExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=eqExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=BACKSLASH right=eqExpr[context, inEnumInit]
+exceptExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=eqExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=BACKSLASH right=eqExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
@@ -3920,9 +3932,9 @@ eqOp returns [ Token t = null ]
 	| se=STRUCTURAL_EQUAL { t = se; }
 	;
 
-eqExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=relExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=eqOp right=relExpr[context, inEnumInit]
+eqExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=relExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=eqOp right=relExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
@@ -3935,9 +3947,9 @@ relOp returns [ Token t = null ]
 	| in=IN { t = in; }
 	;
 
-relExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=shiftExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=relOp right=shiftExpr[context, inEnumInit]
+relExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=shiftExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=relOp right=shiftExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
@@ -3948,9 +3960,9 @@ shiftOp returns [ Token t = null ]
 	| bsr=BSR { t = bsr; }
 	;
 
-shiftExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=addExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=shiftOp right=addExpr[context, inEnumInit]
+shiftExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=addExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=shiftOp right=addExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
@@ -3960,9 +3972,9 @@ addOp returns [ Token t = null ]
 	| m=MINUS { t = m; }
 	;
 
-addExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=mulExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=addOp right=mulExpr[context, inEnumInit]
+addExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=mulExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=addOp right=mulExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
@@ -3973,49 +3985,49 @@ mulOp returns [ Token t = null ]
 	| d=DIV { t = d; }
 	;
 
-mulExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: exprOrLeft=unaryExpr[context, inEnumInit] { res = exprOrLeft; }
-		( op=mulOp right=unaryExpr[context, inEnumInit]
+mulExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: exprOrLeft=unaryExpr[namer, context, inEnumInit] { res = exprOrLeft; }
+		( op=mulOp right=unaryExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-unaryExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: t=TILDE e=unaryExpr[context, inEnumInit]
+unaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: t=TILDE e=unaryExpr[namer, context, inEnumInit]
 		{ res = makeUnOp(t, e); }
-	| n=NOT e=unaryExpr[context, inEnumInit]
+	| n=NOT e=unaryExpr[namer, context, inEnumInit]
 		{ res = makeUnOp(n, e); }
-	| m=MINUS e=unaryExpr[context, inEnumInit]
+	| m=MINUS e=unaryExpr[namer, context, inEnumInit]
 		{
 			OperatorNode neg = new ArithmeticOperatorNode(getCoords(m), OperatorDeclNode.Operator.NEG);
 			neg.addChild(e);
 			res = neg;
 		}
-	| PLUS e=unaryExpr[context, inEnumInit] { res = e; }
-	| (LPAREN typeIdentUse RPAREN unaryExpr[0, false]) =>
-		p=LPAREN id=typeIdentUse RPAREN e=unaryExpr[context, inEnumInit]
+	| PLUS e=unaryExpr[namer, context, inEnumInit] { res = e; }
+	| (LPAREN typeIdentUse RPAREN unaryExpr[new AnonymousScopeNamer(null), 0, false]) =>
+		p=LPAREN id=typeIdentUse RPAREN e=unaryExpr[namer, context, inEnumInit]
 		{ res = new CastNode(getCoords(p), id, e); }
 	| { env.test(ParserEnvironment.INDICES, input.LT(1).getText()) }?
-		i=IDENT l=LBRACK key=expr[context, inEnumInit] RBRACK
+		i=IDENT l=LBRACK key=expr[namer, context, inEnumInit] RBRACK
 		{ res = new IndexedIncidenceCountIndexAccessExprNode(getCoords(l), new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i))), key); }
-	| e=primaryExpr[context, inEnumInit] ( (LBRACK ~PLUS | DOT) => e=selectorExpr[context, e, inEnumInit] )* { res = e; }
+	| e=primaryExpr[namer, context, inEnumInit] ( (LBRACK ~PLUS | DOT) => e=selectorExpr[namer, context, e, inEnumInit] )* { res = e; }
 	; 
 
-primaryExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+primaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	options { k = 4; }
 	@init {
 		IdentNode id;
 	}
-	: e=visitedFunction[context] { res = e; }
-	| e=nameOf[context] { res = e; }
+	: e=visitedFunction[namer, context] { res = e; }
+	| e=nameOf[namer, context] { res = e; }
 	| e=count { res = e; }
 	| e=globalsAccessExpr { res = e; }
 	| e=constant { res = e; }
 	| e=typeOf { res = e; }
-	| e=initContainerExpr[context] { res = e; }
+	| e=initContainerExpr[namer, context] { res = e; }
 	| e=initMatchExpr[context] { res = e; }
-	| e=externalFunctionInvocationExpr[context, inEnumInit] { res = e; }
-	| LPAREN e=expr[context, inEnumInit] { res = e; } RPAREN
+	| e=externalFunctionInvocationExpr[namer, context, inEnumInit] { res = e; }
+	| LPAREN e=expr[namer, context, inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
 	| q=MINUSMINUS { reportError(getCoords(q), "decrement operator \"--\" not supported"); }
 	| i=IDENT
@@ -4054,27 +4066,27 @@ primaryExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.ini
 			new ArrayTypeNode(MatchTypeIteratedNode.getMatchTypeIdentNode(env, env.getCurrentActionOrSubpattern(), iterIdent))); } RBRACK
 	;
 
-visitedFunction [ int context ] returns [ VisitedNode res ]
-	: v=VISITED LPAREN elem=expr[context, false] 
-		( COMMA idExpr=expr[context, false] RPAREN
+visitedFunction [ AnonymousScopeNamer namer, int context ] returns [ VisitedNode res ]
+	: v=VISITED LPAREN elem=expr[namer, context, false] 
+		( COMMA idExpr=expr[namer, context, false] RPAREN
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
 		| RPAREN
 			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), elem); }
 		)
 	;
 
-visited [ int context ] returns [ VisitedNode res ]
-	: vf=visitedFunction[context] { res = vf; }
+visited [ AnonymousScopeNamer namer, int context ] returns [ VisitedNode res ]
+	: vf=visitedFunction[namer, context] { res = vf; }
 	| (elem=entIdentExpr | elem=globalsAccessExpr) DOT v=VISITED  
-		( (LBRACK) => LBRACK idExpr=expr[context, false] RBRACK // [ starts a visited flag expression, not a following map access selector expression
+		( (LBRACK) => LBRACK idExpr=expr[namer, context, false] RBRACK // [ starts a visited flag expression, not a following map access selector expression
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
 		| 
 			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), elem); }
 		)
 	;
 
-nameOf [ int context ] returns [ ExprNode res = env.initExprNode() ]
-	: n=NAMEOF LPAREN (id=expr[context, false])? RPAREN { res = new NameofNode(getCoords(n), id); }
+nameOf [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
+	: n=NAMEOF LPAREN (id=expr[namer, context, false])? RPAREN { res = new NameofNode(getCoords(n), id); }
 	;
 
 count returns [ ExprNode res = env.initExprNode() ]
@@ -4086,19 +4098,19 @@ typeOf returns [ ExprNode res = env.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
 
-initContainerExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
+initContainerExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
 	: { input.LT(1).getText().equals("map") }?
 		i=IDENT LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
-		e1=initMapExpr[context, null, new MapTypeNode(keyType, valueType)] { res = e1; }
+		e1=initMapExpr[namer, context, null, new MapTypeNode(keyType, valueType)] { res = e1; }
 	| { input.LT(1).getText().equals("set") }?
 		i=IDENT LT valueType=typeIdentUse GT
-		e2=initSetExpr[context, null, new SetTypeNode(valueType)] { res = e2; }
+		e2=initSetExpr[namer, context, null, new SetTypeNode(valueType)] { res = e2; }
 	| { input.LT(1).getText().equals("array") }?
 		i=IDENT LT arrayType=containerTypeContinuation[i, null]
-		e3=initArrayExpr[context, null, (ArrayTypeNode)arrayType] { res = e3; }
+		e3=initArrayExpr[namer, context, null, (ArrayTypeNode)arrayType] { res = e3; }
 	| { input.LT(1).getText().equals("deque") }?
 		i=IDENT LT valueType=typeIdentUse GT
-		e4=initDequeExpr[context, null, new DequeTypeNode(valueType)] { res = e4; }
+		e4=initDequeExpr[namer, context, null, new DequeTypeNode(valueType)] { res = e4; }
 	;
 
 initMatchExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
@@ -4180,11 +4192,11 @@ globalsAccessExpr returns [ ExprNode res = env.initExprNode() ]
 		}
 	;
 
-externalFunctionInvocationExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+externalFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	@init {
 		boolean packPrefix = false;
 	}
-	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY) params=paramExprs[context, inEnumInit]
+	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY) params=paramExprs[namer, context, inEnumInit]
 		{
 			if(env.isKnownFunction(pack, i, params)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
@@ -4206,28 +4218,64 @@ externalFunctionInvocationExpr [ int context, boolean inEnumInit ] returns [ Exp
 		}
 	;
 
-selectorExpr [ int context, ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: l=LBRACK key=expr[context, inEnumInit] RBRACK { res = makeBinOp(l, target, key); }
+selectorExpr [ AnonymousScopeNamer namer, int context, ExprNode target, boolean inEnumInit ]
+		returns [ ExprNode res = env.initExprNode() ]
+	: l=LBRACK key=expr[namer, context, inEnumInit] RBRACK { res = makeBinOp(l, target, key); }
 	| d=DOT id=memberIdentUse
-			( { env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }? LT mi=memberIdentUse GT )?
 		(
-			params=paramExprs[context, inEnumInit] { res = new FunctionMethodInvocationDecisionNode(target, id, params, mi); }
+			{ env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }?
+			LT mi=memberIdentUse GT
+			params=paramExprs[namer, context, inEnumInit]
+			{ res = new FunctionMethodInvocationDecisionNode(target, id, params, mi); }
+		|
+			{ env.isArrayPerElementMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }?
+			LT ti=typeIdentUse GT
+			LBRACE { namer.defExprBlock(id, id.getCoords()); } { env.pushScope(namer.exprBlock()); }
+			vd=lambdaExprVarDeclToBeYieldedTo[namer, context, PatternGraphLhsNode.getInvalid()] RARROW e=expr[namer, context, inEnumInit]
+			{ res = new ArrayMapNode(getCoords(d), target, ti, vd, e); }
+			{ env.popScope(); } { namer.undefExprBlock(); } RBRACE
+		|
+			params=paramExprs[namer, context, inEnumInit]
+			{ res = new FunctionMethodInvocationDecisionNode(target, id, params, mi); }
 		| 
 			{ res = new MemberAccessExprNode(getCoords(d), target, id); }
 		)
 	| DOT v=VISITED  
-		( (LBRACK) => LBRACK idExpr=expr[context, false] RBRACK // [ starts a visited flag expression, not a following map access selector expression
+		( (LBRACK) => LBRACK idExpr=expr[namer, context, false] RBRACK // [ starts a visited flag expression, not a following map access selector expression
 			{ res = new VisitedNode(getCoords(v), idExpr, target); }
 		| 
 			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), target); }
 		)
 	;
 
-paramExprs [ int context, boolean inEnumInit ] returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
+lambdaExprVarDeclToBeYieldedTo [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+		returns [ VarDeclNode res = env.initVarNode(directlyNestingLHSGraph, context) ]
+	@init {
+		VarDeclNode var = null;
+	}
+	: id=entIdentDecl COLON
+		(
+			type=typeIdentUse
+			{
+				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true, true);
+			}
+		|
+			matchTypeIdent=matchTypeIdentUse
+			{
+				var = new VarDeclNode(id, matchTypeIdent, directlyNestingLHSGraph, 0);
+			}
+		)
+		{
+			res = var;
+		}
+	;
+
+paramExprs [ AnonymousScopeNamer namer, int context, boolean inEnumInit ]
+		returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
 	:	LPAREN
 		(
-			e=expr[context, inEnumInit] { params.addChild(e); }
-			( COMMA e=expr[context, inEnumInit] { params.addChild(e); } )*
+			e=expr[namer, context, inEnumInit] { params.addChild(e); }
+			( COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } )*
 		)?
 		RPAREN
 	;

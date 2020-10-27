@@ -16,6 +16,7 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.Model;
+import de.unika.ipd.grgen.util.SourceBuilder;
 
 public interface ExpressionGenerationState
 {
@@ -28,4 +29,6 @@ public interface ExpressionGenerationState
 	boolean isToBeParallelizedActionExisting();
 
 	boolean emitProfilingInstrumentation();
+
+	SourceBuilder perElementMethodSourceBuilder();
 }

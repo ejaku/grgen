@@ -1,0 +1,6 @@
+test array_map(ref a:array<double>) {
+	if {
+		a.map<int>{value:int -> value}.empty();
+	}	
+}
+

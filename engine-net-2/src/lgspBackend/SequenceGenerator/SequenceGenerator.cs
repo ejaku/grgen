@@ -27,7 +27,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         readonly SequenceComputationGenerator compGen;
 
-        readonly SequenceExpressionGenerator exprGen;
+        public readonly SequenceExpressionGenerator exprGen;
 
         readonly SequenceGeneratorHelper seqHelper;
 

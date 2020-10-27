@@ -477,7 +477,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(node.indexAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
+					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
 					node.indexAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
 					if(indexGraphEntity != null) {
@@ -489,7 +489,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(node.nameMapAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
+					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
 					node.nameMapAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
 					if(indexGraphEntity != null) {
@@ -501,7 +501,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(node.uniqueIndexAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
+					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
 					node.uniqueIndexAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
 					if(indexGraphEntity != null) {
@@ -538,7 +538,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(edge.indexAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
+					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
 					edge.indexAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
 					if(indexGraphEntity != null) {
@@ -550,7 +550,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(edge.nameMapAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
+					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
 					edge.nameMapAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
 					if(indexGraphEntity != null) {
@@ -562,7 +562,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(edge.uniqueIndexAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false);
+					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
 					edge.uniqueIndexAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
 					if(indexGraphEntity != null) {

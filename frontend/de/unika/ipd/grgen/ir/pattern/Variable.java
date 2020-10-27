@@ -24,12 +24,16 @@ public class Variable extends Entity
 
 	// null or an expression used to initialize the variable
 	public Expression initialization;
+	
+	public boolean isLambdaExpressionVariable;
+	
 
 	public Variable(String name, Ident ident, Type type, boolean isDefToBeYieldedTo,
-			PatternGraphLhs directlyNestingLHSGraph, int context)
+			PatternGraphLhs directlyNestingLHSGraph, int context, boolean isLambdaExpressionVariable)
 	{
 		super(name, ident, type, false, isDefToBeYieldedTo, context);
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
+		this.isLambdaExpressionVariable = isLambdaExpressionVariable;
 	}
 
 	public void setInitialization(Expression initialization)

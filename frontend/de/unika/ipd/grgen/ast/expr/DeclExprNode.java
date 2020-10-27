@@ -192,7 +192,7 @@ public class DeclExprNode extends ExprNode
 		}
 		if(decl instanceof VarDeclNode) {
 			VarDeclNode entity = (VarDeclNode)decl;
-			if(entity.defEntityToBeYieldedTo) {
+			if(entity.defEntityToBeYieldedTo && !entity.lambdaExpressionVariable) {
 				declUnresolved.reportError("A def variable (" + entity
 						+ ") can't be accessed from a " + containingConstruct);
 				return false;

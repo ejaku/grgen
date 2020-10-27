@@ -69,6 +69,7 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEach;
 import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEachBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayLastIndexOfByExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayLastIndexOfExpr;
+import de.unika.ipd.grgen.ir.expr.array.ArrayMapExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMaxExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMedExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMedUnorderedExpr;
@@ -1562,6 +1563,39 @@ public abstract class CSharpBase
 					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				}
+			}
+		} else if(expr instanceof ArrayMapExpr) {
+			ArrayMapExpr am = (ArrayMapExpr)expr;
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(am));
+			} else {
+				// call of generated array map method
+				NeededEntities needs = new NeededEntities(true, true, true, false, false, false, true, false, false);
+				am.collectNeededEntities(needs);
+				String arrayMapName = "ArrayMap_" + am.getId();
+				sb.append(arrayMapName + "(actionEnv, ");
+				genExpression(sb, am.getTargetExpr(), modifyGenerationState);
+				for(Node node : needs.nodes) {
+					sb.append(", (");
+					sb.append(formatType(node.getType()));
+					sb.append(")");
+					sb.append(formatEntity(node));
+				}
+				for(Edge edge : needs.edges) {
+					sb.append(", (");
+					sb.append(formatType(edge.getType()));
+					sb.append(")");
+					sb.append(formatEntity(edge));
+				}
+				for(Variable var : needs.variables) {
+					sb.append(", (");
+					sb.append(formatType(var.getType()));
+					sb.append(")");
+					sb.append(formatEntity(var));
+				}
+				sb.append(")");
+				
+				generateArrayMap(am, modifyGenerationState);
 			}
 		} else if(expr instanceof ArrayAsSetExpr) {
 			ArrayAsSetExpr aas = (ArrayAsSetExpr)expr;
@@ -3224,7 +3258,7 @@ public abstract class CSharpBase
 
 	protected static void forceNotConstant(List<EvalStatement> statements)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false, false);
 		for(EvalStatement eval : statements) {
 			eval.collectNeededEntities(needs);
 		}
@@ -3255,7 +3289,7 @@ public abstract class CSharpBase
 			List<String> staticInitializers, String pathPrefixForElements,
 			HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false, false);
 		for(EvalStatement eval : evals) {
 			eval.collectNeededEntities(needs);
 		}
@@ -3580,6 +3614,77 @@ public abstract class CSharpBase
 		sb.appendFront("}\n");
 
 		sb.appendFront("return newList;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
+	protected void generateArrayMap(ArrayMapExpr arrayMap, ExpressionGenerationState modifyGenerationState)
+	{
+		SourceBuilder sb = modifyGenerationState.perElementMethodSourceBuilder();
+
+		String arrayMapName = "ArrayMap_" + arrayMap.getId();
+
+		ArrayType arrayInputTypeType = arrayMap.getTargetType();
+		String arrayInputType = formatType(arrayInputTypeType);
+		String elementInputType = formatType(arrayInputTypeType.valueType);
+		ArrayType arrayOutputTypeType = (ArrayType)arrayMap.getType();
+		String arrayOutputType = formatType(arrayOutputTypeType);
+		String elementOutputType = formatType(arrayOutputTypeType.valueType);
+
+		sb.appendFront("static " + arrayOutputType + arrayMapName + "(");
+		sb.append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
+
+		// collect all variables, create parameters - like for if/eval
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, true, false, false);
+		arrayMap.collectNeededEntities(needs);
+
+		sb.append(", ");
+		sb.append(arrayInputType);
+		sb.append(" ");
+		sb.append("source");
+
+		for(Node node : needs.nodes) {
+			sb.append(", ");
+			sb.append(formatType(node.getType()));
+			sb.append(" ");
+			sb.append(formatEntity(node));
+		}
+		for(Edge edge : needs.edges) {
+			sb.append(", ");
+			sb.append(formatType(edge.getType()));
+			sb.append(" ");
+			sb.append(formatEntity(edge));
+		}
+		for(Variable var : needs.variables) {
+			sb.append(", ");
+			sb.append(formatType(var.getType()));
+			sb.append(" ");
+			sb.append(formatEntity(var));
+		}
+
+		sb.append(")\n");
+		sb.appendFront("{\n");
+		sb.indent();
+
+		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+		sb.appendFront(arrayOutputType + " target = new " + arrayOutputType + "();\n");
+
+		sb.appendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+
+		String elementVarName = formatEntity(arrayMap.getElementVar());
+		sb.appendFront(elementInputType + " " + elementVarName + " = source[index_name];\n");
+		sb.appendFront(elementOutputType + " result_name = ");
+		genExpression(sb, arrayMap.getMappingExpr(), modifyGenerationState);
+		sb.append(";\n");
+		sb.appendFront("target.Add(result_name);\n");
+		
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.appendFront("return target;\n");
+
 		sb.unindent();
 		sb.appendFront("}\n");
 	}

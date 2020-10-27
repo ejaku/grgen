@@ -134,6 +134,8 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = builder.BuildScheduledSearchPlanOperationIntoSearchProgram(
                 0, insertionPoint);
 
+            searchProgram.ArrayPerElementMethods = builder.arrayPerElementMethodBuilder.ToString();
+
             return searchProgram;
         }
 
@@ -231,6 +233,8 @@ namespace de.unika.ipd.grGen.lgsp
             FinalizeSubpatternMatching finalize =
                 new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Normal);
             insertionPoint = insertionPoint.Append(finalize);
+
+            searchProgram.ArrayPerElementMethods = builder.arrayPerElementMethodBuilder.ToString();
 
             return searchProgram;
         }
@@ -338,6 +342,8 @@ namespace de.unika.ipd.grGen.lgsp
                         new NewMatchesListForFollowingMatches(true);
                     insertionPoint = insertionPoint.Append(newMatchesList);
                 }
+
+                searchProgram.ArrayPerElementMethods += builder.arrayPerElementMethodBuilder.ToString();
             }
 
             // finalize task/result-pushdown handling in subpattern matcher
@@ -417,6 +423,8 @@ namespace de.unika.ipd.grGen.lgsp
             FinalizeSubpatternMatching finalize =
                 new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Iteration);
             insertionPoint = insertionPoint.Append(finalize);
+
+            searchProgram.ArrayPerElementMethods = builder.arrayPerElementMethodBuilder.ToString();
 
             return searchProgram;
         }

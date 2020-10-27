@@ -97,6 +97,7 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEach;
 import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEachBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayLastIndexOfByExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayLastIndexOfExpr;
+import de.unika.ipd.grgen.ir.expr.array.ArrayMapExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMaxExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMedExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMedUnorderedExpr;
@@ -956,6 +957,31 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				sb.append(", " + (matchType.getPackageContainedIn()!=null ? "\"" + matchType.getPackageContainedIn() + "\"" : "null") + "");
 				sb.append(")");
 			}
+		} else if(expr instanceof ArrayMapExpr) {
+			ArrayMapExpr am = (ArrayMapExpr)expr;
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false, false);
+			am.collectNeededEntities(needs);
+			sb.append("new GRGEN_EXPR.ArrayMap(");
+			genExpressionTree(sb, am.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			ArrayType targetArrayType = am.getTargetType();
+			Type targetType = targetArrayType.valueType;
+			sb.append("\"" + formatType(targetType) + "\"");
+			sb.append(", ");
+			sb.append("\"" + formatEntity(am.getElementVar(), pathPrefix, alreadyDefinedEntityToName) + "\"");
+			sb.append(", ");
+			genExpressionTree(sb, am.getMappingExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			ArrayType resultArrayType = (ArrayType)am.getType();
+			Type resultType = resultArrayType.valueType;
+			sb.append("\"" + formatType(resultType) + "\"");
+			sb.append(", new GRGEN_LGSP.PatternNode[] ");
+			genEntitySet(sb, needs.nodes, "", "", true, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LGSP.PatternEdge[] ");
+			genEntitySet(sb, needs.edges, "", "", true, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LGSP.PatternVariable[] ");
+			genEntitySet(sb, needs.variables, "", "", true, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
 		} else if(expr instanceof ArrayAsSetExpr) {
 			ArrayAsSetExpr aas = (ArrayAsSetExpr)expr;
 			sb.append("new GRGEN_EXPR.ArrayAsSet(");
