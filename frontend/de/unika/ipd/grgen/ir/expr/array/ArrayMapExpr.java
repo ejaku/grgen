@@ -41,7 +41,9 @@ public class ArrayMapExpr extends ArrayFunctionMethodInvocationBaseExpr
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		super.collectNeededEntities(needs);
-		// maybe todo: add elementVar (could make a difference in case it does not appear in mappingExpr)
+		needs.add(this);
 		mappingExpr.collectNeededEntities(needs);
+		if(needs.variables != null)
+			needs.variables.remove(elementVar);
 	}
 }

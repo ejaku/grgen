@@ -1778,59 +1778,65 @@ namespace de.unika.ipd.grGen.expression
         {
             base.EmitArrayPerElementMethods(sourceCode);
 
+            SourceBuilder sb = new SourceBuilder();
+            sb.Indent();
+            sb.Indent();
+
             string TargetArrayType = "List<" + TargetType + ">"; // call target
             string ResultingArrayType = "List<" + ResultingType + ">";
             string ArrayMapMethodName = "ArrayMap_" + "expr" + Id;
-            sourceCode.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", ResultingArrayType, ArrayMapMethodName);
-            sourceCode.Append(", ");
-            sourceCode.AppendFormat("{0} {1}", TargetArrayType, "source");
+            sb.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", ResultingArrayType, ArrayMapMethodName);
+            sb.Append(", ");
+            sb.AppendFormat("{0} {1}", TargetArrayType, "source");
             foreach(PatternNode patternNode in PatternNodes)
             {
-                sourceCode.Append(", ");
-                sourceCode.Append(TypesHelper.TypeName(patternNode.type));
-                sourceCode.Append(" ");
-                sourceCode.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+                sb.Append(", ");
+                sb.Append(TypesHelper.TypeName(patternNode.type));
+                sb.Append(" ");
+                sb.Append(NamesOfEntities.CandidateVariable(patternNode.name));
             }
             foreach(PatternEdge patternEdge in PatternEdges)
             {
-                sourceCode.Append(", ");
-                sourceCode.Append(TypesHelper.TypeName(patternEdge.type));
-                sourceCode.Append(" ");
-                sourceCode.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+                sb.Append(", ");
+                sb.Append(TypesHelper.TypeName(patternEdge.type));
+                sb.Append(" ");
+                sb.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
             }
             foreach(PatternVariable patternVariable in PatternVariables)
             {
-                sourceCode.Append(", ");
-                sourceCode.Append(TypesHelper.TypeName(patternVariable.type));
-                sourceCode.Append(" ");
-                sourceCode.Append(NamesOfEntities.Variable(patternVariable.name));
+                sb.Append(", ");
+                sb.Append(TypesHelper.TypeName(patternVariable.type));
+                sb.Append(" ");
+                sb.Append(NamesOfEntities.Variable(patternVariable.name));
             }
-            sourceCode.Append(")\n");
-            sourceCode.AppendFront("{\n");
-            sourceCode.Indent();
+            sb.Append(")\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
 
-            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
-            sourceCode.AppendFront(ResultingArrayType + " target = new " + ResultingArrayType + "();\n");
+            sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sb.AppendFront(ResultingArrayType + " target = new " + ResultingArrayType + "();\n");
 
-            sourceCode.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
-            sourceCode.AppendFront("{\n");
-            sourceCode.Indent();
+            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
 
-            sourceCode.AppendFront(TargetType + " " + NamesOfEntities.Variable(ElementVariable) + " = source[index_name];\n");
-            sourceCode.AppendFront(ResultingType + " result_name = ");
+            sb.AppendFront(TargetType + " " + NamesOfEntities.Variable(ElementVariable) + " = source[index_name];\n");
+            sb.AppendFront(ResultingType + " result_name = ");
 
-            Mapping.Emit(sourceCode);
+            Mapping.Emit(sb);
 
-            sourceCode.Append(";\n");
-            sourceCode.AppendFront("target.Add(result_name);\n");
+            sb.Append(";\n");
+            sb.AppendFront("target.Add(result_name);\n");
 
-            sourceCode.Unindent();
-            sourceCode.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
 
-            sourceCode.AppendFront("return target;\n");
+            sb.AppendFront("return target;\n");
 
-            sourceCode.Unindent();
-            sourceCode.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sourceCode.Append(sb.ToString());
         }
 
         public override void Emit(SourceBuilder sourceCode)

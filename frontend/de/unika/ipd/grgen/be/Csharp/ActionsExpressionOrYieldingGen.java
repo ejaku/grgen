@@ -959,7 +959,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			}
 		} else if(expr instanceof ArrayMapExpr) {
 			ArrayMapExpr am = (ArrayMapExpr)expr;
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false, false);
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false, true);
 			am.collectNeededEntities(needs);
 			sb.append("new GRGEN_EXPR.ArrayMap(");
 			genExpressionTree(sb, am.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);

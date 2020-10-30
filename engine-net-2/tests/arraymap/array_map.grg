@@ -10,6 +10,16 @@ rule array_map(ref a:array<int>, var val:double) : (array<double>) {
 	}
 }
 
+rule array_map_nested(ref a:array<int>, var val:double) : (array<double>) {
+	if {
+		a.map<double>{value:int -> value * a.map<double>{element:int -> value}.sum()}.sum() == val;
+	}
+	
+	modify {
+		return(a.map<double>{value:int -> value * a.map<double>{element:int -> value}.sum()});
+	}
+}
+
 rule array_map2(ref a:array<Node>, var val:int) {
 	if {
 		a.map<double>{value:Node -> (nameof(value)!="$0" ? 1 : 0)}.sum() == val;
@@ -31,6 +41,14 @@ test array_map3(ref a:array<Node>, ref ai:array<string>) {
 	yield {
 		yield laa = a.map<string>{value:Node -> nameof(value)};
 		yield laai = ai.map<Node>{value:string -> nodeByName(value)};
+	}
+}
+
+test array_map3_nested(ref a:array<Node>, ref ai:array<string>) {
+---
+	def ref laa:array<string>;
+	yield {
+		yield laa = ai.map<string>{value:string -> value + a.map<string>{element:Node -> nameof(element)}.asString("-")};
 	}
 }
 
@@ -82,6 +100,18 @@ rule rexec : (array<int>, double)
 		def var y:double;
 		exec({yield x = [?t].map<int>{value:match<t> -> value.attr}});
 		exec({yield y = [?t].map<int>{value:match<t> -> value.attr}.map<double>{value:int -> value * 1.5}.sum()});
+		return(x,y);
+	}
+}
+
+rule rexec_nested(ref a:array<int>) : (array<int>, int)
+{
+	modify {
+	---
+		def ref x:array<int>;
+		def var y:int;
+		exec({yield x = [?t].map<int>{value:match<t> -> value.attr + a.map<int>{element:int -> element}.sum()}});
+		exec({yield y = [?t].map<int>{value:match<t> -> value.attr + a.map<int>{element:int -> value.attr}.sum()}.sum()});
 		return(x,y);
 	}
 }

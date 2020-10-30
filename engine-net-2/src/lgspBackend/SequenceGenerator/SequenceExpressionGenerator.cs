@@ -36,8 +36,6 @@ namespace de.unika.ipd.grGen.lgsp
             this.env = env;
             this.seqHelper = seqHelper;
             this.arrayPerElementMethodSource = new SourceBuilder();
-            this.arrayPerElementMethodSource.Indent();
-            this.arrayPerElementMethodSource.Indent();
         }
 
         // source is needed for a method call chain or expressions that require temporary variables, 
@@ -2356,7 +2354,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Append(", (");
                 sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
                 sb.Append(") ");
-                sb.Append("var_" + variable.Name);
+                sb.Append("var_" + variable.Prefix + variable.PureName);
             }
 
             sb.Append(")");
@@ -2368,7 +2366,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void GenerateSequenceExpressionArrayMap(SequenceExpressionArrayMap seqArrayMap)
         {
-            SourceBuilder source = arrayPerElementMethodSource;
+            SourceBuilder sb = new SourceBuilder();
+            sb.Indent();
+            sb.Indent();
 
             String arrayMapMethodName = "ArrayMap_" + seqArrayMap.Id.ToString();
 
@@ -2379,55 +2379,57 @@ namespace de.unika.ipd.grGen.lgsp
             String elementOutputType = TypesHelper.XgrsTypeToCSharpType(seqArrayMap.TypeName, model);
             String arrayOutputType = TypesHelper.XgrsTypeToCSharpType("array<" + seqArrayMap.TypeName + ">", model);
 
-            source.AppendFront("static " + arrayOutputType + " " + arrayMapMethodName + "(");
-            source.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+            sb.AppendFront("static " + arrayOutputType + " " + arrayMapMethodName + "(");
+            sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
             List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
             seqArrayMap.MappingExpr.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
 
-            source.Append(", ");
-            source.Append(arrayInputType);
-            source.Append(" ");
-            source.Append("source");
+            sb.Append(", ");
+            sb.Append(arrayInputType);
+            sb.Append(" ");
+            sb.Append("source");
 
             variables.Remove(seqArrayMap.Var);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                source.Append(", ");
-                source.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                source.Append(" ");
-                source.Append("var_" + variable.Name);
+                sb.Append(", ");
+                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                sb.Append(" ");
+                sb.Append("var_" + variable.Prefix + variable.PureName);
             }
 
-            source.Append(")\n");
-            source.AppendFront("{\n");
-            source.Indent();
+            sb.Append(")\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
 
-            source.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
-            source.AppendFront(arrayOutputType + " target = new " + arrayOutputType + "();\n");
+            sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+            sb.AppendFront(arrayOutputType + " target = new " + arrayOutputType + "();\n");
 
-            source.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
-            source.AppendFront("{\n");
-            source.Indent();
+            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
 
-            source.AppendFront(seqHelper.DeclareVar(seqArrayMap.Var));
-            source.AppendFront(seqHelper.SetVar(seqArrayMap.Var, "source[index_name]"));
-            source.AppendFront(elementOutputType + " result_name = ");
-            source.Append(GetSequenceExpression(seqArrayMap.MappingExpr, source));
-            source.Append(";\n");
-            source.AppendFront("target.Add(result_name);\n");
+            sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.Var));
+            sb.AppendFront(seqHelper.SetVar(seqArrayMap.Var, "source[index_name]"));
+            sb.AppendFront(elementOutputType + " result_name = ");
+            sb.Append(GetSequenceExpression(seqArrayMap.MappingExpr, sb));
+            sb.Append(";\n");
+            sb.AppendFront("target.Add(result_name);\n");
 
-            source.Unindent();
-            source.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
 
-            source.AppendFront("return target;\n");
+            sb.AppendFront("return target;\n");
 
-            source.Unindent();
-            source.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            arrayPerElementMethodSource.Append(sb.ToString());
         }
-
+        
         private string GetSequenceExpressionArrayOrderAscendingBy(SequenceExpressionArrayOrderAscendingBy seqArrayOrderAscendingBy, SourceBuilder source)
         {
             return GetSequenceExpressionArrayByAttributeAccess(seqArrayOrderAscendingBy, "orderAscendingBy", "OrderAscendingBy", source);

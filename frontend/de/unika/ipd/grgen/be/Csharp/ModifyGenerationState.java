@@ -341,6 +341,5 @@ class ModifyGenerationState implements ModifyGenerationStateConst
 		this.isToBeParallelizedActionExisting = isToBeParallelizedActionExisting;
 		this.emitProfiling = emitProfiling;
 		this.perElementMethodSourceBuilder = new SourceBuilder();
-		this.perElementMethodSourceBuilder.indent().indent();
 	}
 }

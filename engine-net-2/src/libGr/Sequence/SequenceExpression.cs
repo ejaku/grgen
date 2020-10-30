@@ -5299,8 +5299,12 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!TypesHelper.IsSameOrSubtype(MappingExpr.Type(env), TypeName, env.Model))
                 throw new SequenceParserException(Symbol, TypeName, MappingExpr.Type(env));
-            if(!TypesHelper.IsSameOrSubtype(arrayValueType, Var.Type, env.Model))
-                throw new SequenceParserException(Symbol, Var.Type, arrayValueType);
+
+            if(containerType != "")
+            {
+                if(!TypesHelper.IsSameOrSubtype(arrayValueType, Var.Type, env.Model))
+                    throw new SequenceParserException(Symbol, Var.Type, arrayValueType);
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -5327,8 +5331,8 @@ namespace de.unika.ipd.grGen.libGr
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             ContainerExpr.GetLocalVariables(variables, containerConstructors);
-            // maybe todo: add Var (could make a difference in case it does not appear in MappingExpr)
             MappingExpr.GetLocalVariables(variables, containerConstructors);
+            variables.Remove(Var);
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -5347,7 +5351,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return Name + ".map<" + TypeName + ">{" + MappingExpr.Symbol + "}"; }
+            get { return Name + ".map<" + TypeName + ">{" + Var.Name + " -> " + MappingExpr.Symbol + "}"; }
         }
     }
 

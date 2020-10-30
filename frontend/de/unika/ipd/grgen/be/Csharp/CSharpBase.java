@@ -743,7 +743,10 @@ public abstract class CSharpBase
 		} else if(entity instanceof Edge) {
 			return pathPrefix + "edge_" + formatIdentifiable(entity);
 		} else if(entity instanceof Variable) {
-			return pathPrefix + "var_" + formatIdentifiable(entity);
+			if(((Variable)entity).isLambdaExpressionVariable)
+				return pathPrefix + "var_" + formatIdentifiable(entity) + "_" + entity.getId();
+			else
+				return pathPrefix + "var_" + formatIdentifiable(entity);
 		} else {
 			throw new IllegalArgumentException("Unknown entity " + entity + " (" + entity.getClass() + ")");
 		}
@@ -1570,7 +1573,7 @@ public abstract class CSharpBase
 				sb.append(modifyGenerationState.mapExprToTempVar().get(am));
 			} else {
 				// call of generated array map method
-				NeededEntities needs = new NeededEntities(true, true, true, false, false, false, true, false, false);
+				NeededEntities needs = new NeededEntities(true, true, true, false, false, false, true, false, true);
 				am.collectNeededEntities(needs);
 				String arrayMapName = "ArrayMap_" + am.getId();
 				sb.append(arrayMapName + "(actionEnv, ");
@@ -3620,7 +3623,8 @@ public abstract class CSharpBase
 
 	protected void generateArrayMap(ArrayMapExpr arrayMap, ExpressionGenerationState modifyGenerationState)
 	{
-		SourceBuilder sb = modifyGenerationState.perElementMethodSourceBuilder();
+		SourceBuilder sb = new SourceBuilder();
+		sb.indent().indent();
 
 		String arrayMapName = "ArrayMap_" + arrayMap.getId();
 
@@ -3631,11 +3635,11 @@ public abstract class CSharpBase
 		String arrayOutputType = formatType(arrayOutputTypeType);
 		String elementOutputType = formatType(arrayOutputTypeType.valueType);
 
-		sb.appendFront("static " + arrayOutputType + arrayMapName + "(");
+		sb.appendFront("static " + arrayOutputType + " "+ arrayMapName + "(");
 		sb.append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
 		// collect all variables, create parameters - like for if/eval
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, true, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, true, false, true);
 		arrayMap.collectNeededEntities(needs);
 
 		sb.append(", ");
@@ -3687,6 +3691,8 @@ public abstract class CSharpBase
 
 		sb.unindent();
 		sb.appendFront("}\n");
+		
+		modifyGenerationState.perElementMethodSourceBuilder().append(sb.toString());
 	}
 
 	///////////////////////

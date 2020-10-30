@@ -170,8 +170,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
             source.Append(seqGen.exprGen.arrayPerElementMethodSource.ToString());
             seqGen.exprGen.arrayPerElementMethodSource.Reset();
-            seqGen.exprGen.arrayPerElementMethodSource.Indent();
-            seqGen.exprGen.arrayPerElementMethodSource.Indent();
 
             return true;
         }

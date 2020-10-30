@@ -42,6 +42,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.VariableExpression;
+import de.unika.ipd.grgen.ir.expr.array.ArrayMapExpr;
 import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.type.ExternalType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
@@ -2656,6 +2657,22 @@ public class ActionsGen extends CSharpBase
 			HashMap<Entity, String> alreadyDefinedEntityToName,
 			String pathPrefixForElements, Expression expr, String condName)
 	{
+		NeededEntities needsForLambda = new NeededEntities(false, false, false, false, false, false, false, false, true);
+		expr.collectNeededEntities(needsForLambda);
+		for(Expression lambdaExpr : needsForLambda.lambdaExprs)
+		{
+			ArrayMapExpr arrayMapExpr = (ArrayMapExpr)lambdaExpr;
+			Variable var = arrayMapExpr.getElementVar();
+			SourceBuilder aux = new SourceBuilder();
+			String patGraphVarName = "";
+			List<Entity> parameters = new LinkedList<Entity>();
+			String varName = formatEntity(var, pathPrefixForElements);
+			genPatternVariable(sb, aux, patGraphVarName,
+					className, alreadyDefinedEntityToName,
+					parameters, false, pathPrefixForElements,
+					var, varName);
+		}
+
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 		expr.collectNeededEntities(needs);
 		sb.appendFront("GRGEN_LGSP.PatternCondition " + condName + " = new GRGEN_LGSP.PatternCondition(\n");
@@ -2683,6 +2700,22 @@ public class ActionsGen extends CSharpBase
 	private void genPatternYielding(SourceBuilder sb, String className,
 			HashMap<Entity, String> alreadyDefinedEntityToName, String pathPrefixForElements, EvalStatements yields)
 	{
+		NeededEntities needsForLambda = new NeededEntities(false, false, false, false, false, false, false, false, true);
+		yields.collectNeededEntities(needsForLambda);
+		for(Expression lambdaExpr : needsForLambda.lambdaExprs)
+		{
+			ArrayMapExpr arrayMapExpr = (ArrayMapExpr)lambdaExpr;
+			Variable var = arrayMapExpr.getElementVar();
+			SourceBuilder aux = new SourceBuilder();
+			String patGraphVarName = "";
+			List<Entity> parameters = new LinkedList<Entity>();
+			String varName = formatEntity(var, pathPrefixForElements);
+			genPatternVariable(sb, aux, patGraphVarName,
+					className, alreadyDefinedEntityToName,
+					parameters, false, pathPrefixForElements,
+					var, varName);
+		}
+
 		String yieldName = pathPrefixForElements + yields.getName();
 		sb.appendFront("GRGEN_LGSP.PatternYielding " + yieldName + " = new GRGEN_LGSP.PatternYielding(");
 		sb.append("\"" + yields.getName() + "\",\n ");
