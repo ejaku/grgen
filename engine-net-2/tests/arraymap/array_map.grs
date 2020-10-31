@@ -43,7 +43,8 @@ exec (::x,::y) = rexec
 show var x
 show var y
 
-eval [?t].map<int>{value:match<t> -> value.attr + array<int>[3,7].map<int>{element:int -> element}.sum()}
+exec { ::a37 = array<int>[3,7] }
+eval [?t].map<int>{value:match<t> -> value.attr + ::a37.map<int>{element:int -> element}.sum()}
 eval [?t].map<int>{value:match<t> -> value.attr + array<int>[3,7].map<int>{element:int -> value.attr}.sum()};
 
 exec (::x,::y) = rexec_nested(array<int>[3,7])

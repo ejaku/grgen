@@ -111,7 +111,7 @@ rule rexec_nested(ref a:array<int>) : (array<int>, int)
 		def ref x:array<int>;
 		def var y:int;
 		exec({yield x = [?t].map<int>{value:match<t> -> value.attr + a.map<int>{element:int -> element}.sum()}});
-		exec({yield y = [?t].map<int>{value:match<t> -> value.attr + a.map<int>{element:int -> value.attr}.sum()}.sum()});
+		exec({yield y = [?t].map<int>{value:match<t> -> value.attr + ::a37.map<int>{element:int -> value.attr}.sum()}.sum()});
 		return(x,y);
 	}
 }
