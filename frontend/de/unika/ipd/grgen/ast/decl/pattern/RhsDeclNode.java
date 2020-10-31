@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ast.decl.pattern;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -30,6 +31,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NeededEntities;
+import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.Emit;
@@ -234,7 +236,7 @@ public abstract class RhsDeclNode extends DeclNode
 		// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
 		// will add them to the left hand side, too
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false, false);
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS));
 		Collection<EvalStatements> evalStatements = patternGraph.getEvalStatements();
 		for(EvalStatements evalStatement : evalStatements) {
 			evalStatement.collectNeededEntities(needs);
@@ -276,7 +278,7 @@ public abstract class RhsDeclNode extends DeclNode
 		// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
 		// will add them to the left hand side, too
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, false, false, false);
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS));
 		Collection<OrderedReplacements> evalStatements = patternGraph.getOrderedReplacements();
 		for(OrderedReplacements evalStatement : evalStatements) {
 			for(OrderedReplacement orderedReplacement : evalStatement.orderedReplacements) {

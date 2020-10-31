@@ -12,9 +12,11 @@
 package de.unika.ipd.grgen.ir;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 
@@ -58,7 +60,7 @@ public class Exec extends IR implements ImperativeStmt
 	{
 		if(forComputation) {
 			if(neededEntitiesForComputation == null) {
-				NeededEntities needs = new NeededEntities(false, false, false, true, false, false, true, false, false); // collect all entities
+				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.ALL_ENTITIES, Needs.COMPUTATION_CONTEXT));
 				for(Expression param : getArguments()) {
 					param.collectNeededEntities(needs);
 				}
@@ -67,7 +69,7 @@ public class Exec extends IR implements ImperativeStmt
 			return neededEntitiesForComputation;
 		} else {
 			if(neededEntities == null) {
-				NeededEntities needs = new NeededEntities(false, false, false, true, false, false, false, false, false); // collect all entities
+				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.ALL_ENTITIES));
 				for(Expression param : getArguments()) {
 					param.collectNeededEntities(needs);
 				}

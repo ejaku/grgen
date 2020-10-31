@@ -13,6 +13,7 @@
 package de.unika.ipd.grgen.be.Csharp;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
@@ -498,7 +500,7 @@ public class ModifyGen extends CSharpBase
 
 		collectElementsAccessedByInterface(task, state.accessViaInterface);
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false, false);
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.ALL_ATTRIBUTES, Needs.CONTAINER_EXPRS));
 		collectElementsAndAttributesNeededByImperativeStatements(task, needs);
 		needs.collectContainerExprs = false;
 		collectElementsAndAttributesNeededByReturns(task, needs);
@@ -1429,7 +1431,7 @@ public class ModifyGen extends CSharpBase
 		sb.appendFront("GRGEN_ACTIONS." + getPackagePrefixDot(subRule) + "Pattern_" + formatIdentifiable(subRule)
 				+ ".Instance." + formatIdentifiable(subRule) +
 				"_Modify(actionEnv, subpattern_" + subName);
-		NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false, false);
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.ALL_ATTRIBUTES, Needs.CONTAINER_EXPRS));
 		List<Entity> replParameters = subRule.getRight().getReplParameters();
 		for(int i = 0; i < subRep.getReplConnections().size(); ++i) {
 			Expression expr = subRep.getReplConnections().get(i);

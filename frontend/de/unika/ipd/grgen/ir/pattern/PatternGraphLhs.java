@@ -15,6 +15,7 @@ package de.unika.ipd.grgen.ir.pattern;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.NeededEntities;
+import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Constant;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -693,7 +695,7 @@ public class PatternGraphLhs extends PatternGraphBase
 			for(OrderedReplacement orderedRepl : orderedRepls.orderedReplacements) {
 				if(orderedRepl instanceof EvalStatement) {
 					EvalStatement evalStmt = (EvalStatement)orderedRepl;
-					NeededEntities needs = new NeededEntities(false, true, false, false, true, false, false, false, false);
+					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.EDGES, Needs.ALL_ATTRIBUTES));
 					evalStmt.collectNeededEntities(needs);
 					for(Edge edge : needs.edges) {
 						if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {

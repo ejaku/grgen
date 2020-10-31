@@ -7,6 +7,7 @@
 
 package de.unika.ipd.grgen.ir;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -26,51 +27,55 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
  */
 public class NeededEntities
 {
+	// specifies the needed entities that are to be collected
+	public enum Needs
+	{
+		NODES, // Specifies, whether needed nodes shall be collected.
+		EDGES, // Specifies, whether needed edges shall be collected.
+		VARS, // Specifies, whether needed variables shall be collected.
+		ALL_ENTITIES, // Specifies, whether all needed entities (nodes, edges, vars) shall be collected.
+		ALL_ATTRIBUTES, // Specifies, whether all pattern graph entities needed for attributes 
+		 				// and the according attributes shall be collected. If this is true,
+		 				// the pattern graph entities used to access the attributes will not be
+		 				// automatically added to the nodes, edges, and entities sets, but only
+		 				// in the attrNodes and attrEdges sets.
+		CONTAINER_EXPRS, // Specifies, whether map, set, array, deque expressions shall be collected.
+		COMPUTATION_CONTEXT, // Specifies, whether entities declared in computation context shall be collected.
+		MEMBERS, // Specifies, whether entities referenced in member expressions 
+		 		 // of member initializations in the model shall be collected.
+		LAMBDAS // Specifies, whether lamba expressions (to be evaluated multiple times) shall be collected
+				// also causes lambda expression variables to appear in the variables/entities in case these are collected.
+	}
+	
 	/**
 	 * Instantiates a new NeededEntities object.
-	 * @param collectNodes Specifies, whether needed nodes shall be collected.
-	 * @param collectEdges Specifies, whether needed edges shall be collected.
-	 * @param collectVars Specifies, whether needed variables shall be collected.
-	 * @param collectAllEntities Specifies, whether all needed entities
-	 *      (nodes, edges, vars) shall be collected.
-	 * @param collectAllAttributes Specifies, whether all pattern graph entities needed for attributes
-	 *      and the according attributes shall be collected. If this is true,
-	 *      the pattern graph entities used to access the attributes will not be
-	 *      automatically added to the nodes, edges, and entities sets, but only
-	 *      in the attrNodes and attrEdges sets.
-	 * @param collectContainerExprs Specifies, whether map, set, array, deque expressions shall be collected.
-	 * @param collectComputationContext Specifies, whether entities declared in computation context shall be collected.
-	 * @param collectMembers Specifies, whether entities referenced in member expressions 
-	 *      of member initializations in the model shall be collected.
-	 * @param collectLambdas Specifies, whether lamba expressions (to be evaluated multiple times) shall be collected
-	 *      -- also causes lambda expression variables to appear in the variables/entities in case these are collected.
 	 */
-	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars,
-			boolean collectAllEntities, boolean collectAllAttributes, boolean collectContainerExprs,
-			boolean collectComputationContext, boolean collectMembers, boolean collectLambdas)
+	public NeededEntities(EnumSet<Needs> needs)
 	{
-		if(collectNodes)
+		if(needs.contains(Needs.NODES))
 			nodes = new LinkedHashSet<Node>();
-		if(collectEdges)
+		if(needs.contains(Needs.EDGES))
 			edges = new LinkedHashSet<Edge>();
-		if(collectVars)
+		if(needs.contains(Needs.VARS))
 			variables = new LinkedHashSet<Variable>();
-		if(collectAllEntities)
+		if(needs.contains(Needs.ALL_ENTITIES))
 			entities = new LinkedHashSet<Entity>();
-		if(collectAllAttributes) {
+		if(needs.contains(Needs.ALL_ATTRIBUTES)) {
 			attrEntityMap = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 			attrNodes = new LinkedHashSet<Node>();
 			attrEdges = new LinkedHashSet<Edge>();
 		}
-		if(collectContainerExprs) {
+		if(needs.contains(Needs.CONTAINER_EXPRS)) {
 			this.collectContainerExprs = true;
 			containerExprs = new LinkedHashSet<Expression>();
 		}
-		if(collectMembers) {
+		if(needs.contains(Needs.MEMBERS)) {
 			members = new LinkedHashSet<Entity>();
 		}
-		this.collectComputationContext = collectComputationContext;
-		if(collectLambdas) {
+		if(needs.contains(Needs.COMPUTATION_CONTEXT)) {
+			collectComputationContext = true;
+		}
+		if(needs.contains(Needs.LAMBDAS)) {
 			lambdaExprs = new LinkedHashSet<Expression>();
 		}
 	}
@@ -134,7 +139,7 @@ public class NeededEntities
 	/**
 	 * Specifies whether entities declared in computation context should be collected.
 	 */
-	public boolean collectComputationContext;
+	public boolean collectComputationContext = false;
 
 	/**
 	 * The lambda expressions.

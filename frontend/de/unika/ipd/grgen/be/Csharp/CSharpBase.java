@@ -15,12 +15,14 @@ package de.unika.ipd.grgen.be.Csharp;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
 import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
 import de.unika.ipd.grgen.ir.executable.FunctionMethod;
@@ -1573,7 +1575,7 @@ public abstract class CSharpBase
 				sb.append(modifyGenerationState.mapExprToTempVar().get(am));
 			} else {
 				// call of generated array map method
-				NeededEntities needs = new NeededEntities(true, true, true, false, false, false, true, false, true);
+				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
 				am.collectNeededEntities(needs);
 				String arrayMapName = "ArrayMap_" + am.getId();
 				sb.append(arrayMapName + "(actionEnv, ");
@@ -3261,7 +3263,7 @@ public abstract class CSharpBase
 
 	protected static void forceNotConstant(List<EvalStatement> statements)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false, false);
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.CONTAINER_EXPRS));
 		for(EvalStatement eval : statements) {
 			eval.collectNeededEntities(needs);
 		}
@@ -3292,7 +3294,7 @@ public abstract class CSharpBase
 			List<String> staticInitializers, String pathPrefixForElements,
 			HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false, false);
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.CONTAINER_EXPRS));
 		for(EvalStatement eval : evals) {
 			eval.collectNeededEntities(needs);
 		}
@@ -3639,7 +3641,7 @@ public abstract class CSharpBase
 		sb.append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
 		// collect all variables, create parameters - like for if/eval
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, false, true, false, true);
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
 		arrayMap.collectNeededEntities(needs);
 
 		sb.append(", ");

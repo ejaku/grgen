@@ -17,6 +17,7 @@ import java.util.BitSet;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.executable.FunctionMethod;
 import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
@@ -1041,7 +1043,7 @@ deque_init_loop:
 
 	private void genMemberInitsNonConstPrimitiveType(InheritanceType type, InheritanceType targetType, String varName)
 	{
-		NeededEntities needs = new NeededEntities(false, false, false, false, false, false, false, true, false);
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.MEMBERS));
 		for(MemberInit memberInit : type.getMemberInits()) {
 			memberInit.getExpression().collectNeededEntities(needs);
 		}

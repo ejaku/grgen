@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ir.executable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,6 +26,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.NeededEntities;
+import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
@@ -477,7 +479,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(node.indexAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
+					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					node.indexAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
 					if(indexGraphEntity != null) {
@@ -489,7 +491,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(node.nameMapAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
+					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					node.nameMapAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
 					if(indexGraphEntity != null) {
@@ -501,7 +503,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(node.uniqueIndexAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
+					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					node.uniqueIndexAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
 					if(indexGraphEntity != null) {
@@ -538,7 +540,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(edge.indexAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
+					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					edge.indexAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
 					if(indexGraphEntity != null) {
@@ -550,7 +552,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(edge.nameMapAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
+					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					edge.nameMapAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
 					if(indexGraphEntity != null) {
@@ -562,7 +564,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 					}
 				}
 				if(edge.uniqueIndexAccess != null) {
-					NeededEntities needs = new NeededEntities(true, true, false, false, false, true, false, false, false);
+					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					edge.uniqueIndexAccess.collectNeededEntities(needs);
 					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
 					if(indexGraphEntity != null) {

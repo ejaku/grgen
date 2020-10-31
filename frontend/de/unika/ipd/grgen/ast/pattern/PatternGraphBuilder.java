@@ -8,6 +8,7 @@
 package de.unika.ipd.grgen.ast.pattern;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,7 @@ import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.NeededEntities;
+import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.expr.Operator;
@@ -69,7 +71,7 @@ public class PatternGraphBuilder
 
 		// add Condition elements only mentioned there to the IR
 		// (they're declared in an enclosing pattern graph and locally only show up in the condition)
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
 		for(Expression condition : patternGraph.getConditions()) {
 			condition.collectNeededEntities(needs);
 		}
@@ -77,7 +79,7 @@ public class PatternGraphBuilder
 
 		// add Yielded elements only mentioned there to the IR
 		// (they're declared in an enclosing pattern graph and locally only show up in the yield)
-		needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
+		needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
 		for(EvalStatements yield : patternGraph.getYields()) {
 			yield.collectNeededEntities(needs);
 		}
@@ -115,7 +117,7 @@ public class PatternGraphBuilder
 
 		// add index access elements only mentioned there to the IR
 		// (they're declared in an enclosing pattern graph and locally only show up in the index access)
-		needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
+		needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
 		for(Node node : patternGraph.getNodes()) {
 			if(node.indexAccess != null) {
 				node.indexAccess.collectNeededEntities(needs);
@@ -164,7 +166,7 @@ public class PatternGraphBuilder
 					assert(false);
 				}
 			} else {
-				NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false, false);
+				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.VARS));
 				expr.collectNeededEntities(needs);
 				for(Variable neededVariable : needs.variables) {
 					if(!patternGraph.hasVar(neededVariable)) {
@@ -189,7 +191,7 @@ public class PatternGraphBuilder
 					assert(false);
 				}
 			} else {
-				NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false, false);
+				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.VARS));
 				expr.collectNeededEntities(needs);
 				for(Variable neededVariable : needs.variables) {
 					if(!patternGraph.hasVar(neededVariable)) {
@@ -400,7 +402,7 @@ public class PatternGraphBuilder
 				assert(false);
 			}
 		} else {
-			NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false, false);
+			NeededEntities needs = new NeededEntities(EnumSet.of(Needs.VARS));
 			expr.collectNeededEntities(needs);
 			for(Variable neededVariable : needs.variables) {
 				if(!patternGraph.hasVar(neededVariable)) {
