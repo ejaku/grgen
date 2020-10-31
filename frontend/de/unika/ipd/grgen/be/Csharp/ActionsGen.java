@@ -2659,19 +2659,7 @@ public class ActionsGen extends CSharpBase
 	{
 		NeededEntities needsForLambda = new NeededEntities(false, false, false, false, false, false, false, false, true);
 		expr.collectNeededEntities(needsForLambda);
-		for(Expression lambdaExpr : needsForLambda.lambdaExprs)
-		{
-			ArrayMapExpr arrayMapExpr = (ArrayMapExpr)lambdaExpr;
-			Variable var = arrayMapExpr.getElementVar();
-			SourceBuilder aux = new SourceBuilder();
-			String patGraphVarName = "";
-			List<Entity> parameters = new LinkedList<Entity>();
-			String varName = formatEntity(var, pathPrefixForElements);
-			genPatternVariable(sb, aux, patGraphVarName,
-					className, alreadyDefinedEntityToName,
-					parameters, false, pathPrefixForElements,
-					var, varName);
-		}
+		genLambaVariables(sb, className, alreadyDefinedEntityToName, pathPrefixForElements, needsForLambda);
 
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false, false);
 		expr.collectNeededEntities(needs);
@@ -2702,19 +2690,7 @@ public class ActionsGen extends CSharpBase
 	{
 		NeededEntities needsForLambda = new NeededEntities(false, false, false, false, false, false, false, false, true);
 		yields.collectNeededEntities(needsForLambda);
-		for(Expression lambdaExpr : needsForLambda.lambdaExprs)
-		{
-			ArrayMapExpr arrayMapExpr = (ArrayMapExpr)lambdaExpr;
-			Variable var = arrayMapExpr.getElementVar();
-			SourceBuilder aux = new SourceBuilder();
-			String patGraphVarName = "";
-			List<Entity> parameters = new LinkedList<Entity>();
-			String varName = formatEntity(var, pathPrefixForElements);
-			genPatternVariable(sb, aux, patGraphVarName,
-					className, alreadyDefinedEntityToName,
-					parameters, false, pathPrefixForElements,
-					var, varName);
-		}
+		genLambaVariables(sb, className, alreadyDefinedEntityToName, pathPrefixForElements, needsForLambda);
 
 		String yieldName = pathPrefixForElements + yields.getName();
 		sb.appendFront("GRGEN_LGSP.PatternYielding " + yieldName + " = new GRGEN_LGSP.PatternYielding(");
@@ -2748,6 +2724,25 @@ public class ActionsGen extends CSharpBase
 		genEntitySet(sb, needs.variables, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
 		sb.append(");\n");
 		sb.unindent();
+	}
+
+	private void genLambaVariables(SourceBuilder sb, String className,
+			HashMap<Entity, String> alreadyDefinedEntityToName, String pathPrefixForElements,
+			NeededEntities needsForLambda)
+	{
+		for(Expression lambdaExpr : needsForLambda.lambdaExprs)
+		{
+			ArrayMapExpr arrayMapExpr = (ArrayMapExpr)lambdaExpr;
+			Variable var = arrayMapExpr.getElementVar();
+			SourceBuilder aux = new SourceBuilder();
+			String patGraphVarName = "";
+			List<Entity> parameters = new LinkedList<Entity>();
+			String varName = formatEntity(var, pathPrefixForElements);
+			genPatternVariable(sb, aux, patGraphVarName,
+					className, alreadyDefinedEntityToName,
+					parameters, false, pathPrefixForElements,
+					var, varName);
+		}
 	}
 
 	private static void getPatternAlternative(SourceBuilder sb, String pathPrefixForElements, Alternative alt)
