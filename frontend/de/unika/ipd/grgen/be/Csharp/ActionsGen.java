@@ -44,7 +44,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.VariableExpression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayMapExpr;
+import de.unika.ipd.grgen.ir.expr.array.ArrayPerElementMethod;
 import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.type.ExternalType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
@@ -2734,8 +2734,8 @@ public class ActionsGen extends CSharpBase
 	{
 		for(Expression lambdaExpr : needsForLambda.lambdaExprs)
 		{
-			ArrayMapExpr arrayMapExpr = (ArrayMapExpr)lambdaExpr;
-			Variable var = arrayMapExpr.getElementVar();
+			ArrayPerElementMethod arrayPerElementMethod = (ArrayPerElementMethod)lambdaExpr;
+			Variable var = arrayPerElementMethod.getElementVar();
 			SourceBuilder aux = new SourceBuilder();
 			String patGraphVarName = "";
 			List<Entity> parameters = new LinkedList<Entity>();

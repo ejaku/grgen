@@ -15,16 +15,16 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayMapExpr extends ArrayFunctionMethodInvocationBaseExpr implements ArrayPerElementMethod
+public class ArrayRemoveIfExpr extends ArrayFunctionMethodInvocationBaseExpr implements ArrayPerElementMethod
 {
 	private Variable elementVar;
-	private Expression mappingExpr;
+	private Expression conditionExpr;
 
-	public ArrayMapExpr(Expression targetExpr, Variable elementVar, Expression mappingExpr, ArrayType resultingType)
+	public ArrayRemoveIfExpr(Expression targetExpr, Variable elementVar, Expression conditionExpr, ArrayType resultingType)
 	{
-		super("array map expr", resultingType, targetExpr);
+		super("array remove if expr", resultingType, targetExpr);
 		this.elementVar = elementVar;
-		this.mappingExpr = mappingExpr;
+		this.conditionExpr = conditionExpr;
 	}
 
 	@Override
@@ -33,9 +33,9 @@ public class ArrayMapExpr extends ArrayFunctionMethodInvocationBaseExpr implemen
 		return elementVar;
 	}
 
-	public Expression getMappingExpr()
+	public Expression getConditionExpr()
 	{
-		return mappingExpr;
+		return conditionExpr;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class ArrayMapExpr extends ArrayFunctionMethodInvocationBaseExpr implemen
 	{
 		super.collectNeededEntities(needs);
 		needs.add(this);
-		mappingExpr.collectNeededEntities(needs);
+		conditionExpr.collectNeededEntities(needs);
 		if(needs.variables != null)
 			needs.variables.remove(elementVar);
 	}

@@ -325,6 +325,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayExtract((SequenceExpressionArrayExtract)expr, source);
             case SequenceExpressionType.ArrayMap:
                 return GetSequenceExpressionArrayMap((SequenceExpressionArrayMap)expr, source);
+            case SequenceExpressionType.ArrayRemoveIf:
+                return GetSequenceExpressionArrayRemoveIf((SequenceExpressionArrayRemoveIf)expr, source);
             case SequenceExpressionType.ArrayOrderAscendingBy:
                 return GetSequenceExpressionArrayOrderAscendingBy((SequenceExpressionArrayOrderAscendingBy)expr, source);
             case SequenceExpressionType.ArrayOrderDescendingBy:
@@ -2429,7 +2431,109 @@ namespace de.unika.ipd.grGen.lgsp
 
             arrayPerElementMethodSource.Append(sb.ToString());
         }
-        
+
+        private string GetSequenceExpressionArrayRemoveIf(SequenceExpressionArrayRemoveIf seqArrayRemoveIf, SourceBuilder source)
+        {
+            String arrayRemoveIfMethodName = "ArrayRemoveIf_" + seqArrayRemoveIf.Id.ToString();
+
+            String arrayType = seqArrayRemoveIf.ContainerType(env) == "" ?
+                "IList" : TypesHelper.XgrsTypeToCSharpType(seqArrayRemoveIf.ContainerExpr.Type(env), model);
+            String elementType = seqArrayRemoveIf.ContainerType(env) == "" ?
+                "object" : TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayRemoveIf.ContainerExpr.Type(env)), model);
+
+            SourceBuilder sb = new SourceBuilder();
+            sb.AppendFrontFormat("{0}(procEnv", arrayRemoveIfMethodName);
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            seqArrayRemoveIf.ConditionExpr.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+
+            sb.Append(", (");
+            sb.Append(arrayType);
+            sb.Append(" )");
+            sb.Append(GetContainerValue(seqArrayRemoveIf, source));
+
+            variables.Remove(seqArrayRemoveIf.Var);
+
+            foreach(SequenceVariable variable in variables.Keys)
+            {
+                sb.Append(", (");
+                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                sb.Append(") ");
+                sb.Append("var_" + variable.Prefix + variable.PureName);
+            }
+
+            sb.Append(")");
+
+            GenerateSequenceExpressionArrayRemoveIf(seqArrayRemoveIf);
+
+            return sb.ToString();
+        }
+
+        private void GenerateSequenceExpressionArrayRemoveIf(SequenceExpressionArrayRemoveIf seqArrayRemoveIf)
+        {
+            SourceBuilder sb = new SourceBuilder();
+            sb.Indent();
+            sb.Indent();
+
+            String arrayRemoveIfMethodName = "ArrayRemoveIf_" + seqArrayRemoveIf.Id.ToString();
+
+            String arrayType = seqArrayRemoveIf.ContainerType(env) == "" ?
+                "IList" : TypesHelper.XgrsTypeToCSharpType(seqArrayRemoveIf.ContainerExpr.Type(env), model);
+            String elementType = seqArrayRemoveIf.ContainerType(env) == "" ?
+                "object" : TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayRemoveIf.ContainerExpr.Type(env)), model);
+
+            sb.AppendFront("static " + arrayType + " " + arrayRemoveIfMethodName + "(");
+            sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            seqArrayRemoveIf.ConditionExpr.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+
+            sb.Append(", ");
+            sb.Append(arrayType);
+            sb.Append(" ");
+            sb.Append("source");
+
+            variables.Remove(seqArrayRemoveIf.Var);
+
+            foreach(SequenceVariable variable in variables.Keys)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                sb.Append(" ");
+                sb.Append("var_" + variable.Prefix + variable.PureName);
+            }
+
+            sb.Append(")\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+            sb.AppendFront(arrayType + " target = new " + arrayType + "();\n");
+
+            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            sb.AppendFront(seqHelper.DeclareVar(seqArrayRemoveIf.Var));
+            sb.AppendFront(seqHelper.SetVar(seqArrayRemoveIf.Var, "source[index_name]"));
+            sb.AppendFront("if(!(bool)(");
+            sb.Append(GetSequenceExpression(seqArrayRemoveIf.ConditionExpr, sb));
+            sb.Append("))\n");
+            sb.AppendFrontIndented("target.Add(" + seqHelper.GetVar(seqArrayRemoveIf.Var) + ");\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("return target;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            arrayPerElementMethodSource.Append(sb.ToString());
+        }
+
         private string GetSequenceExpressionArrayOrderAscendingBy(SequenceExpressionArrayOrderAscendingBy seqArrayOrderAscendingBy, SourceBuilder source)
         {
             return GetSequenceExpressionArrayByAttributeAccess(seqArrayOrderAscendingBy, "orderAscendingBy", "OrderAscendingBy", source);

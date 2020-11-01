@@ -83,6 +83,7 @@ import de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescending;
 import de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescendingBy;
 import de.unika.ipd.grgen.ir.expr.array.ArrayPeekExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayProdExpr;
+import de.unika.ipd.grgen.ir.expr.array.ArrayRemoveIfExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayReverseExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayShuffleExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArraySizeExpr;
@@ -1601,6 +1602,39 @@ public abstract class CSharpBase
 				sb.append(")");
 				
 				generateArrayMap(am, modifyGenerationState);
+			}
+		} else if(expr instanceof ArrayRemoveIfExpr) {
+			ArrayRemoveIfExpr ari = (ArrayRemoveIfExpr)expr;
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ari));
+			} else {
+				// call of generated array removeIf method
+				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+				ari.collectNeededEntities(needs);
+				String arrayRemoveIfName = "ArrayRemoveIf_" + ari.getId();
+				sb.append(arrayRemoveIfName + "(actionEnv, ");
+				genExpression(sb, ari.getTargetExpr(), modifyGenerationState);
+				for(Node node : needs.nodes) {
+					sb.append(", (");
+					sb.append(formatType(node.getType()));
+					sb.append(")");
+					sb.append(formatEntity(node));
+				}
+				for(Edge edge : needs.edges) {
+					sb.append(", (");
+					sb.append(formatType(edge.getType()));
+					sb.append(")");
+					sb.append(formatEntity(edge));
+				}
+				for(Variable var : needs.variables) {
+					sb.append(", (");
+					sb.append(formatType(var.getType()));
+					sb.append(")");
+					sb.append(formatEntity(var));
+				}
+				sb.append(")");
+				
+				generateArrayRemoveIf(ari, modifyGenerationState);
 			}
 		} else if(expr instanceof ArrayAsSetExpr) {
 			ArrayAsSetExpr aas = (ArrayAsSetExpr)expr;
@@ -3685,6 +3719,77 @@ public abstract class CSharpBase
 		genExpression(sb, arrayMap.getMappingExpr(), modifyGenerationState);
 		sb.append(";\n");
 		sb.appendFront("target.Add(result_name);\n");
+		
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.appendFront("return target;\n");
+
+		sb.unindent();
+		sb.appendFront("}\n");
+		
+		modifyGenerationState.perElementMethodSourceBuilder().append(sb.toString());
+	}
+
+	protected void generateArrayRemoveIf(ArrayRemoveIfExpr arrayRemoveIf, ExpressionGenerationState modifyGenerationState)
+	{
+		SourceBuilder sb = new SourceBuilder();
+		sb.indent().indent();
+
+		String arrayRemoveIfName = "ArrayRemoveIf_" + arrayRemoveIf.getId();
+
+		ArrayType arrayTypeType = arrayRemoveIf.getTargetType();
+		String arrayType = formatType(arrayTypeType);
+		String elementType = formatType(arrayTypeType.valueType);
+
+		sb.appendFront("static " + arrayType + " "+ arrayRemoveIfName + "(");
+		sb.append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
+
+		// collect all variables, create parameters - like for if/eval
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+		arrayRemoveIf.collectNeededEntities(needs);
+
+		sb.append(", ");
+		sb.append(arrayType);
+		sb.append(" ");
+		sb.append("source");
+
+		for(Node node : needs.nodes) {
+			sb.append(", ");
+			sb.append(formatType(node.getType()));
+			sb.append(" ");
+			sb.append(formatEntity(node));
+		}
+		for(Edge edge : needs.edges) {
+			sb.append(", ");
+			sb.append(formatType(edge.getType()));
+			sb.append(" ");
+			sb.append(formatEntity(edge));
+		}
+		for(Variable var : needs.variables) {
+			sb.append(", ");
+			sb.append(formatType(var.getType()));
+			sb.append(" ");
+			sb.append(formatEntity(var));
+		}
+
+		sb.append(")\n");
+		sb.appendFront("{\n");
+		sb.indent();
+
+		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+		sb.appendFront(arrayType + " target = new " + arrayType + "();\n");
+
+		sb.appendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+
+		String elementVarName = formatEntity(arrayRemoveIf.getElementVar());
+		sb.appendFront(elementType + " " + elementVarName + " = source[index_name];\n");
+		sb.append("if(!(bool)(");
+		genExpression(sb, arrayRemoveIf.getConditionExpr(), modifyGenerationState);
+		sb.append("))\n");
+		sb.appendFrontIndented("target.Add(" + elementVarName + ");\n");
 		
 		sb.unindent();
 		sb.appendFront("}\n");

@@ -1829,6 +1829,9 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
         "{" { varDecls.PushScope(ScopeType.Computation); } var=VariableDefinition() "->" expr=Expression() { varDecls.PopScope(variableList); } "}"
             { expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, typeName, var, expr); }
     |
+        "{" { varDecls.PushScope(ScopeType.Computation); } var=VariableDefinition() "->" expr=Expression() { varDecls.PopScope(variableList); } "}"
+            { expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, null, var, expr); }
+    |
         "(" (Arguments(argExprs))? ")"
             { expr = env.CreateSequenceExpressionFunctionMethodCall(fromExpr, methodOrAttrName, argExprs); }
     |

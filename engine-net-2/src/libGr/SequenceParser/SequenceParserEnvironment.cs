@@ -1128,7 +1128,11 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             {
                 return new SequenceExpressionArrayMap(targetExpr, typeName, var, argExpr);
             }
-            throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"! (available is map)");
+            else //if(functionMethodName == "removeIf")
+            {
+                return new SequenceExpressionArrayRemoveIf(targetExpr, var, argExpr);
+            }
+            throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"! (available are map,removeIf)");
         }
 
         abstract public bool IsFunctionName(String functionName, String package);

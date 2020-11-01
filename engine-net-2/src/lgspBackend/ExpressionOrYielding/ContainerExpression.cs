@@ -1886,6 +1886,156 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array map expression.
+    /// </summary>
+    public class ArrayRemoveIf : Expression
+    {
+        public ArrayRemoveIf(Expression target, String targetType, String elementVariable, Expression condition, String resultingType,
+            PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
+        {
+            Target = target;
+            TargetType = targetType;
+            ElementVariable = elementVariable;
+            Condition = condition;
+            ResultingType = resultingType;
+            PatternNodes = patternNodes;
+            PatternEdges = patternEdges;
+            PatternVariables = patternVariables;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            PatternNode[] newPatternNodes = new PatternNode[PatternNodes.Length];
+            for(int i = 0; i < PatternNodes.Length; ++i)
+            {
+                newPatternNodes[i] = new PatternNode(PatternNodes[i], renameSuffix);
+            }
+            PatternEdge[] newPatternEdges = new PatternEdge[PatternEdges.Length];
+            for(int i = 0; i < PatternEdges.Length; ++i)
+            {
+                newPatternEdges[i] = new PatternEdge(PatternEdges[i], renameSuffix);
+            }
+            PatternVariable[] newPatternVariables = new PatternVariable[PatternVariables.Length];
+            for(int i = 0; i < PatternVariables.Length; ++i)
+            {
+                newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
+            }
+            return new ArrayRemoveIf(Target.Copy(renameSuffix), TargetType, ElementVariable, Condition.Copy(renameSuffix), ResultingType,
+                newPatternNodes, newPatternEdges, newPatternVariables);
+        }
+
+        public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        {
+            base.EmitArrayPerElementMethods(sourceCode);
+
+            SourceBuilder sb = new SourceBuilder();
+            sb.Indent();
+            sb.Indent();
+
+            string TargetArrayType = "List<" + TargetType + ">"; // call target
+            string ResultingArrayType = "List<" + ResultingType + ">";
+            string ArrayRemoveIfMethodName = "ArrayRemoveIf_" + "expr" + Id;
+            sb.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", ResultingArrayType, ArrayRemoveIfMethodName);
+            sb.Append(", ");
+            sb.AppendFormat("{0} {1}", TargetArrayType, "source");
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.TypeName(patternNode.type));
+                sb.Append(" ");
+                sb.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.TypeName(patternEdge.type));
+                sb.Append(" ");
+                sb.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.TypeName(patternVariable.type));
+                sb.Append(" ");
+                sb.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+            sb.Append(")\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sb.AppendFront(ResultingArrayType + " target = new " + ResultingArrayType + "();\n");
+
+            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            sb.AppendFront(TargetType + " " + NamesOfEntities.Variable(ElementVariable) + " = source[index_name];\n");
+            sb.AppendFront("if(!(bool)(");
+
+            Condition.Emit(sb);
+
+            sb.Append("))\n");
+            sb.AppendFrontIndented("target.Add(" + NamesOfEntities.Variable(ElementVariable) + ");\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("return target;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sourceCode.Append(sb.ToString());
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string ArrayRemoveIfMethodName = "ArrayRemoveIf_" + "expr" + Id;
+            sourceCode.AppendFormat("{0}(actionEnv", ArrayRemoveIfMethodName);
+            sourceCode.Append(", ");
+            Target.Emit(sourceCode);
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                sourceCode.Append(", (");
+                sourceCode.Append(TypesHelper.TypeName(patternNode.type));
+                sourceCode.Append(")");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                sourceCode.Append(", (");
+                sourceCode.Append(TypesHelper.TypeName(patternEdge.type));
+                sourceCode.Append(")");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                sourceCode.Append(", (");
+                sourceCode.Append(TypesHelper.TypeName(patternVariable.type));
+                sourceCode.Append(")");
+                sourceCode.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Condition;
+        }
+
+        readonly Expression Target;
+        readonly String TargetType;
+        readonly String ElementVariable;
+        readonly Expression Condition;
+        readonly String ResultingType;
+        readonly PatternNode[] PatternNodes;
+        readonly PatternEdge[] PatternEdges;
+        readonly PatternVariable[] PatternVariables;
+    }
+
+    /// <summary>
     /// Class representing an array extract (from match type of rule iterated) expression.
     /// </summary>
     public class ArrayExtractIterated : Expression

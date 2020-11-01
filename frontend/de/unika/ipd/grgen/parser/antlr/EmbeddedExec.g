@@ -455,8 +455,13 @@ seqExprSelector [ ExprNode prefix, ExecNode xg ] returns [ ExprNode res = prefix
 				)? RPAREN { xg.append(")"); }
 			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, mi); }
 		|
-			{ env.isArrayPerElementMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }?
+			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("map") }?
 				LT ti=typeIdentUse GT { xg.append("<" + ti.getSymbol().getText() + ">"); }
+			LBRACE { xg.append("{"); } { env.pushScope("arraymap/exec", getCoords(l)); } seqEntityDecl[xg] 
+				RARROW { xg.append("->"); } seqExpression[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, ti); }
+		|
+			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("removeIf") }?
 			LBRACE { xg.append("{"); } { env.pushScope("arraymap/exec", getCoords(l)); } seqEntityDecl[xg] 
 				RARROW { xg.append("->"); } seqExpression[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, ti); }

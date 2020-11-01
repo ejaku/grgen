@@ -867,16 +867,6 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public static boolean isArrayPerElementMethodName(String name)
-	{
-		switch(name) {
-		case "map":
-			return true;
-		default:
-			return false;
-		}
-	}
-
 	public static boolean isAutoSuppliedFilterName(String name)
 	{
 		switch(name) {

@@ -42,7 +42,7 @@ namespace de.unika.ipd.grGen.libGr
         ArraySubarray, DequeSubdeque,
         ArrayOrderAscending, ArrayOrderDescending, ArrayGroup, ArrayKeepOneForEach, ArrayReverse, ArrayShuffle,
         ArrayExtract, ArrayOrderAscendingBy, ArrayOrderDescendingBy, ArrayGroupBy, ArrayKeepOneForEachBy,
-        ArrayMap,
+        ArrayMap, ArrayRemoveIf,
         ElementFromGraph, NodeByName, EdgeByName, NodeByUnique, EdgeByUnique,
         Source, Target, Opposite,
         GraphElementAttributeOrElementOfMatch, GraphElementAttribute, ElementOfMatch,
@@ -5352,6 +5352,106 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return Name + ".map<" + TypeName + ">{" + Var.Name + " -> " + MappingExpr.Symbol + "}"; }
+        }
+    }
+
+    public class SequenceExpressionArrayRemoveIf : SequenceExpressionContainer
+    {
+        public SequenceVariable Var;
+        public SequenceExpression ConditionExpr;
+
+        public SequenceExpressionArrayRemoveIf(SequenceExpression containerExpr, SequenceVariable var, SequenceExpression conditionExpr)
+            : base(SequenceExpressionType.ArrayRemoveIf, containerExpr)
+        {
+            Var = var;
+            ConditionExpr = conditionExpr;
+        }
+
+        protected SequenceExpressionArrayRemoveIf(SequenceExpressionArrayRemoveIf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+            Var = that.Var.Copy(originalToCopy, procEnv);
+            ConditionExpr = that.ConditionExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayRemoveIf(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
+
+            if(!TypesHelper.IsSameOrSubtype(ConditionExpr.Type(env), "boolean", env.Model))
+                throw new SequenceParserException(Symbol, "boolean", ConditionExpr.Type(env));
+
+            if(containerType != "")
+            {
+                if(!TypesHelper.IsSameOrSubtype(arrayValueType, Var.Type, env.Model))
+                    throw new SequenceParserException(Symbol, Var.Type, arrayValueType);
+            }
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            if(ContainerType(env) == "")
+                return "";
+
+            String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
+            return "array<" + arrayValueType + ">";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            IList source = ArrayValue(procEnv);
+            string arrayType = TypesHelper.DotNetTypeToXgrsType(source.GetType());
+            String arrayValueType = TypesHelper.ExtractSrc(arrayType);
+
+            IList result = ContainerHelper.NewList(TypesHelper.GetType(arrayValueType, procEnv.Graph.Model));
+
+            for(int index_name = 0; index_name < source.Count; ++index_name)
+            {
+                Var.SetVariableValue(source[index_name], procEnv);
+                if(!(bool)ConditionExpr.Evaluate(procEnv))
+                    result.Add(Var.GetVariableValue(procEnv));
+            }
+
+            return result;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, containerConstructors);
+            ConditionExpr.GetLocalVariables(variables, containerConstructors);
+            variables.Remove(Var);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+                yield return ConditionExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".removeIf{" + Var.Name + " -> " + ConditionExpr.Symbol + "}"; }
         }
     }
 

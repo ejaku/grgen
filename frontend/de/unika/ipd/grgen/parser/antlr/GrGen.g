@@ -4228,11 +4228,17 @@ selectorExpr [ AnonymousScopeNamer namer, int context, ExprNode target, boolean 
 			params=paramExprs[namer, context, inEnumInit]
 			{ res = new FunctionMethodInvocationDecisionNode(target, id, params, mi); }
 		|
-			{ env.isArrayPerElementMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }?
+			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("map") }?
 			LT ti=typeIdentUse GT
 			LBRACE { namer.defExprBlock(id, id.getCoords()); } { env.pushScope(namer.exprBlock()); }
 			vd=lambdaExprVarDeclToBeYieldedTo[namer, context, PatternGraphLhsNode.getInvalid()] RARROW e=expr[namer, context, inEnumInit]
 			{ res = new ArrayMapNode(getCoords(d), target, ti, vd, e); }
+			{ env.popScope(); } { namer.undefExprBlock(); } RBRACE
+		|
+			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("removeIf") }?
+			LBRACE { namer.defExprBlock(id, id.getCoords()); } { env.pushScope(namer.exprBlock()); }
+			vd=lambdaExprVarDeclToBeYieldedTo[namer, context, PatternGraphLhsNode.getInvalid()] RARROW e=expr[namer, context, inEnumInit]
+			{ res = new ArrayRemoveIfNode(getCoords(d), target, vd, e); }
 			{ env.popScope(); } { namer.undefExprBlock(); } RBRACE
 		|
 			params=paramExprs[namer, context, inEnumInit]
