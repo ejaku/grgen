@@ -1976,7 +1976,7 @@ namespace de.unika.ipd.grGen.expression
             Condition.Emit(sb);
 
             sb.Append("))\n");
-            sb.AppendFrontIndented("target.Add(" + NamesOfEntities.Variable(ElementVariable) + ");\n");
+            sb.AppendFrontIndented("target.Add(source[index_name]);\n");
 
             sb.Unindent();
             sb.AppendFront("}\n");

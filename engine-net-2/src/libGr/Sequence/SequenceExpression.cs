@@ -5421,7 +5421,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 Var.SetVariableValue(source[index_name], procEnv);
                 if(!(bool)ConditionExpr.Evaluate(procEnv))
-                    result.Add(Var.GetVariableValue(procEnv));
+                    result.Add(source[index_name]);
             }
 
             return result;

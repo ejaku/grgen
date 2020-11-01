@@ -1,0 +1,6 @@
+test array_removeIf(ref a:array<double>) {
+	if {
+		a.removeIf{value:int -> value != 42}.empty();
+	}	
+}
+

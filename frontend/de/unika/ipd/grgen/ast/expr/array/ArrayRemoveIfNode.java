@@ -16,7 +16,6 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
@@ -87,9 +86,8 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 		TypeNode exprType = conditionExpr.getType();
 
 		if(!exprType.isEqual(BasicTypeNode.booleanType)) {
-			conditionExpr = becomeParent(conditionExpr.adjustType(getTargetType(), getCoords()));
-			if(conditionExpr == ConstNode.getInvalid())
-				return false;
+			error.error(getCoords(), "removeIf expects expression of boolean type, is given " + exprType);
+			return false;
 		}
 
 		TypeNode elementVarType = elementVar.getDeclType();

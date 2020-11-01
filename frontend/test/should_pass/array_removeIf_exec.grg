@@ -1,0 +1,24 @@
+#using "array_map.gm"
+
+function f(ref a:array<int>, ref aa:array<N>, nn:N, value:Node) : N
+{
+	if(a != null && aa != null) {
+		if(value != null) {
+			return((N)value);
+		} else {
+			return(aa[0]);
+		}
+	} else {
+		return(nn);
+	}
+}
+
+rule array_removeIf_exec(ref a:array<int>, ref aa:array<N>) {
+	modify {
+		nn:N;
+
+		---
+		exec({ ra:array<int> = a.removeIf{value:int -> value * 1.5 != value} });
+		exec({ raa:array<N> = aa.removeIf{value:Node -> uniqueof(f(a, aa, nn, value)) != 42 }});
+	}
+}

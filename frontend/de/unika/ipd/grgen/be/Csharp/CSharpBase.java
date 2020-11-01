@@ -3789,7 +3789,7 @@ public abstract class CSharpBase
 		sb.append("if(!(bool)(");
 		genExpression(sb, arrayRemoveIf.getConditionExpr(), modifyGenerationState);
 		sb.append("))\n");
-		sb.appendFrontIndented("target.Add(" + elementVarName + ");\n");
+		sb.appendFrontIndented("target.Add(source[index_name]);\n");
 		
 		sb.unindent();
 		sb.appendFront("}\n");

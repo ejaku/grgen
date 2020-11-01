@@ -1,0 +1,5 @@
+test array_removeIf(ref a:array<int>) {
+	if {
+		a.removeIf{value:int -> value * Math::pi()}.empty();
+	}	
+}

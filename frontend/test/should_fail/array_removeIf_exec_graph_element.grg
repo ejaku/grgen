@@ -1,0 +1,7 @@
+rule array_removeIf_exec(ref a:array<int>) {
+	n:Node;
+	modify {
+		---
+		exec({ aa:array<Edge> = a.removeIf{value:int -> nameof(n) != "$0"} });
+	}
+}

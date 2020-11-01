@@ -1,0 +1,6 @@
+test array_removeIf(ref a:array<Node>) {
+	n:Node;	
+	if {
+		a.removeIf{value:Edge -> nameof(value) != "$0"}.empty();
+	}	
+}

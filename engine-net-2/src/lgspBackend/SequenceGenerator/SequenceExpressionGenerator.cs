@@ -2521,7 +2521,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("if(!(bool)(");
             sb.Append(GetSequenceExpression(seqArrayRemoveIf.ConditionExpr, sb));
             sb.Append("))\n");
-            sb.AppendFrontIndented("target.Add(" + seqHelper.GetVar(seqArrayRemoveIf.Var) + ");\n");
+            sb.AppendFrontIndented("target.Add(source[index_name]);\n");
 
             sb.Unindent();
             sb.AppendFront("}\n");

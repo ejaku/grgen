@@ -1,0 +1,6 @@
+test array_removeIf(ref a:array<int>) {
+	n:Node;	
+	if {
+		a.removeIf{value:int -> n}.empty();
+	}	
+}
