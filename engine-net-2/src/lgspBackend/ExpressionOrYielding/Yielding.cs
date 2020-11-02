@@ -24,13 +24,6 @@ namespace de.unika.ipd.grGen.expression
         /// copies the yielding, renaming all variables with the given suffix
         /// </summary>
         public abstract Yielding Copy(string renameSuffix);
-
-        public static int fetchId()
-        {
-            return idGenerator++;
-        }
-
-        private static int idGenerator = 0;
     }
 
     /// <summary>
@@ -779,57 +772,56 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            String id = fetchId().ToString();
             if(ContainerType.StartsWith("List"))
             {
-                sourceCode.AppendFrontFormat("{0} entry_{1} = ({0}) " + NamesOfEntities.Variable(Container) + ";\n", ContainerType, id);
-                sourceCode.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", id);
+                sourceCode.AppendFrontFormat("{0} entry_{1} = ({0}) " + NamesOfEntities.Variable(Container) + ";\n", ContainerType, Id);
+                sourceCode.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", Id);
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
                 if(Index != null)
                 {
-                    sourceCode.AppendFront(IndexType + " " + NamesOfEntities.Variable(Index) + " = index_" + id + ";\n");
-                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + "[index_" + id + "];\n");
+                    sourceCode.AppendFront(IndexType + " " + NamesOfEntities.Variable(Index) + " = index_" + Id + ";\n");
+                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + Id + "[index_" + Id + "];\n");
                 }
                 else
                 {
-                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + "[index_" + id + "];\n");
+                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + Id + "[index_" + Id + "];\n");
                 }
             }
             else if(ContainerType.StartsWith("GRGEN_LIBGR.Deque"))
             {
-                sourceCode.AppendFrontFormat("{0} entry_{1} = ({0}) " + NamesOfEntities.Variable(Container) + ";\n", ContainerType, id);
-                sourceCode.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", id);
+                sourceCode.AppendFrontFormat("{0} entry_{1} = ({0}) " + NamesOfEntities.Variable(Container) + ";\n", ContainerType, Id);
+                sourceCode.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", Id);
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
                 if(Index != null)
                 {
-                    sourceCode.AppendFront(IndexType + " " + NamesOfEntities.Variable(Index) + " = index_" + id + ";\n");
-                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + "[index_" + id + "];\n");
+                    sourceCode.AppendFront(IndexType + " " + NamesOfEntities.Variable(Index) + " = index_" + Id + ";\n");
+                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + Id + "[index_" + Id + "];\n");
                 }
                 else
                 {
-                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + "[index_" + id + "];\n");
+                    sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + Id + "[index_" + Id + "];\n");
                 }
             }
             else if(ContainerType.StartsWith("Dictionary") && ContainerType.Contains("SetValueType"))
             {
-                sourceCode.AppendFrontFormat("foreach(KeyValuePair<{0},GRGEN_LIBGR.SetValueType> entry_{1} in {2})\n", VariableType, id, NamesOfEntities.Variable(Container));
+                sourceCode.AppendFrontFormat("foreach(KeyValuePair<{0},GRGEN_LIBGR.SetValueType> entry_{1} in {2})\n", VariableType, Id, NamesOfEntities.Variable(Container));
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + ".Key;\n");
+                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + Id + ".Key;\n");
             }
             else
             {
-                sourceCode.AppendFrontFormat("foreach(KeyValuePair<{0},{1}> entry_{2} in {3})\n", IndexType, VariableType, id, NamesOfEntities.Variable(Container));
+                sourceCode.AppendFrontFormat("foreach(KeyValuePair<{0},{1}> entry_{2} in {3})\n", IndexType, VariableType, Id, NamesOfEntities.Variable(Container));
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFront(IndexType + " " + NamesOfEntities.Variable(Index) + " = entry_" + id + ".Key;\n");
-                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + id + ".Value;\n");
+                sourceCode.AppendFront(IndexType + " " + NamesOfEntities.Variable(Index) + " = entry_" + Id + ".Key;\n");
+                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + " entry_" + Id + ".Value;\n");
             }
 
             foreach(Yielding statement in Statements)
@@ -889,9 +881,9 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            String ascendingVar = "ascending_" + fetchId().ToString();
-            String entryVar = "entry_" + fetchId().ToString();
-            String limitVar = "limit_" + fetchId().ToString();
+            String ascendingVar = "ascending_" + Id;
+            String entryVar = "entry_" + Id;
+            String limitVar = "limit_" + Id;
             sourceCode.AppendFront("int " + entryVar + " = (int)(");
             Left.Emit(sourceCode);
             sourceCode.AppendFront(");\n");
@@ -961,23 +953,21 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            String id = fetchId().ToString();
-
             if(Function is Adjacent)
             {
                 Adjacent adjacent = (Adjacent)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 if(!Profiling)
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", Id);
                     adjacent.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incident)\n", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incident)\n", Id);
                 }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -988,33 +978,33 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
-                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", Id);
                     adjacent.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                     sourceCode.AppendFrontIndented("continue;\n");
                 }
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", Id);
                 adjacent.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
                 sourceCode.AppendFrontIndented("continue;\n");
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Opposite(node_{2});\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Opposite(node_{2});\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is AdjacentIncoming)
             {
                 AdjacentIncoming adjacent = (AdjacentIncoming)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 if(!Profiling)
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", Id);
                     adjacent.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incoming)\n", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incoming)\n", Id);
                 }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1025,33 +1015,33 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
-                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", Id);
                     adjacent.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                     sourceCode.AppendFrontIndented("continue;\n");
                 }
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", Id);
                 adjacent.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
                 sourceCode.AppendFrontIndented("continue;\n");
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Source;\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Source;\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is AdjacentOutgoing)
             {
                 AdjacentOutgoing adjacent = (AdjacentOutgoing)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 adjacent.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 if(!Profiling)
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", Id);
                     adjacent.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Outgoing)\n", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Outgoing)\n", Id);
                 }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1062,33 +1052,33 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
-                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", Id);
                     adjacent.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                     sourceCode.AppendFrontIndented("continue;\n");
                 }
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", Id);
                 adjacent.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
                 sourceCode.AppendFrontIndented("continue;\n");
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Target;\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Target;\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is Incident)
             {
                 Incident incident = (Incident)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 if(!Profiling)
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncident(", Id);
                     incident.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incident)\n", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incident)\n", Id);
                 }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1099,33 +1089,33 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
-                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", Id);
                     incident.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                     sourceCode.AppendFrontIndented("continue;\n");
                 }
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", Id);
                 incident.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
                 sourceCode.AppendFrontIndented("continue;\n");
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is Incoming)
             {
                 Incoming incident = (Incoming)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 if(!Profiling)
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleIncoming(", Id);
                     incident.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incoming)\n", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Incoming)\n", Id);
                 }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1136,33 +1126,33 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
-                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", Id);
                     incident.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                     sourceCode.AppendFrontIndented("continue;\n");
                 }
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", Id);
                 incident.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
                 sourceCode.AppendFrontIndented("continue;\n");
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is Outgoing)
             {
                 Outgoing incident = (Outgoing)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 incident.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
                 if(!Profiling)
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatibleOutgoing(", Id);
                     incident.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Outgoing)\n", id);
+                    sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.Outgoing)\n", Id);
                 }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1173,25 +1163,25 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
                     else
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
-                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
+                    sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", Id);
                     incident.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
                     sourceCode.AppendFrontIndented("continue;\n");
                 }
 
-                sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
+                sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", Id);
                 incident.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
                 sourceCode.AppendFrontIndented("continue;\n");
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is Reachable)
             {
                 Reachable reachable = (Reachable)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.Reachable(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.Reachable(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1205,15 +1195,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is ReachableIncoming)
             {
                 ReachableIncoming reachable = (ReachableIncoming)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.ReachableIncoming(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.ReachableIncoming(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1227,15 +1217,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is ReachableOutgoing)
             {
                 ReachableOutgoing reachable = (ReachableOutgoing)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.ReachableOutgoing(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.ReachableOutgoing(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1249,15 +1239,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is ReachableEdges)
             {
                 ReachableEdges reachable = (ReachableEdges)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdges(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdges(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1271,15 +1261,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is ReachableEdgesIncoming)
             {
                 ReachableEdgesIncoming reachable = (ReachableEdgesIncoming)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1293,15 +1283,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is ReachableEdgesOutgoing)
             {
                 ReachableEdgesOutgoing reachable = (ReachableEdgesOutgoing)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1315,15 +1305,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is BoundedReachable)
             {
                 BoundedReachable reachable = (BoundedReachable)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachable(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachable(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1337,15 +1327,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is BoundedReachableIncoming)
             {
                 BoundedReachableIncoming reachable = (BoundedReachableIncoming)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableIncoming(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableIncoming(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1359,15 +1349,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is BoundedReachableOutgoing)
             {
                 BoundedReachableOutgoing reachable = (BoundedReachableOutgoing)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableOutgoing(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableOutgoing(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1381,15 +1371,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})iter_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is BoundedReachableEdges)
             {
                 BoundedReachableEdges reachable = (BoundedReachableEdges)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableEdges(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableEdges(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1403,15 +1393,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is BoundedReachableEdgesIncoming)
             {
                 BoundedReachableEdgesIncoming reachable = (BoundedReachableEdgesIncoming)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1425,15 +1415,15 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is BoundedReachableEdgesOutgoing)
             {
                 BoundedReachableEdgesOutgoing reachable = (BoundedReachableEdgesOutgoing)Function;
-                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + id + " = ");
+                sourceCode.AppendFront("GRGEN_LIBGR.INode node_" + Id + " = ");
                 reachable.Node.Emit(sourceCode);
                 sourceCode.Append(";\n");
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing(node_{0}, ", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing(node_{0}, ", Id);
                 reachable.IncidentEdgeType.Emit(sourceCode);
                 sourceCode.Append(", ");
                 reachable.AdjacentNodeType.Emit(sourceCode);
@@ -1447,12 +1437,12 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), Id);
             }
             else if(Function is Nodes)
             {
                 Nodes nodes = (Nodes)Function;
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode node_{0} in graph.GetCompatibleNodes(", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.INode node_{0} in graph.GetCompatibleNodes(", Id);
                 nodes.NodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
@@ -1466,12 +1456,12 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
                 }
 
-                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = (" + VariableType + ") node_" + id + ";\n");
+                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = (" + VariableType + ") node_" + Id + ";\n");
             }
             else if(Function is Edges)
             {
                 Edges edges = (Edges)Function;
-                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in graph.GetCompatibleEdges(", id);
+                sourceCode.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in graph.GetCompatibleEdges(", Id);
                 edges.EdgeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
                 sourceCode.AppendFront("{\n");
@@ -1485,7 +1475,7 @@ namespace de.unika.ipd.grGen.expression
                         sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
                 }
 
-                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = (" + VariableType + ") edge_" + id + ";\n");
+                sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = (" + VariableType + ") edge_" + Id + ";\n");
             }
 
             foreach(Yielding statement in Statements)
@@ -2160,7 +2150,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            String emitVar = "emit_value_" + fetchId().ToString();
+            String emitVar = "emit_value_" + Id.ToString();
             sourceCode.AppendFront("object " + emitVar + ";\n");
             foreach(Expression value in Values)
             {
@@ -2399,9 +2389,9 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            String highlightValuesArray = "highlight_values_" + fetchId().ToString();
+            String highlightValuesArray = "highlight_values_" + Id;
 		    sourceCode.AppendFront("List<object> " + highlightValuesArray + " = new List<object>();");
-    	    String highlightSourceNamesArray = "highlight_source_names_" + fetchId().ToString();
+    	    String highlightSourceNamesArray = "highlight_source_names_" + Id.ToString();
 		    sourceCode.AppendFront("List<string> " + highlightSourceNamesArray + " = new List<string>();");
             foreach(Expression value in Values)
             {
@@ -2456,7 +2446,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            String recordVar = "emit_value_" + fetchId().ToString();
+            String recordVar = "emit_value_" + Id.ToString();
             sourceCode.AppendFront("object " + recordVar + " = ");
             ToRecordExpression.Emit(sourceCode);
             sourceCode.Append(";\n");
