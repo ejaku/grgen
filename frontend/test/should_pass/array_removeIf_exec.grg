@@ -20,5 +20,7 @@ rule array_removeIf_exec(ref a:array<int>, ref aa:array<N>) {
 		---
 		exec({ ra:array<int> = a.removeIf{value:int -> value * 1.5 != value} });
 		exec({ raa:array<N> = aa.removeIf{value:Node -> uniqueof(f(a, aa, nn, value)) != 42 }});
+		exec({ ra:array<int> = a.removeIf{idx:int -> value:int -> idx == value} });
+		exec({ raa:array<N> = aa.removeIf{idx:int -> value:Node -> idx % 2 == 1 }});
 	}
 }

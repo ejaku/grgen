@@ -20,5 +20,7 @@ rule array_map_exec(ref a:array<int>, ref aa:array<N>) {
 		---
 		exec({ ra:array<double> = a.map<double>{value:int -> value * 1.5} });
 		exec({ raa:array<Node> = aa.map<Node>{value:Node -> f(a, aa, nn, value)} });
+		exec({ rai:array<double> = a.map<double>{key:int -> value:int -> key + 3.141592654} });
+		exec({ raai:array<Node> = aa.map<Node>{key:int -> value:Node -> key % 2 == 1 ? nn : nn} });
 	}
 }

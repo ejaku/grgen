@@ -130,6 +130,14 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 		TypeNode resultType = resultArrayType.valueType;
 		TypeNode exprType = mappingExpr.getType();
 
+		if(indexVar != null) {
+			TypeNode indexVarType = indexVar.getDeclType();
+			if(!indexVarType.isEqual(BasicTypeNode.intType)) {
+				error.error(getCoords(), "index var must be of int type, is given " + indexVarType);
+				return false;
+			}
+		}
+
 		if(!exprType.isEqual(resultType)) {
 			mappingExpr = becomeParent(mappingExpr.adjustType(resultValueType, getCoords()));
 			if(mappingExpr == ConstNode.getInvalid())
@@ -147,14 +155,6 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 			if(resultType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 					|| resultType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
 				error.error(getCoords(), "can't assign value of " + exprType + " to variable of " + resultType);
-				return false;
-			}
-		}
-
-		if(indexVar != null) {
-			TypeNode indexVarType = indexVar.getDeclType();
-			if(!indexVarType.isEqual(BasicTypeNode.intType)) {
-				error.error(getCoords(), "index var must be of int type, is given " + indexVarType);
 				return false;
 			}
 		}

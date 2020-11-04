@@ -92,17 +92,17 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		TypeNode exprType = conditionExpr.getType();
 
-		if(!exprType.isEqual(BasicTypeNode.booleanType)) {
-			error.error(getCoords(), "removeIf expects expression of boolean type, is given " + exprType);
-			return false;
-		}
-
 		if(indexVar != null) {
 			TypeNode indexVarType = indexVar.getDeclType();
 			if(!indexVarType.isEqual(BasicTypeNode.intType)) {
 				error.error(getCoords(), "index var must be of int type, is given " + indexVarType);
 				return false;
 			}
+		}
+
+		if(!exprType.isEqual(BasicTypeNode.booleanType)) {
+			error.error(getCoords(), "removeIf expects expression of boolean type, is given " + exprType);
+			return false;
 		}
 
 		TypeNode elementVarType = elementVar.getDeclType();

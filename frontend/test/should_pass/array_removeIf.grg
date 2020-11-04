@@ -5,8 +5,10 @@ rule array_removeIf(ref a:array<int>, var x:int, ref aa:array<N>) {
 	nn:N;
 	
 	if {
-		a.removeIf{/*key:int ->*/value:int -> value * Math::pi() + x + (nameof(n)!="$0" ? 1 : 0) != 3.141592654} != a.removeIf{value:int -> value == 42}.removeIf{value:int -> value != 42};
+		a.removeIf{value:int -> value * Math::pi() + x + (nameof(n)!="$0" ? 1 : 0) != 3.141592654} != a.removeIf{value:int -> value == 42}.removeIf{value:int -> value != 42};
 		aa.removeIf{value:Node -> nameof(nn) != "best-name-ever"}.empty();
+		a.removeIf{key:int -> value:int -> key == value} != a.removeIf{key:int -> value:int -> key % 2 == 0}.removeIf{key:int -> value:int -> key == 42};
+		aa.removeIf{key:int -> value:Node -> key == 42}.empty();
 	}
 	
 	modify {
@@ -14,6 +16,8 @@ rule array_removeIf(ref a:array<int>, var x:int, ref aa:array<N>) {
 			def var y:int = 42;
 			def ref ra:array<int> = a.removeIf{value:int -> value*Math::pi() + y + (nameof(n)!="$0" ? 1 : 0) != 3.141592654};
 			def ref raa:array<N> = aa.removeIf{value:Node -> nameof(nn) != "Il Turricano II"};
+			def ref rai:array<int> = a.removeIf{key:int -> value:int -> key == value};
+			def ref raai:array<N> = aa.removeIf{key:int -> value:Node -> key % 2 == 0};
 		}
 	}
 }

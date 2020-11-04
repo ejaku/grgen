@@ -1,0 +1,5 @@
+test array_map(ref a:array<int>) {
+	if {
+		a.removeIf{idx:Node -> value:int -> idx % 2 == 1}.empty();
+	}	
+}

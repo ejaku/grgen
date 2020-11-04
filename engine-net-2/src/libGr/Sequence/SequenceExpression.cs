@@ -5293,6 +5293,12 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            if(Index != null)
+            {
+                if(!TypesHelper.IsSameOrSubtype(Index.Type, "int", env.Model))
+                    throw new SequenceParserException(Symbol, "int", Index.Type);
+            }
+
             base.Check(env); // check children
 
             string containerType = CheckAndReturnContainerType(env);
@@ -5304,12 +5310,6 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!TypesHelper.IsSameOrSubtype(MappingExpr.Type(env), TypeName, env.Model))
                 throw new SequenceParserException(Symbol, TypeName, MappingExpr.Type(env));
-
-            if(Index != null)
-            {
-                if(!TypesHelper.IsSameOrSubtype(Index.Type, "int", env.Model))
-                    throw new SequenceParserException(Symbol, Index.Type, "int");
-            }
 
             if(containerType != "")
             {
@@ -5401,6 +5401,12 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            if(Index != null)
+            {
+                if(!TypesHelper.IsSameOrSubtype(Index.Type, "int", env.Model))
+                    throw new SequenceParserException(Symbol, "int", Index.Type);
+            }
+
             base.Check(env); // check children
 
             string containerType = CheckAndReturnContainerType(env);
@@ -5412,12 +5418,6 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!TypesHelper.IsSameOrSubtype(ConditionExpr.Type(env), "boolean", env.Model))
                 throw new SequenceParserException(Symbol, "boolean", ConditionExpr.Type(env));
-
-            if(Index != null)
-            {
-                if(!TypesHelper.IsSameOrSubtype(Index.Type, "int", env.Model))
-                    throw new SequenceParserException(Symbol, Index.Type, "int");
-            }
 
             if(containerType != "")
             {

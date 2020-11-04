@@ -343,9 +343,25 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionConditional(SequenceExpressionConditional seqCond, SourceBuilder source)
         {
-            return "( (bool)" + GetSequenceExpression(seqCond.Condition, source)
+            // todo: cast to most specific common supertype
+            if(TypesHelper.GetNodeType(seqCond.TrueCase.Type(env), model) != null && TypesHelper.GetNodeType(seqCond.FalseCase.Type(env), model) != null)
+            {
+                return "( (bool)" + GetSequenceExpression(seqCond.Condition, source)
+                + " ? (GRGEN_LIBGR.INode)" + GetSequenceExpression(seqCond.TrueCase, source)
+                + " : (GRGEN_LIBGR.INode)" + GetSequenceExpression(seqCond.FalseCase, source) + " )";
+            }
+            else if(TypesHelper.GetEdgeType(seqCond.TrueCase.Type(env), model) != null && TypesHelper.GetEdgeType(seqCond.FalseCase.Type(env), model) != null)
+            {
+                return "( (bool)" + GetSequenceExpression(seqCond.Condition, source)
+                + " ? (GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqCond.TrueCase, source)
+                + " : (GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqCond.FalseCase, source) + " )";
+            }
+            else
+            {
+                return "( (bool)" + GetSequenceExpression(seqCond.Condition, source)
                 + " ? (object)" + GetSequenceExpression(seqCond.TrueCase, source)
                 + " : (object)" + GetSequenceExpression(seqCond.FalseCase, source) + " )";
+            }
         }
 
         private string GetSequenceExpressionExcept(SequenceExpressionExcept seq, SourceBuilder source)

@@ -1,0 +1,6 @@
+rule array_map_exec(ref a:array<int>) {
+	modify {
+		---
+		exec({ aa:array<int> = a.map<int>{idx:match<array_map_exec> -> value:int -> value} });
+	}
+}

@@ -1,0 +1,5 @@
+test array_map(ref a:array<int>) {
+	if {
+		a.map<int>{idx:Node -> value:int -> value}.empty();
+	}	
+}
