@@ -604,6 +604,29 @@ SequenceVariable VariableDefinition(): // only definition in contrast to Variabl
     }
 }
 
+SequenceVariable VariableDefinitionNonGeneric():
+{
+    String varName, typeName;
+}
+{
+    varName=Word() ":" typeName=TypeNonGeneric()
+    {
+        SequenceVariable oldVariable = varDecls.Lookup(varName);
+        SequenceVariable newVariable;
+        if(oldVariable == null) {
+            newVariable = varDecls.Define(varName, typeName);
+        } else if(oldVariable.Type == "") {
+            if(varDecls.WasImplicitelyDeclared(oldVariable)) 
+                throw new ParseException("The variable \"" + varName + "\" has already been used/implicitely declared as global variable!");
+            else // it was explicitely used as global before, we are allowed to create a local variable with the same name, the global is (only) accessible with global prefix then
+                newVariable = varDecls.Define(varName, typeName);
+        } else {
+            throw new ParseException("The variable \"" + varName + "\" has already been declared as local variable with type \"" + oldVariable.Type + "\"!");
+        }
+        return newVariable;
+    }
+}
+
 SequenceVariable VariableUse(): // only usage in contrast to Variable()
 {
     String varName;
@@ -1813,6 +1836,7 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
     String memberOrAttribute = null;
     String typeName;
     SequenceVariable var;
+    KeyValuePair<SequenceVariable, SequenceVariable> indexWithValue;
     SequenceExpression expr = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     List<SequenceVariable> variableList = new List<SequenceVariable>();
@@ -1826,11 +1850,11 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
             { expr = env.CreateSequenceExpressionArrayAttributeAccessMethodCall(fromExpr, methodOrAttrName, memberOrAttribute, argExprs); }
     |
         "<" (LOOKAHEAD(2) typeName=TypeNonGeneric() | typeName=MatchType()) ">"
-        "{" { varDecls.PushScope(ScopeType.Computation); } var=VariableDefinition() "->" expr=Expression() { varDecls.PopScope(variableList); } "}"
-            { expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, typeName, var, expr); }
+        "{" { varDecls.PushScope(ScopeType.Computation); } indexWithValue=MaybeIndexedLambdaExprVarDecl() expr=Expression() { varDecls.PopScope(variableList); } "}"
+            { expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, typeName, indexWithValue.Key, indexWithValue.Value, expr); }
     |
-        "{" { varDecls.PushScope(ScopeType.Computation); } var=VariableDefinition() "->" expr=Expression() { varDecls.PopScope(variableList); } "}"
-            { expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, null, var, expr); }
+        "{" { varDecls.PushScope(ScopeType.Computation); } indexWithValue=MaybeIndexedLambdaExprVarDecl() expr=Expression() { varDecls.PopScope(variableList); } "}"
+            { expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, null, indexWithValue.Key, indexWithValue.Value, expr); }
     |
         "(" (Arguments(argExprs))? ")"
             { expr = env.CreateSequenceExpressionFunctionMethodCall(fromExpr, methodOrAttrName, argExprs); }
@@ -1858,6 +1882,22 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
 |
     {
         return fromExpr;
+    }
+}
+
+KeyValuePair<SequenceVariable, SequenceVariable> MaybeIndexedLambdaExprVarDecl():
+{
+    SequenceVariable index, var;
+}
+{
+    LOOKAHEAD(7) index=VariableDefinitionNonGeneric() "->" var=VariableDefinition() "->"
+    {
+        return new KeyValuePair<SequenceVariable, SequenceVariable>(index, var);
+    }
+|
+    var=VariableDefinition() "->"
+    {
+        return new KeyValuePair<SequenceVariable, SequenceVariable>(null, var);
     }
 }
 

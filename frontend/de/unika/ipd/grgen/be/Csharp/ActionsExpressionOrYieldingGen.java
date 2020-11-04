@@ -971,6 +971,8 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			Type targetType = targetArrayType.valueType;
 			sb.append("\"" + formatType(targetType) + "\"");
 			sb.append(", ");
+			sb.append(am.getIndexVar() != null ? "\"" + formatEntity(am.getIndexVar(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null");
+			sb.append(", ");
 			sb.append("\"" + formatEntity(am.getElementVar(), pathPrefix, alreadyDefinedEntityToName) + "\"");
 			sb.append(", ");
 			genExpressionTree(sb, am.getMappingExpr(), className, pathPrefix, alreadyDefinedEntityToName);
@@ -995,6 +997,8 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			ArrayType targetArrayType = ari.getTargetType();
 			Type targetType = targetArrayType.valueType;
 			sb.append("\"" + formatType(targetType) + "\"");
+			sb.append(", ");
+			sb.append(ari.getIndexVar() != null ? "\"" + formatEntity(ari.getIndexVar(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null");
 			sb.append(", ");
 			sb.append("\"" + formatEntity(ari.getElementVar(), pathPrefix, alreadyDefinedEntityToName) + "\"");
 			sb.append(", ");

@@ -1,0 +1,62 @@
+new graph arraymap/array_map_index
+
+new :Node
+new :Node
+new :Node
+new @("$1") - :Edge -> @("$1")
+new @("$2") - :Edge -> @("$2")
+new @("$2") - :Edge -> @("$2")
+
+exec (::arr)=array_map(array<int>[0,1,2], 42.0)
+exec (::arr)=array_map(array<int>[0,1,2], array<int>[0,1,2].sum() * 1.5)
+show var arr
+
+exec (::arr)=array_map_nested(array<int>[0,1,2], 15.0)
+show var arr
+
+exec { ::a = nodes().asArray().reverse() }
+show var a
+
+exec array_map2(::a, 42)
+exec array_map2(::a, 2)
+show var aa
+
+eval [?array_map3(::a, array<string>["$0","$1","$2"])]
+
+eval [?array_map3_nested(::a, array<string>["foo","bar","baz"])]
+
+eval array_map4(array<int>[0,1,2])
+
+exec { (::arr) = array_map5(::a, 42) }
+show var arr
+
+eval [?t\orderAscendingBy<attr>]
+eval [?t\f\orderAscendingBy<attr>]
+
+eval [?[t]\mc.orderAscendingBy<attr>\<class mc>]
+eval [?[t]\mc.fmc\mc.orderAscendingBy<attr>\<class mc>]
+
+eval [?t].map<int>{index_:int -> value:match<t> -> value.attr}
+eval [?t].map<int>{index_:int -> value:match<t> -> value.attr}.map<double>{index_:int -> value:int -> value * 1.5}.sum()
+
+exec (::x,::y) = rexec
+show var x
+show var y
+
+exec { ::a37 = array<int>[3,7] }
+eval [?t].map<int>{index_:int -> value:match<t> -> value.attr + ::a37.map<int>{index_element:int -> element:int -> element}.sum()}
+eval [?t].map<int>{index_:int -> value:match<t> -> value.attr + array<int>[3,7].map<int>{index_element:int -> element:int -> value.attr}.sum()};
+
+exec (::x,::y) = rexec_nested(array<int>[3,7])
+show var x
+show var y
+
+eval [?array_map_index(array<string>["sack","ze","fix"])]
+exec (::z)=array_map_index(array<string>["ouuuh!","le","prophète"])
+show var z
+
+exec (::z)=rexec_index
+show var z
+eval [?t].map<int>{index_:int -> value:match<t> -> index_}
+
+quit

@@ -14,5 +14,6 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 
 public interface ArrayPerElementMethod
 {
+	Variable getIndexVar(); // returns lambda expression variable or null
 	Variable getElementVar(); // returns lambda expression variable
 }

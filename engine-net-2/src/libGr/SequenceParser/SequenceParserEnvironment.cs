@@ -1122,15 +1122,15 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         }
 
         public SequenceExpression CreateSequenceExpressionPerElementMethodCall(SequenceExpression targetExpr,
-            String functionMethodName, String typeName, SequenceVariable var, SequenceExpression argExpr)
+            String functionMethodName, String typeName, SequenceVariable index, SequenceVariable var, SequenceExpression argExpr)
         {
             if(functionMethodName == "map")
             {
-                return new SequenceExpressionArrayMap(targetExpr, typeName, var, argExpr);
+                return new SequenceExpressionArrayMap(targetExpr, typeName, index, var, argExpr);
             }
             else //if(functionMethodName == "removeIf")
             {
-                return new SequenceExpressionArrayRemoveIf(targetExpr, var, argExpr);
+                return new SequenceExpressionArrayRemoveIf(targetExpr, index, var, argExpr);
             }
             throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"! (available are map,removeIf)");
         }

@@ -1740,11 +1740,13 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayMap : Expression
     {
-        public ArrayMap(Expression target, String targetType, String elementVariable, Expression mapping, String resultingType,
+        public ArrayMap(Expression target, String targetType,
+            String indexVariable, String elementVariable, Expression mapping, String resultingType,
             PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
         {
             Target = target;
             TargetType = targetType;
+            IndexVariable = indexVariable;
             ElementVariable = elementVariable;
             Mapping = mapping;
             ResultingType = resultingType;
@@ -1770,7 +1772,8 @@ namespace de.unika.ipd.grGen.expression
             {
                 newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
             }
-            return new ArrayMap(Target.Copy(renameSuffix), TargetType, ElementVariable, Mapping.Copy(renameSuffix), ResultingType,
+            return new ArrayMap(Target.Copy(renameSuffix), TargetType,
+                IndexVariable, ElementVariable, Mapping.Copy(renameSuffix), ResultingType,
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
@@ -1820,6 +1823,8 @@ namespace de.unika.ipd.grGen.expression
             sb.AppendFront("{\n");
             sb.Indent();
 
+            if(IndexVariable != null)
+                sb.AppendFront("int " + NamesOfEntities.Variable(IndexVariable) + " = index_name;\n");
             sb.AppendFront(TargetType + " " + NamesOfEntities.Variable(ElementVariable) + " = source[index_name];\n");
             sb.AppendFront(ResultingType + " result_name = ");
 
@@ -1877,6 +1882,7 @@ namespace de.unika.ipd.grGen.expression
 
         readonly Expression Target;
         readonly String TargetType;
+        readonly String IndexVariable;
         readonly String ElementVariable;
         readonly Expression Mapping;
         readonly String ResultingType;
@@ -1890,11 +1896,13 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayRemoveIf : Expression
     {
-        public ArrayRemoveIf(Expression target, String targetType, String elementVariable, Expression condition, String resultingType,
+        public ArrayRemoveIf(Expression target, String targetType, 
+            String indexVariable, String elementVariable, Expression condition, String resultingType,
             PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
         {
             Target = target;
             TargetType = targetType;
+            IndexVariable = indexVariable;
             ElementVariable = elementVariable;
             Condition = condition;
             ResultingType = resultingType;
@@ -1920,7 +1928,8 @@ namespace de.unika.ipd.grGen.expression
             {
                 newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
             }
-            return new ArrayRemoveIf(Target.Copy(renameSuffix), TargetType, ElementVariable, Condition.Copy(renameSuffix), ResultingType,
+            return new ArrayRemoveIf(Target.Copy(renameSuffix), TargetType, 
+                IndexVariable, ElementVariable, Condition.Copy(renameSuffix), ResultingType,
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
@@ -1970,6 +1979,8 @@ namespace de.unika.ipd.grGen.expression
             sb.AppendFront("{\n");
             sb.Indent();
 
+            if(IndexVariable != null)
+                sb.AppendFront("int " + NamesOfEntities.Variable(IndexVariable) + " = index_name;\n");
             sb.AppendFront(TargetType + " " + NamesOfEntities.Variable(ElementVariable) + " = source[index_name];\n");
             sb.AppendFront("if(!(bool)(");
 
@@ -2027,6 +2038,7 @@ namespace de.unika.ipd.grGen.expression
 
         readonly Expression Target;
         readonly String TargetType;
+        readonly String IndexVariable;
         readonly String ElementVariable;
         readonly Expression Condition;
         readonly String ResultingType;

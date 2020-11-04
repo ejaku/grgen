@@ -25,6 +25,7 @@ import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -44,16 +45,18 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 	private IdentNode resultValueTypeUnresolved;
 	private TypeNode resultValueType;
 
+	private VarDeclNode indexVar;
 	private VarDeclNode elementVar;
 	private ExprNode mappingExpr;
 
 	private ArrayTypeNode resultArrayType;
 
 	public ArrayMapNode(Coords coords, ExprNode targetExpr, IdentNode resultValueType, 
-			VarDeclNode elementVar, ExprNode mappingExpr)
+			VarDeclNode indexVar, VarDeclNode elementVar, ExprNode mappingExpr)
 	{
 		super(coords, targetExpr);
 		this.resultValueTypeUnresolved = resultValueType;
+		this.indexVar = indexVar;
 		this.elementVar = elementVar;
 		this.mappingExpr = mappingExpr;
 	}
@@ -63,6 +66,8 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
+		if(indexVar != null)
+			children.add(indexVar);
 		children.add(elementVar);
 		children.add(mappingExpr);
 		return children;
@@ -73,6 +78,8 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
+		if(indexVar != null)
+			childrenNames.add("indexVar");
 		childrenNames.add("elementVar");
 		childrenNames.add("mappingExpr");
 		return childrenNames;
@@ -144,6 +151,14 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 			}
 		}
 
+		if(indexVar != null) {
+			TypeNode indexVarType = indexVar.getDeclType();
+			if(!indexVarType.isEqual(BasicTypeNode.intType)) {
+				error.error(getCoords(), "index var must be of int type, is given " + indexVarType);
+				return false;
+			}
+		}
+
 		TypeNode elementVarType = elementVar.getDeclType();
 		TypeNode targetType = ((ArrayTypeNode)targetExpr.getType()).valueType;
 
@@ -173,6 +188,7 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 		targetExpr = targetExpr.evaluate();
 		mappingExpr = mappingExpr.evaluate();
 		return new ArrayMapExpr(targetExpr.checkIR(Expression.class),
+				indexVar != null ? indexVar.checkIR(Variable.class) : null,
 				elementVar.checkIR(Variable.class),
 				mappingExpr.checkIR(Expression.class),
 				resultArrayType.checkIR(ArrayType.class));

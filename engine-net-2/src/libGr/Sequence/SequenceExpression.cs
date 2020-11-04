@@ -5262,13 +5262,16 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionArrayMap : SequenceExpressionContainer
     {
         public string TypeName;
+        public SequenceVariable Index;
         public SequenceVariable Var;
         public SequenceExpression MappingExpr;
 
-        public SequenceExpressionArrayMap(SequenceExpression containerExpr, String typeName, SequenceVariable var, SequenceExpression mappingExpr)
+        public SequenceExpressionArrayMap(SequenceExpression containerExpr, String typeName, 
+            SequenceVariable index, SequenceVariable var, SequenceExpression mappingExpr)
             : base(SequenceExpressionType.ArrayMap, containerExpr)
         {
             TypeName = typeName;
+            Index = index;
             Var = var;
             MappingExpr = mappingExpr;
         }
@@ -5277,6 +5280,8 @@ namespace de.unika.ipd.grGen.libGr
            : base(that, originalToCopy, procEnv)
         {
             TypeName = that.TypeName;
+            if(that.Index != null)
+                Index = that.Index.Copy(originalToCopy, procEnv);
             Var = that.Var.Copy(originalToCopy, procEnv);
             MappingExpr = that.MappingExpr.CopyExpression(originalToCopy, procEnv);
         }
@@ -5300,6 +5305,12 @@ namespace de.unika.ipd.grGen.libGr
             if(!TypesHelper.IsSameOrSubtype(MappingExpr.Type(env), TypeName, env.Model))
                 throw new SequenceParserException(Symbol, TypeName, MappingExpr.Type(env));
 
+            if(Index != null)
+            {
+                if(!TypesHelper.IsSameOrSubtype(Index.Type, "int", env.Model))
+                    throw new SequenceParserException(Symbol, Index.Type, "int");
+            }
+
             if(containerType != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(arrayValueType, Var.Type, env.Model))
@@ -5319,6 +5330,8 @@ namespace de.unika.ipd.grGen.libGr
 
             for(int index_name = 0; index_name < source.Count; ++index_name)
             {
+                if(Index != null)
+                    Index.SetVariableValue(index_name, procEnv);
                 Var.SetVariableValue(source[index_name], procEnv);
                 object result_name = MappingExpr.Evaluate(procEnv);
                 result.Add(result_name);
@@ -5332,6 +5345,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             ContainerExpr.GetLocalVariables(variables, containerConstructors);
             MappingExpr.GetLocalVariables(variables, containerConstructors);
+            if(Index != null)
+                variables.Remove(Index);
             variables.Remove(Var);
         }
 
@@ -5351,18 +5366,21 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return Name + ".map<" + TypeName + ">{" + Var.Name + " -> " + MappingExpr.Symbol + "}"; }
+            get { return Name + ".map<" + TypeName + ">{" + (Index != null ? Index.Name + " -> " : "") + Var.Name + " -> " + MappingExpr.Symbol + "}"; }
         }
     }
 
     public class SequenceExpressionArrayRemoveIf : SequenceExpressionContainer
     {
+        public SequenceVariable Index;
         public SequenceVariable Var;
         public SequenceExpression ConditionExpr;
 
-        public SequenceExpressionArrayRemoveIf(SequenceExpression containerExpr, SequenceVariable var, SequenceExpression conditionExpr)
+        public SequenceExpressionArrayRemoveIf(SequenceExpression containerExpr,
+            SequenceVariable index, SequenceVariable var, SequenceExpression conditionExpr)
             : base(SequenceExpressionType.ArrayRemoveIf, containerExpr)
         {
+            Index = index;
             Var = var;
             ConditionExpr = conditionExpr;
         }
@@ -5370,6 +5388,8 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceExpressionArrayRemoveIf(SequenceExpressionArrayRemoveIf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that, originalToCopy, procEnv)
         {
+            if(that.Index != null)
+                Index = that.Index.Copy(originalToCopy, procEnv);
             Var = that.Var.Copy(originalToCopy, procEnv);
             ConditionExpr = that.ConditionExpr.CopyExpression(originalToCopy, procEnv);
         }
@@ -5392,6 +5412,12 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!TypesHelper.IsSameOrSubtype(ConditionExpr.Type(env), "boolean", env.Model))
                 throw new SequenceParserException(Symbol, "boolean", ConditionExpr.Type(env));
+
+            if(Index != null)
+            {
+                if(!TypesHelper.IsSameOrSubtype(Index.Type, "int", env.Model))
+                    throw new SequenceParserException(Symbol, Index.Type, "int");
+            }
 
             if(containerType != "")
             {
@@ -5419,6 +5445,8 @@ namespace de.unika.ipd.grGen.libGr
 
             for(int index_name = 0; index_name < source.Count; ++index_name)
             {
+                if(Index != null)
+                    Index.SetVariableValue(index_name, procEnv);
                 Var.SetVariableValue(source[index_name], procEnv);
                 if(!(bool)ConditionExpr.Evaluate(procEnv))
                     result.Add(source[index_name]);
@@ -5433,6 +5461,8 @@ namespace de.unika.ipd.grGen.libGr
             ContainerExpr.GetLocalVariables(variables, containerConstructors);
             ConditionExpr.GetLocalVariables(variables, containerConstructors);
             variables.Remove(Var);
+            if(Index != null)
+                variables.Remove(Index);
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -5451,7 +5481,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return Name + ".removeIf{" + Var.Name + " -> " + ConditionExpr.Symbol + "}"; }
+            get { return Name + ".removeIf{" + (Index != null ? Index.Name + " -> " : "") + Var.Name + " -> " + ConditionExpr.Symbol + "}"; }
         }
     }
 

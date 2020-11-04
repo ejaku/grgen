@@ -2350,6 +2350,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append(GetContainerValue(seqArrayMap, source));
 
             variables.Remove(seqArrayMap.Var);
+            if(seqArrayMap.Index != null)
+                variables.Remove(seqArrayMap.Index);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
@@ -2394,6 +2396,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append("source");
 
             variables.Remove(seqArrayMap.Var);
+            if(seqArrayMap.Index != null)
+                variables.Remove(seqArrayMap.Index);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
@@ -2414,6 +2418,11 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent();
 
+            if(seqArrayMap.Index != null)
+            {
+                sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.Index));
+                sb.AppendFront(seqHelper.SetVar(seqArrayMap.Index, "index_name"));
+            }
             sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.Var));
             sb.AppendFront(seqHelper.SetVar(seqArrayMap.Var, "source[index_name]"));
             sb.AppendFront(elementOutputType + " result_name = ");
@@ -2454,6 +2463,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append(GetContainerValue(seqArrayRemoveIf, source));
 
             variables.Remove(seqArrayRemoveIf.Var);
+            if(seqArrayRemoveIf.Index != null)
+                variables.Remove(seqArrayRemoveIf.Index);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
@@ -2496,6 +2507,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append("source");
 
             variables.Remove(seqArrayRemoveIf.Var);
+            if(seqArrayRemoveIf.Index != null)
+                variables.Remove(seqArrayRemoveIf.Index);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
@@ -2516,6 +2529,11 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent();
 
+            if(seqArrayRemoveIf.Index != null)
+            {
+                sb.AppendFront(seqHelper.DeclareVar(seqArrayRemoveIf.Index));
+                sb.AppendFront(seqHelper.SetVar(seqArrayRemoveIf.Index, "index_name"));
+            }
             sb.AppendFront(seqHelper.DeclareVar(seqArrayRemoveIf.Var));
             sb.AppendFront(seqHelper.SetVar(seqArrayRemoveIf.Var, "source[index_name]"));
             sb.AppendFront("if(!(bool)(");

@@ -35,12 +35,15 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 		setName(ArrayRemoveIfNode.class, "array removeIf");
 	}
 
+	private VarDeclNode indexVar;
 	private VarDeclNode elementVar;
 	private ExprNode conditionExpr;
 
-	public ArrayRemoveIfNode(Coords coords, ExprNode targetExpr, VarDeclNode elementVar, ExprNode conditionExpr)
+	public ArrayRemoveIfNode(Coords coords, ExprNode targetExpr, 
+			VarDeclNode indexVar, VarDeclNode elementVar, ExprNode conditionExpr)
 	{
 		super(coords, targetExpr);
+		this.indexVar = indexVar;
 		this.elementVar = elementVar;
 		this.conditionExpr = conditionExpr;
 	}
@@ -50,6 +53,8 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
+		if(indexVar != null)
+			children.add(indexVar);
 		children.add(elementVar);
 		children.add(conditionExpr);
 		return children;
@@ -60,6 +65,8 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
+		if(indexVar != null)
+			childrenNames.add("indexVar");
 		childrenNames.add("elementVar");
 		childrenNames.add("conditionExpr");
 		return childrenNames;
@@ -88,6 +95,14 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 		if(!exprType.isEqual(BasicTypeNode.booleanType)) {
 			error.error(getCoords(), "removeIf expects expression of boolean type, is given " + exprType);
 			return false;
+		}
+
+		if(indexVar != null) {
+			TypeNode indexVarType = indexVar.getDeclType();
+			if(!indexVarType.isEqual(BasicTypeNode.intType)) {
+				error.error(getCoords(), "index var must be of int type, is given " + indexVarType);
+				return false;
+			}
 		}
 
 		TypeNode elementVarType = elementVar.getDeclType();
@@ -119,6 +134,7 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 		targetExpr = targetExpr.evaluate();
 		conditionExpr = conditionExpr.evaluate();
 		return new ArrayRemoveIfExpr(targetExpr.checkIR(Expression.class),
+				indexVar != null ? indexVar.checkIR(Variable.class) : null,
 				elementVar.checkIR(Variable.class),
 				conditionExpr.checkIR(Expression.class),
 				getTargetType().checkIR(ArrayType.class));

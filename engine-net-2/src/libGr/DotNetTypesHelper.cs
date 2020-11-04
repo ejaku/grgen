@@ -305,6 +305,9 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
+            if(typeName == "match<>")
+                return typeof(IMatch);
+
             return null;
         }
     }

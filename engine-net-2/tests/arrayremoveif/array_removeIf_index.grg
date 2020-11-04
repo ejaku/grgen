@@ -1,0 +1,143 @@
+ref ::aa:array<Node>;
+
+rule array_removeIf(ref a:array<int>, var val:double) : (array<int>) {
+	if {
+		a.removeIf{index_:int -> value:int -> value > 1}.sum() == val;
+	}
+	
+	modify {
+		return(a.removeIf{index_:int -> value:int -> value > 1});
+	}
+}
+
+rule array_removeIf_nested(ref a:array<int>, var val:double) : (array<int>) {
+	if {
+		a.map<double>{index_:int -> value:int -> value * a.removeIf{index_element:int -> element:int -> element < value}.sum()}.sum() == val;
+	}
+	
+	modify {
+		return(a.removeIf{index_:int -> value:int -> value < a.map<double>{index_element:int -> element:int -> value}.sum()});
+	}
+}
+
+rule array_removeIf2(ref a:array<Node>) {
+	if {
+		a.removeIf{index_:int -> value:Node -> nameof(value)!="$2"} == array<Node>[nodeByName("$2")];
+	}
+	
+	modify {
+	---
+		eval {
+			::aa = a.removeIf{index_:int -> value:Node -> nameof(value)!="$2"};
+		}
+	}
+}
+
+test array_removeIf3(ref a:array<Node>, ref ai:array<string>) {
+---
+	def ref laa:array<Node>;
+	def ref laai:array<string>;
+	yield {
+		yield laa = a.removeIf{index_:int -> value:Node -> nameof(value)=="$2"};
+		yield laai = ai.removeIf{index_:int -> value:string -> value=="$2"};
+	}
+}
+
+test array_removeIf3_nested(ref a:array<Node>, ref ai:array<string>) {
+---
+	def ref laa:array<string>;
+	yield {
+		yield laa = ai.removeIf{index_:int -> value:string -> value != "baz" && a.removeIf{index_element:int -> element:Node -> true}.empty()};
+	}
+}
+
+function array_removeIf4(ref a:array<int>) : array<int> {
+	return(a.removeIf{index_:int -> value:int -> value != 2});
+}
+
+procedure array_removeIf5(ref a:array<Node>, var y:int) : (array<int>) {
+	return(a.removeIf{index_:int -> value:Node -> nameof(value)>"$1"}.map<int>{index_:int -> value:Node -> (nameof(value)=="$0" ? 0 : 1) + y});
+}
+
+test t implements mc
+{
+	n:Node;
+---
+	def var attr:int = incident(n).size();
+} \ orderAscendingBy<attr>
+
+filter f<t>()
+{
+	def ref a:array<int> = this.map<int>{index_:int -> value:match<t> -> value.attr};
+	a = a.removeIf{index_:int -> value:int -> value < 2};
+	for(i:int in [0:this.size()-1])
+	{
+		if(!(this[i].attr in a)) {
+			this[i] = null;
+		}
+	}
+}
+
+match class mc
+{
+	def var attr:int;
+} \ orderAscendingBy<attr>
+
+filter fmc<class mc>()
+{
+	def ref a:array<int> = this.map<int>{index_:int -> value:match<class mc> -> value.attr};
+	a = a.removeIf{index_:int -> value:int -> value < 2};
+	for(i:int in [0:this.size()-1])
+	{
+		if(!(this[i].attr in a)) {
+			this[i] = null;
+		}
+	}
+}
+
+rule rexec : (array<int>, array<int>)
+{
+	modify {
+	---
+		def ref x:array<int>;
+		def ref y:array<int>;
+		exec({yield x = [?t].map<int>{index_:int -> value:match<t> -> value.attr}});
+		exec({yield y = [?t].map<int>{index_:int -> value:match<t> -> value.attr}.removeIf{index_:int -> value:int -> value < 2}});
+		return(x,y);
+	}
+}
+
+rule rexec_nested(ref a:array<int>) : (array<int>, array<int>)
+{
+	modify {
+	---
+		def ref x:array<int>;
+		def ref y:array<int>;
+		exec({yield x = a.map<int>{index_:int -> value:int -> value * a.removeIf{index_element:int -> element:int -> element < value}.sum()}});
+		exec({yield y = a.removeIf{index_:int -> value:int -> value < a.map<int>{index_element:int -> element:int -> value}.sum()}});
+		return(x,y);
+	}
+}
+
+rule array_removeIf_index(ref a:array<string>) : (array<string>)
+{
+---
+	def ref _aa:array<string>;
+	yield {
+		yield _aa = a.removeIf{index_:int -> value:string -> index_ % 2 == 1};
+	}
+	
+	modify {
+		return(a.removeIf{index_:int -> value:string -> index_ % 2 == 1});
+	}
+}
+
+rule rexec_index : (array<match<t>>)
+{
+	modify {
+	---
+		def ref x:array<match<t>>;
+		exec({yield x = [?t].removeIf{index_:int -> value:match<t> -> index_ % 2 == 1}});
+		return(x);
+	}
+}

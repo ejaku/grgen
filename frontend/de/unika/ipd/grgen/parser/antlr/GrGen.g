@@ -4231,14 +4231,14 @@ selectorExpr [ AnonymousScopeNamer namer, int context, ExprNode target, boolean 
 			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("map") }?
 			LT ti=typeIdentUse GT
 			LBRACE { namer.defExprBlock(id, id.getCoords()); } { env.pushScope(namer.exprBlock()); }
-			vd=lambdaExprVarDeclToBeYieldedTo[namer, context, PatternGraphLhsNode.getInvalid()] RARROW e=expr[namer, context, inEnumInit]
-			{ res = new ArrayMapNode(getCoords(d), target, ti, vd, e); }
+			lambdaExprVar=maybeIndexedLambdaExprVarDecl [ namer, context ] e=expr[namer, context, inEnumInit]
+			{ res = new ArrayMapNode(getCoords(d), target, ti, $lambdaExprVar.vi, $lambdaExprVar.vd, e); }
 			{ env.popScope(); } { namer.undefExprBlock(); } RBRACE
 		|
 			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("removeIf") }?
 			LBRACE { namer.defExprBlock(id, id.getCoords()); } { env.pushScope(namer.exprBlock()); }
-			vd=lambdaExprVarDeclToBeYieldedTo[namer, context, PatternGraphLhsNode.getInvalid()] RARROW e=expr[namer, context, inEnumInit]
-			{ res = new ArrayRemoveIfNode(getCoords(d), target, vd, e); }
+			lambdaExprVar=maybeIndexedLambdaExprVarDecl [ namer, context ] e=expr[namer, context, inEnumInit]
+			{ res = new ArrayRemoveIfNode(getCoords(d), target, $lambdaExprVar.vi, $lambdaExprVar.vd, e); }
 			{ env.popScope(); } { namer.undefExprBlock(); } RBRACE
 		|
 			params=paramExprs[namer, context, inEnumInit]
@@ -4252,6 +4252,17 @@ selectorExpr [ AnonymousScopeNamer namer, int context, ExprNode target, boolean 
 		| 
 			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), target); }
 		)
+	;
+
+maybeIndexedLambdaExprVarDecl [ AnonymousScopeNamer namer, int context ]
+		returns [ VarDeclNode vi, VarDeclNode vd ]
+	options { k = *; }
+	: indexLambdaExprVarDecl=lambdaExprVarDeclToBeYieldedTo[namer, context, PatternGraphLhsNode.getInvalid()] RARROW
+		lambdaExprVarDecl=lambdaExprVarDeclToBeYieldedTo[namer, context, PatternGraphLhsNode.getInvalid()] RARROW 
+		{ $vi = indexLambdaExprVarDecl; $vd = lambdaExprVarDecl; }
+	|
+		lambdaExprVarDecl=lambdaExprVarDeclToBeYieldedTo[namer, context, PatternGraphLhsNode.getInvalid()] RARROW
+		{ $vd = lambdaExprVarDecl; }
 	;
 
 lambdaExprVarDeclToBeYieldedTo [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]

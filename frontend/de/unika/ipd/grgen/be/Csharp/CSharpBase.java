@@ -3709,12 +3709,13 @@ public abstract class CSharpBase
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
 		sb.appendFront(arrayOutputType + " target = new " + arrayOutputType + "();\n");
 
-		sb.appendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+		String indexVarName = arrayMap.getIndexVar()!=null ? formatEntity(arrayMap.getIndexVar()) : "index_name";
+		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < source.Count; ++" + indexVarName + ")\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
 		String elementVarName = formatEntity(arrayMap.getElementVar());
-		sb.appendFront(elementInputType + " " + elementVarName + " = source[index_name];\n");
+		sb.appendFront(elementInputType + " " + elementVarName + " = source[" + indexVarName + "];\n");
 		sb.appendFront(elementOutputType + " result_name = ");
 		genExpression(sb, arrayMap.getMappingExpr(), modifyGenerationState);
 		sb.append(";\n");
@@ -3780,16 +3781,17 @@ public abstract class CSharpBase
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
 		sb.appendFront(arrayType + " target = new " + arrayType + "();\n");
 
-		sb.appendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+		String indexVarName = arrayRemoveIf.getIndexVar()!=null ? formatEntity(arrayRemoveIf.getIndexVar()) : "index_name";
+		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < source.Count; ++" + indexVarName + ")\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
 		String elementVarName = formatEntity(arrayRemoveIf.getElementVar());
-		sb.appendFront(elementType + " " + elementVarName + " = source[index_name];\n");
+		sb.appendFront(elementType + " " + elementVarName + " = source[" + indexVarName + "];\n");
 		sb.append("if(!(bool)(");
 		genExpression(sb, arrayRemoveIf.getConditionExpr(), modifyGenerationState);
 		sb.append("))\n");
-		sb.appendFrontIndented("target.Add(source[index_name]);\n");
+		sb.appendFrontIndented("target.Add(source[" + indexVarName + "]);\n");
 		
 		sb.unindent();
 		sb.appendFront("}\n");

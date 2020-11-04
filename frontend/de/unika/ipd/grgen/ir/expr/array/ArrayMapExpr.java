@@ -17,14 +17,22 @@ import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
 public class ArrayMapExpr extends ArrayFunctionMethodInvocationBaseExpr implements ArrayPerElementMethod
 {
+	private Variable indexVar;
 	private Variable elementVar;
 	private Expression mappingExpr;
 
-	public ArrayMapExpr(Expression targetExpr, Variable elementVar, Expression mappingExpr, ArrayType resultingType)
+	public ArrayMapExpr(Expression targetExpr, Variable indexVar, Variable elementVar,
+			Expression mappingExpr, ArrayType resultingType)
 	{
 		super("array map expr", resultingType, targetExpr);
+		this.indexVar = indexVar;
 		this.elementVar = elementVar;
 		this.mappingExpr = mappingExpr;
+	}
+
+	public Variable getIndexVar()
+	{
+		return indexVar;
 	}
 
 	@Override
@@ -44,7 +52,10 @@ public class ArrayMapExpr extends ArrayFunctionMethodInvocationBaseExpr implemen
 		super.collectNeededEntities(needs);
 		needs.add(this);
 		mappingExpr.collectNeededEntities(needs);
-		if(needs.variables != null)
+		if(needs.variables != null) {
+			if(indexVar != null)
+				needs.variables.remove(indexVar);
 			needs.variables.remove(elementVar);
+		}
 	}
 }

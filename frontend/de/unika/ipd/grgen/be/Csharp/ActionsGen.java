@@ -2735,16 +2735,28 @@ public class ActionsGen extends CSharpBase
 		for(Expression lambdaExpr : needsForLambda.lambdaExprs)
 		{
 			ArrayPerElementMethod arrayPerElementMethod = (ArrayPerElementMethod)lambdaExpr;
-			Variable var = arrayPerElementMethod.getElementVar();
-			SourceBuilder aux = new SourceBuilder();
-			String patGraphVarName = "";
-			List<Entity> parameters = new LinkedList<Entity>();
-			String varName = formatEntity(var, pathPrefixForElements);
-			genPatternVariable(sb, aux, patGraphVarName,
-					className, alreadyDefinedEntityToName,
-					parameters, false, pathPrefixForElements,
-					var, varName);
+			if(arrayPerElementMethod.getIndexVar() != null)
+			{
+				Variable indexVar = arrayPerElementMethod.getIndexVar();
+				genLambaVariable(sb, className, alreadyDefinedEntityToName, pathPrefixForElements, indexVar);
+			}
+			Variable elementVar = arrayPerElementMethod.getElementVar();
+			genLambaVariable(sb, className, alreadyDefinedEntityToName, pathPrefixForElements, elementVar);
 		}
+	}
+
+	private void genLambaVariable(SourceBuilder sb, String className,
+			HashMap<Entity, String> alreadyDefinedEntityToName, String pathPrefixForElements,
+			Variable var)
+	{
+		SourceBuilder aux = new SourceBuilder();
+		String patGraphVarName = "";
+		List<Entity> parameters = new LinkedList<Entity>();
+		String varName = formatEntity(var, pathPrefixForElements);
+		genPatternVariable(sb, aux, patGraphVarName,
+				className, alreadyDefinedEntityToName,
+				parameters, false, pathPrefixForElements,
+				var, varName);
 	}
 
 	private static void getPatternAlternative(SourceBuilder sb, String pathPrefixForElements, Alternative alt)
