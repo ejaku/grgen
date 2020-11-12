@@ -89,6 +89,8 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         INode getNode(string name);
 
+        void SetNode(string name, INode node);
+
 
         //////////////////////////////////////////////////////////////////////////
         // Edges
@@ -119,6 +121,8 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns edge bound to the pattern edge of the given name or null if no such pattern edge exists
         /// </summary>
         IEdge getEdge(string name);
+
+        void SetEdge(string name, IEdge edge);
 
 
         //////////////////////////////////////////////////////////////////////////
@@ -151,6 +155,8 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         object getVariable(string name);
 
+        void SetVariable(string name, object value);
+
 
         //////////////////////////////////////////////////////////////////////////
         // By Name Access to Members = Nodes, Edges, Variables
@@ -159,6 +165,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns value bound to the member of the given name or null if no such member exists
         /// </summary>
         object GetMember(string name);
+
+        /// <summary>
+        /// Sets member value (to be used by post-matches-filtering)
+        /// </summary>
+        void SetMember(string name, object value);
 
 
         //////////////////////////////////////////////////////////////////////////

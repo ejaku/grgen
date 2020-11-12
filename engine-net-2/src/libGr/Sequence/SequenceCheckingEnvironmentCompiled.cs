@@ -222,16 +222,24 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override bool IsMatchClassExisting(SequenceFilterCall sequenceFilterCall)
+        protected override bool IsMatchClassExisting(SequenceFilterCallBase sequenceFilterCall)
         {
             SequenceFilterCallCompiled sequenceFilterCallCompiled = (SequenceFilterCallCompiled)sequenceFilterCall;
             return actionNames.ContainsMatchClass(sequenceFilterCallCompiled.MatchClassPackagePrefixedName);
         }
 
-        protected override string GetMatchClassName(SequenceFilterCall sequenceFilterCall)
+        protected override string GetMatchClassName(SequenceFilterCallBase sequenceFilterCall)
         {
-            SequenceFilterCallCompiled sequenceFilterCallCompiled = (SequenceFilterCallCompiled)sequenceFilterCall;
-            return sequenceFilterCallCompiled.MatchClassPackagePrefixedName;
+            if(sequenceFilterCall is SequenceFilterCallLambdaExpressionCompiled)
+            {
+                SequenceFilterCallLambdaExpressionCompiled sequenceFilterCallCompiled = (SequenceFilterCallLambdaExpressionCompiled)sequenceFilterCall;
+                return sequenceFilterCallCompiled.MatchClassPackagePrefixedName;
+            }
+            else
+            {
+                SequenceFilterCallCompiled sequenceFilterCallCompiled = (SequenceFilterCallCompiled)sequenceFilterCall;
+                return sequenceFilterCallCompiled.MatchClassPackagePrefixedName;
+            }
         }
 
         public override bool IsRuleImplementingMatchClass(string rulePackagePrefixedName, string matchClassPackagePrefixedName)

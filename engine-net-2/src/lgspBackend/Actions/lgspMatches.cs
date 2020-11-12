@@ -502,18 +502,21 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract int NumberOfNodes { get; }
         public abstract INode getNodeAt(int index);
         public abstract INode getNode(string name);
+        public abstract void SetNode(string name, INode node);
 
         public abstract IEnumerable<IEdge> Edges { get; }
         public abstract IEnumerator<IEdge> EdgesEnumerator { get; }
         public abstract int NumberOfEdges { get; }
         public abstract IEdge getEdgeAt(int index);
         public abstract IEdge getEdge(string name);
+        public abstract void SetEdge(string name, IEdge edge);
 
         public abstract IEnumerable<object> Variables { get; }
         public abstract IEnumerator<object> VariablesEnumerator { get; }
         public abstract int NumberOfVariables { get; }
         public abstract object getVariableAt(int index);
         public abstract object getVariable(string name);
+        public abstract void SetVariable(string name, object value);
 
         public abstract IEnumerable<IMatch> EmbeddedGraphs { get; }
         public abstract IEnumerator<IMatch> EmbeddedGraphsEnumerator { get; }
@@ -553,6 +556,21 @@ namespace de.unika.ipd.grGen.lgsp
             if(edge != null)
                 return edge;
             return getVariable(name);
+        }
+
+        public void SetMember(string name, object value)
+        {
+            IPatternElement patternElement;
+            if(Pattern != null)
+                patternElement = Pattern.GetPatternElement(name);
+            else
+                patternElement = MatchClass.GetPatternElement(name);
+            if(patternElement is IPatternNode)
+                SetNode(name, (INode)value);
+            else if(patternElement is IPatternEdge)
+                SetEdge(name, (IEdge)value);
+            else //patternElement is IPatternVariable
+                SetVariable(name, value);
         }
 
         public override string ToString()
@@ -883,9 +901,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Returns a copy of the content of the current matches list in form of an array.
         /// Attention: matches may get stale when the rule is matched again.
-        /// This is only a convenience helper method, unrelated to ToListExact, and its pairing with FromListExact.
+        /// This is only a convenience helper method, unrelated to ToList, and its pairing with FromList, as well as ToListExact, and its pairing with FromListExact.
         /// </summary>
-        public List<IMatch> ToList()
+        public List<IMatch> ToListCopy()
         {
             List<IMatch> array = new List<IMatch>(Count);
             Match cur = root;
@@ -894,6 +912,68 @@ namespace de.unika.ipd.grGen.lgsp
                 array.Add(cur);
             }
             return array;
+        }
+
+        /// <summary>
+        /// Returns the content of the current matches list in form of an array which can be efficiently indexed and reordered.
+        /// The array is destroyed when this method is called again, the content is destroyed when the rule is matched again (there is only one array existing).
+        /// </summary>
+        public List<IMatch> ToList()
+        {
+            array.Clear();
+            Match cur = root;
+            for(int i = 0; i < count; i++, cur = cur.next)
+            {
+                array.Add(cur);
+            }
+            return array;
+        }
+
+        /// <summary>
+        /// Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
+        /// The list might have been reordered, matches might have been removed, or even added.
+        /// Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
+        /// </summary>
+        public void FromList()
+        {
+            // forget about the matches currently stored in the matches list which were handed out in ToList, keeping the "free tail" remaining
+            for(int i = 0; i < count; ++i)
+            {
+                root = root.next;
+            }
+            count = 0;
+
+            // that's it if the array is empty
+            if(array.Count == 0)
+                return;
+            int startIndex = 0;
+            for(; startIndex < array.Count; ++startIndex) // fast forward to first non-null entry
+            {
+                if(array[startIndex] != null)
+                    break;
+            }
+            if(startIndex >= array.Count) // only null-entries were in array
+                return;
+
+            // prepend the matches stored in the array handed out
+
+            // employ the first non-null entry in the array as new list head
+            Match oldRoot = root;
+            root = (Match)array[startIndex];
+            ++count;
+            Match cur = root;
+            // add all further, non-null entries to list
+            for(int i = startIndex + 1; i < array.Count; ++i)
+            {
+                if(array[i] == null)
+                    continue;
+                cur.next = (Match)array[i];
+                cur = cur.next;
+                ++count;
+            }
+
+            // append the free tail remaining to new current list
+            cur.next = oldRoot;
         }
 
         /// <summary>
@@ -912,7 +992,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
+        /// Reincludes the array handed out with ToListExact, REPLACING the current matches with the ones from the list.
         /// The list might have been reordered, matches might have been removed, or even added.
         /// Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
         /// </summary>
@@ -1071,6 +1151,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// number of found matches in the list
         /// </summary>
         private int count;
+
+        /// <summary>
+        /// the array returned in a call of ToList
+        /// </summary>
+        private List<IMatch> array = new List<IMatch>();
 
         /// <summary>
         /// the array returned in a call of ToListExact

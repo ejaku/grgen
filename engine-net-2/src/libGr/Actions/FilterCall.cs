@@ -12,27 +12,22 @@ using System;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// An object representing a filter call (of an action filter or a match class filter).
-    /// To be built by the user and used at API level to carry out filter calls.
+    /// Base class for objects representing a filter call (of an action filter or a match class filter),
+    /// distinguished into filter calls with arguments and lambda expression filter calls.
     /// </summary>
-    public class FilterCall
+    public abstract class FilterCall
     {
-        public FilterCall(String packagePrefixedName, int argumentCount)
+        public FilterCall(String packagePrefixedName)
         {
             PackagePrefixedName = packagePrefixedName;
-            Arguments = new object[argumentCount];
         }
 
         /// <summary>
         /// Name of the filter to call.
-        /// (For auto-generated filters, it includes the entities; for filter functions, it includes the package.)
+        /// (For auto-generated filters, it includes the entities; for filter functions, it includes the package.
+        /// For lambda expression filters, it may include the optional entity.)
         /// Examples: <![CDATA[keepFirst, orderAscendingBy<i,j>, filterFunctionName, packageName::filterFunctionName]]>
         /// </summary>
         public readonly String PackagePrefixedName;
-
-        /// <summary>
-        /// Buffer to store the argument values for the filter function or auto-supplied filter call.
-        /// </summary>
-        public readonly object[] Arguments;
     }
 }

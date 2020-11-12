@@ -223,6 +223,53 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="actionEnv">The action execution environment, required by the filter implementation.</param>
         /// <param name="matches">The combined list of all matches of all rules (implementing the same match class; to inspect and filter)</param>
         /// <param name="filter">The filter to apply</param>
-        public abstract void Filter(IActionExecutionEnvironment actionEnv, IList<IMatch> matches, FilterCall filter);
+        public abstract void Filter(IActionExecutionEnvironment actionEnv, IList<IMatch> matches, FilterCallWithArguments filter);
+
+        /// <summary>
+        /// Filters the matches of a multi rule all call or multi rule backtracking construct
+        /// (i.e. matches obtained from different rules, that implement a match class)
+        /// with a lambda expression filter (call).
+        /// </summary>
+        /// <param name="procEnv">The graph processing environment, required by the filter implementation.</param>
+        /// <param name="matches">The combined list of all matches of all rules (implementing the same match class; to inspect and filter)</param>
+        /// <param name="filter">The lambda expression filter to apply</param>
+        public void Filter(IGraphProcessingEnvironment procEnv, IList<IMatch> matches, FilterCallWithLambdaExpression filter)
+        {
+            if(filter.PlainName == "assign")
+                FilterAssign(procEnv, matches, filter);
+            else if(filter.PlainName == "removeIf")
+                FilterRemoveIf(procEnv, matches, filter);
+            else
+                throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+        }
+
+        public void FilterAssign(IGraphProcessingEnvironment procEnv, IList<IMatch> matchList, FilterCallWithLambdaExpression filterCall)
+        {
+            for(int index = 0; index < matchList.Count; ++index)
+            {
+                if(filterCall.index != null)
+                    filterCall.index.SetVariableValue(index, procEnv);
+                IMatch match = matchList[index];
+                filterCall.element.SetVariableValue(match, procEnv);
+                object result = filterCall.lambdaExpression.Evaluate(procEnv);
+                match.SetMember(filterCall.Entity, result);
+            }
+        }
+
+        public void FilterRemoveIf(IGraphProcessingEnvironment procEnv, IList<IMatch> matchList, FilterCallWithLambdaExpression filterCall)
+        {
+            List<IMatch> matchListCopy = new List<IMatch>(matchList);
+            matchList.Clear();
+            for(int index = 0; index < matchListCopy.Count; ++index)
+            {
+                if(filterCall.index != null)
+                    filterCall.index.SetVariableValue(index, procEnv);
+                IMatch match = matchListCopy[index];
+                filterCall.element.SetVariableValue(match, procEnv);
+                object result = filterCall.lambdaExpression.Evaluate(procEnv);
+                if(!(bool)result)
+                    matchList.Add(match);
+            }
+        }
     }
 }

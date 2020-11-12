@@ -39,18 +39,31 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IMatch GetMatch(int index);
 
-		/// <summary>
-		/// Removes the match at the given index and returns it.
-		/// </summary>
-		/// <param name="index">The index of the match to be removed.</param>
-		/// <returns>The removed match.</returns>
-		IMatch RemoveMatch(int index);
+        /// <summary>
+        /// Removes the match at the given index and returns it.
+        /// </summary>
+        /// <param name="index">The index of the match to be removed.</param>
+        /// <returns>The removed match.</returns>
+        IMatch RemoveMatch(int index);
+
+        /// <summary>
+        /// Returns the content of the current matches list in form of an array.
+        /// The content is destroyed when the rule is matched again (the list itself is a newly created copy).
+        /// </summary>
+        List<IMatch> ToListCopy();
 
         /// <summary>
         /// Returns the content of the current matches list in form of an array which can be efficiently indexed and reordered.
         /// The array is destroyed when this method is called again, the content is destroyed when the rule is matched again (there is only one array existing).
         /// </summary>
         List<IMatch> ToList();
+
+        /// <summary>
+        /// Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
+        /// The list might have been reordered, matches might have been removed, or even added.
+        /// Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
+        /// </summary>
+        void FromList();
 
         /// <summary>
         /// Clone the matches

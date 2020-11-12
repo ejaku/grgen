@@ -168,7 +168,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return seqRuleCountAllCall;
         }
 
-        public override SequenceFilterCall CreateSequenceFilterCall(String ruleName, String rulePackage,
+        public override SequenceFilterCallBase CreateSequenceFilterCall(String ruleName, String rulePackage,
             String packagePrefix, String filterBase, List<String> entities, List<SequenceExpression> argExprs)
         {
             String packagePrefixedRuleName = rulePackage != null ? rulePackage + "::" + ruleName : ruleName; // rulePackage already resolved, concatenation sufficient
@@ -203,6 +203,23 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return new SequenceFilterCallCompiled(filter, argExprs.ToArray());
         }
 
+        public override SequenceFilterCallBase CreateSequenceFilterCall(String ruleName, String rulePackage,
+            String packagePrefix, String filterBase, List<String> entities,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+        {
+            String packagePrefixedRuleName = rulePackage != null ? rulePackage + "::" + ruleName : ruleName; // rulePackage already resolved, concatenation sufficient
+
+            String filterName = GetFilterName(filterBase, entities);
+            String packagePrefixedName = filterName;
+
+            if(entities.Count == 1 && filterBase == "assign")
+                return new SequenceFilterCallLambdaExpressionCompiled(filterBase, entities[0], index, element, lambdaExpr);
+            else if(entities.Count == 0 && filterBase == "removeIf")
+                return new SequenceFilterCallLambdaExpressionCompiled(filterBase, null, index, element, lambdaExpr);
+            else
+                throw new SequenceParserException(packagePrefixedRuleName, filterName, SequenceParserError.FilterError);
+        }
+
         public override string GetPackagePrefixedMatchClassName(String matchClassName, String matchClassPackage)
         {
             String resolvedMatchClassPackage; // match class not yet resolved (impossible before as only part of filter call), resolve it here
@@ -215,7 +232,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return packagePrefixedMatchClassName;
         }
 
-        public override SequenceFilterCall CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
+        public override SequenceFilterCallBase CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
             String packagePrefix, String filterBase, List<String> entities, List<SequenceExpression> argExprs)
         {
             String resolvedMatchClassPackage; // match class not yet resolved (impossible before as only part of filter call), resolve it here
@@ -256,6 +273,36 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
             return new SequenceFilterCallCompiled(matchClassName, resolvedMatchClassPackage, packagePrefixedMatchClassName,
                 filter, argExprs.ToArray());
+        }
+
+        public override SequenceFilterCallBase CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
+            String packagePrefix, String filterBase, List<String> entities,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+        {
+            String resolvedMatchClassPackage; // match class not yet resolved (impossible before as only part of filter call), resolve it here
+            String packagePrefixedMatchClassName;
+            bool contextMatchClassNameExists = actionNames.matchClassesToFilters.ContainsKey(PackagePrefixedName(matchClassName, packageContext));
+            ResolvePackage(matchClassName, matchClassPackage, packageContext, contextMatchClassNameExists,
+                out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
+            if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.MatchClassError);
+
+            String filterName = GetFilterName(filterBase, entities);
+
+            String packagePrefixedName = filterName;
+
+            if(entities.Count == 1 && filterBase == "assign")
+            {
+                return new SequenceFilterCallLambdaExpressionCompiled(matchClassName, resolvedMatchClassPackage, packagePrefixedMatchClassName,
+                    filterBase, entities[0], index, element, lambdaExpr);
+            }
+            else if(entities.Count == 0 && filterBase == "removeIf")
+            {
+                return new SequenceFilterCallLambdaExpressionCompiled(matchClassName, resolvedMatchClassPackage, packagePrefixedMatchClassName,
+                    filterBase, null, index, element, lambdaExpr);
+            }
+            else
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedName, SequenceParserError.FilterError);
         }
 
 

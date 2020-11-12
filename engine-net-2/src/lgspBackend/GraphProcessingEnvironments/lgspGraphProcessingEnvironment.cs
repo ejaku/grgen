@@ -235,6 +235,88 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        public override IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters)
+        {
+            int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
+            PerformanceInfo.StartLocal();
+#endif
+            IMatches matches = action.Match(this, curMaxMatches, arguments);
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StopMatch();
+#endif
+            PerformanceInfo.MatchesFound += matches.Count;
+
+            if(matches.Count > 0)
+                PreMatched(matches);
+
+            for(int i = 0; i < filters.Count; ++i)
+            {
+                FilterCall filterCall = filters[i];
+                if(filterCall is FilterCallWithLambdaExpression)
+                {
+                    FilterCallWithLambdaExpression lambdaExpressionFilterCall = (FilterCallWithLambdaExpression)filterCall;
+                    Filter(matches, lambdaExpressionFilterCall);
+                }
+                else
+                {
+                    FilterCallWithArguments filterCallWithArguments = (FilterCallWithArguments)filterCall;
+                    action.Filter(this, matches, filterCallWithArguments);
+                }
+            }
+
+            if(matches.Count > 0) // ensure that Matched is only called when a match exists
+                Matched(matches, null, special);
+
+            return matches;
+        }
+
+        /// <summary>
+        /// Filters the matches of a rule (all) call with a lambda expression filter (call).
+        /// </summary>
+        /// <param name="matches">The matches of the rule</param>
+        /// <param name="filter">The lambda expression filter to apply</param>
+        public void Filter(IMatches matches, FilterCallWithLambdaExpression filter)
+        {
+            if(filter.PlainName == "assign")
+                FilterAssign(matches, filter);
+            else if(filter.PlainName == "removeIf")
+                FilterRemoveIf(matches, filter);
+            else
+                throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+        }
+
+        public void FilterAssign(IMatches matches, FilterCallWithLambdaExpression filterCall)
+        {
+            int index = 0;
+            foreach(IMatch match in matches)
+            {
+                if(filterCall.index != null)
+                    filterCall.index.SetVariableValue(index, this);
+                filterCall.element.SetVariableValue(match, this);
+                object result = filterCall.lambdaExpression.Evaluate(this);
+                match.SetMember(filterCall.Entity, result);
+                ++index;
+            }
+        }
+
+        public void FilterRemoveIf(IMatches matches, FilterCallWithLambdaExpression filterCall)
+        {
+            List<IMatch> matchList = matches.ToList();
+            for(int index = 0; index < matchList.Count; ++index)
+            {
+                if(filterCall.index != null)
+                    filterCall.index.SetVariableValue(index, this);
+                IMatch match = matchList[index];
+                filterCall.element.SetVariableValue(match, this);
+                object result = filterCall.lambdaExpression.Evaluate(this);
+                if((bool)result)
+                    matchList[index] = null;
+            }
+            matches.FromList();
+        }
+
         public List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, 
             int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches)
         {

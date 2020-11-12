@@ -1048,30 +1048,18 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public abstract class SequenceFilterCall : FilterInvocation
+    public abstract class SequenceFilterCallBase : FilterInvocation
+    {
+        public abstract String Name { get; }
+
+        public abstract String Package { get; }
+
+        public abstract String PackagePrefixedName { get; }
+    }
+
+    public abstract class SequenceFilterCall : SequenceFilterCallBase
     {
         public IFilter Filter; // the filter called, set after resoving, if failed null
-
-        public String Name
-        {
-            get { return Filter.Name; }
-        }
-
-        public String Package
-        {
-            get { return Filter.Package; }
-        }
-
-        public String PackagePrefixedName
-        {
-            get { return Filter.PackagePrefixedName; }
-        }
-
-        protected SequenceFilterCall(IFilter filter, SequenceExpression[] argExprs)
-        {
-            Filter = filter;
-            ArgumentExpressions = argExprs;
-        }
 
         /// <summary>
         /// An array of expressions used to compute the input arguments for a filter function or auto-supplied filter.
@@ -1079,25 +1067,48 @@ namespace de.unika.ipd.grGen.libGr
         /// The according entry in Arguments is filled with the evaluation result of the expression.
         /// </summary>
         public readonly SequenceExpression[] ArgumentExpressions;
+
+
+        public override String Name
+        {
+            get { return Filter.Name; }
+        }
+
+        public override String Package
+        {
+            get { return Filter.Package; }
+        }
+
+        public override String PackagePrefixedName
+        {
+            get { return Filter.PackagePrefixedName; }
+        }
+
+
+        protected SequenceFilterCall(IFilter filter, SequenceExpression[] argExprs)
+        {
+            Filter = filter;
+            ArgumentExpressions = argExprs;
+        }
     }
 
     public class SequenceFilterCallInterpreted : SequenceFilterCall
     {
         public MatchClassFilterer MatchClass; // only set in case of a match class filter call
 
-        public FilterCall FilterCall;
+        public FilterCallWithArguments FilterCall;
 
         public SequenceFilterCallInterpreted(/*IAction action, */IFilter filter, SequenceExpression[] argExprs)
             : base(filter, argExprs)
         {
-            FilterCall = new FilterCall(filter.PackagePrefixedName, argExprs.Length);
+            FilterCall = new FilterCallWithArguments(filter.PackagePrefixedName, argExprs.Length);
         }
 
         public SequenceFilterCallInterpreted(MatchClassFilterer matchClass, IFilter filter, SequenceExpression[] argExprs)
             : base(filter, argExprs)
         {
             MatchClass = matchClass;
-            FilterCall = new FilterCall(filter.PackagePrefixedName, argExprs.Length);
+            FilterCall = new FilterCallWithArguments(filter.PackagePrefixedName, argExprs.Length);
         }
 
         public void Execute(IGraphProcessingEnvironment procEnv, IAction action, IMatches matches)
@@ -1189,6 +1200,170 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceFilterCallLambdaExpression : SequenceFilterCallBase
+    {
+        public FilterCallWithLambdaExpression FilterCall;
+
+        public override String Name
+        {
+            get { return FilterCall.PackagePrefixedName; }
+        }
+
+        public override String Package
+        {
+            get { return ""; } // todo: maybe null
+        }
+
+        public override String PackagePrefixedName
+        {
+            get { return FilterCall.PackagePrefixedName; }
+        }
+
+        public int Id { get { return id; } }
+
+        protected readonly int id;
+
+        protected static int idSource = 0;
+
+        public SequenceFilterCallLambdaExpression(String filterBase, String entity,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+        {
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">" : ""), index, element, lambdaExpr);
+
+            id = idSource;
+            ++idSource;
+        }
+    }
+
+    public class SequenceFilterCallLambdaExpressionInterpreted : SequenceFilterCallLambdaExpression
+    {
+        public MatchClassFilterer MatchClass; // only set in case of a match class filter call
+
+        // entity may be null
+        public SequenceFilterCallLambdaExpressionInterpreted(/*IAction action, */String filterBase, String entity,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, index, element, lambdaExpr)
+        {
+        }
+
+        public SequenceFilterCallLambdaExpressionInterpreted(MatchClassFilterer matchClass, String filterBase, String entity,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, index, element, lambdaExpr)
+        {
+            MatchClass = matchClass;
+        }
+
+        public void Execute(IGraphProcessingEnvironment procEnv, IAction action, IMatches matches)
+        {
+            procEnv.Filter(matches, FilterCall);
+        }
+
+        public void Execute(IGraphProcessingEnvironment procEnv, List<IMatch> matchList)
+        {
+            MatchClass.Filter(procEnv, matchList, FilterCall); // TODO
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if(MatchClass != null)
+                sb.Append(MatchClass.info.PackagePrefixedName + ".");
+            sb.Append(Name);
+            if(FilterCall.Entity != null)
+                sb.Append("<" + FilterCall.Entity + ">");
+            sb.Append("{");
+            FilterCall.lambdaExpression.ToString();
+            sb.Append("}");
+            return sb.ToString();
+        }
+    }
+
+    /// <summary>
+    /// A sequence representing a lambda expression filter call at compile time (of an action filter or a match class filter).
+    /// It specifies the filter and optionally a target entity (plus the lambda expression and the per-element variables - in the parent class).
+    /// Only used internally for code generation.
+    /// </summary>
+    public class SequenceFilterCallLambdaExpressionCompiled : SequenceFilterCallLambdaExpression
+    {
+        /// <summary>
+        /// null if this is a single-rule filter, otherwise the match class of the filter.
+        /// </summary>
+        public readonly String MatchClassName;
+
+        /// <summary>
+        /// null if the match class is global, otherwise the (resolved) package the match class is contained in.
+        /// </summary>
+        public String MatchClassPackage;
+
+        /// <summary>
+        /// The name of the match class, prefixed by the (resolved) package it is contained in (separated by a double colon), if it is contained in a package.
+        /// </summary>
+        public String MatchClassPackagePrefixedName;
+
+        ///////////////////////////////////////////////////////////////
+
+        public string Entity
+        {
+            get
+            {
+                if(PackagePrefixedName.IndexOf('<') == -1)
+                    return null;
+                int beginIndexOfEntity = PackagePrefixedName.IndexOf('<') + 1;
+                int length = PackagePrefixedName.Length - beginIndexOfEntity - 1; // removes closing '>'
+                return PackagePrefixedName.Substring(beginIndexOfEntity, length);
+            }
+        }
+
+        public string PlainName
+        {
+            get
+            {
+                if(PackagePrefixedName.IndexOf('<') == -1)
+                    return PackagePrefixedName;
+                return PackagePrefixedName.Substring(0, PackagePrefixedName.IndexOf('<'));
+            }
+        }
+
+        ///////////////////////////////////////////////////////////////
+
+        public SequenceFilterCallLambdaExpressionCompiled(String filterBase, String entity,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, index, element, lambdaExpr)
+        {
+            MatchClassName = null;
+            MatchClassPackage = null;
+            MatchClassPackagePrefixedName = null;
+
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">": ""), index, element, lambdaExpr);
+        }
+
+        public SequenceFilterCallLambdaExpressionCompiled(String matchClassName, String matchClassPackage, String matchClassPackagePrefixedName,
+            String filterBase, String entity,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, index, element, lambdaExpr)
+        {
+            MatchClassName = matchClassName;
+            MatchClassPackage = matchClassPackage;
+            MatchClassPackagePrefixedName = matchClassPackagePrefixedName;
+
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">": ""), index, element, lambdaExpr);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if(MatchClassName != null)
+                sb.Append(MatchClassPackagePrefixedName + ".");
+            sb.Append(Name);
+            if(FilterCall.Entity != null)
+                sb.Append("<" + FilterCall.Entity + ">");
+            sb.Append("{");
+            FilterCall.lambdaExpression.ToString();
+            sb.Append("}");
+            return sb.ToString();
+        }
+    }
+
     public abstract class SequenceRuleCall : SequenceSpecial, RuleInvocation
     {
         /// <summary>
@@ -1221,7 +1396,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public readonly bool Test;
-        public readonly List<SequenceFilterCall> Filters;
+        public readonly List<SequenceFilterCallBase> Filters;
 
         public readonly bool IsRuleForMultiRuleAllCallReturningArrays;
 
@@ -1241,7 +1416,7 @@ namespace de.unika.ipd.grGen.libGr
             InitializeReturnVariables(returnVars, out ReturnVars);
             this.subgraph = subgraph;
             Test = test;
-            Filters = new List<SequenceFilterCall>();
+            Filters = new List<SequenceFilterCallBase>();
             IsRuleForMultiRuleAllCallReturningArrays = false;
         }
 
@@ -1259,7 +1434,7 @@ namespace de.unika.ipd.grGen.libGr
             IsRuleForMultiRuleAllCallReturningArrays = that.IsRuleForMultiRuleAllCallReturningArrays;
         }
 
-        public void AddFilterCall(SequenceFilterCall sequenceFilterCall)
+        public void AddFilterCall(SequenceFilterCallBase sequenceFilterCall)
         {
             Filters.Add(sequenceFilterCall);
         }
@@ -1267,7 +1442,7 @@ namespace de.unika.ipd.grGen.libGr
         readonly static List<object[]> emptyList = new List<object[]>(); // performance optimization (for ApplyRewrite, empty list is only created once)
 
         public static List<object[]> ApplyRewrite(IGraphProcessingEnvironment procEnv, IAction action, IGraph subgraph, object[] arguments, int which,
-            int localMaxMatches, bool special, bool test, List<SequenceFilterCall> filters, out int numMatches)
+            int localMaxMatches, bool special, bool test, List<SequenceFilterCallBase> filters, out int numMatches)
         {
             if(subgraph != null)
                 procEnv.SwitchToSubgraph(subgraph);
@@ -1377,7 +1552,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         protected static IMatches MatchForQuery(IGraphProcessingEnvironment procEnv, IAction action, IGraph subgraph, object[] arguments,
-            int localMaxMatches, bool special, List<SequenceFilterCall> filters)
+            int localMaxMatches, bool special, List<SequenceFilterCallBase> filters)
         {
             if(subgraph != null)
                 procEnv.SwitchToSubgraph(subgraph);
@@ -1386,8 +1561,17 @@ namespace de.unika.ipd.grGen.libGr
 
             for(int i = 0; i < filters.Count; ++i)
             {
-                SequenceFilterCallInterpreted filter = (SequenceFilterCallInterpreted)filters[i];
-                filter.Execute(procEnv, action, matches);
+                SequenceFilterCallBase filter = filters[i];
+                if(filter is SequenceFilterCallLambdaExpressionInterpreted)
+                {
+                    SequenceFilterCallLambdaExpressionInterpreted lambdaExpressionFilterCall = (SequenceFilterCallLambdaExpressionInterpreted)filter;
+                    procEnv.Filter(matches, lambdaExpressionFilterCall.FilterCall);
+                }
+                else
+                {
+                    SequenceFilterCallInterpreted filterCall = (SequenceFilterCallInterpreted)filter;
+                    filterCall.Execute(procEnv, action, matches);
+                }
             }
 
             //subrule debugging must be changed to allow this
@@ -1425,11 +1609,20 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     yield return expr;
                 }
-                foreach(SequenceFilterCall filterCall in Filters)
+                foreach(SequenceFilterCallBase filterCall in Filters)
                 {
-                    foreach(SequenceExpression expr in filterCall.ArgumentExpressions)
+                    if(filterCall is SequenceFilterCall)
                     {
-                        yield return expr;
+                        SequenceFilterCall filterCallFilterAvailable = (SequenceFilterCall)filterCall;
+                        foreach(SequenceExpression expr in filterCallFilterAvailable.ArgumentExpressions)
+                        {
+                            yield return expr;
+                        }
+                    }
+                    else
+                    {
+                        SequenceFilterCallLambdaExpression filterCallLambdaExpression = (SequenceFilterCallLambdaExpression)filterCall;
+                        yield return filterCallLambdaExpression.FilterCall.lambdaExpression;
                     }
                 }
             } 
@@ -1600,24 +1793,6 @@ namespace de.unika.ipd.grGen.libGr
             get { yield break; }
         }
 
-        public override IEnumerable<SequenceBase> ChildrenBase
-        {
-            get
-            {
-                foreach(SequenceExpression expr in ArgumentExpressions)
-                {
-                    yield return expr;
-                }
-                foreach(SequenceFilterCall filterCall in Filters)
-                {
-                    foreach(SequenceExpression expr in filterCall.ArgumentExpressions)
-                    {
-                        yield return expr;
-                    }
-                }
-            }
-        }
-
         public override int Precedence
         {
             get { return 8; }
@@ -1681,24 +1856,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children
         {
             get { yield break; }
-        }
-
-        public override IEnumerable<SequenceBase> ChildrenBase
-        {
-            get
-            {
-                foreach(SequenceExpression expr in ArgumentExpressions)
-                {
-                    yield return expr;
-                }
-                foreach(SequenceFilterCall filterCall in Filters)
-                {
-                    foreach(SequenceExpression expr in filterCall.ArgumentExpressions)
-                    {
-                        yield return expr;
-                    }
-                }
-            }
         }
 
         public override int Precedence
@@ -2016,7 +2173,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
 #endif
 
-                return matches.ToList();
+                return matches.ToListCopy();
             }
             catch(NullReferenceException)
             {
@@ -3257,13 +3414,13 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceMultiRuleAllCall : Sequence
     {
         public readonly List<Sequence> Sequences;
-        public readonly List<SequenceFilterCall> Filters;
+        public readonly List<SequenceFilterCallBase> Filters;
 
         public SequenceMultiRuleAllCall(List<Sequence> sequences)
             : base(SequenceType.MultiRuleAllCall)
         {
             Sequences = sequences;
-            Filters = new List<SequenceFilterCall>();
+            Filters = new List<SequenceFilterCallBase>();
         }
 
         protected SequenceMultiRuleAllCall(SequenceMultiRuleAllCall that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3277,7 +3434,7 @@ namespace de.unika.ipd.grGen.libGr
             Filters = that.Filters;
         }
 
-        public void AddFilterCall(SequenceFilterCall sequenceFilterCall)
+        public void AddFilterCall(SequenceFilterCallBase sequenceFilterCall)
         {
             Filters.Add(sequenceFilterCall);
         }
@@ -3311,7 +3468,7 @@ namespace de.unika.ipd.grGen.libGr
             List<IMatch> MatchList;
             MatchAll(procEnv, out MatchesArray, out MatchList);
 
-            foreach(SequenceFilterCall filter in Filters)
+            foreach(SequenceFilterCallBase filter in Filters)
             {
                 SequenceFilterCallInterpreted filterInterpreted = (SequenceFilterCallInterpreted)filter;
                 filterInterpreted.Execute(procEnv, MatchList);
@@ -3729,12 +3886,12 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceMultiRulePrefixedSequence : Sequence
     {
         public readonly List<SequenceRulePrefixedSequence> RulePrefixedSequences;
-        public readonly List<SequenceFilterCall> Filters;
+        public readonly List<SequenceFilterCallBase> Filters;
 
         public SequenceMultiRulePrefixedSequence(List<SequenceRulePrefixedSequence> rulePrefixedSequences) : base(SequenceType.MultiRulePrefixedSequence)
         {
             RulePrefixedSequences = rulePrefixedSequences;
-            Filters = new List<SequenceFilterCall>();
+            Filters = new List<SequenceFilterCallBase>();
         }
 
         protected SequenceMultiRulePrefixedSequence(SequenceMultiRulePrefixedSequence that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3753,7 +3910,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceMultiRulePrefixedSequence(this, originalToCopy, procEnv);
         }
 
-        public void AddFilterCall(SequenceFilterCall sequenceFilterCall)
+        public void AddFilterCall(SequenceFilterCallBase sequenceFilterCall)
         {
             Filters.Add(sequenceFilterCall);
         }
@@ -3789,7 +3946,7 @@ namespace de.unika.ipd.grGen.libGr
             List<IMatch> MatchList;
             MatchAll(procEnv, out MatchesArray, out MatchList);
 
-            foreach(SequenceFilterCall filter in Filters)
+            foreach(SequenceFilterCallBase filter in Filters)
             {
                 SequenceFilterCallInterpreted filterInterpreted = (SequenceFilterCallInterpreted)filter;
                 filterInterpreted.Execute(procEnv, MatchList);
@@ -3959,7 +4116,7 @@ namespace de.unika.ipd.grGen.libGr
                     sb.Append(rulePrefixedSequence.Symbol);
                 }
                 sb.Append("]]");
-                foreach(SequenceFilterCall filterCall in Filters)
+                foreach(SequenceFilterCallBase filterCall in Filters)
                 {
                     sb.Append(FilterSymbol);
                 }
@@ -4246,7 +4403,7 @@ namespace de.unika.ipd.grGen.libGr
             List<IMatch> MatchList;
             Rules.MatchAll(procEnv, out MatchesArray, out MatchList);
 
-            foreach(SequenceFilterCall filter in Rules.Filters)
+            foreach(SequenceFilterCallBase filter in Rules.Filters)
             {
                 SequenceFilterCallInterpreted filterInterpreted = (SequenceFilterCallInterpreted)filter;
                 filterInterpreted.Execute(procEnv, MatchList);
@@ -4433,7 +4590,7 @@ namespace de.unika.ipd.grGen.libGr
             List<IMatch> MatchList;
             MultiRulePrefixedSequence.MatchAll(procEnv, out MatchesArray, out MatchList);
 
-            foreach(SequenceFilterCall filter in MultiRulePrefixedSequence.Filters)
+            foreach(SequenceFilterCallBase filter in MultiRulePrefixedSequence.Filters)
             {
                 SequenceFilterCallInterpreted filterInterpreted = (SequenceFilterCallInterpreted)filter;
                 filterInterpreted.Execute(procEnv, MatchList);

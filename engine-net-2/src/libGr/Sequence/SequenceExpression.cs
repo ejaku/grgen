@@ -9396,10 +9396,18 @@ namespace de.unika.ipd.grGen.libGr
             // as the maches array must be available (at least) through continued sequence expression processing
             // (and a new call could be made during that time, example: [[?r]] + [[?r]])
 
-            foreach(SequenceFilterCall filter in MultiRuleCall.Filters)
+            foreach(SequenceFilterCallBase filter in MultiRuleCall.Filters)
             {
-                SequenceFilterCallInterpreted filterInterpreted = (SequenceFilterCallInterpreted)filter;
-                filterInterpreted.Execute(procEnv, MatchList);
+                if(filter is SequenceFilterCallLambdaExpressionInterpreted)
+                {
+                    SequenceFilterCallLambdaExpressionInterpreted filterInterpreted = (SequenceFilterCallLambdaExpressionInterpreted)filter;
+                    filterInterpreted.MatchClass.Filter(procEnv, MatchList, filterInterpreted.FilterCall);
+                }
+                else
+                {
+                    SequenceFilterCallInterpreted filterInterpreted = (SequenceFilterCallInterpreted)filter;
+                    filterInterpreted.Execute(procEnv, MatchList);
+                }
             }
 
             return MatchList;

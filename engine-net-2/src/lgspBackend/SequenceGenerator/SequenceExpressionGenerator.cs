@@ -27,7 +27,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         readonly SequenceGeneratorHelper seqHelper;
 
-        public readonly SourceBuilder arrayPerElementMethodSource;
+        public readonly SourceBuilder perElementMethodSource; // for generation of lambda expression execution functions of the array per element methods / per element match filters
 
 
         public SequenceExpressionGenerator(IGraphModel model, SequenceCheckingEnvironment env, SequenceGeneratorHelper seqHelper)
@@ -35,7 +35,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             this.env = env;
             this.seqHelper = seqHelper;
-            this.arrayPerElementMethodSource = new SourceBuilder();
+            this.perElementMethodSource = new SourceBuilder();
         }
 
         // source is needed for a method call chain or expressions that require temporary variables, 
@@ -808,7 +808,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String matchesSource = matchesSourceBuilder.ToString();
                 matchesSourceBuilder.Reset();
-                EmitFilterCall(matchesSourceBuilder, (SequenceFilterCallCompiled)ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
+                EmitFilterCall(matchesSourceBuilder, ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
             }
             return matchesSourceBuilder.ToString() + ".ToListExact()";
         }
@@ -831,11 +831,11 @@ namespace de.unika.ipd.grGen.lgsp
             matchesSourceBuilder.Append(GetRuleCallOfSequenceMultiRuleAllCall(seqMulti, seqMulti.Sequences.Count - 1, matchListName, source));
 
             // emit code for match class (non-rule-based) filtering
-            foreach(SequenceFilterCall sequenceFilterCall in seqMulti.Filters)
+            foreach(SequenceFilterCallBase sequenceFilterCall in seqMulti.Filters)
             {
                 String matchesSource = matchesSourceBuilder.ToString();
                 matchesSourceBuilder.Reset();
-                EmitMatchClassFilterCall(matchesSourceBuilder, (SequenceFilterCallCompiled)sequenceFilterCall, matchesSource, true);
+                EmitMatchClassFilterCall(matchesSourceBuilder, sequenceFilterCall, matchesSource, true);
             }
 
             matchesSourceBuilder.Append(")");
@@ -870,7 +870,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String matchesSource = matchesSourceBuilder.ToString();
                 matchesSourceBuilder.Reset();
-                EmitFilterCall(matchesSourceBuilder, (SequenceFilterCallCompiled)ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
+                EmitFilterCall(matchesSourceBuilder, ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
             }
             return matchesSourceBuilder.ToString() + ".ToListExact()";
         }
@@ -911,7 +911,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String matchesSource = matchesSourceBuilder.ToString();
                 matchesSourceBuilder.Reset();
-                EmitFilterCall(matchesSourceBuilder, (SequenceFilterCallCompiled)ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
+                EmitFilterCall(matchesSourceBuilder, ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
             }
             return matchesSourceBuilder.ToString() + ".ToListExact()";
         }
@@ -2463,7 +2463,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            arrayPerElementMethodSource.Append(sb.ToString());
+            perElementMethodSource.Append(sb.ToString());
         }
 
         private string GetSequenceExpressionArrayRemoveIf(SequenceExpressionArrayRemoveIf seqArrayRemoveIf, SourceBuilder source)
@@ -2574,7 +2574,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            arrayPerElementMethodSource.Append(sb.ToString());
+            perElementMethodSource.Append(sb.ToString());
         }
 
         private string GetSequenceExpressionArrayOrderAscendingBy(SequenceExpressionArrayOrderAscendingBy seqArrayOrderAscendingBy, SourceBuilder source)
@@ -2721,6 +2721,248 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(";\n");
         }
 
+        internal void EmitFilterCall(SourceBuilder source, SequenceFilterCallBase sequenceFilterCall, string patternName, string matchesSource, string packagePrefixedRuleName, bool chainable)
+        {
+            if(sequenceFilterCall is SequenceFilterCallLambdaExpressionCompiled)
+                EmitFilterCall(source, (SequenceFilterCallLambdaExpressionCompiled)sequenceFilterCall, patternName, matchesSource, packagePrefixedRuleName, chainable);
+            else //if(sequenceFilterCall is SequenceFilterCallCompiled)
+                EmitFilterCall(source, (SequenceFilterCallCompiled)sequenceFilterCall, patternName, matchesSource, packagePrefixedRuleName, chainable);
+        }
+
+        internal void EmitFilterCall(SourceBuilder source, SequenceFilterCallLambdaExpressionCompiled sequenceFilterCall, string patternName, string matchesSource, string packagePrefixedRuleName, bool chainable)
+        {
+            FilterCallWithLambdaExpression filterCall = sequenceFilterCall.FilterCall;
+            if(filterCall.PlainName == "assign")
+                EmitFilterCallAssign(source, sequenceFilterCall, patternName, matchesSource, packagePrefixedRuleName, chainable);
+            else if(filterCall.PlainName == "removeIf")
+                EmitFilterCallRemoveIf(source, sequenceFilterCall, patternName, matchesSource, packagePrefixedRuleName, chainable);
+            else
+                throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+        }
+
+        public void EmitFilterCallAssign(SourceBuilder source, SequenceFilterCallLambdaExpressionCompiled sequenceFilterCall, string patternName, string matchesSource, string packagePrefixedRuleName, bool chainable)
+        {
+            String filterAssignMethodName = "FilterAssign_" + sequenceFilterCall.Id.ToString();
+
+            String arrayInputType = TypesHelper.XgrsTypeToCSharpType("array<match<" + packagePrefixedRuleName + ">>", model);
+            String elementInputType = TypesHelper.XgrsTypeToCSharpType("match<" + packagePrefixedRuleName + ">", model);
+
+            source.AppendFrontFormat("{0}(procEnv", filterAssignMethodName);
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+
+            source.Append(", ");
+            source.Append(matchesSource);
+
+            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.index != null)
+                variables.Remove(sequenceFilterCall.FilterCall.index);
+
+            foreach(SequenceVariable variable in variables.Keys)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                source.Append(") ");
+                source.Append("var_" + variable.Prefix + variable.PureName);
+            }
+
+            source.Append(")");
+
+            if(!chainable)
+                source.Append(";\n");
+
+            GenerateSequenceFilterAssign(sequenceFilterCall, packagePrefixedRuleName);
+        }
+
+        public void EmitFilterCallRemoveIf(SourceBuilder source, SequenceFilterCallLambdaExpressionCompiled sequenceFilterCall, string patternName, string matchesSource, string packagePrefixedRuleName, bool chainable)
+        {
+            String filterRemoveIfMethodName = "FilterRemoveIf_" + sequenceFilterCall.Id.ToString();
+
+            String arrayType = TypesHelper.XgrsTypeToCSharpType("array<match<" + packagePrefixedRuleName + ">>", model);
+            String elementType = TypesHelper.XgrsTypeToCSharpType("match<" + packagePrefixedRuleName + ">", model);
+
+            source.AppendFrontFormat("{0}(procEnv", filterRemoveIfMethodName);
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+
+            source.Append(", ");
+            source.Append(matchesSource);
+
+            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.index != null)
+                variables.Remove(sequenceFilterCall.FilterCall.index);
+
+            foreach(SequenceVariable variable in variables.Keys)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                source.Append(") ");
+                source.Append("var_" + variable.Prefix + variable.PureName);
+            }
+
+            source.Append(")");
+
+            if(!chainable)
+                source.Append(";\n");
+
+            GenerateSequenceFilterRemoveIf(sequenceFilterCall, packagePrefixedRuleName);
+        }
+
+        private void GenerateSequenceFilterAssign(SequenceFilterCallLambdaExpressionCompiled sequenceFilterCall, string packagePrefixedRuleName)
+        {
+            SourceBuilder sb = new SourceBuilder();
+            sb.Indent();
+            sb.Indent();
+
+            String filterAssignMethodName = "FilterAssign_" + sequenceFilterCall.Id.ToString();
+
+            String matchesType = "GRGEN_LIBGR.IMatchesExact<" + TypesHelper.XgrsTypeToCSharpType("match<" + packagePrefixedRuleName + ">", model) + ">";
+            String arrayType = TypesHelper.XgrsTypeToCSharpType("array<match<" + packagePrefixedRuleName + ">>", model);
+            String elementType = TypesHelper.XgrsTypeToCSharpType("match<" + packagePrefixedRuleName + ">", model);
+            String matchElementType = env.TypeOfMemberOrAttribute("match<" + packagePrefixedRuleName + ">", sequenceFilterCall.FilterCall.Entity);
+
+            sb.AppendFront("static " + matchesType + " " + filterAssignMethodName + "(");
+            sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+
+            sb.Append(", ");
+            sb.Append(matchesType);
+            sb.Append(" ");
+            sb.Append("matches");
+
+            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.index != null)
+                variables.Remove(sequenceFilterCall.FilterCall.index);
+
+            foreach(SequenceVariable variable in variables.Keys)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                sb.Append(" ");
+                sb.Append("var_" + variable.Prefix + variable.PureName);
+            }
+
+            sb.Append(")\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+            sb.AppendFront("int index = 0;\n");
+            sb.AppendFrontFormat("foreach({0} match in matches)\n", elementType);
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            if(sequenceFilterCall.FilterCall.index != null)
+            {
+                sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.index));
+                sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.index, "index"));
+            }
+            sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
+            sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
+            sb.AppendFront(matchElementType + " result = ");
+            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
+            sb.Append(";\n");
+            sb.AppendFrontFormat("match.SetMember(\"{0}\", result);\n", sequenceFilterCall.FilterCall.Entity); // TODO: directly access entity in match instead, requires name prefix
+            sb.AppendFront("++index;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("return matches;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            perElementMethodSource.Append(sb.ToString());
+        }
+
+        private void GenerateSequenceFilterRemoveIf(SequenceFilterCallLambdaExpressionCompiled sequenceFilterCall, string packagePrefixedRuleName)
+        {
+            SourceBuilder sb = new SourceBuilder();
+            sb.Indent();
+            sb.Indent();
+
+            String filterRemoveIfMethodName = "FilterRemoveIf_" + sequenceFilterCall.Id.ToString();
+
+            String matchesType = "GRGEN_LIBGR.IMatchesExact<" + TypesHelper.XgrsTypeToCSharpType("match<" + packagePrefixedRuleName + ">", model) + ">";
+            String arrayType = TypesHelper.XgrsTypeToCSharpType("array<match<" + packagePrefixedRuleName + ">>", model);
+            String elementType = TypesHelper.XgrsTypeToCSharpType("match<" + packagePrefixedRuleName + ">", model);
+
+            sb.AppendFront("static " + matchesType + " " + filterRemoveIfMethodName + "(");
+            sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+
+            sb.Append(", ");
+            sb.Append(matchesType);
+            sb.Append(" ");
+            sb.Append("matches");
+
+            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.index != null)
+                variables.Remove(sequenceFilterCall.FilterCall.index);
+
+            foreach(SequenceVariable variable in variables.Keys)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                sb.Append(" ");
+                sb.Append("var_" + variable.Prefix + variable.PureName);
+            }
+
+            sb.Append(")\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+            sb.AppendFront(arrayType + " matchList = matches.ToListExact();\n");
+
+            sb.AppendFront("for(int index = 0; index < matchList.Count; ++index)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            if(sequenceFilterCall.FilterCall.index != null)
+            {
+                sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.index));
+                sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.index, "index"));
+            }
+            sb.AppendFrontFormat("{0} match = matchList[index];\n", elementType);
+            sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
+            sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
+            sb.AppendFront("if((bool)(");
+            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
+            sb.Append("))\n");
+            sb.AppendFrontIndented("matchList[index] = null;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("matches.FromListExact();\n");
+            sb.AppendFront("return matches;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            perElementMethodSource.Append(sb.ToString());
+        }
+
+        internal void EmitMatchClassFilterCall(SourceBuilder source, SequenceFilterCallBase sequenceFilterCall, string matchListName, bool chainable)
+        {
+            if(sequenceFilterCall is SequenceFilterCallLambdaExpressionCompiled)
+                EmitMatchClassFilterCall(source, (SequenceFilterCallLambdaExpressionCompiled)sequenceFilterCall, matchListName, chainable);
+            else
+                EmitMatchClassFilterCall(source, (SequenceFilterCallCompiled)sequenceFilterCall, matchListName, chainable);
+        }
+
         internal void EmitMatchClassFilterCall(SourceBuilder source, SequenceFilterCallCompiled sequenceFilterCall, string matchListName, bool chainable)
         {
             if(sequenceFilterCall.Filter is IFilterAutoSupplied)
@@ -2778,6 +3020,228 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append(")");
             if(!chainable)
                 source.Append(";\n");
+        }
+
+        internal void EmitMatchClassFilterCall(SourceBuilder source, SequenceFilterCallLambdaExpressionCompiled sequenceFilterCall, String matchListName, bool chainable)
+        {
+            FilterCallWithLambdaExpression filterCall = sequenceFilterCall.FilterCall;
+            if(filterCall.PlainName == "assign")
+                EmitMatchClassFilterCallAssign(source, sequenceFilterCall, matchListName, chainable);
+            else if(filterCall.PlainName == "removeIf")
+                EmitMatchClassFilterCallRemoveIf(source, sequenceFilterCall, matchListName, chainable);
+            else
+                throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+        }
+
+        public void EmitMatchClassFilterCallAssign(SourceBuilder source, SequenceFilterCallLambdaExpressionCompiled sequenceFilterCall, String matchListName, bool chainable)
+        {
+            String filterAssignMethodName = "FilterAssign_" + sequenceFilterCall.Id.ToString();
+
+            source.AppendFrontFormat("{0}(procEnv", filterAssignMethodName);
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+
+            source.Append(", ");
+            source.Append(matchListName);
+
+            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.index != null)
+                variables.Remove(sequenceFilterCall.FilterCall.index);
+
+            foreach(SequenceVariable variable in variables.Keys)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                source.Append(") ");
+                source.Append("var_" + variable.Prefix + variable.PureName);
+            }
+
+            source.Append(")");
+
+            if(!chainable)
+                source.Append(";\n");
+
+            GenerateSequenceMatchClassFilterAssign(sequenceFilterCall);
+        }
+
+        public void EmitMatchClassFilterCallRemoveIf(SourceBuilder source, SequenceFilterCallLambdaExpressionCompiled sequenceFilterCall, String matchListName, bool chainable)
+        {
+            String filterRemoveIfMethodName = "FilterRemoveIf_" + sequenceFilterCall.Id.ToString();
+
+            source.AppendFrontFormat("{0}(procEnv", filterRemoveIfMethodName);
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+
+            source.Append(", ");
+            source.Append(matchListName);
+
+            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.index != null)
+                variables.Remove(sequenceFilterCall.FilterCall.index);
+
+            foreach(SequenceVariable variable in variables.Keys)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                source.Append(") ");
+                source.Append("var_" + variable.Prefix + variable.PureName);
+            }
+
+            source.Append(")");
+
+            if(!chainable)
+                source.Append(";\n");
+
+            GenerateSequenceMatchClassFilterRemoveIf(sequenceFilterCall);
+        }
+
+        private void GenerateSequenceMatchClassFilterAssign(SequenceFilterCallLambdaExpressionCompiled sequenceFilterCall)
+        {
+            SourceBuilder sb = new SourceBuilder();
+            sb.Indent();
+            sb.Indent();
+
+            String filterAssignMethodName = "FilterAssign_" + sequenceFilterCall.Id.ToString();
+
+            String arrayType = "IList<GRGEN_LIBGR.IMatch>";//TypesHelper.XgrsTypeToCSharpType("array<match<class " + sequenceFilterCall.MatchClassPackagePrefixedName + ">>", model);
+            String elementType = TypesHelper.XgrsTypeToCSharpType("match<class " + sequenceFilterCall.MatchClassPackagePrefixedName + ">", model);
+            String matchElementType = env.TypeOfMemberOrAttribute("match<class " + sequenceFilterCall.MatchClassPackagePrefixedName + ">", sequenceFilterCall.FilterCall.Entity);
+
+            sb.AppendFront("static " + arrayType + " " + filterAssignMethodName + "(");
+            sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+
+            sb.Append(", ");
+            sb.Append(arrayType);
+            sb.Append(" ");
+            sb.Append("matchList");
+
+            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.index != null)
+                variables.Remove(sequenceFilterCall.FilterCall.index);
+
+            foreach(SequenceVariable variable in variables.Keys)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                sb.Append(" ");
+                sb.Append("var_" + variable.Prefix + variable.PureName);
+            }
+
+            sb.Append(")\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+
+            sb.AppendFrontFormat("List<{0}> matchListCopy = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matchList);\n", elementType);
+
+            sb.AppendFront("for(int index = 0; index < matchListCopy.Count; ++index)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            if(sequenceFilterCall.FilterCall.index != null)
+            {
+                sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.index));
+                sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.index, "index"));
+            }
+            sb.AppendFrontFormat("{0} match = matchListCopy[index];\n", elementType);
+            sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
+            sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
+            sb.AppendFront(matchElementType + " result = ");
+            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
+            sb.Append(";\n");
+            sb.AppendFrontFormat("match.SetMember(\"{0}\", result);\n", sequenceFilterCall.FilterCall.Entity);  // TODO: directly access entity in match instead, requires name prefix
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList<{0}>(matchList, matchListCopy);\n", elementType);
+            sb.AppendFront("return matchList;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            perElementMethodSource.Append(sb.ToString());
+        }
+
+        private void GenerateSequenceMatchClassFilterRemoveIf(SequenceFilterCallLambdaExpressionCompiled sequenceFilterCall)
+        {
+            SourceBuilder sb = new SourceBuilder();
+            sb.Indent();
+            sb.Indent();
+
+            String filterRemoveIfMethodName = "FilterRemoveIf_" + sequenceFilterCall.Id.ToString();
+
+            String arrayType = "IList<GRGEN_LIBGR.IMatch>";//TypesHelper.XgrsTypeToCSharpType("array<match<class " + sequenceFilterCall.MatchClassPackagePrefixedName + ">>", model);
+            String elementType = TypesHelper.XgrsTypeToCSharpType("match<class " + sequenceFilterCall.MatchClassPackagePrefixedName + ">", model);
+
+            sb.AppendFront("static " + arrayType + " " + filterRemoveIfMethodName + "(");
+            sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+
+            sb.Append(", ");
+            sb.Append(arrayType);
+            sb.Append(" ");
+            sb.Append("matchList");
+
+            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.index != null)
+                variables.Remove(sequenceFilterCall.FilterCall.index);
+
+            foreach(SequenceVariable variable in variables.Keys)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
+                sb.Append(" ");
+                sb.Append("var_" + variable.Prefix + variable.PureName);
+            }
+
+            sb.Append(")\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+
+            sb.AppendFrontFormat("List<{0}> matchListCopy = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matchList);\n", elementType);
+
+            sb.AppendFront("for(int index = 0; index < matchListCopy.Count; ++index)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            if(sequenceFilterCall.FilterCall.index != null)
+            {
+                sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.index));
+                sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.index, "index"));
+            }
+            sb.AppendFrontFormat("{0} match = matchListCopy[index];\n", elementType);
+            sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
+            sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
+            sb.AppendFront("if((bool)(");
+            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
+            sb.Append("))\n");
+            sb.AppendFrontIndented("matchListCopy[index] = null;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList<{0}>(matchList, matchListCopy);\n", elementType);
+            sb.AppendFront("return matchList;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            perElementMethodSource.Append(sb.ToString());
         }
 
         #endregion Filters

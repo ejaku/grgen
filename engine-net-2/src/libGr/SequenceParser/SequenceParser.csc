@@ -1964,7 +1964,7 @@ Sequence MultiRulePrefixedSequence():
     List<SequenceVariable> variableList = new List<SequenceVariable>();
     List<SequenceRulePrefixedSequence> rulePrefixedSequences = new List<SequenceRulePrefixedSequence>();
     SequenceMultiRulePrefixedSequence seqMultiRulePrefixedSequence;
-    SequenceFilterCall filter = null;
+    SequenceFilterCallBase filter = null;
 }
 {
     "[" "[" "for" "{" { varDecls.PushScope(ScopeType.ForRulePrefixedSequence); } rule=RuleForMultiRuleAllCall(false) ";"
@@ -1985,7 +1985,7 @@ Sequence MultiRuleAllCall(bool returnsArrays):
     Sequence seq;
     List<Sequence> sequences = new List<Sequence>();
     SequenceMultiRuleAllCall seqMultiRuleAll;
-    SequenceFilterCall filter = null;
+    SequenceFilterCallBase filter = null;
 }
 {
     "[" "[" seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); }
@@ -2005,7 +2005,7 @@ SequenceRuleCall RuleForMultiRuleAllCall(bool returnsArrays):
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     List<SequenceVariable> returnVars = new List<SequenceVariable>();
     SequenceRuleCall ruleCall;
-    SequenceFilterCall filter = null;
+    SequenceFilterCallBase filter = null;
 }
 {
     ("(" VariableList(returnVars) ")" "=")?
@@ -2061,7 +2061,7 @@ Sequence Rule():
     SequenceRuleCountAllCall ruleCountAllCall = null;
     SequenceRuleCall ruleCall = null;
     SequenceSequenceCall sequenceCall = null;
-    SequenceFilterCall filter = null;
+    SequenceFilterCallBase filter = null;
 }
 {
     ("(" VariableList(returnVars) ")" "=")?
@@ -2139,7 +2139,7 @@ Sequence Rule():
                     if(varDecls.Lookup(str) != null)
                         throw new SequenceParserException(str, filter.ToString(), SequenceParserError.FilterError);
                     if(sequenceCall != null) {
-                        List<SequenceFilterCall> filters = new List<SequenceFilterCall>();
+                        List<SequenceFilterCallBase> filters = new List<SequenceFilterCallBase>();
                         filters.Add(filter);
                         throw new SequenceParserException(str, FiltersToString(filters), SequenceParserError.FilterError);
                     }
@@ -2162,7 +2162,7 @@ SequenceExpression RuleQuery():
     SequenceVariable subgraph = null; // maybe todo - remove
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     SequenceRuleAllCall ruleAllCall = null;
-    SequenceFilterCall filter = null;
+    SequenceFilterCallBase filter = null;
 }
 {
     "[" ( LOOKAHEAD(2) "?" "%" { test = true; special = true; } | LOOKAHEAD(2) "%" "?" { special = true; test = true; } | "?" { test = true; } )
@@ -2184,7 +2184,7 @@ SequenceExpression MultiRuleQuery():
     Sequence seq;
     List<Sequence> sequences = new List<Sequence>();
     SequenceMultiRuleAllCall seqMultiRuleAll;
-    SequenceFilterCall filter = null;
+    SequenceFilterCallBase filter = null;
     String matchClassPackage = null;
     String matchClassName = null;
 }
@@ -2207,7 +2207,7 @@ SequenceRuleCall RuleForMultiRuleQuery():
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     List<SequenceVariable> returnVars = new List<SequenceVariable>();
     SequenceRuleCall ruleCall;
-    SequenceFilterCall filter = null;
+    SequenceFilterCallBase filter = null;
 }
 {
     ("%" { special = true; })?
@@ -2227,42 +2227,64 @@ SequenceRuleCall RuleForMultiRuleQuery():
         }
 }
 
-SequenceFilterCall Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter):
+SequenceFilterCallBase Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter):
 {
     String filterBase, package = null;
     String matchClass = null, matchClassPackage = null;
     String filterExtension = null, filterExtension2 = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
+    SequenceExpression lambdaExpr = null;
+    KeyValuePair<SequenceVariable, SequenceVariable> indexWithValue = new KeyValuePair<SequenceVariable, SequenceVariable>();
     List<String> words = new List<String>();
+    List<SequenceVariable> variableList = new List<SequenceVariable>();
 }
 {
     LOOKAHEAD(6) (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? filterBase=Word() "<" WordList(words) (">" | ">>")
     (filterExtension=Word() { filterBase += filterExtension; } "<" WordList(words) ">" filterExtension2=Word() { filterBase += filterExtension2; } "<" WordList(words) (">" | ">>") )?
+    ("{" { varDecls.PushScope(ScopeType.Computation); } indexWithValue=MaybeIndexedLambdaExprVarDecl() lambdaExpr=Expression() { varDecls.PopScope(variableList); } "}")?
     {
         if(isMatchClassFilter && matchClass == null)
             throw new ParseException("A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
         if(!isMatchClassFilter && matchClass != null)
             throw new ParseException("A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
-        if(!env.IsAutoGeneratedBaseFilterName(filterBase))
+        if(!env.IsAutoGeneratedBaseFilterName(filterBase) && !env.IsPerElementBaseFilterName(filterBase))
             throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy.");
         else
         {
-            if(matchClass != null)
-                return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, argExprs);
+            if(lambdaExpr != null)
+            {
+                if(matchClass != null)
+                    return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, indexWithValue.Key, indexWithValue.Value, lambdaExpr);
+                else
+                    return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words, indexWithValue.Key, indexWithValue.Value, lambdaExpr);
+            }
             else
-                return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words, argExprs);
+            {
+                if(matchClass != null)
+                    return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, argExprs);
+                else
+                    return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words, argExprs);
+            }
         }
     }
 |
     (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? (LOOKAHEAD(2) package=Word() "::")? filterBase=Word() ("(" (Arguments(argExprs))? ")")?
+    ("{" { varDecls.PushScope(ScopeType.Computation); } indexWithValue=MaybeIndexedLambdaExprVarDecl() lambdaExpr=Expression() { varDecls.PopScope(variableList); } "}")?
     {
         if(isMatchClassFilter && matchClass == null)
             throw new ParseException("A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
         if(!isMatchClassFilter && matchClass != null)
             throw new ParseException("A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
-        if(env.IsAutoSuppliedFilterName(filterBase))
+        if(lambdaExpr != null)
+        {
+            if(matchClass != null)
+                return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, indexWithValue.Key, indexWithValue.Value, lambdaExpr);
+            else
+                return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words, indexWithValue.Key, indexWithValue.Value, lambdaExpr);
+        }
+        else if(env.IsAutoSuppliedFilterName(filterBase))
         {
             if(argExprs.Count != 1)
                 throw new ParseException("The auto-supplied filter " + filterBase + " expects exactly one parameter!");
@@ -2311,7 +2333,7 @@ String RemoveTypeSuffix(String value)
 }
 
 CSHARPCODE
-String FiltersToString(List<SequenceFilterCall> filters)
+String FiltersToString(List<SequenceFilterCallBase> filters)
 {
     StringBuilder sb = new StringBuilder();
     bool first = true;

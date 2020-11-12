@@ -275,16 +275,32 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override bool IsMatchClassExisting(SequenceFilterCall sequenceFilterCall)
+        protected override bool IsMatchClassExisting(SequenceFilterCallBase sequenceFilterCall)
         {
-            SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
-            return sequenceFilterCallInterpreted.MatchClass != null;
+            if(sequenceFilterCall is SequenceFilterCallLambdaExpressionInterpreted)
+            {
+                SequenceFilterCallLambdaExpressionInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallLambdaExpressionInterpreted)sequenceFilterCall;
+                return sequenceFilterCallInterpreted.MatchClass != null;
+            }
+            else
+            {
+                SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
+                return sequenceFilterCallInterpreted.MatchClass != null;
+            }
         }
 
-        protected override string GetMatchClassName(SequenceFilterCall sequenceFilterCall)
+        protected override string GetMatchClassName(SequenceFilterCallBase sequenceFilterCall)
         {
-            SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
-            return sequenceFilterCallInterpreted.MatchClass.info.PackagePrefixedName;
+            if(sequenceFilterCall is SequenceFilterCallLambdaExpressionInterpreted)
+            {
+                SequenceFilterCallLambdaExpressionInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallLambdaExpressionInterpreted)sequenceFilterCall;
+                return sequenceFilterCallInterpreted.MatchClass.info.PackagePrefixedName;
+            }
+            else
+            {
+                SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
+                return sequenceFilterCallInterpreted.MatchClass.info.PackagePrefixedName;
+            }
         }
 
         public override bool IsRuleImplementingMatchClass(string rulePackagePrefixedName, string matchClassPackagePrefixedName)

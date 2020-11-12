@@ -1293,9 +1293,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // emit code for match class (non-rule-based) filtering
-            foreach(SequenceFilterCall sequenceFilterCall in seqMulti.Filters)
+            foreach(SequenceFilterCallBase sequenceFilterCall in seqMulti.Filters)
             {
-                exprGen.EmitMatchClassFilterCall(source, (SequenceFilterCallCompiled)sequenceFilterCall, matchListName, false);
+                exprGen.EmitMatchClassFilterCall(source, sequenceFilterCall, matchListName, false);
             }
 
             SequenceMultiRuleAllCallRewritingGenerator[] ruleRewritingGenerators = new SequenceMultiRuleAllCallRewritingGenerator[seqMulti.Sequences.Count];
@@ -1375,9 +1375,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // emit code for match class (non-rule-based) filtering
-            foreach(SequenceFilterCall sequenceFilterCall in seqMulti.Filters)
+            foreach(SequenceFilterCallBase sequenceFilterCall in seqMulti.Filters)
             {
-                exprGen.EmitMatchClassFilterCall(source, (SequenceFilterCallCompiled)sequenceFilterCall, matchListName, false);
+                exprGen.EmitMatchClassFilterCall(source, sequenceFilterCall, matchListName, false);
             }
 
             // code to handle the rewrite next match

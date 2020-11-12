@@ -168,8 +168,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 SequenceContainerConstructorEmitter.GenerateContainerConstructor(model, cc, source);
             }
-            source.Append(seqGen.exprGen.arrayPerElementMethodSource.ToString());
-            seqGen.exprGen.arrayPerElementMethodSource.Reset();
+            source.Append(seqGen.exprGen.perElementMethodSource.ToString());
+            seqGen.exprGen.perElementMethodSource.Reset();
 
             return true;
         }

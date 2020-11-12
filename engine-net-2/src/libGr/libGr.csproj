@@ -69,6 +69,8 @@
     <Compile Include="Actions\ActionCall.cs" />
     <Compile Include="Actions\ActionNames.cs" />
     <Compile Include="Actions\ActionsTypeInformation.cs" />
+    <Compile Include="Actions\FilterCallWithArguments.cs" />
+    <Compile Include="Actions\FilterCallWithLambdaExpression.cs" />
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Actions\IFilter.cs" />
     <Compile Include="Actions\IFunctionDefinitionAndInfo.cs" />

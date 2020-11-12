@@ -68,8 +68,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             for(int i = 0; i < seqRule.Filters.Count; ++i)
             {
-                seqExprGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], 
-                    patternName, matchesName, seqRule.PackagePrefixedName, false);
+                seqExprGen.EmitFilterCall(source, seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName, false);
             }
         }
 

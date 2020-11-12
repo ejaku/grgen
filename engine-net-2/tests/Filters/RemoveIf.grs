@@ -1,0 +1,21 @@
+new graph "Filters/AssignRemoveIf"
+
+exec init
+
+eval [?r \ orderAscendingBy<i>]
+
+eval [?r \ orderAscendingBy<i> \ removeIf{m:match<r> -> m.i % 2 == 1}]
+
+exec r_removeIf
+show var res1
+show var res2
+
+eval [?[r] \ mc.orderAscendingBy<i> \<class mc>]
+
+eval [?[r] \ mc.orderAscendingBy<i> \ mc.removeIf{m:match<class mc> -> m.i % 2 == 1} \<class mc>]
+
+exec r_removeIf_match_class
+show var res1
+show var res2
+
+quit

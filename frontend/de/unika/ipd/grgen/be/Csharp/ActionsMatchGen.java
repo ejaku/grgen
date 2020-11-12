@@ -735,7 +735,52 @@ public class ActionsMatchGen extends CSharpBase
 			break;
 		}
 
+		// -----------------------------
+
 		sb.appendFront("default: return null;\n");
+		sb.appendFront("}\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		
+		if(which != MATCH_PART_NODES && which != MATCH_PART_EDGES && which != MATCH_PART_VARIABLES) {
+			return;
+		}
+		
+		String type;
+		if(which == MATCH_PART_NODES)
+			type = "GRGEN_LIBGR.INode";
+		else if(which == MATCH_PART_EDGES)
+			type = "GRGEN_LIBGR.IEdge";
+		else
+			type = "object";
+		
+		sb.appendFront("public override void Set" + matchedEntitiesNameSingular + "(string name, " + type + " value)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("switch(name) {\n");
+
+		switch(which) {
+		case MATCH_PART_NODES:
+			for(Node node : pattern.getNodes()) {
+				sb.appendFront("case \"" + formatIdentifiable(node) + "\": " + formatEntity(node, "_") + " = (GRGEN_LGSP.LGSPNode)value; break;\n");
+			}
+			break;
+		case MATCH_PART_EDGES:
+			for(Edge edge : pattern.getEdges()) {
+				sb.appendFront("case \"" + formatIdentifiable(edge) + "\": " + formatEntity(edge, "_") + " = (GRGEN_LGSP.LGSPEdge)value; break;\n");
+			}
+			break;
+		case MATCH_PART_VARIABLES:
+			for(Variable var : pattern.getVars()) {
+				sb.appendFront("case \"" + formatIdentifiable(var) + "\": " + formatEntity(var, "_") + " = (" + formatType(var.getType()) + ")value; break;\n");
+			}
+			break;
+		default:
+			assert(false);
+			break;
+		}
+		
+		sb.appendFront("default: break;\n");
 		sb.appendFront("}\n");
 		sb.unindent();
 		sb.appendFront("}\n");

@@ -108,7 +108,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 special, test);
         }
 
-        public override SequenceFilterCall CreateSequenceFilterCall(String ruleName, String rulePackage,
+        public override SequenceFilterCallBase CreateSequenceFilterCall(String ruleName, String rulePackage,
             String packagePrefix, String filterBase, List<String> entities, List<SequenceExpression> argExprs)
         {
             String packagePrefixedRuleName = !PackageIsNullOrGlobal(rulePackage) ? rulePackage + "::" + ruleName : ruleName; // no (further) resolving of rules in interpreted sequences cause there is no package context existing
@@ -142,6 +142,24 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return new SequenceFilterCallInterpreted(/*action, */filter, argExprs.ToArray());
         }
 
+        public override SequenceFilterCallBase CreateSequenceFilterCall(String ruleName, String rulePackage,
+            String packagePrefix, String filterBase, List<String> entities,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+        {
+            String packagePrefixedRuleName = !PackageIsNullOrGlobal(rulePackage) ? rulePackage + "::" + ruleName : ruleName; // no (further) resolving of rules in interpreted sequences cause there is no package context existing
+            IAction action = actions.GetAction(packagePrefixedRuleName); // must be not null due to preceeding checks of rule call resolving result
+
+            String filterName = GetFilterName(filterBase, entities);
+            String packagePrefixedName = filterName;
+
+            if(entities.Count == 1 && filterBase == "assign")
+                return new SequenceFilterCallLambdaExpressionInterpreted(/*action, */filterBase, entities[0], index, element, lambdaExpr);
+            else if(entities.Count == 0 && filterBase == "removeIf")
+                return new SequenceFilterCallLambdaExpressionInterpreted(/*action, */filterBase, null, index, element, lambdaExpr);
+            else
+                throw new SequenceParserException(action.PackagePrefixedName, packagePrefixedName, SequenceParserError.FilterError);
+        }
+
         public override string GetPackagePrefixedMatchClassName(String matchClassName, String matchClassPackage)
         {
             String packagePrefixedMatchClassName = !PackageIsNullOrGlobal(matchClassPackage) ? matchClassPackage + "::" + matchClassName : matchClassName; // no (further) resolving of match classes in interpreted sequences cause there is no package context existing
@@ -151,7 +169,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return matchClass.info.PackagePrefixedName;
         }
 
-        public override SequenceFilterCall CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
+        public override SequenceFilterCallBase CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
             String packagePrefix, String filterBase, List<String> entities, List<SequenceExpression> argExprs)
         {
             String packagePrefixedMatchClassName = matchClassPackage != null ? matchClassPackage + "::" + matchClassName : matchClassName; // no (further) resolving of match classes in interpreted sequences cause there is no package context existing
@@ -185,6 +203,26 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedName, SequenceParserError.FilterError);
 
             return new SequenceFilterCallInterpreted(matchClass, filter, argExprs.ToArray());
+        }
+
+        public override SequenceFilterCallBase CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
+            String packagePrefix, String filterBase, List<String> entities,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+        {
+            String packagePrefixedMatchClassName = matchClassPackage != null ? matchClassPackage + "::" + matchClassName : matchClassName; // no (further) resolving of match classes in interpreted sequences cause there is no package context existing
+            MatchClassFilterer matchClass = actions.GetMatchClass(packagePrefixedMatchClassName); // may be null, match class is part of filter call, was not checked before
+            if(matchClass == null)
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.MatchClassError);
+
+            String filterName = GetFilterName(filterBase, entities);
+            String packagePrefixedName = filterName;
+
+            if(entities.Count == 1 && filterBase == "assign")
+                return new SequenceFilterCallLambdaExpressionInterpreted(matchClass, filterBase, entities[0], index, element, lambdaExpr);
+            else if(entities.Count == 0 && filterBase == "removeIf")
+                return new SequenceFilterCallLambdaExpressionInterpreted(matchClass, filterBase, null, index, element, lambdaExpr);
+            else
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedName, SequenceParserError.FilterError);
         }
 
 

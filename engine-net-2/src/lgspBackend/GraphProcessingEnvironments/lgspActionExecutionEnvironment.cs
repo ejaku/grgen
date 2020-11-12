@@ -181,7 +181,8 @@ namespace de.unika.ipd.grGen.lgsp
             actionMapStaticToNewest[staticAction] = newAction;
         }
 
-        public IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters)
+        // Only supports FilterCallWithArguments as filters, the FilterCallWithLambdaExpression is only supported by the graph processing environment
+        public virtual IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters)
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
@@ -199,7 +200,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             for(int i = 0; i < filters.Count; ++i)
             {
-                action.Filter(this, matches, filters[i]);
+                FilterCallWithArguments filterCallWithArguments = (FilterCallWithArguments)filters[i];
+                action.Filter(this, matches, filterCallWithArguments);
             }
 
             if(matches.Count > 0) // ensure that Matched is only called when a match exists

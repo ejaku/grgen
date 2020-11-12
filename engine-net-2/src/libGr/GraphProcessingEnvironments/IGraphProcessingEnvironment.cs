@@ -72,6 +72,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The list of outputs (for each match a list element, a list element is an array with the returned values).</returns>
         List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches);
 
+        /// <summary>
+        /// Filters the matches of a rule (all) call with a lambda expression filter (call).
+        /// </summary>
+        /// <param name="matches">The matches of the rule</param>
+        /// <param name="filter">The lambda expression filter to apply</param>
+        void Filter(IMatches matches, FilterCallWithLambdaExpression filter);
+
 
         #region Variables management
 
