@@ -6341,12 +6341,10 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env); // check children
 
             if(!Source.Type(env).StartsWith("match<"))
-                throw new Exception("SequenceExpression MatchAccess can only access a variable of type match<rulename>");
+                throw new Exception("SequenceExpression MatchAccess can only access a variable of type match<rulename> (or match<class match-class-name>)");
 
-            string ruleName = TypesHelper.ExtractSrc(Source.Type(env));
-
-            // throws exceptions in case the rule does not exist, or it does not contain an element of the given name
-            string elementType = env.TypeOfTopLevelEntityInRule(ruleName, ElementName);
+            // throws exceptions in case the match type does not exist, or it does not contain an element of the given name
+            string elementType = env.TypeOfMemberOrAttribute(Source.Type(env), ElementName);
 
             if(elementType == "")
                 throw new Exception("Internal failure, static type of element in match type not known");
@@ -6354,8 +6352,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            string ruleName = TypesHelper.ExtractSrc(Source.Type(env));
-            return env.TypeOfTopLevelEntityInRule(ruleName, ElementName);
+            return env.TypeOfMemberOrAttribute(Source.Type(env), ElementName);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)

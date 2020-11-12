@@ -746,8 +746,17 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionElementOfMatch(SequenceExpressionMatchAccess seqMA, SourceBuilder source)
         {
-            String rulePatternClassName = "Rule_" + TypesHelper.ExtractSrc(seqMA.Source.Type(env));
-            String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(TypesHelper.ExtractSrc(seqMA.Source.Type(env)));
+            String matchInterfaceName;
+            if(seqMA.Source.Type(env).StartsWith("match<class "))
+            {
+                string matchClass = NamesOfEntities.MatchInterfaceName(TypesHelper.GetMatchClassName(seqMA.Source.Type(env)));
+                matchInterfaceName = /*"GRGEN_ACTIONS." + */matchClass;
+            }
+            else // only "match<" for match of rule
+            {
+                String rulePatternClassName = "Rule_" + TypesHelper.ExtractSrc(seqMA.Source.Type(env));
+                matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(TypesHelper.ExtractSrc(seqMA.Source.Type(env)));
+            }
             string match = "((" + matchInterfaceName + ")" + GetSequenceExpression(seqMA.Source, source) + ")";
             if(TypesHelper.GetNodeType(seqMA.Type(env), model) != null)
                 return match + ".node_" + seqMA.ElementName;
