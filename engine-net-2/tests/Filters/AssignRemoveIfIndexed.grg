@@ -1,0 +1,122 @@
+rule init
+{
+	replace {
+		n0:Node;
+		n1:Node --> n1;
+		n2:Node --> n2 --> n2;
+		n3:Node --> n3 --> n3 --> n3;
+		n4:Node --> n4 --> n4 --> n4 --> n4;
+	}
+}
+
+rule r implements mc
+{
+	n:Node;
+---
+	def var i:int;
+	def var j:int;
+
+	yield {
+		yield i = incident(n).size();
+		yield j = 0;
+	}
+	
+	modify {
+		delete(n);
+	}
+} \ orderAscendingBy<i>
+
+match class mc
+{
+	n:Node;
+	def var i:int;
+	def var j:int;
+} \ orderAscendingBy<i>
+
+rule r_assign
+{
+	modify {
+	---
+		exec({::res1 = [?r\orderAscendingBy<i>]});
+		exec({::res2 = [?r\orderAscendingBy<i>\assign<j>{i:int -> m:match<r> -> i} \ assign<i>{m:match<r> -> 0}]});
+	}
+}
+
+rule r_assign_match_class
+{
+	modify {
+	---
+		exec({::res1 = [?[r]\mc.orderAscendingBy<i>\<class mc>]});
+		exec({::res2 = [?[r]\mc.orderAscendingBy<i>\ mc.assign<j>{i:int -> m:match<class mc> -> i}\mc.assign<i>{m:match<class mc> -> 0}\<class mc>]});
+	}
+}
+
+rule r_removeIf
+{
+	modify {
+	---
+		exec({::res1 = [?r\orderAscendingBy<i>]});
+		exec({::res2 = [?r\orderAscendingBy<i>\removeIf{i:int -> m:match<r> -> i % 2 == 1}]});
+	}
+}
+
+rule r_removeIf_match_class
+{
+	modify {
+	---
+		exec({::res1 = [?[r]\mc.orderAscendingBy<i>\<class mc>]});
+		exec({::res2 = [?[r]\mc.orderAscendingBy<i>\mc.removeIf{i:int -> m:match<class mc> -> i % 2 == 1}\<class mc>]});
+	}
+}
+
+rule rit_assign
+{
+	iterated it {
+		n:Node;
+	---
+		def var i:int;
+		def var j:int;
+
+		yield {
+			yield i = incident(n).size();
+			yield j = 0;
+		}
+		
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<i>
+---
+	iterated it\orderAscendingBy<i>\assign<j>{i:int -> m:match<rit_assign.it> -> i}\assign<i>{m:match<r> -> 0};
+	def ref i_array:array<int> = yield([?it].extract<i>());
+	def ref j_array:array<int> = yield([?it].extract<j>());
+	
+	modify {
+	}
+}
+
+rule rit_removeIf
+{
+	iterated it {
+		n:Node;
+	---
+		def var i:int;
+		def var j:int;
+
+		yield {
+			yield i = incident(n).size();
+			yield j = 0;
+		}
+		
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<i>
+---
+	iterated it\orderAscendingBy<i>\removeIf{i:int -> m:match<rit_removeIf.it> -> i % 2 == 1};
+	def ref i_array:array<int> = yield([?it].extract<i>());
+	def ref j_array:array<int> = yield([?it].extract<j>());
+	
+	modify {
+	}
+}

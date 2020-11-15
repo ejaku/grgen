@@ -1,0 +1,23 @@
+new graph "Filters/AssignRemoveIfIndexed"
+
+exec init
+
+eval [?r \ orderAscendingBy<i>]
+
+eval [?r \ orderAscendingBy<i> \ assign<j>{i:int -> m:match<r> -> i} \ assign<i>{m:match<r> -> 0}]
+
+exec r_assign
+show var res1
+show var res2
+
+eval [?[r] \ mc.orderAscendingBy<i> \<class mc>]
+
+eval [?[r] \ mc.orderAscendingBy<i> \ mc.assign<j>{i:int -> m:match<class mc> -> i} \ mc.assign<i>{m:match<class mc> -> 0} \<class mc>]
+
+exec r_assign_match_class
+show var res1
+show var res2
+
+eval [?rit_assign]
+
+quit
