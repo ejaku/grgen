@@ -35,6 +35,7 @@ import de.unika.ipd.grgen.ast.type.executable.SubpatternTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.Rule;
+import de.unika.ipd.grgen.ir.executable.Rule.RuleKind;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
@@ -179,7 +180,7 @@ public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 			return getIR();
 		}
 
-		Rule rule = new Rule(getIdentNode().getIdent());
+		Rule rule = new Rule(getIdentNode().getIdent(), RuleKind.Subpattern);
 
 		// mark this node as already visited
 		setIR(rule);

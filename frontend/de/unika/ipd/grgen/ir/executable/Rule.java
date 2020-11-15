@@ -77,15 +77,19 @@ public class Rule extends MatchingAction implements ContainedInPackage
 
 	/** Have deferred execs been added by using this top level rule, so we have to execute the exec queue? */
 	public boolean mightThereBeDeferredExecs;
+	
+	public enum RuleKind { Rule, Test, Subpattern, Alternative, Iterated };
+	public RuleKind ruleKind;
 
 	/**
 	 * Make a new rule.
 	 * @param ident The identifier with which the rule was declared.
 	 */
-	public Rule(Ident ident)
+	public Rule(Ident ident, RuleKind ruleKind)
 	{
 		super("rule", ident);
 		setChildrenNames(childrenNames);
+		this.ruleKind = ruleKind;
 		this.minMatches = -1;
 		this.maxMatches = -1;
 		mightThereBeDeferredExecs = false;
@@ -99,6 +103,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	{
 		super("rule", ident);
 		setChildrenNames(childrenNames);
+		this.ruleKind = RuleKind.Iterated;
 		this.minMatches = minMatches;
 		this.maxMatches = maxMatches;
 		mightThereBeDeferredExecs = false;
@@ -131,6 +136,11 @@ public class Rule extends MatchingAction implements ContainedInPackage
 		this.packageContainedIn = packageContainedIn;
 	}
 
+	public boolean isSubpattern()
+	{
+		return ruleKind == RuleKind.Subpattern;
+	}
+	
 	/** @return A collection containing all eval assignments of this rule. */
 	public Collection<EvalStatements> getEvals()
 	{
