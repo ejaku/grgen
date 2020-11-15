@@ -68,3 +68,55 @@ rule r_removeIf_match_class
 		exec({::res2 = [?[r]\mc.orderAscendingBy<i>\mc.removeIf{m:match<class mc> -> m.i % 2 == 1}\<class mc>]});
 	}
 }
+
+rule rit_assign
+{
+	iterated it {
+		n:Node;
+	---
+		def var i:int;
+		def var j:int;
+
+		yield {
+			yield i = incident(n).size();
+			yield j = 0;
+		}
+		
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<i>
+---
+	iterated it\orderAscendingBy<i>\assign<j>{m:match<rit_assign.it> -> incident(m.n).size()}\assign<i>{m:match<r> -> 0};
+	def ref i_array:array<int> = yield([?it].extract<i>());
+	def ref j_array:array<int> = yield([?it].extract<j>());
+	
+	modify {
+	}
+}
+
+rule rit_removeIf
+{
+	iterated it {
+		n:Node;
+	---
+		def var i:int;
+		def var j:int;
+
+		yield {
+			yield i = incident(n).size();
+			yield j = 0;
+		}
+		
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<i>
+---
+	iterated it\orderAscendingBy<i>\removeIf{m:match<rit_removeIf.it> -> m.i % 2 == 1};
+	def ref i_array:array<int> = yield([?it].extract<i>());
+	def ref j_array:array<int> = yield([?it].extract<j>());
+	
+	modify {
+	}
+}

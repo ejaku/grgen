@@ -14,6 +14,8 @@ package de.unika.ipd.grgen.ir.pattern;
 import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ir.FilterInvocation;
+import de.unika.ipd.grgen.ir.FilterInvocationBase;
+import de.unika.ipd.grgen.ir.FilterInvocationLambdaExpression;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -23,7 +25,7 @@ public class IteratedFiltering extends EvalStatement
 {
 	Rule actionOrSubpattern;
 	Rule iterated;
-	ArrayList<FilterInvocation> filterInvocations = new ArrayList<FilterInvocation>();
+	ArrayList<FilterInvocationBase> filterInvocations = new ArrayList<FilterInvocationBase>();
 
 	public IteratedFiltering(String name, Rule actionOrSubpattern, Rule iterated)
 	{
@@ -32,7 +34,7 @@ public class IteratedFiltering extends EvalStatement
 		this.iterated = iterated;
 	}
 
-	public void addFilterInvocation(FilterInvocation filterInvocation)
+	public void addFilterInvocation(FilterInvocationBase filterInvocation)
 	{
 		filterInvocations.add(filterInvocation);
 	}
@@ -47,12 +49,12 @@ public class IteratedFiltering extends EvalStatement
 		return iterated;
 	}
 
-	public ArrayList<FilterInvocation> getFilterInvocations()
+	public ArrayList<FilterInvocationBase> getFilterInvocations()
 	{
 		return filterInvocations;
 	}
 
-	public FilterInvocation getFilterInvocation(int i)
+	public FilterInvocationBase getFilterInvocation(int i)
 	{
 		return filterInvocations.get(i);
 	}
@@ -60,9 +62,15 @@ public class IteratedFiltering extends EvalStatement
 	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		for(FilterInvocation filterInvocation : filterInvocations) {
-			for(Expression filterArgument : filterInvocation.filterArguments) {
-				filterArgument.collectNeededEntities(needs);
+		for(FilterInvocationBase filterInvocation : filterInvocations) {
+			if(filterInvocation instanceof FilterInvocation) {
+				FilterInvocation fi = (FilterInvocation)filterInvocation;
+				for(Expression filterArgument : fi.getFilterArguments()) {
+					filterArgument.collectNeededEntities(needs);
+				}
+			} else {
+				FilterInvocationLambdaExpression file = (FilterInvocationLambdaExpression)filterInvocation;
+				file.collectNeededEntities(needs);
 			}
 		}
 	}

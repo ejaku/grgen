@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.FilterInvocationNode;
+import de.unika.ipd.grgen.ast.FilterInvocationBaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.FilterInvocation;
+import de.unika.ipd.grgen.ir.FilterInvocationBase;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.pattern.IteratedFiltering;
@@ -45,10 +45,10 @@ public class IteratedFilteringNode extends EvalStatementNode
 	private IdentNode iteratedUnresolved;
 	private IteratedDeclNode iterated;
 
-	private CollectNode<FilterInvocationNode> filters;
+	private CollectNode<FilterInvocationBaseNode> filters;
 
 	public IteratedFilteringNode(IdentNode actionUnresolved, IdentNode iteratedUnresolved,
-			CollectNode<FilterInvocationNode> filtersUnresolved)
+			CollectNode<FilterInvocationBaseNode> filtersUnresolved)
 	{
 		super(iteratedUnresolved.getCoords());
 		this.actionUnresolved = becomeParent(actionUnresolved);
@@ -115,8 +115,8 @@ public class IteratedFilteringNode extends EvalStatementNode
 		IteratedFiltering iteratedFiltering = new IteratedFiltering("iterated filtering",
 				action != null ? action.checkIR(Rule.class) : subpattern.checkIR(Rule.class),
 				iterated.checkIR(Rule.class));
-		for(FilterInvocationNode filter : filters.getChildren()) {
-			iteratedFiltering.addFilterInvocation(filter.checkIR(FilterInvocation.class));
+		for(FilterInvocationBaseNode filter : filters.getChildren()) {
+			iteratedFiltering.addFilterInvocation(filter.checkIR(FilterInvocationBase.class));
 		}
 		return iteratedFiltering;
 	}

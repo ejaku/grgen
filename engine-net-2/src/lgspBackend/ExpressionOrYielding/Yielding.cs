@@ -2468,35 +2468,45 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class IteratedFiltering : Yielding
     {
-        public IteratedFiltering(String ruleOrSubpatternName, String iteratedName, FilterInvocation[] filterInvocations)
+        public IteratedFiltering(String ruleOrSubpatternName, bool isSubpattern, String iteratedName, FilterInvocationBase[] filterInvocations)
         {
             RuleOrSubpatternName = ruleOrSubpatternName;
+            IsSubpattern = isSubpattern;
             IteratedName = iteratedName;
             FilterInvocations = filterInvocations;
         }
 
         public override Yielding Copy(string renameSuffix)
         {
-            FilterInvocation[] newFilterInvocations = new FilterInvocation[FilterInvocations.Length];
+            FilterInvocationBase[] newFilterInvocations = new FilterInvocationBase[FilterInvocations.Length];
             for(int i = 0; i < FilterInvocations.Length; ++i)
             {
-                newFilterInvocations[i] = (FilterInvocation)FilterInvocations[i].Copy(renameSuffix);
+                newFilterInvocations[i] = (FilterInvocationBase)FilterInvocations[i].Copy(renameSuffix);
             }
-            return new IteratedFiltering(RuleOrSubpatternName, IteratedName, newFilterInvocations);
+            return new IteratedFiltering(RuleOrSubpatternName, IsSubpattern, IteratedName, newFilterInvocations);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             String matchesSource = "match." + IteratedName;
-            foreach(FilterInvocation filterInvocation in FilterInvocations)
+            foreach(FilterInvocationBase filterInvocation in FilterInvocations)
             {
-                filterInvocation.Emit(sourceCode, matchesSource, RuleOrSubpatternName, IteratedName);
+                filterInvocation.Emit(sourceCode, matchesSource, RuleOrSubpatternName, IsSubpattern, IteratedName);
+            }
+        }
+
+        public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        {
+            foreach(FilterInvocationBase filterInvocation in FilterInvocations)
+            {
+                if(filterInvocation is FilterInvocationLambdaExpression)
+                    ((FilterInvocationLambdaExpression)filterInvocation).EmitArrayPerElementMethods(sourceCode, RuleOrSubpatternName, IsSubpattern, IteratedName);
             }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            foreach(FilterInvocation filterInvocation in FilterInvocations)
+            foreach(FilterInvocationBase filterInvocation in FilterInvocations)
             {
                 yield return filterInvocation;
             }
@@ -2508,15 +2518,29 @@ namespace de.unika.ipd.grGen.expression
         }
 
         String RuleOrSubpatternName;
+        bool IsSubpattern;
         String IteratedName;
-        FilterInvocation[] FilterInvocations;
+        FilterInvocationBase[] FilterInvocations;
         public bool Parallel;
+    }
+
+    /// <summary>
+    /// Class representing a base class for filter invocations applied to an iterated (of regular filters or lambda expression filters).
+    /// </summary>
+    public abstract class FilterInvocationBase : Yielding
+    {
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public abstract void Emit(SourceBuilder sourceCode, String matchesSource, String ruleOrSubpatternName, bool IsSubpattern, String iteratedName);
     }
 
     /// <summary>
     /// Class representing a filter invocation applied to an iterated.
     /// </summary>
-    public class FilterInvocation : Yielding
+    public class FilterInvocation : FilterInvocationBase
     {
         public FilterInvocation(string filterName, bool isAutoSupplied, Expression[] arguments, String[] argumentTypes)
         {
@@ -2536,12 +2560,7 @@ namespace de.unika.ipd.grGen.expression
             return new FilterInvocation(FilterName, IsAutoSupplied, newArguments, (String[])ArgumentTypes.Clone());
         }
 
-        public override void Emit(SourceBuilder sourceCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Emit(SourceBuilder sourceCode, String matchesSource, String ruleOrSubpatternName, String iteratedName)
+        public override void Emit(SourceBuilder sourceCode, String matchesSource, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
         {
             if(IsAutoSupplied)
             {
@@ -2581,6 +2600,305 @@ namespace de.unika.ipd.grGen.expression
         public readonly bool IsAutoSupplied;
         public readonly Expression[] Arguments;
         public readonly String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
+        public bool Parallel;
+    }
+
+    /// <summary>
+    /// Class representing a lambda expression filter invocation applied to an iterated.
+    /// </summary>
+    public class FilterInvocationLambdaExpression : FilterInvocationBase
+    {
+        public FilterInvocationLambdaExpression(string filterName, string entity, string matchElementType,
+            string indexVariable, string elementVariable, Expression lambdaExpression,
+            PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
+        {
+            FilterName = filterName;
+            Entity = entity;
+            MatchElementType = matchElementType;
+            IndexVariable = indexVariable;
+            ElementVariable = elementVariable;
+            LambdaExpression = lambdaExpression;
+            PatternNodes = patternNodes;
+            PatternEdges = patternEdges;
+            PatternVariables = patternVariables;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            PatternNode[] newPatternNodes = new PatternNode[PatternNodes.Length];
+            for(int i = 0; i < PatternNodes.Length; ++i)
+            {
+                newPatternNodes[i] = new PatternNode(PatternNodes[i], renameSuffix);
+            }
+            PatternEdge[] newPatternEdges = new PatternEdge[PatternEdges.Length];
+            for(int i = 0; i < PatternEdges.Length; ++i)
+            {
+                newPatternEdges[i] = new PatternEdge(PatternEdges[i], renameSuffix);
+            }
+            PatternVariable[] newPatternVariables = new PatternVariable[PatternVariables.Length];
+            for(int i = 0; i < PatternVariables.Length; ++i)
+            {
+                newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
+            }
+            return new FilterInvocationLambdaExpression(FilterName, Entity, MatchElementType,
+                IndexVariable, ElementVariable, (Expression)LambdaExpression.Copy(renameSuffix),
+                newPatternNodes, newPatternEdges, newPatternVariables);
+        }
+
+        public override void Emit(SourceBuilder sourceCode, String matchesSource, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
+        {
+            if(FilterName == "assign")
+                EmitFilterCallAssign(sourceCode, matchesSource, ruleOrSubpatternName, isSubpattern, iteratedName);
+            else if(FilterName == "removeIf")
+                EmitFilterCallRemoveIf(sourceCode, matchesSource, ruleOrSubpatternName, isSubpattern, iteratedName);
+            else
+                throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+        }
+
+        public void EmitFilterCallAssign(SourceBuilder source, String matchesSource, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
+        {
+            String filterAssignMethodName = "FilterAssign_" + Id;
+
+            source.AppendFrontFormat("{0}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv", filterAssignMethodName);
+
+            source.Append(", ");
+            source.Append(matchesSource);
+
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.TypeName(patternNode.type));
+                source.Append(")");
+                source.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.TypeName(patternEdge.type));
+                source.Append(")");
+                source.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.TypeName(patternVariable.type));
+                source.Append(")");
+                source.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+
+            source.Append(")");
+
+            source.Append(";\n");
+        }
+
+        public void EmitFilterCallRemoveIf(SourceBuilder source, String matchesSource, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
+        {
+            String filterRemoveIfMethodName = "FilterRemoveIf_" + Id;
+
+            source.AppendFrontFormat("{0}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv", filterRemoveIfMethodName);
+
+            source.Append(", ");
+            source.Append(matchesSource);
+
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.TypeName(patternNode.type));
+                source.Append(")");
+                source.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.TypeName(patternEdge.type));
+                source.Append(")");
+                source.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.TypeName(patternVariable.type));
+                source.Append(")");
+                source.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+
+            source.Append(")");
+
+            source.Append(";\n");
+        }
+
+        public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EmitArrayPerElementMethods(SourceBuilder sourceCode, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
+        {
+            base.EmitArrayPerElementMethods(sourceCode);
+
+            if(FilterName == "assign")
+                EmitFilterAssign(sourceCode, ruleOrSubpatternName, isSubpattern, iteratedName);
+            else if(FilterName == "removeIf")
+                EmitFilterRemoveIf(sourceCode, ruleOrSubpatternName, isSubpattern, iteratedName);
+            else
+                throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+        }
+
+        public void EmitFilterAssign(SourceBuilder sourceCode, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
+        {
+            String filterAssignMethodName = "FilterAssign_" + Id;
+
+            String matchType = NamesOfEntities.RulePatternClassName(ruleOrSubpatternName, null, isSubpattern) + "." + NamesOfEntities.MatchInterfaceName(ruleOrSubpatternName, iteratedName);
+            String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+            String arrayType = "List<" + matchType + ">";
+            String elementType = matchType;
+
+            sourceCode.AppendFront("static " + matchesType + " " + filterAssignMethodName + "(");
+            sourceCode.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+
+            sourceCode.Append(", ");
+            sourceCode.Append(matchesType);
+            sourceCode.Append(" ");
+            sourceCode.Append("matches");
+
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternNode.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternEdge.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternVariable.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+
+            sourceCode.Append(")\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+            sourceCode.AppendFront("int index = 0;\n");
+            sourceCode.AppendFrontFormat("foreach({0} match in matches)\n", elementType);
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            if(IndexVariable != null)
+                sourceCode.AppendFront("int " + NamesOfEntities.Variable(IndexVariable) + " = index;\n");
+            sourceCode.AppendFront(elementType + " " + NamesOfEntities.Variable(ElementVariable) + " = match;\n");
+            sourceCode.AppendFront(MatchElementType + " result = ");
+            LambdaExpression.Emit(sourceCode);
+            sourceCode.Append(";\n");
+            sourceCode.AppendFrontFormat("match.SetMember(\"{0}\", result);\n", Entity); // TODO: directly access entity in match instead, requires name prefix
+            sourceCode.AppendFront("++index;\n");
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            sourceCode.AppendFront("return matches;\n");
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public void EmitFilterRemoveIf(SourceBuilder sourceCode, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
+        {
+            String filterRemoveIfMethodName = "FilterRemoveIf_" + Id;
+
+            String matchType = NamesOfEntities.RulePatternClassName(ruleOrSubpatternName, null, isSubpattern) + "." + NamesOfEntities.MatchInterfaceName(ruleOrSubpatternName, iteratedName);
+            String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+            String arrayType = "List<" + matchType + ">";
+            String elementType = matchType;
+
+            sourceCode.AppendFront("static " + matchesType + " " + filterRemoveIfMethodName + "(");
+            sourceCode.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+
+            sourceCode.Append(", ");
+            sourceCode.Append(matchesType);
+            sourceCode.Append(" ");
+            sourceCode.Append("matches");
+
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternNode.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternEdge.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternVariable.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+
+            sourceCode.Append(")\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+            sourceCode.AppendFront(arrayType + " matchList = matches.ToListExact();\n");
+
+            sourceCode.AppendFront("for(int index = 0; index < matchList.Count; ++index)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            if(IndexVariable != null)
+                sourceCode.AppendFront("int " + NamesOfEntities.Variable(IndexVariable) + " = index;\n");
+            sourceCode.AppendFrontFormat("{0} match = matchList[index];\n", elementType);
+            sourceCode.AppendFront(elementType + " " + NamesOfEntities.Variable(ElementVariable) + " = match;\n");
+            sourceCode.AppendFront("if((bool)(");
+            LambdaExpression.Emit(sourceCode);
+            sourceCode.Append("))\n");
+            sourceCode.AppendFrontIndented("matchList[index] = null;\n");
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            sourceCode.AppendFront("matches.FromListExact();\n");
+            sourceCode.AppendFront("return matches;\n");
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return LambdaExpression;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public readonly string FilterName;
+        public readonly string Entity;
+        public readonly String MatchElementType;
+        public readonly string IndexVariable;
+        public readonly string ElementVariable;
+        public readonly Expression LambdaExpression;
+        readonly PatternNode[] PatternNodes;
+        readonly PatternEdge[] PatternEdges;
+        readonly PatternVariable[] PatternVariables;
         public bool Parallel;
     }
 }

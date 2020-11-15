@@ -18,4 +18,6 @@ exec r_removeIf_match_class
 show var res1
 show var res2
 
+eval [?rit_removeIf]
+
 quit

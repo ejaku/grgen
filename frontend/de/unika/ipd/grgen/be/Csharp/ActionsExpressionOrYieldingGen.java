@@ -2906,12 +2906,14 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 	private void genIteratedFiltering(SourceBuilder sb, IteratedFiltering itf,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
+		// potential improvement/TODO: make filter invocations in backend self contained, currently they need infos from the iterated filtering construct
 		sb.appendFront("new GRGEN_EXPR.IteratedFiltering(");
 		sb.append("\"" + itf.getActionOrSubpattern().getIdent() + "\", ");
+		sb.append(itf.getActionOrSubpattern().isSubpattern() ? "true, " : "false, ");
 		sb.append("\"" + itf.getIterated().getIdent() + "\", ");
-		sb.append("new GRGEN_EXPR.FilterInvocation[] {");
+		sb.append("new GRGEN_EXPR.FilterInvocationBase[] {");
 		for(int i = 0; i < itf.getFilterInvocations().size(); ++i) {
-			FilterInvocation filterInvocation = itf.getFilterInvocation(i);
+			FilterInvocationBase filterInvocation = itf.getFilterInvocation(i);
 			genFilterInvocation(sb, filterInvocation, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 		}
@@ -2919,7 +2921,17 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		sb.append(")");
 	}
 
-	private void genFilterInvocation(SourceBuilder sb, FilterInvocation fi,
+	private void genFilterInvocation(SourceBuilder sb, FilterInvocationBase fi,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		if(fi instanceof FilterInvocation) {
+			genFilterInvocationAuto(sb, (FilterInvocation)fi, className, pathPrefix, alreadyDefinedEntityToName);
+		} else {
+			genFilterInvocationLambda(sb, (FilterInvocationLambdaExpression)fi, className, pathPrefix, alreadyDefinedEntityToName);
+		}
+	}
+
+	private void genFilterInvocationAuto(SourceBuilder sb, FilterInvocation fi,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		FilterAutoSupplied fas = fi.getFilterAutoSupplied();
@@ -2945,6 +2957,28 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append(", ");
 		}
 		sb.append("}");
+		sb.append(")");
+	}
+
+	private void genFilterInvocationLambda(SourceBuilder sb, FilterInvocationLambdaExpression fi,
+		String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		sb.append("new GRGEN_EXPR.FilterInvocationLambdaExpression(");
+		sb.append("\"" + fi.getFilterName() + "\", ");
+		sb.append((fi.getFilterEntity() != null ? "\"" + fi.getFilterEntity() + "\"" : "null") + ", ");
+		sb.append((fi.getFilterEntity() != null ? "\"" + formatType(fi.getFilterEntityType()) + "\"" : "null") + ", ");
+		sb.append((fi.getIndexVariable() != null ? "\"" + formatEntity(fi.getIndexVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null") + ", "); // formatEntity(am.getIndexVar(), pathPrefix, alreadyDefinedEntityToName)
+		sb.append("\"" + formatEntity(fi.getElementVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" + ", ");
+		Expression lambdaExpression = fi.getLambdaExpression();
+		genExpressionTree(sb, lambdaExpression, className, pathPrefix, alreadyDefinedEntityToName);
+		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.LAMBDAS));
+		fi.collectNeededEntities(needs);
+		sb.append(", new GRGEN_LGSP.PatternNode[] ");
+		genEntitySet(sb, needs.nodes, "", "", true, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_LGSP.PatternEdge[] ");
+		genEntitySet(sb, needs.edges, "", "", true, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_LGSP.PatternVariable[] ");
+		genEntitySet(sb, needs.variables, "", "", true, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(")");
 	}
 
