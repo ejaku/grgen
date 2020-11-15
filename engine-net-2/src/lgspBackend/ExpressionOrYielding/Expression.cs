@@ -1283,6 +1283,32 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing the access of a match (of an iterated)
+    /// </summary>
+    public class MatchAccess : Expression
+    {
+        public MatchAccess(Expression match, String entity)
+        {
+            Match = match;
+            Entity = entity;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new MatchAccess(Match, Entity);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            Match.Emit(sourceCode);
+            sourceCode.Append(".@" + Entity);
+        }
+
+        readonly Expression Match;
+        readonly String Entity;
+    }
+
+    /// <summary>
     /// Class representing the matches array of an iterated pattern expression / iterated query
     /// </summary>
     public class IteratedQuery : Expression

@@ -407,6 +407,12 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		} else if(expr instanceof Count) {
 			Count count = (Count)expr;
 			sb.append("new GRGEN_EXPR.Count(\"" + formatIdentifiable(count.getIterated()) + "\")");
+		} else if(expr instanceof MatchAccess) {
+			MatchAccess ma = (MatchAccess)expr;
+			sb.append("new GRGEN_EXPR.MatchAccess(");
+			genExpressionTree(sb, ma.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", \"" + formatEntity(ma.getEntity()) + "\"");
+			sb.append(")");
 		} else if(expr instanceof Typeof) {
 			Typeof to = (Typeof)expr;
 			sb.append("new GRGEN_EXPR.Typeof(\"" + formatEntity(to.getEntity(), pathPrefix, alreadyDefinedEntityToName)
