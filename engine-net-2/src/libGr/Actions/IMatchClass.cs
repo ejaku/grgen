@@ -235,12 +235,16 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="filter">The lambda expression filter to apply</param>
         public void Filter(IGraphProcessingEnvironment procEnv, IList<IMatch> matches, FilterCallWithLambdaExpression filter)
         {
+            procEnv.SetSpecialVariableValue("this", matches);
+
             if(filter.PlainName == "assign")
                 FilterAssign(procEnv, matches, filter);
             else if(filter.PlainName == "removeIf")
                 FilterRemoveIf(procEnv, matches, filter);
             else
                 throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+
+            procEnv.DeleteSpecialVariable("this");
         }
 
         public void FilterAssign(IGraphProcessingEnvironment procEnv, IList<IMatch> matchList, FilterCallWithLambdaExpression filterCall)

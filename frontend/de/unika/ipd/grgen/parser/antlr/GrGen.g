@@ -1433,7 +1433,13 @@ filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns
 			(idTextExt=filterExtension[idText, fvl] { idText = idTextExt; })? )? 
 			(LPAREN arguments[args, namer, context] RPAREN)? 
 			(LBRACE { namer.defExprBlock(/*TODO:id, id.getCoords()*/null, getCoords(id)); } { env.pushScope(namer.exprBlock()); } 
-				lambdaExprVar=maybeIndexedLambdaExprVarDecl [ namer, context ] e=expr[namer, context, false]
+				lambdaExprVar=maybeIndexedLambdaExprVarDecl [ namer, context ]
+				{ // inserts this as variable of array of match type into scope,to be resolved by identifier matching
+					VarDeclNode thisVarDecl = new VarDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(id))),
+							new ArrayTypeNode(env.getMatchTypeChild(env.getCurrentActionOrSubpattern(), iterated)),
+							PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true, false);
+				}
+				e=expr[namer, context, false]
 				{ env.popScope(); } { namer.undefExprBlock(); } RBRACE)?
 		{
 			if(fvl != null)

@@ -2788,6 +2788,9 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Indent();
 
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+
+            sourceCode.AppendFront(arrayType + " var_this_matches = matches.ToListExact();\n");
+
             sourceCode.AppendFront("int index = 0;\n");
             sourceCode.AppendFrontFormat("foreach({0} match in matches)\n", elementType);
             sourceCode.AppendFront("{\n");
@@ -2856,6 +2859,8 @@ namespace de.unika.ipd.grGen.expression
 
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
             sourceCode.AppendFront(arrayType + " matchList = matches.ToListExact();\n");
+
+            sourceCode.AppendFront(arrayType + " var_this_matches = new " + arrayType + "(matchList);\n");
 
             sourceCode.AppendFront("for(int index = 0; index < matchList.Count; ++index)\n");
             sourceCode.AppendFront("{\n");

@@ -1260,7 +1260,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public void Execute(IGraphProcessingEnvironment procEnv, List<IMatch> matchList)
         {
-            MatchClass.Filter(procEnv, matchList, FilterCall); // TODO
+            MatchClass.Filter(procEnv, matchList, FilterCall);
         }
 
         public override string ToString()

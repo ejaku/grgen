@@ -56,6 +56,20 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             get { return null; }
         }
 
+        string matchesArrayOfThis;
+        public virtual string MatchesArrayOfThis
+        {
+            get { return matchesArrayOfThis; }
+            set { matchesArrayOfThis = value; }
+        }
+
+        public void SetMatchesArrayOfThis(String rule, String rulePackage, String matchClass, String matchClassPackage)
+        {
+            if(matchClass != null)
+                matchesArrayOfThis = "array<match<class " + (matchClassPackage != null ? matchClassPackage + "." : "") + matchClass + ">>";
+            else
+                matchesArrayOfThis = "array<match<" + (rulePackage != null ? rulePackage + "." : "") + rule + ">>";
+        }
 
         protected SequenceParserEnvironment(IGraphModel model)
         {

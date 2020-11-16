@@ -310,6 +310,20 @@ public abstract class ParserEnvironment extends Base
 		this.matchTypeChilds.addChild(matchTypeChild);
 	}
 
+	public IdentNode getMatchTypeChild(IdentNode actionOrSubpattern, IdentNode iterated)
+	{
+		for(IdentNode matchTypeChild : matchTypeChilds.getChildren())
+		{
+			String iteratedMatchType = "match<" + actionOrSubpattern.getSymbol().getText() + "." + iterated.getSymbol().getText() + ">";
+			if(matchTypeChild.getSymbol().getText().equals(iteratedMatchType))
+			{
+				return matchTypeChild;
+			}
+		}
+		iterated.reportError("No iterated " + actionOrSubpattern.getSymbol().getText() + "." + iterated.getSymbol().getText() + " known.");
+		return IdentNode.getInvalid();
+	}
+
 	/**
 	 * Get the node root identifier.
 	 * @return The node root type identifier.

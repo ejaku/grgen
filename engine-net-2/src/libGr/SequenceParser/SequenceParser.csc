@@ -1819,7 +1819,7 @@ SequenceExpression ExpressionBasic():
         return new SequenceExpressionElementFromGraph(elemName);
     }
 |
-    "this" { expr = new SequenceExpressionThis(env.RuleOfMatchThis, env.TypeOfGraphElementThis); } expr=SelectorExpression(expr)
+    "this" { expr = new SequenceExpressionThis(env.MatchesArrayOfThis, env.RuleOfMatchThis, env.TypeOfGraphElementThis); } expr=SelectorExpression(expr)
     {
         return expr;
     }
@@ -2241,7 +2241,9 @@ SequenceFilterCallBase Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter
 {
     LOOKAHEAD(6) (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? filterBase=Word() "<" WordList(words) (">" | ">>")
     (filterExtension=Word() { filterBase += filterExtension; } "<" WordList(words) ">" filterExtension2=Word() { filterBase += filterExtension2; } "<" WordList(words) (">" | ">>") )?
-    ("{" { varDecls.PushScope(ScopeType.Computation); } indexWithValue=MaybeIndexedLambdaExprVarDecl() lambdaExpr=Expression() { varDecls.PopScope(variableList); } "}")?
+    ( "{" { varDecls.PushScope(ScopeType.Computation); env.SetMatchesArrayOfThis(ruleCall != null ? ruleCall.Name : null, ruleCall != null ? ruleCall.Package : null, matchClass, matchClassPackage); }
+    indexWithValue=MaybeIndexedLambdaExprVarDecl() lambdaExpr=Expression()
+    { env.MatchesArrayOfThis = null; varDecls.PopScope(variableList); } "}" )?
     {
         if(isMatchClassFilter && matchClass == null)
             throw new ParseException("A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
@@ -2270,7 +2272,9 @@ SequenceFilterCallBase Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter
     }
 |
     (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? (LOOKAHEAD(2) package=Word() "::")? filterBase=Word() ("(" (Arguments(argExprs))? ")")?
-    ("{" { varDecls.PushScope(ScopeType.Computation); } indexWithValue=MaybeIndexedLambdaExprVarDecl() lambdaExpr=Expression() { varDecls.PopScope(variableList); } "}")?
+    ( "{" { varDecls.PushScope(ScopeType.Computation); env.SetMatchesArrayOfThis(ruleCall != null ? ruleCall.Name : null, ruleCall != null ? ruleCall.Package : null, matchClass, matchClassPackage); }
+    indexWithValue=MaybeIndexedLambdaExprVarDecl() lambdaExpr=Expression()
+    { env.MatchesArrayOfThis = null; varDecls.PopScope(variableList); } "}" )?
     {
         if(isMatchClassFilter && matchClass == null)
             throw new ParseException("A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");

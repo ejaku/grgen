@@ -1,0 +1,23 @@
+new graph "Filters/AssignThis"
+
+exec init
+
+eval [?r\orderAscendingBy<i>]
+
+eval [?r\orderAscendingBy<i>\assign<j>{m:match<r> -> this.extract<i>().sum()}]
+
+exec r_assign
+show var res1
+show var res2
+
+eval [?[r]\mc.orderAscendingBy<i>\<class mc>]
+
+eval [?[r]\mc.orderAscendingBy<i>\mc.assign<j>{m:match<class mc> -> this.extract<i>().sum()}\<class mc>]
+
+exec r_assign_match_class
+show var res1
+show var res2
+
+eval [?rit_assign]
+
+quit
