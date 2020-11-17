@@ -2866,9 +2866,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
             sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
             sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
-            sb.AppendFront(matchElementType + " result = ");
-            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
-            sb.Append(";\n");
+
+            SourceBuilder declarations = new SourceBuilder();
+            String seqExpr = GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, declarations);
+            sb.Append(declarations.ToString());
+            sb.AppendFrontFormat("{0} result = {1};\n", matchElementType, seqExpr);
             sb.AppendFrontFormat("match.SetMember(\"{0}\", result);\n", sequenceFilterCall.FilterCall.Entity); // TODO: directly access entity in match instead, requires name prefix
             sb.AppendFront("++index;\n");
 
@@ -2938,9 +2940,11 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFrontFormat("{0} match = matchList[index];\n", elementType);
             sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
             sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
-            sb.AppendFront("if((bool)(");
-            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
-            sb.Append("))\n");
+
+            SourceBuilder declarations = new SourceBuilder();
+            String seqExpr = GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, declarations);
+            sb.Append(declarations.ToString());
+            sb.AppendFrontFormat("if((bool)({0}))\n", seqExpr);
             sb.AppendFrontIndented("matchList[index] = null;\n");
 
             sb.Unindent();
@@ -3155,9 +3159,11 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFrontFormat("{0} match = matchListCopy[index];\n", elementType);
             sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
             sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
-            sb.AppendFront(matchElementType + " result = ");
-            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
-            sb.Append(";\n");
+
+            SourceBuilder declarations = new SourceBuilder();
+            String seqExpr = GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, declarations);
+            sb.Append(declarations.ToString());
+            sb.AppendFrontFormat("{0} result = {1};\n", matchElementType, seqExpr);
             sb.AppendFrontFormat("match.SetMember(\"{0}\", result);\n", sequenceFilterCall.FilterCall.Entity);  // TODO: directly access entity in match instead, requires name prefix
 
             sb.Unindent();
@@ -3227,9 +3233,11 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFrontFormat("{0} match = matchListCopy[index];\n", elementType);
             sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
             sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
-            sb.AppendFront("if((bool)(");
-            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
-            sb.Append("))\n");
+
+            SourceBuilder declarations = new SourceBuilder();
+            String seqExpr = GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, declarations);
+            sb.Append(declarations.ToString());
+            sb.AppendFrontFormat("if((bool)({0}))\n", seqExpr);
             sb.AppendFrontIndented("matchListCopy[index] = null;\n");
 
             sb.Unindent();

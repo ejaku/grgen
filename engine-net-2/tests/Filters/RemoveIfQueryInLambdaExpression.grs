@@ -1,0 +1,21 @@
+new graph "Filters/RemoveIfQueryInLambdaExpression"
+
+exec init
+
+eval [?r \ orderAscendingBy<i>]
+
+eval [?r \ orderAscendingBy<i> \ removeIf{m:match<r> -> [?r\removeIf{m2:match<r> -> m2.i % 2 == 1}].size() - 1 == m.i}]
+
+exec r_removeIf
+show var res1
+show var res2
+
+eval [?[r] \ mc.orderAscendingBy<i> \<class mc>]
+
+eval [?[r] \ mc.orderAscendingBy<i> \ mc.removeIf{m:match<class mc> -> [?[r]\mc.removeIf{m2:match<class mc> -> m2.i % 2 == 1}\<class mc>].size() - 1 == m.i} \<class mc>]
+
+exec r_removeIf_match_class
+show var res1
+show var res2
+
+quit
