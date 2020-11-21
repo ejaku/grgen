@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Wed Jul 29 12:20:17 CEST 2020
+// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Sat Nov 21 22:18:33 CET 2020
 
 using System;
 using System.Collections.Generic;

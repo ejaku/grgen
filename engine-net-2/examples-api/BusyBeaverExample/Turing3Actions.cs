@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Wed Jul 29 12:19:52 CEST 2020
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sat Nov 21 22:18:18 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -197,6 +197,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "s": _node_s = (GRGEN_LGSP.LGSPNode)value; break;
+				case "wv": _node_wv = (GRGEN_LGSP.LGSPNode)value; break;
+				case "bp": _node_bp = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.IreadZero edge_rv { get { return (GRGEN_MODEL.IreadZero)_edge_rv; } set { _edge_rv = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_rv;
@@ -218,6 +227,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "rv": _edge_rv = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum readZeroRule_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -233,6 +249,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -706,6 +728,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "s": _node_s = (GRGEN_LGSP.LGSPNode)value; break;
+				case "wv": _node_wv = (GRGEN_LGSP.LGSPNode)value; break;
+				case "bp": _node_bp = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.IreadOne edge_rv { get { return (GRGEN_MODEL.IreadOne)_edge_rv; } set { _edge_rv = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_rv;
@@ -727,6 +758,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "rv": _edge_rv = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum readOneRule_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -742,6 +780,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -1276,6 +1320,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "wv": _node_wv = (GRGEN_LGSP.LGSPNode)value; break;
+				case "_node0": _node__node0 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "bp": _node_bp = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.ImoveLeft edge__edge0 { get { return (GRGEN_MODEL.ImoveLeft)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -1297,6 +1350,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum ensureMoveLeftValidRule_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -1312,6 +1372,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -1450,6 +1516,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "_node0": _node__node0 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "bp": _node_bp = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Iright edge__edge0 { get { return (GRGEN_MODEL.Iright)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -1471,6 +1545,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum ensureMoveLeftValidRule_neg_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -1486,6 +1567,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -2018,6 +2105,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "wv": _node_wv = (GRGEN_LGSP.LGSPNode)value; break;
+				case "_node0": _node__node0 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "bp": _node_bp = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.ImoveRight edge__edge0 { get { return (GRGEN_MODEL.ImoveRight)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2039,6 +2135,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum ensureMoveRightValidRule_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -2054,6 +2157,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -2192,6 +2301,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "bp": _node_bp = (GRGEN_LGSP.LGSPNode)value; break;
+				case "_node0": _node__node0 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Iright edge__edge0 { get { return (GRGEN_MODEL.Iright)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2213,6 +2330,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum ensureMoveRightValidRule_neg_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -2228,6 +2352,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -2707,6 +2837,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "wv": _node_wv = (GRGEN_LGSP.LGSPNode)value; break;
+				case "s": _node_s = (GRGEN_LGSP.LGSPNode)value; break;
+				case "lbp": _node_lbp = (GRGEN_LGSP.LGSPNode)value; break;
+				case "bp": _node_bp = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.ImoveLeft edge__edge0 { get { return (GRGEN_MODEL.ImoveLeft)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_MODEL.Iright edge__edge1 { get { return (GRGEN_MODEL.Iright)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
@@ -2732,6 +2872,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "_edge1": _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum moveLeftRule_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -2747,6 +2895,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -3312,6 +3466,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "wv": _node_wv = (GRGEN_LGSP.LGSPNode)value; break;
+				case "s": _node_s = (GRGEN_LGSP.LGSPNode)value; break;
+				case "bp": _node_bp = (GRGEN_LGSP.LGSPNode)value; break;
+				case "rbp": _node_rbp = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.ImoveRight edge__edge0 { get { return (GRGEN_MODEL.ImoveRight)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_MODEL.Iright edge__edge1 { get { return (GRGEN_MODEL.Iright)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
@@ -3337,6 +3501,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "_edge1": _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum moveRightRule_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -3352,6 +3524,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -3864,6 +4042,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "bp": _node_bp = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum countZeros_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -3881,6 +4066,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum countZeros_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -3896,6 +4087,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -4198,6 +4395,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "bp": _node_bp = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum countOnes_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -4215,6 +4419,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum countOnes_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -4230,6 +4440,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -4740,7 +4956,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -5016,7 +5232,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -5314,7 +5530,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -5612,7 +5828,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -5923,7 +6139,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -6234,7 +6450,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -6486,7 +6702,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -6738,7 +6954,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Wed Jul 29 12:20:50 CEST 2020
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sat Nov 21 22:18:52 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -257,6 +257,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c": _node_c = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Subclasses_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -274,6 +281,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Subclasses_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -289,6 +302,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -434,6 +453,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c": _node_c = (GRGEN_LGSP.LGSPNode)value; break;
+				case "sub": _node_sub = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -455,6 +482,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum Subclasses_iter_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -470,6 +504,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -839,6 +879,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "sub": _node_sub = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Subclass_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -856,6 +903,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Subclass_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -871,6 +924,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -1210,6 +1269,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c": _node_c = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Features_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1227,6 +1293,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Features_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -1242,6 +1314,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -1383,6 +1461,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c": _node_c = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Features_iter_0_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1400,6 +1485,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Features_iter_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -1415,6 +1506,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -2095,6 +2192,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c": _node_c = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum FeaturePattern_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -2112,6 +2216,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum FeaturePattern_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -2127,6 +2237,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -2268,6 +2384,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c": _node_c = (GRGEN_LGSP.LGSPNode)value; break;
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2289,6 +2413,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum FeaturePattern_alt_0_MethodBody_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -2304,6 +2435,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -2452,6 +2589,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c": _node_c = (GRGEN_LGSP.LGSPNode)value; break;
+				case "_node0": _node__node0 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2473,6 +2618,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum FeaturePattern_alt_0_MethodSignature_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -2488,6 +2640,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -2624,6 +2782,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c": _node_c = (GRGEN_LGSP.LGSPNode)value; break;
+				case "_node0": _node__node0 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2645,6 +2811,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum FeaturePattern_alt_0_Variable_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -2660,6 +2833,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -2796,6 +2975,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c": _node_c = (GRGEN_LGSP.LGSPNode)value; break;
+				case "_node0": _node__node0 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2817,6 +3004,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum FeaturePattern_alt_0_Konstante_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -2832,6 +3026,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -3163,6 +3363,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Parameters_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -3180,6 +3387,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Parameters_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -3195,6 +3408,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -3336,6 +3555,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Parameters_iter_0_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -3353,6 +3579,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Parameters_iter_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -3368,6 +3600,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -3842,6 +4080,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Parameter_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -3859,6 +4104,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Parameter_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -3874,6 +4125,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -4013,6 +4270,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				case "v": _node_v = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -4034,6 +4299,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum Parameter_alt_0_Variable_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -4049,6 +4321,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -4185,6 +4463,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				case "c": _node_c = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -4206,6 +4492,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum Parameter_alt_0_Konstante_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -4221,6 +4514,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -4552,6 +4851,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Statements_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -4569,6 +4875,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Statements_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -4584,6 +4896,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -4725,6 +5043,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Statements_iter_0_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -4742,6 +5067,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Statements_iter_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -4757,6 +5088,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -5375,6 +5712,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Statement_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -5392,6 +5736,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Statement_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -5407,6 +5757,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -5547,6 +5903,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				case "e": _node_e = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_MODEL.IwritesTo edge__edge1 { get { return (GRGEN_MODEL.IwritesTo)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
@@ -5572,6 +5936,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "_edge1": _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum Statement_alt_0_Assignment_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -5587,6 +5959,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -5731,6 +6109,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				case "e": _node_e = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_MODEL.Icalls edge__edge1 { get { return (GRGEN_MODEL.Icalls)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
@@ -5756,6 +6142,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "_edge1": _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum Statement_alt_0_Call_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -5771,6 +6165,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -5915,6 +6315,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				case "e": _node_e = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_MODEL.Iuses edge__edge1 { get { return (GRGEN_MODEL.Iuses)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
@@ -5940,6 +6348,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "_edge1": _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum Statement_alt_0_Return_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -5955,6 +6371,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -6288,6 +6710,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "e": _node_e = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Expressions_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -6305,6 +6734,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Expressions_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -6320,6 +6755,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -6461,6 +6902,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "e": _node_e = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Expressions_iter_0_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -6478,6 +6926,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Expressions_iter_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -6493,6 +6947,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -6985,6 +7445,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "e": _node_e = (GRGEN_LGSP.LGSPNode)value; break;
+				case "sub": _node_sub = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -7006,6 +7474,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum ExpressionPattern_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -7021,6 +7496,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -7160,6 +7641,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "sub": _node_sub = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icalls edge__edge0 { get { return (GRGEN_MODEL.Icalls)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -7181,6 +7669,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum ExpressionPattern_alt_0_Call_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -7196,6 +7691,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -7332,6 +7833,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "sub": _node_sub = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Iuses edge__edge0 { get { return (GRGEN_MODEL.Iuses)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -7353,6 +7861,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum ExpressionPattern_alt_0_Use_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -7368,6 +7883,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -7752,6 +8273,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "m5": _node_m5 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "c1": _node_c1 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Bodies_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -7769,6 +8298,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Bodies_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -7784,6 +8319,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -7931,6 +8472,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "m5": _node_m5 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "c1": _node_c1 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum Bodies_iter_0_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -7948,6 +8497,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum Bodies_iter_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -7963,6 +8518,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -8399,6 +8960,16 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c1": _node_c1 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "c2": _node_c2 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "b": _node_b = (GRGEN_LGSP.LGSPNode)value; break;
+				case "m5": _node_m5 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_MODEL.Icontains edge__edge1 { get { return (GRGEN_MODEL.Icontains)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
@@ -8428,6 +8999,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "_edge1": _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "_edge2": _edge__edge2 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum Body_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -8443,6 +9023,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -8757,6 +9343,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum createProgramGraphExample_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -8774,6 +9366,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum createProgramGraphExample_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -8789,6 +9387,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -9081,6 +9685,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum createProgramGraphPullUp_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -9098,6 +9708,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum createProgramGraphPullUp_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -9113,6 +9729,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -9450,6 +10072,16 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c1": _node_c1 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "c3": _node_c3 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "b4": _node_b4 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "m5": _node_m5 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_MODEL.Icontains edge_m { get { return (GRGEN_MODEL.Icontains)_edge_m; } set { _edge_m = (GRGEN_LGSP.LGSPEdge)value; } }
@@ -9479,6 +10111,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "m": _edge_m = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "_edge1": _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum pullUpMethod_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -9494,6 +10135,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -10055,6 +10702,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c1": _node_c1 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum matchAll_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -10072,6 +10726,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum matchAll_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -10087,6 +10747,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -10370,6 +11036,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
             {
                 GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> matches_0 = rule_LinkMethodBodyToContainedEntity.Match(procEnv, 1);
                 procEnv.PerformanceInfo.MatchesFound += matches_0.Count;
+                procEnv.PreMatched(matches_0);
                 if(matches_0.Count == 0) {
                     res_0 = (bool)(false);
                 } else {
@@ -10395,6 +11062,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
                 {
                     GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> matches_2 = rule_LinkMethodBodyToContainedExpressionTransitive.Match(procEnv, 1);
                     procEnv.PerformanceInfo.MatchesFound += matches_2.Count;
+                    procEnv.PreMatched(matches_2);
                     if(matches_2.Count == 0) {
                         res_2 = (bool)(false);
                     } else {
@@ -10419,6 +11087,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
             {
                 GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> matches_5 = rule_RemoveMethodBodyContainsBetweenExpressions.Match(procEnv, procEnv.MaxMatches);
                 procEnv.PerformanceInfo.MatchesFound += matches_5.Count;
+                procEnv.PreMatched(matches_5);
                 if(matches_5.Count == 0) {
                     res_5 = (bool)(false);
                 } else {
@@ -10446,6 +11115,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
                 {
                     GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> matches_7 = rule_RetypeClassContainment.Match(procEnv, 1);
                     procEnv.PerformanceInfo.MatchesFound += matches_7.Count;
+                    procEnv.PreMatched(matches_7);
                     if(matches_7.Count == 0) {
                         res_7 = (bool)(false);
                     } else {
@@ -10502,6 +11172,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum InsertHelperEdgesForNestedLayout_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -10519,6 +11195,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum InsertHelperEdgesForNestedLayout_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -10534,6 +11216,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -10885,6 +11573,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "mb": _node_mb = (GRGEN_LGSP.LGSPNode)value; break;
+				case "e": _node_e = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge__edge0 { get { return (GRGEN_MODEL.Icontains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -10906,6 +11602,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum LinkMethodBodyToContainedEntity_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -10921,6 +11624,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -11057,6 +11766,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "mb": _node_mb = (GRGEN_LGSP.LGSPNode)value; break;
+				case "e": _node_e = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.ImethodBodyContains edge__edge0 { get { return (GRGEN_MODEL.ImethodBodyContains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -11078,6 +11795,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum LinkMethodBodyToContainedEntity_neg_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -11093,6 +11817,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -11592,6 +12322,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "mb": _node_mb = (GRGEN_LGSP.LGSPNode)value; break;
+				case "e1": _node_e1 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "e2": _node_e2 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.ImethodBodyContains edge__edge0 { get { return (GRGEN_MODEL.ImethodBodyContains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_MODEL.Icontains edge__edge1 { get { return (GRGEN_MODEL.Icontains)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
@@ -11617,6 +12356,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "_edge1": _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum LinkMethodBodyToContainedExpressionTransitive_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -11632,6 +12379,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -11772,6 +12525,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "e1": _node_e1 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "e2": _node_e2 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.ImethodBodyContains edge__edge0 { get { return (GRGEN_MODEL.ImethodBodyContains)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -11793,6 +12554,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum LinkMethodBodyToContainedExpressionTransitive_neg_0_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -11808,6 +12576,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -12294,6 +13068,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "e1": _node_e1 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "e2": _node_e2 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.ImethodBodyContains edge_mbc { get { return (GRGEN_MODEL.ImethodBodyContains)_edge_mbc; } set { _edge_mbc = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_mbc;
@@ -12315,6 +13097,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "mbc": _edge_mbc = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum RemoveMethodBodyContainsBetweenExpressions_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -12330,6 +13119,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -12736,6 +13531,14 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "c1": _node_c1 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "c2": _node_c2 = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.Icontains edge_c { get { return (GRGEN_MODEL.Icontains)_edge_c; } set { _edge_c = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_c;
@@ -12757,6 +13560,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "c": _edge_c = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum RetypeClassContainment_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -12772,6 +13582,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -19882,7 +20698,7 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -20147,7 +20963,7 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -20557,7 +21373,7 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0], (GRGEN_MODEL.IMethodBody) parameters[1]);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -20983,7 +21799,7 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IClass) parameters[0]);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -21224,7 +22040,7 @@ maxMatchesIterReached:
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -21536,7 +22352,7 @@ label1: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -21869,7 +22685,7 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -22140,7 +22956,7 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -22411,7 +23227,7 @@ label3: ;
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;

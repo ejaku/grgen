@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Wed Jul 29 12:20:08 CEST 2020
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sat Nov 21 22:18:27 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -138,6 +138,12 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum filterBase_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -155,6 +161,12 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum filterBase_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -170,6 +182,12 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -444,6 +462,13 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "n": _node_n = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.IE edge_e { get { return (GRGEN_MODEL.IE)_edge_e; } set { _edge_e = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_e;
@@ -465,6 +490,13 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "e": _edge_e = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public string var_s { get { return _var_s; } set { _var_s = value; } }
 			public string _var_s;
@@ -484,6 +516,13 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				switch(name) {
 				case "s": return _var_s;
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				case "s": _var_s = (string)value; break;
+				default: break;
 				}
 			}
 
@@ -903,6 +942,13 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "n": _node_n = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.IE edge_e { get { return (GRGEN_MODEL.IE)_edge_e; } set { _edge_e = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_e;
@@ -924,6 +970,13 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "e": _edge_e = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public int var_i { get { return _var_i; } set { _var_i = value; } }
 			public int _var_i;
@@ -943,6 +996,13 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				switch(name) {
 				case "i": return _var_i;
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				case "i": _var_i = (int)value; break;
+				default: break;
 				}
 			}
 
@@ -1342,6 +1402,12 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum init_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1359,6 +1425,12 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum init_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -1374,6 +1446,12 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -1739,6 +1817,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             bool res_70;
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_46 = rule_filterBase.Match(procEnv, 1);
             procEnv.PerformanceInfo.MatchesFound += matches_46.Count;
+            procEnv.PreMatched(matches_46);
             GRGEN_ACTIONS.MatchFilters.Filter_f1(procEnv, matches_46);
             if(matches_46.Count == 0) {
                 res_46 = (bool)(false);
@@ -1753,6 +1832,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             }
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_47 = rule_filterBase.Match(procEnv, 1);
             procEnv.PerformanceInfo.MatchesFound += matches_47.Count;
+            procEnv.PreMatched(matches_47);
             GRGEN_ACTIONS.MatchFilters.Filter_nomnomnom(procEnv, matches_47);
             if(matches_47.Count == 0) {
                 res_47 = (bool)(false);
@@ -1768,6 +1848,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             res_48 = (bool)(res_47);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_49 = rule_filterBase.Match(procEnv, 1);
             procEnv.PerformanceInfo.MatchesFound += matches_49.Count;
+            procEnv.PreMatched(matches_49);
             GRGEN_ACTIONS.MatchFilters.Filter_filterBase_auto(procEnv, matches_49);
             if(matches_49.Count == 0) {
                 res_49 = (bool)(false);
@@ -1783,6 +1864,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             res_50 = (bool)(res_49);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches_51 = rule_filterBass.Match(procEnv, procEnv.MaxMatches);
             procEnv.PerformanceInfo.MatchesFound += matches_51.Count;
+            procEnv.PreMatched(matches_51);
             GRGEN_ACTIONS.MatchFilters.Filter_f2(procEnv, matches_51);
             GRGEN_ACTIONS.MatchFilters.Filter_fil(procEnv, matches_51, (int)(42));
             if(matches_51.Count == 0) {
@@ -1804,6 +1886,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             res_53 = (bool)(res_51);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches_54 = rule_filterBass.Match(procEnv, procEnv.MaxMatches);
             procEnv.PerformanceInfo.MatchesFound += matches_54.Count;
+            procEnv.PreMatched(matches_54);
             GRGEN_ACTIONS.MatchFilters.Filter_f3(procEnv, matches_54);
             if(matches_54.Count == 0) {
                 res_54 = (bool)(false);
@@ -1825,6 +1908,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             res_55 = (bool)(res_54);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches_56 = rule_filterBass.Match(procEnv, procEnv.MaxMatches);
             procEnv.PerformanceInfo.MatchesFound += matches_56.Count;
+            procEnv.PreMatched(matches_56);
             GRGEN_ACTIONS.MatchFilters.Filter_filterBass_auto(procEnv, matches_56);
             if(matches_56.Count == 0) {
                 res_56 = (bool)(false);
@@ -1845,6 +1929,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             res_57 = (bool)(res_56);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterHass.IMatch_filterHass> matches_59 = rule_filterHass.Match(procEnv, 1, (GRGEN_MODEL.IN)procEnv.GetVariableValue("n"));
             procEnv.PerformanceInfo.MatchesFound += matches_59.Count;
+            procEnv.PreMatched(matches_59);
             GRGEN_ACTIONS.MatchFilters.Filter_f4(procEnv, matches_59, (int)(GRGEN_LIBGR.ContainerHelper.GetGraphElementAttributeOrElementOfMatch(procEnv.GetVariableValue("n"), (string)("i"))), (string)("foo"));
             GRGEN_ACTIONS.MatchFilters.Filter_filterHass_orderAscendingBy_i(procEnv, matches_59);
             matches_59.Filter_keepFirst((System.Int32)(42));
@@ -1863,29 +1948,33 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                 procEnv.Finished(matches_59, false);
             }
             res_64 = (bool)(res_59);
-            GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_67 = rule_filterBase.Match(procEnv, procEnv.MaxMatches);
-            procEnv.PerformanceInfo.MatchesFound += matches_67.Count;
-            GRGEN_ACTIONS.MatchFilters.Filter_f1(procEnv, matches_67);
-            if(matches_67.Count == 0) {
+            GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_65 = rule_filterBase.Match(procEnv, procEnv.MaxMatches);
+            procEnv.PerformanceInfo.MatchesFound += matches_65.Count;
+            procEnv.PreMatched(matches_65);
+            GRGEN_ACTIONS.MatchFilters.Filter_f1(procEnv, matches_65);
+            if(matches_65.Count != 0) {
+                matches_65 = (GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase>)matches_65.Clone();
+            }
+            if(matches_65.Count == 0) {
                 res_67 = (bool)(false);
             } else {
                 res_67 = (bool)(true);
-                matches_67 = (GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase>)matches_67.Clone();
-                procEnv.Finishing(matches_67, false);
+                procEnv.Finishing(matches_65, false);
                 int matchesTried_67 = 0;
-                IEnumerator<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> enum_67 = matches_67.GetEnumeratorExact();
+                IEnumerator<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> enum_67 = matches_65.GetEnumeratorExact();
                 while(enum_67.MoveNext())
                 {
-                    GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase match_67 = enum_67.Current;
+                    GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase match_65 = enum_67.Current;
                     ++matchesTried_67;
                     int transID_67 = procEnv.TransactionManager.Start();
                     int oldRewritesPerformed_67 = procEnv.PerformanceInfo.RewritesPerformed;
-                    procEnv.Matched(matches_67, match_67, false);
-                    rule_filterBase.Modify(procEnv, match_67);
+                    procEnv.Matched(matches_65, match_65, false);
+                    rule_filterBase.Modify(procEnv, match_65);
                     ++procEnv.PerformanceInfo.RewritesPerformed;
-                    procEnv.Finished(matches_67, false);
+                    procEnv.Finished(matches_65, false);
                     GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_66 = rule_filterBase.Match(procEnv, 1);
                     procEnv.PerformanceInfo.MatchesFound += matches_66.Count;
+                    procEnv.PreMatched(matches_66);
                     GRGEN_ACTIONS.MatchFilters.Filter_f1(procEnv, matches_66);
                     if(matches_66.Count == 0) {
                         res_66 = (bool)(false);
@@ -1901,7 +1990,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                     if(!res_66) {
                         procEnv.TransactionManager.Rollback(transID_67);
                         procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed_67;
-                        if(matchesTried_67 < matches_67.Count) {
+                        if(matchesTried_67 < matches_65.Count) {
                             continue;
                         } else {
                             res_67 = (bool)(false);
@@ -1917,12 +2006,19 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             res_71 = (bool)(false);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_69 = rule_filterBase.Match(procEnv, 1);
             procEnv.PerformanceInfo.MatchesFound += matches_69.Count;
+            if(matches_69.Count != 0) {
+                matches_69 = (GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase>)matches_69.Clone();
+            }
+            GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches_70 = rule_filterBass.Match(procEnv, procEnv.MaxMatches);
+            procEnv.PerformanceInfo.MatchesFound += matches_70.Count;
+            if(matches_70.Count != 0) {
+                matches_70 = (GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass>)matches_70.Clone();
+            }
+            procEnv.PreMatched(matches_69,matches_70);
             GRGEN_ACTIONS.MatchFilters.Filter_f1(procEnv, matches_69);
             if(matches_69.Count != 0) {
                 res_71 = (bool)(true);
             }
-            GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches_70 = rule_filterBass.Match(procEnv, procEnv.MaxMatches);
-            procEnv.PerformanceInfo.MatchesFound += matches_70.Count;
             GRGEN_ACTIONS.MatchFilters.Filter_f2(procEnv, matches_70);
             if(matches_70.Count != 0) {
                 res_71 = (bool)(true);
@@ -2007,6 +2103,13 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "n": _node_n = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.IE edge_e { get { return (GRGEN_MODEL.IE)_edge_e; } set { _edge_e = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_e;
@@ -2028,6 +2131,13 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "e": _edge_e = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum r_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -2043,6 +2153,12 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -2428,6 +2544,15 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "start": _node_start = (GRGEN_LGSP.LGSPNode)value; break;
+				case "n": _node_n = (GRGEN_LGSP.LGSPNode)value; break;
+				case "x": _node_x = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_LIBGR.IDEdge edge__edge0 { get { return (GRGEN_LIBGR.IDEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2449,6 +2574,13 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public int var_v { get { return _var_v; } set { _var_v = value; } }
 			public int _var_v;
@@ -2468,6 +2600,13 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				switch(name) {
 				case "v": return _var_v;
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				case "v": _var_v = (int)value; break;
+				default: break;
 				}
 			}
 
@@ -3020,6 +3159,16 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "root": _node_root = (GRGEN_LGSP.LGSPNode)value; break;
+				case "m1": _node_m1 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "m2": _node_m2 = (GRGEN_LGSP.LGSPNode)value; break;
+				case "x": _node_x = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_LIBGR.IDEdge edge__edge0 { get { return (GRGEN_LIBGR.IDEdge)_edge__edge0; } set { _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LIBGR.IDEdge edge__edge1 { get { return (GRGEN_LIBGR.IDEdge)_edge__edge1; } set { _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; } }
@@ -3045,6 +3194,14 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "_edge0": _edge__edge0 = (GRGEN_LGSP.LGSPEdge)value; break;
+				case "_edge1": _edge__edge1 = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public int var_v { get { return _var_v; } set { _var_v = value; } }
 			public int _var_v;
@@ -3064,6 +3221,13 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				switch(name) {
 				case "v": return _var_v;
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				case "v": _var_v = (int)value; break;
+				default: break;
 				}
 			}
 
@@ -3857,6 +4021,13 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 			default: return null;
 			}
 		}
+		public override void SetNode(string name, GRGEN_LIBGR.INode value)
+		{
+			switch(name) {
+			case "x": _node_x = (GRGEN_LGSP.LGSPNode)value; break;
+			default: break;
+			}
+		}
 
 		public enum shared_EdgeNums { END_OF_ENUM };
 		public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -3872,6 +4043,12 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 		{
 			switch(name) {
 			default: return null;
+			}
+		}
+		public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+		{
+			switch(name) {
+			default: break;
 			}
 		}
 
@@ -3893,6 +4070,13 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 			switch(name) {
 			case "v": return _var_v;
 			default: return null;
+			}
+		}
+		public override void SetVariable(string name, object value)
+		{
+			switch(name) {
+			case "v": _var_v = (int)value; break;
+			default: break;
 			}
 		}
 
@@ -4368,7 +4552,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -4633,7 +4817,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -4902,7 +5086,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_MODEL.IN) parameters[0]);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -5157,7 +5341,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -5417,7 +5601,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -5685,7 +5869,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max, (GRGEN_LIBGR.INode) parameters[0]);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -6025,7 +6209,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -6161,12 +6345,17 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             procEnv.PerformanceInfo.MatchesFound += matches_84.Count;
             if(matches_84.Count != 0) {
                 matches_84 = (GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_rs.IMatch_rs>)matches_84.Clone();
-                MatchList_86.AddRange(matches_84);
             }
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_ss.IMatch_ss> matches_85 = rule_ss.Match(procEnv, procEnv.MaxMatches);
             procEnv.PerformanceInfo.MatchesFound += matches_85.Count;
             if(matches_85.Count != 0) {
                 matches_85 = (GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_ss.IMatch_ss>)matches_85.Clone();
+            }
+            procEnv.PreMatched(matches_84,matches_85);
+            if(matches_84.Count != 0) {
+                MatchList_86.AddRange(matches_84);
+            }
+            if(matches_85.Count != 0) {
                 MatchList_86.AddRange(matches_85);
             }
             GRGEN_ACTIONS.MatchClassFilters.Filter_shf(procEnv, MatchList_86, (int)(42));
@@ -6242,7 +6431,7 @@ procEnv.SetVariableValue("m2", tmpvarlist_18m2);
         {
         }
         
-        public override void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, IList<GRGEN_LIBGR.IMatch> matches, GRGEN_LIBGR.FilterCall filter)
+        public override void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, IList<GRGEN_LIBGR.IMatch> matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": GRGEN_LIBGR.MatchListHelper.Filter_keepFirst((List<GRGEN_LIBGR.IMatch>)matches, (System.Int32)(filter.Arguments[0])); break;

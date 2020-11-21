@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Wed Jul 29 12:20:02 CEST 2020
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sat Nov 21 22:18:24 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -137,6 +137,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum init_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -154,6 +160,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum init_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -169,6 +181,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -446,6 +464,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum init2_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -463,6 +487,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum init2_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -478,6 +508,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -784,6 +820,13 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "n": _node_n = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.IE edge_e { get { return (GRGEN_MODEL.IE)_edge_e; } set { _edge_e = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_e;
@@ -805,6 +848,13 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "e": _edge_e = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum r_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -820,6 +870,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -1211,6 +1267,13 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "n": _node_n = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.IE edge_e { get { return (GRGEN_MODEL.IE)_edge_e; } set { _edge_e = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_e;
@@ -1232,6 +1295,13 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "e": _edge_e = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum rp_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -1247,6 +1317,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -1590,6 +1666,13 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "n": _node_n = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum testCopy_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -1607,6 +1690,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum testCopy_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -1622,6 +1711,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -2011,6 +2106,14 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "n": _node_n = (GRGEN_LGSP.LGSPNode)value; break;
+				case "m": _node_m = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public enum testComparison_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -2028,6 +2131,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum testComparison_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -2043,6 +2152,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -3017,7 +3132,7 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -3258,7 +3373,7 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -3534,7 +3649,7 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -3794,7 +3909,7 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -4045,7 +4160,7 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -4387,7 +4502,7 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;

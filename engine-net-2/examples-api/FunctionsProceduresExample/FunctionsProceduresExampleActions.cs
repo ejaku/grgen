@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Wed Jul 29 12:20:17 CEST 2020
+// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Sat Nov 21 22:18:33 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -137,6 +137,12 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum init_EdgeNums { END_OF_ENUM };
 			public override IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
@@ -154,6 +160,12 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				default: break;
+				}
+			}
 
 			public enum init_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -169,6 +181,12 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -448,6 +466,13 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 				default: return null;
 				}
 			}
+			public override void SetNode(string name, GRGEN_LIBGR.INode value)
+			{
+				switch(name) {
+				case "nn": _node_nn = (GRGEN_LGSP.LGSPNode)value; break;
+				default: break;
+				}
+			}
 
 			public GRGEN_MODEL.IEE edge_ee { get { return (GRGEN_MODEL.IEE)_edge_ee; } set { _edge_ee = (GRGEN_LGSP.LGSPEdge)value; } }
 			public GRGEN_LGSP.LGSPEdge _edge_ee;
@@ -469,6 +494,13 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 				default: return null;
 				}
 			}
+			public override void SetEdge(string name, GRGEN_LIBGR.IEdge value)
+			{
+				switch(name) {
+				case "ee": _edge_ee = (GRGEN_LGSP.LGSPEdge)value; break;
+				default: break;
+				}
+			}
 
 			public enum r_VariableNums { END_OF_ENUM };
 			public override IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
@@ -484,6 +516,12 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 			{
 				switch(name) {
 				default: return null;
+				}
+			}
+			public override void SetVariable(string name, object value)
+			{
+				switch(name) {
+				default: break;
 				}
 			}
 
@@ -1080,7 +1118,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -1340,7 +1378,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
         {
             return ApplyMinMax(actionEnv, min, max);
         }
-        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)
+        public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallWithArguments filter)
         {
             switch(filter.PackagePrefixedName) {
                 case "keepFirst": matches.Filter_keepFirst((System.Int32)(filter.Arguments[0])); break;
@@ -1380,6 +1418,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
             object res_8;
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_r.IMatch_r> matches_0 = rule_r.Match(procEnv, 1);
             procEnv.PerformanceInfo.MatchesFound += matches_0.Count;
+            procEnv.PreMatched(matches_0);
             if(matches_0.Count == 0) {
                 res_0 = (bool)(false);
             } else {
