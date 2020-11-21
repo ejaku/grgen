@@ -1,0 +1,52 @@
+rule init
+{
+	replace {
+		n0:Node;
+		n1:Node --> n1;
+		n2:Node --> n2 --> n2;
+		n3:Node --> n3 --> n3 --> n3;
+		n4:Node --> n4 --> n4 --> n4 --> n4;
+	}
+}
+
+rule r implements mc
+{
+	n:Node;
+---
+	def var i:int;
+	def var j:int;
+
+	yield {
+		yield i = incident(n).size();
+		yield j = 0;
+	}
+	
+	modify {
+		delete(n);
+	}
+} \ orderAscendingBy<i>
+
+match class mc
+{
+	n:Node;
+	def var i:int;
+	def var j:int;
+} \ orderAscendingBy<i>
+
+rule r_removeIf
+{
+	modify {
+	---
+		exec({::res1 = [?r\orderAscendingBy<i>]});
+		exec({::res2 = [?r\orderAscendingBy<i>\removeIf{m:match<r> -> [?r\removeIf{m2:match<r> -> m2.i % 2 == 1}].size() - 1 == m.i}]});
+	}
+}
+
+rule r_removeIf_match_class
+{
+	modify {
+	---
+		exec({::res1 = [?[r]\mc.orderAscendingBy<i>\<class mc>]});
+		exec({::res2 = [?[r]\mc.orderAscendingBy<i>\mc.removeIf{m:match<class mc> -> [?[r]\mc.removeIf{m2:match<class mc> -> m2.i % 2 == 1}\<class mc>].size() - 1 == m.i}\<class mc>]});
+	}
+}

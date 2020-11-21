@@ -1,5 +1,5 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 5.0
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 5.2
  * Copyright (C) 2003-2020 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
@@ -2877,9 +2877,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
             sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
             sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
-            sb.AppendFront(matchElementType + " result = ");
-            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
-            sb.Append(";\n");
+
+            SourceBuilder declarations = new SourceBuilder();
+            String seqExpr = GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, declarations);
+            sb.Append(declarations.ToString());
+            sb.AppendFrontFormat("{0} result = {1};\n", matchElementType, seqExpr);
             sb.AppendFrontFormat("match.SetMember(\"{0}\", result);\n", sequenceFilterCall.FilterCall.Entity); // TODO: directly access entity in match instead, requires name prefix
             sb.AppendFront("++index;\n");
 
@@ -2951,9 +2953,11 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFrontFormat("{0} match = matchList[index];\n", elementType);
             sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
             sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
-            sb.AppendFront("if((bool)(");
-            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
-            sb.Append("))\n");
+
+            SourceBuilder declarations = new SourceBuilder();
+            String seqExpr = GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, declarations);
+            sb.Append(declarations.ToString());
+            sb.AppendFrontFormat("if((bool)({0}))\n", seqExpr);
             sb.AppendFrontIndented("matchList[index] = null;\n");
 
             sb.Unindent();
@@ -3168,9 +3172,11 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFrontFormat("{0} match = matchListCopy[index];\n", elementType);
             sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
             sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
-            sb.AppendFront(matchElementType + " result = ");
-            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
-            sb.Append(";\n");
+
+            SourceBuilder declarations = new SourceBuilder();
+            String seqExpr = GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, declarations);
+            sb.Append(declarations.ToString());
+            sb.AppendFrontFormat("{0} result = {1};\n", matchElementType, seqExpr);
             sb.AppendFrontFormat("match.SetMember(\"{0}\", result);\n", sequenceFilterCall.FilterCall.Entity);  // TODO: directly access entity in match instead, requires name prefix
 
             sb.Unindent();
@@ -3240,9 +3246,11 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFrontFormat("{0} match = matchListCopy[index];\n", elementType);
             sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.element));
             sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.element, "match"));
-            sb.AppendFront("if((bool)(");
-            sb.Append(GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, sb));
-            sb.Append("))\n");
+
+            SourceBuilder declarations = new SourceBuilder();
+            String seqExpr = GetSequenceExpression(sequenceFilterCall.FilterCall.lambdaExpression, declarations);
+            sb.Append(declarations.ToString());
+            sb.AppendFrontFormat("if((bool)({0}))\n", seqExpr);
             sb.AppendFrontIndented("matchListCopy[index] = null;\n");
 
             sb.Unindent();
