@@ -6,7 +6,7 @@ rule array_map[parallelize=2](ref a:array<int>, var x:int, ref aa:array<N>) {
 	
 	if {
 		a.map<double>{value:int -> value * Math::pi() + x + (nameof(n)!="$0" ? 1 : 0)} != a.map<string>{value:int -> value}.map<double>{value:string -> Math::pi()};
-		aa.map<Node>{value:Node -> nn}.empty() || nodes().empty();
+		aa.map<Node>{value:Node -> nn != null ? nn : nodes().peek(0)}.empty() || nodes().empty();
 		a.map<double>{key:int -> value:int -> key + value} != a.map<string>{key:int -> value:int -> key}.map<double>{key:int -> value:string -> key};
 		aa.map<Node>{key:int -> value:Node -> key % 2 == 1 ? nn : n}.empty();
 	}
@@ -15,7 +15,7 @@ rule array_map[parallelize=2](ref a:array<int>, var x:int, ref aa:array<N>) {
 		eval {
 			def var y:int = 42;
 			def ref ra:array<double> = a.map<double>{value:int -> value*Math::pi() + y + (nameof(n)!="$0" ? 1 : 0)};
-			def ref raa:array<Node> = aa.map<Node>{value:Node -> nn};
+			def ref raa:array<Node> = aa.map<Node>{value:Node -> nn != null ? nn : nodes().peek(0)};
 			def ref rai:array<double> = a.map<double>{key:int -> value:int -> key};
 			def ref raai:array<Node> = aa.map<Node>{key:int -> value:Node -> key % 2 == 1 ? nn : n};
 		}

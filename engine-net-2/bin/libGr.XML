@@ -4,6 +4,37 @@
         <name>libGr</name>
     </assembly>
     <members>
+        <member name="T:de.unika.ipd.grGen.libGr.ActionCall">
+            <summary>
+            An object representing an action call.
+            To be built by the user and used at API level to carry out multi action calls.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ActionCall.#ctor(de.unika.ipd.grGen.libGr.IAction,System.Int32,System.Int32)">
+            <summary>
+            Creates a new action call object, allocating an arguments buffer that allows to store argumentCount arguments.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ActionCall.#ctor(de.unika.ipd.grGen.libGr.IAction,System.Int32,System.Object[])">
+            <summary>
+            Creates a new action call object, taking over the given arguments (buffer) as arguments buffer.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ActionCall.Action">
+            <summary>
+            The action to call.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ActionCall.MaxMatches">
+            <summary>
+            The maximum amount of matches to search for.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ActionCall.Arguments">
+            <summary>
+            Buffer to store the argument values for the action.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.ActionNames">
             <summary>
             For sequence handling, contains the names of the different kinds of actions (plus a bit further information) 
@@ -12,6 +43,40 @@
         <member name="T:de.unika.ipd.grGen.libGr.ActionsTypeInformation">
             <summary>
             For sequence handling, contains type information (plus a bit further information) about the different kinds of actions
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.FilterCallWithArguments">
+            <summary>
+            An object representing a filter call (of an action filter or a match class filter).
+            To be built by the user and used at API level to carry out filter calls.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCallWithArguments.Arguments">
+            <summary>
+            Buffer to store the argument values for the filter function or auto-supplied filter call.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression">
+            <summary>
+            An object representing a lambda expression filter call,
+            employing a filter containing a lambda sequence expression on the matches array (stemming from an action or a match class).
+            Built by the sequence parser, may be built by the user at API level (employing the sequence expression parser, or potentially building the sequence expression directly), 
+            in order to carry out lambda expression filter calls (currently supported ("package prefixed") filter names: <![CDATA[removeIf, assign<match-element-name>]]>).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression.index">
+            <summary>
+            The index variable (gives the number of the current match in the matches array) -- optional, null if does not apply.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression.element">
+            <summary>
+            The element variable (used for iterating over the content of the matches array).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression.lambdaExpression">
+            <summary>
+            The lambda expression evaluated for each match.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IActionCore">
@@ -61,7 +126,7 @@
             <returns>An array of objects returned by the rule.
             It is only valid until the next graph rewrite with this rule.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IActionCore.Filter(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.FilterCall)">
+        <member name="M:de.unika.ipd.grGen.libGr.IActionCore.Filter(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.FilterCallWithArguments)">
             <summary>
             Filters the matches found by this action 
             </summary>
@@ -529,7 +594,7 @@
             The information object of the match class.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.MatchClassFilterer.Filter(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Collections.Generic.IList{de.unika.ipd.grGen.libGr.IMatch},de.unika.ipd.grGen.libGr.FilterCall)">
+        <member name="M:de.unika.ipd.grGen.libGr.MatchClassFilterer.Filter(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Collections.Generic.IList{de.unika.ipd.grGen.libGr.IMatch},de.unika.ipd.grGen.libGr.FilterCallWithArguments)">
             <summary>
             Filters the matches of a multi rule all call or multi rule backtracking construct
             (i.e. matches obtained from different rules, that implement a match class).
@@ -537,6 +602,16 @@
             <param name="actionEnv">The action execution environment, required by the filter implementation.</param>
             <param name="matches">The combined list of all matches of all rules (implementing the same match class; to inspect and filter)</param>
             <param name="filter">The filter to apply</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.MatchClassFilterer.Filter(de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment,System.Collections.Generic.IList{de.unika.ipd.grGen.libGr.IMatch},de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression)">
+            <summary>
+            Filters the matches of a multi rule all call or multi rule backtracking construct
+            (i.e. matches obtained from different rules, that implement a match class)
+            with a lambda expression filter (call).
+            </summary>
+            <param name="procEnv">The graph processing environment, required by the filter implementation.</param>
+            <param name="matches">The combined list of all matches of all rules (implementing the same match class; to inspect and filter)</param>
+            <param name="filter">The lambda expression filter to apply</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IProcedureDefinition">
             <summary>
@@ -886,6 +961,13 @@
             <param name="start">A start position in the dynamic array.</param>
             <param name="length">The number of elements to copy from start on.</param>
             <returns>A new List, i.e. dynamic array, containing the length first values from start on.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Shuffle``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Creates a new dynamic array with permuted content.
+            </summary>
+            <param name="array">A List, i.e. dynamic array.</param>
+            <returns>A new List, i.e. dynamic array, containing the elements of the input array in randomly different order.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.ArrayOrderAscending(System.Collections.IList)">
             <summary>
@@ -1917,6 +1999,11 @@
             Returns value bound to the member of the given name or null if no such member exists
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.SetMember(System.String,System.Object)">
+            <summary>
+            Sets member value (to be used by post-matches-filtering)
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.EmbeddedGraphs">
             <summary>
             Enumerable returning enumerator over submatches due to subpatterns (most inefficient access)
@@ -2033,7 +2120,7 @@
         <member name="T:de.unika.ipd.grGen.libGr.IMatches">
             <summary>
             An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
-            If it is a match of an action, it is returned by IAction.Match() and given to the OnMatched event.
+            If it is a match of an action, it is returned by IAction.Match() and given to the OnMatched and OnPreMatched events.
             Otherwise it's the match of an iterated-pattern, and the producing action is null.
             </summary>
         </member>
@@ -2065,10 +2152,23 @@
             <param name="index">The index of the match to be removed.</param>
             <returns>The removed match.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatches.ToListCopy">
+            <summary>
+            Returns the content of the current matches list in form of an array.
+            The content is destroyed when the rule is matched again (the list itself is a newly created copy).
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatches.ToList">
             <summary>
             Returns the content of the current matches list in form of an array which can be efficiently indexed and reordered.
             The array is destroyed when this method is called again, the content is destroyed when the rule is matched again (there is only one array existing).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatches.FromList">
+            <summary>
+            Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
+            The list might have been reordered, matches might have been removed, or even added.
+            Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatches.Clone">
@@ -3300,20 +3400,16 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.FilterCall">
             <summary>
-            An object representing a filter call (of an action filter or a match class filter).
-            To be built by the user and used at API level to carry out filter calls.
+            Base class for objects representing a filter call (of an action filter or a match class filter),
+            distinguished into filter calls with arguments and lambda expression filter calls.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.FilterCall.PackagePrefixedName">
             <summary>
             Name of the filter to call.
-            (For auto-generated filters, it includes the entities; for filter functions, it includes the package.)
+            (For auto-generated filters, it includes the entities; for filter functions, it includes the package.
+            For lambda expression filters, it may include the optional entity.)
             Examples: <![CDATA[keepFirst, orderAscendingBy<i,j>, filterFunctionName, packageName::filterFunctionName]]>
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.FilterCall.Arguments">
-            <summary>
-            Buffer to store the argument values for the filter function or auto-supplied filter call.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Nodes(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.NodeType)">
@@ -6750,6 +6846,13 @@
             (to highlight the currently processed match during backtracking and the for matches loop).</param>
             <param name="special">Specifies whether the "special" flag has been used.</param>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.PreMatchHandler">
+            <summary>
+            Represents a method called after all requested matches of a multi action or an action have been matched,
+            yet before filtering/selection (single element array in case of a single rule/test application).
+            </summary>
+            <param name="matches">The matches found (an array of matches objects, one matches object per rule).</param>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.BeforeFinishHandler">
             <summary>
             Represents a method called before the rewrite step of an action, when at least one match has been found.
@@ -6853,7 +6956,7 @@
             <param name="action">The rule to invoke</param>
             <param name="arguments">The input arguments</param>
             <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
-            depends on MaxMatches)</param>
+            depends on the MaxMatches property)</param>
             <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
             the application</param>
             <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
@@ -6861,13 +6964,20 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.MatchWithoutEvent(de.unika.ipd.grGen.libGr.IAction,System.Object[],System.Int32)">
             <summary>
-            Matches a rewrite rule, without firing the Matched event (for internal or non-debugger use).
+            Matches a rewrite rule, without firing the Matched event (but fires the PreMatched event - for internal or non-debugger use).
             </summary>
             <param name="action">The rule to invoke</param>
             <param name="arguments">The input arguments</param>
             <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
-            depends on MaxMatches)</param>
+            depends on the MaxMatches property)</param>
             <returns>A matches object containing the found matches.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.MatchWithoutEvent(de.unika.ipd.grGen.libGr.ActionCall[])">
+            <summary>
+            Matches the rewrite rules, without firing the Matched event, but fires the PreMatched event (for internal or non-debugger use).
+            </summary>
+            <param name="actions">The rules to invoke</param>
+            <returns>A list of matches objects containing the found matches.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Replace(de.unika.ipd.grGen.libGr.IMatches,System.Int32)">
             <summary>
@@ -6882,19 +6992,34 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.MatchForQuery(de.unika.ipd.grGen.libGr.IAction,System.Object[],System.Int32)">
             <summary>
-            Matches a rewrite rule, without firing the Matched event, but with Cloning of the matches
+            Matches a rewrite rule, without firing the Matched event, but with firing the PreMatch event and Cloning of the matches
             (so they can stored, or used in an expression combining multiple queries like [?r] + [?r], 
             or the action can be called multiple times in a multi rule all call query (on different parameters)).
             </summary>
             <param name="action">The rule to invoke</param>
             <param name="arguments">The input arguments</param>
             <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
-            depends on MaxMatches)</param>
+            depends on the MaxMatches property)</param>
             <returns>A matches object containing the found matches.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.MatchForQuery(de.unika.ipd.grGen.libGr.ActionCall[])">
+            <summary>
+            Matches the rewrite rules, without firing the Matched event, but with firing the PreMatch event and Cloning of the matches
+            (so they can stored, or used in an expression combining multiple queries).
+            </summary>
+            <param name="actions">The rules to invoke</param>
+            <returns>A list of matches objects containing the found matches.</returns>
         </member>
         <member name="E:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.OnMatched">
             <summary>
-            Fired after all requested matches of a rule have been matched.
+            Fired after all requested matches of a rule have been matched (after filtering/selection of matches).
+            </summary>
+        </member>
+        <member name="E:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.OnPreMatched">
+            <summary>
+            Fired after all requested matches of a multi rule or rule have been matched, yet before filtering/selection of the matches.
+            Allows a lookahead on the matches, on all found matches, in contrast to OnMatched that only reports the ones that are applied in the end.
+            Also fired for queries, esp. for queries used for computing rule(/test) arguments, which don't cause a firing of other events.
             </summary>
         </member>
         <member name="E:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.OnFinishing">
@@ -6922,6 +7047,18 @@
             <param name="match">If not null, specifies the one current match from the matches 
             (to highlight the currently processed match during backtracking and the for matches loop).</param>
             <param name="special">Whether this is a 'special' match (user defined).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.PreMatched(de.unika.ipd.grGen.libGr.IMatches[])">
+            <summary>
+            Fires an OnPreMatched event.
+            </summary>
+            <param name="matchesArray">The IMatches objects returned by the matchers of the actions (of the multi-rule application).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.PreMatched(de.unika.ipd.grGen.libGr.IMatches)">
+            <summary>
+            Fires an OnPreMatched event.
+            </summary>
+            <param name="matches">The IMatches object returned by the matcher of the single action.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Finishing(de.unika.ipd.grGen.libGr.IMatches,System.Boolean)">
             <summary>
@@ -7732,6 +7869,13 @@
             <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
             <param name="numMatches">The amount of matches found (output returned).</param>
             <returns>The list of outputs (for each match a list element, a list element is an array with the returned values).</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.Filter(de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression)">
+            <summary>
+            Filters the matches of a rule (all) call with a lambda expression filter (call).
+            </summary>
+            <param name="matches">The matches of the rule</param>
+            <param name="filter">The lambda expression filter to apply</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.GetElementVariables(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
@@ -9406,6 +9550,28 @@
             The name of the match class, prefixed by the (resolved) package it is contained in (separated by a double colon), if it is contained in a package.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceFilterCallLambdaExpressionCompiled">
+            <summary>
+            A sequence representing a lambda expression filter call at compile time (of an action filter or a match class filter).
+            It specifies the filter and optionally a target entity (plus the lambda expression and the per-element variables - in the parent class).
+            Only used internally for code generation.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceFilterCallLambdaExpressionCompiled.MatchClassName">
+            <summary>
+            null if this is a single-rule filter, otherwise the match class of the filter.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceFilterCallLambdaExpressionCompiled.MatchClassPackage">
+            <summary>
+            null if the match class is global, otherwise the (resolved) package the match class is contained in.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceFilterCallLambdaExpressionCompiled.MatchClassPackagePrefixedName">
+            <summary>
+            The name of the match class, prefixed by the (resolved) package it is contained in (separated by a double colon), if it is contained in a package.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceRuleCall.ArgumentExpressions">
             <summary>
             An array of expressions used to compute the input arguments.
@@ -9752,12 +9918,12 @@
             <param name="seqExprFuncCall">The function call to check</param>
             <param name="ownerType">Gives the owner type of the function method call, in case this is a method call, otherwise null</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckFilterCalls(System.String,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceFilterCall})">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckFilterCalls(System.String,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceFilterCallBase})">
             <summary>
             Checks whether called filter exists, and type checks the inputs.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckMatchClassFilterCalls(System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceFilterCall},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceRuleCall})">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckMatchClassFilterCalls(System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceFilterCallBase},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceRuleCall})">
             <summary>
             Checks whether called match class filter exists, and type checks the inputs.
             </summary>

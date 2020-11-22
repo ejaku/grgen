@@ -1269,10 +1269,13 @@ namespace de.unika.ipd.grGen.libGr
             if(MatchClass != null)
                 sb.Append(MatchClass.info.PackagePrefixedName + ".");
             sb.Append(Name);
-            if(FilterCall.Entity != null)
-                sb.Append("<" + FilterCall.Entity + ">");
+            //if(FilterCall.Entity != null)
+            //    sb.Append("<" + FilterCall.Entity + ">");
             sb.Append("{");
-            FilterCall.lambdaExpression.ToString();
+            if(FilterCall.index != null)
+                sb.Append(FilterCall.index.Name + " -> ");
+            sb.Append(FilterCall.element.Name + " -> ");
+            sb.Append(FilterCall.lambdaExpression.Symbol);
             sb.Append("}");
             return sb.ToString();
         }
@@ -1355,10 +1358,13 @@ namespace de.unika.ipd.grGen.libGr
             if(MatchClassName != null)
                 sb.Append(MatchClassPackagePrefixedName + ".");
             sb.Append(Name);
-            if(FilterCall.Entity != null)
-                sb.Append("<" + FilterCall.Entity + ">");
+            //if(FilterCall.Entity != null)
+            //    sb.Append("<" + FilterCall.Entity + ">");
             sb.Append("{");
-            FilterCall.lambdaExpression.ToString();
+            if(FilterCall.index != null)
+                sb.Append(FilterCall.index.Name + " -> ");
+            sb.Append(FilterCall.element.Name + " -> ");
+            sb.Append(FilterCall.lambdaExpression.Symbol);
             sb.Append("}");
             return sb.ToString();
         }

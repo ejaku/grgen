@@ -1047,7 +1047,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - delete ...                Deletes something\n"
                 + " - dump ...                  Dump related commands\n"
                 + " - echo <text>               Writes the given text to the console\n"
-                + " - eval <expr>               Evaluates the given graph rewrite sequence expression\n"
+                + " - eval <expr>               Evaluates the given sequence expression\n"
                 + " - (exec | xgrs) <xgrs>      Executes the given extended graph rewrite sequence\n"
                 + " - exit | quit               Exits the GrShell\n"
                 + " - export ...                Exports the current graph.\n"
@@ -3124,7 +3124,7 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 seqExpr.SetNeedForProfilingRecursive(GetEmitProfiling());
-                seqApplierAndDebugger.ApplyRewriteSequenceExpression(seqExpr);
+                seqApplierAndDebugger.ApplyRewriteSequenceExpression(seqExpr, false);
                 noError = !seqApplierAndDebugger.OperationCancelled;
             }
             catch(SequenceParserException ex)
@@ -3228,6 +3228,32 @@ namespace de.unika.ipd.grGen.grShell
             catch(Exception ex)
             {
                 Console.WriteLine("Unable to debug execute sequence at line " + tok.beginLine + ": " + ex);
+                noError = false;
+            }
+        }
+
+        public void DebugSequenceExpression(SequenceExpression seqExpr, Token tok, out bool noError)
+        {
+            try
+            {
+                seqExpr.SetNeedForProfilingRecursive(GetEmitProfiling());
+                seqApplierAndDebugger.DebugRewriteSequenceExpression(seqExpr);
+                noError = !seqApplierAndDebugger.OperationCancelled;
+            }
+            catch(SequenceParserException ex)
+            {
+                Console.WriteLine("Unable to debug evaluate sequence expression at line " + tok.beginLine);
+                HandleSequenceParserException(ex);
+                noError = false;
+            }
+            catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+            {
+                Console.WriteLine("Unable to debug evaluate sequence expression at line " + tok.beginLine + ": " + ex.Message);
+                noError = false;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Unable to debug evaluate sequence expression at line " + tok.beginLine + ": " + ex);
                 noError = false;
             }
         }

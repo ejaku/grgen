@@ -1812,6 +1812,8 @@ namespace de.unika.ipd.grGen.expression
                 sb.Append(" ");
                 sb.Append(NamesOfEntities.Variable(patternVariable.name));
             }
+            if(Parallel)
+                sb.Append(", int threadId");
             sb.Append(")\n");
             sb.AppendFront("{\n");
             sb.Indent();
@@ -1871,6 +1873,8 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(")");
                 sourceCode.Append(NamesOfEntities.Variable(patternVariable.name));
             }
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -1878,6 +1882,11 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Target;
             yield return Mapping;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         readonly Expression Target;
@@ -1889,6 +1898,7 @@ namespace de.unika.ipd.grGen.expression
         readonly PatternNode[] PatternNodes;
         readonly PatternEdge[] PatternEdges;
         readonly PatternVariable[] PatternVariables;
+        bool Parallel;
     }
 
     /// <summary>
@@ -1968,6 +1978,8 @@ namespace de.unika.ipd.grGen.expression
                 sb.Append(" ");
                 sb.Append(NamesOfEntities.Variable(patternVariable.name));
             }
+            if(Parallel)
+                sb.Append(", int threadId");
             sb.Append(")\n");
             sb.AppendFront("{\n");
             sb.Indent();
@@ -2027,6 +2039,8 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(")");
                 sourceCode.Append(NamesOfEntities.Variable(patternVariable.name));
             }
+            if(Parallel)
+                sourceCode.Append(", threadId");
             sourceCode.Append(")");
         }
 
@@ -2034,6 +2048,11 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Target;
             yield return Condition;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
         }
 
         readonly Expression Target;
@@ -2045,6 +2064,7 @@ namespace de.unika.ipd.grGen.expression
         readonly PatternNode[] PatternNodes;
         readonly PatternEdge[] PatternEdges;
         readonly PatternVariable[] PatternVariables;
+        public bool Parallel;
     }
 
     /// <summary>

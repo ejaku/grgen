@@ -1682,6 +1682,13 @@ void DebugCommand():
                 impl.DebugSequence(seq, tok, out noError);
         }
     |
+        tok="eval" str=CommandLine()
+        {
+            seqExpr = impl.ParseSequenceExpression(str, null, null, tok, out noError);
+            if(seqExpr != null)
+                impl.DebugSequenceExpression(seqExpr, tok, out noError);
+        }
+    |
         "enable" LineEnd()
         {
             impl.SetDebugMode(true);

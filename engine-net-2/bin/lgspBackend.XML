@@ -279,9 +279,24 @@
             Class representing an array reverse expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayShuffle">
+            <summary>
+            Class representing an array shuffle expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayExtract">
             <summary>
             Class representing an array extract (from match type of rule) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayMap">
+            <summary>
+            Class representing an array map expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayRemoveIf">
+            <summary>
+            Class representing an array map expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayExtractIterated">
@@ -362,6 +377,16 @@
         <member name="T:de.unika.ipd.grGen.expression.ArrayDev">
             <summary>
             Class representing an array (standard) dev(iation) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayAnd">
+            <summary>
+            Class representing an array and expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOr">
+            <summary>
+            Class representing an array or expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.DequeSize">
@@ -468,6 +493,12 @@
             <summary>
             Base class of expressions and yieldings
             which allows to emit code and to iterate over the contained children
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.EmitArrayPerElementMethods(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            pre-run for emitting array per element methods employing lambda expressions (that are then called in the expression/yielding)
+            default implementation: recursively walk the tree, real functionality is to be attached to the nodes that require it
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder)">
@@ -719,6 +750,11 @@
         <member name="T:de.unika.ipd.grGen.expression.Count">
             <summary>
             Class representing count of instances of an iterated pattern expression
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.MatchAccess">
+            <summary>
+            Class representing the access of a match (of an iterated)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.IteratedQuery">
@@ -1636,9 +1672,19 @@
             Class representing an iterated filtering.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.FilterInvocationBase">
+            <summary>
+            Class representing a base class for filter invocations applied to an iterated (of regular filters or lambda expression filters).
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.FilterInvocation">
             <summary>
             Class representing a filter invocation applied to an iterated.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FilterInvocationLambdaExpression">
+            <summary>
+            Class representing a lambda expression filter invocation applied to an iterated.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.GraphStatisticsParserSerializer">
@@ -2242,6 +2288,13 @@
             <summary>
             An implementation of the IGraphProcessingEnvironment, to be used with LGSPGraphs.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.Filter(de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression)">
+            <summary>
+            Filters the matches of a rule (all) call with a lambda expression filter (call).
+            </summary>
+            <param name="matches">The matches of the rule</param>
+            <param name="filter">The lambda expression filter to apply</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.GetLGSPNodeVarValue(System.String)">
             <summary>
@@ -4211,7 +4264,7 @@
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2">
             <summary>
             An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
-            It is returned by IAction.Match() and given to the OnMatched, OnFinishing and OnFinished event.
+            It is returned by IAction.Match() and given to the OnMatched, OnPreMatched, OnFinishing and OnFinished event.
             Generic to be instantiated with the exact interface and the exact implementation type of the match object
             Every generated Action contains a LGSPMatchesList,
             the matches contain one LGSPMatchesList per iterated pattern.
@@ -4348,11 +4401,24 @@
             </summary>
             <exception cref="T:System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.ToList">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.ToListCopy">
             <summary>
             Returns a copy of the content of the current matches list in form of an array.
             Attention: matches may get stale when the rule is matched again.
-            This is only a convenience helper method, unrelated to ToListExact, and its pairing with FromListExact.
+            This is only a convenience helper method, unrelated to ToList, and its pairing with FromList, as well as ToListExact, and its pairing with FromListExact.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.ToList">
+            <summary>
+            Returns the content of the current matches list in form of an array which can be efficiently indexed and reordered.
+            The array is destroyed when this method is called again, the content is destroyed when the rule is matched again (there is only one array existing).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FromList">
+            <summary>
+            Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
+            The list might have been reordered, matches might have been removed, or even added.
+            Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.ToListExact">
@@ -4363,7 +4429,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FromListExact">
             <summary>
-            Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
+            Reincludes the array handed out with ToListExact, REPLACING the current matches with the ones from the list.
             The list might have been reordered, matches might have been removed, or even added.
             Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
             </summary>
@@ -4436,6 +4502,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.count">
             <summary>
             number of found matches in the list
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.array">
+            <summary>
+            the array returned in a call of ToList
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.arrayExact">
@@ -5860,6 +5931,13 @@
             <param name="original">The original pattern variable to be copy constructed.</param>
             <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
             <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
+            <param name="nameSuffix">The suffix to be added to the name of the pattern variable (to avoid name collisions).</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternVariable.#ctor(de.unika.ipd.grGen.lgsp.PatternVariable,System.String)">
+            <summary>
+            Instantiates a new PatternVariable object as a copy from an original variable under renaming.
+            </summary>
+            <param name="original">The original pattern variable to be copy constructed.</param>
             <param name="nameSuffix">The suffix to be added to the name of the pattern variable (to avoid name collisions).</param>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.StorageAccess">
@@ -7750,6 +7828,11 @@
             needed for the profile that does special statistics for the first loop,
             because this is the one that will get parallelized in case of action parallelization
             only of relevance if programType == SearchProgramType.Action, otherwise the type pinns it to true
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBodyBuilder.arrayPerElementMethodBuilder">
+            <summary>
+            source builder that receives the array per element methods
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBodyBuilder.helper">
