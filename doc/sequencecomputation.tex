@@ -299,7 +299,7 @@ The change assignments known from rule language in contrast are \emph{not} avail
 Further support is discussed in the following separated by type.
 
 \subsubsection*{Array Operations}
-All array methods are supported (the array of match is the central data structure in the sequence expressions to support pattern-based graph queries), see \ref{sec:arrayexpr} for a list of them.
+All array methods are supported (the array of match is the central data structure in the sequence expressions to support pattern-based graph queries), see Section~\ref{sec:arrayexpr} and Section~\ref{sec:accumulation} for a list of them.
 From the array methods specifying and accessing a member of the array value type, the \texttt{extract<member>()} method is supported as well as the ordering methods \texttt{order\-Ascending\-By<member>()} and \texttt{order\-Descending\-By<member>()}, plus \texttt{group\-By<member>()} and \texttt{keep\-One\-For\-Each<member>()} (note that further means of ordering are available as filter calls).
 
 All infix operators are supported, which are array concatenation, as well as the relational operators.
@@ -360,6 +360,85 @@ Use the \texttt{copy(.:container):container} function to clone the container bef
 %\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph and Subgraph Based Queries and Updates}\label{sec:queryupdate}\label{sec:visited}
+
+The graph and subgraph oriented parts of the sequence expressions are built from four groups:
+\begin{enumerate}
+	\item the procedures for basic graph manipulation,
+	\item the functions for querying the graph structure,
+	\item the functions and procedures of the subgraph operations, and
+	\item the visited flag query, assignment, and procedures.
+\end{enumerate}
+
+The first group is built from basic graph manipulation operators, as defined in \ref{procstab} and described in \ref{sub:procedures}.
+Elements may be added, removed, or retyped, and nodes may be merged or edges redirected.
+Not available are numerical functions, they are only offered by the computations of the rules. 
+
+\begin{example}
+The sequence computation \verb#{ (::x)=add(N); (::x)=retype(::x,M); rem(::x) }# adds a newly created node of type \texttt{N} to the graph (storing it in the global variable \verb#::x#), retypes it to \texttt{M}, and finally removes it again from the graph.
+\end{example}
+
+The second group is built from the operators querying primarily the connectedness of graph elements,
+as defined in \ref{sub:functions}.
+You may ask for one for the nodes or edges of a type.
+You may query for the other for the source or target or opposite node of an edge.
+Furthermore, you may query for adjacent nodes and incident edges,
+maybe even transitively for the reachability.
+Furthermore you may ask with a predicate whether nodes or edges are adjacent or incident to other nodes or edges, maybe even transitively for reachability.
+
+These global functions returning elementary data define the simple way of graph querying -- the more powerful way is defined by pattern based queries (employing rules/tests) -- they return an array of pattern matches, see Chapter~\ref{cha:graphquery}.
+
+\begin{example}
+\verb#for{x:N in nodes(N); for{::y in outgoing(x); { ::z=target(::y); ::z.a = 42 } } }# 
+is a sequences that sets the attribute \texttt{a} to 42 for all nodes that are adjacent as targets to a source node \texttt{x} of type \texttt{N}.
+You will receive a runtime exception if the type of \verb#::z# does not possess an attribute \texttt{a}.
+
+A more realistic example is to check whether two nodes returned by some rule applications are reachable from each other, carrying out a change only in this case:\\
+\verb#(::x)=r() ;> (::y)=s() ;> if{ {{isReachable(::x,::y)}} ; doSomething(::x, ::y) }#
+\end{example}
+
+The third group is defined by functions and procedures that operate on (sub-)graphs, as defined in \ref{sub:functions} and \ref{sub:procedures}.
+They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
+To this end, parallelized graph isomorphy checking with the \texttt{equalsAny} function is especially of interest.
+You may import, clone, or compute induced subgraphs.
+You may export a subgraph or insert a subgraph into the hostgraph.
+
+\begin{example}
+\verb#( doSomething() ;> { File::export("graph"+i+".grs") } )*# is a sequence scheme for exporting a graph after each iteration step in a loop, gaining a series of snapshots on the hard drive.
+In a later step, you may then conditionally add exported graphs to the host graph: 
+\verb#if{cond; { ::g=File::import("graph"+n.a+".grs"); insert(::g) } }#
+\end{example}
+
+\begin{example}
+When you model a state space with \texttt{Graph} representative nodes (\emph{not} \texttt{graph} standing for a real (sub)graph), which are pointing with \texttt{contains} edges to the nodes contained in their state (i.e. subgraph), and store additionally a replica of the subgraph in a \texttt{sub} attribute of the \texttt{Graph} node, so it is readily available for comparisons,
+then the step of a state space enumeration with isomorphic state pruning is controlled with code like this:\\
+\verb#<< modifyCurrent(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)}#\\
+Inside the backtracking double angles, a new state is computed as first step by modifying the currently focused state received as input \texttt{gr:Graph} from the previous step. The modified subgraph is extracted for comparison by computing the \texttt{inducedSubgraph} from the nodes \texttt{adjacent} via \texttt{contains}-edges to the \texttt{gr}-node.\\
+\verb#;> for{others:Graph in nodes(Graph); {{sub!=others.sub}} } && #\\
+The extracted subgraph is compared with all already enumerated subgraphs that can be accessed by their \texttt{Graph} representative node. Only if none is isomorphic to it, do we continue with making the state persistent.\\
+\verb#/ {(ngr)=insertInduced(adj, gr)} && link(gr,ngr) && {ngr.sub=sub} /#\\
+During a backtracking pause, the modified subgraph is cloned and inserted flatly into the host graph again with \texttt{insertInduced}. A link is added from the old representative to this new representative, to reflect ancestry. Then the subgraph attribute of the new representative \texttt{ngr} is filled with the previously computed subgraph \texttt{sub}. Remark: the first \texttt{inducedSubgraph} above does not contain the representative node and thus is missing all containment edges, too. This \texttt{insertInduced} includes the representative node and thus the containment edges. Syntactical remark: \texttt{inducedSubgraph} is used in an assignment with a function call as RHS, whereas \texttt{insertInduced} is employed from a procedure call which requires parenthesis around the output arguments.\\
+\verb#&& stateStep(ngr, level+1) >>#\\
+Finally, we continue state space construction with the next step, modifying the just inserted subgraph.
+After this step returns (with \texttt{false} as result), do the backtracking double angles roll back the modification -- keeping the changes written during the pause untouched -- and execute \texttt{modifyCurrent} on the next match available in \texttt{gr}.
+\end{example}
+
+The fourth group are the visited flags related operations,
+as described in chapter \ref{sub:visitedaccess}.
+Available is an expression for reading a visited flag, an assignment for writing a visited flag, and procedures for managing the visited flags as defined in \ref{procstab}.
+
+\begin{example}
+Because of the need to allocate and deallocate them, the visited flags are typically used with code like this:
+\verb#flag:int ;> {(flag)=valloc()} ;> r(flag) ;> {vfree(flag)}#\\
+In addition, they may be read in the sequence expressions, and written in the sequence computations:
+\verb#if{ {{!n.visited[flag]}} ; { n.visited[flag] = true } }#
+\end{example}
+
+In the sequences only the sequence expressions are available to compute the parameters for the functions and procedures, compared to the full-fledged expressions of the computations language.
+
+%\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick Reference Table}
 
 Table~\ref{comptab} lists most of the operations of the graph rewrite computations at a glance.
@@ -415,3 +494,5 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 %\makeatother
  
 % todo: beispiele im text bringen
+
+

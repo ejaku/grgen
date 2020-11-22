@@ -1,7 +1,146 @@
-\chapter{Sequence Graph Queries and Updates}\label{cha:graphquery}%\indexmain{sequence computations}\label{seqcomp}
+\chapter{Graph Queries}\label{cha:graphquery}
+%\chapter{Sequence Graph Queries and Updates}\label{cha:graphquery}%\indexmain{sequence computations}\label{seqcomp}
+% match type würde zwar konzeptionell hier passen, aber schon in filtering/ordering und for-matches-loop in sequence computations gebraucht.
 
-In this chapter we take a look at the sequence computations, which are not concerned with controlling rules, but with querying the graph (in the form of sequence expressions) or directly manipulating the graph (in the form of sequence statements).
-Graph querying may occur in two ways, for one with global functions that return elementary data, for the other with pattern based queries (employing rules/tests), that return an array of pattern matches.
+In this chapter we take a look at pattern queries -- the most powerful and flexible way of querying the graph.
+They are more powerful than the simple global functions returning elementary data (described in Section~\ref{sec:queryupdate}),
+and more flexible than the returning of pre-selected values from rules or tests (described in Chapter~\ref{chaprulelang}).
+
+Pattern queries employing tests or rules as tests in order to obtain some result value define the second way of pattern usage besides the already known one employing rules to carry out host graph state changes.
+%Here we take a look at the secondary usage of patterns besides the already known transformation workflow where they are employed with rules to carry out host graph state changes.
+%for the the query workflow, the directly following array accumulation methods are of importance. 
+
+\subsubsection*{Query Workflow Compared to Transformation Workflow}
+
+%The most direct and powerful way are the pattern based queries (employing rules/tests), which return an array of pattern matches for further processing with filters and array accumulation functions.
+
+The heart and soul of \GrG{} is pattern matching -- it is utilized from two different workflows.
+Both start the same way, the pattern is matched, yielding an \emph{array} of \emph{match} objects, which gets further processed by \emph{filters}.
+\begin{description}
+	\item[rule application] The resulting matches are used to apply the rewrite part of the rule on the resulting matches, causing a graph state change, ending in a boolean value telling about rule application success (this can be seen as a built-in automatically applied reduction) %the matches are only accessible for the rewriting parts
+	\item[querying] The resulting matches are fed into post-matches-accumulation methods, that distill a scalar value out of them, or an array or set of interesting values; the matches may be also reported directly instead (no graph state change is carried out when working with queries).
+\end{description}
+
+\begin{tikzpicture}[baseline=(T.base)] \tt
+	\begin{scope}[minimum size=0.5cm]
+		\tikzstyle{every node}=[draw]
+		\node (pm)     at (4   ,10) {\texttt{pattern matching}};
+		\node (ma)     at (4   ,8) {\texttt{a:array<match<r>>}};
+		\node (fo)     at (9   ,8) {\texttt{filtering/ordering}};
+		\node (rw)     at (0   ,6) {\texttt{rewriting/graph state change}};
+		\node (ar)     at (0   ,4) {\texttt{a.size() > 0}};
+		\node (rb)     at (0   ,2) {\texttt{r:boolean}};
+		\node (aa)     at (9   ,6) {\texttt{array(-accumulation)-methods}};
+		\node (r)     at (9   ,4) {\texttt{r:array<T> or r:set<T> or r:S}};
+	\end{scope}
+	\draw[thick,-open triangle 45]  (pm) -> (ma)  ;
+	\draw[thick,-open triangle 45]  (ma) -> (fo)  ;
+	\draw[thick,-open triangle 45]  (fo) -> (ma)  ;
+	\draw[thick,-open triangle 45]  (ma) -> (rw)  ;
+	\draw[thick,-open triangle 45]  (rw) -> (ar)  ;
+	\draw[thick,-open triangle 45]  (ar) -> (rb)  ;
+	\draw[thick,-open triangle 45]  (ma) -> (aa)  ;
+	\draw[thick,-open triangle 45]  (aa) -> (r)  ;
+\end{tikzpicture}
+
+In order to manipulate a graph you need rules, for querying you can use rules as well as tests, but the more natural partner for querying are tests (coming without the specification of a graph change).
+The advanced array operations employed in the queries allow to flexibly pick at the call site (outside of the rule/test) the values of interest as well as the accumulation method, instead of having to encode them in the rule, and allow to accumulate the data from multiple matches (typically obtained from different spots) directly, instead of having to work with some temporary accumulation variables (but only in case a method suiting your needs is available).
+The same holds for iterated queries inside a rule (allowing to accumulate the data from multiple matches of an iterated pattern, while some other yielding constructs allow to accumulate bottom-up in case no method is available or a nested iterated requires value accumulation, as of now only one level of iterated query filtering and post-matches-accumulation is supported; see Chapter~\ref{cha:yielding} for more).
+
+In the following section we introduce the post-matches-accumulation methods/advanced array operations (these are predominantly employed in the query workflow).
+
+\section{Advanced Array Operations (Querying Support)}\label{sec:accumulation}\indexmain{accumulation}
+
+The following array methods can be employed in the rule language and in the sequence expressions.
+%From the array methods specifying and accessing a member of the array value type, the \texttt{extract<member>()} method is supported as well as the ordering methods \texttt{order\-Ascending\-By<member>()} and \texttt{order\-Descending\-By<member>()}, plus \texttt{group\-By<member>()} and \texttt{keep\-One\-For\-Each<member>()} (note that further means of ordering are available as filter calls).
+We distinguish the 
+\begin{itemize}
+	\item array accumulation methods
+	\item by-member-or-attribute access methods
+	\item per-array-element with lambda expression access methods
+\end{itemize}
+
+\subsection{Array Accumulation Methods} 
+
+Some accumulation method calls are available on arrays of esp. numbers:
+
+\begin{description}
+\item[\texttt{.sum()}] returns the sum of the elements in the array, as \texttt{T'} for \texttt{array<T>}
+\item[\texttt{.prod()}] returns the product of the elements in the array, as \texttt{T'} for \texttt{array<T>}
+\item[\texttt{.min()}] returns the minimum of the elements in the array, as \texttt{T'} for \texttt{array<T>}
+\item[\texttt{.max()}] returns the maximum of the elements in the array, as \texttt{T'} for \texttt{array<T>}
+\item[\texttt{.avg()}] returns the average (mean) of the elements in the array, as \texttt{double}
+\item[\texttt{.med()}] returns the median of the elements in the array that must be ordered, as \texttt{double}
+\item[\texttt{.medUnordered()}] returns the median of the elements in the array, as \texttt{double}
+\item[\texttt{.var()}] returns the variance of the elements in the array, as \texttt{double}
+\item[\texttt{.dev()}] returns the deviation of the elements in the array, as \texttt{double}
+\item[\texttt{.and()}] returns the conjuntion of the elements in the array (of \texttt{boolean} values), as \texttt{boolean}, \texttt{true} in case of an empty array
+\item[\texttt{.or()}] returns the disjunction of the elements in the array (of \texttt{boolean} values), as \texttt{boolean}, \texttt{false} in case of an empty array
+\end{description}\label{arrayaccumulationmethod}
+
+The input type \texttt{T} must be a numeric type, i.e. one of the integer types \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or one of the floating point types \texttt{float} or \texttt{double}. 
+The result type \texttt{T'} is \texttt{int} for input types \texttt{byte} or \texttt{short} or \texttt{int}, it is \texttt{long} for input type \texttt{long}, it is \texttt{float} for input type \texttt{float}, and it is \texttt{double} for input type \texttt{double} (the same type is used for carrying out the accumulation, defining bounds and precision).
+
+Note that also the array methods introduced in Section~\ref{sec:arrayexpr} can be used for accumulation (/towards query purpose), e.g. the \texttt{.asString(separator)} method (or the \texttt{.asSet()} method).
+
+\subsection{Array By-Member Methods} 
+
+Several by-member access (or array query) methods are available on 
+
+\begin{itemize}
+	\item arrays of node or edge types bearing attributes
+	\item arrays of match types having match member entities
+	\item arrays of iterated match types having match member entities
+	\item arrays of match class types having match class member entities
+\end{itemize}
+
+They inspect the value of the attribute or member of the graph element or match stored in the array, instead of the value contained in the array directly.
+
+\begin{description}
+\item[\texttt{.extract<attr>()}] returns for an \texttt{array<T>} an \texttt{array<S>}, where \texttt{S} is the type of the attribute or member \texttt{attr} to be extracted (or projected out).
+\item[\texttt{.orderAscendingBy<attr>()}] returns an array with the content of the input array ordered ascendingly; available for an attribute or member \texttt{attr} of an orderable basic type.
+\item[\texttt{.orderDescendingBy<attr>()}] returns an array with the content of the input array ordered descendingly; available for an attribute or member \texttt{attr} of an orderable basic type.
+\item[\texttt{.groupBy<attr>()}] returns an array with the content of the input array grouped alongside the attribute (equal values being neighbours); available for an attribute or member \texttt{attr} of basic type or a node or edge type.
+\item[\texttt{.keepOneForEach<attr>()}] returns an array with the content of the input array freed from duplicates; available for an attribute or member \texttt{attr} of basic type or a node or edge type.
+\end{description}\label{arraybymemberaccessmethod}
+%And again: the \verb#X_by<attr>#-versions inspect the value of the attribute of the graph element stored in the array.
+
+\noindent Even more by-member access or query methods are available, but only on arrays of node or edge types.
+They inspect the value of the attribute \texttt{attr} of the graph element stored in the array, instead of the value contained in the array directly.
+They are neither available for arrays of match type, nor in the sequence expressions, so only of limited use towards the querying purpose.
+ %debatable whether better located in array chapter/section then, but fits here structurally, acceptable with the explanation
+
+\begin{description}
+\item[\texttt{.indexOfBy<attr>(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found.
+\item[\texttt{.indexOfBy<attr>(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found.
+\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found.
+\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found.
+\item[\texttt{.indexOfOrderedBy<attr>(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitrary one is returned.
+\end{description}
+
+The ordering or access-alongside-order methods utilize the ordering relation, so they support only members or attributes of numeric type (\texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double},) or \texttt{string} or \texttt{enum} type -- also \texttt{boolean} is supported, even if not of much use).
+The other query methods utilize equality comparisons, so they support additionally members or attributes of node or edge type.
+
+\subsection{Array Per-Element Methods with Lambda Expressions} 
+
+Some per-element array methods are available with a special syntax giving a lambda expression (instead of arguments).
+The lambda expression is evaluated for each element of the array, with the current array element being available in a to be declared element variable (of type \texttt{T} for an array of type \texttt{array<T>}), and optionally the array index in a to be declared index variable (of type \texttt{int}).
+A type may be given enclosed in angles to denote a mapping result type.
+
+\begin{rail}
+  MethodSelector: '.' FunctionIdent ('<' Type '>' | ) lbrace PerElementClause rbrace;
+  PerElementClause: (IdentDecl ':' Type '->')? IdentDecl ':' Type '->' Expression;
+\end{rail}\ixnterm{MethodSelector}\ixnterm{PerElementClause}
+
+\begin{description}
+\item[\PVerb{.map<S>{element:T -> lambda-expr}}] returns a new \texttt{array<S>},
+   created by mapping each \texttt{element:T} (the name can be chosen freely) of the original \texttt{array<T>} with the lambda expression (of type \texttt{S}) to its resulting counterpart.
+\item[\PVerb{.removeIf{element:T -> lambda-expr}}] returns a new \texttt{array<T>},
+   created by removing each \texttt{element:T} (the name can be chosen freely) of the original \texttt{array<T>} for which the predicate given by the lambda expression (which must be of type \texttt{boolean}) yielded true.
+\end{description}
+
+Both methods allow for an optional index: the variable \texttt{index:int} (the name can be chosen freely) iterates the array indices [0,a.size()-1] of the corresponding elements in the array \texttt{a:array<T>} in the \verb#a.map<S>{index:int -> element:T -> lambda-expr}# and \\ \verb#a.removeIf{index:int -> element:T -> lambda-expr}# expressions.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Pattern Matching Based Queries}\label{sec:patternbasedgraphquery}
@@ -20,11 +159,12 @@ The execution semantics is: all matches of the rule pattern in the host graph ar
 For query purpose, a \texttt{test} is to be preferred over a \texttt{rule}, as the rewrite part won't be applied anyway. 
 No values are returned in either case, and no return assignments specified.
 The data of interest is to be extracted from the array of matches, or the match (type) respectively.
-Towards this goal, the filters are to be applied, cf. Chapter~\ref{sub:filters}, but esp. the array accumulation and query methods, cf. Section~\ref{sec:arrayexpr}, notably the \texttt{extract} method.
+Towards this goal, the filters are to be applied, cf. Chapter~\ref{sub:filters}, but esp. the array accumulation and query methods introduced earlier in this chapter, as well as in Section~\ref{sec:arrayexpr}, notably the \texttt{extract} method.
 No debugging modifier \texttt{\%} may be applied, rule queries are evaluated silently.
 
-\begin{example}
+Note that the rule query is a sequence expression -- it cannot be applied in a sequence in the place of a rule.
 
+\begin{example}
   \begin{grgen}
 node class namedObject
 {
@@ -38,6 +178,10 @@ edge class INTERESTED_IN
 	weight : double;
 }
   \end{grgen}
+\end{example}
+
+
+\begin{example}
 
   \begin{grgen}
 test interests(subject:namedObject<null>)
@@ -86,6 +230,7 @@ test fetchByName(var name:string) : (namedObject)
 	return(namedObj);
 }
   \end{grgen}\label{exsimplequeryrules}
+
 \end{example}
 
 
@@ -165,122 +310,21 @@ It does not allow return assignments in contrast to the latter one, as no output
 In contrast to the \emph{MultiRuleExecution}, a \emph{MatchClassSpec} is required.
 It defines the type of the result (it cannot be derived from the rules, as these may implement multiple (shared) match classes).
 
+Note that the multi rule query is a sequence expression -- it cannot be applied in a sequence in the place of a multi rule.
+
 \begin{example}
 The rules from Example~\ref{exmatchclass} can be applied as a query with e.g. \\
-\verb#[?[r,s]\Score.orderDescendingBy<score>\Score.keepFirst(3)\<class Score>]#.
+\verb#eval [?[r,s]\Score.orderDescendingBy<score>\Score.keepFirst(3)\<class Score>]#.
 \end{example}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Graph and Subgraph Based Queries and Updates}\label{sec:queryupdate}\label{sec:visited}
-
-The graph and subgraph oriented parts of the sequence expressions are built from four groups,
-the procedures for basic graph manipulation, the functions for querying the graph structure, the functions and procedures of the subgraph operations, and the visited flag query, assignment, and procedures.
-
-The first group is built from basic graph manipulation operators, as defined in \ref{procstab} and described in \ref{sub:procedures}.
-Elements may be added, removed, or retyped, and nodes may be merged or edges redirected.
-Not available are numerical functions, they are only offered by the computations of the rules. 
-
-\begin{example}
-The sequence computation \verb#{ (::x)=add(N); (::x)=retype(::x,M); rem(::x) }# adds a newly created node of type \texttt{N} to the graph (storing it in the global variable \verb#::x#), retypes it to \texttt{M}, and finally removes it again from the graph.
-\end{example}
-
-The second group is built from the operators querying primarily the connectedness of graph elements,
-as defined in \ref{sub:functions}.
-You may ask for one for the nodes or edges of a type.
-You may query for the other for the source or target or opposite node of an edge.
-Furthermore, you may query for adjacent nodes and incident edges,
-maybe even transitively for the reachability.
-Furthermore you may ask with a predicate whether nodes or edges are adjacent or incident to other nodes or edges, maybe even transitively for reachability.
-
-\begin{example}
-\verb#for{x:N in nodes(N); for{::y in outgoing(x); { ::z=target(::y); ::z.a = 42 } } }# 
-is a sequences that sets the attribute \texttt{a} to 42 for all nodes that are adjacent as targets to a source node \texttt{x} of type \texttt{N}.
-You will receive a runtime exception if the type of \verb#::z# does not possess an attribute \texttt{a}.
-
-A more realistic example is to check whether two nodes returned by some rule applications are reachable from each other, carrying out a change only in this case:\\
-\verb#(::x)=r() ;> (::y)=s() ;> if{ {{isReachable(::x,::y)}} ; doSomething(::x, ::y) }#
-\end{example}
-
-The third group is defined by functions and procedures that operate on (sub-)graphs, as defined in \ref{sub:functions} and \ref{sub:procedures}.
-They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
-To this end, parallelized graph isomorphy checking with the \texttt{equalsAny} function is especially of interest.
-You may import, clone, or compute induced subgraphs.
-You may export a subgraph or insert a subgraph into the hostgraph.
-
-\begin{example}
-\verb#( doSomething() ;> { File::export("graph"+i+".grs") } )*# is a sequence scheme for exporting a graph after each iteration step in a loop, gaining a series of snapshots on the hard drive.
-In a later step, you may then conditionally add exported graphs to the host graph: 
-\verb#if{cond; { ::g=File::import("graph"+n.a+".grs"); insert(::g) } }#
-\end{example}
-
-\begin{example}
-When you model a state space with \texttt{Graph} representative nodes (\emph{not} \texttt{graph} standing for a real (sub)graph), which are pointing with \texttt{contains} edges to the nodes contained in their state (i.e. subgraph), and store additionally a replica of the subgraph in a \texttt{sub} attribute of the \texttt{Graph} node, so it is readily available for comparisons,
-then the step of a state space enumeration with isomorphic state pruning is controlled with code like this:\\
-\verb#<< modifyCurrent(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)}#\\
-Inside the backtracking double angles, a new state is computed as first step by modifying the currently focused state received as input \texttt{gr:Graph} from the previous step. The modified subgraph is extracted for comparison by computing the \texttt{inducedSubgraph} from the nodes \texttt{adjacent} via \texttt{contains}-edges to the \texttt{gr}-node.\\
-\verb#;> for{others:Graph in nodes(Graph); {{sub!=others.sub}} } && #\\
-The extracted subgraph is compared with all already enumerated subgraphs that can be accessed by their \texttt{Graph} representative node. Only if none is isomorphic to it, do we continue with making the state persistent.\\
-\verb#/ {(ngr)=insertInduced(adj, gr)} && link(gr,ngr) && {ngr.sub=sub} /#\\
-During a backtracking pause, the modified subgraph is cloned and inserted flatly into the host graph again with \texttt{insertInduced}. A link is added from the old representative to this new representative, to reflect ancestry. Then the subgraph attribute of the new representative \texttt{ngr} is filled with the previously computed subgraph \texttt{sub}. Remark: the first \texttt{inducedSubgraph} above does not contain the representative node and thus is missing all containment edges, too. This \texttt{insertInduced} includes the representative node and thus the containment edges. Syntactical remark: \texttt{inducedSubgraph} is used in an assignment with a function call as RHS, whereas \texttt{insertInduced} is employed from a procedure call which requires parenthesis around the output arguments.\\
-\verb#&& stateStep(ngr, level+1) >>#\\
-Finally, we continue state space construction with the next step, modifying the just inserted subgraph.
-After this step returns (with \texttt{false} as result), do the backtracking double angles roll back the modification -- keeping the changes written during the pause untouched -- and execute \texttt{modifyCurrent} on the next match available in \texttt{gr}.
-\end{example}
-
-The fourth group are the visited flags related operations,
-as described in chapter \ref{sub:visitedaccess}.
-Available is an expression for reading a visited flag, an assignment for writing a visited flag, and procedures for managing the visited flags as defined in \ref{procstab}.
-
-\begin{example}
-Because of the need to allocate and deallocate them, the visited flags are typically used with code like this:
-\verb#flag:int ;> {(flag)=valloc()} ;> r(flag) ;> {vfree(flag)}#\\
-In addition, they may be read in the sequence expressions, and written in the sequence computations:
-\verb#if{ {{!n.visited[flag]}} ; { n.visited[flag] = true } }#
-\end{example}
-
-In the sequences only the sequence expressions are available to compute the parameters for the functions and procedures, compared to the full-fledged expressions of the computations language.
-
-%\pagebreak
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Query Looping and Counting Rule Execution}
-
-Instead of querying the graph with a sequence expression, and continuing processing with filters and array accumulation methods, is it possible to query it with a rule in a for loop of the sequences, processing the single matches one-by-one.
-
-\begin{rail}
-  ExtendedControl:
-    'for' lbrace Variable ':' Type
-    ('in' '[' '?' RuleIdent ']' ';')\\
-    RewriteSequence rbrace
-    ;
-\end{rail}\ixkeyw{for}\label{formatch}
-
-The \texttt{for} matches loop allows to iterate through the matches found for an all-bracketed rule reduced to a test (or a test); i.e. the rule is not applied, we only iterate its matches.
-The loop variable must be of type \texttt{match<r>} with \texttt{r} being the name of the rule matched (the type must be statically known).
-The elements (esp. the nodes and edges) of the pattern of the matched rule can then be accessed by applying the \texttt{.}-operator on the loop variable, giving the name of the element of interest after the dot.
-Note: the elements must be assigned to a variable so their attributes can be accessed, a direct attribute access after the match access is not possible.
-Note: the match object allows only to access the top level nodes, edges, or variables.
-If you use subpatterns or nested patterns and want to access elements found by them, you have to \texttt{yield}(\ref{sub:yield}) them out to the top-level pattern.
-
-In contrast to a rule query that only allows to fetch data from the graph without modifying it, is it possible for a counted rule application to apply a rule (including its rewrite part), and to assign the size of the matches array as rudimentary query result to a variable.
-
-\begin{rail}
-  RuleExecution: (() 
-	| '(' (Variable+',') ')' '=') \\ ('count' '[' RuleModifier Rule ']' '=''>' Variable);
-\end{rail}\ixnterm{RuleExecution}
-
-The \texttt{count}ed all bracketing \texttt{count[r]=>c} assigns the \indexed{count} of matches of rule \texttt{r} to the variable \texttt{c}, and applies \texttt{r} on all the matches.
-With \texttt{count[?r]=>c} the matches are only counted, no rewrites are carried out.
-
-% todo: beispiele im text bringen
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Query Result Combination (Auto-generated functions)}
 
 You can combine the results of multiple tests or rules with functions that receive arrays of match types as inputs and return an array of match class type.
 You may do so for one by manually implemented functions, and for the other by auto-generated functions.
+
+Example \ref{exjoins} shows how to combine the matches of the querying tests \texttt{sameCompany} and \texttt{sharedInterest} in the manner of a SQL natural join statement with the \texttt{naturalJoin} function into a \texttt{SameCompanySharedInterest} match class (cf. Section~\ref{sec:matchclass} for match classes; the natural join is a cartesian product with a selection condition requiring value equivalence for common names (to be seen as columns) in the matches (each one to be seen as a row) of the left array (table) and the right array (table)).
 
 \begin{example}
   \begin{grgen}
@@ -335,8 +379,6 @@ function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref match
 }
   \end{grgen}
 \end{example}
-
-Example \ref{exjoins} shows how to combine the matches of the querying tests \texttt{sameCompany} and \texttt{sharedInterest} in the manner of a SQL natural join statement with the \texttt{naturalJoin} function into a \texttt{SameCompanySharedInterest} match class (cf. Section~\ref{sec:matchclass} for match classes; the natural join is a cartesian product with a selection condition requiring value equivalence for common names (to be seen as columns) in the matches (each one to be seen as a row) of the left array (table) and the right array (table)).
 
 The match of the pattern of the test \texttt{sameCompany} contains the named members \texttt{subject}, \texttt{person}, and \texttt{company}, while the match of the pattern of the test \texttt{sharedInterest} contains the named members \texttt{subject}, \texttt{person}, and \texttt{interest}.
 They are combined into a \texttt{SameCompanySharedInterest} class, with single \texttt{subject} and \texttt{person} entries (a name can only appear once, you'd have to add a disambiguating prefix in order to keep two entries stemming from fields with same name, but as they'd contain the same entries due to the join anyway, we can just use a single unprefixed entry without loosing information), and \texttt{company} as well as \texttt{interest} members.
@@ -408,3 +450,36 @@ function keepOneAccumulate(ref matchesSameCompany:array<match<class QuarantineSc
 	eval keepOneAccumulate([?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\<class QuarantineScore>]).orderDescendingBy<score>()
 	\end{grshell}
 \end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Query Looping and Counting Rule Execution}
+
+Instead of querying the graph with a sequence expression, and continuing processing with filters and array accumulation methods, is it possible to query it with a rule in a for loop of the sequences, processing the single matches one-by-one.
+
+\begin{rail}
+  ExtendedControl:
+    'for' lbrace Variable ':' Type
+    ('in' '[' '?' RuleIdent ']' ';')\\
+    RewriteSequence rbrace
+    ;
+\end{rail}\ixkeyw{for}\label{formatch}
+
+The \texttt{for} matches loop allows to iterate through the matches found for an all-bracketed rule reduced to a test (or a test); i.e. the rule is not applied, we only iterate its matches.
+The loop variable must be of type \texttt{match<r>} with \texttt{r} being the name of the rule matched (the type must be statically known).
+The elements (esp. the nodes and edges) of the pattern of the matched rule can then be accessed by applying the \texttt{.}-operator on the loop variable, giving the name of the element of interest after the dot.
+Note: the elements must be assigned to a variable so their attributes can be accessed, a direct attribute access after the match access is not possible.
+Note: the match object allows only to access the top level nodes, edges, or variables.
+If you use subpatterns or nested patterns and want to access elements found by them, you have to \texttt{yield}(\ref{sub:yield}) them out to the top-level pattern.
+
+In contrast to a rule query that only allows to fetch data from the graph without modifying it, is it possible for a counted rule application to apply a rule (including its rewrite part), and to assign the size of the matches array as rudimentary query result to a variable.
+
+\begin{rail}
+  RuleExecution: (() 
+	| '(' (Variable+',') ')' '=') \\ ('count' '[' RuleModifier Rule ']' '=''>' Variable);
+\end{rail}\ixnterm{RuleExecution}
+
+The \texttt{count}ed all bracketing \texttt{count[r]=>c} assigns the \indexed{count} of matches of rule \texttt{r} to the variable \texttt{c}, and applies \texttt{r} on all the matches.
+With \texttt{count[?r]=>c} the matches are only counted, no rewrites are carried out.
+
+% todo: beispiele im text bringen
