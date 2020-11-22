@@ -1599,6 +1599,8 @@ public abstract class CSharpBase
 					sb.append(")");
 					sb.append(formatEntity(var));
 				}
+				if(modifyGenerationState.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
 				sb.append(")");
 				
 				generateArrayMap(am, modifyGenerationState);
@@ -1632,6 +1634,8 @@ public abstract class CSharpBase
 					sb.append(")");
 					sb.append(formatEntity(var));
 				}
+				if(modifyGenerationState.isToBeParallelizedActionExisting())
+					sb.append(", threadId");
 				sb.append(")");
 				
 				generateArrayRemoveIf(ari, modifyGenerationState);
@@ -3702,6 +3706,9 @@ public abstract class CSharpBase
 			sb.append(formatEntity(var));
 		}
 
+		if(modifyGenerationState.isToBeParallelizedActionExisting())
+			sb.append(", int threadId");
+
 		sb.append(")\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -3773,6 +3780,9 @@ public abstract class CSharpBase
 			sb.append(" ");
 			sb.append(formatEntity(var));
 		}
+
+		if(modifyGenerationState.isToBeParallelizedActionExisting())
+			sb.append(", int threadId");
 
 		sb.append(")\n");
 		sb.appendFront("{\n");
