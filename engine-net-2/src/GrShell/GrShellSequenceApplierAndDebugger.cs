@@ -245,17 +245,17 @@ namespace de.unika.ipd.grGen.grShell
             return false;
         }
 
-        public void ApplyRewriteSequenceExpression(SequenceExpression seqExpr)
+        public void ApplyRewriteSequenceExpression(SequenceExpression seqExpr, bool debug)
         {
             SequenceDummy seq = new SequenceDummy();
 
             if(!impl.ActionsExists())
                 return;
 
-            if(CheckDebuggerAlive())
+            if(debug || CheckDebuggerAlive())
             {
                 debugger.NotifyOnConnectionLost = true;
-                debugger.InitNewRewriteSequence(seq, false);
+                debugger.InitSequenceExpression(debug);
             }
 
             curGRS = seq;
@@ -267,7 +267,7 @@ namespace de.unika.ipd.grGen.grShell
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
             StatisticsSource statisticsSource = new StatisticsSource(impl.curShellProcEnv.ProcEnv.NamedGraph, impl.curShellProcEnv.ProcEnv);
             Timer timer = null;
-            if(!silenceExec)
+            if(!debug && !silenceExec)
                 timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
 
             try
@@ -284,7 +284,6 @@ namespace de.unika.ipd.grGen.grShell
                     impl.debugOut.WriteLine(" - {0} search steps executed", impl.curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
                 impl.debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);
-                impl.debugOut.WriteLine(" - {0} rewrites performed in {1} ms", perfInfo.RewritesPerformed, perfInfo.TotalRewriteTimeMS);
 #if DEBUGACTIONS
                 impl.debugOut.WriteLine("\nDetails:");
                 ShowSequenceDetails(seq, perfInfo);
@@ -301,7 +300,6 @@ namespace de.unika.ipd.grGen.grShell
                 impl.errOut.WriteLine("Sequence expression aborted!");
             }
             WorkaroundManager.Workaround.PreventComputerGoingIntoSleepMode(false);
-            curRule = null;
             curGRS = null;
 
             if(InDebugMode)
@@ -325,7 +323,7 @@ namespace de.unika.ipd.grGen.grShell
             if(debug || CheckDebuggerAlive())
             {
                 debugger.NotifyOnConnectionLost = true;
-                debugger.InitNewRewriteSequence(seq, debug);
+                debugger.InitNewRewriteSequence(seq, debug, impl.detailModePreMatchEnabled, impl.detailModePostMatchEnabled);
             }
 
             if(!InDebugMode && ContainsSpecial(seq))
@@ -639,6 +637,34 @@ namespace de.unika.ipd.grGen.grShell
                 debugModeActivated = false;
 
             ApplyRewriteSequence(seq, true);
+
+            if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
+            {
+                if(UserInterface.ShowMsgAskForYesNo("Do you want to leave debug mode?"))
+                    SetDebugMode(false);
+            }
+        }
+
+        public void DebugRewriteSequenceExpression(SequenceExpression seqExpr)
+        {
+            if(impl.nonDebugNonGuiExitOnError)
+            {
+                ApplyRewriteSequenceExpression(seqExpr, false);
+                return;
+            }
+
+            bool debugModeActivated;
+
+            if(!CheckDebuggerAlive())
+            {
+                if(!SetDebugMode(true))
+                    return;
+                debugModeActivated = true;
+            }
+            else
+                debugModeActivated = false;
+
+            ApplyRewriteSequenceExpression(seqExpr, true);
 
             if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
             {

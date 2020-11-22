@@ -258,7 +258,7 @@ namespace de.unika.ipd.grGen.grShell
             viewerProcess = null;
         }
 
-        public void InitNewRewriteSequence(Sequence seq, bool withStepMode)
+        public void InitNewRewriteSequence(Sequence seq, bool withStepMode, bool debugModePreMatchEnabled, bool debugModePostMatchEnabled)
         {
             debugSequences.Clear();
             debugSequences.Push(seq);
@@ -267,6 +267,8 @@ namespace de.unika.ipd.grGen.grShell
             recordMode = false;
             alwaysShow = false;
             detailedMode = false;
+            detailedModeShowPreMatches = debugModePreMatchEnabled;
+            detailedModeShowPostMatches = debugModePostMatchEnabled;
             outOfDetailedMode = false;
             outOfDetailedModeTarget = -1;
             dynamicStepMode = false;
@@ -274,6 +276,16 @@ namespace de.unika.ipd.grGen.grShell
             lastlyEntered = null;
             recentlyMatched = null;
             context = new PrintSequenceContext();
+        }
+
+        public void InitSequenceExpression(bool withStepMode)
+        {
+            debugSequences.Clear();
+            stepMode = withStepMode;
+            detailedMode = true;
+            detailedModeShowPreMatches = true;
+            detailedModeShowPostMatches = false;
+            recordMode = false;
         }
 
         public void AbortRewriteSequence()
@@ -1189,6 +1201,9 @@ namespace de.unika.ipd.grGen.grShell
 
         private void DebugPreMatched(IList<IMatches> matchesList)
         {
+            if(!stepMode)
+                return;
+
             if(!detailedMode)
                 return;
 
@@ -1223,7 +1238,7 @@ namespace de.unika.ipd.grGen.grShell
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
-            Console.WriteLine("Press any key to continue (with the matches remaining after filtering/of the selected rule)...");
+            Console.WriteLine("Press any key to continue " + (debugSequences.Count > 0 ? "(with the matches remaining after filtering/of the selected rule)..." : "..."));
             env.ReadKeyWithCancel();
 
             foreach(IMatches matches in matchesList)
