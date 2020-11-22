@@ -1,3 +1,5 @@
-Copy the userDefineLang.xml to %APPDATA%\Notepad++ if there is no userDefineLang.xml existing yet
-or merge the two UserLang entries to your already existing userDefineLang.xml
-Restart Notepad++ (which must be of version >= 6.3)
+Copy the userDefineLang.xml to %APPDATA%\Notepad++\userDefineLangs if there is no userDefineLang.xml existing yet,
+or merge the two UserLang entries to your already existing userDefineLang.xml.
+If you use an older version, there may be no userDefineLangs folder in the Notepad++ folder,
+then copy it to the Notepad++ folder directly.
+Restart Notepad++
