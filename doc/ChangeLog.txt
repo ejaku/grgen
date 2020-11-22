@@ -29,9 +29,10 @@
 
  Slightly generalized the conditional operator in sequence expressions regarding the admissible types
 
- Improved debugging of filtering: 
+ Improved debugging of filtering and query evaluation: 
  - added a step in detail mode debugging in the debugger, displaying the prematched entities (before the matches and the rewrites)
    defining a kind of lookahead, so that matches before and after filtering can be inspected and thus compared
+ - added debug eval <sequence-expression> command to GrShell
  - added debugger configuration options to the shell language:
    - debug set match mode pre enable|disable (default disable)
      with pre-match enabled, the matches of a (multi) rule before filtering/selection are displayed in detail steps
