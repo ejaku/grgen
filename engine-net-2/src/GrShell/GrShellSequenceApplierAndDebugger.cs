@@ -262,6 +262,8 @@ namespace de.unika.ipd.grGen.grShell
             curRule = null;
 
             impl.debugOut.WriteLine("Evaluating Sequence Expression (CTRL+C for abort) ...");
+            if(debug)
+                impl.debugOut.WriteLine(seqExpr.Symbol);
             cancelSequence = false;
             WorkaroundManager.Workaround.PreventComputerGoingIntoSleepMode(true);
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
