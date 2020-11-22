@@ -454,6 +454,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternNode(PatternNode original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
             : base(original, inlinedSubpatternEmbedding, newHost, nameSuffix)
         {
+            type = original.type;
         }
 
         /// <summary>
@@ -464,6 +465,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternNode(PatternNode original, String nameSuffix)
             : base(original, nameSuffix)
         {
+            type = original.type;
         }
 
         /// <summary>
@@ -568,6 +570,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternEdge(PatternEdge original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
             : base(original, inlinedSubpatternEmbedding, newHost, nameSuffix)
         {
+            type = original.type;
             fixedDirection = original.fixedDirection;
         }
 
@@ -579,6 +582,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternEdge(PatternEdge original, String nameSuffix)
             : base(original, nameSuffix)
         {
+            type = original.type;
             fixedDirection = original.fixedDirection;
         }
 
