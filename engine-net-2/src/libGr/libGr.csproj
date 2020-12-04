@@ -83,6 +83,8 @@
     <Compile Include="AttributeTypeEmitHelper.cs" />
     <Compile Include="DequeHelper.cs" />
     <Compile Include="DotNetTypesHelper.cs" />
+    <Compile Include="Graph\EdgeType.cs" />
+    <Compile Include="Graph\NodeType.cs" />
     <Compile Include="GrGenTypesHelper.cs" />
     <Compile Include="INamed.cs" />
     <Compile Include="MapHelper.cs" />
@@ -116,7 +118,6 @@
     <Compile Include="Graph\EnumAttributeType.cs" />
     <Compile Include="Graph\ExternalType.cs" />
     <Compile Include="Graph\GraphElementModel.cs" />
-    <Compile Include="Graph\GraphElementType.cs" />
     <Compile Include="Graph\GrGenType.cs" />
     <Compile Include="Graph\IGraphElement.cs" />
     <Compile Include="Graph\IGraphModel.cs" />
