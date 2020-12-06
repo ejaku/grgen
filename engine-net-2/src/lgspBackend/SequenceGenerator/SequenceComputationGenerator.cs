@@ -1530,7 +1530,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
-                GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(tgtAttrIndexedVar.DestVar.Type, env.Model);
+                GraphElementType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(tgtAttrIndexedVar.DestVar.Type, env.Model);
                 AttributeType attributeType = nodeOrEdgeType.GetAttributeType(tgtAttrIndexedVar.AttributeName);
                 string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
 

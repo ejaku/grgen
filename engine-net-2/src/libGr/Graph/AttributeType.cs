@@ -81,7 +81,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The model type owning this attribute, i.e. the type which defined this attribute.
         /// </summary>
-        public readonly GrGenType OwnerType;
+        public readonly GraphElementType OwnerType;
 
         /// <summary>
         /// The kind of the attribute.
@@ -151,7 +151,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="package">The package name if this is a node or edge type that is contained in a package, otherwise null.</param>
         /// <param name="packagePrefixedTypeName">The name of the attribute type with the package as prefix if it is contained in a package, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr.</param>
         /// <param name="type">The type of the attribute type.</param>
-        public AttributeType(String name, GrGenType ownerType, AttributeKind kind,
+        public AttributeType(String name, GraphElementType ownerType, AttributeKind kind,
             EnumAttributeType enumType, AttributeType valueType, AttributeType keyType,
             String typeName, String package, String packagePrefixedTypeName, Type type)
         {

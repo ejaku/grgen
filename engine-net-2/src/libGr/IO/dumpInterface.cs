@@ -104,7 +104,7 @@ namespace de.unika.ipd.grGen.libGr
     public delegate String ElementNameGetter(IGraphElement elem);
     public delegate void NodeTypeAppearanceChangedHandler(NodeType type);
     public delegate void EdgeTypeAppearanceChangedHandler(EdgeType type);
-    public delegate void TypeInfotagsChangedHandler(GrGenType type);
+    public delegate void TypeInfotagsChangedHandler(GraphElementType type);
 
     /// <summary>
     /// The supported group modes.
@@ -308,8 +308,8 @@ namespace de.unika.ipd.grGen.libGr
         readonly Dictionary<EdgeType, GrColor> edgeTypeTextColors = new Dictionary<EdgeType, GrColor>();
         readonly Dictionary<EdgeType, GrLineStyle> edgeTypeLineStyles = new Dictionary<EdgeType, GrLineStyle>();
         readonly Dictionary<EdgeType, int> edgeTypeThicknesses = new Dictionary<EdgeType, int>();
-        readonly Dictionary<GrGenType, String> elemTypeLabel = new Dictionary<GrGenType, String>();
-        readonly Dictionary<GrGenType, List<InfoTag>> infoTags = new Dictionary<GrGenType, List<InfoTag>>();
+        readonly Dictionary<GraphElementType, String> elemTypeLabel = new Dictionary<GraphElementType, String>();
+        readonly Dictionary<GraphElementType, List<InfoTag>> infoTags = new Dictionary<GraphElementType, List<InfoTag>>();
 
         public IEnumerable<NodeType> ExcludedNodeTypes
         {
@@ -357,7 +357,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return edgeTypeThicknesses; }
         }
 
-        public IEnumerable<KeyValuePair<GrGenType, List<InfoTag>>> InfoTags
+        public IEnumerable<KeyValuePair<GraphElementType, List<InfoTag>>> InfoTags
         {
             get { return infoTags; }
         }
@@ -386,7 +386,7 @@ namespace de.unika.ipd.grGen.libGr
                 handler(type);
         }
 
-        private void TypeInfotagsChanged(GrGenType type)
+        private void TypeInfotagsChanged(GraphElementType type)
         {
             TypeInfotagsChangedHandler handler = OnTypeInfotagsChanged;
             if(handler != null)
@@ -445,7 +445,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="type">The element type.</param>
         /// <param name="label">The label or null for the default case.</param>
-        public void SetElemTypeLabel(GrGenType type, String label)
+        public void SetElemTypeLabel(GraphElementType type, String label)
         {
             elemTypeLabel[type] = label;
         }
@@ -455,7 +455,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="type">The element type.</param>
         /// <returns>The label or null.</returns>
-        public String GetElemTypeLabel(GrGenType type)
+        public String GetElemTypeLabel(GraphElementType type)
         {
             String res;
             if(!elemTypeLabel.TryGetValue(type, out res))
@@ -701,11 +701,11 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns a list of InfoTag objects for the given GrGenType or null.
+        /// Returns a list of InfoTag objects for the given type or null.
         /// </summary>
-        /// <param name="type">The GrGenType to be examined.</param>
+        /// <param name="type">The element type to be examined.</param>
         /// <returns>A list of associated InfoTag objects or null.</returns>
-        public List<InfoTag> GetTypeInfoTags(GrGenType type)
+        public List<InfoTag> GetTypeInfoTags(GraphElementType type)
         {
             List<InfoTag> typeInfoTags;
             if(!infoTags.TryGetValue(type, out typeInfoTags))
@@ -717,9 +717,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Associates an InfoTag to a GrGenType.
         /// </summary>
-        /// <param name="type">The GrGenType to given an InfoTag</param>
+        /// <param name="type">The element type to given an InfoTag</param>
         /// <param name="infotag">The InfoTag</param>
-        public void AddTypeInfoTag(GrGenType type, InfoTag infoTag)
+        public void AddTypeInfoTag(GraphElementType type, InfoTag infoTag)
         {
             List<InfoTag> typeInfoTags;
             if(!infoTags.TryGetValue(type, out typeInfoTags))
@@ -736,7 +736,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="type">The element type.</param>
         /// <param name="attrType">The attribute type.</param>
         /// <returns>The info tag or null.</returns>
-        public InfoTag GetTypeInfoTag(GrGenType type, AttributeType attrType)
+        public InfoTag GetTypeInfoTag(GraphElementType type, AttributeType attrType)
         {
             List<InfoTag> typeInfoTags;
             if(infoTags.TryGetValue(type, out typeInfoTags))
@@ -853,7 +853,7 @@ namespace de.unika.ipd.grGen.libGr
             foreach(EdgeType type in changedEdgeTypes.Keys)
                 EdgeTypeAppearanceChanged(type);
 
-            foreach(GrGenType type in infoTags.Keys)
+            foreach(GraphElementType type in infoTags.Keys)
                 TypeInfotagsChanged(type);
             infoTags.Clear();
 

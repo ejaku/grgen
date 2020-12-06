@@ -1611,7 +1611,7 @@ namespace de.unika.ipd.grGen.lgsp
                     ContainerType = "";
                 else
                 {
-                    GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(seqContainerAttribute.Source.Type(env), env.Model);
+                    GraphElementType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(seqContainerAttribute.Source.Type(env), env.Model);
                     AttributeType attributeType = nodeOrEdgeType.GetAttributeType(seqContainerAttribute.AttributeName);
                     ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
                 }

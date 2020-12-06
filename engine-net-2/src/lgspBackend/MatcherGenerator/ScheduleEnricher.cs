@@ -117,7 +117,7 @@ namespace de.unika.ipd.grGen.lgsp
             // and need to inspect the operations before, together with the homomorphy matrix 
             // for determining the necessary homomorphy checks
 
-            GrGenType[] types;
+            GraphElementType[] types;
             bool[,] hom;
 
             if(spn_j.NodeType == PlanNodeType.Node)
@@ -164,10 +164,10 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 
                 // find out whether element types are disjoint
-                GrGenType type_i = types[spn_i.PatternElement.TypeID];
-                GrGenType type_j = types[spn_j.PatternElement.TypeID];
+                GraphElementType type_i = types[spn_i.PatternElement.TypeID];
+                GraphElementType type_j = types[spn_j.PatternElement.TypeID];
                 bool disjoint = true;
-                foreach(GrGenType subtype_i in type_i.SubOrSameTypes)
+                foreach(GraphElementType subtype_i in type_i.SubOrSameTypes)
                 {
                     if(type_j.IsA(subtype_i) || subtype_i.IsA(type_j)) // IsA==IsSuperTypeOrSameType
                     {

@@ -2916,7 +2916,7 @@ commonLoop:
 		sb.appendFront("public bool IsNodeModel { get { return " + (isNode ? "true" : "false") + "; } }\n");
 		sb.appendFront("public GRGEN_LIBGR." + kindStr + "Type RootType { get { return "
 				+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
-		sb.appendFront("GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return "
+		sb.appendFront("GRGEN_LIBGR.GraphElementType GRGEN_LIBGR.ITypeModel.RootType { get { return "
 				+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
 		sb.appendFront("public GRGEN_LIBGR." + kindStr + "Type GetType(string name)\n");
 		sb.appendFront("{\n");
@@ -2933,7 +2933,7 @@ commonLoop:
 		sb.appendFront("return null;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
-		sb.appendFront("GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)\n");
+		sb.appendFront("GRGEN_LIBGR.GraphElementType GRGEN_LIBGR.ITypeModel.GetType(string name)\n");
 		sb.appendFront("{\n");
 		sb.appendFrontIndented("return GetType(name);\n");
 		sb.appendFront("}\n");
@@ -2946,7 +2946,7 @@ commonLoop:
 		sb.unindent();
 		sb.appendFront("};\n");
 		sb.appendFront("public GRGEN_LIBGR." + kindStr + "Type[] Types { get { return types; } }\n");
-		sb.appendFront("GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types "
+		sb.appendFront("GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.ITypeModel.Types "
 				+ "{ get { return types; } }\n");
 
 		sb.appendFront("private System.Type[] typeTypes = {\n");

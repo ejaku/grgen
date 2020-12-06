@@ -309,7 +309,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public void BuildReturnParameters(ProcedureInvocation invocation, SequenceVariable[] ReturnVars, GrGenType ownerType, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
+        public void BuildReturnParameters(ProcedureInvocation invocation, SequenceVariable[] ReturnVars, GraphElementType ownerType, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
         {
             // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
             // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype

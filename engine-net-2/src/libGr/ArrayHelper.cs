@@ -452,7 +452,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                GrGenType graphElementType = TypesHelper.GetNodeOrEdgeType(arrayValueType, procEnv.Graph.Model);
+                GraphElementType graphElementType = TypesHelper.GetNodeOrEdgeType(arrayValueType, procEnv.Graph.Model);
                 if(graphElementType != null)
                 {
                     AttributeType attributeType = graphElementType.GetAttributeType(memberOrAttribute);

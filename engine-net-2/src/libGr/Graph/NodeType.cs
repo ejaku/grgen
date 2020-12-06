@@ -15,7 +15,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A representation of a GrGen node type.
     /// </summary>
-    public abstract class NodeType : GrGenType
+    public abstract class NodeType : GraphElementType
     {
         /// <summary>
         /// Constructs a NodeType instance with the given type ID.

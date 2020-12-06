@@ -649,7 +649,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private static void ReadAttributes(IGraphElement elem, XmlElement xmlelem)
         {
-            GrGenType type = elem.Type;
+            GraphElementType type = elem.Type;
             foreach(XmlElement attrelem in xmlelem.GetElementsByTagName("attr"))
             {
                 String attrname = attrelem.GetAttribute("name");

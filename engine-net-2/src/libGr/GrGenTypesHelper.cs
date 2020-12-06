@@ -482,7 +482,7 @@ namespace de.unika.ipd.grGen.libGr
 
         // ------------------------------------------------------------------------------------------------
 
-        public static GrGenType GetNodeOrEdgeType(String typeName, IGraphModel model)
+        public static GraphElementType GetNodeOrEdgeType(String typeName, IGraphModel model)
         {
             foreach(NodeType nodeType in model.NodeModel.Types)
             {

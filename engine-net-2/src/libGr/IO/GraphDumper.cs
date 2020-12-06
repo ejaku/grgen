@@ -184,7 +184,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return VirtualNodeType.Instance; }
         }
 
-        GrGenType IGraphElement.Type
+        GraphElementType IGraphElement.Type
         {
             get { return VirtualNodeType.Instance; }
         }

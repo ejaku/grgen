@@ -100,66 +100,6 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public Type Type { [DebuggerStepThrough] get { return type; } }
 
-        public override bool IsNodeType
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public override bool IsConst
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public override bool IsAbstract
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public override int NumAttributes
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public override IEnumerable<AttributeType> AttributeTypes
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public override AttributeType GetAttributeType(string name)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public override int NumFunctionMethods
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public override IEnumerable<IFunctionDefinition> FunctionMethods
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public override IFunctionDefinition GetFunctionMethod(String name)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public override int NumProcedureMethods
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public override IEnumerable<IProcedureDefinition> ProcedureMethods
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public override IProcedureDefinition GetProcedureMethod(String name)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
         /// <summary>
         /// Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
         /// or it is a sub type of the given type.

@@ -20,18 +20,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The GrGenType of the graph element
         /// </summary>
-        GrGenType Type { get; }
+        GraphElementType Type { get; }
 
         /// <summary>
         /// This is true, if the element is a valid graph element, i.e. it is part of a graph.
         /// </summary>
         bool Valid { get; }
 
-		/// <summary>
-		/// The element which replaced this element (Valid is false in this case)
-		/// or null, if this element has not been replaced or is still a valid member of a graph.
-		/// </summary>
-		IGraphElement ReplacedByElement { get; }
+        /// <summary>
+        /// The element which replaced this element (Valid is false in this case)
+        /// or null, if this element has not been replaced or is still a valid member of a graph.
+        /// </summary>
+        IGraphElement ReplacedByElement { get; }
 
         /// <summary>
         /// Returns true, if the graph element is compatible to the given type

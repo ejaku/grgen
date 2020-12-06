@@ -6235,7 +6235,7 @@ namespace de.unika.ipd.grGen.libGr
             if(Source.Type(env) == "")
                 return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(Source.Type(env), env.Model);
+            GraphElementType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(Source.Type(env), env.Model);
             if(nodeOrEdgeType == null)
                 throw new SequenceParserException(Symbol, "node or edge type", Source.Type(env));
             AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
@@ -6250,7 +6250,7 @@ namespace de.unika.ipd.grGen.libGr
             if(Source.Type(env) == "")
                 return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(Source.Type(env), env.Model);
+            GraphElementType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(Source.Type(env), env.Model);
             AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 return ""; // error, will be reported by Check, just ensure we don't crash here

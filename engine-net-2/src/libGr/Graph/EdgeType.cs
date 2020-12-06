@@ -28,7 +28,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A representation of a GrGen edge type.
     /// </summary>
-    public abstract class EdgeType : GrGenType
+    public abstract class EdgeType : GraphElementType
     {
         /// <summary>
         /// Constructs an EdgeType instance with the given type ID.

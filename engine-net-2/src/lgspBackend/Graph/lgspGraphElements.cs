@@ -449,9 +449,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// The GrGenType of the node.
+        /// The GraphElementType of the node.
         /// </summary>
-        GrGenType IGraphElement.Type
+        GraphElementType IGraphElement.Type
         {
             [DebuggerStepThrough]
             get { return lgspType; }
@@ -781,9 +781,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// The GrGenType of the edge.
+        /// The GraphElementType of the edge.
         /// </summary>
-        GrGenType IGraphElement.Type
+        GraphElementType IGraphElement.Type
         {
             [DebuggerStepThrough]
             get { return lgspType; }

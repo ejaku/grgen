@@ -25,17 +25,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
         /// </summary>
-        GrGenType RootType { get; }
+        GraphElementType RootType { get; }
 
         /// <summary>
         /// Returns the element type with the given type name or null, if no type with this name exists.
         /// </summary>
-        GrGenType GetType(String name);
+        GraphElementType GetType(String name);
 
         /// <summary>
         /// An array of all types in this type model.
         /// </summary>
-        GrGenType[] Types { get; }
+        GraphElementType[] Types { get; }
 
         /// <summary>
         /// An array of C# types of model types.
