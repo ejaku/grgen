@@ -125,7 +125,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected String GetAttrTypeID(AttributeType attrtype)
         {
-            return (attrtype.OwnerType.IsNodeType ? "NAT_" : "EAT_")
+            return (((GraphElementType)attrtype.OwnerType).IsNodeType ? "NAT_" : "EAT_")
                 + attrtype.OwnerType.Name + "_" + attrtype.Name;
         }
 
@@ -231,7 +231,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected void WriteAttrTypes(ITypeModel typemodel)
         {
-            String prefix = typemodel.IsNodeModel ? "NAT_" : "EAT_";
+            String prefix = ((IGraphElementTypeModel)typemodel).IsNodeModel ? "NAT_" : "EAT_";
             foreach(AttributeType attrtype in typemodel.AttributeTypes)
             {
                 String id = prefix + attrtype.OwnerType.Name + "_" + attrtype.Name;

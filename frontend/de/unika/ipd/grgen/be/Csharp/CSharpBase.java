@@ -205,6 +205,7 @@ import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.ExternalType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
@@ -219,10 +220,11 @@ import de.unika.ipd.grgen.util.Util;
 
 public abstract class CSharpBase
 {
-	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix)
+	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
 		this.nodeTypePrefix = nodeTypePrefix;
 		this.edgeTypePrefix = edgeTypePrefix;
+		this.objectTypePrefix = objectTypePrefix;
 	}
 
 	/**
@@ -384,22 +386,19 @@ public abstract class CSharpBase
 		return pathPrefix + ident.replace('$', '_');
 	}
 
-	public static String formatNodeOrEdge(boolean isNode)
-	{
-		return isNode ? "Node" : "Edge";
-	}
-
-	public static String formatNodeOrEdge(Type type)
+	public static String formatInheritanceTypeValue(Type type)
 	{
 		if(type instanceof NodeType)
 			return "Node";
 		else if(type instanceof EdgeType)
 			return "Edge";
+		else if(type instanceof InternalObjectType)
+			return "Object";
 		else
 			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
 	}
 
-	public static String formatNodeOrEdge(Entity ent)
+	public static String formatGraphElement(Entity ent)
 	{
 		if(ent instanceof Node)
 			return "Node";
@@ -409,17 +408,19 @@ public abstract class CSharpBase
 			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
 	}
 
-	public String getNodeOrEdgeTypePrefix(Type type)
+	public String getInheritanceTypePrefix(Type type)
 	{
 		if(type instanceof NodeType)
 			return nodeTypePrefix;
 		else if(type instanceof EdgeType)
 			return edgeTypePrefix;
+		else if(type instanceof InternalObjectType)
+			return objectTypePrefix;
 		else
 			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
 	}
 
-	public String getNodeOrEdgeTypePrefix(Entity ent)
+	public String getInheritanceTypePrefix(Entity ent)
 	{
 		if(ent instanceof Node)
 			return nodeTypePrefix;
@@ -445,7 +446,7 @@ public abstract class CSharpBase
 
 	public static String formatTypeClassName(Type type)
 	{
-		return formatNodeOrEdge(type) + "Type_" + formatIdentifiable(type);
+		return formatInheritanceTypeValue(type) + "Type_" + formatIdentifiable(type);
 	}
 
 	public static String formatTypeClassRef(Type type)
@@ -458,26 +459,26 @@ public abstract class CSharpBase
 		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatTypeClassName(type) + ".typeVar";
 	}
 
-	public String formatElementClassRaw(Type type)
+	public String formatInheritanceClassRaw(Type type)
 	{
-		return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
+		return getInheritanceTypePrefix(type) + formatIdentifiable(type);
 	}
 
-	public String formatElementClassName(Type type)
+	public String formatInheritanceClassName(Type type)
 	{
-		return "@" + formatElementClassRaw(type);
+		return "@" + formatInheritanceClassRaw(type);
 	}
 
-	public String formatElementClassRef(Type type)
+	public String formatInheritanceClassRef(Type type)
 	{
-		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatElementClassName(type);
+		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatInheritanceClassName(type);
 	}
 
 	public String formatElementInterfaceRef(Type type)
 	{
 		if(!(type instanceof InheritanceType)) {
 			assert(false);
-			return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
+			return getInheritanceTypePrefix(type) + formatIdentifiable(type);
 		}
 
 		if(type instanceof ExternalType) {
@@ -489,19 +490,22 @@ public abstract class CSharpBase
 		case "AEdge":
 		case "Edge":
 		case "UEdge":
+		case "Object":
 			InheritanceType nodeEdgeType = (InheritanceType)type;
 			return getRootElementInterfaceRef(nodeEdgeType);
 		}
 
-		return "GRGEN_MODEL." + getPackagePrefixDot(type) + "I" + formatElementClassRaw(type);
+		return "GRGEN_MODEL." + getPackagePrefixDot(type) + "I" + formatInheritanceClassRaw(type);
 	}
 
-	public static String getRootElementInterfaceRef(InheritanceType nodeOrEdgeType)
+	public static String getRootElementInterfaceRef(InheritanceType inheritanceType)
 	{
-		if(nodeOrEdgeType instanceof NodeType) {
+		if(inheritanceType instanceof InternalObjectType) {
+			return "GRGEN_LIBGR.IObject";
+		} else if(inheritanceType instanceof NodeType) {
 			return "GRGEN_LIBGR.INode";
 		} else { // instanceof EdgeType
-			EdgeType edgeType = (EdgeType)nodeOrEdgeType;
+			EdgeType edgeType = (EdgeType)inheritanceType;
 			if(edgeType.getDirectedness() == EdgeType.Directedness.Directed)
 				return "GRGEN_LIBGR.IDEdge";
 			else if(edgeType.getDirectedness() == EdgeType.Directedness.Undirected)
@@ -543,7 +547,7 @@ public abstract class CSharpBase
 	public String formatNodeAssign(Node node, Collection<Node> extractNodeAttributeObject)
 	{
 		if(extractNodeAttributeObject.contains(node))
-			return formatVarDeclWithCast(formatElementClassRef(node.getType()), formatEntity(node));
+			return formatVarDeclWithCast(formatInheritanceClassRef(node.getType()), formatEntity(node));
 		else
 			return "LGSPNode " + formatEntity(node) + " = ";
 	}
@@ -551,7 +555,7 @@ public abstract class CSharpBase
 	public String formatEdgeAssign(Edge edge, Collection<Edge> extractEdgeAttributeObject)
 	{
 		if(extractEdgeAttributeObject.contains(edge))
-			return formatVarDeclWithCast(formatElementClassRef(edge.getType()), formatEntity(edge));
+			return formatVarDeclWithCast(formatInheritanceClassRef(edge.getType()), formatEntity(edge));
 		else
 			return "LGSPEdge " + formatEntity(edge) + " = ";
 	}
@@ -690,6 +694,13 @@ public abstract class CSharpBase
 		return "GRGEN_ACTIONS." + packagePrefix + "Match_" + matchClassName;
 	}
 
+	public String formatInternalObjectType(InternalObjectType objectType)
+	{
+		String packagePrefix = getPackagePrefixDot(objectType);
+		String objectTypeName = objectType.getIdent().toString();
+		return "GRGEN_MODEL." + packagePrefix + objectTypePrefix + objectTypeName;
+	}
+
 	public String formatAttributeType(Entity e)
 	{
 		return formatAttributeType(e.getType());
@@ -773,7 +784,7 @@ public abstract class CSharpBase
 		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
 	}
 
-	public static Entity getAtMostOneNeededNodeOrEdge(NeededEntities needs, List<Entity> parameters)
+	public static GraphEntity getAtMostOneNeededGraphElement(NeededEntities needs, List<Entity> parameters)
 	{
 		HashSet<GraphEntity> neededEntities = new HashSet<GraphEntity>();
 		for(Node node : needs.nodes) {
@@ -1960,6 +1971,9 @@ public abstract class CSharpBase
 		} else if(expr instanceof MatchInit) {
 			MatchInit mi = (MatchInit)expr;
 			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
+		} else if(expr instanceof InternalObjectInit) {
+			InternalObjectInit ioi = (InternalObjectInit)expr;
+			sb.append("new " + formatInternalObjectType(ioi.getInternalObjectType()) + "()");
 		} else if(expr instanceof MapCopyConstructor) {
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
 			sb.append("GRGEN_LIBGR.ContainerHelper.FillMap(");
@@ -3167,6 +3181,7 @@ public abstract class CSharpBase
 			return formatTypeClassRef(it) + ".typeVar";
 		case IS_GRAPH:
 		case IS_OBJECT:
+		case IS_INTERNAL_CLASS_OBJECT:
 		case IS_NODE:
 		case IS_EDGE:
 		case IS_SET:
@@ -3223,6 +3238,8 @@ public abstract class CSharpBase
 			return "GRGEN_LIBGR.IGraph";
 		case IS_EXTERNAL_TYPE:
 			return formatType(cast.getType());
+		case IS_INTERNAL_CLASS_OBJECT:
+			return formatType(cast.getType());
 		case IS_NODE:
 			return formatType(cast.getType());
 		case IS_EDGE:
@@ -3268,11 +3285,13 @@ public abstract class CSharpBase
 			return "string";
 		case IS_OBJECT:
 		case IS_UNKNOWN:
-			return "Object";
+			return "object";
 		case IS_GRAPH:
 			return "GRGEN_LIBGR.IGraph";
 		case IS_EXTERNAL_TYPE:
 			return "GRGEN_MODEL." + type.getIdent();
+		case IS_INTERNAL_CLASS_OBJECT:
+			return formatElementInterfaceRef(type);
 		case IS_NODE:
 			return formatElementInterfaceRef(type);
 		case IS_EDGE:
@@ -3852,4 +3871,5 @@ public abstract class CSharpBase
 
 	protected String nodeTypePrefix;
 	protected String edgeTypePrefix;
+	protected String objectTypePrefix;
 }

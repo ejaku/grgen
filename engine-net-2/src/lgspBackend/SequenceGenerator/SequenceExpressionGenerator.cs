@@ -105,15 +105,17 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionCopy((SequenceExpressionCopy)expr, source);
             case SequenceExpressionType.GraphElementAttributeOrElementOfMatch:
                 if(((SequenceExpressionAttributeOrMatchAccess)expr).AttributeAccess != null)
-                    return GetSequenceExpressionGraphElementAttribute(((SequenceExpressionAttributeOrMatchAccess)expr).AttributeAccess, source);
+                    return GetSequenceExpressionAttributeAccess(((SequenceExpressionAttributeOrMatchAccess)expr).AttributeAccess, source);
                 else if(((SequenceExpressionAttributeOrMatchAccess)expr).MatchAccess != null)
                     return GetSequenceExpressionElementOfMatch(((SequenceExpressionAttributeOrMatchAccess)expr).MatchAccess, source);
                 else
-                    return GetSequenceExpressionGraphElementAttributeOrElementOfMatch((SequenceExpressionAttributeOrMatchAccess)expr, source);
+                    return GetSequenceExpressionAttributeAccessOrElementOfMatch((SequenceExpressionAttributeOrMatchAccess)expr, source);
             case SequenceExpressionType.Constant:
                 return GetSequenceExpressionConstant((SequenceExpressionConstant)expr, source);
             case SequenceExpressionType.Variable:
                 return GetSequenceExpressionVariable((SequenceExpressionVariable)expr, source);
+            case SequenceExpressionType.New:
+                return GetSequenceExpressionNew((SequenceExpressionNew)expr, source);
             case SequenceExpressionType.RuleQuery:
                 return GetSequenceExpressionRuleQuery((SequenceExpressionRuleQuery)expr, source);
             case SequenceExpressionType.MultiRuleQuery:
@@ -738,9 +740,9 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.TypesHelper.Clone(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ")";
         }
 
-        private string GetSequenceExpressionGraphElementAttributeOrElementOfMatch(SequenceExpressionAttributeOrMatchAccess seqAttrOrMa, SourceBuilder source)
+        private string GetSequenceExpressionAttributeAccessOrElementOfMatch(SequenceExpressionAttributeOrMatchAccess seqAttrOrMa, SourceBuilder source)
         {
-            return "GRGEN_LIBGR.ContainerHelper.GetGraphElementAttributeOrElementOfMatch(" 
+            return "GRGEN_LIBGR.ContainerHelper.GetAttributeOrElementOfMatch(" 
                 + GetSequenceExpression(seqAttrOrMa.Source, source) + ", (string)(\"" + seqAttrOrMa.AttributeOrElementName + "\"))";
         }
 
@@ -766,9 +768,11 @@ namespace de.unika.ipd.grGen.lgsp
                 return match + ".var_" + seqMA.ElementName;
         }
 
-        private string GetSequenceExpressionGraphElementAttribute(SequenceExpressionAttributeAccess seqAttr, SourceBuilder source)
+        private string GetSequenceExpressionAttributeAccess(SequenceExpressionAttributeAccess seqAttr, SourceBuilder source)
         {
-            string element = "((GRGEN_LIBGR.IGraphElement)" + GetSequenceExpression(seqAttr.Source, source) + ")";
+            bool isObjectType = TypesHelper.GetObjectType(seqAttr.Source.Type(env), model) != null;
+            string elementType = isObjectType ? "GRGEN_LIBGR.IObject" : "GRGEN_LIBGR.IGraphElement";
+            string element = "((" + elementType + ")" + GetSequenceExpression(seqAttr.Source, source) + ")";
             string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
             string type = seqAttr.Type(env);
             if(type == ""
@@ -791,6 +795,11 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionVariable(SequenceExpressionVariable seqVar, SourceBuilder source)
         {
             return seqHelper.GetVar(seqVar.Variable);
+        }
+
+        private string GetSequenceExpressionNew(SequenceExpressionNew seqNew, SourceBuilder source)
+        {
+            return "procEnv.Graph.Model.ObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateObject()";
         }
 
         private string GetSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqRuleQuery, SourceBuilder source)
@@ -951,7 +960,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Append(").");
                 sb.Append(seqFuncCall.Name);
                 sb.Append("(procEnv, graph");
-                sb.Append(seqHelper.BuildParameters(seqFuncCall, seqFuncCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(seqFuncCall.TargetExpr.Type(env), model).GetFunctionMethod(seqFuncCall.Name), source));
+                sb.Append(seqHelper.BuildParameters(seqFuncCall, seqFuncCall.ArgumentExpressions, TypesHelper.GetInheritanceType(seqFuncCall.TargetExpr.Type(env), model).GetFunctionMethod(seqFuncCall.Name), source));
                 sb.Append(")");
             }
             return sb.ToString();
@@ -1611,8 +1620,8 @@ namespace de.unika.ipd.grGen.lgsp
                     ContainerType = "";
                 else
                 {
-                    GraphElementType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(seqContainerAttribute.Source.Type(env), env.Model);
-                    AttributeType attributeType = nodeOrEdgeType.GetAttributeType(seqContainerAttribute.AttributeName);
+                    InheritanceType inheritanceType = TypesHelper.GetInheritanceType(seqContainerAttribute.Source.Type(env), env.Model);
+                    AttributeType attributeType = inheritanceType.GetAttributeType(seqContainerAttribute.AttributeName);
                     ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
                 }
             }

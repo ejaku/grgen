@@ -2552,7 +2552,10 @@ classDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = env.getDummyId
 	@init {
 		mods = 0;
 	}
-	: (mods=typeModifiers)? ( d=edgeClassDecl[namer, mods] { res = d; } | d=nodeClassDecl[namer, mods] { res = d; } )
+	: (mods=typeModifiers)?
+		( d=edgeClassDecl[namer, mods] { res = d; } 
+		| d=nodeClassDecl[namer, mods] { res = d; }
+		| d=intClassDecl[namer, mods] { res = d; } )
 	;
 
 typeModifiers returns [ int res = 0; ]
@@ -2588,7 +2591,7 @@ edgeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode r
 		EDGE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 		ext=edgeExtends[id, arbitrary, undirected] cas=connectAssertions { env.pushScope(id); }
 		(
-			LBRACE body=classBody[namer, id, false] RBRACE
+			LBRACE body=classBody[namer, id, false, false] RBRACE
 		|	SEMI
 			{ body = new CollectNode<BaseNode>(); }
 		)
@@ -2613,13 +2616,28 @@ nodeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode r
 	: 	NODE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 		ext=nodeExtends[id] { env.pushScope(id); }
 		(
-			LBRACE body=classBody[namer, id, true] RBRACE
-		|	
+			LBRACE body=classBody[namer, id, false, true] RBRACE
+		|
 			SEMI { body = new CollectNode<BaseNode>(); }
 		)
 		{
 			NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers, externalName);
 			id.setDecl(new TypeDeclNode(id, nt));
+			res = id;
+		}
+		{ env.popScope(); }
+	;
+
+intClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
+	: 	CLASS id=typeIdentDecl ext=intExtends[id] { env.pushScope(id); }
+		(
+			LBRACE body=classBody[namer, id, true, false] RBRACE
+		|
+			SEMI { body = new CollectNode<BaseNode>(); }
+		)
+		{
+			InternalObjectTypeNode iot = new InternalObjectTypeNode(ext, body, modifiers);
+			id.setDecl(new TypeDeclNode(id, iot));
 			res = id;
 		}
 		{ env.popScope(); }
@@ -2729,14 +2747,41 @@ nodeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 		}
 	;
 
-classBody [ AnonymousScopeNamer namer, IdentNode clsId, boolean isNode ] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
+intExtends [ IdentNode clsId ] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]
+	: EXTENDS intExtendsCont[clsId, c]
+	|	{ c.addChild(env.getInternalObjectRoot()); }
+	;
+
+intExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
+	: t=typeIdentUse
+		{
+			if(!t.toString().equals(clsId.toString()))
+				c.addChild(t);
+			else
+				reportError(t.getCoords(), "A class must not extend itself");
+		}
+	( COMMA t=typeIdentUse
+		{
+			if(!t.toString().equals(clsId.toString()))
+				c.addChild(t);
+			else
+				reportError(t.getCoords(), "A class must not extend itself");
+		}
+	)*
+		{
+			if(c.getChildren().size() == 0)
+				c.addChild(env.getNodeRoot());
+		}
+	;
+
+classBody [ AnonymousScopeNamer namer, IdentNode clsId, boolean isClass, boolean isNode ] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 	:	(
 			(
 				basicAndContainerDecl[namer, c] SEMI
 			|
-				funcMethod=inClassFunctionDecl[clsId, isNode] { c.addChild(funcMethod); }
+				funcMethod=inClassFunctionDecl[clsId, isClass, isNode] { c.addChild(funcMethod); }
 			|
-				procMethod=inClassProcedureDecl[clsId, isNode] { c.addChild(procMethod); }
+				procMethod=inClassProcedureDecl[clsId, isClass, isNode] { c.addChild(procMethod); }
 			|
 				init=initExpr[namer] { c.addChild(init); } SEMI
 			|
@@ -2994,7 +3039,7 @@ dequeDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNod
 		)
 	;
 
-inClassFunctionDecl [ IdentNode clsId, boolean isNode ] returns [ FunctionDeclNode res = null ]
+inClassFunctionDecl [ IdentNode clsId, boolean isClass, boolean isNode ] returns [ FunctionDeclNode res = null ]
 	@init {
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
@@ -3003,20 +3048,28 @@ inClassFunctionDecl [ IdentNode clsId, boolean isNode ] returns [ FunctionDeclNo
 		COLON retType=returnType
 		LBRACE
 			{
-				if(isNode) {
-					evals.addChild(new DefDeclStatementNode(getCoords(f), new SingleNodeConnNode(
-							new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
+				if(isClass) {
+					evals.addChild(new DefDeclStatementNode(getCoords(f),
+							new VarDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
-									false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true)),
-							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
+									PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, true, false),
+									BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
 				} else {
-					evals.addChild(new DefDeclStatementNode(getCoords(f), new ConnectionNode(
-							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphLhsNode.getInvalid()),
-							new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
-									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
-									false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true),
-							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), ConnectionNode.ConnectionKind.DIRECTED, ConnectionNode.NO_REDIRECTION),
-							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
+					if(isNode) {
+						evals.addChild(new DefDeclStatementNode(getCoords(f), new SingleNodeConnNode(
+								new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
+										new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
+										false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true)),
+								BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
+					} else {
+						evals.addChild(new DefDeclStatementNode(getCoords(f), new ConnectionNode(
+								env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphLhsNode.getInvalid()),
+								new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
+										new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
+										false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true),
+								env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), ConnectionNode.ConnectionKind.DIRECTED, ConnectionNode.NO_REDIRECTION),
+								BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
+					}
 				}
 			}
 			( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
@@ -3029,7 +3082,7 @@ inClassFunctionDecl [ IdentNode clsId, boolean isNode ] returns [ FunctionDeclNo
 		}
 	;
 
-inClassProcedureDecl [ IdentNode clsId, boolean isNode ] returns [ ProcedureDeclNode res = null ]
+inClassProcedureDecl [ IdentNode clsId, boolean isClass, boolean isNode ] returns [ ProcedureDeclNode res = null ]
 	@init {
 		CollectNode<BaseNode> retTypes = new CollectNode<BaseNode>();
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
@@ -3039,20 +3092,28 @@ inClassProcedureDecl [ IdentNode clsId, boolean isNode ] returns [ ProcedureDecl
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		LBRACE
 			{
-				if(isNode) {
-					evals.addChild(new DefDeclStatementNode(getCoords(pr), new SingleNodeConnNode(
-							new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))),
+				if(isClass) {
+					evals.addChild(new DefDeclStatementNode(getCoords(pr),
+							new VarDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))),
 									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
-									false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true)),
+									PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, true, false),
 							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
 				} else {
-					evals.addChild(new DefDeclStatementNode(getCoords(pr), new ConnectionNode(
-							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), 
-							new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))),
-									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
-									false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true),
-							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), ConnectionNode.ConnectionKind.DIRECTED, ConnectionNode.NO_REDIRECTION),
-							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
+					if(isNode) {
+						evals.addChild(new DefDeclStatementNode(getCoords(pr), new SingleNodeConnNode(
+								new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))),
+										new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
+										false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true)),
+								BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
+					} else {
+						evals.addChild(new DefDeclStatementNode(getCoords(pr), new ConnectionNode(
+								env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), 
+								new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))),
+										new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
+										false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true),
+								env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), ConnectionNode.ConnectionKind.DIRECTED, ConnectionNode.NO_REDIRECTION),
+								BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
+					}
 				}
 			}
 			( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
@@ -4039,6 +4100,7 @@ primaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] retur
 	| e=typeOf { res = e; }
 	| e=initContainerExpr[namer, context] { res = e; }
 	| e=initMatchExpr[context] { res = e; }
+	| e=initObjectExpr[context] { res = e; }
 	| e=externalFunctionInvocationExpr[namer, context, inEnumInit] { res = e; }
 	| LPAREN e=expr[namer, context, inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
@@ -4111,6 +4173,7 @@ typeOf returns [ ExprNode res = env.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
 
+// TODO: allow optional NEW
 initContainerExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
 	: { input.LT(1).getText().equals("map") }?
 		i=IDENT LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
@@ -4126,9 +4189,15 @@ initContainerExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode 
 		e4=initDequeExpr[namer, context, null, new DequeTypeNode(valueType)] { res = e4; }
 	;
 
+// TODO: allow optional NEW
 initMatchExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
 	: MATCH LT CLASS matchClassIdent=typeIdentUse GT l=LPAREN RPAREN
 		{ res = new MatchInitNode(getCoords(l), matchClassIdent); }
+	;
+
+initObjectExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
+	: NEW classIdent=typeIdentUse l=LPAREN RPAREN
+		{ res = new ObjectInitNode(getCoords(l), classIdent); }
 	;
 
 constant returns [ ExprNode res = env.initExprNode() ]
@@ -4559,6 +4628,7 @@ MODIFY : 'modify';
 MULTIPLE : 'multiple';
 NAMEOF : 'nameof';
 NEGATIVE : 'negative';
+NEW : 'new';
 NODE : 'node';
 NULL : 'null';
 OPTIONAL : 'optional';

@@ -68,7 +68,8 @@ public abstract class Type extends Identifiable
 		IS_MATCH,
 		IS_DEFINED_MATCH,
 		IS_NODE,
-		IS_EDGE
+		IS_EDGE,
+		IS_INTERNAL_CLASS_OBJECT
 	}
 	
 	/**

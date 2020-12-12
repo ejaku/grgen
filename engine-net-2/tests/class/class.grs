@@ -1,0 +1,22 @@
+new graph "class/class.grg"
+
+new n1:Node
+
+exec {::d= new Diamond()} 
+
+show var d
+
+exec (::res)=r(::d)
+
+show var res
+
+exec { ::d=create(); set_i(::d, 21); ::rres = f(::d, 21) }
+
+show var d
+show var rres
+
+exec (::res)=s(::res)
+
+show var res
+
+quit

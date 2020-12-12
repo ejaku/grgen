@@ -188,6 +188,7 @@ TOKEN: {
     < DEF: "def" >
 |   < TRUE: "true" >
 |   < FALSE: "false" >
+|   < NEW: "new" >
 |   < NULL: "null" >
 |   < FOR: "for" >
 |   < IF: "if" >
@@ -417,7 +418,7 @@ object Constant():
         {
             package = packageOrType;
             type = typeOrValue;
-            constant = TypesHelper.GetNodeOrEdgeType(package + "::" + type, env.Model);
+            constant = TypesHelper.GetInheritanceType(package + "::" + type, env.Model);
             if(constant == null)
             {
                 type = packageOrType;
@@ -431,10 +432,10 @@ object Constant():
         }
     |
         LOOKAHEAD({ GetToken(1).kind == WORD && varDecls.Lookup(GetToken(1).image) == null
-                && TypesHelper.GetNodeOrEdgeType(GetToken(1).image, env.Model) != null })
+                && TypesHelper.GetInheritanceType(GetToken(1).image, env.Model) != null })
         type=Word()
         {
-            constant = TypesHelper.GetNodeOrEdgeType(type, env.Model);
+            constant = TypesHelper.GetInheritanceType(type, env.Model);
         }
     )
     {
@@ -1772,6 +1773,7 @@ SequenceExpression ExpressionBasic():
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     SequenceVariable fromVar;
     String elemName;
+    String type;
     SequenceExpression expr;
     object constant;
 }
@@ -1822,6 +1824,11 @@ SequenceExpression ExpressionBasic():
     "this" { expr = new SequenceExpressionThis(env.RuleOfMatchThis, env.TypeOfGraphElementThis); } expr=SelectorExpression(expr)
     {
         return expr;
+    }
+|
+    "new" type=TypeNonGeneric() "(" ")"
+    {
+        return new SequenceExpressionNew(type);
     }
 |
     "(" expr=Expression() ")"

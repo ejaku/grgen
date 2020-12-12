@@ -1,0 +1,35 @@
+#using "class.gm"
+
+function create() : Diamond
+{
+	return(new Diamond());
+}
+
+function f(var d:Diamond, var i:int) : int
+{
+	return(i + d.i);
+}
+
+procedure set_i(var d:Diamond, var i:int)
+{
+	d.i = i;
+	return;
+}
+
+rule r(var d:Diamond) : (Diamond)
+{
+	n:Node;
+	if{ d.d != 42; }
+	
+	modify {
+		eval {
+			d.d = 42;
+		}
+		return(d);
+	}
+}
+
+sequence s(din:Diamond) : (dout:Diamond)
+{
+	{ dout = din; dout.i = dout.i + 1 }
+}

@@ -134,9 +134,8 @@ namespace de.unika.ipd.grGen.libGr
                 return potentiallyLargeString.Substring(0, maxLength - 3) + "...";
         }
 
-        private static string ToString(IMatch value, IGraph graph)
+        private static string ToString(IMatch match, IGraph graph)
         {
-            IMatch match = (IMatch)value;
             StringBuilder sb = new StringBuilder();
             string matchName = match.Pattern != null ? match.Pattern.PackagePrefixedName : match.MatchClass.PackagePrefixedName; 
             sb.Append("match<" + matchName + ">{");
@@ -173,6 +172,26 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append(patternVar.UnprefixedName);
                 sb.Append(":");
                 sb.Append(EmitHelper.ToStringAutomatic(match.getVariable(patternVar.UnprefixedName), graph));
+            }
+            sb.Append("}");
+            return sb.ToString();
+        }
+
+        private static string ToString(IObject value, IGraph graph)
+        {
+            StringBuilder sb = new StringBuilder();
+            string objectType = value.Type.PackagePrefixedName;
+            sb.Append(objectType + "{");
+            bool first = true;
+            foreach(AttributeType attrType in value.Type.AttributeTypes)
+            {
+                if(first)
+                    first = false;
+                else
+                    sb.Append(",");
+                sb.Append(attrType.Name);
+                sb.Append(":");
+                sb.Append(EmitHelper.ToStringAutomatic(value.GetAttribute(attrType.Name), graph));
             }
             sb.Append("}");
             return sb.ToString();

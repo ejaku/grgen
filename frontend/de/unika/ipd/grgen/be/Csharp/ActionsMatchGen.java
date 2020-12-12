@@ -38,9 +38,9 @@ public class ActionsMatchGen extends CSharpBase
 	final int MATCH_PART_INDEPENDENTS = 6;
 	final int MATCH_PART_END = 7;
 
-	public ActionsMatchGen(String nodeTypePrefix, String edgeTypePrefix)
+	public ActionsMatchGen(String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 	}
 
 	//////////////////////////////

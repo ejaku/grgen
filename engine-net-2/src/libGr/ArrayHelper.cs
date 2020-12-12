@@ -452,10 +452,10 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                GraphElementType graphElementType = TypesHelper.GetNodeOrEdgeType(arrayValueType, procEnv.Graph.Model);
-                if(graphElementType != null)
+                InheritanceType inheritanceType = TypesHelper.GetInheritanceType(arrayValueType, procEnv.Graph.Model);
+                if(inheritanceType != null)
                 {
-                    AttributeType attributeType = graphElementType.GetAttributeType(memberOrAttribute);
+                    AttributeType attributeType = inheritanceType.GetAttributeType(memberOrAttribute);
                     Type listType = typeof(List<>).MakeGenericType(attributeType.Type);
                     IList extractedArray = (IList)Activator.CreateInstance(listType);
                     ExtractAttribute(array, memberOrAttribute, extractedArray);

@@ -334,10 +334,10 @@ namespace de.unika.ipd.grGen.libGr
             if(DestVar.Type == "")
                 return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
-            GraphElementType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
-            if(nodeOrEdgeType == null)
-                throw new SequenceParserException(Symbol, "node or edge type", DestVar.Type);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(DestVar.Type, env.Model);
+            if(inheritanceType == null)
+                throw new SequenceParserException(Symbol, "node or edge or object type (class)", DestVar.Type);
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
         }
@@ -347,8 +347,8 @@ namespace de.unika.ipd.grGen.libGr
             if(DestVar.Type == "")
                 return "";
 
-            GraphElementType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(DestVar.Type, env.Model);
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             return TypesHelper.AttributeTypeToXgrsType(attributeType);
         }
 
@@ -417,10 +417,10 @@ namespace de.unika.ipd.grGen.libGr
             if(DestVar.Type == "")
                 return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
-            GraphElementType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
-            if(nodeOrEdgeType == null)
-                throw new SequenceParserException(Symbol, "node or edge type", DestVar.Type);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(DestVar.Type, env.Model);
+            if(inheritanceType == null)
+                throw new SequenceParserException(Symbol, "node or edge or object type (class)", DestVar.Type);
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
 
@@ -453,8 +453,8 @@ namespace de.unika.ipd.grGen.libGr
             if(DestVar.Type == "")
                 return "";
 
-            GraphElementType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(DestVar.Type, env.Model);
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 return ""; // error, will be reported by Check, just ensure we don't crash here
 
@@ -540,8 +540,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env);
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
-            if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
+            GraphElementType graphElementType = TypesHelper.GetGraphElementType(GraphElementVar.Type, env.Model);
+            if(GraphElementVar.Type != "" && graphElementType == null)
                 throw new SequenceParserException(Symbol, "node or edge type", GraphElementVar.Type);
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
                 throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));

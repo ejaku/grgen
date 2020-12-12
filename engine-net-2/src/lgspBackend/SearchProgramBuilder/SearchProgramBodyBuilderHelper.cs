@@ -1953,7 +1953,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(target.PatternElement.AllowedTypes == null)
             { // the pattern element type and all subtypes are allowed
-                GraphElementType targetType = typeModel.Types[target.PatternElement.TypeID];
+                GraphElementType targetType = ((IGraphElementTypeModel)typeModel).Types[target.PatternElement.TypeID];
                 if(targetType == typeModel.RootType)
                 { // every type matches the root type == element type -> no check needed
                     return insertionPoint;

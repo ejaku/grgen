@@ -29,9 +29,9 @@ import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModelExternalGen extends CSharpBase
 {
-	public ModelExternalGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix)
+	public ModelExternalGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		this.model = model;
 		this.sb = sb;
 	}

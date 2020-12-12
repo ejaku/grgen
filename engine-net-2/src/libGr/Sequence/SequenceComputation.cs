@@ -1880,7 +1880,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
-            CheckNodeOrEdgeTypeIsKnown(env, TypeExpr, ", second argument");
+            CheckGraphElementTypeIsKnown(env, TypeExpr, ", second argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)

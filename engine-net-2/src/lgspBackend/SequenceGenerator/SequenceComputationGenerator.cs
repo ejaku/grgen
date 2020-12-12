@@ -640,7 +640,7 @@ namespace de.unika.ipd.grGen.lgsp
                 String returnParameterDeclarations;
                 String returnArguments;
                 String returnAssignments;
-                seqHelper.BuildReturnParameters(seqCall, seqCall.ReturnVars, TypesHelper.GetNodeOrEdgeType(type, model),
+                seqHelper.BuildReturnParameters(seqCall, seqCall.ReturnVars, TypesHelper.GetInheritanceType(type, model),
                     out returnParameterDeclarations, out returnArguments, out returnAssignments);
 
                 if(returnParameterDeclarations.Length != 0)
@@ -651,7 +651,7 @@ namespace de.unika.ipd.grGen.lgsp
                     target = exprGen.GetSequenceExpression(seqCall.TargetExpr, source);
                 else
                     target = seqHelper.GetVar(seqCall.TargetVar);
-                IProcedureDefinition procedureMethod = TypesHelper.GetNodeOrEdgeType(type, model).GetProcedureMethod(seqCall.Name);
+                IProcedureDefinition procedureMethod = TypesHelper.GetInheritanceType(type, model).GetProcedureMethod(seqCall.Name);
                 String arguments = seqHelper.BuildParameters(seqCall, seqCall.ArgumentExpressions, procedureMethod, source);
                 source.AppendFrontFormat("(({0}){1}).{2}(procEnv, graph{3}{4});\n", 
                     TypesHelper.XgrsTypeToCSharpType(type, model), target, seqCall.Name, arguments, returnArguments);
@@ -1497,12 +1497,24 @@ namespace de.unika.ipd.grGen.lgsp
         private void EmitAttributeEventInitialization(AssignmentTargetAttribute tgtAttr, String element, String attrType, 
             String value, string sourceValueComputation, SourceBuilder source)
         {
-            source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                element, seqHelper.GetVar(tgtAttr.DestVar));
-            source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0};\n", attrType);
-            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
-            source.AppendFrontFormat("{0} = GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer({1}, \"{2}\", {0}, out {3});\n",
-                value, element, tgtAttr.AttributeName, attrType);
+            if(TypesHelper.GetObjectType(tgtAttr.DestVar.Type, model) == null)
+            {
+                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
+                    element, seqHelper.GetVar(tgtAttr.DestVar));
+                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0};\n", attrType);
+                source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
+                source.AppendFrontFormat("{0} = GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer({1}, \"{2}\", {0}, out {3});\n",
+                    value, element, tgtAttr.AttributeName, attrType);
+            }
+            else
+            {
+                source.AppendFrontFormat("GRGEN_LIBGR.IObject {0} = (GRGEN_LIBGR.IObject){1};\n",
+                    element, seqHelper.GetVar(tgtAttr.DestVar));
+                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0};\n", attrType);
+                source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
+                source.AppendFrontFormat("{0} = GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer({1}, \"{2}\", {0}, out {3});\n",
+                    value, element, tgtAttr.AttributeName, attrType);
+            }
         }
 
         void EmitAssignmentAttributeIndexed(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, string sourceValueComputation, SourceBuilder source)
@@ -1530,8 +1542,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
-                GraphElementType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(tgtAttrIndexedVar.DestVar.Type, env.Model);
-                AttributeType attributeType = nodeOrEdgeType.GetAttributeType(tgtAttrIndexedVar.AttributeName);
+                InheritanceType inheritanceType = TypesHelper.GetInheritanceType(tgtAttrIndexedVar.DestVar.Type, env.Model);
+                AttributeType attributeType = inheritanceType.GetAttributeType(tgtAttrIndexedVar.AttributeName);
                 string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
 
                 if(ContainerType.StartsWith("array"))
@@ -1657,7 +1669,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
             source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.{2}, {3}, {4});\n",
                 element, attrType, attrChangeType.ToString(), newValue, keyValue);
-            source.AppendFront("else\n");
+            source.AppendFrontFormat("else if({0} is GRGEN_LIBGR.IEdge)\n", element);
             source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.{2}, {3}, {4});\n",
                 element, attrType, attrChangeType.ToString(), newValue, keyValue);
         }
@@ -1671,7 +1683,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
                 source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
                     element, attrType);
-                source.AppendFront("else\n");
+                source.AppendFrontFormat("else if({0} is GRGEN_LIBGR.IEdge)\n", element);
                 source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
                     element, attrType);
             }

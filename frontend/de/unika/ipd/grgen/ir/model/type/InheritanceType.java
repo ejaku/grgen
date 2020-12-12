@@ -42,10 +42,10 @@ public abstract class InheritanceType extends CompoundType
 	public static final int CONST = 2;
 
 	private static int nextTypeID = 0;
-	private static ArrayList<InheritanceType> inheritanceTypesByID = new ArrayList<InheritanceType>();
+	private static ArrayList<InheritanceType> typesByID = new ArrayList<InheritanceType>();
 
 	private int typeID;
-	private int nodeOrEdgeTypeID;
+	private int inheritanceTypeID;
 	private int maxDist = -1;
 	private final Set<InheritanceType> directSuperTypes = new LinkedHashSet<InheritanceType>();
 	private final Set<InheritanceType> directSubTypes = new LinkedHashSet<InheritanceType>();
@@ -91,7 +91,7 @@ public abstract class InheritanceType extends CompoundType
 		this.modifiers = modifiers;
 		this.externalName = externalName;
 		typeID = nextTypeID++;
-		inheritanceTypesByID.add(this);
+		typesByID.add(this);
 	}
 
 	/** @return a unique type identifier starting with zero. (Used in SearchPlanBackend2.java) */
@@ -102,19 +102,19 @@ public abstract class InheritanceType extends CompoundType
 
 	public static InheritanceType getByTypeID(int typeID)
 	{
-		return inheritanceTypesByID.get(typeID);
+		return typesByID.get(typeID);
 	}
 
-	/** @return a unique type identifier starting with zero, for the nodes, or the edges. Only unique for either the nodes, or the edges, not for both.*/
-	public int getNodeOrEdgeTypeID(boolean isNode)
+	/** @return a unique type identifier starting with zero, separate for the nodes, for the edges, and for the classes,
+	 * i.e. gapless ascending in each type.*/
+	public int getInheritanceTypeID()
 	{
-		return nodeOrEdgeTypeID;
+		return inheritanceTypeID;
 	}
 
-	/** @return a unique type identifier starting with zero, for the nodes, or the edges. Only unique for either the nodes, or the edges, not for both.*/
-	public void setNodeOrEdgeTypeID(boolean isNode, int nodeOrEdgeTypeID)
+	public void setInheritanceTypeID(int inheritanceTypeID)
 	{
-		this.nodeOrEdgeTypeID = nodeOrEdgeTypeID;
+		this.inheritanceTypeID = inheritanceTypeID;
 	}
 
 	/** @return true, if this type does not inherit from some other types, being the root of an inheritance hierarchy. */

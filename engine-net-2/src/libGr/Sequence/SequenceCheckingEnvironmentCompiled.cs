@@ -88,15 +88,15 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                GraphElementType graphElementType = TypesHelper.GetNodeOrEdgeType(matchOrGraphElementType, Model);
-                AttributeType attributeType = graphElementType.GetAttributeType(memberOrAttribute);
+                InheritanceType inheritanceType = TypesHelper.GetInheritanceType(matchOrGraphElementType, Model);
+                AttributeType attributeType = inheritanceType.GetAttributeType(memberOrAttribute);
                 if(attributeType == null)
                     throw new SequenceParserException(memberOrAttribute, SequenceParserError.UnknownAttribute);
                 return TypesHelper.AttributeTypeToXgrsType(attributeType);
             }
         }
 
-        protected override int NumInputParameters(Invocation invocation, GraphElementType ownerType)
+        protected override int NumInputParameters(Invocation invocation, InheritanceType ownerType)
         {
             if(invocation is RuleInvocation)
             {
@@ -133,7 +133,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override int NumOutputParameters(Invocation invocation, GraphElementType ownerType)
+        protected override int NumOutputParameters(Invocation invocation, InheritanceType ownerType)
         {
             if(invocation is RuleInvocation)
             {
@@ -159,7 +159,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override string InputParameterType(int i, Invocation invocation, GraphElementType ownerType)
+        protected override string InputParameterType(int i, Invocation invocation, InheritanceType ownerType)
         {
             if(invocation is RuleInvocation)
             {
@@ -196,7 +196,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override string OutputParameterType(int i, Invocation invocation, GraphElementType ownerType)
+        protected override string OutputParameterType(int i, Invocation invocation, InheritanceType ownerType)
         {
             if(invocation is RuleInvocation)
             {

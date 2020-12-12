@@ -241,9 +241,9 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 
 public class ActionsExpressionOrYieldingGen extends CSharpBase
 {
-	public ActionsExpressionOrYieldingGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix)
+	public ActionsExpressionOrYieldingGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		model = backend.unit.getActionsGraphModel();
 	}
 
@@ -346,7 +346,8 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 						+ formatIdentifiable(member) + "\")");
 			} else if(owner != null) {
 				sb.append("new GRGEN_EXPR.Qualification(\"" + formatElementInterfaceRef(owner.getType())
-						+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \""
+						+ "\", " + ((owner.getType() instanceof NodeType || owner.getType() instanceof EdgeType) ? "true" : "false")
+						+ ", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \""
 						+ formatIdentifiable(member) + "\")");
 			} else {
 				sb.append("new GRGEN_EXPR.CastQualification(");
@@ -1250,6 +1251,9 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		} else if(expr instanceof MatchInit) {
 			MatchInit mi = (MatchInit)expr;
 			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
+		} else if(expr instanceof InternalObjectInit) {
+			InternalObjectInit oi = (InternalObjectInit)expr;
+			sb.append("new " + formatInternalObjectType(oi.getInternalObjectType()) + "()");
 		} else if(expr instanceof MapCopyConstructor) {
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
 			sb.append("new GRGEN_EXPR.MapCopyConstructor(\"" + formatType(mcc.getMapType()) + "\", ");
@@ -1964,7 +1968,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 
 	protected void genQualAccess(SourceBuilder sb, Entity owner, Entity member)
 	{
-		sb.append("((I" + getNodeOrEdgeTypePrefix(owner) +
+		sb.append("((I" + getInheritanceTypePrefix(owner) +
 				formatIdentifiable(owner.getType()) + ") ");
 		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(member));
 	}

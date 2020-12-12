@@ -1,0 +1,39 @@
+enum enu
+{
+	Baz, Qux
+}
+
+class Nested
+{
+}
+
+class Foo
+{
+	i:int;
+	e:enu;
+	n:Nested;
+}
+
+class Bar1 extends Foo
+{
+	s:string;
+}
+
+class Bar2 extends Foo
+{
+	d:double;
+}
+
+class Diamond extends Bar1, Bar2
+{
+	function f(var i:int) : int
+	{
+		return(i + this.i);
+	}
+	
+	procedure set_i(var i:int)
+	{
+		this.i = i;
+		return;
+	}
+}

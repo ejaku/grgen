@@ -40,7 +40,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public string modelPathPrefix = null;
 
-        public bool nodeOrEdgeUsedInAttribute = false;
+        public bool graphElementUsedInAttribute = false;
         public bool subgraphUsedInAttribute = false;
 
         public bool isExported = false;
@@ -229,9 +229,9 @@ restart:
                 {
                     if(IsAttributeToBeSkipped(mainGraphContext, attrType))
                         continue;
-                    if(IsNodeOrEdgeUsedInAttribute(attrType))
+                    if(IsGraphElementUsedInAttribute(attrType))
                     {
-                        context.nodeOrEdgeUsedInAttribute = true;
+                        context.graphElementUsedInAttribute = true;
                         continue;
                     }
                     if(IsGraphUsedInAttribute(attrType))
@@ -265,9 +265,9 @@ restart:
                     {
                         if(IsAttributeToBeSkipped(mainGraphContext, attrType))
                             continue;
-                        if(IsNodeOrEdgeUsedInAttribute(attrType))
+                        if(IsGraphElementUsedInAttribute(attrType))
                         {
-                            context.nodeOrEdgeUsedInAttribute = true;
+                            context.graphElementUsedInAttribute = true;
                             continue;
                         }
                         if(IsGraphUsedInAttribute(attrType))
@@ -295,7 +295,7 @@ restart:
             sw.WriteLine();
 
             // emit node/edge valued attributes
-            if(context.nodeOrEdgeUsedInAttribute)
+            if(context.graphElementUsedInAttribute)
             {
                 foreach(INode node in context.graph.Nodes)
                 {
@@ -303,7 +303,7 @@ restart:
                     {
                         if(IsAttributeToBeSkipped(mainGraphContext, attrType))
                             continue;
-                        if(!IsNodeOrEdgeUsedInAttribute(attrType))
+                        if(!IsGraphElementUsedInAttribute(attrType))
                             continue;
                         if(IsGraphUsedInAttribute(attrType))
                             continue;
@@ -320,7 +320,7 @@ restart:
                         {
                             if(IsAttributeToBeSkipped(mainGraphContext, attrType))
                                 continue;
-                            if(!IsNodeOrEdgeUsedInAttribute(attrType))
+                            if(!IsGraphElementUsedInAttribute(attrType))
                                 continue;
                             if(IsGraphUsedInAttribute(attrType))
                                 continue;
@@ -616,7 +616,7 @@ restart:
             return false;
         }
 
-        private static bool IsNodeOrEdgeUsedInAttribute(AttributeType attrType)
+        private static bool IsGraphElementUsedInAttribute(AttributeType attrType)
         {
             if(attrType.Kind == AttributeKind.NodeAttr
                 || attrType.Kind == AttributeKind.EdgeAttr)

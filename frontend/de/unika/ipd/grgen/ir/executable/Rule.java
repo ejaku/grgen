@@ -491,7 +491,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				if(node.indexAccess != null) {
 					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					node.indexAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
+					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, node);
 					if(indexGraphEntity != null) {
 						if(node.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
 							node.incrementDependencyLevel();
@@ -503,7 +503,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				if(node.nameMapAccess != null) {
 					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					node.nameMapAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
+					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, node);
 					if(indexGraphEntity != null) {
 						if(node.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
 							node.incrementDependencyLevel();
@@ -515,7 +515,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				if(node.uniqueIndexAccess != null) {
 					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					node.uniqueIndexAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, node);
+					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, node);
 					if(indexGraphEntity != null) {
 						if(node.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
 							node.incrementDependencyLevel();
@@ -552,7 +552,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				if(edge.indexAccess != null) {
 					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					edge.indexAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
+					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, edge);
 					if(indexGraphEntity != null) {
 						if(edge.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
 							edge.incrementDependencyLevel();
@@ -564,7 +564,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				if(edge.nameMapAccess != null) {
 					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					edge.nameMapAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
+					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, edge);
 					if(indexGraphEntity != null) {
 						if(edge.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
 							edge.incrementDependencyLevel();
@@ -576,7 +576,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				if(edge.uniqueIndexAccess != null) {
 					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					edge.uniqueIndexAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededNodeOrEdge(needs, edge);
+					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, edge);
 					if(indexGraphEntity != null) {
 						if(edge.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
 							edge.incrementDependencyLevel();
@@ -610,7 +610,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 		}
 	}
 
-	public GraphEntity getAtMostOneNeededNodeOrEdge(NeededEntities needs, GraphEntity entity)
+	public GraphEntity getAtMostOneNeededGraphElement(NeededEntities needs, GraphEntity entity)
 	{
 		HashSet<GraphEntity> neededEntities = new HashSet<GraphEntity>();
 		for(Node node : needs.nodes) {

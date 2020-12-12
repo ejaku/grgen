@@ -68,9 +68,9 @@ public class ModifyGen extends CSharpBase
 	Model model;
 	SearchPlanBackend2 be;
 
-	public ModifyGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix)
+	public ModifyGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		be = backend;
 		model = be.unit.getActionsGraphModel();
 	}
@@ -444,8 +444,8 @@ public class ModifyGen extends CSharpBase
 		String prefix = (task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_CREATION ? "create_" : "")
 				+ pathPrefix + task.left.getNameOfGraph() + "_";
 
-		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix);
+		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 
 		// Emit function header
 		sb.append("\n");
@@ -1048,7 +1048,7 @@ public class ModifyGen extends CSharpBase
 			GraphEntity grEnt = ((GraphEntityExpression)expr).getGraphEntity();
 			if(grEnt.isMaybeRetyped()) {
 				String elemName = formatEntity(grEnt);
-				String kind = formatNodeOrEdge(grEnt);
+				String kind = formatGraphElement(grEnt);
 				sb.appendFront("if(" + elemName + ".ReplacedBy" + kind + " != null) "
 						+ elemName + " = " + elemName + ".ReplacedBy" + kind + ";\n");
 			}
@@ -1641,7 +1641,7 @@ public class ModifyGen extends CSharpBase
 						+ formatEntity(node) + ";\n");
 			}
 		} else { // node:type
-			String elemref = formatElementClassRef(node.getType());
+			String elemref = formatInheritanceClassRef(node.getType());
 			if(node.hasNameInitialization()) {
 				sb2.appendFront(elemref + " " + formatEntity(node) + " = "
 						+ elemref + ".CreateNode((GRGEN_LGSP.LGSPNamedGraph)graph, ");
@@ -1728,7 +1728,7 @@ public class ModifyGen extends CSharpBase
 						+ formatEntity(edge) + ";\n");
 			}
 		} else { // -edge:type->
-			String elemref = formatElementClassRef(edge.getType());
+			String elemref = formatInheritanceClassRef(edge.getType());
 			if(edge.hasNameInitialization()) {
 				sb2.appendFront(elemref + " " + formatEntity(edge) + " = " + elemref
 						+ ".CreateEdge((GRGEN_LGSP.LGSPNamedGraph)graph, " + formatEntity(src_node)
@@ -1757,7 +1757,7 @@ public class ModifyGen extends CSharpBase
 				// var parameters can't be used in creation, so just skip them
 				if(expr instanceof GraphEntityExpression) {
 					sb.append(", ");
-					sb.append("(" + formatElementClassRef(expr.getType()) + ")(");
+					sb.append("(" + formatInheritanceClassRef(expr.getType()) + ")(");
 					genExpression(sb, expr, state);
 					sb.append(")");
 				}

@@ -187,7 +187,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(Symbol + whichArgument, "edge type or string denoting edge type", typeString);
         }
 
-        protected void CheckNodeOrEdgeTypeIsKnown(SequenceCheckingEnvironment env, SequenceExpression typeExpr, String whichArgument)
+        protected void CheckGraphElementTypeIsKnown(SequenceCheckingEnvironment env, SequenceExpression typeExpr, String whichArgument)
         {
             if(typeExpr == null || typeExpr.Type(env) == "")
                 return;

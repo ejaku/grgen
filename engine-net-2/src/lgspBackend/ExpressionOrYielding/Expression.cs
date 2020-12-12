@@ -1336,24 +1336,31 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Qualification : Expression
     {
-        public Qualification(String ownerType, String owner, String member)
+        public Qualification(String ownerType, bool isGraphElementType, String owner, String member)
         {
             OwnerType = ownerType;
+            IsGraphElementType = isGraphElementType;
             Owner = owner;
             Member = member;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Qualification(OwnerType, Owner + renameSuffix, Member);
+            return new Qualification(OwnerType, IsGraphElementType, Owner + renameSuffix, Member);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((" + OwnerType + ")" + NamesOfEntities.CandidateVariable(Owner) + ").@" + Member);
+            string candidateVariable;
+            if(IsGraphElementType)
+                candidateVariable = NamesOfEntities.CandidateVariable(Owner);
+            else
+                candidateVariable = NamesOfEntities.Variable(Owner);
+            sourceCode.Append("((" + OwnerType + ")" + candidateVariable + ").@" + Member);
         }
 
         readonly String OwnerType;
+        readonly bool IsGraphElementType;
         readonly String Owner;
         readonly String Member;
     }

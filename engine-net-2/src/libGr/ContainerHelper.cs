@@ -108,7 +108,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public static object GetGraphElementAttributeOrElementOfMatch(object source, string attributeOrElementName)
+        public static object GetAttributeOrElementOfMatch(object source, string attributeOrElementName)
         {
             if(source is IMatch)
             {
@@ -122,9 +122,17 @@ namespace de.unika.ipd.grGen.libGr
                 value = match.getVariable(attributeOrElementName);
                 return value;
             }
-            else
+            else if(source is IGraphElement)
             {
                 IGraphElement elem = (IGraphElement)source;
+                object value = elem.GetAttribute(attributeOrElementName);
+                value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
+                    elem, attributeOrElementName, value);
+                return value;
+            }
+            else
+            {
+                IObject elem = (IObject)source;
                 object value = elem.GetAttribute(attributeOrElementName);
                 value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
                     elem, attributeOrElementName, value);
@@ -241,11 +249,53 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// If the attribute of the given name of the given element is a container attribute
+        /// then return a clone of the given container value, otherwise just return the original value;
+        /// additionally returns the AttributeType of the attribute of the element.
+        /// </summary>
+        public static object IfAttributeOfElementIsContainerThenCloneContainer(
+                IObject element, String AttributeName, object value, out AttributeType attrType)
+        {
+            attrType = element.Type.GetAttributeType(AttributeName);
+            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+            {
+                Type keyType, valueType;
+                ContainerHelper.GetDictionaryTypes(element.GetAttribute(AttributeName), out keyType, out valueType);
+                return ContainerHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
+            }
+            else if(attrType.Kind == AttributeKind.ArrayAttr)
+            {
+                Type valueType;
+                ContainerHelper.GetListType(element.GetAttribute(AttributeName), out valueType);
+                return ContainerHelper.NewList(valueType, value); // by-value-semantics -> clone array
+            }
+            else if(attrType.Kind == AttributeKind.DequeAttr)
+            {
+                Type valueType;
+                ContainerHelper.GetDequeType(element.GetAttribute(AttributeName), out valueType);
+                return ContainerHelper.NewDeque(valueType, value); // by-value-semantics -> clone deque
+            }
+            return value;
+        }
+
+        /// <summary>
         /// If the attribute of the given name of the given element is a conatiner attribute
         /// then return a clone of the given container value, otherwise just return the original value
         /// </summary>
         public static object IfAttributeOfElementIsContainerThenCloneContainer(
                 IGraphElement element, String AttributeName, object value)
+        {
+            AttributeType attrType;
+            return IfAttributeOfElementIsContainerThenCloneContainer(
+                element, AttributeName, value, out attrType);
+        }
+
+        /// <summary>
+        /// If the attribute of the given name of the given element is a conatiner attribute
+        /// then return a clone of the given container value, otherwise just return the original value
+        /// </summary>
+        public static object IfAttributeOfElementIsContainerThenCloneContainer(
+                IObject element, String AttributeName, object value)
         {
             AttributeType attrType;
             return IfAttributeOfElementIsContainerThenCloneContainer(

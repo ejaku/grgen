@@ -303,6 +303,9 @@ public class Unit extends IR implements ActionsBearer
 		for(InheritanceType type : bearer.getEdgeTypes()) {
 			type.getAllMembers(); // checks overwriting of attributes
 		}
+		for(InheritanceType type : bearer.getObjectTypes()) {
+			type.getAllMembers(); // checks overwriting of attributes
+		}
 	}
 
 	public static void postPatchIR(ActionsBearer bearer)

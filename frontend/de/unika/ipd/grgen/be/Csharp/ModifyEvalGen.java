@@ -156,6 +156,7 @@ import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
@@ -175,9 +176,9 @@ public class ModifyEvalGen extends CSharpBase
 	ModifyExecGen execGen;
 
 	public ModifyEvalGen(SearchPlanBackend2 backend, ModifyExecGen execGen,
-			String nodeTypePrefix, String edgeTypePrefix)
+			String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		be = backend;
 		model = be.unit.getActionsGraphModel();
 
@@ -498,7 +499,8 @@ public class ModifyEvalGen extends CSharpBase
 			sb.appendFront("}\n");
 		} else {
 			if(!(target.getOwner().getType() instanceof MatchType
-					|| target.getOwner().getType() instanceof DefinedMatchType))
+					|| target.getOwner().getType() instanceof DefinedMatchType
+					|| target.getOwner().getType() instanceof InternalObjectType))
 				genChangingAttribute(sb, state, target, "Assign", varName, "null");
 
 			sb.appendFront("");
@@ -510,7 +512,8 @@ public class ModifyEvalGen extends CSharpBase
 			sb.append(varName + ";\n");
 
 			if(!(target.getOwner().getType() instanceof MatchType
-					|| target.getOwner().getType() instanceof DefinedMatchType))
+					|| target.getOwner().getType() instanceof DefinedMatchType
+					|| target.getOwner().getType() instanceof InternalObjectType))
 				genChangedAttribute(sb, state, target);
 		}
 	}
@@ -1545,13 +1548,15 @@ public class ModifyEvalGen extends CSharpBase
 	private void genDefDeclVarStatement(SourceBuilder sb, ModifyGenerationStateConst state, DefDeclVarStatement ddvs)
 	{
 		Variable var = ddvs.getTarget();
-		if(var.getIdent().toString().equals("this") && var.getType() instanceof ArrayType) {
-			if(state.matchClassName() != null)
-				sb.appendFront(formatType(var.getType()) + " this_matches = GRGEN_LIBGR.MatchListHelper.ToList<"
-						+ state.packagePrefix() + "IMatch_" + state.matchClassName() + ">(matches);\n");
-			else
-				sb.appendFront(formatType(var.getType()) + " this_matches = matches.ToListExact();\n");
-			return;
+		if(var.getIdent().toString().equals("this")) {
+			if(var.getType() instanceof ArrayType) {
+				if(state.matchClassName() != null) {
+					sb.appendFront(formatType(var.getType()) + " this_matches = GRGEN_LIBGR.MatchListHelper.ToList<"
+							+ state.packagePrefix() + "IMatch_" + state.matchClassName() + ">(matches);\n");
+				} else
+					sb.appendFront(formatType(var.getType()) + " this_matches = matches.ToListExact();\n");
+			}
+			return; // don't emit a declaration for the fake "this" entity of a method / emit this_matches in case of a this of array type (of match value type, appears in filters)
 		}
 		sb.appendFront(formatType(var.getType()) + " " + formatEntity(var));
 		if(var.initialization != null) {
