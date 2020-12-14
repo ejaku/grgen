@@ -373,23 +373,17 @@ globalVarDecl
 		(
 			type=typeIdentUse
 			{
-				id.setDecl(new VarDeclNode(id, type, null, 0, false, false));
-				if(!modifier.getText().equals("var")) 
-					{ reportError(getCoords(modifier), "var keyword needed before non graph element and non container global variable"); }
+				id.setDecl(new VarDeclNode(id, type, null, 0, false, false, modifier.getText()));
 			}
 		|
 			containerType=containerTypeUse
 			{
-				id.setDecl(new VarDeclNode(id, containerType, null, 0, false, false));
-				if(!modifier.getText().equals("ref"))
-					{ reportError(getCoords(modifier), "ref keyword needed before container typed def variable"); }
+				id.setDecl(new VarDeclNode(id, containerType, null, 0, false, false, modifier.getText()));
 			}
 		|
 			matchTypeIdent=matchTypeIdentUse
 			{
-				id.setDecl(new VarDeclNode(id, matchTypeIdent, null, 0, false, false));
-				if(!modifier.getText().equals("ref"))
-					{ reportError(getCoords(modifier), "ref keyword needed before match typed def variable"); }
+				id.setDecl(new VarDeclNode(id, matchTypeIdent, null, 0, false, false, modifier.getText()));
 			}
 		)
 		SEMI
@@ -680,7 +674,7 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
 						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 						new ArrayTypeNode(MatchTypeActionNode.getMatchTypeIdentNode(env, actionId)),
-						PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true, false),
+						PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true, false, "ref"),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
 			( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
@@ -698,7 +692,7 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
 						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 						new ArrayTypeNode(typeId),
-						PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true, false),
+						PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true, false, "ref"),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
 			( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
@@ -1370,23 +1364,17 @@ defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals,
 		(
 			type=typeIdentUse
 			{
-				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true, false);
-				if(!modifier.getText().equals("var")) 
-					{ reportError(getCoords(modifier), "var keyword needed before non graph element and non container def variable"); }
+				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true, false, modifier.getText());
 			}
 		|
 			containerType=containerTypeUse
 			{
-				var = new VarDeclNode(id, containerType, directlyNestingLHSGraph, context, true, false);
-				if(!modifier.getText().equals("ref"))
-					{ reportError(getCoords(modifier), "ref keyword needed before container typed def variable"); }
+				var = new VarDeclNode(id, containerType, directlyNestingLHSGraph, context, true, false, modifier.getText());
 			}
 		|
 			matchTypeIdent=matchTypeIdentUse
 			{
-				var = new VarDeclNode(id, matchTypeIdent, directlyNestingLHSGraph, 0);
-				if(!modifier.getText().equals("ref"))
-					{ reportError(getCoords(modifier), "ref keyword needed before match typed def variable"); }
+				var = new VarDeclNode(id, matchTypeIdent, directlyNestingLHSGraph, 0, modifier.getText());
 			}
 		)
 		{
@@ -1662,16 +1650,12 @@ varDecl [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ B
 		(
 			type=typeIdentUse
 			{
-				res = new VarDeclNode(id, type, directlyNestingLHSGraph, context);
-				if(!paramModifier.getText().equals("var")) 
-					{ reportError(getCoords(paramModifier), "var keyword needed before non graph element and non container parameter"); }
+				res = new VarDeclNode(id, type, directlyNestingLHSGraph, context, paramModifier.getText());
 			}
 		|
 			containerType=containerTypeUse
 			{
-				res = new VarDeclNode(id, containerType, directlyNestingLHSGraph, context);
-				if(!paramModifier.getText().equals("ref"))
-					{ reportWarning(getCoords(paramModifier), "ref keyword needed before container typed parameter"); } // TODO: next version -> error
+				res = new VarDeclNode(id, containerType, directlyNestingLHSGraph, context, paramModifier.getText());
 			}
 		)
 	;
@@ -3052,7 +3036,7 @@ inClassFunctionDecl [ IdentNode clsId, boolean isClass, boolean isNode ] returns
 					evals.addChild(new DefDeclStatementNode(getCoords(f),
 							new VarDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
-									PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, true, false),
+									PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, true, false, "ref"),
 									BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
 				} else {
 					if(isNode) {
@@ -3096,7 +3080,7 @@ inClassProcedureDecl [ IdentNode clsId, boolean isClass, boolean isNode ] return
 					evals.addChild(new DefDeclStatementNode(getCoords(pr),
 							new VarDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))),
 									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
-									PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, true, false),
+									PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, true, false, "ref"),
 							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
 				} else {
 					if(isNode) {
@@ -3822,7 +3806,7 @@ forContent [ Coords f, boolean onLHS, boolean isSimple, AnonymousScopeNamer name
 		RBRACE { env.popScope(); }
 		{
 			iterIdentUse = new IdentNode(env.occurs(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i)));
-			iterVar = new VarDeclNode(variable, IdentNode.getInvalid(), directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(variable, IdentNode.getInvalid(), directlyNestingLHSGraph, context, null);
 			res = new IteratedAccumulationYieldNode(f, iterVar, iterIdentUse, cs);
 		}
 	| variable=entIdentDecl COLON dres=forContentTypedIteration[f, variable, onLHS, isSimple, namer, context, directlyNestingLHSGraph]
@@ -3847,7 +3831,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 		RBRACE { env.popScope(); }
 		{
 			containerIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context, null);
 			res = new ContainerAccumulationYieldNode(f, iterVar, null, containerIdentUse, cs);
 		}
 	| indexType=typeIdentUse RARROW variable=entIdentDecl COLON type=typeIdentUse IN i=IDENT RPAREN
@@ -3856,8 +3840,8 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 		RBRACE { env.popScope(); }
 		{
 			containerIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context);
-			iterIndex = new VarDeclNode(leftVar, indexType, directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(variable, type, directlyNestingLHSGraph, context, null);
+			iterIndex = new VarDeclNode(leftVar, indexType, directlyNestingLHSGraph, context, null);
 			res = new ContainerAccumulationYieldNode(f, iterVar, iterIndex, containerIdentUse, cs);
 		}
 	| type=typeIdentUse IN
@@ -3871,7 +3855,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
-			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context, null);
 			res = new ForFunctionNode(f, iterVar, (FunctionInvocationDecisionNode)function, cs);
 		}
 	| MATCH LT actionIdent=actionIdentUse GT IN i=IDENT RPAREN
@@ -3880,7 +3864,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 		RBRACE { env.popScope(); }
 		{
 			matchesIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			iterVar = new VarDeclNode(leftVar, MatchTypeActionNode.getMatchTypeIdentNode(env, actionIdent), directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, MatchTypeActionNode.getMatchTypeIdentNode(env, actionIdent), directlyNestingLHSGraph, context, null);
 			res = new MatchesAccumulationYieldNode(f, iterVar, matchesIdentUse, cs);
 		}
 	| MATCH LT CLASS matchClassIdent=typeIdentUse GT IN i=IDENT RPAREN
@@ -3889,7 +3873,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 		RBRACE { env.popScope(); }
 		{
 			matchesIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			iterVar = new VarDeclNode(leftVar, matchClassIdent, directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, matchClassIdent, directlyNestingLHSGraph, context, null);
 			res = new MatchesAccumulationYieldNode(f, iterVar, matchesIdentUse, cs);
 		}
 	| type=typeIdentUse IN LBRACK left=expr[namer, context, false] COLON right=expr[namer, context, false] RBRACK RPAREN
@@ -3897,7 +3881,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
-			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context, null);
 			res = new IntegerRangeIterationYieldNode(f, iterVar, left, right, cs);
 		}
 	| type=typeIdentUse IN LBRACE idx=indexIdentUse EQUAL e=expr[namer, context, false] RBRACE RPAREN
@@ -3905,7 +3889,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
-			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context, null);
 			res = new ForIndexAccessEqualityYieldNode(f, iterVar, context, idx, e, directlyNestingLHSGraph, cs);
 		}
 	| type=typeIdentUse IN LBRACE i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[namer, context, false]
@@ -3914,7 +3898,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
-			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context, null);
 			boolean ascending = true;
 			if(i.getText().equals("ascending")) 
 				ascending = true;
@@ -4356,12 +4340,12 @@ lambdaExprVarDeclToBeYieldedTo [ AnonymousScopeNamer namer, int context, Pattern
 		(
 			type=typeIdentUse
 			{
-				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true, true);
+				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true, true, null);
 			}
 		|
 			matchTypeIdent=matchTypeIdentUse
 			{
-				var = new VarDeclNode(id, matchTypeIdent, directlyNestingLHSGraph, 0);
+				var = new VarDeclNode(id, matchTypeIdent, directlyNestingLHSGraph, 0, null);
 			}
 		)
 		{

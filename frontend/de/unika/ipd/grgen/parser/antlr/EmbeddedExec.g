@@ -426,6 +426,7 @@ seqExprBasic [ExecNode xg] returns [ ExprNode res = env.initExprNode() ]
 	| rq=seqRuleQuery[xg] sel=seqExprSelector[rq, xg] { res = sel; }
 	| mrq=seqMultiRuleQuery[xg] sel=seqExprSelector[mrq, xg] { res = sel; }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
+	| NEW { xg.append("new "); } type=seqTypeIdentUse LPAREN RPAREN { xg.append(type); xg.append("()"); }
 	| exp=seqConstantOfBasicOrEnumType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
 	| (seqConstantOfContainerType[null]) => exp=seqConstantOfContainerType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
 	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT

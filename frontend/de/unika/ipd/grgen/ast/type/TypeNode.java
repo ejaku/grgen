@@ -14,9 +14,12 @@ package de.unika.ipd.grgen.ast.type;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
 import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
 import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
@@ -314,6 +317,20 @@ public abstract class TypeNode extends BaseNode
 	public static String getNumericTypesAsString()
 	{
 		return "byte, short, int, long, float, double";
+	}
+
+	public boolean isValueType()
+	{
+		return this instanceof BasicTypeNode
+				|| this instanceof EnumTypeNode
+				|| this instanceof ExternalTypeNode;
+	}
+
+	public boolean isReferenceType()
+	{
+		return this instanceof ContainerTypeNode
+				|| this instanceof MatchTypeNode
+				|| this instanceof InternalObjectTypeNode;
 	}
 
 	// returns type name (to be used in error reporting)

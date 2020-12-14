@@ -41,30 +41,36 @@ public class VarDeclNode extends DeclNode
 	public ExprNode initialization = null;
 
 	public int context;
+	
+	private String modifier;
 
 	public boolean lambdaExpressionVariable = false;
 
 
 	public VarDeclNode(IdentNode id, IdentNode type,
 			PatternGraphLhsNode directlyNestingLHSGraph, int context,
-			boolean defEntityToBeYieldedTo, boolean lambdaExpressionVariable)
+			boolean defEntityToBeYieldedTo, boolean lambdaExpressionVariable,
+			String modifier)
 	{
 		super(id, type);
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		this.defEntityToBeYieldedTo = defEntityToBeYieldedTo;
 		this.context = context;
 		this.lambdaExpressionVariable = lambdaExpressionVariable;
+		this.modifier = modifier;
 	}
 
 	public VarDeclNode(IdentNode id, IdentNode type,
-			PatternGraphLhsNode directlyNestingLHSGraph, int context)
+			PatternGraphLhsNode directlyNestingLHSGraph, int context,
+			String modifier)
 	{
-		this(id, type, directlyNestingLHSGraph, context, false, false);
+		this(id, type, directlyNestingLHSGraph, context, false, false, modifier);
 	}
 
 	public VarDeclNode(IdentNode id, TypeNode type,
 			PatternGraphLhsNode directlyNestingLHSGraph, int context,
-			boolean defEntityToBeYieldedTo, boolean lambdaExpressionVariable)
+			boolean defEntityToBeYieldedTo, boolean lambdaExpressionVariable,
+			String modifier)
 	{
 		super(id, type);
 		this.type = type;
@@ -72,17 +78,19 @@ public class VarDeclNode extends DeclNode
 		this.defEntityToBeYieldedTo = defEntityToBeYieldedTo;
 		this.context = context;
 		this.lambdaExpressionVariable = lambdaExpressionVariable;
+		this.modifier = modifier;
 	}
 
 	public VarDeclNode(IdentNode id, TypeNode type,
-			PatternGraphLhsNode directlyNestingLHSGraph, int context)
+			PatternGraphLhsNode directlyNestingLHSGraph, int context, String modifier)
 	{
-		this(id, type, directlyNestingLHSGraph, context, false, false);
+		this(id, type, directlyNestingLHSGraph, context, false, false, modifier);
 	}
 
 	public VarDeclNode cloneForAuto(PatternGraphLhsNode parent)
 	{
-		VarDeclNode varDecl = new VarDeclNode(this.ident, this.type, parent, this.context, this.defEntityToBeYieldedTo, this.lambdaExpressionVariable);
+		VarDeclNode varDecl = new VarDeclNode(this.ident, this.type, 
+				parent, this.context, this.defEntityToBeYieldedTo, this.lambdaExpressionVariable, this.modifier);
 		varDecl.resolve();
 		varDecl.check();
 		return varDecl;
@@ -91,7 +99,7 @@ public class VarDeclNode extends DeclNode
 	/** Get an invalid var declaration. */
 	public static final VarDeclNode getInvalidVar(PatternGraphLhsNode directlyNestingLHSGraph, int context)
 	{
-		return new VarDeclNode(IdentNode.getInvalid(), IdentNode.getInvalid(), directlyNestingLHSGraph, context);
+		return new VarDeclNode(IdentNode.getInvalid(), IdentNode.getInvalid(), directlyNestingLHSGraph, context, "");
 	}
 
 	/** sets an expression to be used to initialize the variable */
@@ -151,6 +159,17 @@ public class VarDeclNode extends DeclNode
 	@Override
 	protected boolean checkLocal()
 	{
+		if(modifier != null) {
+			if(type.isValueType() && !modifier.equals("var")) {
+				reportError("var keyword needed before a variable of value type (basic type, enum type, external type)");
+				return false;
+			}
+			else if(type.isReferenceType() && !modifier.equals("ref")) {
+				reportError("ref keyword needed before a variable of reference type (container type, match type, object class type).");
+				return false;
+			}
+		}
+		
 		if(initialization == null)
 			return true;
 

@@ -1,0 +1,22 @@
+new graph "class/class.grg"
+
+new n1:Node
+
+exec r1
+
+show var d
+
+exec r2
+
+show var res
+
+exec r3
+
+show var d
+show var rres
+
+exec r4
+
+show var res
+
+quit
