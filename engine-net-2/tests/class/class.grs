@@ -24,4 +24,11 @@ exec { ::res.s = "foo"; ::o=::res.s }
 show var res
 show var o
 
+exec { ::c=new Container(); ::c.a = array<int>[1,2,3]; ::oa=::c.a; ::o=::c.a[1]; ::c.a[1] = 4; ::oo=::c.a }
+
+show var c
+show var oa
+show var o
+show var oo
+
 quit

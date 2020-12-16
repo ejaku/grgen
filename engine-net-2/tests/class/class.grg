@@ -73,3 +73,11 @@ rule r5
 		exec({ ::res.s = "foo"; ::o=::res.s });
 	}
 }
+
+rule r6
+{
+	modify {
+	---
+		exec({ ::c=new Container(); ::c.a = array<int>[1,2,3]; ::oa=::c.a; ::o=::c.a[1]; ::c.a[1] = 4; ::oo=::c.a });
+	}
+}

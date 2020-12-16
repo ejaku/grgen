@@ -24,4 +24,11 @@ exec r5
 show var res
 show var o
 
+exec r6
+
+show var c
+show var oa
+show var o
+show var oo
+
 quit

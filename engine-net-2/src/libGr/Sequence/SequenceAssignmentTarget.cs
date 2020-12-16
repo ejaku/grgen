@@ -459,30 +459,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Assign(object value, IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(procEnv);
-            object container = elem.GetAttribute(AttributeName);
-            object key = KeyExpression.Evaluate(procEnv);
-            AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
-
-            BaseGraph.ChangingAttributeAssignElement(procEnv.Graph, elem, attrType, value, key);
-
-            if(container is IList)
-            {
-                IList array = (IList)container;
-                array[(int)key] = value;
-            }
-            else if(container is IDeque)
-            {
-                IDeque deque = (IDeque)container;
-                deque[(int)key] = value;
-            }
-            else
-            {
-                IDictionary map = (IDictionary)container;
-                map[key] = value;
-            }
-
-            BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            ContainerHelper.AssignAttributeIndexed(DestVar.GetVariableValue(procEnv), KeyExpression.Evaluate(procEnv),
+                value, AttributeName, procEnv.Graph);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,

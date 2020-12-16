@@ -242,6 +242,58 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static void AssignAttributeIndexed(object target, object key, object value, string attributeName, IGraph graph)
+        {
+            if(target is IGraphElement)
+            {
+                IGraphElement elem = (IGraphElement)target;
+                object container = elem.GetAttribute(attributeName);
+                AttributeType attrType = elem.Type.GetAttributeType(attributeName);
+
+                BaseGraph.ChangingAttributeAssignElement(graph, elem, attrType, value, key);
+
+                if(container is IList)
+                {
+                    IList array = (IList)container;
+                    array[(int)key] = value;
+                }
+                else if(container is IDeque)
+                {
+                    IDeque deque = (IDeque)container;
+                    deque[(int)key] = value;
+                }
+                else
+                {
+                    IDictionary map = (IDictionary)container;
+                    map[key] = value;
+                }
+
+                BaseGraph.ChangedAttribute(graph, elem, attrType);
+            }
+            else
+            {
+                IObject elem = (IObject)target;
+                object container = elem.GetAttribute(attributeName);
+                AttributeType attrType = elem.Type.GetAttributeType(attributeName);
+
+                if(container is IList)
+                {
+                    IList array = (IList)container;
+                    array[(int)key] = value;
+                }
+                else if(container is IDeque)
+                {
+                    IDeque deque = (IDeque)container;
+                    deque[(int)key] = value;
+                }
+                else
+                {
+                    IDictionary map = (IDictionary)container;
+                    map[key] = value;
+                }
+            }
+        }
+
         /// <summary>
         /// If the attribute of the given name of the given element is a container attribute
         /// then return a clone of the given container value, otherwise just return the original value;

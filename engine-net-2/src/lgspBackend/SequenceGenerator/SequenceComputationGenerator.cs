@@ -1537,9 +1537,11 @@ namespace de.unika.ipd.grGen.lgsp
             string element = "elem_" + tgtAttrIndexedVar.Id;
             string attrType = "attrType_" + tgtAttrIndexedVar.Id;
             string value = "value_" + tgtAttrIndexedVar.Id;
-            EmitAttributeEventInitialization(tgtAttrIndexedVar, element, attrType, value, sourceValueComputation, source);
 
-            source.AppendFront(COMP_HELPER.SetResultVar(tgtAttrIndexedVar, value));
+            if(TypesHelper.GetGraphElementType(tgtAttrIndexedVar.DestVar.Type, model) != null)
+                EmitAttributeAssignWithEventInitialization(tgtAttrIndexedVar, element, attrType, value, sourceValueComputation, source);
+            else // statically known object type or statically not known type
+                EmitAttributeAssignInitialization(tgtAttrIndexedVar, element, attrType, value, sourceValueComputation, source);
 
             string container = "container_" + tgtAttrIndexedVar.Id;
             source.AppendFrontFormat("object {0} = {1}.GetAttribute(\"{2}\");\n",
@@ -1548,15 +1550,18 @@ namespace de.unika.ipd.grGen.lgsp
             string keyExpr = exprGen.GetSequenceExpression(tgtAttrIndexedVar.KeyExpression, source);
             source.AppendFrontFormat("object {0} = {1};\n", key, keyExpr);
 
-            EmitAttributeChangingEvent(tgtAttrIndexedVar.Id, AttributeChangeType.AssignElement, value, key, source);
+            source.AppendFront(COMP_HELPER.SetResultVar(tgtAttrIndexedVar, value));
 
             if(tgtAttrIndexedVar.DestVar.Type == "")
             {
-                EmitAssignmentAttributeIndexedUnknownType(tgtAttrIndexedVar, sourceValueComputation,
-                    value, container, key, source);
+                source.AppendFrontFormat("GRGEN_LIBGR.ContainerHelper.AssignAttributeIndexed({0}, {1}, {2}, {3}, {4});\n",
+                    element, key, value, "\"" + tgtAttrIndexedVar.AttributeName + "\"", "graph");
             }
             else
             {
+                if(TypesHelper.GetGraphElementType(tgtAttrIndexedVar.DestVar.Type, model) != null)
+                    EmitAttributeChangingEvent(tgtAttrIndexedVar.Id, AttributeChangeType.AssignElement, value, key, source);
+
                 InheritanceType inheritanceType = TypesHelper.GetInheritanceType(tgtAttrIndexedVar.DestVar.Type, env.Model);
                 AttributeType attributeType = inheritanceType.GetAttributeType(tgtAttrIndexedVar.AttributeName);
                 string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
@@ -1592,12 +1597,13 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Unindent();
                     source.AppendFront("}\n");
                 }
-            }
 
-            EmitAttributeChangedEvent(tgtAttrIndexedVar.Id, source);
+                if(TypesHelper.GetGraphElementType(tgtAttrIndexedVar.DestVar.Type, model) != null)
+                    EmitAttributeChangedEvent(tgtAttrIndexedVar.Id, source);
+            }
         }
 
-        private void EmitAttributeEventInitialization(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
+        private void EmitAttributeAssignWithEventInitialization(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
             String value, String sourceValueComputation, SourceBuilder source)
         {
             source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
@@ -1607,71 +1613,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
         }
 
-        void EmitAssignmentAttributeIndexedUnknownType(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, string sourceValueComputation,
-            string value, string container, string key, SourceBuilder source)
+        private void EmitAttributeAssignInitialization(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
+            String value, String sourceValueComputation, SourceBuilder source)
         {
-            source.AppendFront("if(" + container + " is IList)\n");
-            source.AppendFront("{\n");
-            source.Indent();
-
-            string array = "((System.Collections.IList)" + container + ")";
-            if(!TypesHelper.IsSameOrSubtype(tgtAttrIndexedVar.KeyExpression.Type(env), "int", model))
-            {
-                source.AppendFront("if(true)\n");
-                source.AppendFront("{\n");
-                source.Indent();
-                source.AppendFront("throw new Exception(\"Can't access non-int index in array\");\n");
-            }
-            else
-            {
-                source.AppendFrontFormat("if({0}.Count > (int){1})\n", array, key);
-                source.AppendFront("{\n");
-                source.Indent();
-                source.AppendFrontFormat("{0}[(int){1}] = {2};\n", array, key, value);
-            }
-            source.Unindent();
-            source.AppendFront("}\n");
-
-            source.Unindent();
-            source.AppendFront("}\n");
-            source.AppendFrontFormat("else if({0} is GRGEN_LIBGR.IDeque)\n", container);
-            source.AppendFront("{\n");
-            source.Indent();
-
-            string deque = "((GRGEN_LIBGR.IDeque)" + container + ")";
-            if(!TypesHelper.IsSameOrSubtype(tgtAttrIndexedVar.KeyExpression.Type(env), "int", model))
-            {
-                source.AppendFront("if(true)\n");
-                source.AppendFront("{\n");
-                source.Indent();
-                source.AppendFront("throw new Exception(\"Can't access non-int index in deque\");\n");
-            }
-            else
-            {
-                source.AppendFrontFormat("if({0}.Count > (int){1})\n", deque, key);
-                source.AppendFront("{\n");
-                source.Indent();
-                source.AppendFrontFormat("{0}[(int){1}] = {2};\n", deque, key, value);
-            }
-            source.Unindent();
-            source.AppendFront("}\n");
-
-            source.Unindent();
-            source.AppendFront("}\n");
-            source.AppendFront("else\n");
-            source.AppendFront("{\n");
-            source.Indent();
-
-            string dictionary = "((System.Collections.IDictionary)" + container + ")";
-            source.AppendFrontFormat("if({0}.Contains({1}))\n", dictionary, key);
-            source.AppendFront("{\n");
-            source.Indent();
-            source.AppendFrontFormat("{0}[{1}] = {2};\n", dictionary, key, value);
-            source.Unindent();
-            source.AppendFront("}\n");
-
-            source.Unindent();
-            source.AppendFront("}\n");
+            source.AppendFrontFormat("GRGEN_LIBGR.IObject {0} = (GRGEN_LIBGR.IObject){1};\n",
+                element, seqHelper.GetVar(tgtAttrIndexedVar.DestVar));
+            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
         }
 
         #endregion Assignment (Assignments by target type)

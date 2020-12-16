@@ -37,3 +37,8 @@ class Diamond extends Bar1, Bar2
 		return;
 	}
 }
+
+class Container
+{
+	a:array<int>;
+}
