@@ -6327,6 +6327,14 @@ namespace de.unika.ipd.grGen.libGr
             return value;
         }
 
+        public static object Execute(IGraphProcessingEnvironment procEnv, IObject elem, string attributeName)
+        {
+            object value = elem.GetAttribute(attributeName);
+            value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
+                elem, attributeName, value);
+            return value;
+        }
+
         public object ExecuteNoImplicitContainerCopy(IGraphProcessingEnvironment procEnv)
         {
             IGraphElement elem = (IGraphElement)Source.Evaluate(procEnv);
@@ -6516,8 +6524,10 @@ namespace de.unika.ipd.grGen.libGr
                 object source = Source.Evaluate(procEnv);
                 if(source is IMatch)
                     return SequenceExpressionMatchAccess.Execute(procEnv, (IMatch)source, AttributeOrElementName);
-                else
+                else if(source is IGraphElement)
                     return SequenceExpressionAttributeAccess.Execute(procEnv, (IGraphElement)source, AttributeOrElementName);
+                else
+                    return SequenceExpressionAttributeAccess.Execute(procEnv, (IObject)source, AttributeOrElementName);
             }
         }
 

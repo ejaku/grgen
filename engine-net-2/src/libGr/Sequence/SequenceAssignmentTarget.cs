@@ -354,16 +354,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Assign(object value, IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(procEnv);
-            AttributeType attrType;
-            value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
-                elem, AttributeName, value, out attrType);
-
-            BaseGraph.ChangingAttributeAssign(procEnv.Graph, elem, attrType, value);
-
-            elem.SetAttribute(AttributeName, value);
-
-            BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            ContainerHelper.AssignAttribute(DestVar.GetVariableValue(procEnv), value, AttributeName, procEnv.Graph);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,

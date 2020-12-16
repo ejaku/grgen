@@ -11,3 +11,7 @@
 0
 0
 "Diamond{i:1,e:Baz,n:,s:,d:42}"
+0
+0
+"Diamond{i:1,e:Baz,n:,s:foo,d:42}"
+"foo"

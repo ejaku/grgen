@@ -19,4 +19,9 @@ exec (::res)=s(::res)
 
 show var res
 
+exec { ::res.s = "foo"; ::o=::res.s }
+
+show var res
+show var o
+
 quit

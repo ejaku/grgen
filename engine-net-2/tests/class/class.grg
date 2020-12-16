@@ -65,3 +65,11 @@ rule r4
 		exec((::res)=s(::res));
 	}
 }
+
+rule r5
+{
+	modify {
+	---
+		exec({ ::res.s = "foo"; ::o=::res.s });
+	}
+}

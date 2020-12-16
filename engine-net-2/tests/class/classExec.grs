@@ -19,4 +19,9 @@ exec r4
 
 show var res
 
+exec r5
+
+show var res
+show var o
+
 quit

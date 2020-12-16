@@ -1483,38 +1483,53 @@ namespace de.unika.ipd.grGen.lgsp
             string element = "elem_" + tgtAttr.Id;
             string attrType = "attrType_" + tgtAttr.Id;
             string value = "value_" + tgtAttr.Id;
-            EmitAttributeEventInitialization(tgtAttr, element, attrType, value, sourceValueComputation, source);
 
-            EmitAttributeChangingEvent(tgtAttr.Id, AttributeChangeType.Assign, value, "null", source);
+            if(tgtAttr.DestVar.Type != "")
+            {
+                if(TypesHelper.GetGraphElementType(tgtAttr.DestVar.Type, model) != null)
+                {
+                    EmitAttributeAssignWithEventInitialization(tgtAttr, element, attrType, value, sourceValueComputation, source);
 
-            source.AppendFrontFormat("{0}.SetAttribute(\"{1}\", {2});\n", element, tgtAttr.AttributeName, value);
+                    EmitAttributeChangingEvent(tgtAttr.Id, AttributeChangeType.Assign, value, "null", source);
 
-            EmitAttributeChangedEvent(tgtAttr.Id, source);
+                    source.AppendFrontFormat("{0}.SetAttribute(\"{1}\", {2});\n", element, tgtAttr.AttributeName, value);
+
+                    EmitAttributeChangedEvent(tgtAttr.Id, source);
+                }
+                else
+                {
+                    EmitAttributeAssignInitialization(tgtAttr, element, attrType, value, sourceValueComputation, source);
+
+                    source.AppendFrontFormat("{0}.SetAttribute(\"{1}\", {2});\n", element, tgtAttr.AttributeName, value);
+                }
+            }
+            else
+            {
+                source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
+                source.AppendFrontFormat("GRGEN_LIBGR.ContainerHelper.AssignAttribute({0}, {1}, {2}, {3});\n",
+                    seqHelper.GetVar(tgtAttr.DestVar), value, "\"" + tgtAttr.AttributeName + "\"", "graph");
+            }
 
             source.AppendFront(COMP_HELPER.SetResultVar(tgtAttr, "value_" + tgtAttr.Id));
         }
 
-        private void EmitAttributeEventInitialization(AssignmentTargetAttribute tgtAttr, String element, String attrType, 
+        private void EmitAttributeAssignWithEventInitialization(AssignmentTargetAttribute tgtAttr, String element, String attrType, 
             String value, string sourceValueComputation, SourceBuilder source)
         {
-            if(TypesHelper.GetObjectType(tgtAttr.DestVar.Type, model) == null)
-            {
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, seqHelper.GetVar(tgtAttr.DestVar));
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0};\n", attrType);
-                source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
-                source.AppendFrontFormat("{0} = GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer({1}, \"{2}\", {0}, out {3});\n",
-                    value, element, tgtAttr.AttributeName, attrType);
-            }
-            else
-            {
-                source.AppendFrontFormat("GRGEN_LIBGR.IObject {0} = (GRGEN_LIBGR.IObject){1};\n",
-                    element, seqHelper.GetVar(tgtAttr.DestVar));
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0};\n", attrType);
-                source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
-                source.AppendFrontFormat("{0} = GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer({1}, \"{2}\", {0}, out {3});\n",
-                    value, element, tgtAttr.AttributeName, attrType);
-            }
+            source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
+                element, seqHelper.GetVar(tgtAttr.DestVar));
+            source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0};\n", attrType);
+            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
+            source.AppendFrontFormat("{0} = GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer({1}, \"{2}\", {0}, out {3});\n",
+                value, element, tgtAttr.AttributeName, attrType);
+        }
+
+        private void EmitAttributeAssignInitialization(AssignmentTargetAttribute tgtAttr, String element, String attrType,
+            String value, string sourceValueComputation, SourceBuilder source)
+        {
+            source.AppendFrontFormat("GRGEN_LIBGR.IObject {0} = (GRGEN_LIBGR.IObject){1};\n",
+                element, seqHelper.GetVar(tgtAttr.DestVar));
+            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
         }
 
         void EmitAssignmentAttributeIndexed(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, string sourceValueComputation, SourceBuilder source)

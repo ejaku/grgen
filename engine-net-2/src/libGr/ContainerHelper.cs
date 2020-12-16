@@ -218,6 +218,30 @@ namespace de.unika.ipd.grGen.libGr
 
         /////////////////////////////////////////////////////////////////////////////////
 
+        public static void AssignAttribute(object target, object value, string attributeName, IGraph graph)
+        {
+            if(target is IGraphElement)
+            {
+                IGraphElement elem = (IGraphElement)target;
+
+                AttributeType attrType;
+                value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
+                    elem, attributeName, value, out attrType);
+
+                BaseGraph.ChangingAttributeAssign(graph, elem, attrType, value);
+
+                elem.SetAttribute(attributeName, value);
+
+                BaseGraph.ChangedAttribute(graph, elem, attrType);
+            }
+            else
+            {
+                IObject elem = (IObject)target;
+
+                elem.SetAttribute(attributeName, value);
+            }
+        }
+
         /// <summary>
         /// If the attribute of the given name of the given element is a container attribute
         /// then return a clone of the given container value, otherwise just return the original value;
