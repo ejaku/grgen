@@ -377,5 +377,12 @@ namespace de.unika.ipd.grGen.libGr
             return IfAttributeOfElementIsContainerThenCloneContainer(
                 element, AttributeName, value, out attrType);
         }
+
+        public static bool IsEqual(IObject this_, IObject that)
+        {
+            if(this_ == that)
+                return true;
+            return this_.AreAttributesEqual(that);
+        }
     }
 }

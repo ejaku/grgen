@@ -280,6 +280,9 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				if(opnd.getType() instanceof GraphType) {
 					opNamePrefix = "GRAPH_";
 				}
+				if(opnd.getType() instanceof ObjectType) {
+					opNamePrefix = "OBJECT_CLASS_";
+				}
 			}
 			if(op.getOpCode() == Operator.OperatorCode.GT || op.getOpCode() == Operator.OperatorCode.GE
 					|| op.getOpCode() == Operator.OperatorCode.LT || op.getOpCode() == Operator.OperatorCode.LE) {

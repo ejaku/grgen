@@ -2910,6 +2910,12 @@ public abstract class CSharpBase
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
+			} else if(opType instanceof ObjectType) {
+				sb.append("GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append("), (GRGEN_LIBGR.IObject)(");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append("))");
 			} else {
 				genBinOpDefault(sb, op, modifyGenerationState);
 			}
@@ -2949,6 +2955,12 @@ public abstract class CSharpBase
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
+			} else if(opType instanceof ObjectType) {
+				sb.append("!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append("), (GRGEN_LIBGR.IObject)(");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append("))");
 			} else {
 				genBinOpDefault(sb, op, modifyGenerationState);
 			}

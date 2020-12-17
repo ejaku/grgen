@@ -347,6 +347,48 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an equality comparison.
+    /// </summary>
+    public class OBJECT_CLASS_EQ : BinFuncOperator
+    {
+        public OBJECT_CLASS_EQ(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new OBJECT_CLASS_EQ(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.ContainerHelper.IsEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing an inequality comparison.
+    /// </summary>
+    public class OBJECT_CLASS_NE : BinFuncOperator
+    {
+        public OBJECT_CLASS_NE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new OBJECT_CLASS_NE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "!GRGEN_LIBGR.ContainerHelper.IsEqual(";
+        }
+    }
+
+    /// <summary>
     /// Class representing a less than comparison.
     /// </summary>
     public class LT : BinInfixOperator

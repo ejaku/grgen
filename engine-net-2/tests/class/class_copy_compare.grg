@@ -1,0 +1,26 @@
+#using "class.gm"
+
+rule r(ref d1:Diamond, ref d2:Diamond) : (boolean, boolean)
+{
+	if{ d1 == d2 || d1 != d2; }
+	
+	modify {
+		return(d1 == d2, d1 != d2);
+	}
+}
+
+sequence s(d1:Diamond, d2:Diamond) : (equals:boolean, notequals:boolean)
+{
+	{ equals = d1 == d2; notequals = d1 != d2 }
+}
+
+rule r1(ref d1:Diamond, ref d2:Diamond) : (boolean, boolean)
+{
+	modify {
+	---
+		def var equals:boolean;
+		def var notequals:boolean;
+		exec({ yield equals = d1==d2; yield notequals = d1!=d2 });
+		return(equals, notequals);
+	}
+}
