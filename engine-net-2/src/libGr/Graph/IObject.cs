@@ -52,6 +52,13 @@ namespace de.unika.ipd.grGen.libGr
         void ResetAllAttributes();
 
         /// <summary>
+        /// Creates a copy of this object.
+        /// All attributes will be transfered to the new object.
+        /// </summary>
+        /// <returns>A copy of this object.</returns>
+        IObject Clone();
+
+        /// <summary>
         /// Returns whether the attributes of this object and that object are equal.
         /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
         /// </summary>

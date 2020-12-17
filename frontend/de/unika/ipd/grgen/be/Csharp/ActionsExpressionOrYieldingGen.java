@@ -233,6 +233,7 @@ import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.ExternalType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.IteratedFiltering;
@@ -280,7 +281,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				if(opnd.getType() instanceof GraphType) {
 					opNamePrefix = "GRAPH_";
 				}
-				if(opnd.getType() instanceof ObjectType) {
+				if(opnd.getType() instanceof InternalObjectType) {
 					opNamePrefix = "OBJECT_CLASS_";
 				}
 			}
@@ -403,8 +404,13 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append("new GRGEN_EXPR.CopyExpression(");
 			genExpressionTree(sb, ce.getSourceExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			if(t instanceof GraphType) {
+				sb.append(", GRGEN_EXPR.CopyKind.Graph");
+				sb.append(", null");
+			} else if(t instanceof InternalObjectType) {
+				sb.append(", GRGEN_EXPR.CopyKind.ClassObject");
 				sb.append(", null");
 			} else { // no match type possible here, can only occur in filter function (-> CSharpBase expression)
+				sb.append(", GRGEN_EXPR.CopyKind.Container");
 				sb.append(", \"" + formatType(t) + "\"");
 			}
 			sb.append(")");

@@ -736,6 +736,10 @@ namespace de.unika.ipd.grGen.lgsp
                 string matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(TypesHelper.ExtractSrc(seqCopy.ObjectToBeCopied.Type(env)));
                 return "((" + matchInterfaceName + ")(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Clone())";
             }
+            else if(env.Model.ObjectModel.GetType(seqCopy.ObjectToBeCopied.Type(env)) != null)
+            {
+                return "((GRGEN_LIBGR.IObject)(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Clone())";
+            }
             else //if(seqCopy.ObjectToBeCopied.Type(env) == "")
                 return "GRGEN_LIBGR.TypesHelper.Clone(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ")";
         }

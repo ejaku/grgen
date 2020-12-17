@@ -9,6 +9,25 @@ rule r(ref d1:Diamond, ref d2:Diamond) : (boolean, boolean)
 	}
 }
 
+rule rc(ref d1:Diamond, ref d2:Diamond) : (boolean, boolean)
+{
+	if{ d1 == copy(d1) && d2 == copy(d2); }
+	
+	modify {
+		return(d1 == d2 && d1 == copy(d1), d1 != d2 && d2 == copy(d2));
+	}
+}
+
+rule dc(ref d:Diamond) : (Diamond)
+{
+	modify {
+	---
+		def ref dc:Diamond;
+		exec({ yield dc = copy(d); });
+		return(dc);
+	}	
+}
+
 sequence s(d1:Diamond, d2:Diamond) : (equals:boolean, notequals:boolean)
 {
 	{ equals = d1 == d2; notequals = d1 != d2 }

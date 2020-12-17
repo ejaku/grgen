@@ -894,6 +894,10 @@ public abstract class CSharpBase
 				sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(")");
+			} else if(t instanceof InternalObjectType) {
+				sb.append("(");
+				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+				sb.append(").Clone()");
 			} else {
 				sb.append("new " + formatType(t) + "(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
@@ -2910,7 +2914,7 @@ public abstract class CSharpBase
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
-			} else if(opType instanceof ObjectType) {
+			} else if(opType instanceof InternalObjectType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append("), (GRGEN_LIBGR.IObject)(");
@@ -2955,7 +2959,7 @@ public abstract class CSharpBase
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
-			} else if(opType instanceof ObjectType) {
+			} else if(opType instanceof InternalObjectType) {
 				sb.append("!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append("), (GRGEN_LIBGR.IObject)(");

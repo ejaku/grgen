@@ -9262,9 +9262,10 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!TypesHelper.IsSameOrSubtype(ObjectToBeCopied.Type(env), "graph", env.Model)
                 && !ObjectToBeCopied.Type(env).StartsWith("match<")
-                && (TypesHelper.ExtractSrc(ObjectToBeCopied.Type(env)) == null || TypesHelper.ExtractDst(ObjectToBeCopied.Type(env)) == null))
+                && (TypesHelper.ExtractSrc(ObjectToBeCopied.Type(env)) == null || TypesHelper.ExtractDst(ObjectToBeCopied.Type(env)) == null)
+                && env.Model.ObjectModel.GetType(ObjectToBeCopied.Type(env))==null)
             {
-                throw new SequenceParserException(Symbol, "graph type or match type or container type", ObjectToBeCopied.Type(env));
+                throw new SequenceParserException(Symbol, "graph type or match type or container type or object class type", ObjectToBeCopied.Type(env));
             }
         }
 
@@ -9280,6 +9281,8 @@ namespace de.unika.ipd.grGen.libGr
                 return GraphHelper.Copy((IGraph)toBeCloned);
             else if(toBeCloned is IMatch)
                 return ((IMatch)toBeCloned).Clone();
+            else if(toBeCloned is IObject)
+                return ((IObject)toBeCloned).Clone();
             else
                 return ContainerHelper.Clone(toBeCloned);
         }

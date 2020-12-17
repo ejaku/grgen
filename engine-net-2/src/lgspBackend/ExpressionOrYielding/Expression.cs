@@ -1260,45 +1260,58 @@ namespace de.unika.ipd.grGen.expression
         readonly Expression Path;
     }
 
+    public enum CopyKind
+    {
+        Container, Graph, ClassObject
+    }
+
     /// <summary>
     /// Class representing copy expression
     /// </summary>
     public class CopyExpression : Expression
     {
-        public CopyExpression(Expression graphOrContainer, String type)
+        public CopyExpression(Expression source, CopyKind copyKind, String type)
         {
-            GraphOrContainer = graphOrContainer;
+            Source = source;
+            CopyKind = copyKind;
             Type = type;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new CopyExpression(GraphOrContainer.Copy(renameSuffix), Type);
+            return new CopyExpression(Source.Copy(renameSuffix), CopyKind, Type);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if(Type == null)
+            if(CopyKind == CopyKind.Container)
+            {
+                sourceCode.Append("new " + Type + "(");
+                Source.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
+            else if(CopyKind == CopyKind.Graph)
             {
                 sourceCode.Append("GRGEN_LIBGR.GraphHelper.Copy(");
-                GraphOrContainer.Emit(sourceCode);
+                Source.Emit(sourceCode);
                 sourceCode.Append(")");
             }
             else
             {
-                sourceCode.Append("new " + Type + "(");
-                GraphOrContainer.Emit(sourceCode);
-                sourceCode.Append(")");
+                sourceCode.Append("(");
+                Source.Emit(sourceCode);
+                sourceCode.Append(").Clone()");
             }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return GraphOrContainer;
+            yield return Source;
         }
 
-        readonly String Type; // if non-null, gives the container type to copy, if null it's a graph
-        readonly Expression GraphOrContainer;
+        readonly CopyKind CopyKind;
+        readonly String Type; // if non-null, gives the container type to copy, if null it's a graph or class object
+        readonly Expression Source;
     }
 
     /// <summary>
