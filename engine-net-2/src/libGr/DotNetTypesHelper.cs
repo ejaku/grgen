@@ -57,6 +57,7 @@ namespace de.unika.ipd.grGen.libGr
                 case "Edge": return "GRGEN_LIBGR.IDEdge";
                 case "UEdge": return "GRGEN_LIBGR.IUEdge";
                 case "AEdge": return "GRGEN_LIBGR.IEdge";
+                case "Object": return "GRGEN_LIBGR.IObject";
                 default: return "GRGEN_MODEL." + GetPackagePrefixDot(type.Package) + "I" + type.Name;
                 }
             }
@@ -115,6 +116,7 @@ namespace de.unika.ipd.grGen.libGr
             if(type.Name == "IEdge") return "GRGEN_LIBGR.IEdge";
             if(type.Name == "IDEdge") return "GRGEN_LIBGR.IDEdge";
             if(type.Name == "IUEdge") return "GRGEN_LIBGR.IUEdge";
+            if(type.Name == "IObject") return "GRGEN_LIBGR.IObject";
 
             if(type.Name == "SetValueType") return "GRGEN_LIBGR.SetValueType";
 
@@ -148,6 +150,7 @@ namespace de.unika.ipd.grGen.libGr
             if(type == "AEdge") return "GRGEN_LIBGR.IEdge";
             if(type == "Edge") return "GRGEN_LIBGR.IDEdge";
             if(type == "UEdge") return "GRGEN_LIBGR.IUEdge";
+            if(type == "Object") return "GRGEN_LIBGR.IObject";
 
             if(type == "short" || type == "int" || type == "long" || type == "bool" || type == "string" || type == "float" || type == "double" || type == "object") return type;
             if(type == "byte") return "sbyte";
@@ -237,6 +240,14 @@ namespace de.unika.ipd.grGen.libGr
                 else
                     return Type.GetType(edgeType.EdgeInterfaceName + "," + Assembly.GetAssembly(model.GetType()).FullName); // no -> search model assembly
             }
+            else if(type is ObjectType)
+            {
+                ObjectType objectType = (ObjectType)type;
+                if(Type.GetType(objectType.ObjectInterfaceName) != null) // available in libGr (INode)?
+                    return Type.GetType(objectType.ObjectInterfaceName);
+                else
+                    return Type.GetType(objectType.ObjectInterfaceName + "," + Assembly.GetAssembly(model.GetType()).FullName); // no -> search model assembly
+            }
             else
             {
                 VarType varType = (VarType)type;
@@ -301,6 +312,17 @@ namespace de.unika.ipd.grGen.libGr
                     if(type != null)
                         return type;
                     type = Type.GetType(edgeType.EdgeInterfaceName + "," + assembly.FullName); // no -> search model assembly
+                    return type;
+                }
+            }
+            foreach(ObjectType objectType in model.ObjectModel.Types)
+            {
+                if(objectType.PackagePrefixedName == typeName)
+                {
+                    Type type = Type.GetType(objectType.ObjectInterfaceName); // available in libGr (IObject)?
+                    if(type != null)
+                        return type;
+                    type = Type.GetType(objectType.ObjectInterfaceName + "," + assembly.FullName); // no -> search model assembly
                     return type;
                 }
             }

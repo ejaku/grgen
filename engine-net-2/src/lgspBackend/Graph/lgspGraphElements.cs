@@ -449,9 +449,18 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// The GraphElementType of the node.
+        /// The GraphElementType of the graph element.
         /// </summary>
         GraphElementType IGraphElement.Type
+        {
+            [DebuggerStepThrough]
+            get { return lgspType; }
+        }
+
+        /// <summary>
+        /// The GrGenType of the attribute bearer.
+        /// </summary>
+        GrGenType IAttributeBearer.Type
         {
             [DebuggerStepThrough]
             get { return lgspType; }
@@ -518,7 +527,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Returns whether the attributes of this element and that are equal.
         /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
         /// </summary>
-        public abstract bool AreAttributesEqual(IGraphElement that);
+        public abstract bool AreAttributesEqual(IAttributeBearer that);
 
         /// <summary>
         /// Executes the function method given by its name.
@@ -583,7 +592,7 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override bool AreAttributesEqual(IGraphElement that)
+        public override bool AreAttributesEqual(IAttributeBearer that)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -781,9 +790,18 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// The GraphElementType of the edge.
+        /// The GraphElementType of the graph element.
         /// </summary>
         GraphElementType IGraphElement.Type
+        {
+            [DebuggerStepThrough]
+            get { return lgspType; }
+        }
+
+        /// <summary>
+        /// The GrGenType of the attribute bearer.
+        /// </summary>
+        GrGenType IAttributeBearer.Type
         {
             [DebuggerStepThrough]
             get { return lgspType; }
@@ -852,7 +870,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Returns whether the attributes of this element and that are equal.
         /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
         /// </summary>
-        public abstract bool AreAttributesEqual(IGraphElement that);
+        public abstract bool AreAttributesEqual(IAttributeBearer that);
 
         /// <summary>
         /// Executes the function method given by its name.
@@ -917,7 +935,7 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override bool AreAttributesEqual(IGraphElement that)
+        public override bool AreAttributesEqual(IAttributeBearer that)
         {
             throw new Exception("The method or operation is not implemented.");
         }

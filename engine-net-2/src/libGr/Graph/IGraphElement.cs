@@ -15,12 +15,12 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A GrGen graph element
     /// </summary>
-    public interface IGraphElement
+    public interface IGraphElement : IAttributeBearer
     {
         /// <summary>
-        /// The GrGenType of the graph element
+        /// The GraphElementType of the graph element
         /// </summary>
-        GraphElementType Type { get; }
+        new GraphElementType Type { get; }
 
         /// <summary>
         /// This is true, if the element is a valid graph element, i.e. it is part of a graph.
@@ -34,70 +34,12 @@ namespace de.unika.ipd.grGen.libGr
         IGraphElement ReplacedByElement { get; }
 
         /// <summary>
-        /// Returns true, if the graph element is compatible to the given type
-        /// </summary>
-        bool InstanceOf(GrGenType type);
-
-        /// <summary>
         /// Gets the unique id of the graph element.
         /// Only available if unique ids for nodes and edges were declared in the model
         /// (or implicitely switched on by parallelization or the declaration of some index).
         /// </summary>
         /// <returns>The unique id of the graph element (an arbitrary number in case uniqueness was not requested).</returns>
         int GetUniqueId();
-
-        /// <summary>
-        /// Indexer that gives access to the attributes of the graph element.
-        /// </summary>
-        object this[string attrName] { get; set; }
-
-        /// <summary>
-        /// Returns the graph element attribute with the given attribute name.
-        /// If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
-        /// </summary>
-        object GetAttribute(String attrName);
-
-        /// <summary>
-        /// Sets the graph element attribute with the given attribute name to the given value.
-        /// If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
-        /// </summary>
-        /// <param name="attrName">The name of the attribute.</param>
-        /// <param name="value">The new value for the attribute. It must have the correct type.
-        /// Otherwise a TargetException is thrown.</param>
-        void SetAttribute(String attrName, object value);
-
-        /// <summary>
-        /// Resets all graph element attributes to their initial values.
-        /// </summary>
-        void ResetAllAttributes();
-
-        /// <summary>
-        /// Returns whether the attributes of this element and that are equal.
-        /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
-        /// </summary>
-        bool AreAttributesEqual(IGraphElement that);
-
-        /// <summary>
-        /// Executes the function method given by its name.
-        /// Throws an exception if the method does not exists or the parameters are of wrong types.
-        /// </summary>
-        /// <param name="actionEnv">The current action execution environment.</param>
-        /// <param name="graph">The current graph.</param>
-        /// <param name="name">The name of the function method to apply.</param>
-        /// <param name="arguments">An array with the arguments to the method.</param>
-        /// <returns>The return value of function application.</returns>
-        object ApplyFunctionMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments);
-
-        /// <summary>
-        /// Executes the procedure method given by its name.
-        /// Throws an exception if the method does not exists or the parameters are of wrong types.
-        /// </summary>
-        /// <param name="actionEnv">The current action execution environment.</param>
-        /// <param name="graph">The current graph.</param>
-        /// <param name="name">The name of the procedure method to apply.</param>
-        /// <param name="arguments">An array with the arguments to the method.</param>
-        /// <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
-        object[] ApplyProcedureMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments);
     }
 
     /// <summary>

@@ -5265,6 +5265,9 @@ namespace de.unika.ipd.grGen.libGr
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
 
+            if(containerType == "")
+                return; // not possible to check array value type if type is not known statically
+
             String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
 
             // throws exceptions in case the match or graph element type does not exist, or it does not contain an element of the given name
@@ -5560,6 +5563,9 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType == "")
+                return; // not possible to check array value type if type is not known statically
 
             String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
 

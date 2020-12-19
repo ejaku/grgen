@@ -83,6 +83,7 @@
     <Compile Include="AttributeTypeEmitHelper.cs" />
     <Compile Include="DequeHelper.cs" />
     <Compile Include="DotNetTypesHelper.cs" />
+    <Compile Include="Graph\IAttributeBearer.cs" />
     <Compile Include="Graph\ObjectType.cs" />
     <Compile Include="Graph\IObject.cs" />
     <Compile Include="Graph\InheritanceType.cs" />

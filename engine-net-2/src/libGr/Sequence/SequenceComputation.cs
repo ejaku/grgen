@@ -551,6 +551,8 @@ namespace de.unika.ipd.grGen.libGr
             IGraphElement elem;
             AttributeType attrType;
             object container = ContainerValue(procEnv, out elem, out attrType);
+            if(container == null)
+                throw new NullReferenceException();
             object firstValue = Expr.Evaluate(procEnv);
             object optionalSecondValue = null;
             if(ExprDst != null)
@@ -710,6 +712,8 @@ namespace de.unika.ipd.grGen.libGr
             IGraphElement elem;
             AttributeType attrType;
             object container = ContainerValue(procEnv, out elem, out attrType);
+            if(container == null)
+                throw new NullReferenceException();
             object valueOrKeyOrIndexToRemove = null;
             if(Expr != null)
                 valueOrKeyOrIndexToRemove = Expr.Evaluate(procEnv);
@@ -845,6 +849,8 @@ namespace de.unika.ipd.grGen.libGr
             IGraphElement elem;
             AttributeType attrType;
             object container = ContainerValue(procEnv, out elem, out attrType);
+            if(container == null)
+                throw new NullReferenceException();
 
             if(container is IList)
                 return ExecuteList(procEnv, elem, attrType, (IList)container);

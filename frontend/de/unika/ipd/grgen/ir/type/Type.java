@@ -171,6 +171,8 @@ public abstract class Type extends Identifiable
 			return true;
 		if(classify() == TypeClass.IS_EDGE)
 			return true;
+		if(classify() == TypeClass.IS_INTERNAL_CLASS_OBJECT)
+			return true;
 		return false;
 	}
 	

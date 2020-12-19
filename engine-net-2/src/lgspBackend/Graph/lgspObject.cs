@@ -42,9 +42,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// The ObjectType of the object.
+        /// The GrGenType of the attribute bearer.
         /// </summary>
-        ObjectType IObject.Type
+        GrGenType IAttributeBearer.Type
         {
             [DebuggerStepThrough]
             get { return lgspType; }
@@ -98,7 +98,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Returns whether the attributes of this object and that object are equal.
         /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
         /// </summary>
-        public abstract bool AreAttributesEqual(IObject that);
+        public abstract bool AreAttributesEqual(IAttributeBearer that);
 
         /// <summary>
         /// Executes the function method given by its name.

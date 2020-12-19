@@ -42,3 +42,9 @@ class Container
 {
 	a:array<int>;
 }
+
+class Simple
+{
+	i:int;
+	j:int;
+}

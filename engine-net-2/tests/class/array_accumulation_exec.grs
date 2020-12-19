@@ -1,0 +1,43 @@
+new graph "class/array_accumulation.grg"
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 1; ::v.j = 2; ::a.add(::v); ::v=new Simple(); ::v.i = 0; ::v.j = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::v.j = 3; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::v.j = 2; ::a.add(::v) }
+
+show var a
+
+exec { ::o = ::a.extract<i>() }
+
+show var o
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 1; ::v.j = 2; ::a.add(::v); ::v=new Simple(); ::v.i = 0; ::v.j = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::v.j = 3; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::v.j = 2; ::a.add(::v) }
+
+show var a
+
+exec { ::o = ::a.orderAscendingBy<i>() }
+
+show var o
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 1; ::v.j = 2; ::a.add(::v); ::v=new Simple(); ::v.i = 0; ::v.j = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::v.j = 3; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::v.j = 2; ::a.add(::v) }
+
+show var a
+
+exec { ::o = ::a.orderDescendingBy<i>() }
+
+show var o
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 1; ::v.j = 2; ::a.add(::v); ::v=new Simple(); ::v.i = 0; ::v.j = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::v.j = 3; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::v.j = 2; ::a.add(::v) }
+
+show var a
+
+exec { ::o = ::a.keepOneForEach<i>() }
+
+show var o
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 1; ::v.j = 2; ::a.add(::v); ::v=new Simple(); ::v.i = 0; ::v.j = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::v.j = 3; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::v.j = 2; ::a.add(::v) }
+
+show var a
+
+exec { ::o = ::a.groupBy<i>() }
+
+show var o
+
+quit

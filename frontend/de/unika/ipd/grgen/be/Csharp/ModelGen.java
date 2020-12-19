@@ -750,6 +750,8 @@ public class ModelGen extends CSharpBase
 							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
 				routedSB.appendFront("AttributeTypeObjectCopierComparer.Copy("
 						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
+			//} else if(member.getType() instanceof InternalObjectType) {
+				// TODO - as of now case below, reference assignment
 			} else {
 				routedSB.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = "
 						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
@@ -762,15 +764,7 @@ public class ModelGen extends CSharpBase
 	private void genElementAttributeComparisonMethod(InheritanceType type, SourceBuilder routedSB,
 			String routedClassName)
 	{
-		String ownerType;
-		if(type instanceof NodeType) {
-			ownerType = "GRGEN_LIBGR.IGraphElement";
-		} else if(type instanceof EdgeType) {
-			ownerType = "GRGEN_LIBGR.IGraphElement";
-		} else {
-			ownerType = "GRGEN_LIBGR.IObject";
-		}
-		routedSB.appendFront("public override bool AreAttributesEqual(" + ownerType + " that) {\n");
+		routedSB.appendFront("public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {\n");
 		routedSB.indent();
 		routedSB.appendFront("if(!(that is " + routedClassName + ")) return false;\n");
 		routedSB.appendFront(routedClassName + " that_ = (" + routedClassName + ")that;\n");
@@ -795,6 +789,8 @@ public class ModelGen extends CSharpBase
 			} else if(member.getType().classify() == TypeClass.IS_GRAPH) {
 				routedSB.appendFront("&& GRGEN_LIBGR.GraphHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+			//} else if(member.getType().classify() == TypeClass.IS_INTERNAL_CLASS_OBJECT) {
+				// TODO - as of now case below, reference comparison/semantics
 			} else {
 				routedSB.appendFront("&& " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " == "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");
@@ -3461,12 +3457,12 @@ commonLoop:
 	{
 		sb.appendFront("if(array.Count == 0)\n");
 		sb.appendFrontIndented("return array;\n");
-		sb.appendFront("if(!(array[0] is GRGEN_LIBGR.IGraphElement))\n");
+		sb.appendFront("if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))\n");
 		sb.appendFrontIndented("return null;\n");
-		sb.appendFront("GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];\n");
+		sb.appendFront("GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];\n");
 		sb.appendFront("switch(elem.Type.PackagePrefixedName)\n");
 		sb.appendFront("{\n");
-		for(InheritanceType type : model.getAllNodeAndEdgeTypes()) {
+		for(InheritanceType type : model.getAllInheritanceTypes()) {
 			if(getNonAbstractTypeOrSubtype(type) == null)
 				continue;
 			genArrayHelperByTypeDispatcher(type, name, requiresOrderable);

@@ -62,7 +62,8 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private Collection<NodeType> allNodeTypes;
 	private Collection<EdgeType> allEdgeTypes;
 	private Collection<InternalObjectType> allObjectTypes;
-	private Collection<InheritanceType> allNodeAndEdgeTypes;
+	private Collection<InheritanceType> allGraphElementTypes;
+	private Collection<InheritanceType> allInheritanceTypes;
 
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
@@ -205,15 +206,15 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		return allEdgeTypes;
 	}
 	
-	public Collection<InheritanceType> getAllNodeAndEdgeTypes()
+	public Collection<InheritanceType> getAllGraphElementTypes()
 	{
-		if(allNodeAndEdgeTypes == null) {
+		if(allGraphElementTypes == null) {
 			Collection<InheritanceType> allNodeAndEdgeTypes = new ArrayList<InheritanceType>();
 			allNodeAndEdgeTypes.addAll(getAllNodeTypes());
 			allNodeAndEdgeTypes.addAll(getAllEdgeTypes());
-			this.allNodeAndEdgeTypes = Collections.unmodifiableCollection(allNodeAndEdgeTypes);
+			this.allGraphElementTypes = Collections.unmodifiableCollection(allNodeAndEdgeTypes);
 		}
-		return allNodeAndEdgeTypes;
+		return allGraphElementTypes;
 	}
 
 	@Override
@@ -238,6 +239,18 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 			this.allObjectTypes = Collections.unmodifiableCollection(allObjectTypes);
 		}
 		return allObjectTypes;
+	}
+
+	public Collection<InheritanceType> getAllInheritanceTypes()
+	{
+		if(allInheritanceTypes == null) {
+			Collection<InheritanceType> allInheritanceTypes = new ArrayList<InheritanceType>();
+			allInheritanceTypes.addAll(getAllNodeTypes());
+			allInheritanceTypes.addAll(getAllEdgeTypes());
+			allInheritanceTypes.addAll(getAllObjectTypes());
+			this.allInheritanceTypes = Collections.unmodifiableCollection(allInheritanceTypes);
+		}
+		return allInheritanceTypes;
 	}
 
 	@Override
