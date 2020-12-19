@@ -28,6 +28,7 @@ namespace de.unika.ipd.grGen.libGr
         Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual, StructuralEqual,
         Plus, Minus, Mul, Div, Mod, // nice-to-have addition: all the other operators and functions/methods from the rule language expressions
         Constant, Variable, This, New,
+        MatchClassConstructor,
         SetConstructor, MapConstructor, ArrayConstructor, DequeConstructor,
         SetCopyConstructor, MapCopyConstructor, ArrayCopyConstructor, DequeCopyConstructor,
         ContainerAsArray, StringAsArray,
@@ -1768,7 +1769,59 @@ namespace de.unika.ipd.grGen.libGr
             get { return "this"; }
         }
     }
-    
+
+    public class SequenceExpressionMatchClassConstructor : SequenceExpression
+    {
+        public readonly String ConstructedType;
+
+        public SequenceExpressionMatchClassConstructor(String constructedType)
+            : base(SequenceExpressionType.MatchClassConstructor)
+        {
+            ConstructedType = constructedType;
+        }
+
+        protected SequenceExpressionMatchClassConstructor(SequenceExpressionMatchClassConstructor that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            ConstructedType = that.ConstructedType;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMatchClassConstructor(this, originalToCopy, procEnv);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "match<class " + ConstructedType + ">";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            Type valueType = TypesHelper.GetType(ConstructedType, procEnv.Graph.Model);
+            MatchClassFilterer mcf = procEnv.Actions.GetMatchClass(ConstructedType);
+            return mcf.info.Create();
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield break; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                return "match<class " + ConstructedType + ">()";
+            }
+        }
+    }
+
     public abstract class SequenceExpressionContainerConstructor : SequenceExpression
     {
         public readonly String ValueType;

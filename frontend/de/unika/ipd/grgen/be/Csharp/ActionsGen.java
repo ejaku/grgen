@@ -1279,6 +1279,12 @@ public class ActionsGen extends CSharpBase
 
 		emitConvertAsNeededHelper(sb, typeName, listTypeName);
 
+		String classObjectName = "Match_" + matchClassName;
+		sb.appendFront("public override GRGEN_LIBGR.IMatch Create()\n");
+		sb.appendFront("{\n");
+		sb.appendFrontIndented("return new " + classObjectName + "();\n");
+		sb.appendFront("}\n");
+
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");

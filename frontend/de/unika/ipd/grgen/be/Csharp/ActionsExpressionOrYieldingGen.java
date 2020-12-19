@@ -1259,10 +1259,10 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			}
 		} else if(expr instanceof MatchInit) {
 			MatchInit mi = (MatchInit)expr;
-			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
+			sb.append("new GRGEN_EXPR.MatchClassConstructor(\"" + formatDefinedMatchType(mi.getMatchType()) + "\")");
 		} else if(expr instanceof InternalObjectInit) {
 			InternalObjectInit oi = (InternalObjectInit)expr;
-			sb.append("new " + formatInternalObjectType(oi.getInternalObjectType()) + "()");
+			sb.append("new GRGEN_EXPR.InternalObjectConstructor(\"" + formatInternalObjectType(oi.getInternalObjectType()) + "\")");
 		} else if(expr instanceof MapCopyConstructor) {
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
 			sb.append("new GRGEN_EXPR.MapCopyConstructor(\"" + formatType(mcc.getMapType()) + "\", ");

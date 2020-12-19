@@ -337,6 +337,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayGroupBy((SequenceExpressionArrayGroupBy)expr, source);
             case SequenceExpressionType.ArrayKeepOneForEachBy:
                 return GetSequenceExpressionArrayKeepOneForEachBy((SequenceExpressionArrayKeepOneForEachBy)expr, source);
+            case SequenceExpressionType.MatchClassConstructor:
+                return GetSequenceExpressionMatchClassConstructor((SequenceExpressionMatchClassConstructor)expr, source);
 
             default:
                 throw new Exception("Unknown sequence expression type: " + expr.SequenceExpressionType);
@@ -2663,6 +2665,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
                 return GetSequenceExpression(container.ContainerExpr, source);
+        }
+
+        private string GetSequenceExpressionMatchClassConstructor(SequenceExpressionMatchClassConstructor seqConstr, SourceBuilder source)
+        {
+            return "new " + "Match_" + seqConstr.ConstructedType + "()";
         }
 
         #endregion Container expressions

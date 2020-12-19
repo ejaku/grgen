@@ -1374,7 +1374,7 @@ defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals,
 		|
 			matchTypeIdent=matchTypeIdentUse
 			{
-				var = new VarDeclNode(id, matchTypeIdent, directlyNestingLHSGraph, 0, modifier.getText());
+				var = new VarDeclNode(id, matchTypeIdent, directlyNestingLHSGraph, context, true, false, modifier.getText());
 			}
 		)
 		{
@@ -4082,9 +4082,7 @@ primaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] retur
 	| e=globalsAccessExpr { res = e; }
 	| e=constant { res = e; }
 	| e=typeOf { res = e; }
-	| e=initContainerExpr[namer, context] { res = e; }
-	| e=initMatchExpr[context] { res = e; }
-	| e=initObjectExpr[context] { res = e; }
+	| e=newInitExpr[namer, context] { res = e; }
 	| e=externalFunctionInvocationExpr[namer, context, inEnumInit] { res = e; }
 	| LPAREN e=expr[namer, context, inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
@@ -4157,7 +4155,13 @@ typeOf returns [ ExprNode res = env.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
 
-// TODO: allow optional NEW
+newInitExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
+	options { k = 3; }
+	: (NEW)? e=initContainerExpr[namer, context] { res = e; }
+	| (NEW)? e=initMatchExpr[context] { res = e; }
+	| e=initObjectExpr[context] { res = e; }
+	;
+
 initContainerExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
 	: { input.LT(1).getText().equals("map") }?
 		i=IDENT LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
@@ -4173,7 +4177,6 @@ initContainerExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode 
 		e4=initDequeExpr[namer, context, null, new DequeTypeNode(valueType)] { res = e4; }
 	;
 
-// TODO: allow optional NEW
 initMatchExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
 	: MATCH LT CLASS matchClassIdent=typeIdentUse GT l=LPAREN RPAREN
 		{ res = new MatchInitNode(getCoords(l), matchClassIdent); }

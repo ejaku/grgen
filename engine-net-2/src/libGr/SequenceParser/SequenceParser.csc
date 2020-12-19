@@ -443,7 +443,41 @@ object Constant():
     }
 }
 
+SequenceExpression InitMatchClassExpr():
+{
+    SequenceExpression res = null;
+}
+{
+    ("new")? res=InitMatchClassExprCont()
+    {
+        return res;
+    }
+}
+
+SequenceExpression InitMatchClassExprCont():
+{
+    string typeName;
+}
+{
+    LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "match" })
+    Word() "<" "class" typeName=TypeNonGeneric() ">" "(" ")"
+    {
+        return new SequenceExpressionMatchClassConstructor(typeName);
+    }
+}
+
 SequenceExpression InitContainerExpr():
+{
+    SequenceExpression res = null;
+}
+{
+    ("new")? res=InitContainerExprCont()
+    {
+        return res;
+    }
+}
+
+SequenceExpression InitContainerExprCont():
 {
     string typeName, typeNameDst;
     List<SequenceExpression> srcItems = null;
@@ -1801,9 +1835,21 @@ SequenceExpression ExpressionBasic():
         return new SequenceExpressionConstant(constant);
     }
 |
+    LOOKAHEAD(2)
     expr=InitContainerExpr() expr=SelectorExpression(expr)
     {
         return expr;
+    }
+|
+    LOOKAHEAD(2)
+    expr=InitMatchClassExpr() expr=SelectorExpression(expr)
+    {
+        return expr;
+    }
+|
+    "new" type=TypeNonGeneric() "(" ")"
+    {
+        return new SequenceExpressionNew(type);
     }
 |
     "def" "(" Arguments(argExprs) ")"
@@ -1824,11 +1870,6 @@ SequenceExpression ExpressionBasic():
     "this" { expr = new SequenceExpressionThis(env.RuleOfMatchThis, env.TypeOfGraphElementThis); } expr=SelectorExpression(expr)
     {
         return expr;
-    }
-|
-    "new" type=TypeNonGeneric() "(" ")"
-    {
-        return new SequenceExpressionNew(type);
     }
 |
     "(" expr=Expression() ")"

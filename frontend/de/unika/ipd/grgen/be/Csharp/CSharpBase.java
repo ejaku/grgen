@@ -3204,6 +3204,8 @@ public abstract class CSharpBase
 		case IS_MAP:
 		case IS_ARRAY:
 		case IS_DEQUE:
+		case IS_MATCH:
+		case IS_DEFINED_MATCH:
 			if(constant.getValue() == null) {
 				return "null";
 			}
