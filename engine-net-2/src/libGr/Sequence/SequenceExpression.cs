@@ -6318,11 +6318,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem = (IGraphElement)Source.Evaluate(procEnv);
-            object value = elem.GetAttribute(AttributeName);
-            value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
-                elem, AttributeName, value);
-            return value;
+            object source = Source.Evaluate(procEnv);
+            if(source is IGraphElement)
+                return Execute(procEnv, (IGraphElement)source, AttributeName);
+            else
+                return Execute(procEnv, (IObject)source, AttributeName);
         }
 
         public static object Execute(IGraphProcessingEnvironment procEnv, IGraphElement elem, string attributeName)

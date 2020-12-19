@@ -1,0 +1,35 @@
+#using "class.gm"
+
+rule amap(ref a:array<Simple>) : (array<int>)
+{
+	if{ a.map<int>{s:Simple -> s.i}.sum() == 3 ; }
+	
+	modify {
+		return(a.map<int>{s:Simple -> s.i});
+	}
+}
+
+rule aremoveif(ref a:array<Simple>) : (array<Simple>)
+{
+	if{ a.removeIf{s:Simple -> s.i == 1}.size() == 3 ; }
+	
+	modify {
+		return(a.removeIf{s:Simple -> s.i == 1});
+	}
+}
+
+rule cmap(ref a:array<Simple>)
+{
+	modify {
+	---
+		exec({ ::o = a.map<int>{s:Simple -> s.i} });
+	}
+}
+
+rule cremoveif(ref a:array<Simple>)
+{
+	modify {
+	---
+		exec({ ::o = a.removeIf{s:Simple -> s.i == 1} });
+	}
+}
