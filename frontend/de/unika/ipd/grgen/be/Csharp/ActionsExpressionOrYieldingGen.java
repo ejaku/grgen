@@ -231,7 +231,7 @@ import de.unika.ipd.grgen.ir.expr.string.StringToLower;
 import de.unika.ipd.grgen.ir.expr.string.StringToUpper;
 import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
@@ -295,7 +295,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			if(model.isEqualClassDefined()
 					&& (op.getOpCode() == Operator.OperatorCode.EQ || op.getOpCode() == Operator.OperatorCode.NE)) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
-				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalType) {
+				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalObjectType) {
 					opNamePrefix = "EXTERNAL_";
 				}
 			}
@@ -303,7 +303,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 					&& (op.getOpCode() == Operator.OperatorCode.GT || op.getOpCode() == Operator.OperatorCode.GE
 						|| op.getOpCode() == Operator.OperatorCode.LT || op.getOpCode() == Operator.OperatorCode.LE)) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
-				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalType) {
+				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalObjectType) {
 					opNamePrefix = "EXTERNAL_";
 				}
 			}

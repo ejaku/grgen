@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
@@ -115,11 +115,11 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 			result = decideArray(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
 		} else if(targetType instanceof DequeTypeNode) {
 			result = decideDeque(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
-		} else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalTypeNode)) {
+		} else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalObjectTypeNode)) {
 			// we don't support calling a method from a graph element typed attribute contained in a graph element, only calling the method directly on the graph element
 			result = new ProcedureMethodInvocationNode(((IdentExprNode)target).getIdent(), methodIdent, arguments, context);
 			result.resolve();
-		} else if(targetType instanceof ExternalTypeNode) {
+		} else if(targetType instanceof ExternalObjectTypeNode) {
 			if(targetQual != null)
 				result = new ExternalProcedureMethodInvocationNode(targetQual, methodIdent, arguments, context);
 			else

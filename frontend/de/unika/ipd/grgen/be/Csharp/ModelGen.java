@@ -69,7 +69,7 @@ import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.NodeEdgeEnumBearer;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
@@ -155,7 +155,7 @@ public class ModelGen extends CSharpBase
 
 		ModelExternalGen modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		modelExternalGen.genExternalTypeObject();
-		for(ExternalType et : model.getExternalTypes()) {
+		for(ExternalObjectType et : model.getExternalTypes()) {
 			modelExternalGen.genExternalType(et);
 		}
 
@@ -746,7 +746,7 @@ public class ModelGen extends CSharpBase
 				routedSB.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
 								+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
 			} else if(model.isCopyClassDefined()
-					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
 				routedSB.appendFront("AttributeTypeObjectCopierComparer.Copy("
 						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
@@ -781,7 +781,7 @@ public class ModelGen extends CSharpBase
 								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else if(model.isEqualClassDefined()
-					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
 				routedSB.appendFront("&& AttributeTypeObjectCopierComparer.IsEqual("
 								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
@@ -968,7 +968,7 @@ public class ModelGen extends CSharpBase
 			} else if(t instanceof BooleanType) {
 				sb.append("false;\n");
 			} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType
-					|| t instanceof ExternalType || t instanceof GraphType || t instanceof InheritanceType) {
+					|| t instanceof ExternalObjectType || t instanceof GraphType || t instanceof InheritanceType) {
 				sb.append("null;\n");
 			} else {
 				throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
@@ -2240,7 +2240,7 @@ deque_init_loop:
 			return "GRGEN_LIBGR.AttributeKind.StringAttr";
 		else if(t instanceof EnumType)
 			return "GRGEN_LIBGR.AttributeKind.EnumAttr";
-		else if(t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalType)
+		else if(t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalObjectType)
 			return "GRGEN_LIBGR.AttributeKind.ObjectAttr";
 		else if(t instanceof MapType)
 			return "GRGEN_LIBGR.AttributeKind.MapAttr";
@@ -2680,7 +2680,7 @@ commonLoop:
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : fm.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -2688,7 +2688,7 @@ commonLoop:
 		}
 		sb.append(" },\n");
 		Type outType = fm.getReturnType();
-		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 			sb.appendFront(formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
 			sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
@@ -2743,7 +2743,7 @@ commonLoop:
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : pm.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -2752,7 +2752,7 @@ commonLoop:
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type outType : pm.getReturnTypes()) {
-			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
@@ -2787,9 +2787,9 @@ commonLoop:
 	private boolean hasArrayHelpers(Entity entity)
 	{
 		if(entity.getType().isFilterableType()
-				|| entity.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+				|| entity.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 				|| entity.getType().classify() == TypeClass.IS_OBJECT) {
-			if((entity.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+			if((entity.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 					|| entity.getType().classify() == TypeClass.IS_OBJECT)
 					&& !(model.isEqualClassDefined() && model.isLowerClassDefined()))
 				return false;
@@ -3537,7 +3537,7 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );\n");
-		for(ExternalType et : model.getExternalTypes()) {
+		for(ExternalObjectType et : model.getExternalTypes()) {
 			sb.appendFront("externalType_" + et.getIdent() + ".InitDirectSupertypes( "
 					+ "new GRGEN_LIBGR.ExternalType[] { ");
 			boolean directSupertypeAvailable = false;
@@ -3578,14 +3578,14 @@ commonLoop:
 	{
 		sb.append("\n");
 		sb.appendFront("public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();\n");
-		for(ExternalType et : model.getExternalTypes()) {
+		for(ExternalObjectType et : model.getExternalTypes()) {
 			sb.appendFront("public static GRGEN_LIBGR.ExternalType externalType_" + et.getIdent()
 					+ " = new ExternalType_" + et.getIdent() + "();\n");
 		}
 
 		sb.appendFront("private GRGEN_LIBGR.ExternalType[] externalTypes = { ");
 		sb.append("externalType_object");
-		for(ExternalType et : model.getExternalTypes()) {
+		for(ExternalObjectType et : model.getExternalTypes()) {
 			sb.append(", externalType_" + et.getIdent());
 		}
 		sb.append(" };\n");

@@ -46,7 +46,7 @@ import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.VariableExpression;
 import de.unika.ipd.grgen.ir.expr.array.ArrayPerElementMethod;
 import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.Edge;
@@ -321,7 +321,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type inType : function.getParameterTypes()) {
-			if(inType instanceof InheritanceType && !(inType instanceof ExternalType)) {
+			if(inType instanceof InheritanceType && !(inType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inType) + ")), ");
@@ -329,7 +329,7 @@ public class ActionsGen extends CSharpBase
 		}
 		sb.append(" },\n");
 		Type outType = function.getReturnType();
-		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 			sb.appendFront(formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
 			sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
@@ -392,7 +392,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type inType : procedure.getParameterTypes()) {
-			if(inType instanceof InheritanceType && !(inType instanceof ExternalType)) {
+			if(inType instanceof InheritanceType && !(inType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inType) + ")), ");
@@ -401,7 +401,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type outType : procedure.getReturnTypes()) {
-			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
@@ -749,7 +749,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : function.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -757,7 +757,7 @@ public class ActionsGen extends CSharpBase
 		}
 		sb.append(" },\n");
 		Type outType = function.getReturnType();
-		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 			sb.appendFront(formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
 			sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
@@ -923,7 +923,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : procedure.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -932,7 +932,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type outType : procedure.getReturnTypes()) {
-			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");

@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ModelTypeNode;
@@ -315,7 +315,7 @@ public class ModelNode extends DeclNode
 				((inhType instanceof NodeTypeNode) && (st instanceof NodeTypeNode)) ||
 				((inhType instanceof EdgeTypeNode) && (st instanceof EdgeTypeNode)) ||
 				((inhType instanceof InternalObjectTypeNode) && (st instanceof InternalObjectTypeNode)) ||
-				((inhType instanceof ExternalTypeNode) && (st instanceof ExternalTypeNode))
+				((inhType instanceof ExternalObjectTypeNode) && (st instanceof ExternalObjectTypeNode))
 			) : "nodes should extend nodes and edges should extend edges";
 
 			InheritanceTypeNode superType = (InheritanceTypeNode)st;

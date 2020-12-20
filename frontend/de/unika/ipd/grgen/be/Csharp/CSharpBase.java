@@ -203,7 +203,7 @@ import de.unika.ipd.grgen.ir.expr.string.StringToLower;
 import de.unika.ipd.grgen.ir.expr.string.StringToUpper;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
@@ -481,7 +481,7 @@ public abstract class CSharpBase
 			return getInheritanceTypePrefix(type) + formatIdentifiable(type);
 		}
 
-		if(type instanceof ExternalType) {
+		if(type instanceof ExternalObjectType) {
 			return "GRGEN_MODEL." + type.getIdent().toString();
 		}
 
@@ -597,8 +597,8 @@ public abstract class CSharpBase
 			return "deque<" + formatType(dequeType.getValueType()) + ">";
 		} else if(t instanceof GraphType) {
 			return "graph";
-		} else if(t instanceof ExternalType) {
-			ExternalType extType = (ExternalType)t;
+		} else if(t instanceof ExternalObjectType) {
+			ExternalObjectType extType = (ExternalObjectType)t;
 			return extType.getIdent().toString();
 		} else if(t instanceof InheritanceType) {
 			return getPackagePrefixDoubleColon(t) + formatIdentifiable(t);
@@ -657,8 +657,8 @@ public abstract class CSharpBase
 			return "GRGEN_LIBGR.Deque<" + formatType(dequeType.getValueType()) + ">";
 		} else if(t instanceof GraphType) {
 			return "GRGEN_LIBGR.IGraph";
-		} else if(t instanceof ExternalType) {
-			ExternalType extType = (ExternalType)t;
+		} else if(t instanceof ExternalObjectType) {
+			ExternalObjectType extType = (ExternalObjectType)t;
 			return "GRGEN_MODEL." + extType.getIdent();
 		} else if(t instanceof InheritanceType) {
 			return formatElementInterfaceRef(t);
@@ -721,12 +721,12 @@ public abstract class CSharpBase
 		return "ProcedureMethodInfo_" + formatIdentifiable(pm) + "_" + formatIdentifiable(type);
 	}
 
-	public static String formatExternalFunctionMethodInfoName(ExternalFunctionMethod efm, ExternalType type)
+	public static String formatExternalFunctionMethodInfoName(ExternalFunctionMethod efm, ExternalObjectType type)
 	{
 		return "FunctionMethodInfo_" + formatIdentifiable(efm) + "_" + formatIdentifiable(type);
 	}
 
-	public static String formatExternalProcedureMethodInfoName(ExternalProcedureMethod epm, ExternalType type)
+	public static String formatExternalProcedureMethodInfoName(ExternalProcedureMethod epm, ExternalObjectType type)
 	{
 		return "ProcedureMethodInfo_" + formatIdentifiable(epm) + "_" + formatIdentifiable(type);
 	}
@@ -2908,7 +2908,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
 			} else if(modifyGenerationState.model().isEqualClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
@@ -2953,7 +2953,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
 			} else if(modifyGenerationState.model().isEqualClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
@@ -3007,7 +3007,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", StringComparison.InvariantCulture)>0)");
 			} else if(modifyGenerationState.model().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
@@ -3051,7 +3051,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", StringComparison.InvariantCulture)>=0)");
 			} else if(modifyGenerationState.model().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
@@ -3090,7 +3090,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", StringComparison.InvariantCulture)<0)");
 			} else if(modifyGenerationState.model().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
@@ -3129,7 +3129,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", StringComparison.InvariantCulture)<=0)");
 			} else if(modifyGenerationState.model().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
@@ -3254,7 +3254,7 @@ public abstract class CSharpBase
 			return "object";
 		case IS_GRAPH:
 			return "GRGEN_LIBGR.IGraph";
-		case IS_EXTERNAL_TYPE:
+		case IS_EXTERNAL_CLASS_OBJECT:
 			return formatType(cast.getType());
 		case IS_INTERNAL_CLASS_OBJECT:
 			return formatType(cast.getType());
@@ -3306,7 +3306,7 @@ public abstract class CSharpBase
 			return "object";
 		case IS_GRAPH:
 			return "GRGEN_LIBGR.IGraph";
-		case IS_EXTERNAL_TYPE:
+		case IS_EXTERNAL_CLASS_OBJECT:
 			return "GRGEN_MODEL." + type.getIdent();
 		case IS_INTERNAL_CLASS_OBJECT:
 			return formatElementInterfaceRef(type);
@@ -3614,7 +3614,7 @@ public abstract class CSharpBase
 			sb.appendFront("public override int Compare(" + typeName + " b, " + typeName + " a)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		if(attributeOrMemberType.classify() == TypeClass.IS_EXTERNAL_TYPE
+		if(attributeOrMemberType.classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 				|| attributeOrMemberType.classify() == TypeClass.IS_OBJECT) {
 			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsEqual(a.@" + attributeOrMemberName + ", b.@"
 					+ attributeOrMemberName + ")) return 0;\n");

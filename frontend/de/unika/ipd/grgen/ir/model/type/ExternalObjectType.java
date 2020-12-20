@@ -23,9 +23,9 @@ import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
 import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
 
 /**
- * IR class that represents external types.
+ * IR class that represents external object types.
  */
-public class ExternalType extends InheritanceType
+public class ExternalObjectType extends InheritanceType
 {
 	private List<ExternalFunctionMethod> externalFunctionMethods = new LinkedList<ExternalFunctionMethod>();
 	private List<ExternalProcedureMethod> externalProcedureMethods = new LinkedList<ExternalProcedureMethod>();
@@ -37,9 +37,9 @@ public class ExternalType extends InheritanceType
 	 * Make a new external type.
 	 * @param ident The identifier that declares this type.
 	 */
-	public ExternalType(Ident ident)
+	public ExternalObjectType(Ident ident)
 	{
-		super("node type", ident, 0, null);
+		super("external object type", ident, 0, null);
 	}
 
 	public Collection<ExternalFunctionMethod> getExternalFunctionMethods()
@@ -64,7 +64,7 @@ public class ExternalType extends InheritanceType
 		return Collections.unmodifiableCollection(externalProcedureMethods);
 	}
 
-	private void addExternalFunctionMethods(ExternalType type)
+	private void addExternalFunctionMethods(ExternalObjectType type)
 	{
 		for(ExternalFunctionMethod fm : type.getExternalFunctionMethods()) {
 			String functionName = fm.getIdent().toString();
@@ -72,7 +72,7 @@ public class ExternalType extends InheritanceType
 		}
 	}
 
-	private void addExternalProcedureMethods(ExternalType type)
+	private void addExternalProcedureMethods(ExternalObjectType type)
 	{
 		for(ExternalProcedureMethod pm : type.getExternalProcedureMethods()) {
 			String procedureName = pm.getIdent().toString();
@@ -87,7 +87,7 @@ public class ExternalType extends InheritanceType
 
 			// add the members of the super types
 			for(InheritanceType superType : getAllSuperTypes()) {
-				addExternalFunctionMethods((ExternalType)superType);
+				addExternalFunctionMethods((ExternalObjectType)superType);
 			}
 
 			// add members of the current type
@@ -104,7 +104,7 @@ public class ExternalType extends InheritanceType
 
 			// add the members of the super types
 			for(InheritanceType superType : getAllSuperTypes()) {
-				addExternalProcedureMethods((ExternalType)superType);
+				addExternalProcedureMethods((ExternalObjectType)superType);
 			}
 
 			// add members of the current type
@@ -118,6 +118,6 @@ public class ExternalType extends InheritanceType
 	@Override
 	public TypeClass classify()
 	{
-		return TypeClass.IS_EXTERNAL_TYPE;
+		return TypeClass.IS_EXTERNAL_CLASS_OBJECT;
 	}
 }

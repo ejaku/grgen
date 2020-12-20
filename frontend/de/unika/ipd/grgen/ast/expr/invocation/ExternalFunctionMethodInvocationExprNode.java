@@ -17,7 +17,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
@@ -76,7 +76,7 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionInvocation
 	{
 		boolean successfullyResolved = true;
 		TypeNode ownerType = owner.getType();
-		if(ownerType instanceof ExternalTypeNode) {
+		if(ownerType instanceof ExternalObjectTypeNode) {
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner)ownerType;
 				o.fixupDefinition(externalFunctionUnresolved);

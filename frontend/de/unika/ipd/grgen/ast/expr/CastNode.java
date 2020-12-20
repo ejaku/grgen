@@ -17,7 +17,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
@@ -162,12 +162,12 @@ public class CastNode extends ExprNode
 			return true; // object is castable to anything besides nodes and edges
 		if(type instanceof ObjectTypeNode && !(fromType instanceof NodeTypeNode) && !(fromType instanceof EdgeTypeNode))
 			return true; // anything besides nodes and edges can be casted into an object
-		if(fromType instanceof ExternalTypeNode && type instanceof ExternalTypeNode) {
-			// we support up- and down-casts, but no cross-casts of external types
+		if(fromType instanceof ExternalObjectTypeNode && type instanceof ExternalObjectTypeNode) {
+			// we support up- and down-casts, but no cross-casts of external object types
 			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
-			((ExternalTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
+			((ExternalObjectTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
 			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
-			((ExternalTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
+			((ExternalObjectTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
 			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
 		}
 

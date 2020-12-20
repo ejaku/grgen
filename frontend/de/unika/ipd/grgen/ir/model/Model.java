@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.ir.executable.ExternalFunction;
 import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
@@ -47,7 +47,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private Set<InternalObjectType> objectTypes = new LinkedHashSet<InternalObjectType>();
 	private Set<EnumType> enumTypes = new LinkedHashSet<EnumType>();
 	private Set<Index> indices = new LinkedHashSet<Index>();
-	private Set<ExternalType> externalTypes = new LinkedHashSet<ExternalType>();
+	private Set<ExternalObjectType> externalTypes = new LinkedHashSet<ExternalObjectType>();
 	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
 	private Set<ExternalProcedure> externalProcs = new LinkedHashSet<ExternalProcedure>();
 	private boolean isEmitClassDefined;
@@ -114,8 +114,8 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 			edgeTypes.add((EdgeType)type);
 		else if(type instanceof EnumType)
 			enumTypes.add((EnumType)type);
-		else if(type instanceof ExternalType)
-			externalTypes.add((ExternalType)type);
+		else if(type instanceof ExternalObjectType)
+			externalTypes.add((ExternalObjectType)type);
 		else if(type instanceof InternalObjectType)
 			objectTypes.add((InternalObjectType)type);
 		else if(!(type instanceof PrimitiveType))
@@ -259,7 +259,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		return Collections.unmodifiableCollection(enumTypes);
 	}
 
-	public Collection<ExternalType> getExternalTypes()
+	public Collection<ExternalObjectType> getExternalTypes()
 	{
 		return Collections.unmodifiableCollection(externalTypes);
 	}

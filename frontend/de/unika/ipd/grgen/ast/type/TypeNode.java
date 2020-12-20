@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ast.type;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -323,7 +323,7 @@ public abstract class TypeNode extends BaseNode
 	{
 		return this instanceof BasicTypeNode
 				|| this instanceof EnumTypeNode
-				|| this instanceof ExternalTypeNode;
+				|| this instanceof ExternalObjectTypeNode;
 	}
 
 	public boolean isReferenceType()
