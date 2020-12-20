@@ -201,6 +201,12 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        protected void CheckObjectTypeIsKnown(SequenceCheckingEnvironment env, String objectType, String whichArgument)
+        {
+            if(TypesHelper.GetObjectType(objectType, env.Model) == null)
+                throw new SequenceParserException(Symbol + whichArgument, "object type", objectType);
+        }
+
         protected string GetTypeString(SequenceCheckingEnvironment env, SequenceExpression typeExpr)
         {
             if(typeExpr.Type(env) == "string")

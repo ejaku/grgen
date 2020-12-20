@@ -457,12 +457,14 @@ SequenceExpression InitMatchClassExpr():
 SequenceExpression InitMatchClassExprCont():
 {
     string typeName;
+    string matchClassPackage = null;
+    string matchClassName = null;
 }
 {
     LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "match" })
-    Word() "<" "class" typeName=TypeNonGeneric() ">" "(" ")"
+    Word() "<" "class" (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClassName=Word() ">" "(" ")"
     {
-        return new SequenceExpressionMatchClassConstructor(typeName);
+        return new SequenceExpressionMatchClassConstructor(env.GetPackagePrefixedMatchClassName(matchClassName, matchClassPackage));
     }
 }
 

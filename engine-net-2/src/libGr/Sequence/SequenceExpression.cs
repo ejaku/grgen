@@ -1679,6 +1679,11 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionNew(this, originalToCopy, procEnv);
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            CheckObjectTypeIsKnown(env, ConstructedType, ", constructor type/argument");
+        }
+
         public override String Type(SequenceCheckingEnvironment env)
         {
             return ConstructedType;

@@ -1,0 +1,7 @@
+rule r
+{
+	modify {
+	---
+		exec({::x = new match<class Furchtbar>()});
+	}
+}
