@@ -414,7 +414,7 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        void OnTypeInfotagsChanged(GrGenType type)
+        void OnTypeInfotagsChanged(GraphElementType type)
         {
             if(type.IsNodeType)
             {
@@ -840,8 +840,8 @@ namespace de.unika.ipd.grGen.grShell
         public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
             bool isNode = oldElem is INode;
-            GrGenType oldType = oldElem.Type;
-            GrGenType newType = newElem.Type;
+            GraphElementType oldType = oldElem.Type;
+            GraphElementType newType = newElem.Type;
 
             if(isNode)
             {

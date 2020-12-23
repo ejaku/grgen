@@ -26,7 +26,7 @@ namespace Recursive
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
             IMatches matches;
-            Object[] returns;
+            object[] returns;
 
             Action_createChain createChain = Action_createChain.Instance;
             matches = createChain.Match(procEnv, 0);
