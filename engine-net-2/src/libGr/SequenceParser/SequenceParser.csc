@@ -188,6 +188,7 @@ TOKEN: {
     < DEF: "def" >
 |   < TRUE: "true" >
 |   < FALSE: "false" >
+|   < NEW: "new" >
 |   < NULL: "null" >
 |   < FOR: "for" >
 |   < IF: "if" >
@@ -417,7 +418,7 @@ object Constant():
         {
             package = packageOrType;
             type = typeOrValue;
-            constant = TypesHelper.GetNodeOrEdgeType(package + "::" + type, env.Model);
+            constant = TypesHelper.GetInheritanceType(package + "::" + type, env.Model);
             if(constant == null)
             {
                 type = packageOrType;
@@ -431,10 +432,10 @@ object Constant():
         }
     |
         LOOKAHEAD({ GetToken(1).kind == WORD && varDecls.Lookup(GetToken(1).image) == null
-                && TypesHelper.GetNodeOrEdgeType(GetToken(1).image, env.Model) != null })
+                && TypesHelper.GetInheritanceType(GetToken(1).image, env.Model) != null })
         type=Word()
         {
-            constant = TypesHelper.GetNodeOrEdgeType(type, env.Model);
+            constant = TypesHelper.GetInheritanceType(type, env.Model);
         }
     )
     {
@@ -442,7 +443,43 @@ object Constant():
     }
 }
 
+SequenceExpression InitMatchClassExpr():
+{
+    SequenceExpression res = null;
+}
+{
+    ("new")? res=InitMatchClassExprCont()
+    {
+        return res;
+    }
+}
+
+SequenceExpression InitMatchClassExprCont():
+{
+    string typeName;
+    string matchClassPackage = null;
+    string matchClassName = null;
+}
+{
+    LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "match" })
+    Word() "<" "class" (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClassName=Word() ">" "(" ")"
+    {
+        return new SequenceExpressionMatchClassConstructor(env.GetPackagePrefixedMatchClassName(matchClassName, matchClassPackage));
+    }
+}
+
 SequenceExpression InitContainerExpr():
+{
+    SequenceExpression res = null;
+}
+{
+    ("new")? res=InitContainerExprCont()
+    {
+        return res;
+    }
+}
+
+SequenceExpression InitContainerExprCont():
 {
     string typeName, typeNameDst;
     List<SequenceExpression> srcItems = null;
@@ -1772,6 +1809,7 @@ SequenceExpression ExpressionBasic():
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     SequenceVariable fromVar;
     String elemName;
+    String type;
     SequenceExpression expr;
     object constant;
 }
@@ -1799,9 +1837,21 @@ SequenceExpression ExpressionBasic():
         return new SequenceExpressionConstant(constant);
     }
 |
+    LOOKAHEAD(2)
     expr=InitContainerExpr() expr=SelectorExpression(expr)
     {
         return expr;
+    }
+|
+    LOOKAHEAD(2)
+    expr=InitMatchClassExpr() expr=SelectorExpression(expr)
+    {
+        return expr;
+    }
+|
+    "new" type=TypeNonGeneric() "(" ")"
+    {
+        return new SequenceExpressionNew(type);
     }
 |
     "def" "(" Arguments(argExprs) ")"

@@ -20,10 +20,13 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.decl.executable.TopLevelMatcherDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.Rule;
@@ -118,6 +121,12 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 		if(!(topLevelMatcherUnresolved instanceof PackageIdentNode)) {
 			fixupDefinition(topLevelMatcherUnresolved, topLevelMatcherUnresolved.getScope());
 		}
+
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EQ, BasicTypeNode.booleanType,
+				this, this, OperatorEvaluator.nullEvaluator);
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.NE, BasicTypeNode.booleanType,
+				this, this, OperatorEvaluator.nullEvaluator);
+
 		topLevelMatcher = topLevelMatcherResolver.resolve(topLevelMatcherUnresolved, this);
 		if(topLevelMatcher == null)
 			return false;

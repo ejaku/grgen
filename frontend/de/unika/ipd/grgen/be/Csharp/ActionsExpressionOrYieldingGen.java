@@ -231,8 +231,9 @@ import de.unika.ipd.grgen.ir.expr.string.StringToLower;
 import de.unika.ipd.grgen.ir.expr.string.StringToUpper;
 import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.IteratedFiltering;
@@ -241,9 +242,9 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 
 public class ActionsExpressionOrYieldingGen extends CSharpBase
 {
-	public ActionsExpressionOrYieldingGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix)
+	public ActionsExpressionOrYieldingGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		model = backend.unit.getActionsGraphModel();
 	}
 
@@ -280,6 +281,9 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				if(opnd.getType() instanceof GraphType) {
 					opNamePrefix = "GRAPH_";
 				}
+				if(opnd.getType() instanceof InternalObjectType) {
+					opNamePrefix = "OBJECT_CLASS_";
+				}
 			}
 			if(op.getOpCode() == Operator.OperatorCode.GT || op.getOpCode() == Operator.OperatorCode.GE
 					|| op.getOpCode() == Operator.OperatorCode.LT || op.getOpCode() == Operator.OperatorCode.LE) {
@@ -291,7 +295,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			if(model.isEqualClassDefined()
 					&& (op.getOpCode() == Operator.OperatorCode.EQ || op.getOpCode() == Operator.OperatorCode.NE)) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
-				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalType) {
+				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalObjectType) {
 					opNamePrefix = "EXTERNAL_";
 				}
 			}
@@ -299,7 +303,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 					&& (op.getOpCode() == Operator.OperatorCode.GT || op.getOpCode() == Operator.OperatorCode.GE
 						|| op.getOpCode() == Operator.OperatorCode.LT || op.getOpCode() == Operator.OperatorCode.LE)) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
-				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalType) {
+				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalObjectType) {
 					opNamePrefix = "EXTERNAL_";
 				}
 			}
@@ -346,7 +350,8 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 						+ formatIdentifiable(member) + "\")");
 			} else if(owner != null) {
 				sb.append("new GRGEN_EXPR.Qualification(\"" + formatElementInterfaceRef(owner.getType())
-						+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \""
+						+ "\", " + ((owner.getType() instanceof NodeType || owner.getType() instanceof EdgeType) ? "true" : "false")
+						+ ", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \""
 						+ formatIdentifiable(member) + "\")");
 			} else {
 				sb.append("new GRGEN_EXPR.CastQualification(");
@@ -399,8 +404,13 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append("new GRGEN_EXPR.CopyExpression(");
 			genExpressionTree(sb, ce.getSourceExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			if(t instanceof GraphType) {
+				sb.append(", GRGEN_EXPR.CopyKind.Graph");
+				sb.append(", null");
+			} else if(t instanceof InternalObjectType) {
+				sb.append(", GRGEN_EXPR.CopyKind.ClassObject");
 				sb.append(", null");
 			} else { // no match type possible here, can only occur in filter function (-> CSharpBase expression)
+				sb.append(", GRGEN_EXPR.CopyKind.Container");
 				sb.append(", \"" + formatType(t) + "\"");
 			}
 			sb.append(")");
@@ -1249,7 +1259,10 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			}
 		} else if(expr instanceof MatchInit) {
 			MatchInit mi = (MatchInit)expr;
-			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
+			sb.append("new GRGEN_EXPR.MatchClassConstructor(\"" + formatDefinedMatchType(mi.getMatchType()) + "\")");
+		} else if(expr instanceof InternalObjectInit) {
+			InternalObjectInit oi = (InternalObjectInit)expr;
+			sb.append("new GRGEN_EXPR.InternalObjectConstructor(\"" + formatInternalObjectType(oi.getInternalObjectType()) + "\")");
 		} else if(expr instanceof MapCopyConstructor) {
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
 			sb.append("new GRGEN_EXPR.MapCopyConstructor(\"" + formatType(mcc.getMapType()) + "\", ");
@@ -1964,7 +1977,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 
 	protected void genQualAccess(SourceBuilder sb, Entity owner, Entity member)
 	{
-		sb.append("((I" + getNodeOrEdgeTypePrefix(owner) +
+		sb.append("((I" + getInheritanceTypePrefix(owner) +
 				formatIdentifiable(owner.getType()) + ") ");
 		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(member));
 	}

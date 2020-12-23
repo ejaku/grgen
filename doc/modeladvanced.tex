@@ -118,6 +118,7 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 \texttt{array<T>.orderDescending():array<T>}\\
 \texttt{array<T>.keepOneForEach():array<T>}\\
 \texttt{array<T>.reverse():array<T>}\\
+\texttt{array<T>.shuffle():array<T>}\\
 \texttt{array<T>.subarray(int, int):array<T>}\\
 \texttt{array<T>.asDeque():deque<T>}\\
 \texttt{array<T>.asSet():set<T>}\\
@@ -133,11 +134,14 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 \texttt{array<T>.medUnordered():double}\\
 \texttt{array<T>.var():double}\\
 \texttt{array<T>.dev():double}\\
+\texttt{array<boolean>.and():boolean}\\
+\texttt{array<boolean>.or():boolean}\\
 \hline
 \texttt{array<T>.extract<attr>():array<typeof(attr)>}\\
 \texttt{array<T>.orderAscendingBy<attr>():array<T>}\\
 \texttt{array<T>.orderDescendingBy<attr>():array<T>}\\
 \texttt{array<T>.keepOneForEach<attr>():array<T>}\\
+\texttt{array<T>.groupBy<attr>():array<T>}
 \texttt{array<T>.indexOfBy<attr>(typeof(attr)[,int]):int}\\
 \texttt{array<T>.lastIndexOfBy<attr>(typeof(attr)[,int]):int}\\
 \texttt{array<T>.indexOfOrderedBy<attr>(typeof(attr)):int}\\

@@ -26,9 +26,9 @@ import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModelIndexGen extends CSharpBase
 {
-	public ModelIndexGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix)
+	public ModelIndexGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		this.model = model;
 		this.sb = sb;
 	}
@@ -969,7 +969,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("}\n");
 		sb.append("\n");
 		sb.appendFront("void ChangingAttribute(GRGEN_LIBGR.IGraphElement elem, "
-				+ "GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.AttributeChangeType changeType, Object newValue, Object keyValue)\n");
+				+ "GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.AttributeChangeType changeType, object newValue, object keyValue)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(elem is " + graphElementType + " && attrType.Name==\"" + attributeName + "\")\n");

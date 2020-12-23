@@ -176,7 +176,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IList NewList(Type valueType)
         {
             if(valueType == null)
-                return null;
+                throw new NullReferenceException();
 
             Type genListType = typeof(List<>);
             Type listType = genListType.MakeGenericType(valueType);
@@ -194,7 +194,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IList NewList(Type valueType, object oldList)
         {
             if(valueType == null || oldList == null)
-                return null;
+                throw new NullReferenceException();
 
             Type genListType = typeof(List<>);
             Type listType = genListType.MakeGenericType(valueType);
@@ -212,7 +212,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IList NewList(Type valueType, int capacity)
         {
             if(valueType == null)
-                return null;
+                throw new NullReferenceException();
 
             Type genListType = typeof(List<>);
             Type listType = genListType.MakeGenericType(valueType);
@@ -452,10 +452,10 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                GrGenType graphElementType = TypesHelper.GetNodeOrEdgeType(arrayValueType, procEnv.Graph.Model);
-                if(graphElementType != null)
+                InheritanceType inheritanceType = TypesHelper.GetInheritanceType(arrayValueType, procEnv.Graph.Model);
+                if(inheritanceType != null)
                 {
-                    AttributeType attributeType = graphElementType.GetAttributeType(memberOrAttribute);
+                    AttributeType attributeType = inheritanceType.GetAttributeType(memberOrAttribute);
                     Type listType = typeof(List<>).MakeGenericType(attributeType.Type);
                     IList extractedArray = (IList)Activator.CreateInstance(listType);
                     ExtractAttribute(array, memberOrAttribute, extractedArray);
@@ -496,8 +496,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(object element in array)
             {
-                IGraphElement graphElement = (IGraphElement)element;
-                extractedArray.Add(graphElement.GetAttribute(attribute));
+                IAttributeBearer attributeBearer = (IAttributeBearer)element;
+                extractedArray.Add(attributeBearer.GetAttribute(attribute));
             }
         }
 

@@ -7640,10 +7640,10 @@ namespace de.unika.ipd.grGen.libGr
             if(SubgraphVar.Type == "")
                 return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SubgraphVar.Type, env.Model);
-            if(nodeOrEdgeType == null)
-                throw new SequenceParserException(Symbol, "node or edge type", SubgraphVar.Type);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(SubgraphVar.Type, env.Model);
+            if(inheritanceType == null)
+                throw new SequenceParserException(Symbol, "node or edge or object type (class)", SubgraphVar.Type);
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
 

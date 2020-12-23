@@ -184,7 +184,12 @@ namespace de.unika.ipd.grGen.libGr
             get { return VirtualNodeType.Instance; }
         }
 
-        GrGenType IGraphElement.Type
+        GraphElementType IGraphElement.Type
+        {
+            get { return VirtualNodeType.Instance; }
+        }
+
+        GrGenType IAttributeBearer.Type
         {
             get { return VirtualNodeType.Instance; }
         }
@@ -266,7 +271,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new NotImplementedException("The method or operation is not implemented.");
         }
 
-        public bool AreAttributesEqual(IGraphElement that)
+        public bool AreAttributesEqual(IAttributeBearer that)
         {
             throw new NotImplementedException("The method or operation is not implemented.");
         }

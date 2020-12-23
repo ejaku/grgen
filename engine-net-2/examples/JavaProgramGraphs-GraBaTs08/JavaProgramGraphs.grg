@@ -492,7 +492,7 @@ rule replaceAccess_Parameter_AccessWithLinkToExpression(c:Call, pe:Expression)
 
 	modify {
 		delete(old);
-		a -new:link-> pe;
+		a -new_:link-> pe;
 	}
 }
 

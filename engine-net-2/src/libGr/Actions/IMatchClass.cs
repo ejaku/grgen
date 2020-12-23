@@ -74,6 +74,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns the (package prefixed) filter if it is available, otherwise null
         /// </summary>
         IFilter GetFilter(string name);
+
+        /// <summary>
+        /// Returns an instance of the match class
+        /// </summary>
+        IMatch Create();
     }
 
     public abstract class MatchClassInfo : IMatchClass
@@ -157,6 +162,11 @@ namespace de.unika.ipd.grGen.libGr
             }
             return null;
         }
+
+        /// <summary>
+        /// Returns an instance of the match class
+        /// </summary>
+        public abstract IMatch Create();
 
         /// <summary>
         /// The name of the match class.

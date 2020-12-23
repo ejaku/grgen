@@ -105,7 +105,7 @@ namespace de.unika.ipd.grGen.libGr
                 return;
             }
 
-            GrGenType ownerType = TypesHelper.GetNodeOrEdgeType(targetExprType, Model);
+            InheritanceType ownerType = TypesHelper.GetInheritanceType(targetExprType, Model);
             if(ownerType == null)
             {
                 // error, must be node or edge type
@@ -133,7 +133,7 @@ namespace de.unika.ipd.grGen.libGr
                 return;
             }
 
-            GrGenType ownerType = TypesHelper.GetNodeOrEdgeType(targetVar.Type, Model);
+            InheritanceType ownerType = TypesHelper.GetInheritanceType(targetVar.Type, Model);
             if(ownerType == null)
             {
                 // error, must be node or edge type
@@ -174,7 +174,7 @@ namespace de.unika.ipd.grGen.libGr
                 return;
             }
 
-            GrGenType ownerType = TypesHelper.GetNodeOrEdgeType(targetExprType, Model);
+            InheritanceType ownerType = TypesHelper.GetInheritanceType(targetExprType, Model);
             if(ownerType == null)
             {
                 // error, must be node or edge type
@@ -195,7 +195,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="seqCompProcCall">The procedure call to check</param>
         /// <param name="ownerType">Gives the owner type of the procedure method call, in case this is a method call, otherwise null</param>
-        private void CheckProcedureCallBase(SequenceComputationProcedureCall seqCompProcCall, GrGenType ownerType)
+        private void CheckProcedureCallBase(SequenceComputationProcedureCall seqCompProcCall, InheritanceType ownerType)
         {
             CheckInputParameters(seqCompProcCall, seqCompProcCall.ArgumentExpressions, ownerType);
             CheckOutputParameters(seqCompProcCall, seqCompProcCall.ReturnVars, ownerType);
@@ -210,14 +210,14 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="seqExprFuncCall">The function call to check</param>
         /// <param name="ownerType">Gives the owner type of the function method call, in case this is a method call, otherwise null</param>
-        private void CheckFunctionCallBase(SequenceExpressionFunctionCall seqExprFuncCall, GrGenType ownerType)
+        private void CheckFunctionCallBase(SequenceExpressionFunctionCall seqExprFuncCall, InheritanceType ownerType)
         {
             CheckInputParameters(seqExprFuncCall, seqExprFuncCall.ArgumentExpressions, ownerType);
 
             // ok, this is a well-formed invocation
         }
 
-        private void CheckInputParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions, GrGenType ownerType)
+        private void CheckInputParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions, InheritanceType ownerType)
         {
             // Check whether number of parameters and return parameters match
             if(NumInputParameters(invocation, ownerType) != ArgumentExpressions.Length)
@@ -235,7 +235,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        private void CheckOutputParameters(Invocation invocation, SequenceVariable[] ReturnVars, GrGenType ownerType)
+        private void CheckOutputParameters(Invocation invocation, SequenceVariable[] ReturnVars, InheritanceType ownerType)
         {
             // Check whether number of parameters and return parameters match
             if(ReturnVars.Length != 0 && NumOutputParameters(invocation, ownerType) != ReturnVars.Length)
@@ -425,10 +425,10 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public abstract string TypeOfMemberOrAttribute(string matchOrGraphElementType, string memberOrAttribute);
 
-        protected abstract int NumInputParameters(Invocation invocation, GrGenType ownerType);
-        protected abstract int NumOutputParameters(Invocation invocation, GrGenType ownerType);
-        protected abstract string InputParameterType(int i, Invocation invocation, GrGenType ownerType);
-        protected abstract string OutputParameterType(int i, Invocation invocation, GrGenType ownerType);
+        protected abstract int NumInputParameters(Invocation invocation, InheritanceType ownerType);
+        protected abstract int NumOutputParameters(Invocation invocation, InheritanceType ownerType);
+        protected abstract string InputParameterType(int i, Invocation invocation, InheritanceType ownerType);
+        protected abstract string OutputParameterType(int i, Invocation invocation, InheritanceType ownerType);
         protected abstract bool IsMatchClassExisting(SequenceFilterCallBase sequenceFilterCall);
         protected abstract string GetMatchClassName(SequenceFilterCallBase sequenceFilterCall);
         public abstract bool IsRuleImplementingMatchClass(string rulePackagePrefixedName, string matchClassPackagePrefixedName);

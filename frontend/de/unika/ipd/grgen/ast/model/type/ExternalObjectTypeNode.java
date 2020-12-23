@@ -30,24 +30,24 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
 import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 
 /**
- * A class representing a node type
+ * A class representing an external object type
  */
-public class ExternalTypeNode extends InheritanceTypeNode
+public class ExternalObjectTypeNode extends InheritanceTypeNode
 {
 	static {
-		setName(ExternalTypeNode.class, "external type");
+		setName(ExternalObjectTypeNode.class, "external object type");
 	}
 
-	private CollectNode<ExternalTypeNode> extend;
+	private CollectNode<ExternalObjectTypeNode> extend;
 
 	/**
-	 * Create a new external type
+	 * Create a new external object type
 	 * @param ext The collect node containing the types which are extended by this type.
 	 */
-	public ExternalTypeNode(CollectNode<IdentNode> ext, CollectNode<BaseNode> body)
+	public ExternalObjectTypeNode(CollectNode<IdentNode> ext, CollectNode<BaseNode> body)
 	{
 		this.extendUnresolved = ext;
 		becomeParent(this.extendUnresolved);
@@ -79,8 +79,8 @@ public class ExternalTypeNode extends InheritanceTypeNode
 		return childrenNames;
 	}
 
-	private static final CollectResolver<ExternalTypeNode> extendResolver =
-			new CollectResolver<ExternalTypeNode>(new DeclarationTypeResolver<ExternalTypeNode>(ExternalTypeNode.class));
+	private static final CollectResolver<ExternalObjectTypeNode> extendResolver =
+			new CollectResolver<ExternalObjectTypeNode>(new DeclarationTypeResolver<ExternalObjectTypeNode>(ExternalObjectTypeNode.class));
 
 	private static final CollectResolver<BaseNode> bodyResolver =
 			new CollectResolver<BaseNode>(new DeclarationResolver<BaseNode>(ExternalFunctionDeclNode.class, ExternalProcedureDeclNode.class));
@@ -111,12 +111,12 @@ public class ExternalTypeNode extends InheritanceTypeNode
 	}
 
 	/**
-	 * Get the IR external type for this AST node.
-	 * @return The correctly casted IR external type.
+	 * Get the IR external object type for this AST node.
+	 * @return The correctly casted IR external object type.
 	 */
-	protected ExternalType getExternalType()
+	protected ExternalObjectType getExternalObjectType()
 	{
-		return checkIR(ExternalType.class);
+		return checkIR(ExternalObjectType.class);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class ExternalTypeNode extends InheritanceTypeNode
 			return getIR();
 		}
 
-		ExternalType et = new ExternalType(getDecl().getIdentNode().getIdent());
+		ExternalObjectType et = new ExternalObjectType(getDecl().getIdentNode().getIdent());
 
 		setIR(et);
 
@@ -139,7 +139,7 @@ public class ExternalTypeNode extends InheritanceTypeNode
 		return et;
 	}
 
-	protected void constructIR(ExternalType extType)
+	protected void constructIR(ExternalObjectType extType)
 	{
 		for(BaseNode child : body.getChildren()) {
 			if(child instanceof ExternalFunctionDeclNode) {
@@ -164,7 +164,7 @@ public class ExternalTypeNode extends InheritanceTypeNode
 	{
 		assert isResolved();
 
-		for(ExternalTypeNode inh : extend.getChildren()) {
+		for(ExternalObjectTypeNode inh : extend.getChildren()) {
 			coll.add(inh);
 			coll.addAll(inh.getCompatibleToTypes());
 		}
@@ -176,7 +176,7 @@ public class ExternalTypeNode extends InheritanceTypeNode
 	}
 
 	@Override
-	public Collection<ExternalTypeNode> getDirectSuperTypes()
+	public Collection<ExternalObjectTypeNode> getDirectSuperTypes()
 	{
 		assert isResolved();
 

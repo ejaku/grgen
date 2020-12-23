@@ -1,4 +1,4 @@
-GrGen.NET v5.1 (2020-07-29)
+GrGen.NET v5.2 (2020-11-22)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -170,7 +170,7 @@ COPYING
 
 Copyright (C) 2003-2020 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 5.1
+This file is part of GrGen, Version GrGen.NET 5.2
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by

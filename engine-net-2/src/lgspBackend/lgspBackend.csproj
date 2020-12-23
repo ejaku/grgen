@@ -68,6 +68,7 @@
     <Compile Include="ExpressionOrYielding\ContainerExpression.cs" />
     <Compile Include="ExpressionOrYielding\Expression.cs" />
     <Compile Include="Graph\GraphStatisticsParserSerializer.cs" />
+    <Compile Include="Graph\lgspObject.cs" />
     <Compile Include="MatcherGenerator\FilterGenerator.cs" />
     <Compile Include="GraphComparison\GraphComparisonMatcher.cs" />
     <Compile Include="ExpressionOrYielding\GraphExpression.cs" />

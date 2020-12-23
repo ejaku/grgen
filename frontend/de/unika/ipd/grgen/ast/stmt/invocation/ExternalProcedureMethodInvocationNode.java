@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -91,7 +91,7 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 	{
 		boolean successfullyResolved = true;
 		TypeNode ownerType = targetVar != null ? targetVar.getDeclType() : targetQual.getDecl().getDeclType();
-		if(ownerType instanceof ExternalTypeNode) {
+		if(ownerType instanceof ExternalObjectTypeNode) {
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner)ownerType;
 				o.fixupDefinition(externalProcedureUnresolved);

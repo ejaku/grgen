@@ -43,7 +43,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>The attribute is a double.</summary>
         DoubleAttr,
 
-        /// <summary>The attribute is an object (this includes external attribute types).</summary>
+        /// <summary>The attribute is an object (this includes external class/attribute types).</summary>
         ObjectAttr,
 
         /// <summary>The attribute is a map.</summary>
@@ -58,14 +58,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>The attribute is a deque.</summary>
         DequeAttr,
 
-        /// <summary>The attribute is a node (only valid for set/map/array key/value type).</summary>
+        /// <summary>The attribute is a node (only valid for set/map/array/deque key/value type).</summary>
         NodeAttr,
 
-        /// <summary>The attribute is an edge (only valid for set/map/array key/value type).</summary>
+        /// <summary>The attribute is an edge (only valid for set/map/array/deque key/value type).</summary>
         EdgeAttr,
 
         /// <summary>The attribute is a graph (created as a subgraph of the host graph).</summary>
-        GraphAttr
+        GraphAttr,
+
+        /// <summary>The attribute is an internal class object/attribute type (non-external, non-node/edge).</summary>
+        InternalClassObjectAttr
     }
 
     /// <summary>
@@ -81,7 +84,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The model type owning this attribute, i.e. the type which defined this attribute.
         /// </summary>
-        public readonly GrGenType OwnerType;
+        public readonly InheritanceType OwnerType;
 
         /// <summary>
         /// The kind of the attribute.
@@ -151,7 +154,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="package">The package name if this is a node or edge type that is contained in a package, otherwise null.</param>
         /// <param name="packagePrefixedTypeName">The name of the attribute type with the package as prefix if it is contained in a package, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr.</param>
         /// <param name="type">The type of the attribute type.</param>
-        public AttributeType(String name, GrGenType ownerType, AttributeKind kind,
+        public AttributeType(String name, InheritanceType ownerType, AttributeKind kind,
             EnumAttributeType enumType, AttributeType valueType, AttributeType keyType,
             String typeName, String package, String packagePrefixedTypeName, Type type)
         {
@@ -205,6 +208,7 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.DequeAttr: return "deque<" + ValueType.GetKindName() + ">";
                 case AttributeKind.NodeAttr: return PackagePrefixedTypeName;
                 case AttributeKind.EdgeAttr: return PackagePrefixedTypeName;
+                case AttributeKind.InternalClassObjectAttr: return PackagePrefixedTypeName;
             }
             return GetKindName(Kind);
         }

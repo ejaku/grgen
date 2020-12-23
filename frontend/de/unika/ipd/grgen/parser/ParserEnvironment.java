@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.ast.model.type.ArbitraryEdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.DirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
@@ -91,6 +92,8 @@ public abstract class ParserEnvironment extends Base
 	private final IdentNode directedEdgeRoot;
 	private final IdentNode undirectedEdgeRoot;
 
+	private final IdentNode internalObjectRoot;
+	
 	private final Sys system;
 
 	private final ModelNode stdModel;
@@ -165,10 +168,16 @@ public abstract class ParserEnvironment extends Base
 		undirectedEdgeRoot = predefineType("UEdge", undirectedEdgeRootType);
 		EdgeTypeNode.undirectedEdgeType = undirectedEdgeRootType;
 
+		// The internal object type root
+		InternalObjectTypeNode internalObjectRootType = new InternalObjectTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0);
+		internalObjectRoot = predefineType("Object", internalObjectRootType);
+		InternalObjectTypeNode.internalObjectType = internalObjectRootType;
+
 		stdModelChilds.addChild(nodeRoot);
 		stdModelChilds.addChild(arbitraryEdgeRoot);
 		stdModelChilds.addChild(directedEdgeRoot);
 		stdModelChilds.addChild(undirectedEdgeRoot);
+		stdModelChilds.addChild(internalObjectRoot);
 
 		stdModelChilds.addChild(predefineType("byte", BasicTypeNode.byteType));
 		stdModelChilds.addChild(predefineType("short", BasicTypeNode.shortType));
@@ -358,6 +367,11 @@ public abstract class ParserEnvironment extends Base
 	public IdentNode getUndirectedEdgeRoot()
 	{
 		return undirectedEdgeRoot;
+	}
+
+	public IdentNode getInternalObjectRoot()
+	{
+		return internalObjectRoot;
 	}
 
 	public IntConstNode getOne()

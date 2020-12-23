@@ -333,6 +333,7 @@ Array expressions consist of array membership checking, array value lookup, and 
 \item[\texttt{.group()}] returns an array with the content of the input array grouped, i.e. equal values being neighbours, only available for basic types or node and edge types
 \item[\texttt{.keepOneForEach()}] returns an array with the content of the input array freed from duplicates, only available for basic types or node and edge types
 \item[\texttt{.reverse()}] returns an array with the content of the input array reversed
+\item[\texttt{.shuffle()}] returns an array with the content of the input array permuted
 \item[\texttt{.subarray(startIndex, length)}] returns subarray of given \texttt{length:int} from \texttt{startIndex:int} on
 \item[\texttt{.asDeque()}] returns a deque of the array content, as \verb#deque<T># for \verb#array<T>#, in same order
 \item[\texttt{.asSet()}] returns a set (without order) of the array content, as \verb#set<T># for \verb#array<T>#
@@ -340,56 +341,10 @@ Array expressions consist of array membership checking, array value lookup, and 
 \item[\texttt{.asString(separator)}] returns the array imploded to a string with the \texttt{separator:string} inserted in between the substrings from the array, only available for \verb#array<string># (a \texttt{string} contains an \texttt{asArray} method for reversal)
 \end{description}
 
-\noindent Some accumulation method calls are available on arrays of numbers:
-
-\begin{description}
-\item[\texttt{.sum()}] returns the sum of the elements in the array, as \texttt{T'} for \texttt{array<T>}
-\item[\texttt{.prod()}] returns the product of the elements in the array, as \texttt{T'} for \texttt{array<T>}
-\item[\texttt{.min()}] returns the minimum of the elements in the array, as \texttt{T'} for \texttt{array<T>}
-\item[\texttt{.max()}] returns the maximum of the elements in the array, as \texttt{T'} for \texttt{array<T>}
-\item[\texttt{.avg()}] returns the average (mean) of the elements in the array, as \texttt{double}
-\item[\texttt{.med()}] returns the median of the elements in the array that must be ordered, as \texttt{double}
-\item[\texttt{.medUnordered()}] returns the median of the elements in the array, as \texttt{double}
-\item[\texttt{.var()}] returns the variance of the elements in the array, as \texttt{double}
-\item[\texttt{.dev()}] returns the deviation of the elements in the array, as \texttt{double}
-\end{description}\label{arrayaccumulationmethod}
-
-The input type \texttt{T} must be a numeric type, i.e. one of the integer types \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or one of the floating point types \texttt{float} or \texttt{double}. 
-The result type \texttt{T'} is \texttt{int} for input types \texttt{byte} or \texttt{short} or \texttt{int}, it is \texttt{long} for input type \texttt{long}, it is \texttt{float} for input type \texttt{float}, and it is \texttt{double} for input type \texttt{double} (the same type is used for carrying out the accumulation, defining bounds and precision).
-
-\noindent Furthermore, several by-member access (or array query) methods are available on 
-
-\begin{itemize}
-	\item arrays of node or edge types bearing attributes
-	\item arrays of match types having match member entities
-	\item arrays of iterated match types having match member entities
-	\item arrays of match class types having match class member entities
-\end{itemize}
-
-They inspect the value of the attribute or member of the graph element or match stored in the array, instead of the value contained in the array directly.
-
-\begin{description}
-\item[\texttt{.extract<attr>()}] returns for an \texttt{array<T>} an \texttt{array<S>}, where \texttt{S} is the type of the attribute or member \texttt{attr}.
-\item[\texttt{.orderAscendingBy<attr>()}] returns an array with the content of the input array ordered ascendingly; available for an attribute or member \texttt{attr} of an orderable basic type.
-\item[\texttt{.orderDescendingBy<attr>()}] returns an array with the content of the input array ordered descendingly; available for an attribute or member \texttt{attr} of an orderable basic type.
-\item[\texttt{.groupBy<attr>()}] returns an array with the content of the input array grouped alongside the attribute (equal values being neighbours); available for an attribute or member \texttt{attr} of basic type or a node or edge type.
-\item[\texttt{.keepOneForEach<attr>()}] returns an array with the content of the input array freed from duplicates; available for an attribute or member \texttt{attr} of basic type or a node or edge type.
-\end{description}\label{arraybymemberaccessmethod}
-%And again: the \verb#X_by<attr>#-versions inspect the value of the attribute of the graph element stored in the array.
-
-\noindent Even more by-member access or query methods are available, but only on arrays of node or edge types.
-They inspect the value of the attribute \texttt{attr} of the graph element stored in the array, instead of the value contained in the array directly.
-
-\begin{description}
-\item[\texttt{.indexOfBy<attr>(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found.
-\item[\texttt{.indexOfBy<attr>(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found.
-\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found.
-\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found.
-\item[\texttt{.indexOfOrderedBy<attr>(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitrary one is returned.
-\end{description}
-
 The ordering or access-alongside-order methods utilize the ordering relation, so they support only members or attributes of numeric type (\texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double},) or \texttt{string} or \texttt{enum} type -- also \texttt{boolean} is supported, even if not of much use).
-The other query methods utilize equality comparisons, so they support additionally members or attributes of node or edge type.
+The other query methods utilize equality comparisons, so they support additionally elements of node or edge type.
+
+Furthermore, some array accumulation, by-member-or-attribute, and per-element methods are available, you find more on them in Section~\ref{sec:accumulation}.
 
 \noindent The update method calls on arrays are:
 

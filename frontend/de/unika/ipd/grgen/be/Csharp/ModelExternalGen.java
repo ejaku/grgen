@@ -22,16 +22,16 @@ import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
 import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModelExternalGen extends CSharpBase
 {
-	public ModelExternalGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix)
+	public ModelExternalGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		this.model = model;
 		this.sb = sb;
 	}
@@ -119,7 +119,7 @@ public class ModelExternalGen extends CSharpBase
 	/**
 	 * Generates the external type implementation
 	 */
-	public void genExternalType(ExternalType type)
+	public void genExternalType(ExternalObjectType type)
 	{
 		sb.append("\n");
 		sb.appendFront("public sealed class ExternalType_" + type.getIdent() + " : GRGEN_LIBGR.ExternalType\n");
@@ -157,7 +157,7 @@ public class ModelExternalGen extends CSharpBase
 		}
 	}
 
-	private void genExternalFunctionMethodsEnumerator(ExternalType type)
+	private void genExternalFunctionMethodsEnumerator(ExternalObjectType type)
 	{
 		Collection<ExternalFunctionMethod> allExternalFunctionMethods = type.getAllExternalFunctionMethods();
 		sb.appendFront("public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods");
@@ -181,7 +181,7 @@ public class ModelExternalGen extends CSharpBase
 		}
 	}
 
-	private void genGetExternalFunctionMethod(ExternalType type)
+	private void genGetExternalFunctionMethod(ExternalObjectType type)
 	{
 		Collection<ExternalFunctionMethod> allExternalFunctionMethods = type.getAllExternalFunctionMethods();
 		sb.appendFront("public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name)");
@@ -207,7 +207,7 @@ public class ModelExternalGen extends CSharpBase
 		}
 	}
 
-	private void genExternalProcedureMethodsEnumerator(ExternalType type)
+	private void genExternalProcedureMethodsEnumerator(ExternalObjectType type)
 	{
 		Collection<ExternalProcedureMethod> allExternalProcedureMethods = type.getAllExternalProcedureMethods();
 		sb.appendFront("public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods");
@@ -231,7 +231,7 @@ public class ModelExternalGen extends CSharpBase
 		}
 	}
 
-	private void genGetExternalProcedureMethod(ExternalType type)
+	private void genGetExternalProcedureMethod(ExternalObjectType type)
 	{
 		Collection<ExternalProcedureMethod> allExternalProcedureMethods = type.getAllExternalProcedureMethods();
 		sb.appendFront("public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name)");
@@ -260,7 +260,7 @@ public class ModelExternalGen extends CSharpBase
 	/**
 	 * Generates the function info for the given external function method
 	 */
-	private void genExternalFunctionMethodInfo(ExternalFunctionMethod efm, ExternalType type, String packageName)
+	private void genExternalFunctionMethodInfo(ExternalFunctionMethod efm, ExternalObjectType type, String packageName)
 	{
 		String externalFunctionMethodName = formatIdentifiable(efm);
 		String className = formatExternalFunctionMethodInfoName(efm, type);
@@ -292,7 +292,7 @@ public class ModelExternalGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type inParamType : efm.getParameterTypes()) {
-			if(inParamType instanceof InheritanceType && !(inParamType instanceof ExternalType)) {
+			if(inParamType instanceof InheritanceType && !(inParamType instanceof ExternalObjectType)) {
 				sb.appendFront(formatTypeClassRef(inParamType) + ".typeVar, ");
 			} else {
 				sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParamType) + ")), ");
@@ -300,7 +300,7 @@ public class ModelExternalGen extends CSharpBase
 		}
 		sb.append(" },\n");
 		Type outType = efm.getReturnType();
-		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 			sb.appendFront(formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
 			sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
@@ -324,7 +324,7 @@ public class ModelExternalGen extends CSharpBase
 	/**
 	 * Generates the procedure info for the given external procedure method
 	 */
-	private void genExternalProcedureMethodInfo(ExternalProcedureMethod epm, ExternalType type, String packageName)
+	private void genExternalProcedureMethodInfo(ExternalProcedureMethod epm, ExternalObjectType type, String packageName)
 	{
 		String externalProcedureMethodName = formatIdentifiable(epm);
 		String className = formatExternalProcedureMethodInfoName(epm, type);
@@ -356,7 +356,7 @@ public class ModelExternalGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type inParamType : epm.getParameterTypes()) {
-			if(inParamType instanceof InheritanceType && !(inParamType instanceof ExternalType)) {
+			if(inParamType instanceof InheritanceType && !(inParamType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inParamType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParamType) + ")), ");
@@ -365,7 +365,7 @@ public class ModelExternalGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type outType : epm.getReturnTypes()) {
-			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
@@ -417,7 +417,7 @@ public class ModelExternalGen extends CSharpBase
 
 	private void genExternalClasses()
 	{
-		for(ExternalType et : model.getExternalTypes()) {
+		for(ExternalObjectType et : model.getExternalTypes()) {
 			sb.appendFront("public partial class " + et.getIdent());
 			boolean first = true;
 			for(InheritanceType superType : et.getDirectSuperTypes()) {
@@ -443,7 +443,7 @@ public class ModelExternalGen extends CSharpBase
 		}
 	}
 
-	private void genExtMethods(ExternalType type)
+	private void genExtMethods(ExternalObjectType type)
 	{
 		if(type.getAllExternalFunctionMethods().size() == 0 && type.getAllExternalProcedureMethods().size() == 0)
 			return;
@@ -495,7 +495,7 @@ public class ModelExternalGen extends CSharpBase
 		}
 	}
 
-	private void genParameterPassingReturnArray(ExternalType type, ExternalProcedureMethod epm)
+	private void genParameterPassingReturnArray(ExternalObjectType type, ExternalProcedureMethod epm)
 	{
 		sb.appendFront("private static object[] ReturnArray_" + epm.getIdent().toString() + "_"
 				+ type.getIdent().toString() + " = new object[" + epm.getReturnTypes().size()
@@ -624,7 +624,7 @@ public class ModelExternalGen extends CSharpBase
 			sb.appendFront("// Those are normally treated as object (if no \"copy class or == class or < class\" is specified),\n");
 			sb.appendFront("// i.e. equal if identical references, no ordered comparisons available, and copy just copies the reference (making them identical).\n");
 			sb.appendFront("// Here you can overwrite the default reference semantics with value semantics, fitting better to the other attribute types.\n");
-			for(ExternalType et : model.getExternalTypes()) {
+			for(ExternalObjectType et : model.getExternalTypes()) {
 				String typeName = et.getIdent().toString();
 				sb.append("\n");
 				if(model.isCopyClassDefined())

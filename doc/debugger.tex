@@ -261,10 +261,20 @@ The following modes are supported: \texttt{matched}, \texttt{created}, \texttt{d
 Change this if you e.g. want the matched elements to be marked more visibly, or added/deleted elements to be colored green/red (instead of red/grey).
 
 \begin{rail}
+  'debug' 'set' 'match' 'mode' ('pre' | 'post') ('enable' | 'disable');
+\end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{mode}
+Configures the behavior of the debugger regarding the display of found matches.
+When pre-match debugging is enabled, the matches of a (multi) rule execution before filtering/selection are displayed in detail steps, the default is disable. 
+When post-match debugging is enabled, the matches of rules in embedded execs are displayed in detail steps
+(with post-match disabled, only the match(es) of the very rule followed by the rewrite of the rule), the default is enable.
+
+\begin{rail}
   GraphRewriteSequence: 'debug' ('exec'|'xgrs') SimpleRewriteSequence ;
 \end{rail}\ixkeyw{debug}\ixkeyw{exec}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence} in the debugger\indexmain{debugger}.
 The semantics is the same as for \texttt{exec SimpleRewriteSequence} already introduced in Chapter~\ref{chapgrshell}, but you can trace the execution step-by-step.
+
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Using the Debugger}
@@ -287,25 +297,33 @@ at the begin of a new loop iteration the highlighting state of the rules contain
 During execution, \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp}
 displays the current graph at each single step, and on request highlights a rule application, marking the matches in the graph, and showing the changes to the graph stemming from that rule application.
 
-\pagebreak %manual break to get two pages with halfway broken layout instead of one with deeply broken
+%\pagebreak %manual break to get two pages with halfway broken layout instead of one with deeply broken
 
 Besides deciding on what is shown from the application of the current rule, you also determine with the debug commands where to continue debugging, i.e. the rule focused next;
 but of course this depends strongly on the following flow of execution, esp. the fact whether the execution of the currently active rule succeeds/fails, and the execution state in general.
 
 With the \texttt{s} debug command (step) you execute the current rewrite rule (trying to match it, applying the rewrite on success) and then continue with the next rule in the sequence.
+
 With the \texttt{n} debug command (next) you fast-forward to the next rule \emph{that matches}, and apply it when pressed again.
+
 With the \texttt{r} debug command (run) you continue execution until sequence termination or until a breakpoint is hit.
-With the \texttt{d} debug command (detailed step) you execute the current rewrite rule, if it matches highlighting its match and the changes in the graph, and then continue with the next rule in the sequence.
+
+With the \texttt{d} debug command (detailed step) you execute the current rewrite rule, if it matches highlighting its match and then the changes in the graph, and then continue with the next rule in the sequence.
+In case the rule contains embedded sequences, these are also executed in detail mode (unless switched off with \texttt{set match mode post disable}).
+In case pre match debugging is toggled on (\texttt{set match mode pre enable}), all the matches found are displayed in a pre-step, before filtering (which may remove matches) and selection (of e.g. the active rule in a some from set construct).
 
 All the available debug commands are given in Table~\ref{tabdebug}.
 An example debugging run is shown in the following example \ref{ex:debug}.
 
+\pagebreak
 
 In addition to the commands for actively stepping or skipping through the sequence execution,
 there are breakpoints and choicepoints available (toggled with the \texttt{b} and \texttt{c} commands),
 which become active if execution reaches them, even if a user command would skip over them in the debugging process.
+
 The \indexed{break point}s halt execution, focus the reached sequence, and cause the debugger to wait for further commands
 (e.g. \texttt{d} to inspect the rule execution en detail versus \texttt{s} for just applying it).
+
 The \indexed{choice point}s halt execution, focus the reached sequence in magenta, and ask for some user input;
 after the input was received, execution continues according to the command previously issued.
 

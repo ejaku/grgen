@@ -38,9 +38,9 @@ import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ActionsExecGen extends CSharpBase
 {
-	public ActionsExecGen(String nodeTypePrefix, String edgeTypePrefix)
+	public ActionsExecGen(String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 	}
 
 	//////////////////////////////////////////

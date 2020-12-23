@@ -203,8 +203,9 @@ import de.unika.ipd.grgen.ir.expr.string.StringToLower;
 import de.unika.ipd.grgen.ir.expr.string.StringToUpper;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
@@ -219,10 +220,11 @@ import de.unika.ipd.grgen.util.Util;
 
 public abstract class CSharpBase
 {
-	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix)
+	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
 		this.nodeTypePrefix = nodeTypePrefix;
 		this.edgeTypePrefix = edgeTypePrefix;
+		this.objectTypePrefix = objectTypePrefix;
 	}
 
 	/**
@@ -384,22 +386,19 @@ public abstract class CSharpBase
 		return pathPrefix + ident.replace('$', '_');
 	}
 
-	public static String formatNodeOrEdge(boolean isNode)
-	{
-		return isNode ? "Node" : "Edge";
-	}
-
-	public static String formatNodeOrEdge(Type type)
+	public static String formatInheritanceTypeValue(Type type)
 	{
 		if(type instanceof NodeType)
 			return "Node";
 		else if(type instanceof EdgeType)
 			return "Edge";
+		else if(type instanceof InternalObjectType)
+			return "Object";
 		else
 			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
 	}
 
-	public static String formatNodeOrEdge(Entity ent)
+	public static String formatGraphElement(Entity ent)
 	{
 		if(ent instanceof Node)
 			return "Node";
@@ -409,17 +408,19 @@ public abstract class CSharpBase
 			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
 	}
 
-	public String getNodeOrEdgeTypePrefix(Type type)
+	public String getInheritanceTypePrefix(Type type)
 	{
 		if(type instanceof NodeType)
 			return nodeTypePrefix;
 		else if(type instanceof EdgeType)
 			return edgeTypePrefix;
+		else if(type instanceof InternalObjectType)
+			return objectTypePrefix;
 		else
 			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
 	}
 
-	public String getNodeOrEdgeTypePrefix(Entity ent)
+	public String getInheritanceTypePrefix(Entity ent)
 	{
 		if(ent instanceof Node)
 			return nodeTypePrefix;
@@ -445,7 +446,7 @@ public abstract class CSharpBase
 
 	public static String formatTypeClassName(Type type)
 	{
-		return formatNodeOrEdge(type) + "Type_" + formatIdentifiable(type);
+		return formatInheritanceTypeValue(type) + "Type_" + formatIdentifiable(type);
 	}
 
 	public static String formatTypeClassRef(Type type)
@@ -458,29 +459,29 @@ public abstract class CSharpBase
 		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatTypeClassName(type) + ".typeVar";
 	}
 
-	public String formatElementClassRaw(Type type)
+	public String formatInheritanceClassRaw(Type type)
 	{
-		return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
+		return getInheritanceTypePrefix(type) + formatIdentifiable(type);
 	}
 
-	public String formatElementClassName(Type type)
+	public String formatInheritanceClassName(Type type)
 	{
-		return "@" + formatElementClassRaw(type);
+		return "@" + formatInheritanceClassRaw(type);
 	}
 
-	public String formatElementClassRef(Type type)
+	public String formatInheritanceClassRef(Type type)
 	{
-		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatElementClassName(type);
+		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatInheritanceClassName(type);
 	}
 
 	public String formatElementInterfaceRef(Type type)
 	{
 		if(!(type instanceof InheritanceType)) {
 			assert(false);
-			return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
+			return getInheritanceTypePrefix(type) + formatIdentifiable(type);
 		}
 
-		if(type instanceof ExternalType) {
+		if(type instanceof ExternalObjectType) {
 			return "GRGEN_MODEL." + type.getIdent().toString();
 		}
 
@@ -489,19 +490,22 @@ public abstract class CSharpBase
 		case "AEdge":
 		case "Edge":
 		case "UEdge":
+		case "Object":
 			InheritanceType nodeEdgeType = (InheritanceType)type;
 			return getRootElementInterfaceRef(nodeEdgeType);
 		}
 
-		return "GRGEN_MODEL." + getPackagePrefixDot(type) + "I" + formatElementClassRaw(type);
+		return "GRGEN_MODEL." + getPackagePrefixDot(type) + "I" + formatInheritanceClassRaw(type);
 	}
 
-	public static String getRootElementInterfaceRef(InheritanceType nodeOrEdgeType)
+	public static String getRootElementInterfaceRef(InheritanceType inheritanceType)
 	{
-		if(nodeOrEdgeType instanceof NodeType) {
+		if(inheritanceType instanceof InternalObjectType) {
+			return "GRGEN_LIBGR.IObject";
+		} else if(inheritanceType instanceof NodeType) {
 			return "GRGEN_LIBGR.INode";
 		} else { // instanceof EdgeType
-			EdgeType edgeType = (EdgeType)nodeOrEdgeType;
+			EdgeType edgeType = (EdgeType)inheritanceType;
 			if(edgeType.getDirectedness() == EdgeType.Directedness.Directed)
 				return "GRGEN_LIBGR.IDEdge";
 			else if(edgeType.getDirectedness() == EdgeType.Directedness.Undirected)
@@ -543,7 +547,7 @@ public abstract class CSharpBase
 	public String formatNodeAssign(Node node, Collection<Node> extractNodeAttributeObject)
 	{
 		if(extractNodeAttributeObject.contains(node))
-			return formatVarDeclWithCast(formatElementClassRef(node.getType()), formatEntity(node));
+			return formatVarDeclWithCast(formatInheritanceClassRef(node.getType()), formatEntity(node));
 		else
 			return "LGSPNode " + formatEntity(node) + " = ";
 	}
@@ -551,7 +555,7 @@ public abstract class CSharpBase
 	public String formatEdgeAssign(Edge edge, Collection<Edge> extractEdgeAttributeObject)
 	{
 		if(extractEdgeAttributeObject.contains(edge))
-			return formatVarDeclWithCast(formatElementClassRef(edge.getType()), formatEntity(edge));
+			return formatVarDeclWithCast(formatInheritanceClassRef(edge.getType()), formatEntity(edge));
 		else
 			return "LGSPEdge " + formatEntity(edge) + " = ";
 	}
@@ -593,8 +597,8 @@ public abstract class CSharpBase
 			return "deque<" + formatType(dequeType.getValueType()) + ">";
 		} else if(t instanceof GraphType) {
 			return "graph";
-		} else if(t instanceof ExternalType) {
-			ExternalType extType = (ExternalType)t;
+		} else if(t instanceof ExternalObjectType) {
+			ExternalObjectType extType = (ExternalObjectType)t;
 			return extType.getIdent().toString();
 		} else if(t instanceof InheritanceType) {
 			return getPackagePrefixDoubleColon(t) + formatIdentifiable(t);
@@ -653,8 +657,8 @@ public abstract class CSharpBase
 			return "GRGEN_LIBGR.Deque<" + formatType(dequeType.getValueType()) + ">";
 		} else if(t instanceof GraphType) {
 			return "GRGEN_LIBGR.IGraph";
-		} else if(t instanceof ExternalType) {
-			ExternalType extType = (ExternalType)t;
+		} else if(t instanceof ExternalObjectType) {
+			ExternalObjectType extType = (ExternalObjectType)t;
 			return "GRGEN_MODEL." + extType.getIdent();
 		} else if(t instanceof InheritanceType) {
 			return formatElementInterfaceRef(t);
@@ -690,6 +694,13 @@ public abstract class CSharpBase
 		return "GRGEN_ACTIONS." + packagePrefix + "Match_" + matchClassName;
 	}
 
+	public String formatInternalObjectType(InternalObjectType objectType)
+	{
+		String packagePrefix = getPackagePrefixDot(objectType);
+		String objectTypeName = objectType.getIdent().toString();
+		return "GRGEN_MODEL." + packagePrefix + objectTypePrefix + objectTypeName;
+	}
+
 	public String formatAttributeType(Entity e)
 	{
 		return formatAttributeType(e.getType());
@@ -710,12 +721,12 @@ public abstract class CSharpBase
 		return "ProcedureMethodInfo_" + formatIdentifiable(pm) + "_" + formatIdentifiable(type);
 	}
 
-	public static String formatExternalFunctionMethodInfoName(ExternalFunctionMethod efm, ExternalType type)
+	public static String formatExternalFunctionMethodInfoName(ExternalFunctionMethod efm, ExternalObjectType type)
 	{
 		return "FunctionMethodInfo_" + formatIdentifiable(efm) + "_" + formatIdentifiable(type);
 	}
 
-	public static String formatExternalProcedureMethodInfoName(ExternalProcedureMethod epm, ExternalType type)
+	public static String formatExternalProcedureMethodInfoName(ExternalProcedureMethod epm, ExternalObjectType type)
 	{
 		return "ProcedureMethodInfo_" + formatIdentifiable(epm) + "_" + formatIdentifiable(type);
 	}
@@ -773,7 +784,7 @@ public abstract class CSharpBase
 		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
 	}
 
-	public static Entity getAtMostOneNeededNodeOrEdge(NeededEntities needs, List<Entity> parameters)
+	public static GraphEntity getAtMostOneNeededGraphElement(NeededEntities needs, List<Entity> parameters)
 	{
 		HashSet<GraphEntity> neededEntities = new HashSet<GraphEntity>();
 		for(Node node : needs.nodes) {
@@ -883,6 +894,10 @@ public abstract class CSharpBase
 				sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(")");
+			} else if(t instanceof InternalObjectType) {
+				sb.append("(");
+				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+				sb.append(").Clone()");
 			} else {
 				sb.append("new " + formatType(t) + "(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
@@ -1960,6 +1975,9 @@ public abstract class CSharpBase
 		} else if(expr instanceof MatchInit) {
 			MatchInit mi = (MatchInit)expr;
 			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
+		} else if(expr instanceof InternalObjectInit) {
+			InternalObjectInit ioi = (InternalObjectInit)expr;
+			sb.append("new " + formatInternalObjectType(ioi.getInternalObjectType()) + "()");
 		} else if(expr instanceof MapCopyConstructor) {
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
 			sb.append("GRGEN_LIBGR.ContainerHelper.FillMap(");
@@ -2890,12 +2908,18 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
 			} else if(modifyGenerationState.model().isEqualClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
+			} else if(opType instanceof InternalObjectType) {
+				sb.append("GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append("), (GRGEN_LIBGR.IObject)(");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append("))");
 			} else {
 				genBinOpDefault(sb, op, modifyGenerationState);
 			}
@@ -2929,12 +2953,18 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
 			} else if(modifyGenerationState.model().isEqualClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
+			} else if(opType instanceof InternalObjectType) {
+				sb.append("!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append("), (GRGEN_LIBGR.IObject)(");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append("))");
 			} else {
 				genBinOpDefault(sb, op, modifyGenerationState);
 			}
@@ -2977,7 +3007,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", StringComparison.InvariantCulture)>0)");
 			} else if(modifyGenerationState.model().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
@@ -3021,7 +3051,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", StringComparison.InvariantCulture)>=0)");
 			} else if(modifyGenerationState.model().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
@@ -3060,7 +3090,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", StringComparison.InvariantCulture)<0)");
 			} else if(modifyGenerationState.model().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
@@ -3099,7 +3129,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", StringComparison.InvariantCulture)<=0)");
 			} else if(modifyGenerationState.model().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
 				sb.append("(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
@@ -3167,12 +3197,15 @@ public abstract class CSharpBase
 			return formatTypeClassRef(it) + ".typeVar";
 		case IS_GRAPH:
 		case IS_OBJECT:
+		case IS_INTERNAL_CLASS_OBJECT:
 		case IS_NODE:
 		case IS_EDGE:
 		case IS_SET:
 		case IS_MAP:
 		case IS_ARRAY:
 		case IS_DEQUE:
+		case IS_MATCH:
+		case IS_DEFINED_MATCH:
 			if(constant.getValue() == null) {
 				return "null";
 			}
@@ -3221,7 +3254,9 @@ public abstract class CSharpBase
 			return "object";
 		case IS_GRAPH:
 			return "GRGEN_LIBGR.IGraph";
-		case IS_EXTERNAL_TYPE:
+		case IS_EXTERNAL_CLASS_OBJECT:
+			return formatType(cast.getType());
+		case IS_INTERNAL_CLASS_OBJECT:
 			return formatType(cast.getType());
 		case IS_NODE:
 			return formatType(cast.getType());
@@ -3268,11 +3303,13 @@ public abstract class CSharpBase
 			return "string";
 		case IS_OBJECT:
 		case IS_UNKNOWN:
-			return "Object";
+			return "object";
 		case IS_GRAPH:
 			return "GRGEN_LIBGR.IGraph";
-		case IS_EXTERNAL_TYPE:
+		case IS_EXTERNAL_CLASS_OBJECT:
 			return "GRGEN_MODEL." + type.getIdent();
+		case IS_INTERNAL_CLASS_OBJECT:
+			return formatElementInterfaceRef(type);
 		case IS_NODE:
 			return formatElementInterfaceRef(type);
 		case IS_EDGE:
@@ -3577,7 +3614,7 @@ public abstract class CSharpBase
 			sb.appendFront("public override int Compare(" + typeName + " b, " + typeName + " a)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		if(attributeOrMemberType.classify() == TypeClass.IS_EXTERNAL_TYPE
+		if(attributeOrMemberType.classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 				|| attributeOrMemberType.classify() == TypeClass.IS_OBJECT) {
 			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsEqual(a.@" + attributeOrMemberName + ", b.@"
 					+ attributeOrMemberName + ")) return 0;\n");
@@ -3852,4 +3889,5 @@ public abstract class CSharpBase
 
 	protected String nodeTypePrefix;
 	protected String edgeTypePrefix;
+	protected String objectTypePrefix;
 }

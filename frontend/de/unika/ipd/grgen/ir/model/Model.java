@@ -28,8 +28,9 @@ import de.unika.ipd.grgen.ir.executable.ExternalFunction;
 import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.model.type.PackageType;
 import de.unika.ipd.grgen.ir.type.Type;
@@ -43,9 +44,10 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 
 	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
 	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
+	private Set<InternalObjectType> objectTypes = new LinkedHashSet<InternalObjectType>();
 	private Set<EnumType> enumTypes = new LinkedHashSet<EnumType>();
 	private Set<Index> indices = new LinkedHashSet<Index>();
-	private Set<ExternalType> externalTypes = new LinkedHashSet<ExternalType>();
+	private Set<ExternalObjectType> externalTypes = new LinkedHashSet<ExternalObjectType>();
 	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
 	private Set<ExternalProcedure> externalProcs = new LinkedHashSet<ExternalProcedure>();
 	private boolean isEmitClassDefined;
@@ -59,7 +61,9 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private int isoParallel;
 	private Collection<NodeType> allNodeTypes;
 	private Collection<EdgeType> allEdgeTypes;
-	private Collection<InheritanceType> allNodeAndEdgeTypes;
+	private Collection<InternalObjectType> allObjectTypes;
+	private Collection<InheritanceType> allGraphElementTypes;
+	private Collection<InheritanceType> allInheritanceTypes;
 
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
@@ -110,8 +114,10 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 			edgeTypes.add((EdgeType)type);
 		else if(type instanceof EnumType)
 			enumTypes.add((EnumType)type);
-		else if(type instanceof ExternalType)
-			externalTypes.add((ExternalType)type);
+		else if(type instanceof ExternalObjectType)
+			externalTypes.add((ExternalObjectType)type);
+		else if(type instanceof InternalObjectType)
+			objectTypes.add((InternalObjectType)type);
 		else if(!(type instanceof PrimitiveType))
 			assert false : "Unexpected type added to model: " + type;
 	}
@@ -168,7 +174,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 			}
 			int typeID = 0;
 			for(NodeType nt : allNodeTypes) {
-				nt.setNodeOrEdgeTypeID(true, typeID);
+				nt.setInheritanceTypeID(typeID);
 				++typeID;
 			}
 			this.allNodeTypes = Collections.unmodifiableCollection(allNodeTypes);
@@ -192,7 +198,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 			}
 			int typeID = 0;
 			for(EdgeType et : allEdgeTypes) {
-				et.setNodeOrEdgeTypeID(false, typeID);
+				et.setInheritanceTypeID(typeID);
 				++typeID;
 			}
 			this.allEdgeTypes = Collections.unmodifiableCollection(allEdgeTypes);
@@ -200,15 +206,51 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		return allEdgeTypes;
 	}
 	
-	public Collection<InheritanceType> getAllNodeAndEdgeTypes()
+	public Collection<InheritanceType> getAllGraphElementTypes()
 	{
-		if(allNodeAndEdgeTypes == null) {
+		if(allGraphElementTypes == null) {
 			Collection<InheritanceType> allNodeAndEdgeTypes = new ArrayList<InheritanceType>();
 			allNodeAndEdgeTypes.addAll(getAllNodeTypes());
 			allNodeAndEdgeTypes.addAll(getAllEdgeTypes());
-			this.allNodeAndEdgeTypes = Collections.unmodifiableCollection(allNodeAndEdgeTypes);
+			this.allGraphElementTypes = Collections.unmodifiableCollection(allNodeAndEdgeTypes);
 		}
-		return allNodeAndEdgeTypes;
+		return allGraphElementTypes;
+	}
+
+	@Override
+	public Collection<InternalObjectType> getObjectTypes()
+	{
+		return Collections.unmodifiableCollection(objectTypes);
+	}
+
+	public Collection<InternalObjectType> getAllObjectTypes()
+	{
+		if(allObjectTypes == null) {
+			Collection<InternalObjectType> allObjectTypes = new ArrayList<InternalObjectType>();
+			allObjectTypes.addAll(getObjectTypes());
+			for(PackageType pt : getPackages()) {
+				allObjectTypes.addAll(pt.getObjectTypes());
+			}
+			int typeID = 0;
+			for(InternalObjectType ot : allObjectTypes) {
+				ot.setInheritanceTypeID(typeID);
+				++typeID;
+			}
+			this.allObjectTypes = Collections.unmodifiableCollection(allObjectTypes);
+		}
+		return allObjectTypes;
+	}
+
+	public Collection<InheritanceType> getAllInheritanceTypes()
+	{
+		if(allInheritanceTypes == null) {
+			Collection<InheritanceType> allInheritanceTypes = new ArrayList<InheritanceType>();
+			allInheritanceTypes.addAll(getAllNodeTypes());
+			allInheritanceTypes.addAll(getAllEdgeTypes());
+			allInheritanceTypes.addAll(getAllObjectTypes());
+			this.allInheritanceTypes = Collections.unmodifiableCollection(allInheritanceTypes);
+		}
+		return allInheritanceTypes;
 	}
 
 	@Override
@@ -217,7 +259,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		return Collections.unmodifiableCollection(enumTypes);
 	}
 
-	public Collection<ExternalType> getExternalTypes()
+	public Collection<ExternalObjectType> getExternalTypes()
 	{
 		return Collections.unmodifiableCollection(externalTypes);
 	}

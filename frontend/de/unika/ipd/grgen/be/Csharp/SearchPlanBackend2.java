@@ -86,6 +86,7 @@ public class SearchPlanBackend2 implements Backend, BackendFactory
 		// use one of the names from reservedWords (results in a warning)
 		String nodeTypePrefix = "";
 		String edgeTypePrefix = "";
+		String objectTypePrefix = "";
 modloop:
 		for(Model model : unit.getModels()) {
 			for(Type type : model.getTypes()) {
@@ -96,10 +97,11 @@ modloop:
 				if(reservedWords.contains(typeName)) {
 					BaseNode.error.warning(type.getIdent().getCoords(),
 							"The reserved name \"" + typeName
-									+ "\" has been used for a type. \"Node_\" and \"Edge_\""
+									+ "\" has been used for a type. \"Node_\" and \"Edge_\" and \"Object_\""
 									+ " prefixes are applied to the C# element class names to avoid errors.");
 					nodeTypePrefix = "Node_";
 					edgeTypePrefix = "Edge_";
+					objectTypePrefix = "Object_";
 					break modloop;
 				}
 			}
@@ -119,7 +121,7 @@ modloop:
 		}
 
 		// Generate graph models for all top level models
-		ModelGen modelGen = new ModelGen(this, nodeTypePrefix, edgeTypePrefix);
+		ModelGen modelGen = new ModelGen(this, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		boolean modelGenerated = false;
 		for(Model model : unit.getModels()) {
 			if(forceUnique)
@@ -137,7 +139,7 @@ modloop:
 		modelGen = null; // throw away model generator (including filled output buffer) not needed any more -> reduce memory requirements
 
 		//if(unit.getActionRules().size() != 0 || unit.getSubpatternRules().size() != 0)
-		new ActionsGen(this, nodeTypePrefix, edgeTypePrefix).genActionlike();
+		new ActionsGen(this, nodeTypePrefix, edgeTypePrefix, objectTypePrefix).genActionlike();
 
 		System.out.println("done!");
 	}

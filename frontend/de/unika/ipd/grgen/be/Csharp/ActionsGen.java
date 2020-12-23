@@ -46,7 +46,7 @@ import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.VariableExpression;
 import de.unika.ipd.grgen.ir.expr.array.ArrayPerElementMethod;
 import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.Edge;
@@ -80,13 +80,13 @@ public class ActionsGen extends CSharpBase
 		Action, Subpattern, MatchClass
 	}
 
-	public ActionsGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix)
+	public ActionsGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		be = backend;
 		model = be.unit.getActionsGraphModel();
-		mg = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix);
-		eyGen = new ActionsExpressionOrYieldingGen(backend, nodeTypePrefix, edgeTypePrefix);
+		mg = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		eyGen = new ActionsExpressionOrYieldingGen(backend, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 	}
 
 	/**
@@ -321,7 +321,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type inType : function.getParameterTypes()) {
-			if(inType instanceof InheritanceType && !(inType instanceof ExternalType)) {
+			if(inType instanceof InheritanceType && !(inType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inType) + ")), ");
@@ -329,7 +329,7 @@ public class ActionsGen extends CSharpBase
 		}
 		sb.append(" },\n");
 		Type outType = function.getReturnType();
-		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 			sb.appendFront(formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
 			sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
@@ -392,7 +392,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type inType : procedure.getParameterTypes()) {
-			if(inType instanceof InheritanceType && !(inType instanceof ExternalType)) {
+			if(inType instanceof InheritanceType && !(inType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inType) + ")), ");
@@ -401,7 +401,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type outType : procedure.getReturnTypes()) {
-			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
@@ -483,7 +483,7 @@ public class ActionsGen extends CSharpBase
 
 		mg.genModify(sb, subpatternRule, packageName, true);
 
-		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix);
+		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		execGen.genImperativeStatements(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_",
 				subpatternRule.getPackageContainedIn(), true, true);
 		execGen.genImperativeStatementClosures(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_", false);
@@ -528,7 +528,7 @@ public class ActionsGen extends CSharpBase
 
 		mg.genModify(sb, actionRule, packageName, false);
 
-		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix);
+		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		execGen.genImperativeStatements(sb, actionRule, formatIdentifiable(actionRule) + "_",
 				actionRule.getPackageContainedIn(), true, false);
 		execGen.genImperativeStatementClosures(sb, actionRule, formatIdentifiable(actionRule) + "_", true);
@@ -707,7 +707,7 @@ public class ActionsGen extends CSharpBase
 		sb.indent();
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "",
 				isToBeParallelizedActionExisting, emitProfilingInstrumentation);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		for(EvalStatement evalStmt : function.getStatements()) {
 			modifyGenState.functionOrProcedureName = function.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -749,7 +749,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : function.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -757,7 +757,7 @@ public class ActionsGen extends CSharpBase
 		}
 		sb.append(" },\n");
 		Type outType = function.getReturnType();
-		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 			sb.appendFront(formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
 			sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
@@ -828,7 +828,7 @@ public class ActionsGen extends CSharpBase
 
 		genStaticConstructor(sb, "Procedures", staticInitializers);
 
-		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix);
+		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		sb.append("#if INITIAL_WARMUP\t\t// GrGen procedure exec section: "
 				+ (packageName != null ? packageName + "::" + "Procedures\n" : "Procedures\n"));
 		for(Procedure procedure : bearer.getProcedures()) {
@@ -869,8 +869,8 @@ public class ActionsGen extends CSharpBase
 		sb.indent();
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
 				emitProfilingInstrumentation);
-		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix);
+		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 
 		if(be.system.mayFireDebugEvents()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
@@ -923,7 +923,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : procedure.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -932,7 +932,7 @@ public class ActionsGen extends CSharpBase
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type outType : procedure.getReturnTypes()) {
-			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
@@ -1047,7 +1047,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)procEnv.Graph;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
 				emitProfilingInstrumentation);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		EvalStatement lastEvalStmt = null;
 		for(EvalStatement evalStmt : filter.getStatements()) {
 			modifyGenState.functionOrProcedureName = filter.getIdent().toString();
@@ -1122,7 +1122,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)procEnv.Graph;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, matchClassName, packagePrefix, false,
 				emitProfilingInstrumentation);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		EvalStatement lastEvalStmt = null;
 		for(EvalStatement evalStmt : matchClassFilter.getStatements()) {
 			modifyGenState.functionOrProcedureName = matchClassFilter.getIdent().toString();
@@ -1155,7 +1155,7 @@ public class ActionsGen extends CSharpBase
 	{
 		// generate getters to contained nodes, edges, variables
 		HashSet<String> elementsAlreadyDeclared = new HashSet<String>();
-		ActionsMatchGen matchGen = new ActionsMatchGen(nodeTypePrefix, edgeTypePrefix);
+		ActionsMatchGen matchGen = new ActionsMatchGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		matchGen.genPatternMatchInterface(sb, matchClass.getPatternGraph(),
 				matchClass.getPatternGraph().getNameOfGraph(), "GRGEN_LIBGR.IMatch",
 				matchClass.getPatternGraph().getNameOfGraph() + "_",
@@ -1279,6 +1279,12 @@ public class ActionsGen extends CSharpBase
 
 		emitConvertAsNeededHelper(sb, typeName, listTypeName);
 
+		String classObjectName = "Match_" + matchClassName;
+		sb.appendFront("public override GRGEN_LIBGR.IMatch Create()\n");
+		sb.appendFront("{\n");
+		sb.appendFrontIndented("return new " + classObjectName + "();\n");
+		sb.appendFront("}\n");
+
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -1319,7 +1325,7 @@ public class ActionsGen extends CSharpBase
 		}
 
 		// generate getters to contained nodes, edges, variables, embedded graphs, alternatives
-		ActionsMatchGen matchGen = new ActionsMatchGen(nodeTypePrefix, edgeTypePrefix);
+		ActionsMatchGen matchGen = new ActionsMatchGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		matchGen.genPatternMatchInterface(sb, pattern, pattern.getNameOfGraph(),
 				base, pattern.getNameOfGraph() + "_",
 				false, false, false, elementsAlreadyDeclared);
@@ -2845,7 +2851,7 @@ public class ActionsGen extends CSharpBase
 				IndexAccessEquality indexAccess = (IndexAccessEquality)entity.indexAccess;
 				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
 				indexAccess.expr.collectNeededEntities(needs);
-				Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
+				Entity neededEntity = getAtMostOneNeededGraphElement(needs, parameters);
 				sb.append("new GRGEN_LGSP.IndexAccessEquality(");
 				sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
 						+ indexAccess.index.getIdent() + "\"), ");
@@ -2863,7 +2869,7 @@ public class ActionsGen extends CSharpBase
 					indexAccess.from().collectNeededEntities(needs);
 				if(indexAccess.to() != null)
 					indexAccess.to().collectNeededEntities(needs);
-				Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
+				Entity neededEntity = getAtMostOneNeededGraphElement(needs, parameters);
 				if(indexAccess.ascending) {
 					sb.append("new GRGEN_LGSP.IndexAccessAscending(");
 				} else {
@@ -2902,7 +2908,7 @@ public class ActionsGen extends CSharpBase
 			NameLookup nameMapAccess = entity.nameMapAccess;
 			NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
 			nameMapAccess.expr.collectNeededEntities(needs);
-			Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
+			Entity neededEntity = getAtMostOneNeededGraphElement(needs, parameters);
 			sb.append("new GRGEN_LGSP.NameLookup(");
 			sb.append(neededEntity != null
 					? formatEntity(neededEntity, pathPrefix, alreadyDefinedEntityToName) + ", "
@@ -2924,7 +2930,7 @@ public class ActionsGen extends CSharpBase
 			UniqueLookup uniqueIndexAccess = entity.uniqueIndexAccess;
 			NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
 			uniqueIndexAccess.expr.collectNeededEntities(needs);
-			Entity neededEntity = getAtMostOneNeededNodeOrEdge(needs, parameters);
+			Entity neededEntity = getAtMostOneNeededGraphElement(needs, parameters);
 			sb.append("new GRGEN_LGSP.UniqueLookup(");
 			sb.append(neededEntity != null
 					? formatEntity(neededEntity, pathPrefix, alreadyDefinedEntityToName) + ", "
@@ -3263,7 +3269,7 @@ public class ActionsGen extends CSharpBase
 
 	protected void genQualAccess(SourceBuilder sb, Entity owner, Entity member)
 	{
-		sb.append("((I" + getNodeOrEdgeTypePrefix(owner) +
+		sb.append("((I" + getInheritanceTypePrefix(owner) +
 				formatIdentifiable(owner.getType()) + ") ");
 		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(member));
 	}

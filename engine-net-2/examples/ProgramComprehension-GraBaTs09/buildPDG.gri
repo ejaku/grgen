@@ -399,10 +399,10 @@ rule enter_2_PDG {
 	old:CFG_Enter;
 
 	modify {
-		new:_org_amma_pdg::_EnterNode<old>;
+		new_:_org_amma_pdg::_EnterNode<old>;
 
 		eval {
-			new._name = "Enter";
+			new_._name = "Enter";
 		}
 	}
 }
@@ -417,12 +417,12 @@ rule IterativeNode_2_PDG {
 	old:_org_amma_cfg::_IterativeNode -e:_org_amma_cfg::_AbstractNode_expression-> old_expr:_org_amma_cfg::_Expression;
 
 	modify {
-		new:_org_amma_pdg::_ExpressionNode<old>;
+		new_:_org_amma_pdg::_ExpressionNode<old>;
 		-:_org_amma_pdg::_ExpressionNode_expression<e>->;
 		new_expr:_org_amma_pdg::_Expression<old_expr>;
 
 		eval {
-			new._name = old._name;
+			new_._name = old._name;
 			new_expr._name = old_expr._expressionName;
 			new_expr._isIdentifier = old_expr._isIdentifier;
 		}
@@ -433,12 +433,12 @@ rule ConditionalNode_2_PDG {
 	old:_org_amma_cfg::_ConditionalNode -e:_org_amma_cfg::_AbstractNode_expression-> old_expr:_org_amma_cfg::_Expression;
 
 	modify {
-		new:_org_amma_pdg::_ExpressionNode<old>;
+		new_:_org_amma_pdg::_ExpressionNode<old>;
 		-:_org_amma_pdg::_ExpressionNode_expression<e>->;
 		new_expr:_org_amma_pdg::_Expression<old_expr>;
 
 		eval {
-			new._name = old._name;
+			new_._name = old._name;
 			new_expr._name = old_expr._expressionName;
 			new_expr._isIdentifier = old_expr._isIdentifier;
 		}
@@ -449,12 +449,12 @@ rule Node_2_PDG {
 	old:_org_amma_cfg::_Node -e:_org_amma_cfg::_AbstractNode_expression-> old_expr:_org_amma_cfg::_Expression;
 
 	modify {
-		new:_org_amma_pdg::_ExpressionNode<old>;
+		new_:_org_amma_pdg::_ExpressionNode<old>;
 		-:_org_amma_pdg::_ExpressionNode_expression<e>->;
 		new_expr:_org_amma_pdg::_Expression<old_expr>;
 
 		eval {
-			new._name = old._name;
+			new_._name = old._name;
 			new_expr._name = old_expr._expressionName;
 			new_expr._isIdentifier = old_expr._isIdentifier;
 		}

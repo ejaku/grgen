@@ -82,14 +82,14 @@ rule TakeFood(curAnt:Ant)
 rule GoHome(curAnt:Ant)
 {
     if { curAnt.hasFood; }
-    curAnt -oldPos:AntPosition-> old:GridNode -:PathToHill-> new:GridNode;
+    curAnt -oldPos:AntPosition-> old:GridNode -:PathToHill-> new_:GridNode;
 
     modify {
         eval {
             old.pheromones = old.pheromones + 1024;
         }
         delete(oldPos);
-        curAnt -:AntPosition-> new;
+        curAnt -:AntPosition-> new_;
     }
 }
 
@@ -108,22 +108,22 @@ rule DropFood(curAnt:Ant)
 
 rule SearchAlongPheromones(curAnt:Ant)
 {
-    curAnt -oldPos:AntPosition-> old:GridNode <-:PathToHill- new:GridNode;
-    if { new.pheromones > 9; }
+    curAnt -oldPos:AntPosition-> old:GridNode <-:PathToHill- new_:GridNode;
+    if { new_.pheromones > 9; }
 
     modify {
         delete(oldPos);
-        curAnt -:AntPosition-> new;
+        curAnt -:AntPosition-> new_;
     }
 }
 
 rule SearchAimless(curAnt:Ant)
 {
-    curAnt -oldPos:AntPosition-> old:GridNode <-:GridEdge-> new:GridNode\AntHill;
+    curAnt -oldPos:AntPosition-> old:GridNode <-:GridEdge-> new_:GridNode\AntHill;
 
     modify {
         delete(oldPos);
-        curAnt -:AntPosition-> new;
+        curAnt -:AntPosition-> new_;
     }
 }
 

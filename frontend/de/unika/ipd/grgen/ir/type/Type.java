@@ -63,12 +63,13 @@ public abstract class Type extends Identifiable
 		IS_ARRAY,
 		IS_DEQUE,
 		IS_UNTYPED_EXEC_VAR_TYPE,
-		IS_EXTERNAL_TYPE,
+		IS_EXTERNAL_CLASS_OBJECT,
 		IS_GRAPH,
 		IS_MATCH,
 		IS_DEFINED_MATCH,
 		IS_NODE,
-		IS_EDGE
+		IS_EDGE,
+		IS_INTERNAL_CLASS_OBJECT
 	}
 	
 	/**
@@ -169,6 +170,8 @@ public abstract class Type extends Identifiable
 		if(classify() == TypeClass.IS_NODE)
 			return true;
 		if(classify() == TypeClass.IS_EDGE)
+			return true;
+		if(classify() == TypeClass.IS_INTERNAL_CLASS_OBJECT)
 			return true;
 		return false;
 	}

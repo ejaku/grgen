@@ -27,7 +27,8 @@ namespace de.unika.ipd.grGen.libGr
         Not, UnaryMinus, Cast,
         Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual, StructuralEqual,
         Plus, Minus, Mul, Div, Mod, // nice-to-have addition: all the other operators and functions/methods from the rule language expressions
-        Constant, Variable, This,
+        Constant, Variable, This, New,
+        MatchClassConstructor,
         SetConstructor, MapConstructor, ArrayConstructor, DequeConstructor,
         SetCopyConstructor, MapCopyConstructor, ArrayCopyConstructor, DequeCopyConstructor,
         ContainerAsArray, StringAsArray,
@@ -1657,6 +1658,63 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceExpressionNew : SequenceExpression
+    {
+        public readonly String ConstructedType;
+
+        public SequenceExpressionNew(String type)
+            : base(SequenceExpressionType.New)
+        {
+            ConstructedType = type;
+        }
+
+        protected SequenceExpressionNew(SequenceExpressionNew that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            ConstructedType = that.ConstructedType;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionNew(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            CheckObjectTypeIsKnown(env, ConstructedType, ", constructor type/argument");
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return ConstructedType;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return procEnv.Graph.Model.ObjectModel.GetType(ConstructedType).CreateObject();
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield break; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return ConstructedType; }
+        }
+    }
+
     public class SequenceExpressionThis : SequenceExpression
     {
         public readonly string RuleOfMatchThis;
@@ -1723,7 +1781,59 @@ namespace de.unika.ipd.grGen.libGr
             get { return "this"; }
         }
     }
-    
+
+    public class SequenceExpressionMatchClassConstructor : SequenceExpression
+    {
+        public readonly String ConstructedType;
+
+        public SequenceExpressionMatchClassConstructor(String constructedType)
+            : base(SequenceExpressionType.MatchClassConstructor)
+        {
+            ConstructedType = constructedType;
+        }
+
+        protected SequenceExpressionMatchClassConstructor(SequenceExpressionMatchClassConstructor that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            ConstructedType = that.ConstructedType;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMatchClassConstructor(this, originalToCopy, procEnv);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "match<class " + ConstructedType + ">";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            Type valueType = TypesHelper.GetType(ConstructedType, procEnv.Graph.Model);
+            MatchClassFilterer mcf = procEnv.Actions.GetMatchClass(ConstructedType);
+            return mcf.info.Create();
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield break; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                return "match<class " + ConstructedType + ">()";
+            }
+        }
+    }
+
     public abstract class SequenceExpressionContainerConstructor : SequenceExpression
     {
         public readonly String ValueType;
@@ -2732,7 +2842,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            if(GraphElementVarExpr.Type(env) != "" && TypesHelper.GetNodeOrEdgeType(GraphElementVarExpr.Type(env), env.Model) == null)
+            if(GraphElementVarExpr.Type(env) != "" && TypesHelper.GetGraphElementType(GraphElementVarExpr.Type(env), env.Model) == null)
                 throw new SequenceParserException(Symbol, "node or edge type", GraphElementVarExpr.Type(env));
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpr.Type(env), "int", env.Model))
                 throw new SequenceParserException(Symbol, "int", VisitedFlagExpr.Type(env));
@@ -5220,6 +5330,9 @@ namespace de.unika.ipd.grGen.libGr
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
 
+            if(containerType == "")
+                return; // not possible to check array value type if type is not known statically
+
             String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
 
             // throws exceptions in case the match or graph element type does not exist, or it does not contain an element of the given name
@@ -5515,6 +5628,9 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(containerType == "")
+                return; // not possible to check array value type if type is not known statically
 
             String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
 
@@ -6242,10 +6358,10 @@ namespace de.unika.ipd.grGen.libGr
             if(Source.Type(env) == "")
                 return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(Source.Type(env), env.Model);
-            if(nodeOrEdgeType == null)
-                throw new SequenceParserException(Symbol, "node or edge type", Source.Type(env));
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(Source.Type(env), env.Model);
+            if(inheritanceType == null)
+                throw new SequenceParserException(Symbol, "node or edge or object type (class)", Source.Type(env));
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
 
@@ -6257,8 +6373,8 @@ namespace de.unika.ipd.grGen.libGr
             if(Source.Type(env) == "")
                 return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(Source.Type(env), env.Model);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(Source.Type(env), env.Model);
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 return ""; // error, will be reported by Check, just ensure we don't crash here
 
@@ -6267,14 +6383,22 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem = (IGraphElement)Source.Evaluate(procEnv);
-            object value = elem.GetAttribute(AttributeName);
-            value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
-                elem, AttributeName, value);
-            return value;
+            object source = Source.Evaluate(procEnv);
+            if(source is IGraphElement)
+                return Execute(procEnv, (IGraphElement)source, AttributeName);
+            else
+                return Execute(procEnv, (IObject)source, AttributeName);
         }
 
         public static object Execute(IGraphProcessingEnvironment procEnv, IGraphElement elem, string attributeName)
+        {
+            object value = elem.GetAttribute(attributeName);
+            value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
+                elem, attributeName, value);
+            return value;
+        }
+
+        public static object Execute(IGraphProcessingEnvironment procEnv, IObject elem, string attributeName)
         {
             object value = elem.GetAttribute(attributeName);
             value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
@@ -6471,8 +6595,10 @@ namespace de.unika.ipd.grGen.libGr
                 object source = Source.Evaluate(procEnv);
                 if(source is IMatch)
                     return SequenceExpressionMatchAccess.Execute(procEnv, (IMatch)source, AttributeOrElementName);
-                else
+                else if(source is IGraphElement)
                     return SequenceExpressionAttributeAccess.Execute(procEnv, (IGraphElement)source, AttributeOrElementName);
+                else
+                    return SequenceExpressionAttributeAccess.Execute(procEnv, (IObject)source, AttributeOrElementName);
             }
         }
 
@@ -9207,9 +9333,10 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!TypesHelper.IsSameOrSubtype(ObjectToBeCopied.Type(env), "graph", env.Model)
                 && !ObjectToBeCopied.Type(env).StartsWith("match<")
-                && (TypesHelper.ExtractSrc(ObjectToBeCopied.Type(env)) == null || TypesHelper.ExtractDst(ObjectToBeCopied.Type(env)) == null))
+                && (TypesHelper.ExtractSrc(ObjectToBeCopied.Type(env)) == null || TypesHelper.ExtractDst(ObjectToBeCopied.Type(env)) == null)
+                && env.Model.ObjectModel.GetType(ObjectToBeCopied.Type(env))==null)
             {
-                throw new SequenceParserException(Symbol, "graph type or match type or container type", ObjectToBeCopied.Type(env));
+                throw new SequenceParserException(Symbol, "graph type or match type or container type or object class type", ObjectToBeCopied.Type(env));
             }
         }
 
@@ -9225,6 +9352,8 @@ namespace de.unika.ipd.grGen.libGr
                 return GraphHelper.Copy((IGraph)toBeCloned);
             else if(toBeCloned is IMatch)
                 return ((IMatch)toBeCloned).Clone();
+            else if(toBeCloned is IObject)
+                return ((IObject)toBeCloned).Clone();
             else
                 return ContainerHelper.Clone(toBeCloned);
         }

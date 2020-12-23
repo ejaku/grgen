@@ -170,7 +170,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IDeque NewDeque(Type valueType)
         {
             if(valueType == null)
-                return null;
+                throw new NullReferenceException();
 
             Type genDequeType = typeof(Deque<>);
             Type dequeType = genDequeType.MakeGenericType(valueType);
@@ -188,7 +188,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IDeque NewDeque(Type valueType, object oldDeque)
         {
             if(valueType == null || oldDeque == null)
-                return null;
+                throw new NullReferenceException();
 
             Type genDequeType = typeof(Deque<>);
             Type dequeType = genDequeType.MakeGenericType(valueType);

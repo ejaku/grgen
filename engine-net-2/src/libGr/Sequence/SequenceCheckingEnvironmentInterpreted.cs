@@ -83,15 +83,15 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                GrGenType graphElementType = TypesHelper.GetNodeOrEdgeType(matchOrGraphElementType, Model);
-                AttributeType attributeType = graphElementType.GetAttributeType(memberOrAttribute);
+                InheritanceType inheritanceType = TypesHelper.GetInheritanceType(matchOrGraphElementType, Model);
+                AttributeType attributeType = inheritanceType.GetAttributeType(memberOrAttribute);
                 if(attributeType == null)
                     throw new SequenceParserException(memberOrAttribute, SequenceParserError.UnknownAttribute);
                 return TypesHelper.AttributeTypeToXgrsType(attributeType);
             }
         }
 
-        protected override int NumInputParameters(Invocation invocation, GrGenType ownerType)
+        protected override int NumInputParameters(Invocation invocation, InheritanceType ownerType)
         {
             if(invocation is RuleInvocation)
             {
@@ -144,7 +144,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override int NumOutputParameters(Invocation invocation, GrGenType ownerType)
+        protected override int NumOutputParameters(Invocation invocation, InheritanceType ownerType)
         {
             if(invocation is RuleInvocation)
             {
@@ -183,7 +183,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override string InputParameterType(int i, Invocation invocation, GrGenType ownerType)
+        protected override string InputParameterType(int i, Invocation invocation, InheritanceType ownerType)
         {
             if(invocation is RuleInvocation)
             {
@@ -236,7 +236,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override string OutputParameterType(int i, Invocation invocation, GrGenType ownerType)
+        protected override string OutputParameterType(int i, Invocation invocation, InheritanceType ownerType)
         {
             if(invocation is RuleInvocation)
             {

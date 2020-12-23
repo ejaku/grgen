@@ -235,6 +235,13 @@ namespace de.unika.ipd.grGen.libGr
                 return;
             }
 
+            if(value is IObject)
+            {
+                type = ((IObject)value).Type.PackagePrefixedName;
+                content = ToString((IObject)value, graph);
+                return;
+            }
+
             Debug.Assert(value.GetType().Name != "Dictionary`2"
                 && value.GetType().Name != "List`1" && value.GetType().Name != "Deque`1");
             type = TypesHelper.DotNetTypeToXgrsType(value.GetType().Name, value.GetType().FullName);
@@ -262,6 +269,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(value is IMatch)
                 return ToString((IMatch)value, graph);
+            if(value is IObject)
+                return ToString((IObject)value, graph);
 
             // enums are bitches, sometimes ToString gives the symbolic name, sometimes only the integer value
             // we always want the symbolic name, enforce this here

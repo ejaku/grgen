@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -68,10 +69,12 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(sourceExpr.getType() instanceof GraphTypeNode)
-				&& !(sourceExpr.getType() instanceof MatchTypeNode)
-				&& !(sourceExpr.getType() instanceof ContainerTypeNode)) {
-			sourceExpr.reportError("graph or match or container expected as argument to copy");
+		TypeNode type = sourceExpr.getType();
+		if(!(type instanceof GraphTypeNode)
+				&& !(type instanceof MatchTypeNode)
+				&& !(type instanceof ContainerTypeNode)
+				&& !(type instanceof InternalObjectTypeNode)) {
+			sourceExpr.reportError("container or graph or match or class object expected as argument to copy");
 			return false;
 		}
 		return true;
@@ -88,7 +91,8 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 	public TypeNode getType()
 	{
 		if(sourceExpr.getType() instanceof MatchTypeNode
-				|| sourceExpr.getType() instanceof ContainerTypeNode)
+				|| sourceExpr.getType() instanceof ContainerTypeNode
+				|| sourceExpr.getType() instanceof InternalObjectTypeNode)
 			return sourceExpr.getType();
 		else
 			return BasicTypeNode.graphType;

@@ -19,7 +19,8 @@ import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -119,7 +120,8 @@ public class MemberDeclNode extends DeclNode
 	}
 
 	private static final Checker typeChecker = new SimpleChecker(
-			new Class[] { BasicTypeNode.class, EnumTypeNode.class, ExternalTypeNode.class,
+			new Class[] { BasicTypeNode.class, EnumTypeNode.class,
+					InternalObjectTypeNode.class, ExternalObjectTypeNode.class,
 					NodeTypeNode.class, EdgeTypeNode.class,
 					MapTypeNode.class, SetTypeNode.class, ArrayTypeNode.class, DequeTypeNode.class });
 

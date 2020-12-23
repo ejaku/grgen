@@ -558,7 +558,7 @@ namespace de.unika.ipd.grGen.grShell
             if(elem == null)
                 return;
 
-            GrGenType type = elem.Type;
+            GraphElementType type = elem.Type;
             AttributeType attrType = type.GetAttributeType(attrName);
             if(attrType == null)
             {
@@ -2124,7 +2124,7 @@ namespace de.unika.ipd.grGen.grShell
             return value;
         }
 
-        private bool CheckAttributes(GrGenType type, ArrayList attributes)
+        private bool CheckAttributes(GraphElementType type, ArrayList attributes)
         {
             foreach(Param par in attributes)
             {
@@ -2167,7 +2167,7 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        private object GetCheckAttributes(Param par, GrGenType type, ArrayList attributes)
+        private object GetCheckAttributes(Param par, GraphElementType type, ArrayList attributes)
         {
             AttributeType attrType = type.GetAttributeType(par.Key);
             if(attrType == null)
@@ -2464,7 +2464,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void ShowSuperTypes(GrGenType elemType, bool isNode)
+        public void ShowSuperTypes(GraphElementType elemType, bool isNode)
         {
             if(elemType == null)
                 return;
@@ -2481,7 +2481,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void ShowSubTypes(GrGenType elemType, bool isNode)
+        public void ShowSubTypes(GraphElementType elemType, bool isNode)
         {
             if(elemType == null)
                 return;
@@ -3410,7 +3410,7 @@ showavail:
             return null;
         }
 
-        public bool SetDumpLabel(GrGenType type, String label, bool only)
+        public bool SetDumpLabel(GraphElementType type, String label, bool only)
         {
             if(type == null)
                 return false;
@@ -3419,7 +3419,7 @@ showavail:
                 curShellProcEnv.DumpInfo.SetElemTypeLabel(type, label);
             else
             {
-                foreach(GrGenType subType in type.SubOrSameTypes)
+                foreach(GraphElementType subType in type.SubOrSameTypes)
                 {
                     curShellProcEnv.DumpInfo.SetElemTypeLabel(subType, label);
                 }
@@ -3639,7 +3639,7 @@ showavail:
             return true;
         }
 
-        public bool AddDumpInfoTag(GrGenType type, String attrName, bool only, bool isshort)
+        public bool AddDumpInfoTag(GraphElementType type, String attrName, bool only, bool isshort)
         {
             if(type == null)
                 return false;
@@ -3656,7 +3656,7 @@ showavail:
                 curShellProcEnv.DumpInfo.AddTypeInfoTag(type, infoTag);
             else
             {
-                foreach(GrGenType subtype in type.SubOrSameTypes)
+                foreach(GraphElementType subtype in type.SubOrSameTypes)
                 {
                     curShellProcEnv.DumpInfo.AddTypeInfoTag(subtype, infoTag);
                 }
@@ -4322,7 +4322,7 @@ showavail:
                     }
                 }
 
-                foreach(KeyValuePair<GrGenType, List<InfoTag>> infoTagPair in curShellProcEnv.DumpInfo.InfoTags)
+                foreach(KeyValuePair<GraphElementType, List<InfoTag>> infoTagPair in curShellProcEnv.DumpInfo.InfoTags)
                 {
                     String kind;
                     if(infoTagPair.Key.IsNodeType)

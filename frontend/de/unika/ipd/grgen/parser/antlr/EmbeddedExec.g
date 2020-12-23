@@ -428,6 +428,8 @@ seqExprBasic [ExecNode xg] returns [ ExprNode res = env.initExprNode() ]
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
 	| exp=seqConstantOfBasicOrEnumType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
 	| (seqConstantOfContainerType[null]) => exp=seqConstantOfContainerType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
+	| seqConstantOfMatchClassType[xg]
+	| NEW { xg.append("new "); } type=seqTypeIdentUse LPAREN RPAREN { xg.append(type); xg.append("()"); }
 	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
 		{
 			id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
@@ -570,7 +572,15 @@ seqConstantOfBasicOrEnumType [ ExecNode xg ] returns [ ExprNode res = env.initEx
 	| i1=IDENT d=DOUBLECOLON i2=IDENT e=seqConstantOfBasicOrEnumTypeCont[xg, i1, d, i2] { res = e; }
 	;
 
+seqConstantOfMatchClassType [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: (NEW { xg.append("new "); })? MATCH LT CLASS { xg.append("match<class "); } type=seqTypeIdentUse GT LPAREN RPAREN { xg.append(type + ">()"); }
+	;
+	
 seqConstantOfContainerType [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: (NEW { xg.append("new "); })? init=seqConstantOfContainerTypeCont[xg] { res = init; }
+	;
+
+seqConstantOfContainerTypeCont [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 	@init {
 		IdentNode id;
 	}

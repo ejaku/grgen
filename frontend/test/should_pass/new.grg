@@ -1,0 +1,28 @@
+#using "new.gm"
+
+match class mc
+{
+}
+
+rule r
+{
+	if{ new set<int>{42} != null && new map<string, int>{} != null && new array<int>[42] != null && new deque<double>[] != null
+		&& new match<class mc>() != null && new FooBar() != null; }
+
+	modify {
+	---
+		def ref s:set<int> = new set<int>{42};
+		def ref m:map<string,int> = new map<string,int>{};
+		def ref a:array<int> = new array<int>[42];
+		def ref d:deque<double> = new deque<double>[];
+		def ref ma:match<class mc> = new match<class mc>();
+		def ref fb:FooBar = new FooBar();
+		
+		exec( { yield s = new set<int>{42}; 
+				yield m = new map<string,int>{};
+				yield a = new array<int>[42];
+				yield d = new deque<double>[];
+				yield ma = new match<class mc>();
+				yield fb = new FooBar() } );
+	}
+}

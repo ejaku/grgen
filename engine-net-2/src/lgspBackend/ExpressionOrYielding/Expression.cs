@@ -347,6 +347,48 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an equality comparison.
+    /// </summary>
+    public class OBJECT_CLASS_EQ : BinFuncOperator
+    {
+        public OBJECT_CLASS_EQ(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new OBJECT_CLASS_EQ(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.ContainerHelper.IsEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing an inequality comparison.
+    /// </summary>
+    public class OBJECT_CLASS_NE : BinFuncOperator
+    {
+        public OBJECT_CLASS_NE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new OBJECT_CLASS_NE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "!GRGEN_LIBGR.ContainerHelper.IsEqual(";
+        }
+    }
+
+    /// <summary>
     /// Class representing a less than comparison.
     /// </summary>
     public class LT : BinInfixOperator
@@ -1218,45 +1260,58 @@ namespace de.unika.ipd.grGen.expression
         readonly Expression Path;
     }
 
+    public enum CopyKind
+    {
+        Container, Graph, ClassObject
+    }
+
     /// <summary>
     /// Class representing copy expression
     /// </summary>
     public class CopyExpression : Expression
     {
-        public CopyExpression(Expression graphOrContainer, String type)
+        public CopyExpression(Expression source, CopyKind copyKind, String type)
         {
-            GraphOrContainer = graphOrContainer;
+            Source = source;
+            CopyKind = copyKind;
             Type = type;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new CopyExpression(GraphOrContainer.Copy(renameSuffix), Type);
+            return new CopyExpression(Source.Copy(renameSuffix), CopyKind, Type);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if(Type == null)
+            if(CopyKind == CopyKind.Container)
+            {
+                sourceCode.Append("new " + Type + "(");
+                Source.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
+            else if(CopyKind == CopyKind.Graph)
             {
                 sourceCode.Append("GRGEN_LIBGR.GraphHelper.Copy(");
-                GraphOrContainer.Emit(sourceCode);
+                Source.Emit(sourceCode);
                 sourceCode.Append(")");
             }
             else
             {
-                sourceCode.Append("new " + Type + "(");
-                GraphOrContainer.Emit(sourceCode);
-                sourceCode.Append(")");
+                sourceCode.Append("(");
+                Source.Emit(sourceCode);
+                sourceCode.Append(").Clone()");
             }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return GraphOrContainer;
+            yield return Source;
         }
 
-        readonly String Type; // if non-null, gives the container type to copy, if null it's a graph
-        readonly Expression GraphOrContainer;
+        readonly CopyKind CopyKind;
+        readonly String Type; // if non-null, gives the container type to copy, if null it's a graph or class object
+        readonly Expression Source;
     }
 
     /// <summary>
@@ -1336,24 +1391,31 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Qualification : Expression
     {
-        public Qualification(String ownerType, String owner, String member)
+        public Qualification(String ownerType, bool isGraphElementType, String owner, String member)
         {
             OwnerType = ownerType;
+            IsGraphElementType = isGraphElementType;
             Owner = owner;
             Member = member;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Qualification(OwnerType, Owner + renameSuffix, Member);
+            return new Qualification(OwnerType, IsGraphElementType, Owner + renameSuffix, Member);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((" + OwnerType + ")" + NamesOfEntities.CandidateVariable(Owner) + ").@" + Member);
+            string candidateVariable;
+            if(IsGraphElementType)
+                candidateVariable = NamesOfEntities.CandidateVariable(Owner);
+            else
+                candidateVariable = NamesOfEntities.Variable(Owner);
+            sourceCode.Append("((" + OwnerType + ")" + candidateVariable + ").@" + Member);
         }
 
         readonly String OwnerType;
+        readonly bool IsGraphElementType;
         readonly String Owner;
         readonly String Member;
     }

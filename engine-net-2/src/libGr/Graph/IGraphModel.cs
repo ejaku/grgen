@@ -25,14 +25,19 @@ namespace de.unika.ipd.grGen.libGr
         String ModelName { get; }
 
         /// <summary>
-        /// The model of the nodes.
+        /// The model of the nodes (node classes).
         /// </summary>
         INodeModel NodeModel { get; }
 
         /// <summary>
-        /// The model of the edges.
+        /// The model of the edges (edge classes).
         /// </summary>
         IEdgeModel EdgeModel { get; }
+
+        /// <summary>
+        /// The model of the objects (internal classes).
+        /// </summary>
+        IObjectModel ObjectModel { get; }
 
         /// <summary>
         /// Enumerates all packages declared in this model.

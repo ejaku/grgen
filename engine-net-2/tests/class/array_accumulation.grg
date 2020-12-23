@@ -1,0 +1,87 @@
+#using "class.gm"
+
+rule aextract(ref a:array<Simple>) : (array<int>)
+{
+	if{ a.extract<i>().sum() < a.extract<j>().sum(); }
+	
+	modify {
+		return(a.extract<i>());
+	}
+}
+
+rule aascending(ref a:array<Simple>) : (array<Simple>)
+{
+	if{ a.orderAscendingBy<i>().subarray(0, 2).extract<i>().sum() < a.orderAscendingBy<j>().subarray(0, 2).extract<j>().sum(); }
+
+	modify {
+		return(a.orderAscendingBy<i>());
+	}
+}
+
+rule adescending(ref a:array<Simple>) : (array<Simple>)
+{
+	if{ a.orderDescendingBy<i>().reverse().subarray(0, 2).extract<i>().sum() < a.orderDescendingBy<j>().reverse().subarray(0, 2).extract<j>().sum(); }
+
+	modify {
+		return(a.orderDescendingBy<i>());
+	}
+}
+
+rule aoneforeach(ref a:array<Simple>) : (array<Simple>)
+{
+	if{ a.keepOneForEach<i>().extract<i>().sum() < a.keepOneForEach<j>().extract<j>().sum(); }
+
+	modify {
+		return(a.keepOneForEach<i>());
+	}
+}
+
+rule agroupby(ref a:array<Simple>) : (array<Simple>)
+{
+	if{ a.groupBy<i>().extract<i>().sum() < a.groupBy<j>().extract<j>().sum(); }
+
+	modify {
+		return(a.groupBy<i>());
+	}
+}
+
+rule cextract(ref a:array<Simple>)
+{
+	modify {
+	---
+		exec({ ::o = a.extract<i>() });
+	}
+}
+
+rule cascending(ref a:array<Simple>)
+{
+	modify {
+	---
+		exec({ ::o = a.orderAscendingBy<i>() });
+	}
+}
+
+rule cdescending(ref a:array<Simple>)
+{
+	modify {
+	---
+		exec({ ::o = a.orderDescendingBy<i>() });
+	}
+}
+
+rule coneforeach(ref a:array<Simple>)
+{
+	modify {
+	---
+		exec({ ::o = a.keepOneForEach<i>() });
+	}
+}
+
+rule cgroupby(ref a:array<Simple>)
+{
+	modify {
+	---
+		exec({ ::o = a.groupBy<i>() });
+	}
+}
+

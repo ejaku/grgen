@@ -1,4 +1,68 @@
-﻿v5.1 (2020-07-29)
+﻿v5.2 (2020-11-22)
+ Introduced two per-element-by-lambda-expression-filters to the sequences
+ - \assign<member>{element:match<r> -> lambda-expr:T} assigns to the member:T of a match of a rule r 
+   the result of the sequence lambda expression fed by the element of the match, for each element in the matches yielded by the rule
+   no declaration is needed, the lambda expression is to be given with the filter call
+   the match class version \mc.assign<member>{element:match<class mc> -> lambda-expr:T} does so for a match class mc
+   the iterated version \assign<member>{element:match<r.it> -> lambda-expr:T} does so for an iterated it of a rule r in the rule language
+ - \removeIf{element:match<r> -> lambda-expr:boolean} removes the matches 
+   for which the predicate given by the sequence lambda expression yields true; no declaration is needed
+   the match class version \mc.removeIf{element:match<class mc> -> lambda-expr:boolean} does so for a match class mc
+   the iterated version \removeIf{element:match<r.it> -> lambda-expr:boolean} does so for an iterated it of a rule r in the rule language
+ - they all come with an optional index: the variable index:int iterates the indices [0,matches.size()-1] 
+   of the corresponding values in the matches (array) in the \assign<elem>{index:int -> element:T -> lambda-expr:T} and 
+   \removeIf{index:int -> element:T -> lambda-expr:boolean} expressions
+
+ Introduced two per-element-by-lambda-expression-array-methods to the rule language expressions and sequence expressions
+ - array<T>.map<S>{element:T -> lambda-expr:S}:array<S> returns a new array<S>,
+   created by mapping each element of the original array<T> with the lambda expression to its resulting counterpart
+ - array<T>.removeIf{element:T -> lambda-expr:boolean}:array<T> returns a new array<T>,
+   created by removing each element of the original array<T> for which the predicate given by the lambda-expr yields true
+ - both come with an optional index: the variable index:int iterates the indices [0,a.size()-1] 
+   of the corresponding elements in the array a:array<T> in the a.map<S>{index:int -> element:T -> lambda-expr:S}:array<S> and
+   a.removeIf{index:int -> element:T -> lambda-expr:boolean}:array<T> expressions
+
+ Introduced further array (accumulation) methods to the rule language expressions and sequence expressions:
+ - array<T>.shuffle():array<T> returns an array with permuted values
+ - array<boolean>.and():boolean returns the conjunction of the boolean values in the array (true in case of an empty array)
+ - array<boolean>.or():boolean returns the disjunction of the boolean values in the array (false in case of an empty array)
+
+ Slightly generalized the conditional operator in sequence expressions regarding the admissible types
+
+ Improved debugging of filtering and query evaluation: 
+ - added a step in detail mode debugging in the debugger, displaying the prematched entities (before the matches and the rewrites)
+   defining a kind of lookahead, so that matches before and after filtering can be inspected and thus compared
+ - added debug eval <sequence-expression> command to GrShell
+ - added debugger configuration options to the shell language:
+   - debug set match mode pre enable|disable (default disable)
+     with pre-match enabled, the matches of a (multi) rule before filtering/selection are displayed in detail steps
+   - debug set match mode post enable|disable (default enable)
+     with post-match enabled, the matches of rules in embedded execs are displayed in detail steps
+     (with post-match disabled, only the match(es) of the very rule followed by the rewrite of the rule)
+
+ API changes:
+ - introduced PreMatch event fired after all requested matches of a multi rule or rule have been found,
+   yet before filtering/selection of the matches
+   (a single event even for multi rule applications, in contrast to the series of Matched events)
+ - fired by the single/compound rule application constructs in the sequences
+   (and by some helper methods in the processing environments)
+ - implemented Filter methods in the graph processing environment and match class filterer classes
+   (allowing to execute a FilterCallWithLambdaExpression on an IMatches object and a List<IMatch>, respectively
+ - turned FilterCall into a base class for the FilterCallWithArguments and the new FilterCallWithLambdaExpression
+ - renamed IMatches.ToList() to ToListCopy(), better reflecting what it does, and introduced a ToList() plus its FromList() counterpart
+   (that work like their ToListExact() and FromListExact() pendants)
+ - extended match interface by methods that allow to set a member (a general one and dedicated ones for nodes, edges, and variables)
+
+ Bugfixes:
+ - allowed to access a member of a match class in the sequence expressions (in extension to a member of a match of an action)
+ - allowed to access a member of an iterated match in the expressions
+ - further minor bugfixes
+
+ User manual adaptations, corrections, and improvements
+
+--------------------------------------------------------------------------------------------------------
+
+v5.1 (2020-07-29)
  More demanding prerequisites:
   Increased required .NET version from 2.0 to 4.0 (or mono 3.8.0)
   Increased required JAVA version from 1.5 to 1.8

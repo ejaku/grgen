@@ -334,10 +334,10 @@ namespace de.unika.ipd.grGen.libGr
             if(DestVar.Type == "")
                 return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
-            if(nodeOrEdgeType == null)
-                throw new SequenceParserException(Symbol, "node or edge type", DestVar.Type);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(DestVar.Type, env.Model);
+            if(inheritanceType == null)
+                throw new SequenceParserException(Symbol, "node or edge or object type (class)", DestVar.Type);
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
         }
@@ -347,23 +347,14 @@ namespace de.unika.ipd.grGen.libGr
             if(DestVar.Type == "")
                 return "";
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(DestVar.Type, env.Model);
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             return TypesHelper.AttributeTypeToXgrsType(attributeType);
         }
 
         public override void Assign(object value, IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(procEnv);
-            AttributeType attrType;
-            value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
-                elem, AttributeName, value, out attrType);
-
-            BaseGraph.ChangingAttributeAssign(procEnv.Graph, elem, attrType, value);
-
-            elem.SetAttribute(AttributeName, value);
-
-            BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            ContainerHelper.AssignAttribute(DestVar.GetVariableValue(procEnv), value, AttributeName, procEnv.Graph);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -417,10 +408,10 @@ namespace de.unika.ipd.grGen.libGr
             if(DestVar.Type == "")
                 return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
-            if(nodeOrEdgeType == null)
-                throw new SequenceParserException(Symbol, "node or edge type", DestVar.Type);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(DestVar.Type, env.Model);
+            if(inheritanceType == null)
+                throw new SequenceParserException(Symbol, "node or edge or object type (class)", DestVar.Type);
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
 
@@ -453,8 +444,8 @@ namespace de.unika.ipd.grGen.libGr
             if(DestVar.Type == "")
                 return "";
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
-            AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
+            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(DestVar.Type, env.Model);
+            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 return ""; // error, will be reported by Check, just ensure we don't crash here
 
@@ -468,30 +459,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Assign(object value, IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(procEnv);
-            object container = elem.GetAttribute(AttributeName);
-            object key = KeyExpression.Evaluate(procEnv);
-            AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
-
-            BaseGraph.ChangingAttributeAssignElement(procEnv.Graph, elem, attrType, value, key);
-
-            if(container is IList)
-            {
-                IList array = (IList)container;
-                array[(int)key] = value;
-            }
-            else if(container is IDeque)
-            {
-                IDeque deque = (IDeque)container;
-                deque[(int)key] = value;
-            }
-            else
-            {
-                IDictionary map = (IDictionary)container;
-                map[key] = value;
-            }
-
-            BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            ContainerHelper.AssignAttributeIndexed(DestVar.GetVariableValue(procEnv), KeyExpression.Evaluate(procEnv),
+                value, AttributeName, procEnv.Graph);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -540,8 +509,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env);
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
-            if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
+            GraphElementType graphElementType = TypesHelper.GetGraphElementType(GraphElementVar.Type, env.Model);
+            if(GraphElementVar.Type != "" && graphElementType == null)
                 throw new SequenceParserException(Symbol, "node or edge type", GraphElementVar.Type);
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
                 throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));

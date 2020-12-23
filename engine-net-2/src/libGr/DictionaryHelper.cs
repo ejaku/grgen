@@ -57,7 +57,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IDictionary NewDictionary(Type keyType, Type valueType)
         {
             if(keyType == null || valueType == null)
-                return null;
+                throw new NullReferenceException();
 
             Type genDictType = typeof(Dictionary<,>);
             Type dictType = genDictType.MakeGenericType(keyType, valueType);
@@ -76,7 +76,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IDictionary NewDictionary(Type keyType, Type valueType, object oldDictionary)
         {
             if(keyType == null || valueType == null || oldDictionary == null)
-                return null;
+                throw new NullReferenceException();
 
             Type genDictType = typeof(Dictionary<,>);
             Type dictType = genDictType.MakeGenericType(keyType, valueType);

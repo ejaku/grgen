@@ -69,25 +69,32 @@ import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.NodeEdgeEnumBearer;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.ExternalType;
+import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.model.type.PackageType;
 
 public class ModelGen extends CSharpBase
 {
+	enum InheritanceTypeType
+	{
+		Node, Edge, Object
+	}
+	
 	private final int MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING = 20;
 	private final static String ATTR_IMPL_SUFFIX = "_M0no_suXx_h4rD";
 
-	public ModelGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix)
+	public ModelGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		be = backend;
 		rootTypes = new HashSet<String>();
 		rootTypes.add("Node");
 		rootTypes.add("Edge");
 		rootTypes.add("AEdge");
 		rootTypes.add("UEdge");
+		rootTypes.add("Object");
 	}
 
 	/**
@@ -133,7 +140,7 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("{\n");
 			sb.indent();
 
-			genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(),
+			genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(), model.getAllObjectTypes(),
 					pt, pt.getIdent().toString());
 
 			sb.append("\n");
@@ -143,12 +150,12 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("//-----------------------------------------------------------\n");
 		}
 
-		genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(),
+		genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(), model.getAllObjectTypes(),
 				model, null);
 
-		ModelExternalGen modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix);
+		ModelExternalGen modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		modelExternalGen.genExternalTypeObject();
-		for(ExternalType et : model.getExternalTypes()) {
+		for(ExternalObjectType et : model.getExternalTypes()) {
 			modelExternalGen.genExternalType(et);
 		}
 
@@ -160,18 +167,22 @@ public class ModelGen extends CSharpBase
 		sb.appendFront("//\n");
 		sb.append("\n");
 
-		ModelIndexGen indexGen = new ModelIndexGen(model, sb, nodeTypePrefix, edgeTypePrefix);
+		ModelIndexGen indexGen = new ModelIndexGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		indexGen.genIndexTypes();
 		indexGen.genIndexImplementations();
 		indexGen.genIndexSetType();
 
 		System.out.println("    generating node model...");
 		sb.append("\n");
-		genModelClass(model.getAllNodeTypes(), true);
+		genModelClass(model.getAllNodeTypes(), InheritanceTypeType.Node);
 
 		System.out.println("    generating edge model...");
 		sb.append("\n");
-		genModelClass(model.getAllEdgeTypes(), false);
+		genModelClass(model.getAllEdgeTypes(), InheritanceTypeType.Edge);
+
+		System.out.println("    generating class model...");
+		sb.append("\n");
+		genModelClass(model.getAllObjectTypes(), InheritanceTypeType.Object);
 
 		System.out.println("    generating graph model...");
 		sb.append("\n");
@@ -213,7 +224,7 @@ public class ModelGen extends CSharpBase
 
 		sb = new SourceBuilder();
 
-		modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix);
+		modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 
 		modelExternalGen.genExternalFunctionsFile(be.unit.getFilename());
 
@@ -249,6 +260,7 @@ public class ModelGen extends CSharpBase
 
 	private void genBearer(Collection<? extends InheritanceType> allNodeTypes,
 			Collection<? extends InheritanceType> allEdgeTypes,
+			Collection<? extends InheritanceType> allObjectTypes,
 			NodeEdgeEnumBearer bearer, String packageName)
 	{
 
@@ -258,11 +270,15 @@ public class ModelGen extends CSharpBase
 
 		System.out.println("    generating node types...");
 		sb.append("\n");
-		genTypes(allNodeTypes, bearer, packageName, true);
+		genInheritanceTypes(allNodeTypes, bearer, packageName, InheritanceTypeType.Node);
 
 		System.out.println("    generating edge types...");
 		sb.append("\n");
-		genTypes(allEdgeTypes, bearer, packageName, false);
+		genInheritanceTypes(allEdgeTypes, bearer, packageName, InheritanceTypeType.Edge);
+
+		System.out.println("    generating object types...");
+		sb.append("\n");
+		genInheritanceTypes(allObjectTypes, bearer, packageName, InheritanceTypeType.Object);
 	}
 
 	private void genEnums(NodeEdgeEnumBearer bearer)
@@ -303,23 +319,45 @@ public class ModelGen extends CSharpBase
 	}
 
 	/**
-	 * Generates code for all given element types.
+	 * Generates code for all given inheritance types.
 	 */
-	private void genTypes(Collection<? extends InheritanceType> allTypes,
-			NodeEdgeEnumBearer bearer, String packageName, boolean isNode)
+	private void genInheritanceTypes(Collection<? extends InheritanceType> allTypes,
+			NodeEdgeEnumBearer bearer, String packageName, InheritanceTypeType inhType)
 	{
-		Collection<? extends InheritanceType> curTypes = isNode ? bearer.getNodeTypes() : bearer.getEdgeTypes();
-
-		sb.appendFront("//\n");
-		sb.appendFront("// " + formatNodeOrEdge(isNode) + " types\n");
-		sb.appendFront("//\n");
-		sb.append("\n");
-		sb.appendFront("public enum " + formatNodeOrEdge(isNode) + "Types ");
+		Collection<? extends InheritanceType> curTypes;
+		if(inhType == InheritanceTypeType.Node) {
+			curTypes = bearer.getNodeTypes();
+			
+			sb.appendFront("//\n");
+			sb.appendFront("// Node types\n");
+			sb.appendFront("//\n");
+			sb.append("\n");
+			
+			sb.appendFront("public enum NodeTypes ");
+		} else if(inhType == InheritanceTypeType.Edge) {
+			curTypes = bearer.getEdgeTypes();
+			
+			sb.appendFront("//\n");
+			sb.appendFront("// Edge types\n");
+			sb.appendFront("//\n");
+			sb.append("\n");
+			
+			sb.appendFront("public enum EdgeTypes ");
+		} else {
+			curTypes = bearer.getObjectTypes();
+			
+			sb.appendFront("//\n");
+			sb.appendFront("// Object types\n");
+			sb.appendFront("//\n");
+			sb.append("\n");
+			
+			sb.appendFront("public enum ObjectTypes ");
+		}
 
 		sb.append("{ ");
 		for(Iterator<? extends InheritanceType> iter = curTypes.iterator(); iter.hasNext();) {
 			InheritanceType id = iter.next();
-			sb.append("@" + formatIdentifiable(id) + "=" + id.getNodeOrEdgeTypeID(isNode));
+			sb.append("@" + formatIdentifiable(id) + "=" + id.getInheritanceTypeID());
 			if(iter.hasNext())
 				sb.append(", ");
 		}
@@ -328,23 +366,28 @@ public class ModelGen extends CSharpBase
 		sb.append(";\n");
 
 		for(InheritanceType type : curTypes) {
-			genType(allTypes, type, packageName);
+			genInheritanceType(allTypes, type, packageName, inhType);
 		}
 	}
 
 	/**
-	 * Generates all code for a given type.
+	 * Generates all code for a given inheritance type.
 	 */
-	private void genType(Collection<? extends InheritanceType> allTypes, InheritanceType type, String packageName)
+	private void genInheritanceType(Collection<? extends InheritanceType> allTypes, InheritanceType type, String packageName, InheritanceTypeType inhType)
 	{
 		sb.append("\n");
-		sb.appendFront("// *** " + formatNodeOrEdge(type) + " " + formatIdentifiable(type) + " ***\n");
+		sb.appendFront("// *** " + formatInheritanceTypeValue(type) + " " + formatIdentifiable(type) + " ***\n");
 		sb.append("\n");
 
 		if(!rootTypes.contains(type.getIdent().toString()))
-			genElementInterface(type);
-		if(!type.isAbstract())
-			genElementImplementation(type);
+			genInheritanceTypeInterface(type);
+		if(!type.isAbstract()) {
+			if(inhType==InheritanceTypeType.Node || inhType==InheritanceTypeType.Edge) {
+				genGraphElementImplementation(type);
+			} else {
+				genObjectImplementation(type);
+			}
+		}
 		genTypeImplementation(allTypes, type, packageName);
 		genAttributeArrayHelpersAndComparers(type);
 	}
@@ -354,11 +397,11 @@ public class ModelGen extends CSharpBase
 	//////////////////////////////////
 
 	/**
-	 * Generates the element interface for the given type
+	 * Generates the inheritance type interface for the given type
 	 */
-	private void genElementInterface(InheritanceType type)
+	private void genInheritanceTypeInterface(InheritanceType type)
 	{
-		String iname = "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
+		String iname = "I" + getInheritanceTypePrefix(type) + formatIdentifiable(type);
 		sb.appendFront("public interface " + iname + " : ");
 		genDirectSuperTypeList(type);
 		sb.append("\n");
@@ -377,7 +420,7 @@ public class ModelGen extends CSharpBase
 	 */
 	private void genDirectSuperTypeList(InheritanceType type)
 	{
-		String iprefix = "I" + getNodeOrEdgeTypePrefix(type);
+		String iprefix = "I" + getInheritanceTypePrefix(type);
 		Collection<InheritanceType> directSuperTypes = type.getDirectSuperTypes();
 
 		boolean first = true;
@@ -482,12 +525,12 @@ public class ModelGen extends CSharpBase
 	/**
 	 * Generates the element implementation for the given type
 	 */
-	private void genElementImplementation(InheritanceType type)
+	private void genGraphElementImplementation(InheritanceType type)
 	{
 		boolean isNode = type instanceof NodeType;
 		String kindStr = isNode ? "Node" : "Edge";
-		String elemname = formatElementClassName(type);
-		String elemref = formatElementClassRef(type);
+		String elemname = formatInheritanceClassName(type);
+		String elemref = formatInheritanceClassRef(type);
 		String extName = type.getExternalName();
 		String allocName = extName != null ? "global::" + extName : elemref;
 		String typeref = formatTypeClassRef(type);
@@ -575,20 +618,73 @@ public class ModelGen extends CSharpBase
 		}
 	}
 
+	/**
+	 * Generates the element implementation for the given type
+	 */
+	private void genObjectImplementation(InheritanceType type)
+	{
+		String kindStr = "Object";
+		String elemname = formatInheritanceClassName(type);
+		String elemref = formatInheritanceClassRef(type);
+		assert(type.getExternalName() == null);
+		String typeref = formatTypeClassRef(type);
+		String ielemref = formatElementInterfaceRef(type);
+		SourceBuilder routedSB = sb;
+		String routedClassName = elemname;
+		String routedDeclName = elemref;
+
+		sb.append("\n");
+		sb.appendFront("public sealed partial class " + elemname + " : GRGEN_LGSP.LGSP"
+				+ kindStr + ", " + ielemref + "\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		
+		// Static initialization for constants = static members
+		initAllMembersConst(type, elemname, "this");
+		sb.append("\n");
+
+		genElementConstructor(type, elemname, typeref);
+		sb.append("\n");
+
+		genElementStaticTypeGetter(typeref);
+		sb.append("\n");
+
+		genElementCloneMethod(type, routedSB, routedDeclName);
+		routedSB.append("\n");
+		genElementCopyConstructor(type, null, typeref, routedSB, routedClassName, routedDeclName);
+		routedSB.append("\n");
+
+		genElementAttributeComparisonMethod(type, routedSB, routedClassName);
+		routedSB.append("\n");
+
+		genAttributesAndAttributeAccessImpl(type);
+
+		genMethods(type);
+
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
 	private void genElementConstructor(InheritanceType type, String elemname, String typeref)
 	{
-		boolean isNode = type instanceof NodeType;
-		if(isNode) {
+		if(type instanceof NodeType) {
 			sb.appendFront("public " + elemname + "() : base(" + typeref + ".typeVar)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 			initAllMembersNonConst(type, "this", false, false);
 			sb.unindent();
 			sb.appendFront("}\n");
-		} else {
+		} else if(type instanceof EdgeType) {
 			sb.appendFront("public " + elemname + "(GRGEN_LGSP.LGSPNode source, "
 					+ "GRGEN_LGSP.LGSPNode target)\n");
 			sb.appendFrontIndented(": base(" + typeref + ".typeVar, source, target)\n");
+			sb.appendFront("{\n");
+			sb.indent();
+			initAllMembersNonConst(type, "this", false, false);
+			sb.unindent();
+			sb.appendFront("}\n");
+		} else {
+			sb.appendFront("public " + elemname + "() : base(" + typeref + ".typeVar)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 			initAllMembersNonConst(type, "this", false, false);
@@ -604,16 +700,19 @@ public class ModelGen extends CSharpBase
 
 	private static void genElementCloneMethod(InheritanceType type, SourceBuilder routedSB, String routedDeclName)
 	{
-		boolean isNode = type instanceof NodeType;
-		if(isNode) {
+		if(type instanceof NodeType) {
 			routedSB.appendFront("public override GRGEN_LIBGR.INode Clone() {\n");
 			routedSB.appendFrontIndented("return new " + routedDeclName + "(this);\n");
 			routedSB.appendFront("}\n");
-		} else {
+		} else if(type instanceof EdgeType) {
 			routedSB.appendFront("public override GRGEN_LIBGR.IEdge Clone("
 					+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {\n");
 			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, (GRGEN_LGSP.LGSPNode) newSource, "
 					+ "(GRGEN_LGSP.LGSPNode) newTarget);\n");
+			routedSB.appendFront("}\n");
+		} else {
+			routedSB.appendFront("public override GRGEN_LIBGR.IObject Clone() {\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this);\n");
 			routedSB.appendFront("}\n");
 		}
 	}
@@ -621,19 +720,21 @@ public class ModelGen extends CSharpBase
 	private void genElementCopyConstructor(InheritanceType type, String extName, String typeref,
 			SourceBuilder routedSB, String routedClassName, String routedDeclName)
 	{
-		boolean isNode = type instanceof NodeType;
-		if(isNode) {
+		if(type instanceof NodeType) {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem) : base("
 					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
-		} else {
+		} else if(type instanceof EdgeType) {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName
 					+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)\n");
 			routedSB.appendFrontIndented(": base("
 					+ (extName == null ? typeref + ".typeVar, " : "") + "newSource, newTarget)\n");
+		} else {
+			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem) : base("
+					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
 		}
 		routedSB.appendFront("{\n");
 		routedSB.indent();
-		if(model.isUniqueDefined())
+		if(model.isUniqueDefined() && (type instanceof NodeType || type instanceof EdgeType))
 			routedSB.appendFront("uniqueId = oldElem.uniqueId;\n");
 		for(Entity member : type.getAllMembers()) {
 			if(member.isConst())
@@ -645,10 +746,12 @@ public class ModelGen extends CSharpBase
 				routedSB.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
 								+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
 			} else if(model.isCopyClassDefined()
-					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
 				routedSB.appendFront("AttributeTypeObjectCopierComparer.Copy("
 						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
+			//} else if(member.getType() instanceof InternalObjectType) {
+				// TODO - as of now case below, reference assignment
 			} else {
 				routedSB.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = "
 						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
@@ -661,7 +764,7 @@ public class ModelGen extends CSharpBase
 	private void genElementAttributeComparisonMethod(InheritanceType type, SourceBuilder routedSB,
 			String routedClassName)
 	{
-		routedSB.appendFront("public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {\n");
+		routedSB.appendFront("public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {\n");
 		routedSB.indent();
 		routedSB.appendFront("if(!(that is " + routedClassName + ")) return false;\n");
 		routedSB.appendFront(routedClassName + " that_ = (" + routedClassName + ")that;\n");
@@ -678,7 +781,7 @@ public class ModelGen extends CSharpBase
 								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else if(model.isEqualClassDefined()
-					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
 				routedSB.appendFront("&& AttributeTypeObjectCopierComparer.IsEqual("
 								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
@@ -686,6 +789,8 @@ public class ModelGen extends CSharpBase
 			} else if(member.getType().classify() == TypeClass.IS_GRAPH) {
 				routedSB.appendFront("&& GRGEN_LIBGR.GraphHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+			//} else if(member.getType().classify() == TypeClass.IS_INTERNAL_CLASS_OBJECT) {
+				// TODO - as of now case below, reference comparison/semantics
 			} else {
 				routedSB.appendFront("&& " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " == "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");
@@ -863,7 +968,7 @@ public class ModelGen extends CSharpBase
 			} else if(t instanceof BooleanType) {
 				sb.append("false;\n");
 			} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType
-					|| t instanceof ExternalType || t instanceof GraphType || t instanceof InheritanceType) {
+					|| t instanceof ExternalObjectType || t instanceof GraphType || t instanceof InheritanceType) {
 				sb.append("null;\n");
 			} else {
 				throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
@@ -1391,7 +1496,7 @@ deque_init_loop:
 	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState)
 	{
 		Entity owner = qual.getOwner();
-		sb.append("((I" + getNodeOrEdgeTypePrefix(owner) +
+		sb.append("((I" + getInheritanceTypePrefix(owner) +
 				formatIdentifiable(owner.getType()) + ") ");
 		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(qual.getMember()));
 	}
@@ -1668,7 +1773,7 @@ deque_init_loop:
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
 				be.system.emitProfilingInstrumentation());
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 		for(EvalStatement evalStmt : fm.getStatements()) {
 			modifyGenState.functionOrProcedureName = fm.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -1754,8 +1859,8 @@ deque_init_loop:
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
 				be.system.emitProfilingInstrumentation());
-		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix);
+		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
 
 		if(be.system.mayFireDebugEvents()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
@@ -1788,11 +1893,17 @@ deque_init_loop:
 		String typeident = formatIdentifiable(type);
 		String typename = formatTypeClassName(type);
 		String typeref = formatTypeClassRef(type);
-		String elemref = formatElementClassRef(type);
+		String elemref = formatInheritanceClassRef(type);
 		String extName = type.getExternalName();
 		String allocName = extName != null ? "global::" + extName : elemref;
-		boolean isNode = type instanceof NodeType;
-		String kindStr = isNode ? "Node" : "Edge";
+		String kindStr;
+		if(type instanceof NodeType) {
+			kindStr = "Node";
+		} else if(type instanceof EdgeType) {
+			kindStr = "Edge";
+		} else {
+			kindStr = "Object";
+		}
 
 		sb.append("\n");
 		sb.appendFront("public sealed partial class " + typename + " : GRGEN_LIBGR." + kindStr + "Type\n");
@@ -1805,7 +1916,7 @@ deque_init_loop:
 		genAttributeAttributes(type);
 
 		sb.appendFront("public " + typename + "() "
-				+ ": base((int) " + formatNodeOrEdge(type) + "Types.@" + typeident + ")\n");
+				+ ": base((int) " + formatInheritanceTypeValue(type) + "Types.@" + typeident + ")\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genAttributeInit(type);
@@ -1820,36 +1931,36 @@ deque_init_loop:
 				+ getPackagePrefixDoubleColon(type) + typeident + "\"; } }\n");
 		switch(type.getIdent().toString()) {
 		case "Node":
-			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
+			sb.appendFront("public override string " + formatInheritanceTypeValue(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.libGr.INode\"; } }\n");
 			break;
 		case "AEdge":
-			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
+			sb.appendFront("public override string " + formatInheritanceTypeValue(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.libGr.IEdge\"; } }\n");
 			break;
 		case "Edge":
-			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
+			sb.appendFront("public override string " + formatInheritanceTypeValue(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.libGr.IDEdge\"; } }\n");
 			break;
 		case "UEdge":
-			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
+			sb.appendFront("public override string " + formatInheritanceTypeValue(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.libGr.IUEdge\"; } }\n");
 			break;
 		default:
-			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
+			sb.appendFront("public override string " + formatInheritanceTypeValue(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.Model_" + model.getIdent() + "."
-					+ getPackagePrefixDot(type) + "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type)
+					+ getPackagePrefixDot(type) + "I" + getInheritanceTypePrefix(type) + formatIdentifiable(type)
 					+ "\"; } }\n");
 		}
 		if(type.isAbstract()) {
-			sb.appendFront("public override string " + formatNodeOrEdge(type) + "ClassName { get { return null; } }\n");
+			sb.appendFront("public override string " + formatInheritanceTypeValue(type) + "ClassName { get { return null; } }\n");
 		} else {
-			sb.appendFront("public override string " + formatNodeOrEdge(type)
+			sb.appendFront("public override string " + formatInheritanceTypeValue(type)
 					+ "ClassName { get { return \"de.unika.ipd.grGen.Model_"
-					+ model.getIdent() + "." + getPackagePrefixDot(type) + formatElementClassName(type) + "\"; } }\n");
+					+ model.getIdent() + "." + getPackagePrefixDot(type) + formatInheritanceClassName(type) + "\"; } }\n");
 		}
 
-		if(isNode) {
+		if(type instanceof NodeType) {
 			sb.appendFront("public override GRGEN_LIBGR.INode CreateNode()\n");
 			sb.appendFront("{\n");
 			sb.indent();
@@ -1860,7 +1971,7 @@ deque_init_loop:
 				sb.appendFront("return new " + allocName + "();\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-		} else {
+		} else if (type instanceof EdgeType) {
 			EdgeType edgeType = (EdgeType)type;
 			sb.appendFront("public override GRGEN_LIBGR.Directedness Directedness "
 					+ "{ get { return GRGEN_LIBGR.Directedness.");
@@ -1901,6 +2012,17 @@ deque_init_loop:
 			else
 				sb.appendFront("((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget"
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
+			sb.unindent();
+			sb.appendFront("}\n");
+		} else {
+			sb.appendFront("public override GRGEN_LIBGR.IObject CreateObject()\n");
+			sb.appendFront("{\n");
+			sb.indent();
+			if(type.isAbstract())
+				sb.appendFront("throw new Exception(\"The abstract object class type "
+						+ typeident + " cannot be instantiated!\");\n");
+			else
+				sb.appendFront("return new " + allocName + "();\n");
 			sb.unindent();
 			sb.appendFront("}\n");
 		}
@@ -2118,7 +2240,7 @@ deque_init_loop:
 			return "GRGEN_LIBGR.AttributeKind.StringAttr";
 		else if(t instanceof EnumType)
 			return "GRGEN_LIBGR.AttributeKind.EnumAttr";
-		else if(t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalType)
+		else if(t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalObjectType)
 			return "GRGEN_LIBGR.AttributeKind.ObjectAttr";
 		else if(t instanceof MapType)
 			return "GRGEN_LIBGR.AttributeKind.MapAttr";
@@ -2134,6 +2256,8 @@ deque_init_loop:
 			return "GRGEN_LIBGR.AttributeKind.EdgeAttr";
 		else if(t instanceof GraphType)
 			return "GRGEN_LIBGR.AttributeKind.GraphAttr";
+		else if(t instanceof InternalObjectType)
+			return "GRGEN_LIBGR.AttributeKind.InternalClassObjectAttr";
 		else
 			throw new IllegalArgumentException("Unknown Type: " + t);
 	}
@@ -2311,21 +2435,32 @@ deque_init_loop:
 
 	private void genCreateWithCopyCommons(InheritanceType type)
 	{
-		boolean isNode = type instanceof NodeType;
-		String elemref = formatElementClassRef(type);
+		String elemref = formatInheritanceClassRef(type);
 		String extName = type.getExternalName();
 		String allocName = extName != null ? "global::" + extName : elemref;
-		String kindName = isNode ? "Node" : "Edge";
+		String kindName;
+		if(type instanceof NodeType) {
+			kindName = "Node";
+		} else if(type instanceof EdgeType) {
+			kindName = "Edge";
+		} else {
+			kindName = "Object";
+		}
 
-		if(isNode) {
+		if(type instanceof NodeType) {
 			sb.appendFront("public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons("
 					+ "GRGEN_LIBGR.INode oldINode)\n");
 			sb.appendFront("{\n");
 			sb.indent();
-		} else {
+		} else if(type instanceof EdgeType) {
 			sb.appendFront("public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons("
 					+ "GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, "
 					+ "GRGEN_LIBGR.IEdge oldIEdge)\n");
+			sb.appendFront("{\n");
+			sb.indent();
+		} else {
+			sb.appendFront("public override GRGEN_LIBGR.IObject CreateObjectWithCopyCommons("
+					+ "GRGEN_LIBGR.IObject oldIObject)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 		}
@@ -2341,13 +2476,16 @@ deque_init_loop:
 		Map<BitSet, LinkedList<InheritanceType>> commonGroups = getCommonGroups(type);
 
 		if(commonGroups.size() != 0) {
-			if(isNode) {
+			if(type instanceof NodeType) {
 				sb.appendFront("GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;\n");
 				sb.appendFront(elemref + " newNode = new " + allocName + "();\n");
-			} else {
+			} else if(type instanceof EdgeType) {
 				sb.appendFront("GRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;\n");
 				sb.appendFront(elemref + " newEdge = new " + allocName
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
+			} else {
+				sb.appendFront("GRGEN_LGSP.LGSPClass oldClass = (GRGEN_LGSP.LGSPClass) oldIObject;\n");
+				sb.appendFront(elemref + " newObject = new " + allocName + "();\n");
 			}
 			sb.appendFront("switch(old" + kindName + ".Type.TypeID)\n");
 			sb.appendFront("{\n");
@@ -2362,11 +2500,13 @@ deque_init_loop:
 			sb.appendFront("}\n");
 			sb.append("\n");
 		} else {
-			if(isNode)
+			if(type instanceof NodeType)
 				sb.appendFront("return new " + allocName + "();\n");
-			else {
+			else if(type instanceof EdgeType) {
 				sb.appendFront("return new " + allocName
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
+			} else {
+				sb.appendFront("return new " + allocName + "();\n");
 			}
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -2540,7 +2680,7 @@ commonLoop:
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : fm.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -2548,7 +2688,7 @@ commonLoop:
 		}
 		sb.append(" },\n");
 		Type outType = fm.getReturnType();
-		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+		if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 			sb.appendFront(formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
 			sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
@@ -2603,7 +2743,7 @@ commonLoop:
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : pm.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -2612,7 +2752,7 @@ commonLoop:
 		sb.append(" },\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type outType : pm.getReturnTypes()) {
-			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
+			if(outType instanceof InheritanceType && !(outType instanceof ExternalObjectType)) {
 				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + ")), ");
@@ -2647,9 +2787,9 @@ commonLoop:
 	private boolean hasArrayHelpers(Entity entity)
 	{
 		if(entity.getType().isFilterableType()
-				|| entity.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+				|| entity.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 				|| entity.getType().classify() == TypeClass.IS_OBJECT) {
-			if((entity.getType().classify() == TypeClass.IS_EXTERNAL_TYPE
+			if((entity.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 					|| entity.getType().classify() == TypeClass.IS_OBJECT)
 					&& !(model.isEqualClassDefined() && model.isLowerClassDefined()))
 				return false;
@@ -2691,10 +2831,10 @@ commonLoop:
 
 		if(type instanceof EdgeType) {
 			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = "
-					+ "new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "(null, null);\n");
+					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "(null, null);\n");
 		} else {
 			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = "
-					+ "new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "();\n");
+					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "();\n");
 		}
 
 		genIndexOfByMethod(typeName, attributeName, attributeTypeName);
@@ -2898,26 +3038,35 @@ commonLoop:
 	/**
 	 * Generates the model class for the edge or node types.
 	 */
-	private void genModelClass(Collection<? extends InheritanceType> types, boolean isNode)
+	private void genModelClass(Collection<? extends InheritanceType> types, InheritanceTypeType typeType)
 	{
-		String kindStr = isNode ? "Node" : "Edge";
+		String kindStr = typeType.toString();
 
 		sb.appendFront("//\n");
-		sb.appendFront("// " + formatNodeOrEdge(isNode) + " model\n");
+		sb.appendFront("// " + kindStr + " model\n");
 		sb.appendFront("//\n");
 		sb.append("\n");
-		sb.appendFront("public sealed class " + model.getIdent() + formatNodeOrEdge(isNode)
+		sb.appendFront("public sealed class " + model.getIdent() + kindStr
 				+ "Model : GRGEN_LIBGR.I" + kindStr + "Model\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
-		InheritanceType rootType = genModelConstructor(isNode, types);
+		InheritanceType rootType = genModelConstructor(typeType, types);
 
-		sb.appendFront("public bool IsNodeModel { get { return " + (isNode ? "true" : "false") + "; } }\n");
+		if(typeType == InheritanceTypeType.Node) {
+			sb.appendFront("public bool IsNodeModel { get { return true; } }\n");
+		} else if(typeType == InheritanceTypeType.Edge) {
+			sb.appendFront("public bool IsNodeModel { get { return false; } }\n");
+		}
 		sb.appendFront("public GRGEN_LIBGR." + kindStr + "Type RootType { get { return "
 				+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
-		sb.appendFront("GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return "
+		if(typeType == InheritanceTypeType.Node || typeType == InheritanceTypeType.Edge) {
+			sb.appendFront("GRGEN_LIBGR.GraphElementType GRGEN_LIBGR.IGraphElementTypeModel.RootType { get { return "
+					+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
+		}
+		sb.appendFront("GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.RootType { get { return "
 				+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
+
 		sb.appendFront("public GRGEN_LIBGR." + kindStr + "Type GetType(string name)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2933,7 +3082,15 @@ commonLoop:
 		sb.appendFront("return null;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
-		sb.appendFront("GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)\n");
+
+		if(typeType == InheritanceTypeType.Node || typeType == InheritanceTypeType.Edge) {
+			sb.appendFront("GRGEN_LIBGR.GraphElementType GRGEN_LIBGR.IGraphElementTypeModel.GetType(string name)\n");
+			sb.appendFront("{\n");
+			sb.appendFrontIndented("return GetType(name);\n");
+			sb.appendFront("}\n");
+		}
+
+		sb.appendFront("GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.GetType(string name)\n");
 		sb.appendFront("{\n");
 		sb.appendFrontIndented("return GetType(name);\n");
 		sb.appendFront("}\n");
@@ -2945,8 +3102,13 @@ commonLoop:
 		}
 		sb.unindent();
 		sb.appendFront("};\n");
+
 		sb.appendFront("public GRGEN_LIBGR." + kindStr + "Type[] Types { get { return types; } }\n");
-		sb.appendFront("GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types "
+		if(typeType == InheritanceTypeType.Node || typeType == InheritanceTypeType.Edge) {
+			sb.appendFront("GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types "
+				+ "{ get { return types; } }\n");
+		}
+		sb.appendFront("GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types "
 				+ "{ get { return types; } }\n");
 
 		sb.appendFront("private System.Type[] typeTypes = {\n");
@@ -2975,12 +3137,12 @@ commonLoop:
 		sb.appendFront("}\n");
 	}
 
-	private InheritanceType genModelConstructor(boolean isNode, Collection<? extends InheritanceType> types)
+	private InheritanceType genModelConstructor(InheritanceTypeType typeType, Collection<? extends InheritanceType> types)
 	{
-		String kindStr = (isNode ? "Node" : "Edge");
+		String kindStr = typeType.toString();
 		InheritanceType rootType = null;
 
-		sb.appendFront("public " + model.getIdent() + formatNodeOrEdge(isNode) + "Model()\n");
+		sb.appendFront("public " + model.getIdent() + kindStr + "Model()\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		for(InheritanceType type : types) {
@@ -3152,7 +3314,7 @@ commonLoop:
 			return;
 
 		String name = getPackagePrefix(nodeType) + formatIdentifiable(nodeType);
-		String elemref = formatElementClassRef(nodeType);
+		String elemref = formatInheritanceClassRef(nodeType);
 		sb.appendFront("public " + elemref + " CreateNode" + name + "()\n");
 		sb.appendFront("{\n");
 		sb.appendFrontIndented("return " + elemref + ".CreateNode(this);\n");
@@ -3175,7 +3337,7 @@ commonLoop:
 			return;
 
 		String name = getPackagePrefix(edgeType) + formatIdentifiable(edgeType);
-		String elemref = formatElementClassRef(edgeType);
+		String elemref = formatInheritanceClassRef(edgeType);
 		sb.appendFront("public @" + elemref + " CreateEdge" + name);
 		sb.append("(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)\n");
 		sb.appendFront("{\n");
@@ -3198,6 +3360,7 @@ commonLoop:
 	{
 		sb.appendFront("private " + modelName + "NodeModel nodeModel = new " + modelName + "NodeModel();\n");
 		sb.appendFront("private " + modelName + "EdgeModel edgeModel = new " + modelName + "EdgeModel();\n");
+		sb.appendFront("private " + modelName + "ObjectModel objectModel = new " + modelName + "ObjectModel();\n");
 
 		genPackages();
 		genEnumAttributeTypes();
@@ -3210,6 +3373,7 @@ commonLoop:
 
 		sb.appendFront("public override GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }\n");
 		sb.appendFront("public override GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }\n");
+		sb.appendFront("public override GRGEN_LIBGR.IObjectModel ObjectModel { get { return objectModel; } }\n");
 
 		sb.appendFront("public override IEnumerable<string> Packages "
 				+ "{ get { return packages; } }\n");
@@ -3293,12 +3457,12 @@ commonLoop:
 	{
 		sb.appendFront("if(array.Count == 0)\n");
 		sb.appendFrontIndented("return array;\n");
-		sb.appendFront("if(!(array[0] is GRGEN_LIBGR.IGraphElement))\n");
+		sb.appendFront("if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))\n");
 		sb.appendFrontIndented("return null;\n");
-		sb.appendFront("GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];\n");
+		sb.appendFront("GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];\n");
 		sb.appendFront("switch(elem.Type.PackagePrefixedName)\n");
 		sb.appendFront("{\n");
-		for(InheritanceType type : model.getAllNodeAndEdgeTypes()) {
+		for(InheritanceType type : model.getAllInheritanceTypes()) {
 			if(getNonAbstractTypeOrSubtype(type) == null)
 				continue;
 			genArrayHelperByTypeDispatcher(type, name, requiresOrderable);
@@ -3373,7 +3537,7 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );\n");
-		for(ExternalType et : model.getExternalTypes()) {
+		for(ExternalObjectType et : model.getExternalTypes()) {
 			sb.appendFront("externalType_" + et.getIdent() + ".InitDirectSupertypes( "
 					+ "new GRGEN_LIBGR.ExternalType[] { ");
 			boolean directSupertypeAvailable = false;
@@ -3414,14 +3578,14 @@ commonLoop:
 	{
 		sb.append("\n");
 		sb.appendFront("public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();\n");
-		for(ExternalType et : model.getExternalTypes()) {
+		for(ExternalObjectType et : model.getExternalTypes()) {
 			sb.appendFront("public static GRGEN_LIBGR.ExternalType externalType_" + et.getIdent()
 					+ " = new ExternalType_" + et.getIdent() + "();\n");
 		}
 
 		sb.appendFront("private GRGEN_LIBGR.ExternalType[] externalTypes = { ");
 		sb.append("externalType_object");
-		for(ExternalType et : model.getExternalTypes()) {
+		for(ExternalObjectType et : model.getExternalTypes()) {
 			sb.append(", externalType_" + et.getIdent());
 		}
 		sb.append(" };\n");

@@ -4,7 +4,7 @@ GrGen: The Graph Rewrite Generator
 
 Welcome to GrGen.NET!
 
-GrGen.NET is a software development tool that offers programming languages optimized for graph-structured data, with declarative pattern matching and rewriting at their core, with support for imperative and object-oriented programming, and a bit of database-like query-result processing.
+GrGen.NET is a software development tool that offers programming languages optimized for graph-structured data, with declarative pattern matching and rewriting at their core, with support for imperative and object-oriented programming, and database-like query-result processing.
 The languages are brought to life by a compiler emitting highly efficient assemblies and a rapid prototyping environment offering graphical and step-wise debugging.
 
 The tool eases the transformation of graph-based representations, or better: allows you to work at their natural level of abstraction.
@@ -17,8 +17,3 @@ The home page is:
 To learn more about GrGen, take a look at its user manual: 
 
     http://grgen.net/GrGenNET-Manual.pdf (or https://github.com/ejaku/grgen/blob/master/doc/grgen.pdf)
-
-The source code was previously available from: 
-
-    https://bitbucket.org/eja/grgen
-

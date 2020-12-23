@@ -13,29 +13,24 @@ using System.Collections.Generic;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A type model for node or edge elements.
+    /// A type model for nodes or edges or objects (of node classes, edge classes, internal classes).
     /// </summary>
     public interface ITypeModel
     {
         /// <summary>
-        /// Specifies whether this type model is model for nodes (= true) or for edges (= false).
-        /// </summary>
-        bool IsNodeModel { get; }
-
-        /// <summary>
         /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
         /// </summary>
-        GrGenType RootType { get; }
+        InheritanceType RootType { get; }
 
         /// <summary>
         /// Returns the element type with the given type name or null, if no type with this name exists.
         /// </summary>
-        GrGenType GetType(String name);
+        InheritanceType GetType(String name);
 
         /// <summary>
         /// An array of all types in this type model.
         /// </summary>
-        GrGenType[] Types { get; }
+        InheritanceType[] Types { get; }
 
         /// <summary>
         /// An array of C# types of model types.
@@ -49,9 +44,35 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// A type model for nodes.
+    /// A type model for node or edge elements.
     /// </summary>
-    public interface INodeModel : ITypeModel
+    public interface IGraphElementTypeModel : ITypeModel
+    {
+        /// <summary>
+        /// Specifies whether this type model is model for nodes (= true) or for edges (= false).
+        /// </summary>
+        bool IsNodeModel { get; }
+
+        /// <summary>
+        /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
+        /// </summary>
+        new GraphElementType RootType { get; }
+
+        /// <summary>
+        /// Returns the element type with the given type name or null, if no type with this name exists.
+        /// </summary>
+        new GraphElementType GetType(String name);
+
+        /// <summary>
+        /// An array of all types in this type model.
+        /// </summary>
+        new GraphElementType[] Types { get; }
+    }
+
+    /// <summary>
+    /// A type model for nodes, i.e. node classes.
+    /// </summary>
+    public interface INodeModel : IGraphElementTypeModel
     {
         /// <summary>
         /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
@@ -70,9 +91,9 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// A type model for edges.
+    /// A type model for edges, i.e. edge classes.
     /// </summary>
-    public interface IEdgeModel : ITypeModel
+    public interface IEdgeModel : IGraphElementTypeModel
     {
         /// <summary>
         /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
@@ -88,5 +109,26 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of all types in this type model.
         /// </summary>
         new EdgeType[] Types { get; }
+    }
+
+    /// <summary>
+    /// A type model for objects (internal non graph-element values), i.e. classes.
+    /// </summary>
+    public interface IObjectModel : ITypeModel
+    {
+        /// <summary>
+        /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
+        /// </summary>
+        new ObjectType RootType { get; }
+
+        /// <summary>
+        /// Returns the object type with the given type name or null, if no type with this name exists.
+        /// </summary>
+        new ObjectType GetType(String name);
+
+        /// <summary>
+        /// An array of all types in this type model.
+        /// </summary>
+        new ObjectType[] Types { get; }
     }
 }

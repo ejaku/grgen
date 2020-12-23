@@ -726,7 +726,9 @@ namespace de.unika.ipd.grGen.lgsp
                         YieldAssignment assignment = new YieldAssignment(
                             targetName,
                             isVariable,
-                            patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i] is VarType ? TypesHelper.TypeName(patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i]) : patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i].IsNodeType ? "GRGEN_LGSP.LGSPNode" : "GRGEN_LGSP.LGSPEdge",
+                            patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i] is VarType ?
+                                TypesHelper.TypeName(patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i]) :
+                                ((GraphElementType)patternEmbedding.matchingPatternOfEmbeddedGraph.defs[i]).IsNodeType ? "GRGEN_LGSP.LGSPNode" : "GRGEN_LGSP.LGSPEdge",
                             isVariable ? (Expression)new VariableExpression(elem.Name) : (Expression)new GraphEntityExpression(elem.Name)
                         );
 
@@ -1951,7 +1953,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(target.PatternElement.AllowedTypes == null)
             { // the pattern element type and all subtypes are allowed
-                GrGenType targetType = typeModel.Types[target.PatternElement.TypeID];
+                GraphElementType targetType = ((IGraphElementTypeModel)typeModel).Types[target.PatternElement.TypeID];
                 if(targetType == typeModel.RootType)
                 { // every type matches the root type == element type -> no check needed
                     return insertionPoint;

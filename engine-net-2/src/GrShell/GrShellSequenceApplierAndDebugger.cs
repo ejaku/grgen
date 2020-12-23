@@ -701,7 +701,7 @@ namespace de.unika.ipd.grGen.grShell
                 return null;
             }
 
-            if(TypesHelper.GetNodeOrEdgeType(typeName, impl.curShellProcEnv.ProcEnv.NamedGraph.Model) != null) // if type is node/edge type let the user select the element in yComp
+            if(TypesHelper.GetGraphElementType(typeName, impl.curShellProcEnv.ProcEnv.NamedGraph.Model) != null) // if type is node/edge type let the user select the element in yComp
             {
                 if(!CheckDebuggerAlive())
                 {

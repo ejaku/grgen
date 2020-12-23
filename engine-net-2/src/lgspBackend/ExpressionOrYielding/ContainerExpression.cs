@@ -3506,4 +3506,50 @@ namespace de.unika.ipd.grGen.expression
         readonly String ValueType;
         readonly DequeItem Next;
     }
+
+    /// <summary>
+    /// Class representing a match class constructor.
+    /// </summary>
+    public class MatchClassConstructor : Expression
+    {
+        public MatchClassConstructor(String className)
+        {
+            ClassName = className;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new MatchClassConstructor(ClassName);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("new " + ClassName + "()");
+        }
+
+        readonly String ClassName;
+    }
+
+    /// <summary>
+    /// Class representing a match type constructor.
+    /// </summary>
+    public class InternalObjectConstructor : Expression
+    {
+        public InternalObjectConstructor(String className)
+        {
+            ClassName = className;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new InternalObjectConstructor(ClassName);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("new " + ClassName + "()");
+        }
+
+        readonly String ClassName;
+    }
 }

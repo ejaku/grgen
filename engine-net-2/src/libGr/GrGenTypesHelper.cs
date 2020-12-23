@@ -115,6 +115,13 @@ namespace de.unika.ipd.grGen.libGr
                 else
                     return package + "::" + type.Substring(9); // remove "EdgeType_"
             }
+            if(typeName.StartsWith("ObjectType_"))
+            {
+                if(package == null)
+                    return type.Substring(11); // remove "ObjectType_"
+                else
+                    return package + "::" + type.Substring(11); // remove "ObjectType_"
+            }
 
             if(typeName.StartsWith("IMatch_") || typeName.StartsWith("Match_"))
             {
@@ -186,6 +193,8 @@ namespace de.unika.ipd.grGen.libGr
             case AttributeKind.NodeAttr:
                 return attributeType.PackagePrefixedTypeName;
             case AttributeKind.EdgeAttr:
+                return attributeType.PackagePrefixedTypeName;
+            case AttributeKind.InternalClassObjectAttr:
                 return attributeType.PackagePrefixedTypeName;
             case AttributeKind.GraphAttr:
                 return "graph";
@@ -356,6 +365,18 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
+            foreach(ObjectType leftObjectType in model.ObjectModel.Types)
+            {
+                if(leftObjectType.PackagePrefixedName == xgrsTypeSameOrSub)
+                {
+                    foreach(ObjectType rightObjectType in model.ObjectModel.Types)
+                    {
+                        if(rightObjectType.PackagePrefixedName == xgrsTypeBase)
+                            return leftObjectType.IsA(rightObjectType);
+                    }
+                }
+            }
+
             foreach(ExternalType leftExternalType in model.ExternalTypes)
             {
                 if(leftExternalType.Name == xgrsTypeSameOrSub)
@@ -466,23 +487,48 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
-            object typeinsteadofobject = NodeOrEdgeTypeIfNodeOrEdge(constant);
-            return DotNetTypeToXgrsType(typeinsteadofobject.GetType().Name, typeinsteadofobject.GetType().FullName);
+            object typeInsteadOfObject = InheritanceTypeIfInheritanceTypeValue(constant);
+            return DotNetTypeToXgrsType(typeInsteadOfObject.GetType().Name, typeInsteadOfObject.GetType().FullName);
         }
 
-        public static object NodeOrEdgeTypeIfNodeOrEdge(object constant)
+        public static object InheritanceTypeIfInheritanceTypeValue(object constant)
         {
             if(constant is INode)
                 return ((INode)constant).Type;
             else if(constant is IEdge)
                 return ((IEdge)constant).Type;
+            else if(constant is IObject)
+                return ((IObject)constant).Type;
             else
                 return constant;
         }
 
         // ------------------------------------------------------------------------------------------------
 
-        public static GrGenType GetNodeOrEdgeType(String typeName, IGraphModel model)
+        public static InheritanceType GetInheritanceType(String typeName, IGraphModel model)
+        {
+            foreach(NodeType nodeType in model.NodeModel.Types)
+            {
+                if(nodeType.PackagePrefixedName == typeName)
+                    return nodeType;
+            }
+
+            foreach(EdgeType edgeType in model.EdgeModel.Types)
+            {
+                if(edgeType.PackagePrefixedName == typeName)
+                    return edgeType;
+            }
+
+            foreach(ObjectType objectType in model.ObjectModel.Types)
+            {
+                if(objectType.PackagePrefixedName == typeName)
+                    return objectType;
+            }
+
+            return null;
+        }
+
+        public static GraphElementType GetGraphElementType(String typeName, IGraphModel model)
         {
             foreach(NodeType nodeType in model.NodeModel.Types)
             {
@@ -516,6 +562,17 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(edgeType.PackagePrefixedName == typeName)
                     return edgeType;
+            }
+
+            return null;
+        }
+
+        public static ObjectType GetObjectType(String typeName, IGraphModel model)
+        {
+            foreach(ObjectType objectType in model.ObjectModel.Types)
+            {
+                if(objectType.PackagePrefixedName == typeName)
+                    return objectType;
             }
 
             return null;

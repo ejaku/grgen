@@ -82,7 +82,7 @@ import de.unika.ipd.grgen.ast.expr.string.StringStartsWithNode;
 import de.unika.ipd.grgen.ast.expr.string.StringSubstringNode;
 import de.unika.ipd.grgen.ast.expr.string.StringToLowerNode;
 import de.unika.ipd.grgen.ast.expr.string.StringToUpperNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -176,13 +176,13 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 			result = decideArray(targetExpr, attributeIdent, methodName, arguments, resolvingEnvironment);
 		} else if(targetType instanceof DequeTypeNode) {
 			result = decideDeque(targetExpr, attributeIdent, methodName, arguments, resolvingEnvironment);
-		} else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalTypeNode)) {
+		} else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalObjectTypeNode)) {
 			if(targetExpr instanceof FunctionMethodInvocationDecisionNode) {
 				reportError("method call chains are not supported, assign to a temporary def variable and invoke the method on it");
 				return false;
 			}
 			result = new FunctionMethodInvocationExprNode(((IdentExprNode)targetExpr).getIdent(), methodIdent, arguments);
-		} else if(targetType instanceof ExternalTypeNode) {
+		} else if(targetType instanceof ExternalObjectTypeNode) {
 			result = new ExternalFunctionMethodInvocationExprNode(targetExpr, methodIdent, arguments);
 		} else if(targetType instanceof UntypedExecVarTypeNode) {
 			result = new UntypedFunctionMethodInvocationExprNode(methodIdent.getCoords(), arguments);

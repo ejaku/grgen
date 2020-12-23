@@ -599,7 +599,12 @@ Otherwise the changes won't be visible in the debugger.
 The action based events that are declared by the \texttt{IActionExecutionEnvironment} are:
 
 \begin{csharplet}
-// Fired after all requested matches of a rule have been matched.
+// Fired after all requested matches of a multi rule or rule have been matched, yet before filtering/selection of the matches.
+// Allows a lookahead on the matches, on all found matches, in contrast to OnMatched that only reports the ones that are applied in the end.
+// Also fired for queries, esp. for queries used for computing rule(/test) arguments, which don't cause a firing of other events.
+event PreMatchHandler OnPreMatched;
+
+// Fired after all requested matches of a rule have been matched (after filtering/selection of matches).
 event AfterMatchHandler OnMatched;
 
 // Fired before the rewrite step of a rule, when at least one match has been found.
