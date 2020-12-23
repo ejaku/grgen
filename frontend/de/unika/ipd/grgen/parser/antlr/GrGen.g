@@ -1425,7 +1425,7 @@ filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns
 				{ // inserts this as variable of array of match type into scope,to be resolved by identifier matching
 					VarDeclNode thisVarDecl = new VarDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(id))),
 							new ArrayTypeNode(env.getMatchTypeChild(env.getCurrentActionOrSubpattern(), iterated)),
-							PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true, false);
+							PatternGraphLhsNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true, false, "ref");
 				}
 				e=expr[namer, context, false]
 				{ env.popScope(); } { namer.undefExprBlock(); } RBRACE)?
