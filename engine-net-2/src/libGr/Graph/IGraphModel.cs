@@ -154,10 +154,10 @@ namespace de.unika.ipd.grGen.libGr
         #region Comparison of attributes of object or user defined type, external types in general
 
         /// <summary>
-        /// The external types known to this model, it contains always and at least the object type,
+        /// The external object types known to this model, it contains always and at least the object type,
         /// the bottom type of the external attribute types hierarchy.
         /// </summary>
-        ExternalType[] ExternalTypes { get; }
+        ExternalObjectType[] ExternalObjectTypes { get; }
 
         /// <summary>
         /// Tells whether AttributeTypeObjectCopierComparer.IsEqual functions are available,

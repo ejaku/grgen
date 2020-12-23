@@ -384,7 +384,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.EqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
                 return graph.Model.IsEqual((object)leftValue, (object)rightValue);
             }
@@ -761,7 +761,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.NotEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
                 return !graph.Model.IsEqual((object)leftValue, (object)rightValue);
             }
@@ -1126,7 +1126,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.LessThanIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
                 return graph.Model.IsLower((object)leftValue, (object)rightValue);
             }
@@ -1485,7 +1485,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.GreaterThanIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
                 return !graph.Model.IsLower((object)leftValue, (object)rightValue) && !graph.Model.IsEqual((object)leftValue, (object)rightValue);
             }
@@ -1844,7 +1844,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.LessOrEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
                 return graph.Model.IsLower((object)leftValue, (object)rightValue) || graph.Model.IsEqual((object)leftValue, (object)rightValue);
             }
@@ -2203,7 +2203,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.GreaterOrEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
                 return !graph.Model.IsLower((object)leftValue, (object)rightValue);
             }

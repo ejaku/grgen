@@ -49,7 +49,7 @@ public class ModelExternalGen extends CSharpBase
 				+ "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
 				+ "using GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n");
 
-		if(!model.getExternalTypes().isEmpty() || model.isEmitClassDefined() || model.isEmitGraphClassDefined()) {
+		if(!model.getExternalObjectTypes().isEmpty() || model.isEmitClassDefined() || model.isEmitGraphClassDefined()) {
 			sb.append("\n");
 			sb.appendFront("namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n"
 					+ "{\n");
@@ -117,16 +117,16 @@ public class ModelExternalGen extends CSharpBase
 	///////////////////////////////
 
 	/**
-	 * Generates the external type implementation
+	 * Generates the external object type implementation
 	 */
-	public void genExternalType(ExternalObjectType type)
+	public void genExternalObjectType(ExternalObjectType type)
 	{
 		sb.append("\n");
-		sb.appendFront("public sealed class ExternalType_" + type.getIdent() + " : GRGEN_LIBGR.ExternalType\n");
+		sb.appendFront("public sealed class ExternalObjectType_" + type.getIdent() + " : GRGEN_LIBGR.ExternalObjectType\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
-		sb.appendFront("public ExternalType_" + type.getIdent() + "()\n");
+		sb.appendFront("public ExternalObjectType_" + type.getIdent() + "()\n");
 		sb.appendFrontIndented(": base(\"" + type.getIdent() + "\", typeof(" + type.getIdent() + "))\n");
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
@@ -388,14 +388,14 @@ public class ModelExternalGen extends CSharpBase
 		sb.append("\n");
 	}
 
-	public void genExternalTypeObject()
+	public void genExternalObjectTypeObject()
 	{
 		sb.append("\n");
-		sb.appendFront("public sealed class ExternalType_object : GRGEN_LIBGR.ExternalType\n");
+		sb.appendFront("public sealed class ExternalObjectType_object : GRGEN_LIBGR.ExternalObjectType\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
-		sb.appendFront("public ExternalType_object()\n");
+		sb.appendFront("public ExternalObjectType_object()\n");
 		sb.appendFrontIndented(": base(\"object\", typeof(object))\n");
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
@@ -417,10 +417,10 @@ public class ModelExternalGen extends CSharpBase
 
 	private void genExternalClasses()
 	{
-		for(ExternalObjectType et : model.getExternalTypes()) {
-			sb.appendFront("public partial class " + et.getIdent());
+		for(ExternalObjectType eot : model.getExternalObjectTypes()) {
+			sb.appendFront("public partial class " + eot.getIdent());
 			boolean first = true;
-			for(InheritanceType superType : et.getDirectSuperTypes()) {
+			for(InheritanceType superType : eot.getDirectSuperTypes()) {
 				if(first) {
 					sb.append(" : ");
 				} else {
@@ -435,7 +435,7 @@ public class ModelExternalGen extends CSharpBase
 			sb.appendFront("// You must implement this class in the same partial class in ./" + model.getIdent()
 					+ "ModelExternalFunctionsImpl.cs:\n");
 
-			genExtMethods(et);
+			genExternalMethods(eot);
 
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -443,7 +443,7 @@ public class ModelExternalGen extends CSharpBase
 		}
 	}
 
-	private void genExtMethods(ExternalObjectType type)
+	private void genExternalMethods(ExternalObjectType type)
 	{
 		if(type.getAllExternalFunctionMethods().size() == 0 && type.getAllExternalProcedureMethods().size() == 0)
 			return;
@@ -618,13 +618,13 @@ public class ModelExternalGen extends CSharpBase
 			sb.appendFront("//public static bool IsLower(object, object);\n");
 			sb.append("\n");
 		}
-		if(model.getExternalTypes().size() > 0) {
+		if(model.getExternalObjectTypes().size() > 0) {
 			sb.append("\n");
 			sb.appendFront("// The same functions, just for each user defined type.\n");
 			sb.appendFront("// Those are normally treated as object (if no \"copy class or == class or < class\" is specified),\n");
 			sb.appendFront("// i.e. equal if identical references, no ordered comparisons available, and copy just copies the reference (making them identical).\n");
 			sb.appendFront("// Here you can overwrite the default reference semantics with value semantics, fitting better to the other attribute types.\n");
-			for(ExternalObjectType et : model.getExternalTypes()) {
+			for(ExternalObjectType et : model.getExternalObjectTypes()) {
 				String typeName = et.getIdent().toString();
 				sb.append("\n");
 				if(model.isCopyClassDefined())

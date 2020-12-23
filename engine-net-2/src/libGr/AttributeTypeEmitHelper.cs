@@ -246,9 +246,9 @@ namespace de.unika.ipd.grGen.libGr
                 && value.GetType().Name != "List`1" && value.GetType().Name != "Deque`1");
             type = TypesHelper.DotNetTypeToXgrsType(value.GetType().Name, value.GetType().FullName);
 
-            foreach(ExternalType externalType in graph.Model.ExternalTypes)
+            foreach(ExternalObjectType externalObjectType in graph.Model.ExternalObjectTypes)
             {
-                if(externalType.Name == value.GetType().Name)
+                if(externalObjectType.Name == value.GetType().Name)
                     type = "object";
             }
 

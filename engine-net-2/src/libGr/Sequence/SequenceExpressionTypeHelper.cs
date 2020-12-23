@@ -58,7 +58,7 @@ namespace de.unika.ipd.grGen.libGr
                             if(result == "") return "";
                             if(result == "-")
                             {
-                                result = BalanceExternalType(left, right, model);
+                                result = BalanceExternalObjectType(left, right, model);
                                 if(result == "") return "";
                                 if(result == "-")
                                 {
@@ -83,7 +83,7 @@ namespace de.unika.ipd.grGen.libGr
                             return left;
                         }
 
-                        result = BalanceExternalType(left, right, model);
+                        result = BalanceExternalObjectType(left, right, model);
                         return result;
                     }
                     return result;
@@ -298,10 +298,10 @@ namespace de.unika.ipd.grGen.libGr
             if(left == "" || right == "")
                 return "";
 
-            if(TypesHelper.IsSameOrSubtype(left, right, model) && !TypesHelper.IsExternalTypeIncludingObjectType(right, model))
+            if(TypesHelper.IsSameOrSubtype(left, right, model) && !TypesHelper.IsExternalObjectTypeIncludingObjectType(right, model))
                 return right;
 
-            if(TypesHelper.IsSameOrSubtype(right, left, model) && !TypesHelper.IsExternalTypeIncludingObjectType(left, model))
+            if(TypesHelper.IsSameOrSubtype(right, left, model) && !TypesHelper.IsExternalObjectTypeIncludingObjectType(left, model))
                 return left;
 
             return "-";
@@ -313,7 +313,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns "" if the type can only be determined at runtime.
         /// Returns "-" in case of a type error and/or if no operator working on external types can be applied.
         /// </summary>
-        private static string BalanceExternalType(string left, string right, IGraphModel model)
+        private static string BalanceExternalObjectType(string left, string right, IGraphModel model)
         {
             if(left == right)
                 return left;
@@ -321,10 +321,10 @@ namespace de.unika.ipd.grGen.libGr
             if(left == "" || right == "")
                 return "";
 
-            if(TypesHelper.IsSameOrSubtype(left, right, model) && TypesHelper.IsExternalTypeIncludingObjectType(right, model))
+            if(TypesHelper.IsSameOrSubtype(left, right, model) && TypesHelper.IsExternalObjectTypeIncludingObjectType(right, model))
                 return right;
 
-            if(TypesHelper.IsSameOrSubtype(right, left, model) && TypesHelper.IsExternalTypeIncludingObjectType(left, model))
+            if(TypesHelper.IsSameOrSubtype(right, left, model) && TypesHelper.IsExternalObjectTypeIncludingObjectType(left, model))
                 return left;
 
             return "-";

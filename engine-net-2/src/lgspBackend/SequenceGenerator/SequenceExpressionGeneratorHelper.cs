@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.ContainerHelper.EqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
                 return "GRGEN_LIBGR.ContainerHelper.EqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
                 return "graph.Model.IsEqual((object)"+leftValue+", (object)"+rightValue+")";
             else if(model.ObjectModel.GetType(balancedType) != null)
                 return "GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)" + leftValue + ", (GRGEN_LIBGR.IObject)" + rightValue + ")";
@@ -79,7 +79,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.ContainerHelper.NotEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
                 return "GRGEN_LIBGR.ContainerHelper.NotEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
                 return "!graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + ")";
             else if(model.ObjectModel.GetType(balancedType) != null)
                 return "!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)" + leftValue + ", (GRGEN_LIBGR.IObject)" + rightValue + ")";
@@ -108,7 +108,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.ContainerHelper.LessThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
                 return "GRGEN_LIBGR.ContainerHelper.LessThanDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
                 return "graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")";
 
             return null;
@@ -135,7 +135,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.ContainerHelper.GreaterThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
                 return "GRGEN_LIBGR.ContainerHelper.GreaterThanDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
             {
                 return "(!graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")"
                     + " && !graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + "))";
@@ -165,7 +165,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.ContainerHelper.LessOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
                 return "GRGEN_LIBGR.ContainerHelper.LessOrEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
             {
                 return "(graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")"
                     + " || graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + "))";
@@ -195,7 +195,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
                 return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
                 return "!graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")";
 
             return null;

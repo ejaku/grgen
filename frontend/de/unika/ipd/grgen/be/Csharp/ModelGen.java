@@ -154,9 +154,9 @@ public class ModelGen extends CSharpBase
 				model, null);
 
 		ModelExternalGen modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
-		modelExternalGen.genExternalTypeObject();
-		for(ExternalObjectType et : model.getExternalTypes()) {
-			modelExternalGen.genExternalType(et);
+		modelExternalGen.genExternalObjectTypeObject();
+		for(ExternalObjectType et : model.getExternalObjectTypes()) {
+			modelExternalGen.genExternalObjectType(et);
 		}
 
 		System.out.println("    generating indices...");
@@ -208,7 +208,7 @@ public class ModelGen extends CSharpBase
 		// generate the external functions and types stub file
 		// only if there are external functions or external procedures or external types required 
 		// or the emit class is to be generated or the copy class is to be generated
-		if(model.getExternalTypes().isEmpty()
+		if(model.getExternalObjectTypes().isEmpty()
 				&& model.getExternalFunctions().isEmpty()
 				&& model.getExternalProcedures().isEmpty()
 				&& !model.isEmitClassDefined()
@@ -3219,7 +3219,7 @@ commonLoop:
 
 		sb.appendFront("public " + modelName + "GraphModel()\n");
 		sb.appendFront("{\n");
-		sb.appendFrontIndented("FullyInitializeExternalTypes();\n");
+		sb.appendFrontIndented("FullyInitializeExternalObjectTypes();\n");
 		sb.appendFront("}\n");
 		sb.append("\n");
 
@@ -3529,24 +3529,24 @@ commonLoop:
 			sb.appendFront("}\n");
 		}
 
-		genExternalTypes();
-		sb.appendFront("public override GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }\n");
+		genExternalObjectTypes();
+		sb.appendFront("public override GRGEN_LIBGR.ExternalObjectType[] ExternalObjectTypes { get { return externalObjectTypes; } }\n");
 
 		sb.append("\n");
-		sb.appendFront("private void FullyInitializeExternalTypes()\n");
+		sb.appendFront("private void FullyInitializeExternalObjectTypes()\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		sb.appendFront("externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );\n");
-		for(ExternalObjectType et : model.getExternalTypes()) {
-			sb.appendFront("externalType_" + et.getIdent() + ".InitDirectSupertypes( "
-					+ "new GRGEN_LIBGR.ExternalType[] { ");
+		sb.appendFront("externalObjectType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalObjectType[] { } );\n");
+		for(ExternalObjectType et : model.getExternalObjectTypes()) {
+			sb.appendFront("externalObjectType_" + et.getIdent() + ".InitDirectSupertypes( "
+					+ "new GRGEN_LIBGR.ExternalObjectType[] { ");
 			boolean directSupertypeAvailable = false;
 			for(InheritanceType superType : et.getDirectSuperTypes()) {
-				sb.append("externalType_" + superType.getIdent() + ", ");
+				sb.append("externalObjectType_" + superType.getIdent() + ", ");
 				directSupertypeAvailable = true;
 			}
 			if(!directSupertypeAvailable)
-				sb.append("externalType_object ");
+				sb.append("externalObjectType_object ");
 			sb.append("} );\n");
 		}
 		sb.unindent();
@@ -3574,19 +3574,19 @@ commonLoop:
 		}
 	}
 
-	private void genExternalTypes()
+	private void genExternalObjectTypes()
 	{
 		sb.append("\n");
-		sb.appendFront("public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();\n");
-		for(ExternalObjectType et : model.getExternalTypes()) {
-			sb.appendFront("public static GRGEN_LIBGR.ExternalType externalType_" + et.getIdent()
-					+ " = new ExternalType_" + et.getIdent() + "();\n");
+		sb.appendFront("public static GRGEN_LIBGR.ExternalObjectType externalObjectType_object = new ExternalObjectType_object();\n");
+		for(ExternalObjectType et : model.getExternalObjectTypes()) {
+			sb.appendFront("public static GRGEN_LIBGR.ExternalObjectType externalObjectType_" + et.getIdent()
+					+ " = new ExternalObjectType_" + et.getIdent() + "();\n");
 		}
 
-		sb.appendFront("private GRGEN_LIBGR.ExternalType[] externalTypes = { ");
-		sb.append("externalType_object");
-		for(ExternalObjectType et : model.getExternalTypes()) {
-			sb.append(", externalType_" + et.getIdent());
+		sb.appendFront("private GRGEN_LIBGR.ExternalObjectType[] externalObjectTypes = { ");
+		sb.append("externalObjectType_object");
+		for(ExternalObjectType et : model.getExternalObjectTypes()) {
+			sb.append(", externalObjectType_" + et.getIdent());
 		}
 		sb.append(" };\n");
 	}

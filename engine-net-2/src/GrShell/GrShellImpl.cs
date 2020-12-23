@@ -354,11 +354,11 @@ namespace de.unika.ipd.grGen.grShell
             return shellProcEnvs[index];
         }
 
-        public void External(String lineContentForExternalType)
+        public void External(String lineContentForExternalObjectType)
         {
             if(!GraphExists())
                 return;
-            curShellProcEnv.ProcEnv.Graph.Model.External(lineContentForExternalType, curShellProcEnv.ProcEnv.Graph);
+            curShellProcEnv.ProcEnv.Graph.Model.External(lineContentForExternalObjectType, curShellProcEnv.ProcEnv.Graph);
         }
 
         public object Askfor(String typeName)

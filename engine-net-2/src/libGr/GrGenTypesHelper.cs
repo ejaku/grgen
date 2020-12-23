@@ -377,14 +377,14 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
-            foreach(ExternalType leftExternalType in model.ExternalTypes)
+            foreach(ExternalObjectType leftExternalObjectType in model.ExternalObjectTypes)
             {
-                if(leftExternalType.Name == xgrsTypeSameOrSub)
+                if(leftExternalObjectType.Name == xgrsTypeSameOrSub)
                 {
-                    foreach(ExternalType rightExternalType in model.ExternalTypes)
+                    foreach(ExternalObjectType rightExternalObjectType in model.ExternalObjectTypes)
                     {
-                        if(rightExternalType.Name == xgrsTypeBase)
-                            return leftExternalType.IsA(rightExternalType);
+                        if(rightExternalObjectType.Name == xgrsTypeBase)
+                            return leftExternalObjectType.IsA(rightExternalObjectType);
                     }
                 }
             }
@@ -413,11 +413,11 @@ namespace de.unika.ipd.grGen.libGr
             return false;
         }
 
-        public static bool IsExternalTypeIncludingObjectType(string typename, IGraphModel model)
+        public static bool IsExternalObjectTypeIncludingObjectType(string typename, IGraphModel model)
         {
-            for(int i = 0; i < model.ExternalTypes.Length; ++i)
+            for(int i = 0; i < model.ExternalObjectTypes.Length; ++i)
             {
-                if(model.ExternalTypes[i].Name == typename)
+                if(model.ExternalObjectTypes[i].Name == typename)
                     return true;
             }
 

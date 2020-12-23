@@ -47,7 +47,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private Set<InternalObjectType> objectTypes = new LinkedHashSet<InternalObjectType>();
 	private Set<EnumType> enumTypes = new LinkedHashSet<EnumType>();
 	private Set<Index> indices = new LinkedHashSet<Index>();
-	private Set<ExternalObjectType> externalTypes = new LinkedHashSet<ExternalObjectType>();
+	private Set<ExternalObjectType> externalObjectTypes = new LinkedHashSet<ExternalObjectType>();
 	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
 	private Set<ExternalProcedure> externalProcs = new LinkedHashSet<ExternalProcedure>();
 	private boolean isEmitClassDefined;
@@ -115,7 +115,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		else if(type instanceof EnumType)
 			enumTypes.add((EnumType)type);
 		else if(type instanceof ExternalObjectType)
-			externalTypes.add((ExternalObjectType)type);
+			externalObjectTypes.add((ExternalObjectType)type);
 		else if(type instanceof InternalObjectType)
 			objectTypes.add((InternalObjectType)type);
 		else if(!(type instanceof PrimitiveType))
@@ -259,9 +259,9 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		return Collections.unmodifiableCollection(enumTypes);
 	}
 
-	public Collection<ExternalObjectType> getExternalTypes()
+	public Collection<ExternalObjectType> getExternalObjectTypes()
 	{
-		return Collections.unmodifiableCollection(externalTypes);
+		return Collections.unmodifiableCollection(externalObjectTypes);
 	}
 
 	public Collection<Model> getUsedModels()

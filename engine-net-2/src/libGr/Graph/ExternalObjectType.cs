@@ -13,18 +13,19 @@ using System.Collections.Generic;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A representation of an external type registered with GrGen.
-    /// The bottom type of the external type hierarchy that is always available is type object.
+    /// A representation of an external object type registered with GrGen.
+    /// The bottom type of the external object type hierarchy that is always available is type object
+    /// (not to be mistaken with type Object, the bottom type of the internal object type hierarchy).
     /// </summary>
-    public abstract class ExternalType
+    public abstract class ExternalObjectType
     {
-        public ExternalType(string name, Type type)
+        public ExternalObjectType(string name, Type type)
         {
             Name = name;
             Type = type;
         }
 
-        public void InitDirectSupertypes(ExternalType[] directSuperTypes)
+        public void InitDirectSupertypes(ExternalObjectType[] directSuperTypes)
         {
             this.directSuperTypes = directSuperTypes;
         }
@@ -42,12 +43,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Array containing all direct super types of this type, the readonly interface.
         /// </summary>
-        public ExternalType[] DirectSuperTypes { get { return directSuperTypes; } }
+        public ExternalObjectType[] DirectSuperTypes { get { return directSuperTypes; } }
 
         /// <summary>
         /// Array containing all direct super types of this type, the real array.
         /// </summary>
-        private ExternalType[] directSuperTypes;
+        private ExternalObjectType[] directSuperTypes;
 
         /// <summary>
         /// Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
@@ -55,7 +56,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="that">The type to be compared to.</param>
         /// <returns>True, if this type is compatible to the given type.</returns>
-        public bool IsA(ExternalType that)
+        public bool IsA(ExternalObjectType that)
         {
             if(this == that)
                 return true;

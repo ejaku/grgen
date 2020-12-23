@@ -72,7 +72,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         #region Comparison of attributes of object or user defined type, external types in general
 
-        public abstract ExternalType[] ExternalTypes { get; }
+        public abstract ExternalObjectType[] ExternalObjectTypes { get; }
 
         public virtual bool IsEqualClassDefined
         {
