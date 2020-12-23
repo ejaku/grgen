@@ -2833,7 +2833,7 @@ extClassDecl returns [ IdentNode res = env.getDummyIdent() ]
 			SEMI { body = new CollectNode<BaseNode>(); }
 		)
 		{
-			ExternalTypeNode et = new ExternalTypeNode(ext, body);
+			ExternalObjectTypeNode et = new ExternalObjectTypeNode(ext, body);
 			id.setDecl(new TypeDeclNode(id, et));
 			res = id;
 		}
