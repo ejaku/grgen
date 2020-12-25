@@ -1754,12 +1754,10 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly string RuleOfMatchThis;
         public readonly string TypeOfGraphElementThis;
-        public readonly string MatchesArrayThis;
 
-        public SequenceExpressionThis(string matchesArrayThis, string ruleOfMatchThis, string typeOfGraphElementThis)
+        public SequenceExpressionThis(string ruleOfMatchThis, string typeOfGraphElementThis)
             : base(SequenceExpressionType.This)
         {
-            MatchesArrayThis = matchesArrayThis;
             RuleOfMatchThis = ruleOfMatchThis;
             TypeOfGraphElementThis = typeOfGraphElementThis;
         }
@@ -1767,7 +1765,6 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceExpressionThis(SequenceExpressionThis that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that)
         {
-            MatchesArrayThis = that.MatchesArrayThis;
             RuleOfMatchThis = that.RuleOfMatchThis;
             TypeOfGraphElementThis = that.TypeOfGraphElementThis;
         }
@@ -1779,9 +1776,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            if(MatchesArrayThis != null)
-                return MatchesArrayThis;
-            else if(RuleOfMatchThis != null)
+            if(RuleOfMatchThis != null)
                 return "match<" + RuleOfMatchThis + ">";
             else if(TypeOfGraphElementThis != null)
                 return TypeOfGraphElementThis;
@@ -1791,9 +1786,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            if(MatchesArrayThis != null)
-                return procEnv.GetSpecialVariableValue("this"); // special variable "this" is filled when a lambda expression filter is entered (list of matches)
-            else if(RuleOfMatchThis != null)
+            if(RuleOfMatchThis != null)
                 return (IMatch)procEnv.GetVariableValue("this"); // global variable "this" is filled at execution begin
             else if(TypeOfGraphElementThis != null)
                 return (IGraphElement)procEnv.GetVariableValue("this"); // global variable "this" is filled at execution begin

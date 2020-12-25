@@ -1035,15 +1035,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionThis(SequenceExpressionThis seqThis, SourceBuilder source)
         {
-            if(seqThis.MatchesArrayThis != null)
-            {
-                if(seqThis.MatchesArrayThis.StartsWith("array<match<class "))
-                    return "matchListCopy";
-                else
-                    return "thisMatchesList";
-            }
-            else
-                return "graph";
+            return "graph";
         }
 
         private string GetSequenceExpressionElementFromGraph(SequenceExpressionElementFromGraph seqFromGraph, SourceBuilder source)
@@ -2904,8 +2896,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
 
-            sb.AppendFront(arrayType + " thisMatchesList = matches.ToListExact();\n");
-
             sb.AppendFront("int index = 0;\n");
             sb.AppendFrontFormat("foreach({0} match in matches)\n", elementType);
             sb.AppendFront("{\n");
@@ -2979,8 +2969,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
             sb.AppendFront(arrayType + " matchList = matches.ToListExact();\n");
-
-            sb.AppendFront(arrayType + " thisMatchesList = new " + arrayType + "(matchList);\n");
 
             sb.AppendFront("for(int index = 0; index < matchList.Count; ++index)\n");
             sb.AppendFront("{\n");

@@ -280,16 +280,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="filter">The lambda expression filter to apply</param>
         public void Filter(IMatches matches, FilterCallWithLambdaExpression filter)
         {
-            SetSpecialVariableValue("this", matches.ToList());
-
             if(filter.PlainName == "assign")
                 FilterAssign(matches, filter);
             else if(filter.PlainName == "removeIf")
                 FilterRemoveIf(matches, filter);
             else
                 throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
-
-            DeleteSpecialVariable("this");
         }
 
         public void FilterAssign(IMatches matches, FilterCallWithLambdaExpression filterCall)
