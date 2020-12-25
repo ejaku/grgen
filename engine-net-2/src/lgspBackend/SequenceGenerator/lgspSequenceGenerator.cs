@@ -161,12 +161,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            seq.GetLocalVariables(variables, containerConstructors, null);
-            foreach(SequenceExpressionContainerConstructor cc in containerConstructors)
+            seq.GetLocalVariables(variables, constructors, null);
+            foreach(SequenceExpressionConstructor cc in constructors)
             {
-                SequenceContainerConstructorEmitter.GenerateContainerConstructor(model, cc, source);
+                SequenceContainerConstructorEmitter.GenerateConstructor(env, model, cc, source);
             }
             source.Append(seqGen.exprGen.perElementMethodSource.ToString());
             seqGen.exprGen.perElementMethodSource.Reset();
@@ -366,12 +366,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            seq.GetLocalVariables(variables, containerConstructors, null);
-            foreach(SequenceExpressionContainerConstructor cc in containerConstructors)
+            seq.GetLocalVariables(variables, constructors, null);
+            foreach(SequenceExpressionContainerConstructor cc in constructors)
             {
-                SequenceContainerConstructorEmitter.GenerateContainerConstructor(model, cc, source);
+                SequenceContainerConstructorEmitter.GenerateConstructor(env, model, cc, source);
             }
         }
 

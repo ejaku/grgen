@@ -338,16 +338,16 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         protected static void GetLocalVariables(SequenceExpression[] ArgumentExpressions, 
-            Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionContainerConstructor> containerConstructors)
+            Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionConstructor> constructors)
         {
             foreach(SequenceExpression seqExpr in ArgumentExpressions)
             {
-                seqExpr.GetLocalVariables(variables, containerConstructors);
+                seqExpr.GetLocalVariables(variables, constructors);
             }
         }
 
         protected static void GetLocalVariables(SequenceVariable[] ReturnVars, 
-            Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionContainerConstructor> containerConstructors)
+            Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionConstructor> constructors)
         {
             foreach(SequenceVariable seqVar in ReturnVars)
             {

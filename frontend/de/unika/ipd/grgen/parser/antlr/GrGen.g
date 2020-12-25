@@ -4165,7 +4165,7 @@ newInitExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = 
 	options { k = 3; }
 	: (NEW)? e=initContainerExpr[namer, context] { res = e; }
 	| (NEW)? e=initMatchExpr[context] { res = e; }
-	| e=initObjectExpr[context] { res = e; }
+	| e=initObjectExpr[namer, context] { res = e; }
 	;
 
 initContainerExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
@@ -4188,9 +4188,25 @@ initMatchExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
 		{ res = new MatchInitNode(getCoords(l), matchClassIdent); }
 	;
 
-initObjectExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
+initObjectExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
+	options { k = 5; }
+	@init {
+		ObjectInitNode oin = null;
+	}
 	: NEW classIdent=typeIdentUse l=LPAREN RPAREN
-		{ res = new ObjectInitNode(getCoords(l), classIdent); }
+		{ oin = new ObjectInitNode(getCoords(l), classIdent); res = oin; }
+	| NEW classIdent=typeIdentUse { oin = new ObjectInitNode(getCoords(l), classIdent); }
+		AT l=LPAREN (attributesInitializationList[oin, classIdent, namer, context])? RPAREN
+		{ res = oin; }
+	;
+
+attributesInitializationList [ ObjectInitNode oi, IdentNode classIdent, AnonymousScopeNamer namer, int context ]
+	: attributeInitialization[oi, classIdent, namer, context] ( COMMA attributeInitialization[oi, classIdent, namer, context] )*
+	;
+
+attributeInitialization [ ObjectInitNode oi, IdentNode classIdent, AnonymousScopeNamer namer, int context ]
+	: attr=memberIdentUse ASSIGN arg=expr[namer, context, false]
+		{ oi.addAttributeInitialization(new AttributeInitializationNode(oi, classIdent, attr, arg)); }
 	;
 
 constant returns [ ExprNode res = env.initExprNode() ]

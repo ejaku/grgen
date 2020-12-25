@@ -116,11 +116,11 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Collects all variables of the sequence expression tree into the variables dictionary,
-        /// and all container constructors used into the constructors array.
+        /// and all container and internal object constructors used into the constructors array.
         /// </summary>
         /// <param name="variables">Contains the variables found</param>
         public virtual void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
         }
 
@@ -280,10 +280,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            left.GetLocalVariables(variables, containerConstructors);
-            right.GetLocalVariables(variables, containerConstructors);
+            left.GetLocalVariables(variables, constructors);
+            right.GetLocalVariables(variables, constructors);
         }
 
         public override bool ReturnsValue { get { return right.ReturnsValue; } }
@@ -395,9 +395,9 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            VisitedFlagExpression.GetLocalVariables(variables, containerConstructors);
+            VisitedFlagExpression.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -456,9 +456,9 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            VisitedFlagExpression.GetLocalVariables(variables, containerConstructors);
+            VisitedFlagExpression.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -627,15 +627,15 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
             if(Container != null)
                 Container.GetLocalVariables(variables);
             if(Attribute != null)
-                Attribute.GetLocalVariables(variables, containerConstructors);
-            Expr.GetLocalVariables(variables, containerConstructors);
+                Attribute.GetLocalVariables(variables, constructors);
+            Expr.GetLocalVariables(variables, constructors);
             if(ExprDst != null)
-                ExprDst.GetLocalVariables(variables, containerConstructors);
+                ExprDst.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -787,14 +787,14 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
             if(Container != null)
                 Container.GetLocalVariables(variables);
             if(Attribute != null)
-                Attribute.GetLocalVariables(variables, containerConstructors);
+                Attribute.GetLocalVariables(variables, constructors);
             if(Expr != null)
-                Expr.GetLocalVariables(variables, containerConstructors);
+                Expr.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -935,12 +935,12 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
             if(Container != null)
                 Container.GetLocalVariables(variables);
             if(Attribute != null)
-                Attribute.GetLocalVariables(variables, containerConstructors);
+                Attribute.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -994,10 +994,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            Target.GetLocalVariables(variables, containerConstructors);
-            SourceValueProvider.GetLocalVariables(variables, containerConstructors);
+            Target.GetLocalVariables(variables, constructors);
+            SourceValueProvider.GetLocalVariables(variables, constructors);
         }
 
         public override string Symbol
@@ -1049,7 +1049,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
             Target.GetLocalVariables(variables);
         }
@@ -1393,11 +1393,11 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
             for(int i = 0; i < Expressions.Count; ++i)
             {
-                Expressions[i].GetLocalVariables(variables, containerConstructors);
+                Expressions[i].GetLocalVariables(variables, constructors);
             }
         }
 
@@ -1477,9 +1477,9 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            Expression.GetLocalVariables(variables, containerConstructors);
+            Expression.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -1552,11 +1552,11 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            Name.GetLocalVariables(variables, containerConstructors);
+            Name.GetLocalVariables(variables, constructors);
             if(Graph != null)
-                Graph.GetLocalVariables(variables, containerConstructors);
+                Graph.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -1610,9 +1610,9 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            Name.GetLocalVariables(variables, containerConstructors);
+            Name.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -1703,13 +1703,13 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            Expr.GetLocalVariables(variables, containerConstructors);
+            Expr.GetLocalVariables(variables, constructors);
             if(ExprSrc != null)
-                ExprSrc.GetLocalVariables(variables, containerConstructors);
+                ExprSrc.GetLocalVariables(variables, constructors);
             if(ExprDst != null)
-                ExprDst.GetLocalVariables(variables, containerConstructors);
+                ExprDst.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -1784,9 +1784,9 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            Expr.GetLocalVariables(variables, containerConstructors);
+            Expr.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -1829,7 +1829,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
         }
 
@@ -1905,10 +1905,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            ElemExpr.GetLocalVariables(variables, containerConstructors);
-            TypeExpr.GetLocalVariables(variables, containerConstructors);
+            ElemExpr.GetLocalVariables(variables, constructors);
+            TypeExpr.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -2003,13 +2003,13 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            Expr.GetLocalVariables(variables, containerConstructors);
+            Expr.GetLocalVariables(variables, constructors);
             if(ExprSrc != null)
-                ExprSrc.GetLocalVariables(variables, containerConstructors);
+                ExprSrc.GetLocalVariables(variables, constructors);
             if(ExprDst != null)
-                ExprDst.GetLocalVariables(variables, containerConstructors);
+                ExprDst.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -2085,10 +2085,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            TargetNodeExpr.GetLocalVariables(variables, containerConstructors);
-            SourceNodeExpr.GetLocalVariables(variables, containerConstructors);
+            TargetNodeExpr.GetLocalVariables(variables, constructors);
+            SourceNodeExpr.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -2163,10 +2163,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            EdgeExpr.GetLocalVariables(variables, containerConstructors);
-            SourceNodeExpr.GetLocalVariables(variables, containerConstructors);
+            EdgeExpr.GetLocalVariables(variables, constructors);
+            SourceNodeExpr.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -2241,10 +2241,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            EdgeExpr.GetLocalVariables(variables, containerConstructors);
-            TargetNodeExpr.GetLocalVariables(variables, containerConstructors);
+            EdgeExpr.GetLocalVariables(variables, constructors);
+            TargetNodeExpr.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -2327,11 +2327,11 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            EdgeExpr.GetLocalVariables(variables, containerConstructors);
-            SourceNodeExpr.GetLocalVariables(variables, containerConstructors);
-            TargetNodeExpr.GetLocalVariables(variables, containerConstructors);
+            EdgeExpr.GetLocalVariables(variables, constructors);
+            SourceNodeExpr.GetLocalVariables(variables, constructors);
+            TargetNodeExpr.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -2396,9 +2396,9 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            Graph.GetLocalVariables(variables, containerConstructors);
+            Graph.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -2471,10 +2471,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            Graph.GetLocalVariables(variables, containerConstructors);
-            RootNode.GetLocalVariables(variables, containerConstructors);
+            Graph.GetLocalVariables(variables, constructors);
+            RootNode.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -2553,10 +2553,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            NodeSet.GetLocalVariables(variables, containerConstructors);
-            RootNode.GetLocalVariables(variables, containerConstructors);
+            NodeSet.GetLocalVariables(variables, constructors);
+            RootNode.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -2639,10 +2639,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            EdgeSet.GetLocalVariables(variables, containerConstructors);
-            RootEdge.GetLocalVariables(variables, containerConstructors);
+            EdgeSet.GetLocalVariables(variables, constructors);
+            RootEdge.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -2732,9 +2732,9 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            BuiltinProcedure.GetLocalVariables(variables, containerConstructors);
+            BuiltinProcedure.GetLocalVariables(variables, constructors);
             for(int i = 0; i < ReturnVars.Count; ++i)
             {
                 ReturnVars[i].GetLocalVariables(variables);
@@ -2827,10 +2827,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
-            GetLocalVariables(ArgumentExpressions, variables, containerConstructors);
-            GetLocalVariables(ReturnVars, variables, containerConstructors);
+            GetLocalVariables(ArgumentExpressions, variables, constructors);
+            GetLocalVariables(ReturnVars, variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -3094,14 +3094,14 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors)
+            List<SequenceExpressionConstructor> constructors)
         {
             if(TargetExpr != null)
-                TargetExpr.GetLocalVariables(variables, containerConstructors);
+                TargetExpr.GetLocalVariables(variables, constructors);
             if(TargetVar != null)
                 TargetVar.GetLocalVariables(variables);
-            GetLocalVariables(ArgumentExpressions, variables, containerConstructors);
-            GetLocalVariables(ReturnVars, variables, containerConstructors);
+            GetLocalVariables(ArgumentExpressions, variables, constructors);
+            GetLocalVariables(ReturnVars, variables, constructors);
         }
 
         public override IEnumerable<SequenceComputation> Children

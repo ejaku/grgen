@@ -49,6 +49,7 @@ import de.unika.ipd.grgen.ir.type.container.ArrayType;
 import de.unika.ipd.grgen.ir.type.container.DequeType;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.ir.type.container.SetType;
+import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.ir.expr.*;
 import de.unika.ipd.grgen.ir.expr.array.ArrayAndExpr;
 import de.unika.ipd.grgen.ir.expr.array.ArrayAsDequeExpr;
@@ -426,6 +427,8 @@ public abstract class CSharpBase
 			return nodeTypePrefix;
 		else if(ent instanceof Edge)
 			return edgeTypePrefix;
+		else if(ent.getType() instanceof InternalObjectType)
+			return objectTypePrefix;
 		else
 			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
 	}
@@ -761,6 +764,8 @@ public abstract class CSharpBase
 				return pathPrefix + "var_" + formatIdentifiable(entity) + "_" + entity.getId();
 			else
 				return pathPrefix + "var_" + formatIdentifiable(entity);
+		} else if(entity.getType() instanceof InternalObjectType) {
+			return pathPrefix + /*"var_" +*/ formatIdentifiable(entity);
 		} else {
 			throw new IllegalArgumentException("Unknown entity " + entity + " (" + entity.getClass() + ")");
 		}
@@ -1977,7 +1982,26 @@ public abstract class CSharpBase
 			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
 		} else if(expr instanceof InternalObjectInit) {
 			InternalObjectInit ioi = (InternalObjectInit)expr;
-			sb.append("new " + formatInternalObjectType(ioi.getInternalObjectType()) + "()");
+			if(ioi.attributeInitializations.isEmpty()) {
+				sb.append("new " + formatInternalObjectType(ioi.getInternalObjectType()) + "()");
+			} else {
+				sb.append("fill_" + ioi.getAnonymousInternalObjectInitName() + "(");
+				boolean first = true;
+				for(Expression aie : ioi.getAttributeInitializationExpressions()) {
+					if(first)
+						first = false;
+					else
+						sb.append(", ");
+
+					if(aie instanceof GraphEntityExpression)
+						sb.append("(" + formatElementInterfaceRef(aie.getType()) + ")(");
+					genExpression(sb, aie, modifyGenerationState);
+					if(aie instanceof GraphEntityExpression)
+						sb.append(")");
+				}
+				sb.append(")");
+			}
+
 		} else if(expr instanceof MapCopyConstructor) {
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
 			sb.append("GRGEN_LIBGR.ContainerHelper.FillMap(");
@@ -3402,6 +3426,9 @@ public abstract class CSharpBase
 				if(!neverAssigned)
 					dequeInit.forceNotConstant();
 				genLocalDeque(sb, dequeInit, staticInitializers);
+			} else if(containerExpr instanceof InternalObjectInit) {
+				InternalObjectInit internalObjectInit = (InternalObjectInit)containerExpr;
+				genLocalInternalObjectAttributeInitializer(sb, internalObjectInit, staticInitializers);
 			}
 		}
 	}
@@ -3603,6 +3630,42 @@ public abstract class CSharpBase
 			sb.unindent();
 			sb.appendFront("}\n");
 		}
+	}
+
+	protected void genLocalInternalObjectAttributeInitializer(SourceBuilder sb, InternalObjectInit internalObjectInit, List<String> staticInitializers)
+	{
+		String internalObjectName = internalObjectInit.getAnonymousInternalObjectInitName();
+		Entity internalObject = new Entity(internalObjectName, new Ident(internalObjectName, Coords.getBuiltin()), internalObjectInit.getType(), false, true, 0);
+		String attrType = formatInheritanceClassRef(internalObjectInit.getType());
+
+		sb.appendFront("public static " + attrType + " fill_" + internalObjectName + "(");
+		int itemCounter = 0;
+		boolean first = true;
+		for(Expression item : internalObjectInit.getAttributeInitializationExpressions()) {
+			String itemType = formatType(item.getType());
+			if(first) {
+				sb.append(itemType + " item" + itemCounter);
+				first = false;
+			} else {
+				sb.append(", " + itemType + " item" + itemCounter);
+			}
+			++itemCounter;
+		}
+		sb.append(") {\n");
+		sb.indent();
+		sb.appendFront(attrType + " " + internalObjectName + " = " +
+				"new " + attrType + "();\n");
+
+		int itemLength = internalObjectInit.attributeInitializations.size();
+		for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
+			sb.appendFront(formatEntity(internalObject) + ".@" 
+					+ formatIdentifiable(internalObjectInit.attributeInitializations.get(itemCounter).attribute));
+			sb.append(" = ");
+			sb.append("item" + itemCounter + ";\n");
+		}
+		sb.appendFront("return " + internalObjectName + ";\n");
+		sb.unindent();
+		sb.appendFront("}\n");
 	}
 
 	protected static void genCompareMethod(SourceBuilder sb, String typeName,

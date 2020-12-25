@@ -421,7 +421,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Helper which returns the type of 
         /// - the given member in the given match or match class type or
-        /// - the given attribute in the given node or edge type
+        /// - the given attribute in the given node or edge or internal object type
         /// </summary>
         public abstract string TypeOfMemberOrAttribute(string matchOrGraphElementType, string memberOrAttribute);
 

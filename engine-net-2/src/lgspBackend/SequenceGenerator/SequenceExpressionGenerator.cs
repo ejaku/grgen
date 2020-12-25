@@ -805,7 +805,28 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionNew(SequenceExpressionNew seqNew, SourceBuilder source)
         {
-            return "procEnv.Graph.Model.ObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateObject()";
+            if(seqNew.AttributeInitializationList == null)
+                return "procEnv.Graph.Model.ObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateObject()";
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("fillFromSequence_" + seqNew.Id);
+                sb.Append("(");
+                for(int i = 0; i < seqNew.AttributeInitializationList.Count; ++i)
+                {
+                    KeyValuePair<string, SequenceExpression> attributeInitialization = seqNew.AttributeInitializationList[i];
+                    if(i > 0)
+                        sb.Append(", ");
+                    sb.Append("(");
+                    sb.Append(TypesHelper.XgrsTypeToCSharpType(env.TypeOfMemberOrAttribute(seqNew.ConstructedType, attributeInitialization.Key), model));
+                    sb.Append(")");
+                    sb.Append("(");
+                    sb.Append(GetSequenceExpression(attributeInitialization.Value, source));
+                    sb.Append(")");
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
         }
 
         private string GetSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqRuleQuery, SourceBuilder source)
@@ -2389,8 +2410,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFrontFormat("{0}(procEnv", arrayMapMethodName);
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            seqArrayMap.MappingExpr.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqArrayMap.MappingExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             sb.Append(", (");
             sb.Append(arrayInputType);
@@ -2435,8 +2456,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            seqArrayMap.MappingExpr.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqArrayMap.MappingExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             sb.Append(", ");
             sb.Append(arrayInputType);
@@ -2502,8 +2523,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFrontFormat("{0}(procEnv", arrayRemoveIfMethodName);
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            seqArrayRemoveIf.ConditionExpr.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqArrayRemoveIf.ConditionExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             sb.Append(", (");
             sb.Append(arrayType);
@@ -2546,8 +2567,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            seqArrayRemoveIf.ConditionExpr.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqArrayRemoveIf.ConditionExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             sb.Append(", ");
             sb.Append(arrayType);
@@ -2778,8 +2799,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("{0}(procEnv", filterAssignMethodName);
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             source.Append(", ");
             source.Append(matchesSource);
@@ -2814,8 +2835,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("{0}(procEnv", filterRemoveIfMethodName);
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             source.Append(", ");
             source.Append(matchesSource);
@@ -2857,8 +2878,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             sb.Append(", ");
             sb.Append(matchesType);
@@ -2932,8 +2953,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             sb.Append(", ");
             sb.Append(matchesType);
@@ -3077,8 +3098,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("{0}(procEnv", filterAssignMethodName);
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             source.Append(", ");
             source.Append(matchListName);
@@ -3110,8 +3131,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("{0}(procEnv", filterRemoveIfMethodName);
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             source.Append(", ");
             source.Append(matchListName);
@@ -3152,8 +3173,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             sb.Append(", ");
             sb.Append(arrayType);
@@ -3226,8 +3247,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, containerConstructors); // potential todo: handle like a container constructor
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
             sb.Append(", ");
             sb.Append(arrayType);

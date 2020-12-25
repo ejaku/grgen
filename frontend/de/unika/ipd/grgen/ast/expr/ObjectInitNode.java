@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.expr.AttributeInitialization;
 import de.unika.ipd.grgen.ir.expr.InternalObjectInit;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.parser.Coords;
@@ -33,10 +34,18 @@ public class ObjectInitNode extends ExprNode
 	private IdentNode objectTypeUnresolved;
 	private InternalObjectTypeNode objectType;
 	
+	CollectNode<AttributeInitializationNode> attributeInits =
+			new CollectNode<AttributeInitializationNode>();
+
 	public ObjectInitNode(Coords coords, IdentNode objectType)
 	{
 		super(coords);
 		this.objectTypeUnresolved = objectType;
+	}
+
+	public void addAttributeInitialization(AttributeInitializationNode attributeInit)
+	{
+		this.attributeInits.addChild(attributeInit);
 	}
 
 	/** returns children of this node */
@@ -44,6 +53,7 @@ public class ObjectInitNode extends ExprNode
 	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(attributeInits);
 		return children;
 	}
 
@@ -52,6 +62,7 @@ public class ObjectInitNode extends ExprNode
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("attributeInits");
 		return childrenNames;
 	}
 
@@ -87,7 +98,15 @@ public class ObjectInitNode extends ExprNode
 	protected IR constructIR()
 	{
 		InternalObjectType type = objectType.checkIR(InternalObjectType.class);
-		return new InternalObjectInit(type);
+		
+		InternalObjectInit init = new InternalObjectInit(type);
+		
+		for(AttributeInitializationNode ain : attributeInits.getChildren()) {
+			ain.objectInitIR = init;
+			init.addAttributeInitialization(ain.checkIR(AttributeInitialization.class));
+		}
+
+		return init;
 	}
 
 	public InternalObjectInit getObjectInit()

@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using de.unika.ipd.grGen.libGr;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -16,7 +17,15 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public static class SequenceContainerConstructorEmitter
     {
-        public static void GenerateContainerConstructor(IGraphModel model, SequenceExpressionContainerConstructor containerConstructor, SourceBuilder source)
+        public static void GenerateConstructor(SequenceCheckingEnvironment env, IGraphModel model, SequenceExpressionConstructor constructor, SourceBuilder source)
+        {
+            if(constructor is SequenceExpressionContainerConstructor)
+                GenerateContainerConstructor(env, model, (SequenceExpressionContainerConstructor)constructor, source);
+            else
+                GenerateInternalObjectTypeAttributeInitializer(env, model, (SequenceExpressionNew)constructor, source);
+        }
+
+        private static void GenerateContainerConstructor(SequenceCheckingEnvironment env, IGraphModel model, SequenceExpressionContainerConstructor containerConstructor, SourceBuilder source)
         {
             string containerType = TypesHelper.XgrsTypeToCSharpType(GetContainerType(containerConstructor), model);
             string valueType = TypesHelper.XgrsTypeToCSharpType(containerConstructor.ValueType, model);
@@ -73,6 +82,41 @@ namespace de.unika.ipd.grGen.lgsp
                 return "container.Add(" + value + ");\n";
             else //if(cc is SequenceExpressionDequeConstructor)
                 return "container.Enqueue(" + value + ");\n";
+        }
+
+        private static void GenerateInternalObjectTypeAttributeInitializer(SequenceCheckingEnvironment env, IGraphModel model, SequenceExpressionNew attributeInitializer, SourceBuilder source)
+        {
+            if(attributeInitializer.AttributeInitializationList == null)
+                return; // plain constructor without attribute initialization list
+
+            string internalObjectType = "GRGEN_MODEL." + attributeInitializer.ConstructedType;
+
+            source.Append("\n");
+            source.AppendFront("public static ");
+            source.Append(internalObjectType);
+            source.Append(" fillFromSequence_" + attributeInitializer.Id);
+            source.Append("(");
+            for(int i = 0; i < attributeInitializer.AttributeInitializationList.Count; ++i)
+            {
+                KeyValuePair<string, SequenceExpression> attributeInitialization = attributeInitializer.AttributeInitializationList[i];
+                if(i > 0)
+                    source.Append(", ");
+                string valueType = TypesHelper.XgrsTypeToCSharpType(env.TypeOfMemberOrAttribute(attributeInitializer.ConstructedType, attributeInitialization.Key), model);
+                source.AppendFormat("{0} {1}", valueType, "param" + i);
+            }
+            source.Append(")\n");
+
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFrontFormat("{0} obj = new {0}();\n", internalObjectType);
+            for(int i = 0; i < attributeInitializer.AttributeInitializationList.Count; ++i)
+            {
+                KeyValuePair<string, SequenceExpression> attributeInitialization = attributeInitializer.AttributeInitializationList[i];
+                source.AppendFrontFormat("obj.{0}  = {1};\n", attributeInitialization.Key, "param" + i);
+            }
+            source.AppendFront("return obj;\n");
+            source.Unindent();
+            source.AppendFront("}\n");
         }
     }
 }

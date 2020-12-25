@@ -3540,16 +3540,86 @@ namespace de.unika.ipd.grGen.expression
             ClassName = className;
         }
 
+        public InternalObjectConstructor(String className, String objectName, AttributeInitialization first)
+        {
+            ClassName = className;
+            ObjectName = objectName;
+            First = first;
+        }
+
         public override Expression Copy(string renameSuffix)
         {
-            return new InternalObjectConstructor(ClassName);
+            return new InternalObjectConstructor(ClassName, ObjectName, First != null ? (AttributeInitialization)First.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("new " + ClassName + "()");
+            if(ObjectName == null)
+            {
+                sourceCode.Append("new " + ClassName + "()");
+            }
+            else
+            {
+                sourceCode.Append(ClassName + ".fill_" + ObjectName + "(");
+                if(First != null)
+                    First.Emit(sourceCode);
+                sourceCode.Append(")");
+            }
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            if(First != null)
+                yield return First;
         }
 
         readonly String ClassName;
+
+        readonly String ObjectName;
+        readonly AttributeInitialization First;
+    }
+
+    /// <summary>
+    /// Class representing an attribute initialization.
+    /// </summary>
+    public class AttributeInitialization : Expression
+    {
+        public AttributeInitialization(Expression value, String valueType, AttributeInitialization next)
+        {
+            Value = value;
+            ValueType = valueType;
+            Next = next;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new AttributeInitialization(Value.Copy(renameSuffix), ValueType, Next != null ? (AttributeInitialization)Next.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(ValueType != null)
+                sourceCode.Append("(" + ValueType + ")(");
+            Value.Emit(sourceCode);
+            if(ValueType != null)
+                sourceCode.Append(")");
+
+            if(Next != null)
+            {
+                sourceCode.Append(", ");
+                Next.Emit(sourceCode);
+            }
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Value;
+            if(Next != null)
+                yield return Next;
+        }
+
+        readonly Expression Value;
+        readonly String ValueType;
+        readonly AttributeInitialization Next;
     }
 }

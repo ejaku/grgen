@@ -1262,7 +1262,26 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append("new GRGEN_EXPR.MatchClassConstructor(\"" + formatDefinedMatchType(mi.getMatchType()) + "\")");
 		} else if(expr instanceof InternalObjectInit) {
 			InternalObjectInit oi = (InternalObjectInit)expr;
-			sb.append("new GRGEN_EXPR.InternalObjectConstructor(\"" + formatInternalObjectType(oi.getInternalObjectType()) + "\")");
+			if(oi.attributeInitializations.isEmpty()) {
+				sb.append("new GRGEN_EXPR.InternalObjectConstructor(\"" + formatInternalObjectType(oi.getInternalObjectType()) + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.InternalObjectConstructor(\"" + className + "\", \"" + oi.getAnonymousInternalObjectInitName() + "\", ");
+				int openParenthesis = 0;
+				for(Expression item : oi.getAttributeInitializationExpressions()) {
+					sb.append("new GRGEN_EXPR.AttributeInitialization(");
+					genExpressionTree(sb, item, className, pathPrefix, alreadyDefinedEntityToName);
+					sb.append(", ");
+					if(item instanceof GraphEntityExpression)
+						sb.append("\"" + formatElementInterfaceRef(item.getType()) + "\", ");
+					else
+						sb.append("null, ");
+					++openParenthesis;
+				}
+				sb.append("null");
+				for(int i = 0; i < openParenthesis; ++i)
+					sb.append(")");
+				sb.append(")");
+			}
 		} else if(expr instanceof MapCopyConstructor) {
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
 			sb.append("new GRGEN_EXPR.MapCopyConstructor(\"" + formatType(mcc.getMapType()) + "\", ");
@@ -1970,16 +1989,12 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 	@Override
 	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState)
 	{
-		Entity owner = qual.getOwner();
-		Entity member = qual.getMember();
-		genQualAccess(sb, owner, member);
+		// needed because of inheritance, maybe todo: remove
 	}
 
 	protected void genQualAccess(SourceBuilder sb, Entity owner, Entity member)
 	{
-		sb.append("((I" + getInheritanceTypePrefix(owner) +
-				formatIdentifiable(owner.getType()) + ") ");
-		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(member));
+		// needed because of inheritance, maybe todo: remove
 	}
 
 	@Override

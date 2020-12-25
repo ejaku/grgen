@@ -11,6 +11,9 @@
 
 package de.unika.ipd.grgen.ir.expr;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
@@ -18,6 +21,8 @@ import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 public class InternalObjectInit extends Expression
 {
 	private InternalObjectType objectType;
+
+	public Vector<AttributeInitialization> attributeInitializations = new Vector<AttributeInitialization>();
 
 	public InternalObjectInit(InternalObjectType objectType)
 	{
@@ -29,10 +34,32 @@ public class InternalObjectInit extends Expression
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
+		for(Expression attributeInitializationExpression : getAttributeInitializationExpressions()) {
+			attributeInitializationExpression.collectNeededEntities(needs);
+		}
+	}
+
+	public void addAttributeInitialization(AttributeInitialization ai)
+	{
+		this.attributeInitializations.add(ai);
+	}
+
+	public Collection<Expression> getAttributeInitializationExpressions()
+	{
+		Vector<Expression> expressions = new Vector<Expression>();
+		for(AttributeInitialization attributeInitialization : attributeInitializations) {
+			expressions.add(attributeInitialization.expr);
+		}
+		return expressions;
 	}
 
 	public InternalObjectType getInternalObjectType()
 	{
 		return objectType;
+	}
+	
+	public String getAnonymousInternalObjectInitName()
+	{
+		return "internal_object_init_" + getId();
 	}
 }

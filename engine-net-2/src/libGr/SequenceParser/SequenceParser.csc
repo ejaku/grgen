@@ -1849,9 +1849,9 @@ SequenceExpression ExpressionBasic():
         return expr;
     }
 |
-    "new" type=TypeNonGeneric() "(" ")"
+    "new" type=TypeNonGeneric() expr=ExpressionInitObjectCont(type)
     {
-        return new SequenceExpressionNew(type);
+        return expr;
     }
 |
     "def" "(" Arguments(argExprs) ")"
@@ -1877,6 +1877,35 @@ SequenceExpression ExpressionBasic():
     "(" expr=Expression() ")"
     {
         return expr;
+    }
+}
+
+SequenceExpression ExpressionInitObjectCont(String internalObjectType):
+{
+    List<KeyValuePair<String, SequenceExpression>> attributes = new List<KeyValuePair<String, SequenceExpression>>();
+    KeyValuePair<String, SequenceExpression> attribute;
+}
+{
+    "(" ")"
+    {
+        return new SequenceExpressionNew(internalObjectType);
+    }
+|
+    "@" "(" (attribute=AttributeInitialization() { attributes.Add(attribute); } )? ("," attribute=AttributeInitialization() { attributes.Add(attribute); } )* ")"
+    {
+        return new SequenceExpressionNew(internalObjectType, attributes);
+    }
+}
+
+KeyValuePair<String, SequenceExpression> AttributeInitialization():
+{
+    String attribute;
+    SequenceExpression expr;
+}
+{
+    attribute=Word() "=" expr = Expression()
+    {
+        return new KeyValuePair<String, SequenceExpression>(attribute, expr);
     }
 }
 

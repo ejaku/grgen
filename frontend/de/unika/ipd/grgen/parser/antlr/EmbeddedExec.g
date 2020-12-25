@@ -429,7 +429,7 @@ seqExprBasic [ExecNode xg] returns [ ExprNode res = env.initExprNode() ]
 	| exp=seqConstantOfBasicOrEnumType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
 	| (seqConstantOfContainerType[null]) => exp=seqConstantOfContainerType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
 	| seqConstantOfMatchClassType[xg]
-	| NEW { xg.append("new "); } type=seqTypeIdentUse LPAREN RPAREN { xg.append(type); xg.append("()"); }
+	| exp=seqInitObjectExpr[xg]
 	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
 		{
 			id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
@@ -695,6 +695,21 @@ seqKeyToValue [ ExecNode xg ] returns [ ExprPairNode res = null ]
 		{
 			res = new ExprPairNode(getCoords(a), key, value);
 		}
+	;
+
+seqInitObjectExpr [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	options { k = 5; }
+	: NEW { xg.append("new "); } type=seqTypeIdentUse LPAREN RPAREN { xg.append(type); xg.append("()"); }
+	| NEW { xg.append("new "); } type=seqTypeIdentUse { xg.append(type); }
+		AT l=LPAREN { xg.append("@("); } (seqAttributesInitializationList[xg])? RPAREN { xg.append(")"); }
+	;
+
+seqAttributesInitializationList [ ExecNode xg ]
+	: seqAttributeInitialization[xg] ( COMMA { xg.append(","); } seqAttributeInitialization[xg] )*
+	;
+
+seqAttributeInitialization [ ExecNode xg ]
+	: attr=seqMemberIdentUse { xg.append(attr.getSymbol().getText()); } ASSIGN { xg.append("="); } arg=seqExpression[xg]
 	;
 
 seqMultiRulePrefixedSequence [ ExecNode xg, CollectNode<BaseNode> returns ]

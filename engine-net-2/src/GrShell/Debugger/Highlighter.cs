@@ -86,8 +86,8 @@ namespace de.unika.ipd.grGen.grShell
 
             // variable
             Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionContainerConstructor> containerConstructors = new List<SequenceExpressionContainerConstructor>();
-            (debugSequences.Peek()).GetLocalVariables(seqVars, containerConstructors, seq);
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            (debugSequences.Peek()).GetLocalVariables(seqVars, constructors, seq);
             foreach(SequenceVariable var in seqVars.Keys)
             {
                 if(var.Name == argument)

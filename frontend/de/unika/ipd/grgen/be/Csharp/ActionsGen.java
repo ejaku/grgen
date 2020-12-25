@@ -3262,16 +3262,12 @@ public class ActionsGen extends CSharpBase
 	@Override
 	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState)
 	{
-		Entity owner = qual.getOwner();
-		Entity member = qual.getMember();
-		genQualAccess(sb, owner, member);
+		// needed because of inheritance, maybe todo: remove
 	}
 
 	protected void genQualAccess(SourceBuilder sb, Entity owner, Entity member)
 	{
-		sb.append("((I" + getInheritanceTypePrefix(owner) +
-				formatIdentifiable(owner.getType()) + ") ");
-		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(member));
+		// needed because of inheritance, maybe todo: remove
 	}
 
 	@Override

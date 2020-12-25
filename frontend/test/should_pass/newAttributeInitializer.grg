@@ -1,0 +1,13 @@
+#using "new.gm"
+
+rule r
+{
+	if{ new Barfuss@(i=42,s="Hallo Welt",d=3.141592654) != null; }
+
+	modify {
+	---
+		def ref bf:Barfuss = new Barfuss@(i=42,s="Hallo Welt",d=3.141592654);
+		
+		exec( { yield bf = new Barfuss@(i=42,s="Hallo Welt",d=3.141592654) } );
+	}
+}
