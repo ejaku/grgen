@@ -23,8 +23,6 @@ public class DequeInit extends Expression
 	private Entity member;
 	private DequeType dequeType;
 	private boolean isConst;
-	private int anonymousDequeId;
-	private static int anonymousDequeCounter;
 
 	public DequeInit(Collection<Expression> dequeItems, Entity member, DequeType dequeType, boolean isConst)
 	{
@@ -33,10 +31,6 @@ public class DequeInit extends Expression
 		this.member = member;
 		this.dequeType = dequeType;
 		this.isConst = isConst;
-		if(member == null) {
-			anonymousDequeId = anonymousDequeCounter;
-			++anonymousDequeCounter;
-		}
 	}
 
 	@Override
@@ -81,6 +75,6 @@ public class DequeInit extends Expression
 
 	public String getAnonymousDequeName()
 	{
-		return "anonymous_deque_" + anonymousDequeId;
+		return "anonymous_deque_" + getId();
 	}
 }

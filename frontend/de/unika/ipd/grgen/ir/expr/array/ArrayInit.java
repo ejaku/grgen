@@ -23,8 +23,6 @@ public class ArrayInit extends Expression
 	private Entity member;
 	private ArrayType arrayType;
 	private boolean isConst;
-	private int anonymousArrayId;
-	private static int anonymousArrayCounter;
 
 	public ArrayInit(Collection<Expression> arrayItems, Entity member, ArrayType arrayType, boolean isConst)
 	{
@@ -33,10 +31,6 @@ public class ArrayInit extends Expression
 		this.member = member;
 		this.arrayType = arrayType;
 		this.isConst = isConst;
-		if(member == null) {
-			anonymousArrayId = anonymousArrayCounter;
-			++anonymousArrayCounter;
-		}
 	}
 
 	@Override
@@ -81,6 +75,6 @@ public class ArrayInit extends Expression
 
 	public String getAnonymousArrayName()
 	{
-		return "anonymous_array_" + anonymousArrayId;
+		return "anonymous_array_" + getId();
 	}
 }

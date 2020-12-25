@@ -23,8 +23,6 @@ public class SetInit extends Expression
 	private Entity member;
 	private SetType setType;
 	private boolean isConst;
-	private int anonymousSetId;
-	private static int anonymousSetCounter;
 
 	public SetInit(Collection<Expression> setItems, Entity member, SetType setType, boolean isConst)
 	{
@@ -33,10 +31,6 @@ public class SetInit extends Expression
 		this.member = member;
 		this.setType = setType;
 		this.isConst = isConst;
-		if(member == null) {
-			anonymousSetId = anonymousSetCounter;
-			++anonymousSetCounter;
-		}
 	}
 
 	@Override
@@ -81,6 +75,6 @@ public class SetInit extends Expression
 
 	public String getAnonymousSetName()
 	{
-		return "anonymous_set_" + anonymousSetId;
+		return "anonymous_set_" + getId();
 	}
 }
