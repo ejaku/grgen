@@ -1,0 +1,11 @@
+#using "new.gm"
+
+rule r
+{
+	if{ new Barfuss@(j=42) != null; }
+
+	modify {
+	---
+		def ref bf:Barfuss = new Barfuss@(j=42);
+	}
+}

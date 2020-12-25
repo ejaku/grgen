@@ -1,0 +1,10 @@
+class FooBar
+{
+}
+
+class Barfuss
+{
+	i:int;
+	s:string;
+	d:double;
+}

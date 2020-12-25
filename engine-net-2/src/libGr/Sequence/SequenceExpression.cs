@@ -1698,7 +1698,16 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             CheckObjectTypeIsKnown(env, ConstructedType, ", constructor type/argument");
-            // TODO: check attributes are part of object type
+            if(AttributeInitializationList != null)
+            {
+                foreach(KeyValuePair<String, SequenceExpression> attributeInitialization in AttributeInitializationList)
+                {
+                    String attributeType = env.TypeOfMemberOrAttribute(ConstructedType, attributeInitialization.Key);
+                    String valueType = attributeInitialization.Value.Type(env);
+                    if(!TypesHelper.IsSameOrSubtype(valueType, attributeType, env.Model))
+                        throw new SequenceParserException(Symbol, attributeType, valueType);
+                }
+            }
         }
 
         public override String Type(SequenceCheckingEnvironment env)
