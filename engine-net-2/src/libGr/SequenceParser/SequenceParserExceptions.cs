@@ -102,6 +102,11 @@ namespace de.unika.ipd.grGen.libGr
         FilterParameterError,
 
         /// <summary>
+        /// The type of the lambda expression variables doesn't fit to the (matches) array
+        /// </summary>
+        FilterLambdaExpressionError,
+
+        /// <summary>
         /// The given subgraph is of wrong type
         /// </summary>
         SubgraphTypeError,
@@ -349,7 +354,8 @@ namespace de.unika.ipd.grGen.libGr
             if(errorKind == SequenceParserError.FilterError
                 || errorKind == SequenceParserError.MatchClassError
                 || errorKind == SequenceParserError.MatchClassNotImplementedError
-                || errorKind == SequenceParserError.FilterParameterError)
+                || errorKind == SequenceParserError.FilterParameterError
+                || errorKind == SequenceParserError.FilterLambdaExpressionError)
                 FilterName = filterNameOrEntityName;
             else
                 EntityName = filterNameOrEntityName;
@@ -447,6 +453,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.FilterParameterError:
                     return "Filter parameter mismatch for filter \"" + this.FilterName + "\" applied to \"" + this.Name + "\"!";
+
+                case SequenceParserError.FilterLambdaExpressionError:
+                    return "Lambda expression variable type mismatch for filter \"" + this.FilterName + "\" applied to \"" + this.Name + "\"!";
 
                 case SequenceParserError.SubgraphError:
                     return "The construct \"" + this.VariableOrFunctionName  + "\" does not support subgraph prefixes!";

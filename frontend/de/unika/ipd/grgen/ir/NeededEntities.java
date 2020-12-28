@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.MemberExpression;
 import de.unika.ipd.grgen.ir.expr.array.ArrayMapExpr;
+import de.unika.ipd.grgen.ir.expr.array.ArrayRemoveIfExpr;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
 import de.unika.ipd.grgen.ir.pattern.Node;
@@ -264,10 +265,20 @@ public class NeededEntities
 	}
 
 	/**
-	 * Adds a container expression.
-	 * @param expr The container expressions.
+	 * Adds a lambda expression.
+	 * @param expr The lambda expressions.
 	 */
 	public void add(ArrayMapExpr expr)
+	{
+		if(lambdaExprs != null)
+			lambdaExprs.add(expr);
+	}
+
+	/**
+	 * Adds a lambda expression.
+	 * @param expr The lambda expressions.
+	 */
+	public void add(ArrayRemoveIfExpr expr)
 	{
 		if(lambdaExprs != null)
 			lambdaExprs.add(expr);

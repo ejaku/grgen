@@ -205,7 +205,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceFilterCallBase CreateSequenceFilterCall(String ruleName, String rulePackage,
             String packagePrefix, String filterBase, List<String> entities,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
         {
             String packagePrefixedRuleName = rulePackage != null ? rulePackage + "::" + ruleName : ruleName; // rulePackage already resolved, concatenation sufficient
 
@@ -213,9 +213,9 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             String packagePrefixedName = filterName;
 
             if(entities.Count == 1 && filterBase == "assign")
-                return new SequenceFilterCallLambdaExpressionCompiled(filterBase, entities[0], index, element, lambdaExpr);
+                return new SequenceFilterCallLambdaExpressionCompiled(filterBase, entities[0], arrayAccess, index, element, lambdaExpr);
             else if(entities.Count == 0 && filterBase == "removeIf")
-                return new SequenceFilterCallLambdaExpressionCompiled(filterBase, null, index, element, lambdaExpr);
+                return new SequenceFilterCallLambdaExpressionCompiled(filterBase, null, arrayAccess, index, element, lambdaExpr);
             else
                 throw new SequenceParserException(packagePrefixedRuleName, filterName, SequenceParserError.FilterError);
         }
@@ -277,7 +277,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceFilterCallBase CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
             String packagePrefix, String filterBase, List<String> entities,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
         {
             String resolvedMatchClassPackage; // match class not yet resolved (impossible before as only part of filter call), resolve it here
             String packagePrefixedMatchClassName;
@@ -294,12 +294,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             if(entities.Count == 1 && filterBase == "assign")
             {
                 return new SequenceFilterCallLambdaExpressionCompiled(matchClassName, resolvedMatchClassPackage, packagePrefixedMatchClassName,
-                    filterBase, entities[0], index, element, lambdaExpr);
+                    filterBase, entities[0], arrayAccess, index, element, lambdaExpr);
             }
             else if(entities.Count == 0 && filterBase == "removeIf")
             {
                 return new SequenceFilterCallLambdaExpressionCompiled(matchClassName, resolvedMatchClassPackage, packagePrefixedMatchClassName,
-                    filterBase, null, index, element, lambdaExpr);
+                    filterBase, null, arrayAccess, index, element, lambdaExpr);
             }
             else
                 throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedName, SequenceParserError.FilterError);

@@ -144,7 +144,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceFilterCallBase CreateSequenceFilterCall(String ruleName, String rulePackage,
             String packagePrefix, String filterBase, List<String> entities,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
         {
             String packagePrefixedRuleName = !PackageIsNullOrGlobal(rulePackage) ? rulePackage + "::" + ruleName : ruleName; // no (further) resolving of rules in interpreted sequences cause there is no package context existing
             IAction action = actions.GetAction(packagePrefixedRuleName); // must be not null due to preceeding checks of rule call resolving result
@@ -153,9 +153,9 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             String packagePrefixedName = filterName;
 
             if(entities.Count == 1 && filterBase == "assign")
-                return new SequenceFilterCallLambdaExpressionInterpreted(/*action, */filterBase, entities[0], index, element, lambdaExpr);
+                return new SequenceFilterCallLambdaExpressionInterpreted(/*action, */filterBase, entities[0], arrayAccess, index, element, lambdaExpr);
             else if(entities.Count == 0 && filterBase == "removeIf")
-                return new SequenceFilterCallLambdaExpressionInterpreted(/*action, */filterBase, null, index, element, lambdaExpr);
+                return new SequenceFilterCallLambdaExpressionInterpreted(/*action, */filterBase, null, arrayAccess, index, element, lambdaExpr);
             else
                 throw new SequenceParserException(action.PackagePrefixedName, packagePrefixedName, SequenceParserError.FilterError);
         }
@@ -207,7 +207,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceFilterCallBase CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
             String packagePrefix, String filterBase, List<String> entities,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
         {
             String packagePrefixedMatchClassName = matchClassPackage != null ? matchClassPackage + "::" + matchClassName : matchClassName; // no (further) resolving of match classes in interpreted sequences cause there is no package context existing
             MatchClassFilterer matchClass = actions.GetMatchClass(packagePrefixedMatchClassName); // may be null, match class is part of filter call, was not checked before
@@ -218,9 +218,9 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             String packagePrefixedName = filterName;
 
             if(entities.Count == 1 && filterBase == "assign")
-                return new SequenceFilterCallLambdaExpressionInterpreted(matchClass, filterBase, entities[0], index, element, lambdaExpr);
+                return new SequenceFilterCallLambdaExpressionInterpreted(matchClass, filterBase, entities[0], arrayAccess, index, element, lambdaExpr);
             else if(entities.Count == 0 && filterBase == "removeIf")
-                return new SequenceFilterCallLambdaExpressionInterpreted(matchClass, filterBase, null, index, element, lambdaExpr);
+                return new SequenceFilterCallLambdaExpressionInterpreted(matchClass, filterBase, null, arrayAccess, index, element, lambdaExpr);
             else
                 throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedName, SequenceParserError.FilterError);
         }

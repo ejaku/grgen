@@ -987,6 +987,8 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			Type targetType = targetArrayType.valueType;
 			sb.append("\"" + formatType(targetType) + "\"");
 			sb.append(", ");
+			sb.append(am.getArrayAccessVar() != null ? "\"" + formatEntity(am.getArrayAccessVar(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null");
+			sb.append(", ");
 			sb.append(am.getIndexVar() != null ? "\"" + formatEntity(am.getIndexVar(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null");
 			sb.append(", ");
 			sb.append("\"" + formatEntity(am.getElementVar(), pathPrefix, alreadyDefinedEntityToName) + "\"");
@@ -1013,6 +1015,8 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			ArrayType targetArrayType = ari.getTargetType();
 			Type targetType = targetArrayType.valueType;
 			sb.append("\"" + formatType(targetType) + "\"");
+			sb.append(", ");
+			sb.append(ari.getArrayAccessVar() != null ? "\"" + formatEntity(ari.getArrayAccessVar(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null");
 			sb.append(", ");
 			sb.append(ari.getIndexVar() != null ? "\"" + formatEntity(ari.getIndexVar(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null");
 			sb.append(", ");
@@ -2995,7 +2999,8 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		sb.append("\"" + fi.getFilterName() + "\", ");
 		sb.append((fi.getFilterEntity() != null ? "\"" + fi.getFilterEntity() + "\"" : "null") + ", ");
 		sb.append((fi.getFilterEntity() != null ? "\"" + formatType(fi.getFilterEntityType()) + "\"" : "null") + ", ");
-		sb.append((fi.getIndexVariable() != null ? "\"" + formatEntity(fi.getIndexVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null") + ", "); // formatEntity(am.getIndexVar(), pathPrefix, alreadyDefinedEntityToName)
+		sb.append((fi.getArrayAccessVariable() != null ? "\"" + formatEntity(fi.getArrayAccessVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null") + ", ");
+		sb.append((fi.getIndexVariable() != null ? "\"" + formatEntity(fi.getIndexVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null") + ", ");
 		sb.append("\"" + formatEntity(fi.getElementVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" + ", ");
 		Expression lambdaExpression = fi.getLambdaExpression();
 		genExpressionTree(sb, lambdaExpression, className, pathPrefix, alreadyDefinedEntityToName);

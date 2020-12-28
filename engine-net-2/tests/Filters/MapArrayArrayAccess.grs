@@ -1,0 +1,17 @@
+new graph "Filters/ArrayAccess"
+
+exec init
+
+eval [?r\orderAscendingBy<i>].map<int>{this_:array<match<r>>; m:match<r> -> this_.extract<i>().sum()}
+
+exec r_map_array
+show var res
+
+eval [?[r]\mc.orderAscendingBy<i>\<class mc>].map<int>{this_:array<match<class mc>>; m:match<class mc> -> this_.extract<i>().sum()}
+
+exec r_map_array_match_class
+show var res
+
+eval [?rit_map_array]
+
+quit

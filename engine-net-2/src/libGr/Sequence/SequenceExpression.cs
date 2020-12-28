@@ -5423,15 +5423,17 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionArrayMap : SequenceExpressionContainer
     {
         public string TypeName;
+        public SequenceVariable ArrayAccess;
         public SequenceVariable Index;
         public SequenceVariable Var;
         public SequenceExpression MappingExpr;
 
-        public SequenceExpressionArrayMap(SequenceExpression containerExpr, String typeName, 
-            SequenceVariable index, SequenceVariable var, SequenceExpression mappingExpr)
+        public SequenceExpressionArrayMap(SequenceExpression containerExpr, String typeName,
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable var, SequenceExpression mappingExpr)
             : base(SequenceExpressionType.ArrayMap, containerExpr)
         {
             TypeName = typeName;
+            ArrayAccess = arrayAccess;
             Index = index;
             Var = var;
             MappingExpr = mappingExpr;
@@ -5441,6 +5443,8 @@ namespace de.unika.ipd.grGen.libGr
            : base(that, originalToCopy, procEnv)
         {
             TypeName = that.TypeName;
+            if(that.ArrayAccess != null)
+                ArrayAccess = that.ArrayAccess.Copy(originalToCopy, procEnv);
             if(that.Index != null)
                 Index = that.Index.Copy(originalToCopy, procEnv);
             Var = that.Var.Copy(originalToCopy, procEnv);
@@ -5454,6 +5458,20 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(ArrayAccess != null)
+            {
+                if(ArrayAccess.Type.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                    throw new SequenceParserException(Symbol, "array<T> type", ArrayAccess.Type);
+
+                if(!TypesHelper.IsSameOrSubtype(ArrayAccess.Type, containerType, env.Model))
+                    throw new SequenceParserException(Symbol, containerType, ArrayAccess.Type);
+            }
+
             if(Index != null)
             {
                 if(!TypesHelper.IsSameOrSubtype(Index.Type, "int", env.Model))
@@ -5461,11 +5479,6 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             base.Check(env); // check children
-
-            string containerType = CheckAndReturnContainerType(env);
-
-            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
-                throw new SequenceParserException(Symbol, "array<T> type", containerType);
 
             String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
 
@@ -5489,6 +5502,9 @@ namespace de.unika.ipd.grGen.libGr
             IList result = ContainerHelper.NewList(TypesHelper.GetType(TypeName, procEnv.Graph.Model));
             IList source = ArrayValue(procEnv);
 
+            if(ArrayAccess != null)
+                ArrayAccess.SetVariableValue(source, procEnv);
+
             for(int index_name = 0; index_name < source.Count; ++index_name)
             {
                 if(Index != null)
@@ -5506,6 +5522,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             ContainerExpr.GetLocalVariables(variables, constructors);
             MappingExpr.GetLocalVariables(variables, constructors);
+            if(ArrayAccess != null)
+                variables.Remove(ArrayAccess);
             if(Index != null)
                 variables.Remove(Index);
             variables.Remove(Var);
@@ -5527,20 +5545,32 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return Name + ".map<" + TypeName + ">{" + (Index != null ? Index.Name + " -> " : "") + Var.Name + " -> " + MappingExpr.Symbol + "}"; }
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(Name + ".map<" + TypeName + ">{");
+                if(ArrayAccess != null)
+                    sb.Append(ArrayAccess.Name + "; ");
+                if(Index != null)
+                    sb.Append(Index.Name + " -> ");
+                sb.Append(Var.Name + " -> " + MappingExpr.Symbol + "}");
+                return sb.ToString();
+            }
         }
     }
 
     public class SequenceExpressionArrayRemoveIf : SequenceExpressionContainer
     {
+        public SequenceVariable ArrayAccess;
         public SequenceVariable Index;
         public SequenceVariable Var;
         public SequenceExpression ConditionExpr;
 
         public SequenceExpressionArrayRemoveIf(SequenceExpression containerExpr,
-            SequenceVariable index, SequenceVariable var, SequenceExpression conditionExpr)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable var, SequenceExpression conditionExpr)
             : base(SequenceExpressionType.ArrayRemoveIf, containerExpr)
         {
+            ArrayAccess = arrayAccess;
             Index = index;
             Var = var;
             ConditionExpr = conditionExpr;
@@ -5549,6 +5579,8 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceExpressionArrayRemoveIf(SequenceExpressionArrayRemoveIf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that, originalToCopy, procEnv)
         {
+            if(that.ArrayAccess != null)
+                ArrayAccess = that.ArrayAccess.Copy(originalToCopy, procEnv);
             if(that.Index != null)
                 Index = that.Index.Copy(originalToCopy, procEnv);
             Var = that.Var.Copy(originalToCopy, procEnv);
@@ -5562,6 +5594,20 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(ArrayAccess != null)
+            {
+                if(ArrayAccess.Type.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                    throw new SequenceParserException(Symbol, "array<T> type", ArrayAccess.Type);
+
+                if(!TypesHelper.IsSameOrSubtype(ArrayAccess.Type, containerType, env.Model))
+                    throw new SequenceParserException(Symbol, containerType, ArrayAccess.Type);
+            }
+
             if(Index != null)
             {
                 if(!TypesHelper.IsSameOrSubtype(Index.Type, "int", env.Model))
@@ -5569,12 +5615,7 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             base.Check(env); // check children
-
-            string containerType = CheckAndReturnContainerType(env);
-
-            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
-                throw new SequenceParserException(Symbol, "array<T> type", containerType);
-
+ 
             String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
 
             if(!TypesHelper.IsSameOrSubtype(ConditionExpr.Type(env), "boolean", env.Model))
@@ -5602,6 +5643,9 @@ namespace de.unika.ipd.grGen.libGr
             string arrayType = TypesHelper.DotNetTypeToXgrsType(source.GetType());
             String arrayValueType = TypesHelper.ExtractSrc(arrayType);
 
+            if(ArrayAccess != null)
+                ArrayAccess.SetVariableValue(source, procEnv);
+
             IList result = ContainerHelper.NewList(TypesHelper.GetType(arrayValueType, procEnv.Graph.Model));
 
             for(int index_name = 0; index_name < source.Count; ++index_name)
@@ -5621,9 +5665,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             ContainerExpr.GetLocalVariables(variables, constructors);
             ConditionExpr.GetLocalVariables(variables, constructors);
-            variables.Remove(Var);
+            if(ArrayAccess != null)
+                variables.Remove(ArrayAccess);
             if(Index != null)
                 variables.Remove(Index);
+            variables.Remove(Var);
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -5642,7 +5688,17 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return Name + ".removeIf{" + (Index != null ? Index.Name + " -> " : "") + Var.Name + " -> " + ConditionExpr.Symbol + "}"; }
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(Name + ".removeIf{");
+                if(ArrayAccess != null)
+                    sb.Append(ArrayAccess.Name + "; ");
+                if(Index != null)
+                    sb.Append(Index.Name + " -> ");
+                sb.Append(Var.Name + " -> " + ConditionExpr.Symbol + "}");
+                return sb.ToString();
+            }
         }
     }
 

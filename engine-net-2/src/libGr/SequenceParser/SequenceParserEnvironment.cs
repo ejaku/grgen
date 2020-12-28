@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         abstract public SequenceFilterCallBase CreateSequenceFilterCall(String ruleName, String rulePackage,
             String packagePrefix, String filterBase, List<String> entities,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr);
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr);
 
         abstract public string GetPackagePrefixedMatchClassName(String matchClassName, String matchClassPackage);
 
@@ -98,7 +98,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         abstract public SequenceFilterCallBase CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
             String packagePrefix, String filterBase, List<String> entities, 
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr);
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr);
 
         protected String GetFilterName(String filterBase, List<String> entities)
         {
@@ -1134,15 +1134,16 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         }
 
         public SequenceExpression CreateSequenceExpressionPerElementMethodCall(SequenceExpression targetExpr,
-            String functionMethodName, String typeName, SequenceVariable index, SequenceVariable var, SequenceExpression argExpr)
+            String functionMethodName, String typeName, 
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable var, SequenceExpression argExpr)
         {
             if(functionMethodName == "map")
             {
-                return new SequenceExpressionArrayMap(targetExpr, typeName, index, var, argExpr);
+                return new SequenceExpressionArrayMap(targetExpr, typeName, arrayAccess, index, var, argExpr);
             }
-            else //if(functionMethodName == "removeIf")
+            else if(functionMethodName == "removeIf")
             {
-                return new SequenceExpressionArrayRemoveIf(targetExpr, index, var, argExpr);
+                return new SequenceExpressionArrayRemoveIf(targetExpr, arrayAccess, index, var, argExpr);
             }
             throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"! (available are map,removeIf)");
         }

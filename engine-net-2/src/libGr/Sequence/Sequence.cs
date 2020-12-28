@@ -1226,9 +1226,9 @@ namespace de.unika.ipd.grGen.libGr
         protected static int idSource = 0;
 
         public SequenceFilterCallLambdaExpression(String filterBase, String entity,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
         {
-            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">" : ""), index, element, lambdaExpr);
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">" : ""), arrayAccess, index, element, lambdaExpr);
 
             id = idSource;
             ++idSource;
@@ -1241,14 +1241,14 @@ namespace de.unika.ipd.grGen.libGr
 
         // entity may be null
         public SequenceFilterCallLambdaExpressionInterpreted(/*IAction action, */String filterBase, String entity,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
-            : base(filterBase, entity, index, element, lambdaExpr)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, arrayAccess, index, element, lambdaExpr)
         {
         }
 
         public SequenceFilterCallLambdaExpressionInterpreted(MatchClassFilterer matchClass, String filterBase, String entity,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
-            : base(filterBase, entity, index, element, lambdaExpr)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, arrayAccess, index, element, lambdaExpr)
         {
             MatchClass = matchClass;
         }
@@ -1330,26 +1330,26 @@ namespace de.unika.ipd.grGen.libGr
         ///////////////////////////////////////////////////////////////
 
         public SequenceFilterCallLambdaExpressionCompiled(String filterBase, String entity,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
-            : base(filterBase, entity, index, element, lambdaExpr)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, arrayAccess, index, element, lambdaExpr)
         {
             MatchClassName = null;
             MatchClassPackage = null;
             MatchClassPackagePrefixedName = null;
 
-            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">": ""), index, element, lambdaExpr);
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">": ""), arrayAccess, index, element, lambdaExpr);
         }
 
         public SequenceFilterCallLambdaExpressionCompiled(String matchClassName, String matchClassPackage, String matchClassPackagePrefixedName,
             String filterBase, String entity,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
-            : base(filterBase, entity, index, element, lambdaExpr)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, arrayAccess, index, element, lambdaExpr)
         {
             MatchClassName = matchClassName;
             MatchClassPackage = matchClassPackage;
             MatchClassPackagePrefixedName = matchClassPackagePrefixedName;
 
-            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">": ""), index, element, lambdaExpr);
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">": ""), arrayAccess, index, element, lambdaExpr);
         }
 
         public override string ToString()

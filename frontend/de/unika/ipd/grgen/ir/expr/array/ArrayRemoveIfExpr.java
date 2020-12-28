@@ -17,17 +17,26 @@ import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
 public class ArrayRemoveIfExpr extends ArrayFunctionMethodInvocationBaseExpr implements ArrayPerElementMethod
 {
+	private Variable arrayAccessVar;
+	
 	private Variable indexVar;
 	private Variable elementVar;
 	private Expression conditionExpr;
 
-	public ArrayRemoveIfExpr(Expression targetExpr, Variable indexVar, Variable elementVar,
+	public ArrayRemoveIfExpr(Expression targetExpr, Variable arrayAccessVar,
+			Variable indexVar, Variable elementVar,
 			Expression conditionExpr, ArrayType resultingType)
 	{
 		super("array remove if expr", resultingType, targetExpr);
+		this.arrayAccessVar = arrayAccessVar;
 		this.indexVar = indexVar;
 		this.elementVar = elementVar;
 		this.conditionExpr = conditionExpr;
+	}
+
+	public Variable getArrayAccessVar()
+	{
+		return arrayAccessVar;
 	}
 
 	public Variable getIndexVar()
@@ -54,6 +63,8 @@ public class ArrayRemoveIfExpr extends ArrayFunctionMethodInvocationBaseExpr imp
 		conditionExpr.collectNeededEntities(needs);
 		if(needs.variables != null)
 		{
+			if(arrayAccessVar != null)
+				needs.variables.remove(arrayAccessVar);
 			if(indexVar != null)
 				needs.variables.remove(indexVar);
 			needs.variables.remove(elementVar);

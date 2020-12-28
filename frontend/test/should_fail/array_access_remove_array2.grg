@@ -1,0 +1,28 @@
+rule r implements mc
+{
+	n:Node;
+---
+	def var i:int;
+	def var j:int;
+
+	yield {
+		yield i = incident(n).size();
+		yield j = 0;
+	}
+	
+	modify {
+		delete(n);
+	}
+} \ orderAscendingBy<i>
+
+match class mc
+{
+	n:Node;
+	def var i:int;
+	def var j:int;
+} \ orderAscendingBy<i>
+
+test r_remove_array(ref a:array<int>)
+{
+	if{ a.removeIf{this_:array<match<r>>; m:int -> this_.size() > 0}.empty(); }
+}

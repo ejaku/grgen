@@ -22,20 +22,28 @@ public class FilterInvocationLambdaExpression extends FilterInvocationBase
 	String entity;
 	Type entityType;
 	
+	Variable arrayAccessVar;
+	
 	Variable indexVar;
 	Variable elementVar;
 	Expression lambdaExpr;
 
 	public FilterInvocationLambdaExpression(String name, Ident ident, String plainName, String entity, Type entityType, Rule iteratedAction, 
-			Variable indexVar, Variable elementVar, Expression lambdaExpr)
+			Variable arrayAccessVar, Variable indexVar, Variable elementVar, Expression lambdaExpr)
 	{
 		super(name, ident, iteratedAction);
 		this.plainName = plainName;
 		this.entity = entity;
 		this.entityType = entityType;
+		this.arrayAccessVar = arrayAccessVar;
 		this.indexVar = indexVar;
 		this.elementVar = elementVar;
 		this.lambdaExpr = lambdaExpr;
+	}
+
+	public Variable getArrayAccessVariable()
+	{
+		return arrayAccessVar;
 	}
 
 	public Variable getIndexVariable()
@@ -72,6 +80,8 @@ public class FilterInvocationLambdaExpression extends FilterInvocationBase
 	{
 		lambdaExpr.collectNeededEntities(needs);
 		if(needs.variables != null) {
+			if(arrayAccessVar != null)
+				needs.variables.remove(arrayAccessVar);
 			if(indexVar != null)
 				needs.variables.remove(indexVar);
 			needs.variables.remove(elementVar);

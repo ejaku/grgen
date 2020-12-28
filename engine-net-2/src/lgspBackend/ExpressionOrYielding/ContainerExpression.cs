@@ -1741,11 +1741,12 @@ namespace de.unika.ipd.grGen.expression
     public class ArrayMap : Expression
     {
         public ArrayMap(Expression target, String targetType,
-            String indexVariable, String elementVariable, Expression mapping, String resultingType,
+            String arrayAccessVariable, String indexVariable, String elementVariable, Expression mapping, String resultingType,
             PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
         {
             Target = target;
             TargetType = targetType;
+            ArrayAccessVariable = arrayAccessVariable;
             IndexVariable = indexVariable;
             ElementVariable = elementVariable;
             Mapping = mapping;
@@ -1773,7 +1774,7 @@ namespace de.unika.ipd.grGen.expression
                 newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
             }
             return new ArrayMap(Target.Copy(renameSuffix), TargetType,
-                IndexVariable, ElementVariable, Mapping.Copy(renameSuffix), ResultingType,
+                ArrayAccessVariable, IndexVariable, ElementVariable, Mapping.Copy(renameSuffix), ResultingType,
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
@@ -1820,6 +1821,9 @@ namespace de.unika.ipd.grGen.expression
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
             sb.AppendFront(ResultingArrayType + " target = new " + ResultingArrayType + "();\n");
+
+            if(ArrayAccessVariable != null)
+                sb.AppendFrontFormat("{0} {1} = source;\n", TargetArrayType, NamesOfEntities.Variable(ArrayAccessVariable));
 
             sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
             sb.AppendFront("{\n");
@@ -1891,6 +1895,7 @@ namespace de.unika.ipd.grGen.expression
 
         readonly Expression Target;
         readonly String TargetType;
+        readonly String ArrayAccessVariable;
         readonly String IndexVariable;
         readonly String ElementVariable;
         readonly Expression Mapping;
@@ -1906,12 +1911,13 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayRemoveIf : Expression
     {
-        public ArrayRemoveIf(Expression target, String targetType, 
-            String indexVariable, String elementVariable, Expression condition, String resultingType,
+        public ArrayRemoveIf(Expression target, String targetType,
+            String arrayAccessVariable, String indexVariable, String elementVariable, Expression condition, String resultingType,
             PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
         {
             Target = target;
             TargetType = targetType;
+            ArrayAccessVariable = arrayAccessVariable;
             IndexVariable = indexVariable;
             ElementVariable = elementVariable;
             Condition = condition;
@@ -1939,7 +1945,7 @@ namespace de.unika.ipd.grGen.expression
                 newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
             }
             return new ArrayRemoveIf(Target.Copy(renameSuffix), TargetType, 
-                IndexVariable, ElementVariable, Condition.Copy(renameSuffix), ResultingType,
+                ArrayAccessVariable, IndexVariable, ElementVariable, Condition.Copy(renameSuffix), ResultingType,
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
@@ -1986,6 +1992,9 @@ namespace de.unika.ipd.grGen.expression
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
             sb.AppendFront(ResultingArrayType + " target = new " + ResultingArrayType + "();\n");
+
+            if(ArrayAccessVariable != null)
+                sb.AppendFrontFormat("{0} {1} = source;\n", TargetArrayType, NamesOfEntities.Variable(ArrayAccessVariable));
 
             sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
             sb.AppendFront("{\n");
@@ -2057,6 +2066,7 @@ namespace de.unika.ipd.grGen.expression
 
         readonly Expression Target;
         readonly String TargetType;
+        readonly String ArrayAccessVariable;
         readonly String IndexVariable;
         readonly String ElementVariable;
         readonly Expression Condition;

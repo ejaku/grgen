@@ -1,0 +1,23 @@
+new graph "Filters/ArrayAccess"
+
+exec init
+
+eval [?r\orderAscendingBy<i>]
+
+eval [?r\orderAscendingBy<i>\assign<j>{this_:array<match<r>>; m:match<r> -> this_.extract<i>().sum()}]
+
+exec r_assign_filter
+show var res1
+show var res2
+
+eval [?[r]\mc.orderAscendingBy<i>\<class mc>]
+
+eval [?[r]\mc.orderAscendingBy<i>\mc.assign<j>{this_:array<match<class mc>>; m:match<class mc> -> this_.extract<i>().sum()}\<class mc>]
+
+exec r_assign_filter_match_class
+show var res1
+show var res2
+
+eval [?rit_assign_filter]
+
+quit

@@ -3816,6 +3816,11 @@ public abstract class CSharpBase
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
 		sb.appendFront(arrayOutputType + " target = new " + arrayOutputType + "();\n");
 
+		if(arrayMap.getArrayAccessVar() != null) {
+			String arrayAccessVarName = formatEntity(arrayMap.getArrayAccessVar());
+			sb.append(arrayInputType + " " + arrayAccessVarName + " = source;\n");
+		}
+		
 		String indexVarName = arrayMap.getIndexVar()!=null ? formatEntity(arrayMap.getIndexVar()) : "index_name";
 		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < source.Count; ++" + indexVarName + ")\n");
 		sb.appendFront("{\n");
@@ -3890,6 +3895,11 @@ public abstract class CSharpBase
 
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
 		sb.appendFront(arrayType + " target = new " + arrayType + "();\n");
+
+		if(arrayRemoveIf.getArrayAccessVar() != null) {
+			String arrayAccessVarName = formatEntity(arrayRemoveIf.getArrayAccessVar());
+			sb.append(arrayType + " " + arrayAccessVarName + " = source;\n");
+		}
 
 		String indexVarName = arrayRemoveIf.getIndexVar()!=null ? formatEntity(arrayRemoveIf.getIndexVar()) : "index_name";
 		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < source.Count; ++" + indexVarName + ")\n");

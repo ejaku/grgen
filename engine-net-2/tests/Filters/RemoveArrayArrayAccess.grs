@@ -1,0 +1,17 @@
+new graph "Filters/ArrayAccess"
+
+exec init
+
+eval [?r\orderAscendingBy<i>].removeIf{this_:array<match<r>>; m:match<r> -> m.i > this_.extract<i>().avg()}
+
+exec r_remove_array
+show var res
+
+eval [?[r]\mc.orderAscendingBy<i>\<class mc>].removeIf{this_:array<match<class mc>>; m:match<class mc> -> m.i > this_.extract<i>().avg()}
+
+exec r_remove_array_match_class
+show var res
+
+eval [?rit_remove_array]
+
+quit

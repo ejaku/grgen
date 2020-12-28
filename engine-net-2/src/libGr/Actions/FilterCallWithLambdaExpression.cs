@@ -20,9 +20,10 @@ namespace de.unika.ipd.grGen.libGr
     public class FilterCallWithLambdaExpression : FilterCall
     {
         public FilterCallWithLambdaExpression(String packagePrefixedName,
-            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpression)
+            SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpression)
             : base(packagePrefixedName)
         {
+            this.arrayAccess = arrayAccess;
             this.index = index;
             this.element = element;
             this.lambdaExpression = lambdaExpression;
@@ -49,6 +50,11 @@ namespace de.unika.ipd.grGen.libGr
                 return PackagePrefixedName.Substring(0, PackagePrefixedName.IndexOf('<'));
             }
         }
+
+        /// <summary>
+        /// The array access variable (used to access the array a second time during the iteration)
+        /// </summary>
+        public readonly SequenceVariable arrayAccess;
 
         /// <summary>
         /// The index variable (gives the number of the current match in the matches array) -- optional, null if does not apply.

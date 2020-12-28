@@ -459,13 +459,15 @@ seqExprSelector [ ExprNode prefix, ExecNode xg ] returns [ ExprNode res = prefix
 		|
 			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("map") }?
 				LT ti=typeIdentUse GT { xg.append("<" + ti.getSymbol().getText() + ">"); }
-			LBRACE { xg.append("{"); } { env.pushScope("arraymap/exec", getCoords(l)); } seqMaybeIndexedLambdaExprVarDecl[xg]
-				seqExpression[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+			LBRACE { xg.append("{"); } { env.pushScope("arraymap/exec", getCoords(l)); }
+				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
+				{ env.popScope(); } RBRACE { xg.append("}"); }
 			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, ti); }
 		|
 			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("removeIf") }?
-			LBRACE { xg.append("{"); } { env.pushScope("arrayremoveIf/exec", getCoords(l)); } seqMaybeIndexedLambdaExprVarDecl[xg]
-				seqExpression[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+			LBRACE { xg.append("{"); } { env.pushScope("arrayremoveIf/exec", getCoords(l)); }
+				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
+				{ env.popScope(); } RBRACE { xg.append("}"); }
 			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, ti); }
 		|
 			LPAREN { xg.append("("); } 
@@ -485,6 +487,14 @@ seqExprSelector [ ExprNode prefix, ExecNode xg ] returns [ ExprNode res = prefix
 		{ res = makeBinOp(l, prefix, key); } // array/deque/map access
 		sel=seqExprSelector[res, xg] { res = sel; }
 	| // no selector
+	;
+
+seqLambdaExprVarDeclPrefix [ ExecNode xg ]
+	options { k = *; }
+	: 	seqEntityDecl[xg] SEMI { xg.append(";"); }
+			seqMaybeIndexedLambdaExprVarDecl[xg]
+	|
+		seqMaybeIndexedLambdaExprVarDecl[xg]
 	;
 
 seqMaybeIndexedLambdaExprVarDecl [ ExecNode xg ]
@@ -891,8 +901,9 @@ seqCallRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> filters, bool
 				filters.addChild(filter);
 			}
 		}
-	| l=LBRACE { xg.append("{"); } { env.pushScope("filterremoveIf/exec", getCoords(l)); } seqMaybeIndexedLambdaExprVarDecl[xg]
-				seqExpression[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+	| l=LBRACE { xg.append("{"); } { env.pushScope("filterremoveIf/exec", getCoords(l)); }
+				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
+				{ env.popScope(); } RBRACE { xg.append("}"); }
 		{
 			Token p = pin;
 			Token filterId = idin;
@@ -925,8 +936,9 @@ seqCallRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> filters, bool
 			}
 		}
 	|
-		l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); } seqMaybeIndexedLambdaExprVarDecl[xg]
-				seqExpression[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+		l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); } 
+				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
+				{ env.popScope(); } RBRACE { xg.append("}"); }
 		{
 			Token p = pin;
 			Token filterId = idin;
@@ -973,8 +985,9 @@ seqCallMatchClassRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> fil
 				}
 			}
 		|
-			l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); } seqMaybeIndexedLambdaExprVarDecl[xg]
-					seqExpression[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+			l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); }
+					seqLambdaExprVarDeclPrefix[xg] seqExpression[xg] 
+					{ env.popScope(); } RBRACE { xg.append("}"); }
 			{
 				if(!isMatchClassFilter)
 					reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
@@ -1000,8 +1013,9 @@ seqCallMatchClassRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> fil
 				}
 			}
 		|
-			l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); } seqMaybeIndexedLambdaExprVarDecl[xg]
-				seqExpression[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+			l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); }
+				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
+				{ env.popScope(); } RBRACE { xg.append("}"); }
 			{
 				if(!isMatchClassFilter)
 					reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
@@ -1087,17 +1101,44 @@ seqEntityDeclCont [ ExecNode xg, IdentNode id ] returns [ ExecVarDeclNode res = 
 seqEntityDeclGenericTypeCont [ ExecNode xg, IdentNode id ] returns [ ExecVarDeclNode res = null ]
 	:
 		{ input.LT(1).getText().equals("map") }?
-		IDENT LT keyType=seqTypeIdentUse COMMA valueType=seqTypeIdentUse // map decl
+		IDENT LT keyType=seqTypeIdentUse COMMA { xg.append(id.toString() + ":map<" + keyType.toString() + ","); }
+		cont=seqEntityDeclGenericTypeMapCont[xg, id, keyType] { res = cont; }
+	|
+		{ input.LT(1).getText().equals("set") }?
+		IDENT LT cont=seqEntityDeclGenericTypeSetCont[xg, id] { res = cont; }
+	|
+		{ input.LT(1).getText().equals("array") }?
+		IDENT LT cont=seqEntityDeclGenericTypeArrayCont[xg, id] { res = cont; }
+	|
+		{ input.LT(1).getText().equals("deque") }?
+		IDENT LT cont=seqEntityDeclGenericTypeDequeCont[xg, id] { res = cont; }
+	|
+		MATCH LT cont=seqEntityDeclGenericTypeMatchCont[xg, id] { res = cont; }
+	;
+
+seqEntityDeclGenericTypeMapCont [ ExecNode xg, IdentNode id, IdentNode keyType ] returns [ ExecVarDeclNode res = null ]
+	:
+		valueType=seqTypeIdentUse // map decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new MapTypeNode(keyType, valueType));
-			xg.append(id.toString() + ":map<" + keyType.toString() + "," + valueType.toString());
+			xg.append(valueType.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
 		genericTypeEnd[xg]
 	|
-		{ input.LT(1).getText().equals("set") }?
-		IDENT LT type=seqTypeIdentUse // set decl
+		valueType=seqMatchTypeIdentUseInContainerType[xg] // map to match decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new MapTypeNode(keyType, valueType));
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+		genericTypeEndPastMatchType[xg]
+	;
+
+seqEntityDeclGenericTypeSetCont [ ExecNode xg, IdentNode id ] returns [ ExecVarDeclNode res = null ]
+	:
+		type=seqTypeIdentUse // set decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new SetTypeNode(type));
 			xg.append(id.toString() + ":set<" + type.toString());
@@ -1106,20 +1147,13 @@ seqEntityDeclGenericTypeCont [ ExecNode xg, IdentNode id ] returns [ ExecVarDecl
 		}
 		genericTypeEnd[xg]
 	|
-		{ input.LT(1).getText().equals("array") }?
-		IDENT LT cont=seqEntityDeclGenericTypeArrayCont[xg, id] { res = cont; }
-	|
-		{ input.LT(1).getText().equals("deque") }?
-		IDENT LT type=seqTypeIdentUse // deque decl
+		{ xg.append(id.toString() + ":set<"); } type=seqMatchTypeIdentUseInContainerType[xg] // set of match decl
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, new DequeTypeNode(type));
-			xg.append(id.toString() + ":deque<" + type.toString());
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new SetTypeNode(type));
 			xg.addVarDecl(decl);
 			res = decl;
 		}
-		genericTypeEnd[xg]
-	|
-		MATCH LT cont=seqEntityDeclGenericTypeMatchCont[xg, id] { res = cont; }
+		genericTypeEndPastMatchType[xg]
 	;
 
 seqEntityDeclGenericTypeArrayCont [ ExecNode xg, IdentNode id ] returns [ ExecVarDeclNode res = null ]
@@ -1136,6 +1170,26 @@ seqEntityDeclGenericTypeArrayCont [ ExecNode xg, IdentNode id ] returns [ ExecVa
 		{ xg.append(id.toString() + ":array<"); } type=seqMatchTypeIdentUseInContainerType[xg] // array of match decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+		genericTypeEndPastMatchType[xg]
+	;
+
+seqEntityDeclGenericTypeDequeCont [ ExecNode xg, IdentNode id ] returns [ ExecVarDeclNode res = null ]
+	:
+		type=seqTypeIdentUse // deque decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new DequeTypeNode(type));
+			xg.append(id.toString() + ":deque<" + type.toString());
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+		genericTypeEnd[xg]
+	|
+		{ xg.append(id.toString() + ":deque<"); } type=seqMatchTypeIdentUseInContainerType[xg] // deque of match decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new DequeTypeNode(type));
 			xg.addVarDecl(decl);
 			res = decl;
 		}

@@ -45,17 +45,20 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 	private IdentNode resultValueTypeUnresolved;
 	private TypeNode resultValueType;
 
+	private VarDeclNode arrayAccessVar;
+	
 	private VarDeclNode indexVar;
 	private VarDeclNode elementVar;
 	private ExprNode mappingExpr;
 
 	private ArrayTypeNode resultArrayType;
 
-	public ArrayMapNode(Coords coords, ExprNode targetExpr, IdentNode resultValueType, 
+	public ArrayMapNode(Coords coords, ExprNode targetExpr, IdentNode resultValueType, VarDeclNode arrayAccessVar,
 			VarDeclNode indexVar, VarDeclNode elementVar, ExprNode mappingExpr)
 	{
 		super(coords, targetExpr);
 		this.resultValueTypeUnresolved = resultValueType;
+		this.arrayAccessVar = arrayAccessVar;
 		this.indexVar = indexVar;
 		this.elementVar = elementVar;
 		this.mappingExpr = mappingExpr;
@@ -66,6 +69,8 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
+		if(arrayAccessVar != null)
+			children.add(arrayAccessVar);
 		if(indexVar != null)
 			children.add(indexVar);
 		children.add(elementVar);
@@ -78,6 +83,8 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
+		if(arrayAccessVar != null)
+			childrenNames.add("arrayAccessVar");
 		if(indexVar != null)
 			childrenNames.add("indexVar");
 		childrenNames.add("elementVar");
@@ -129,6 +136,18 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		TypeNode resultType = resultArrayType.valueType;
 		TypeNode exprType = mappingExpr.getType();
+
+		if(arrayAccessVar != null) {
+			TypeNode arrayAccessVarType = arrayAccessVar.getDeclType();
+			if(!(arrayAccessVarType instanceof ArrayTypeNode)) {
+				error.error(getCoords(), "array access var must be of array type, is given " + arrayAccessVarType);
+				return false;
+			}
+			if(!arrayAccessVarType.isEqual(targetExpr.getType())) {
+				error.error(getCoords(), "array access var must be of type " + targetExpr.getType() + ", is given " + arrayAccessVarType);
+				return false;
+			}
+		}
 
 		if(indexVar != null) {
 			TypeNode indexVarType = indexVar.getDeclType();
@@ -188,6 +207,7 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 		targetExpr = targetExpr.evaluate();
 		mappingExpr = mappingExpr.evaluate();
 		return new ArrayMapExpr(targetExpr.checkIR(Expression.class),
+				arrayAccessVar != null ? arrayAccessVar.checkIR(Variable.class) : null,
 				indexVar != null ? indexVar.checkIR(Variable.class) : null,
 				elementVar.checkIR(Variable.class),
 				mappingExpr.checkIR(Expression.class),

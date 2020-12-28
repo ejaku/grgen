@@ -2609,12 +2609,13 @@ namespace de.unika.ipd.grGen.expression
     public class FilterInvocationLambdaExpression : FilterInvocationBase
     {
         public FilterInvocationLambdaExpression(string filterName, string entity, string matchElementType,
-            string indexVariable, string elementVariable, Expression lambdaExpression,
+            string arrayAccessVariable, string indexVariable, string elementVariable, Expression lambdaExpression,
             PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
         {
             FilterName = filterName;
             Entity = entity;
             MatchElementType = matchElementType;
+            ArrayAccessVariable = arrayAccessVariable;
             IndexVariable = indexVariable;
             ElementVariable = elementVariable;
             LambdaExpression = lambdaExpression;
@@ -2641,7 +2642,7 @@ namespace de.unika.ipd.grGen.expression
                 newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
             }
             return new FilterInvocationLambdaExpression(FilterName, Entity, MatchElementType,
-                IndexVariable, ElementVariable, (Expression)LambdaExpression.Copy(renameSuffix),
+                ArrayAccessVariable, IndexVariable, ElementVariable, (Expression)LambdaExpression.Copy(renameSuffix),
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
@@ -2756,10 +2757,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.AppendFront("static " + matchesType + " " + filterAssignMethodName + "(");
             sourceCode.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 
-            sourceCode.Append(", ");
-            sourceCode.Append(matchesType);
-            sourceCode.Append(" ");
-            sourceCode.Append("matches");
+            sourceCode.AppendFormat(", {0} matches", matchesType);
 
             foreach(PatternNode patternNode in PatternNodes)
             {
@@ -2788,6 +2786,17 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Indent();
 
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+
+            if(ArrayAccessVariable != null)
+            {
+                sourceCode.AppendFrontFormat("{0} matchListCopy = new {0}();\n", arrayType);
+                sourceCode.AppendFrontFormat("foreach({0} match in matches)\n", elementType);
+                sourceCode.AppendFront("{\n");
+                sourceCode.AppendFrontIndentedFormat("matchListCopy.Add(({0})match.Clone());\n", elementType);
+                sourceCode.AppendFront("}\n");
+
+                sourceCode.AppendFrontFormat("{0} {1} = matchListCopy;\n", arrayType, NamesOfEntities.Variable(ArrayAccessVariable));
+            }
 
             sourceCode.AppendFront("int index = 0;\n");
             sourceCode.AppendFrontFormat("foreach({0} match in matches)\n", elementType);
@@ -2824,10 +2833,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.AppendFront("static " + matchesType + " " + filterRemoveIfMethodName + "(");
             sourceCode.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
 
-            sourceCode.Append(", ");
-            sourceCode.Append(matchesType);
-            sourceCode.Append(" ");
-            sourceCode.Append("matches");
+            sourceCode.AppendFormat(", {0} matches", matchesType);
 
             foreach(PatternNode patternNode in PatternNodes)
             {
@@ -2857,6 +2863,13 @@ namespace de.unika.ipd.grGen.expression
 
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
             sourceCode.AppendFront(arrayType + " matchList = matches.ToListExact();\n");
+
+            if(ArrayAccessVariable != null)
+            {
+                sourceCode.AppendFrontFormat("{0} matchListCopy = new {0}(matchList);\n", arrayType);
+
+                sourceCode.AppendFrontFormat("{0} {1} = matchListCopy;\n", arrayType, NamesOfEntities.Variable(ArrayAccessVariable));
+            }
 
             sourceCode.AppendFront("for(int index = 0; index < matchList.Count; ++index)\n");
             sourceCode.AppendFront("{\n");
@@ -2894,6 +2907,7 @@ namespace de.unika.ipd.grGen.expression
         public readonly string FilterName;
         public readonly string Entity;
         public readonly String MatchElementType;
+        public readonly string ArrayAccessVariable;
         public readonly string IndexVariable;
         public readonly string ElementVariable;
         public readonly Expression LambdaExpression;

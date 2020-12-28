@@ -753,9 +753,23 @@ String SetType():
     {
         return type;
     }
+|
+    LOOKAHEAD(Word() "<" MatchTypeInContainerType() (">" ">" | ">>"), { GetToken(3).kind == WORD && GetToken(3).image == "match" }) 
+    Word() "<" typeParam=MatchTypeInContainerType() (">" ">" | ">>") { type = "set<" + typeParam + ">"; }
+    (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
+    {
+        return type;
+    }
 | // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
     LOOKAHEAD(Word() "<" TypeNonGeneric() ">=") Word() "<" typeParam=TypeNonGeneric() { type = "set<" + typeParam + ">"; }
         (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
+    {
+        return type;
+    }
+|
+    LOOKAHEAD(Word() "<" MatchTypeInContainerType() ">" ">=", { GetToken(3).kind == WORD && GetToken(3).image == "match" })
+    Word() "<" typeParam=MatchTypeInContainerType() ">" { type = "set<" + typeParam + ">"; }
+    (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
     {
         return type;
     }
@@ -772,8 +786,24 @@ String MapType():
     {
         return type;
     }
+|
+    // todo: TypeNonGeneric() for domain instead of Word(), i.e. package prefix admissible
+    LOOKAHEAD(Word() "<" Word() "," MatchTypeInContainerType() (">" ">" | ">>"), { GetToken(5).kind == WORD && GetToken(5).image == "match" }) 
+    Word() "<" typeParam=Word() "," typeParamDst=MatchTypeInContainerType() (">" ">" | ">>") { type = "map<" + typeParam + "," + typeParamDst + ">"; }
+    (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
+    {
+        return type;
+    }
 | // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
     LOOKAHEAD(Word() "<" TypeNonGeneric() "," TypeNonGeneric() ">=") Word() "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() { type = "map<" + typeParam + "," + typeParamDst + ">"; }
+    (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
+    {
+        return type;
+    }
+|
+    // todo: TypeNonGeneric() for domain instead of Word(), i.e. package prefix admissible
+    LOOKAHEAD(Word() "<" Word() "," MatchTypeInContainerType() ">" ">=", { GetToken(5).kind == WORD && GetToken(5).image == "match" })
+    Word() "<" typeParam=Word() "," typeParamDst=MatchTypeInContainerType() ">" { type = "map<" + typeParam + "," + typeParamDst + ">"; }
     (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
     {
         return type;
@@ -826,8 +856,22 @@ String DequeType():
     {
         return type;
     }
+|
+    LOOKAHEAD(Word() "<" MatchTypeInContainerType() (">" ">" | ">>"), { GetToken(3).kind == WORD && GetToken(3).image == "match" }) 
+    Word() "<" typeParam=MatchTypeInContainerType() (">" ">" | ">>") { type = "deque<" + typeParam + ">"; }
+    (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
+    {
+        return type;
+    }
 | // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
     LOOKAHEAD(Word() "<" TypeNonGeneric() ">=") Word() "<" typeParam=TypeNonGeneric() { type = "deque<" + typeParam + ">"; }
+    (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
+    {
+        return type;
+    }
+|
+    LOOKAHEAD(Word() "<" MatchTypeInContainerType() ">" ">=", { GetToken(3).kind == WORD && GetToken(3).image == "match" })
+    Word() "<" typeParam=MatchTypeInContainerType() ">" { type = "deque<" + typeParam + ">"; }
     (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
     {
         return type;
@@ -1915,7 +1959,7 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
     String memberOrAttribute = null;
     String typeName;
     SequenceVariable var;
-    KeyValuePair<SequenceVariable, SequenceVariable> indexWithValue;
+    Tuple<SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithIndexWithValue = null;
     SequenceExpression expr = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     List<SequenceVariable> variableList = new List<SequenceVariable>();
@@ -1929,11 +1973,21 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
             { expr = env.CreateSequenceExpressionArrayAttributeAccessMethodCall(fromExpr, methodOrAttrName, memberOrAttribute, argExprs); }
     |
         "<" (LOOKAHEAD(2) typeName=TypeNonGeneric() | typeName=MatchType()) ">"
-        "{" { varDecls.PushScope(ScopeType.Computation); } indexWithValue=MaybeIndexedLambdaExprVarDecl() expr=Expression() { varDecls.PopScope(variableList); } "}"
-            { expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, typeName, indexWithValue.Key, indexWithValue.Value, expr); }
+        "{" { varDecls.PushScope(ScopeType.Computation); } 
+        arrayAccessWithIndexWithValue=LambdaExprVarDeclPrefix() expr=Expression()
+        { varDecls.PopScope(variableList); } "}"
+            {
+                expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, typeName,
+                    arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, expr);
+            }
     |
-        "{" { varDecls.PushScope(ScopeType.Computation); } indexWithValue=MaybeIndexedLambdaExprVarDecl() expr=Expression() { varDecls.PopScope(variableList); } "}"
-            { expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, null, indexWithValue.Key, indexWithValue.Value, expr); }
+        "{" { varDecls.PushScope(ScopeType.Computation); }
+        arrayAccessWithIndexWithValue=LambdaExprVarDeclPrefix() expr=Expression()
+        { varDecls.PopScope(variableList); } "}"
+            {
+                expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, null,
+                    arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, expr);
+            }
     |
         "(" (Arguments(argExprs))? ")"
             { expr = env.CreateSequenceExpressionFunctionMethodCall(fromExpr, methodOrAttrName, argExprs); }
@@ -1964,19 +2018,36 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
     }
 }
 
-KeyValuePair<SequenceVariable, SequenceVariable> MaybeIndexedLambdaExprVarDecl():
+Tuple<SequenceVariable, SequenceVariable, SequenceVariable> LambdaExprVarDeclPrefix():
+{
+    SequenceVariable arrayAccess;
+    Tuple<SequenceVariable, SequenceVariable> indexWithValue;
+}
+{
+    LOOKAHEAD(VariableDefinition() ";") arrayAccess=VariableDefinition() ";" indexWithValue=MaybeIndexedLambdaExprVarDecl()
+    {
+        return new Tuple<SequenceVariable, SequenceVariable, SequenceVariable>(arrayAccess, indexWithValue.Item1, indexWithValue.Item2);
+    }
+|
+    indexWithValue=MaybeIndexedLambdaExprVarDecl()
+    {
+        return new Tuple<SequenceVariable, SequenceVariable, SequenceVariable>(null, indexWithValue.Item1, indexWithValue.Item2);
+    }
+}
+
+Tuple<SequenceVariable, SequenceVariable> MaybeIndexedLambdaExprVarDecl():
 {
     SequenceVariable index, var;
 }
 {
-    LOOKAHEAD(7) index=VariableDefinitionNonGeneric() "->" var=VariableDefinition() "->"
+    LOOKAHEAD(VariableDefinitionNonGeneric() "->" VariableDefinition() "->") index=VariableDefinitionNonGeneric() "->" var=VariableDefinition() "->"
     {
-        return new KeyValuePair<SequenceVariable, SequenceVariable>(index, var);
+        return new Tuple<SequenceVariable, SequenceVariable>(index, var);
     }
 |
     var=VariableDefinition() "->"
     {
-        return new KeyValuePair<SequenceVariable, SequenceVariable>(null, var);
+        return new Tuple<SequenceVariable, SequenceVariable>(null, var);
     }
 }
 
@@ -2313,14 +2384,16 @@ SequenceFilterCallBase Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter
     String filterExtension = null, filterExtension2 = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     SequenceExpression lambdaExpr = null;
-    KeyValuePair<SequenceVariable, SequenceVariable> indexWithValue = new KeyValuePair<SequenceVariable, SequenceVariable>();
+    Tuple<SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithIndexWithValue = null;
     List<String> words = new List<String>();
     List<SequenceVariable> variableList = new List<SequenceVariable>();
 }
 {
     LOOKAHEAD(6) (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? filterBase=Word() "<" WordList(words) (">" | ">>")
     (filterExtension=Word() { filterBase += filterExtension; } "<" WordList(words) ">" filterExtension2=Word() { filterBase += filterExtension2; } "<" WordList(words) (">" | ">>") )?
-    ( "{" { varDecls.PushScope(ScopeType.Computation); } indexWithValue=MaybeIndexedLambdaExprVarDecl() lambdaExpr=Expression() { varDecls.PopScope(variableList); } "}" )?
+    ( "{" { varDecls.PushScope(ScopeType.Computation); }
+        arrayAccessWithIndexWithValue=LambdaExprVarDeclPrefix() lambdaExpr=Expression()
+        { varDecls.PopScope(variableList); } "}" )?
     {
         if(isMatchClassFilter && matchClass == null)
             throw new ParseException("A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
@@ -2333,23 +2406,29 @@ SequenceFilterCallBase Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter
         {
             if(lambdaExpr != null)
             {
-                if(matchClass != null)
-                    return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, indexWithValue.Key, indexWithValue.Value, lambdaExpr);
-                else
-                    return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words, indexWithValue.Key, indexWithValue.Value, lambdaExpr);
+                if(matchClass != null) {
+                    return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words,
+                        arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, lambdaExpr);
+                } else {
+                    return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words,
+                        arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, lambdaExpr);
+                }
             }
             else
             {
-                if(matchClass != null)
+                if(matchClass != null) {
                     return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, argExprs);
-                else
+                } else {
                     return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words, argExprs);
+                }
             }
         }
     }
 |
     (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? (LOOKAHEAD(2) package=Word() "::")? filterBase=Word() ("(" (Arguments(argExprs))? ")")?
-    ( "{" { varDecls.PushScope(ScopeType.Computation); } indexWithValue=MaybeIndexedLambdaExprVarDecl() lambdaExpr=Expression() { varDecls.PopScope(variableList); } "}" )?
+    ( "{" { varDecls.PushScope(ScopeType.Computation); }
+        arrayAccessWithIndexWithValue=LambdaExprVarDeclPrefix() lambdaExpr=Expression()
+        { varDecls.PopScope(variableList); } "}" )?
     {
         if(isMatchClassFilter && matchClass == null)
             throw new ParseException("A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
@@ -2358,10 +2437,13 @@ SequenceFilterCallBase Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter
 
         if(lambdaExpr != null)
         {
-            if(matchClass != null)
-                return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, indexWithValue.Key, indexWithValue.Value, lambdaExpr);
-            else
-                return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words, indexWithValue.Key, indexWithValue.Value, lambdaExpr);
+            if(matchClass != null) {
+                return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words,
+                    arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, lambdaExpr);
+            } else {
+                return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words,
+                    arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, lambdaExpr);
+            }
         }
         else if(env.IsAutoSuppliedFilterName(filterBase))
         {

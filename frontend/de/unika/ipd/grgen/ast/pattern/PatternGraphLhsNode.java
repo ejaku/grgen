@@ -508,7 +508,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		
 		for(ExprNode exp : conditions.getChildren()) {
 			if(!exp.getType().isEqual(BasicTypeNode.booleanType)) {
-				exp.reportError("Expression must be of type boolean");
+				exp.reportError("Expression must be of type boolean (not " + exp.getType() + ")");
 				expr = false;
 			}
 		}

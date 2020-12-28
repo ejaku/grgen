@@ -36,18 +36,21 @@ public class FilterInvocationLambdaExpressionNode extends FilterInvocationBaseNo
 	String assignEntity;
 	TypeNode entityType;
 	
+	VarDeclNode arrayAccessVar;
+	
 	VarDeclNode indexVar;
 	VarDeclNode elementVar;
 	ExprNode lambdaExpr;
 
 	public FilterInvocationLambdaExpressionNode(IdentNode iteratedUnresolved,
-			Coords coords, String filterName, String assignEntity,
+			Coords coords, String filterName, String assignEntity, VarDeclNode arrayAccessVar,
 			VarDeclNode indexVar, VarDeclNode elementVar, ExprNode lambdaExpr)
 	{
 		super(coords, iteratedUnresolved);
 		this.iteratedUnresolved = becomeParent(iteratedUnresolved);
 		this.filterName = filterName;
 		this.assignEntity = assignEntity;
+		this.arrayAccessVar = arrayAccessVar;
 		this.indexVar = indexVar;
 		this.elementVar = elementVar;
 		this.lambdaExpr = lambdaExpr;
@@ -58,6 +61,8 @@ public class FilterInvocationLambdaExpressionNode extends FilterInvocationBaseNo
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iteratedUnresolved, iterated));
+		if(arrayAccessVar != null)
+			children.add(arrayAccessVar);
 		if(indexVar != null)
 			children.add(indexVar);
 		children.add(elementVar);
@@ -70,6 +75,8 @@ public class FilterInvocationLambdaExpressionNode extends FilterInvocationBaseNo
 	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("iterated");
+		if(arrayAccessVar != null)
+			childrenNames.add("arrayAccessVar");
 		if(indexVar != null)
 			childrenNames.add("indexVar");
 		childrenNames.add("elementVar");
@@ -110,6 +117,7 @@ public class FilterInvocationLambdaExpressionNode extends FilterInvocationBaseNo
 		String fullFilterName = filterName + "<" + assignEntity + ">";
 		filterInvocation = new FilterInvocationLambdaExpression(fullFilterName, new Ident(fullFilterName, getCoords()),
 				filterName, assignEntity, entityType != null ? entityType.getType() : null, iterated.checkIR(Rule.class),
+				arrayAccessVar != null ? arrayAccessVar.checkIR(Variable.class) : null,
 				indexVar != null ? indexVar.checkIR(Variable.class) : null, elementVar.checkIR(Variable.class),
 				lambdaExpr.checkIR(Expression.class));
 		return filterInvocation;

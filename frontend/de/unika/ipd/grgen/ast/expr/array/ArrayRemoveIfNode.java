@@ -35,14 +35,17 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 		setName(ArrayRemoveIfNode.class, "array removeIf");
 	}
 
+	private VarDeclNode arrayAccessVar;
+
 	private VarDeclNode indexVar;
 	private VarDeclNode elementVar;
 	private ExprNode conditionExpr;
 
-	public ArrayRemoveIfNode(Coords coords, ExprNode targetExpr, 
+	public ArrayRemoveIfNode(Coords coords, ExprNode targetExpr, VarDeclNode arrayAccessVar,
 			VarDeclNode indexVar, VarDeclNode elementVar, ExprNode conditionExpr)
 	{
 		super(coords, targetExpr);
+		this.arrayAccessVar = arrayAccessVar;
 		this.indexVar = indexVar;
 		this.elementVar = elementVar;
 		this.conditionExpr = conditionExpr;
@@ -53,6 +56,8 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
+		if(arrayAccessVar != null)
+			children.add(arrayAccessVar);
 		if(indexVar != null)
 			children.add(indexVar);
 		children.add(elementVar);
@@ -65,6 +70,8 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
+		if(arrayAccessVar != null)
+			childrenNames.add("arrayAccessVar");
 		if(indexVar != null)
 			childrenNames.add("indexVar");
 		childrenNames.add("elementVar");
@@ -91,6 +98,18 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 	protected boolean checkLocal()
 	{
 		TypeNode exprType = conditionExpr.getType();
+
+		if(arrayAccessVar != null) {
+			TypeNode arrayAccessVarType = arrayAccessVar.getDeclType();
+			if(!(arrayAccessVarType instanceof ArrayTypeNode)) {
+				error.error(getCoords(), "array access var must be of array type, is given " + arrayAccessVarType);
+				return false;
+			}
+			if(!arrayAccessVarType.isEqual(targetExpr.getType())) {
+				error.error(getCoords(), "array access var must be of type " + targetExpr.getType() + ", is given " + arrayAccessVarType);
+				return false;
+			}
+		}
 
 		if(indexVar != null) {
 			TypeNode indexVarType = indexVar.getDeclType();
@@ -134,6 +153,7 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 		targetExpr = targetExpr.evaluate();
 		conditionExpr = conditionExpr.evaluate();
 		return new ArrayRemoveIfExpr(targetExpr.checkIR(Expression.class),
+				arrayAccessVar != null ? arrayAccessVar.checkIR(Variable.class) : null,
 				indexVar != null ? indexVar.checkIR(Variable.class) : null,
 				elementVar.checkIR(Variable.class),
 				conditionExpr.checkIR(Expression.class),

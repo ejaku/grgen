@@ -309,7 +309,30 @@ namespace de.unika.ipd.grGen.libGr
                 else
                 {
                     SequenceFilterCallLambdaExpression sequenceFilterCallLambdaExpression = (SequenceFilterCallLambdaExpression)sequenceFilterCallBase;
-                    sequenceFilterCallLambdaExpression.FilterCall.lambdaExpression.Check(this);
+
+                    String filterCallName = GetFilterCallName(sequenceFilterCallLambdaExpression);
+
+                    FilterCallWithLambdaExpression filterCall = sequenceFilterCallLambdaExpression.FilterCall;
+                    if(filterCall.arrayAccess != null)
+                    {
+                        String argumentType = filterCall.arrayAccess.Type;
+                        String paramterType = "array<match<" + ruleName + ">>";
+                        if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
+                            throw new SequenceParserException(ruleName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
+                    }
+                    if(filterCall.index != null)
+                    {
+                        String argumentType = filterCall.index.Type;
+                        String paramterType = "int";
+                        if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
+                            throw new SequenceParserException(ruleName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
+                    }
+                    String elementArgumentType = filterCall.element.Type;
+                    String elementParamterType = "match<" + ruleName + ">";
+                    if(!TypesHelper.IsSameOrSubtype(elementArgumentType, elementParamterType, Model))
+                        throw new SequenceParserException(ruleName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
+
+                    filterCall.lambdaExpression.Check(this);
                 }
             }
         }
@@ -352,6 +375,29 @@ namespace de.unika.ipd.grGen.libGr
                 else
                 {
                     SequenceFilterCallLambdaExpression sequenceFilterCallLambdaExpression = (SequenceFilterCallLambdaExpression)sequenceFilterCallBase;
+
+                    String filterCallName = GetFilterCallName(sequenceFilterCallLambdaExpression);
+
+                    FilterCallWithLambdaExpression filterCall = sequenceFilterCallLambdaExpression.FilterCall;
+                    if(filterCall.arrayAccess != null)
+                    {
+                        String argumentType = filterCall.arrayAccess.Type;
+                        String paramterType = "array<match<class " + matchClassName + ">>";
+                        if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
+                            throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
+                    }
+                    if(filterCall.index != null)
+                    {
+                        String argumentType = filterCall.index.Type;
+                        String paramterType = "int";
+                        if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
+                            throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
+                    }
+                    String elementArgumentType = filterCall.element.Type;
+                    String elementParamterType = "match<class " + matchClassName + ">";
+                    if(!TypesHelper.IsSameOrSubtype(elementArgumentType, elementParamterType, Model))
+                        throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
+
                     sequenceFilterCallLambdaExpression.FilterCall.lambdaExpression.Check(this);
                 }
             }

@@ -509,6 +509,7 @@ namespace de.unika.ipd.grGen.lgsp
                 && ex.Kind != SequenceParserError.MatchClassNotImplementedError
                 && ex.Kind != SequenceParserError.FilterError
                 && ex.Kind != SequenceParserError.FilterParameterError
+                && ex.Kind != SequenceParserError.FilterLambdaExpressionError
                 && ex.Kind != SequenceParserError.OperatorNotFound)
             {
                 Console.Error.WriteLine("Unknown " + ex.DefinitionTypeName + ": \"{0}\"", ex.Name);
@@ -553,6 +554,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             case SequenceParserError.FilterParameterError:
                 Console.Error.WriteLine("Filter parameter mismatch for filter \"" + ex.FilterName + "\" applied to \"" + ex.Name + "\"!");
+                return;
+
+            case SequenceParserError.FilterLambdaExpressionError:
+                Console.Error.WriteLine("Lambda expression variable type mismatch for filter \"" + ex.FilterName + "\" applied to \"" + ex.Name + "\"!");
                 return;
 
             case SequenceParserError.OperatorNotFound:

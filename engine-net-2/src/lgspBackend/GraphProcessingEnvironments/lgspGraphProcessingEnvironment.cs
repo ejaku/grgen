@@ -290,6 +290,15 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void FilterAssign(IMatches matches, FilterCallWithLambdaExpression filterCall)
         {
+            if(filterCall.arrayAccess != null)
+            {
+                List<IMatch> matchListCopy = new List<IMatch>();
+                foreach(IMatch match in matches)
+                {
+                    matchListCopy.Add(match.Clone());
+                }
+                filterCall.arrayAccess.SetVariableValue(matchListCopy, this);
+            }
             int index = 0;
             foreach(IMatch match in matches)
             {
@@ -305,6 +314,11 @@ namespace de.unika.ipd.grGen.lgsp
         public void FilterRemoveIf(IMatches matches, FilterCallWithLambdaExpression filterCall)
         {
             List<IMatch> matchList = matches.ToList();
+            if(filterCall.arrayAccess != null)
+            {
+                List<IMatch> matchListCopy = new List<IMatch>(matchList);
+                filterCall.arrayAccess.SetVariableValue(matchListCopy, this);
+            }
             for(int index = 0; index < matchList.Count; ++index)
             {
                 if(filterCall.index != null)

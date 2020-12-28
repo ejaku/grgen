@@ -255,6 +255,15 @@ namespace de.unika.ipd.grGen.libGr
 
         public void FilterAssign(IGraphProcessingEnvironment procEnv, IList<IMatch> matchList, FilterCallWithLambdaExpression filterCall)
         {
+            if(filterCall.arrayAccess != null)
+            {
+                List<IMatch> matchListCopy = new List<IMatch>();
+                foreach(IMatch match in matchList)
+                {
+                    matchListCopy.Add(match.Clone());
+                }
+                filterCall.arrayAccess.SetVariableValue(matchListCopy, procEnv);
+            }
             for(int index = 0; index < matchList.Count; ++index)
             {
                 if(filterCall.index != null)
@@ -269,6 +278,10 @@ namespace de.unika.ipd.grGen.libGr
         public void FilterRemoveIf(IGraphProcessingEnvironment procEnv, IList<IMatch> matchList, FilterCallWithLambdaExpression filterCall)
         {
             List<IMatch> matchListCopy = new List<IMatch>(matchList);
+            if(filterCall.arrayAccess != null)
+            {
+                filterCall.arrayAccess.SetVariableValue(matchListCopy, procEnv);
+            }
             matchList.Clear();
             for(int index = 0; index < matchListCopy.Count; ++index)
             {

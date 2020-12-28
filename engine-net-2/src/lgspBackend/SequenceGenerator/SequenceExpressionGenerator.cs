@@ -2405,21 +2405,18 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             seqArrayMap.MappingExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.Append(", (");
-            sb.Append(arrayInputType);
-            sb.Append(" )");
-            sb.Append(GetContainerValue(seqArrayMap, source));
+            sb.AppendFormat(", ({0}){1}", arrayInputType, GetContainerValue(seqArrayMap, source));
 
-            variables.Remove(seqArrayMap.Var);
+            if(seqArrayMap.ArrayAccess != null)
+                variables.Remove(seqArrayMap.ArrayAccess);
             if(seqArrayMap.Index != null)
                 variables.Remove(seqArrayMap.Index);
+            variables.Remove(seqArrayMap.Var);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                sb.Append(", (");
-                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                sb.Append(") ");
-                sb.Append("var_" + variable.Prefix + variable.PureName);
+                sb.AppendFormat(", ({0}){1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             sb.Append(")");
@@ -2451,21 +2448,18 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             seqArrayMap.MappingExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.Append(", ");
-            sb.Append(arrayInputType);
-            sb.Append(" ");
-            sb.Append("source");
+            sb.AppendFormat(", {0} source", arrayInputType);
 
-            variables.Remove(seqArrayMap.Var);
+            if(seqArrayMap.ArrayAccess != null)
+                variables.Remove(seqArrayMap.ArrayAccess);
             if(seqArrayMap.Index != null)
                 variables.Remove(seqArrayMap.Index);
+            variables.Remove(seqArrayMap.Var);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                sb.Append(", ");
-                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                sb.Append(" ");
-                sb.Append("var_" + variable.Prefix + variable.PureName);
+                sb.AppendFormat(", {0} {1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             sb.Append(")\n");
@@ -2474,6 +2468,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
             sb.AppendFront(arrayOutputType + " target = new " + arrayOutputType + "();\n");
+
+            if(seqArrayMap.ArrayAccess != null)
+            {
+                sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.ArrayAccess));
+                sb.AppendFront(seqHelper.SetVar(seqArrayMap.ArrayAccess, "source"));
+            }
 
             sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
             sb.AppendFront("{\n");
@@ -2518,21 +2518,18 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             seqArrayRemoveIf.ConditionExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.Append(", (");
-            sb.Append(arrayType);
-            sb.Append(" )");
-            sb.Append(GetContainerValue(seqArrayRemoveIf, source));
+            sb.AppendFormat(", ({0}){1}", arrayType, GetContainerValue(seqArrayRemoveIf, source));
 
-            variables.Remove(seqArrayRemoveIf.Var);
+            if(seqArrayRemoveIf.ArrayAccess != null)
+                variables.Remove(seqArrayRemoveIf.ArrayAccess);
             if(seqArrayRemoveIf.Index != null)
                 variables.Remove(seqArrayRemoveIf.Index);
+            variables.Remove(seqArrayRemoveIf.Var);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                sb.Append(", (");
-                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                sb.Append(") ");
-                sb.Append("var_" + variable.Prefix + variable.PureName);
+                sb.AppendFormat(", ({0}){1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             sb.Append(")");
@@ -2562,21 +2559,18 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             seqArrayRemoveIf.ConditionExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.Append(", ");
-            sb.Append(arrayType);
-            sb.Append(" ");
-            sb.Append("source");
+            sb.AppendFormat(", {0} source", arrayType);
 
-            variables.Remove(seqArrayRemoveIf.Var);
+            if(seqArrayRemoveIf.ArrayAccess != null)
+                variables.Remove(seqArrayRemoveIf.ArrayAccess);
             if(seqArrayRemoveIf.Index != null)
                 variables.Remove(seqArrayRemoveIf.Index);
+            variables.Remove(seqArrayRemoveIf.Var);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                sb.Append(", ");
-                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                sb.Append(" ");
-                sb.Append("var_" + variable.Prefix + variable.PureName);
+                sb.AppendFormat(", {0} {1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             sb.Append(")\n");
@@ -2585,6 +2579,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
             sb.AppendFront(arrayType + " target = new " + arrayType + "();\n");
+
+            if(seqArrayRemoveIf.ArrayAccess != null)
+            {
+                sb.AppendFront(seqHelper.DeclareVar(seqArrayRemoveIf.ArrayAccess));
+                sb.AppendFront(seqHelper.SetVar(seqArrayRemoveIf.ArrayAccess, "source"));
+            }
 
             sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
             sb.AppendFront("{\n");
@@ -2797,16 +2797,16 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append(", ");
             source.Append(matchesSource);
 
-            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+                variables.Remove(sequenceFilterCall.FilterCall.arrayAccess);
             if(sequenceFilterCall.FilterCall.index != null)
                 variables.Remove(sequenceFilterCall.FilterCall.index);
+            variables.Remove(sequenceFilterCall.FilterCall.element);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                source.Append(", (");
-                source.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                source.Append(") ");
-                source.Append("var_" + variable.Prefix + variable.PureName);
+                source.AppendFormat(", ({0}){1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             source.Append(")");
@@ -2833,16 +2833,16 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append(", ");
             source.Append(matchesSource);
 
-            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+                variables.Remove(sequenceFilterCall.FilterCall.arrayAccess);
             if(sequenceFilterCall.FilterCall.index != null)
                 variables.Remove(sequenceFilterCall.FilterCall.index);
+            variables.Remove(sequenceFilterCall.FilterCall.element);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                source.Append(", (");
-                source.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                source.Append(") ");
-                source.Append("var_" + variable.Prefix + variable.PureName);
+                source.AppendFormat(", ({0}){1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             source.Append(")");
@@ -2873,21 +2873,18 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.Append(", ");
-            sb.Append(matchesType);
-            sb.Append(" ");
-            sb.Append("matches");
+            sb.AppendFormat(", {0} matches", matchesType);
 
-            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+                variables.Remove(sequenceFilterCall.FilterCall.arrayAccess);
             if(sequenceFilterCall.FilterCall.index != null)
                 variables.Remove(sequenceFilterCall.FilterCall.index);
+            variables.Remove(sequenceFilterCall.FilterCall.element);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                sb.Append(", ");
-                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                sb.Append(" ");
-                sb.Append("var_" + variable.Prefix + variable.PureName);
+                sb.AppendFormat(", {0} {1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             sb.Append(")\n");
@@ -2895,6 +2892,18 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+            {
+                sb.AppendFrontFormat("{0} matchListCopy = new {0}();\n", arrayType);
+                sb.AppendFrontFormat("foreach({0} match in matches)\n", elementType);
+                sb.AppendFront("{\n");
+                sb.AppendFrontIndentedFormat("matchListCopy.Add(({0})match.Clone());\n", elementType);
+                sb.AppendFront("}\n");
+
+                sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.arrayAccess));
+                sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.arrayAccess, "matchListCopy"));
+            }
 
             sb.AppendFront("int index = 0;\n");
             sb.AppendFrontFormat("foreach({0} match in matches)\n", elementType);
@@ -2946,21 +2955,18 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.Append(", ");
-            sb.Append(matchesType);
-            sb.Append(" ");
-            sb.Append("matches");
+            sb.AppendFormat(", {0} matches", matchesType);
 
-            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+                variables.Remove(sequenceFilterCall.FilterCall.arrayAccess);
             if(sequenceFilterCall.FilterCall.index != null)
                 variables.Remove(sequenceFilterCall.FilterCall.index);
+            variables.Remove(sequenceFilterCall.FilterCall.element);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                sb.Append(", ");
-                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                sb.Append(" ");
-                sb.Append("var_" + variable.Prefix + variable.PureName);
+                sb.AppendFormat(", {0} {1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             sb.Append(")\n");
@@ -2969,6 +2975,14 @@ namespace de.unika.ipd.grGen.lgsp
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
             sb.AppendFront(arrayType + " matchList = matches.ToListExact();\n");
+
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+            {
+                sb.AppendFrontFormat("{0} matchListCopy = new {0}(matchList);\n", arrayType);
+
+                sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.arrayAccess));
+                sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.arrayAccess, "matchListCopy"));
+            }
 
             sb.AppendFront("for(int index = 0; index < matchList.Count; ++index)\n");
             sb.AppendFront("{\n");
@@ -3092,16 +3106,16 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append(", ");
             source.Append(matchListName);
 
-            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+                variables.Remove(sequenceFilterCall.FilterCall.arrayAccess);
             if(sequenceFilterCall.FilterCall.index != null)
                 variables.Remove(sequenceFilterCall.FilterCall.index);
+            variables.Remove(sequenceFilterCall.FilterCall.element);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                source.Append(", (");
-                source.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                source.Append(") ");
-                source.Append("var_" + variable.Prefix + variable.PureName);
+                source.AppendFormat(", ({0}){1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             source.Append(")");
@@ -3125,16 +3139,16 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append(", ");
             source.Append(matchListName);
 
-            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+                variables.Remove(sequenceFilterCall.FilterCall.arrayAccess);
             if(sequenceFilterCall.FilterCall.index != null)
                 variables.Remove(sequenceFilterCall.FilterCall.index);
+            variables.Remove(sequenceFilterCall.FilterCall.element);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                source.Append(", (");
-                source.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                source.Append(") ");
-                source.Append("var_" + variable.Prefix + variable.PureName);
+                source.AppendFormat(", ({0}){1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             source.Append(")");
@@ -3164,21 +3178,18 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.Append(", ");
-            sb.Append(arrayType);
-            sb.Append(" ");
-            sb.Append("matchList");
+            sb.AppendFormat(", {0} matchList", arrayType);
 
-            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+                variables.Remove(sequenceFilterCall.FilterCall.arrayAccess);
             if(sequenceFilterCall.FilterCall.index != null)
                 variables.Remove(sequenceFilterCall.FilterCall.index);
+            variables.Remove(sequenceFilterCall.FilterCall.element);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                sb.Append(", ");
-                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                sb.Append(" ");
-                sb.Append("var_" + variable.Prefix + variable.PureName);
+                sb.AppendFormat(", {0} {1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             sb.Append(")\n");
@@ -3188,6 +3199,18 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
 
             sb.AppendFrontFormat("List<{0}> matchListCopy = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matchList);\n", elementType);
+
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+            {
+                sb.AppendFrontFormat("List<{0}> matchListCopyForArrayAccess = new List<{0}>();\n", elementType);
+                sb.AppendFrontFormat("foreach({0} match in matchList)\n", elementType);
+                sb.AppendFront("{\n");
+                sb.AppendFrontIndentedFormat("matchListCopyForArrayAccess.Add(({0})match.Clone());\n", elementType);
+                sb.AppendFront("}\n");
+
+                sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.arrayAccess));
+                sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.arrayAccess, "matchListCopyForArrayAccess"));
+            }
 
             sb.AppendFront("for(int index = 0; index < matchListCopy.Count; ++index)\n");
             sb.AppendFront("{\n");
@@ -3238,21 +3261,18 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             sequenceFilterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.Append(", ");
-            sb.Append(arrayType);
-            sb.Append(" ");
-            sb.Append("matchList");
+            sb.AppendFormat(", {0} matchList", arrayType);
 
-            variables.Remove(sequenceFilterCall.FilterCall.element);
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+                variables.Remove(sequenceFilterCall.FilterCall.arrayAccess);
             if(sequenceFilterCall.FilterCall.index != null)
                 variables.Remove(sequenceFilterCall.FilterCall.index);
+            variables.Remove(sequenceFilterCall.FilterCall.element);
 
             foreach(SequenceVariable variable in variables.Keys)
             {
-                sb.Append(", ");
-                sb.Append(TypesHelper.XgrsTypeToCSharpType(variable.Type, model));
-                sb.Append(" ");
-                sb.Append("var_" + variable.Prefix + variable.PureName);
+                sb.AppendFormat(", {0} {1}", TypesHelper.XgrsTypeToCSharpType(variable.Type, model),
+                    "var_" + variable.Prefix + variable.PureName);
             }
 
             sb.Append(")\n");
@@ -3262,6 +3282,18 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
 
             sb.AppendFrontFormat("List<{0}> matchListCopy = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matchList);\n", elementType);
+
+            if(sequenceFilterCall.FilterCall.arrayAccess != null)
+            {
+                sb.AppendFrontFormat("List<{0}> matchListCopyForArrayAccess = new List<{0}>();\n", elementType);
+                sb.AppendFrontFormat("foreach({0} match in matchList)\n", elementType);
+                sb.AppendFront("{\n");
+                sb.AppendFrontIndentedFormat("matchListCopyForArrayAccess.Add(({0})match.Clone());\n", elementType);
+                sb.AppendFront("}\n");
+
+                sb.AppendFront(seqHelper.DeclareVar(sequenceFilterCall.FilterCall.arrayAccess));
+                sb.AppendFront(seqHelper.SetVar(sequenceFilterCall.FilterCall.arrayAccess, "matchListCopyForArrayAccess"));
+            }
 
             sb.AppendFront("for(int index = 0; index < matchListCopy.Count; ++index)\n");
             sb.AppendFront("{\n");

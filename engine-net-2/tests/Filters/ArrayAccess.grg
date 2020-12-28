@@ -1,0 +1,201 @@
+rule init
+{
+	replace {
+		n0:Node;
+		n1:Node --> n1;
+		n2:Node --> n2 --> n2;
+		n3:Node --> n3 --> n3 --> n3;
+		n4:Node --> n4 --> n4 --> n4 --> n4;
+	}
+}
+
+rule r implements mc
+{
+	n:Node;
+---
+	def var i:int;
+	def var j:int;
+
+	yield {
+		yield i = incident(n).size();
+		yield j = 0;
+	}
+	
+	modify {
+		delete(n);
+	}
+} \ orderAscendingBy<i>
+
+match class mc
+{
+	n:Node;
+	def var i:int;
+	def var j:int;
+} \ orderAscendingBy<i>
+
+rule r_assign_filter
+{
+	modify {
+	---
+		exec({::res1 = [?r\orderAscendingBy<i>]});
+		exec({::res2 = [?r\orderAscendingBy<i>\assign<j>{this_:array<match<r>>; m:match<r> -> this_.extract<i>().sum()}]});
+	}
+}
+
+rule r_map_array
+{
+	modify {
+	---
+		exec({::res = [?r].map<int>{this_:array<match<r>>; m:match<r> -> this_.extract<i>().sum()}});
+	}
+}
+
+rule r_remove_filter
+{
+	modify {
+	---
+		exec({::res1 = [?r\orderAscendingBy<i>]});
+		exec({::res2 = [?r\orderAscendingBy<i>\removeIf{this_:array<match<r>>; m:match<r> -> m.i > this_.extract<i>().avg()}]});
+	}
+}
+
+rule r_remove_array
+{
+	modify {
+	---
+		exec({::res = [?r\orderAscendingBy<i>].removeIf{this_:array<match<r>>; m:match<r> -> m.i > this_.extract<i>().avg()}});
+	}
+}
+
+rule r_assign_filter_match_class
+{
+	modify {
+	---
+		exec({::res1 = [?[r]\mc.orderAscendingBy<i>\<class mc>]});
+		exec({::res2 = [?[r]\mc.orderAscendingBy<i>\mc.assign<j>{this_:array<match<class mc>>; m:match<class mc> -> this_.extract<i>().sum()}\<class mc>]});
+	}
+}
+
+rule r_map_array_match_class
+{
+	modify {
+	---
+		exec({::res = [?[r]\<class mc>].map<int>{this_:array<match<class mc>>; m:match<class mc> -> this_.extract<i>().sum()}});
+	}
+}
+
+rule r_remove_filter_match_class
+{
+	modify {
+	---
+		exec({::res1 = [?[r]\mc.orderAscendingBy<i>\<class mc>]});
+		exec({::res2 = [?[r]\mc.orderAscendingBy<i>\mc.removeIf{this_:array<match<class mc>>; m:match<class mc> -> m.i > this_.extract<i>().avg()}\<class mc>]});
+	}
+}
+
+rule r_remove_array_match_class
+{
+	modify {
+	---
+		exec({::res = [?[r]\mc.orderAscendingBy<i>\<class mc>].removeIf{this_:array<match<class mc>>; m:match<class mc> -> m.i > this_.extract<i>().avg()}});
+	}
+}
+
+rule rit_assign_filter
+{
+	iterated it {
+		n:Node;
+	---
+		def var i:int;
+		def var j:int;
+
+		yield {
+			yield i = incident(n).size();
+			yield j = 0;
+		}
+		
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<i>
+---
+	iterated it\orderAscendingBy<i>\assign<j>{this_:array<match<rit_assign_filter.it>>; m:match<rit_assign_filter.it> -> this_.extract<i>().sum()};
+	def ref i_array:array<int> = yield([?it].extract<i>());
+	def ref j_array:array<int> = yield([?it].extract<j>());
+	
+	modify {
+	}
+}
+
+rule rit_map_array
+{
+	iterated it {
+		n:Node;
+	---
+		def var i:int;
+		def var j:int;
+
+		yield {
+			yield i = incident(n).size();
+			yield j = 0;
+		}
+		
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<i>
+---
+	def ref res_array:array<int> = yield([?it].map<int>{this_:array<match<rit_map_array.it>>; m:match<rit_map_array.it> -> this_.extract<i>().sum()});
+	
+	modify {
+	}
+}
+
+rule rit_remove_filter
+{
+	iterated it {
+		n:Node;
+	---
+		def var i:int;
+		def var j:int;
+
+		yield {
+			yield i = incident(n).size();
+			yield j = 0;
+		}
+		
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<i>
+---
+	iterated it\orderAscendingBy<i>\removeIf{this_:array<match<rit_remove_filter.it>>; m:match<rit_remove_filter.it> -> m.i > this_.extract<i>().avg()};
+	def ref res_array:array<int> = yield([?it].extract<i>());
+	
+	modify {
+	}
+}
+
+rule rit_remove_array
+{
+	iterated it {
+		n:Node;
+	---
+		def var i:int;
+		def var j:int;
+
+		yield {
+			yield i = incident(n).size();
+			yield j = 0;
+		}
+		
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<i>
+---
+	def ref res_array:array<int> = yield([?it].orderAscendingBy<i>().removeIf{this_:array<match<rit_remove_array.it>>; m:match<rit_remove_array.it> -> m.i > this_.extract<i>().avg()}.extract<i>());
+	
+	modify {
+	}
+}

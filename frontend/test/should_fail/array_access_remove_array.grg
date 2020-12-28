@@ -1,0 +1,31 @@
+rule r implements mc
+{
+	n:Node;
+---
+	def var i:int;
+	def var j:int;
+
+	yield {
+		yield i = incident(n).size();
+		yield j = 0;
+	}
+	
+	modify {
+		delete(n);
+	}
+} \ orderAscendingBy<i>
+
+match class mc
+{
+	n:Node;
+	def var i:int;
+	def var j:int;
+} \ orderAscendingBy<i>
+
+rule r_remove_array
+{
+	modify {
+	---
+		exec({::res = [?r\orderAscendingBy<i>].removeIf{this_:set<match<r>>; m:match<r> -> m.i > this_.extract<i>().avg()}});
+	}
+}
