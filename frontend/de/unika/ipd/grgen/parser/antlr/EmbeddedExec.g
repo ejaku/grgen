@@ -730,7 +730,7 @@ seqMultiRulePrefixedSequence [ ExecNode xg, CollectNode<BaseNode> returns ]
 	: l=LBRACK LBRACK {xg.append("[[");} 
 		seqRulePrefixedSequenceAtom[xg, ruleCalls, returns]
 		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } seqRulePrefixedSequenceAtom[xg, ruleCalls, returns] )*
-	  RBRACK { xg.append("]"); } ( seqCallRuleFilter[xg, filters, true] )* RBRACK { xg.append("]"); }
+	  RBRACK { xg.append("]"); } ( seqCallRuleOrMatchClassFilter[xg, filters, true] )* RBRACK { xg.append("]"); }
 		{ xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters)); }
 	;
 
@@ -753,7 +753,7 @@ seqMultiRuleAllCall [ ExecNode xg, CollectNode<BaseNode> returns, boolean isAllB
 		seqCallRuleWithOptionalReturns[xg, ruleCalls, returns, isAllBracketed]
 		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); }
 				seqCallRuleWithOptionalReturns[xg, ruleCalls, returns, isAllBracketed] )*
-	  RBRACK { xg.append("]"); } ( seqCallRuleFilter[xg, filters, true] )* RBRACK { xg.append("]"); }
+	  RBRACK { xg.append("]"); } ( seqCallRuleOrMatchClassFilter[xg, filters, true] )* RBRACK { xg.append("]"); }
 		{ xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters)); }
 	;
 	
@@ -790,7 +790,7 @@ seqMultiRuleQuery [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 		cre=seqCallRuleExpressionForMulti[xg, ruleCalls] { ruleCallExprs.addChild(cre); }
 		( COMMA { xg.append(","); } cre=seqCallRuleExpressionForMulti[xg, ruleCalls] { ruleCallExprs.addChild(cre); } )*
 	  RBRACK { xg.append("]"); }
-		( seqCallRuleFilter[xg, filters, true] )*
+		( seqCallRuleOrMatchClassFilter[xg, filters, true] )*
 		BACKSLASH { xg.append("\\"); } LT CLASS matchClassIdent=seqTypeIdentUse GT
 			{ xg.append("<class " + matchClassIdent.toString() + ">"); }
 	  RBRACK { xg.append("]"); }
@@ -809,7 +809,7 @@ seqCallRuleExpressionForMulti [ ExecNode xg, CollectNode<CallActionNode> ruleCal
 	}
 	: id=seqActionOrEntIdentUse { xg.append(id); }
 		(LPAREN { xg.append("("); } ( seqRuleParams[xg, params] )? RPAREN { xg.append(")");})?
-		( seqCallRuleFilter[xg, filters, false] )*
+		( seqCallRuleOrMatchClassFilter[xg, filters, false] )*
 		{
 			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, false);
 			xg.addCallAction(ruleCall);
@@ -834,7 +834,7 @@ seqCallRule [ ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<Ba
 		(seqVarUse[xg] DOT { xg.append("."); })?
 		id=seqActionOrEntIdentUse { xg.append(id); }
 		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
-		( seqCallRuleFilter[xg, filters, false] )*
+		( seqCallRuleOrMatchClassFilter[xg, filters, false] )*
 		{
 			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, isAllBracketed);
 			xg.addCallAction(ruleCall);
@@ -854,7 +854,7 @@ seqCallRuleExpression [ ExecNode xg ] returns [ ExprNode res = env.initExprNode(
 		(seqVarUse[xg] DOT { xg.append("."); })?
 		id=seqActionOrEntIdentUse { xg.append(id); }
 		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
-		( seqCallRuleFilter[xg, filters, false] )*
+		( seqCallRuleOrMatchClassFilter[xg, filters, false] )*
 		{
 			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, true);
 			xg.addCallAction(ruleCall);
@@ -862,18 +862,67 @@ seqCallRuleExpression [ ExecNode xg ] returns [ ExprNode res = env.initExprNode(
 		}
 	;
 
-seqCallRuleFilter [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter ]
-	: BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? (id=IDENT | id=AUTO) { xg.append(id.getText()); } 
-		seqCallRuleFilterContinuation[xg, filters, isMatchClassFilter, p, id]
+seqCallRuleOrMatchClassFilter [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter ]
+	: BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? (id=IDENT | id=AUTO) { xg.append(id.getText()); }
+		(
+			DOT { xg.append("."); } seqCallMatchClassFilterContinuation[xg, filters, isMatchClassFilter, p, id]
+		|
+			seqCallRuleFilterContinuation[xg, filters, isMatchClassFilter, p, id]
+		)
 	;
 
 seqCallRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pin, Token idin ]
 	@init {
-		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 		String filterBaseText = null;
 	}
-	: DOT { xg.append("."); } seqCallMatchClassRuleFilterContinuation[xg, filters, isMatchClassFilter, pin, idin]
-	| (LPAREN { xg.append("("); } (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
+	: { filterBaseText = idin.getText(); } LT { xg.append("<"); } seqFilterCallVariableList[xg] GT { xg.append(">"); }
+		seqCallRuleFilterContinuationMember[xg, filters, isMatchClassFilter, pin, idin, filterBaseText]
+	| seqCallRuleFilterContinuationNonMember[xg, filters, isMatchClassFilter, pin, idin]
+	;
+
+seqCallRuleFilterContinuationMember [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pin, Token idin, String filterBaseText ]
+	: (filterBaseTextExt=seqFilterExtension[xg, filterBaseText] { filterBaseText = filterBaseTextExt; })?
+		(LPAREN { xg.append("("); } RPAREN { xg.append(")"); })?
+		{
+			Token p = pin;
+			Token filterBase = idin;
+
+			if(p != null)
+				reportError(getCoords(filterBase), "No package specifier allowed for auto-generated filters.");
+			if(isMatchClassFilter)
+				reportError(getCoords(filterBase), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
+
+			if(!env.isAutoGeneratedBaseFilterName(filterBaseText))
+			{
+				reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBaseText + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy.");
+			}
+		}
+	|
+		l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); } 
+				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
+				{ env.popScope(); } RBRACE { xg.append("}"); }
+			(LPAREN { xg.append("("); } RPAREN { xg.append(")"); })?
+		{
+			Token p = pin;
+			Token filterId = idin;
+
+			if(p != null)
+				reportError(getCoords(filterId), "No package specifier allowed for per-element with lambda-expression filters.");
+			if(isMatchClassFilter)
+				reportError(getCoords(filterId), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
+
+			if(!filterId.getText().equals("assign"))
+			{
+				reportError(getCoords(filterId), "Unknown per-element with lambda-expression filter " + filterId.getText() + ". Available is: assign.");
+			}
+		}
+	;
+
+seqCallRuleFilterContinuationNonMember [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pin, Token idin ]
+	@init {
+		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+	}
+	: (LPAREN { xg.append("("); } (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
 		{
 			Token p = pin;
 			Token filterId = idin;
@@ -902,8 +951,9 @@ seqCallRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> filters, bool
 			}
 		}
 	| l=LBRACE { xg.append("{"); } { env.pushScope("filterremoveIf/exec", getCoords(l)); }
-				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
-				{ env.popScope(); } RBRACE { xg.append("}"); }
+		seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
+		{ env.popScope(); } RBRACE { xg.append("}"); }
+		(LPAREN { xg.append("("); } RPAREN { xg.append(")"); })?
 		{
 			Token p = pin;
 			Token filterId = idin;
@@ -918,114 +968,85 @@ seqCallRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> filters, bool
 				reportError(getCoords(filterId), "Unknown per-element with lambda-expression filter " + filterId.getText() + ". Available is: removeIf.");
 			}
 		}
-	| { filterBaseText = idin.getText(); } LT { xg.append("<"); } seqFilterCallVariableList[xg] GT { xg.append(">"); }
-	(
-		(filterBaseTextExt=seqFilterExtension[xg, filterBaseText] { filterBaseText = filterBaseTextExt; })?
-		{
-			Token p = pin;
-			Token filterBase = idin;
+	;
 
-			if(p != null)
-				reportError(getCoords(filterBase), "No package specifier allowed for auto-generated filters.");
-			if(isMatchClassFilter)
-				reportError(getCoords(filterBase), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
+seqCallMatchClassFilterContinuation [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pmc, Token mc ]
+	@init {
+		String filterBaseText = null;
+	}
+	: filterBase=IDENT { xg.append(filterBase.getText()); filterBaseText = filterBase.getText(); } LT { xg.append("<"); } seqFilterCallVariableList[xg] GT { xg.append(">"); }
+		seqCallMatchClassFilterContinuationMember[xg, filters, isMatchClassFilter, pmc, mc, filterBase, filterBaseText]
+	| (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? filterId=IDENT { xg.append(filterId.getText()); }
+		seqCallMatchClassFilterContinuationNonMember[xg, filters, isMatchClassFilter, pmc, mc, p, filterId]
+	;
+
+seqCallMatchClassFilterContinuationMember [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pmc, Token mc, Token filterBase, String filterBaseText ]
+	: (filterBaseTextExt=seqFilterExtension[xg, filterBaseText] { filterBaseText = filterBaseTextExt; })?
+		(LPAREN { xg.append("("); } RPAREN { xg.append(")"); })?
+		{
+			if(!isMatchClassFilter)
+				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
 			if(!env.isAutoGeneratedBaseFilterName(filterBaseText))
 			{
 				reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBaseText + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy.");
 			}
 		}
-	|
-		l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); } 
-				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
-				{ env.popScope(); } RBRACE { xg.append("}"); }
+	| l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); }
+		seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
+		{ env.popScope(); } RBRACE { xg.append("}"); }
+		(LPAREN { xg.append("("); } RPAREN { xg.append(")"); })?
 		{
-			Token p = pin;
-			Token filterId = idin;
+			if(!isMatchClassFilter)
+				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
-			if(p != null)
-				reportError(getCoords(filterId), "No package specifier allowed for per-element with lambda-expression filters.");
-			if(isMatchClassFilter)
-				reportError(getCoords(filterId), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
-
-			if(!filterId.getText().equals("assign"))
+			if(!filterBase.getText().equals("assign"))
 			{
-				reportError(getCoords(filterId), "Unknown per-element with lambda-expression filter " + filterId.getText() + ". Available is: assign.");
+				reportError(getCoords(filterBase), "Unknown per-element with lambda-expression filter " + filterBase.getText() + ". Available is: assign.");
 			}
 		}
-	)
 	;
 
-seqCallMatchClassRuleFilterContinuation [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pmc, Token mc ]
+seqCallMatchClassFilterContinuationNonMember [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pmc, Token mc, Token p, Token filterId ]
 	@init {
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
-		String filterBaseText = null;
 	}
-	: (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? filterId=IDENT { xg.append(filterId.getText()); } 
-		(
-			(LPAREN { xg.append("("); } (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
-			{
-				if(!isMatchClassFilter)
-					reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
+	: (LPAREN { xg.append("("); } (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
+		{
+			if(!isMatchClassFilter)
+				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
-				if(env.isAutoSuppliedFilterName(filterId.getText()))
-				{
-					if(params.size() != 1)
-						reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
-				}
-				else
-				{
-					IdentNode matchClass = pmc != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pmc.getText(), getCoords(pmc)), 
-															env.occurs(ParserEnvironment.TYPES, mc.getText(), getCoords(mc)))
-														: new IdentNode(env.occurs(ParserEnvironment.TYPES, mc.getText(), getCoords(mc)));
-					IdentNode matchClassFilter = p != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
-															env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)))
-														: new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)));
-					filters.addChild(new MatchTypeQualIdentNode(getCoords(filterId), matchClass, matchClassFilter));
-				}
-			}
-		|
-			l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); }
-					seqLambdaExprVarDeclPrefix[xg] seqExpression[xg] 
-					{ env.popScope(); } RBRACE { xg.append("}"); }
+			if(env.isAutoSuppliedFilterName(filterId.getText()))
 			{
-				if(!isMatchClassFilter)
-					reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
-				if(p != null)
-					reportError(getCoords(filterId), "No package specifier allowed for per-element with lambda-expression filters.");
-			
-				if(!filterId.getText().equals("removeIf"))
-				{
-					reportError(getCoords(filterId), "Unknown per-element with lambda-expression filter " + filterId.getText() + ". Available is: removeIf.");
-				}
+				if(params.size() != 1)
+					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
 			}
-		)	
-	| filterBase=IDENT { xg.append(filterBase.getText()); filterBaseText = filterBase.getText(); } LT { xg.append("<"); } seqFilterCallVariableList[xg] GT { xg.append(">"); }
-		(
-			(filterBaseTextExt=seqFilterExtension[xg, filterBaseText] { filterBaseText = filterBaseTextExt; })?
+			else
 			{
-				if(!isMatchClassFilter)
-					reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
-
-				if(!env.isAutoGeneratedBaseFilterName(filterBaseText))
-				{
-					reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBaseText + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy.");
-				}
+				IdentNode matchClass = pmc != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pmc.getText(), getCoords(pmc)), 
+														env.occurs(ParserEnvironment.TYPES, mc.getText(), getCoords(mc)))
+													: new IdentNode(env.occurs(ParserEnvironment.TYPES, mc.getText(), getCoords(mc)));
+				IdentNode matchClassFilter = p != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+														env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)))
+													: new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)));
+				filters.addChild(new MatchTypeQualIdentNode(getCoords(filterId), matchClass, matchClassFilter));
 			}
-		|
-			l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); }
-				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
-				{ env.popScope(); } RBRACE { xg.append("}"); }
+		}
+	| l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); }
+		seqLambdaExprVarDeclPrefix[xg] seqExpression[xg] 
+		{ env.popScope(); } RBRACE { xg.append("}"); }
+		(LPAREN { xg.append("("); } RPAREN { xg.append(")"); })?
+		{
+			if(!isMatchClassFilter)
+				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
+			if(p != null)
+				reportError(getCoords(filterId), "No package specifier allowed for per-element with lambda-expression filters.");
+		
+			if(!filterId.getText().equals("removeIf"))
 			{
-				if(!isMatchClassFilter)
-					reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
-
-				if(!filterBase.getText().equals("assign"))
-				{
-					reportError(getCoords(filterBase), "Unknown per-element with lambda-expression filter " + filterBase.getText() + ". Available is: assign.");
-				}
+				reportError(getCoords(filterId), "Unknown per-element with lambda-expression filter " + filterId.getText() + ". Available is: removeIf.");
 			}
-		)
+		}
 	;
 
 seqFilterExtension [ ExecNode xg, String filterBaseText ] returns [ String res = null ]
