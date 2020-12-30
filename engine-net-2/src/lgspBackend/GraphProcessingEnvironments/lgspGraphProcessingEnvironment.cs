@@ -284,8 +284,10 @@ namespace de.unika.ipd.grGen.lgsp
                 FilterAssign(matches, filter);
             else if(filter.PlainName == "removeIf")
                 FilterRemoveIf(matches, filter);
+            else if(filter.PlainName == "assignStartWithAccumulateBy")
+                FilterAssignStartWithAccumulateBy(matches, filter);
             else
-                throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+                throw new Exception("Unknown lambda expression filter call (available are assign, removeIf, assignStartWithAccumulateBy)");
         }
 
         public void FilterAssign(IMatches matches, FilterCallWithLambdaExpression filterCall)
@@ -330,6 +332,37 @@ namespace de.unika.ipd.grGen.lgsp
                     matchList[index] = null;
             }
             matches.FromList();
+        }
+
+        public void FilterAssignStartWithAccumulateBy(IMatches matches, FilterCallWithLambdaExpression filterCall)
+        {
+            List<IMatch> matchListCopy = null;
+            if(filterCall.initArrayAccess != null || filterCall.arrayAccess != null)
+            {
+                matchListCopy = new List<IMatch>();
+                foreach(IMatch match in matches)
+                {
+                    matchListCopy.Add(match.Clone());
+                }
+            }
+            if(filterCall.initArrayAccess != null)
+                filterCall.initArrayAccess.SetVariableValue(matchListCopy, this);
+            if(filterCall.arrayAccess != null)
+                filterCall.arrayAccess.SetVariableValue(matchListCopy, this);
+
+            filterCall.previousAccumulationAccess.SetVariableValue(filterCall.initExpression.Evaluate(this), this);
+
+            int index = 0;
+            foreach(IMatch match in matches)
+            {
+                if(filterCall.index != null)
+                    filterCall.index.SetVariableValue(index, this);
+                filterCall.element.SetVariableValue(match, this);
+                object result = filterCall.lambdaExpression.Evaluate(this);
+                match.SetMember(filterCall.Entity, result);
+                ++index;
+                filterCall.previousAccumulationAccess.SetVariableValue(result, this);
+            }
         }
 
         public List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, 

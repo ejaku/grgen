@@ -2999,7 +2999,16 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		sb.append("\"" + fi.getFilterName() + "\", ");
 		sb.append((fi.getFilterEntity() != null ? "\"" + fi.getFilterEntity() + "\"" : "null") + ", ");
 		sb.append((fi.getFilterEntity() != null ? "\"" + formatType(fi.getFilterEntityType()) + "\"" : "null") + ", ");
+		sb.append((fi.getInitArrayAccessVariable() != null ? "\"" + formatEntity(fi.getInitArrayAccessVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null") + ", ");
+		Expression initExpression = fi.getInitExpression();
+		if(initExpression != null) {
+			genExpressionTree(sb, initExpression, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+		} else {
+			sb.append("null, ");
+		}
 		sb.append((fi.getArrayAccessVariable() != null ? "\"" + formatEntity(fi.getArrayAccessVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null") + ", ");
+		sb.append((fi.getPreviousAccumulationAccessVariable() != null ? "\"" + formatEntity(fi.getPreviousAccumulationAccessVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null") + ", ");
 		sb.append((fi.getIndexVariable() != null ? "\"" + formatEntity(fi.getIndexVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" : "null") + ", ");
 		sb.append("\"" + formatEntity(fi.getElementVariable(), pathPrefix, alreadyDefinedEntityToName) + "\"" + ", ");
 		Expression lambdaExpression = fi.getLambdaExpression();

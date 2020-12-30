@@ -2609,13 +2609,18 @@ namespace de.unika.ipd.grGen.expression
     public class FilterInvocationLambdaExpression : FilterInvocationBase
     {
         public FilterInvocationLambdaExpression(string filterName, string entity, string matchElementType,
-            string arrayAccessVariable, string indexVariable, string elementVariable, Expression lambdaExpression,
+            string initArrayAccessVariable, Expression initExpression,
+            string arrayAccessVariable, string previousAccumulationAccessVariable,
+            string indexVariable, string elementVariable, Expression lambdaExpression,
             PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
         {
             FilterName = filterName;
             Entity = entity;
             MatchElementType = matchElementType;
+            InitArrayAccessVariable = initArrayAccessVariable;
+            InitExpression = initExpression;
             ArrayAccessVariable = arrayAccessVariable;
+            PreviousAccumulationAccessVariable = previousAccumulationAccessVariable;
             IndexVariable = indexVariable;
             ElementVariable = elementVariable;
             LambdaExpression = lambdaExpression;
@@ -2642,7 +2647,9 @@ namespace de.unika.ipd.grGen.expression
                 newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
             }
             return new FilterInvocationLambdaExpression(FilterName, Entity, MatchElementType,
-                ArrayAccessVariable, IndexVariable, ElementVariable, (Expression)LambdaExpression.Copy(renameSuffix),
+                InitArrayAccessVariable, (Expression)InitExpression.Copy(renameSuffix),
+                ArrayAccessVariable, PreviousAccumulationAccessVariable,
+                IndexVariable, ElementVariable, (Expression)LambdaExpression.Copy(renameSuffix),
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
@@ -2650,10 +2657,12 @@ namespace de.unika.ipd.grGen.expression
         {
             if(FilterName == "assign")
                 EmitFilterCallAssign(sourceCode, matchesSource, ruleOrSubpatternName, isSubpattern, iteratedName);
+            else if(FilterName == "assignStartWithAccumulateBy")
+                EmitFilterCallAssignStartWithAccumulateBy(sourceCode, matchesSource, ruleOrSubpatternName, isSubpattern, iteratedName);
             else if(FilterName == "removeIf")
                 EmitFilterCallRemoveIf(sourceCode, matchesSource, ruleOrSubpatternName, isSubpattern, iteratedName);
             else
-                throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+                throw new Exception("Unknown lambda expression filter call (available are assign, removeIf, assignStartWithAccumulateBy)");
         }
 
         public void EmitFilterCallAssign(SourceBuilder source, String matchesSource, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
@@ -2728,6 +2737,42 @@ namespace de.unika.ipd.grGen.expression
             source.Append(";\n");
         }
 
+        public void EmitFilterCallAssignStartWithAccumulateBy(SourceBuilder source, String matchesSource, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
+        {
+            String filterAssignMethodName = "FilterAssignStartWithAccumulateBy_" + Id;
+
+            source.AppendFrontFormat("{0}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv", filterAssignMethodName);
+
+            source.Append(", ");
+            source.Append(matchesSource);
+
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.TypeName(patternNode.type));
+                source.Append(")");
+                source.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.TypeName(patternEdge.type));
+                source.Append(")");
+                source.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                source.Append(", (");
+                source.Append(TypesHelper.TypeName(patternVariable.type));
+                source.Append(")");
+                source.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+
+            source.Append(")");
+
+            source.Append(";\n");
+        }
+
         public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
         {
             throw new NotImplementedException();
@@ -2739,10 +2784,12 @@ namespace de.unika.ipd.grGen.expression
 
             if(FilterName == "assign")
                 EmitFilterAssign(sourceCode, ruleOrSubpatternName, isSubpattern, iteratedName);
+            else if(FilterName == "assignStartWithAccumulateBy")
+                EmitFilterAssignStartWithAccumulateBy(sourceCode, ruleOrSubpatternName, isSubpattern, iteratedName);
             else if(FilterName == "removeIf")
                 EmitFilterRemoveIf(sourceCode, ruleOrSubpatternName, isSubpattern, iteratedName);
             else
-                throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+                throw new Exception("Unknown lambda expression filter call (available are assign, removeIf, assignStartWithAccumulateBy)");
         }
 
         public void EmitFilterAssign(SourceBuilder sourceCode, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
@@ -2894,6 +2941,96 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.AppendFront("}\n");
         }
 
+        public void EmitFilterAssignStartWithAccumulateBy(SourceBuilder sourceCode, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
+        {
+            String filterAssignMethodName = "FilterAssignStartWithAccumulateBy_" + Id;
+
+            String matchType = NamesOfEntities.RulePatternClassName(ruleOrSubpatternName, null, isSubpattern) + "." + NamesOfEntities.MatchInterfaceName(ruleOrSubpatternName, iteratedName);
+            String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+            String arrayType = "List<" + matchType + ">";
+            String elementType = matchType;
+
+            sourceCode.AppendFront("static " + matchesType + " " + filterAssignMethodName + "(");
+            sourceCode.Append("GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+
+            sourceCode.AppendFormat(", {0} matches", matchesType);
+
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternNode.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternEdge.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                sourceCode.Append(", ");
+                sourceCode.Append(TypesHelper.TypeName(patternVariable.type));
+                sourceCode.Append(" ");
+                sourceCode.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+
+            sourceCode.Append(")\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
+
+            if(InitArrayAccessVariable != null || ArrayAccessVariable != null)
+            {
+                sourceCode.AppendFrontFormat("{0} matchListCopy = new {0}();\n", arrayType);
+                sourceCode.AppendFrontFormat("foreach({0} match in matches)\n", elementType);
+                sourceCode.AppendFront("{\n");
+                sourceCode.AppendFrontIndentedFormat("matchListCopy.Add(({0})match.Clone());\n", elementType);
+                sourceCode.AppendFront("}\n");
+            }
+
+            if(InitArrayAccessVariable != null)
+            {
+                sourceCode.AppendFrontFormat("{0} {1} = matchListCopy;\n", arrayType, NamesOfEntities.Variable(InitArrayAccessVariable));
+            }
+
+            sourceCode.AppendFrontFormat("{0} {1} = ", MatchElementType, NamesOfEntities.Variable(PreviousAccumulationAccessVariable));
+            InitExpression.Emit(sourceCode);
+            sourceCode.Append(";\n");
+
+            if(ArrayAccessVariable != null)
+            {
+                sourceCode.AppendFrontFormat("{0} {1} = matchListCopy;\n", arrayType, NamesOfEntities.Variable(ArrayAccessVariable));
+            }
+
+            sourceCode.AppendFront("int index = 0;\n");
+            sourceCode.AppendFrontFormat("foreach({0} match in matches)\n", elementType);
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            if(IndexVariable != null)
+                sourceCode.AppendFront("int " + NamesOfEntities.Variable(IndexVariable) + " = index;\n");
+            sourceCode.AppendFront(elementType + " " + NamesOfEntities.Variable(ElementVariable) + " = match;\n");
+            sourceCode.AppendFront(MatchElementType + " result = ");
+            LambdaExpression.Emit(sourceCode);
+            sourceCode.Append(";\n");
+            sourceCode.AppendFrontFormat("match.SetMember(\"{0}\", result);\n", Entity); // TODO: directly access entity in match instead, requires name prefix
+            sourceCode.AppendFront("++index;\n");
+
+            sourceCode.AppendFrontFormat("{0} = result;\n", NamesOfEntities.Variable(PreviousAccumulationAccessVariable));
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            sourceCode.AppendFront("return matches;\n");
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return LambdaExpression;
@@ -2907,7 +3044,10 @@ namespace de.unika.ipd.grGen.expression
         public readonly string FilterName;
         public readonly string Entity;
         public readonly String MatchElementType;
+        public readonly string InitArrayAccessVariable;
+        public readonly Expression InitExpression;
         public readonly string ArrayAccessVariable;
+        public readonly string PreviousAccumulationAccessVariable;
         public readonly string IndexVariable;
         public readonly string ElementVariable;
         public readonly Expression LambdaExpression;

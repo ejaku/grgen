@@ -1,0 +1,39 @@
+new graph "Filters/AssignAccumulateBy"
+
+exec init
+
+eval [?r \ orderAscendingBy<i>]
+
+eval [?r\orderAscendingBy<i>\assign<j>StartWith{0}AccumulateBy{prev:int, m:match<r> -> prev + m.i}]
+
+exec {::start = 42}
+eval [?r\orderAscendingBy<i>\assign<j>StartWith{::start}AccumulateBy{prev:int, m:match<r> -> prev + m.i}]
+
+exec r_assign(0)
+show var res1
+show var res2
+
+exec r_assign(42)
+show var res1
+show var res2
+
+eval [?[r] \ mc.orderAscendingBy<i> \<class mc>]
+
+exec {::start = 0}
+eval [?[r]\mc.orderAscendingBy<i>\ mc.assign<j>StartWith{::start}AccumulateBy{prev:int, m:match<class mc> -> prev + m.i}\<class mc>]
+
+eval [?[r]\mc.orderAscendingBy<i>\ mc.assign<j>StartWith{42}AccumulateBy{prev:int, m:match<class mc> -> prev + m.i}\<class mc>]
+
+exec r_assign_match_class(0)
+show var res1
+show var res2
+
+exec r_assign_match_class(42)
+show var res1
+show var res2
+
+eval [?rit_assign(0)]
+
+eval [?rit_assign(42)]
+
+quit

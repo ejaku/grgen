@@ -220,6 +220,27 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 throw new SequenceParserException(packagePrefixedRuleName, filterName, SequenceParserError.FilterError);
         }
 
+        public override SequenceFilterCallBase CreateSequenceFilterCall(String ruleName, String rulePackage,
+            String packagePrefix, String filterBase, List<String> entities,
+            SequenceVariable initArrayAccess, SequenceExpression initExpr,
+            SequenceVariable arrayAccess, SequenceVariable previousAccumulationAccess,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+        {
+            String packagePrefixedRuleName = rulePackage != null ? rulePackage + "::" + ruleName : ruleName; // rulePackage already resolved, concatenation sufficient
+
+            String filterName = GetFilterName(filterBase, entities);
+            String packagePrefixedName = filterName;
+
+            if(entities.Count == 1 && filterBase == "assignStartWithAccumulateBy")
+            {
+                return new SequenceFilterCallLambdaExpressionCompiled(filterBase, entities[0],
+                    initArrayAccess, initExpr,
+                    arrayAccess, previousAccumulationAccess, index, element, lambdaExpr);
+            }
+            else
+                throw new SequenceParserException(packagePrefixedRuleName, filterName, SequenceParserError.FilterError);
+        }
+
         public override string GetPackagePrefixedMatchClassName(String matchClassName, String matchClassPackage)
         {
             String resolvedMatchClassPackage; // match class not yet resolved (impossible before as only part of filter call), resolve it here
@@ -300,6 +321,35 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             {
                 return new SequenceFilterCallLambdaExpressionCompiled(matchClassName, resolvedMatchClassPackage, packagePrefixedMatchClassName,
                     filterBase, null, arrayAccess, index, element, lambdaExpr);
+            }
+            else
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedName, SequenceParserError.FilterError);
+        }
+
+        public override SequenceFilterCallBase CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
+            String packagePrefix, String filterBase, List<String> entities,
+            SequenceVariable initArrayAccess, SequenceExpression initExpr,
+            SequenceVariable arrayAccess, SequenceVariable previousAccumulationAccess,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+        {
+            String resolvedMatchClassPackage; // match class not yet resolved (impossible before as only part of filter call), resolve it here
+            String packagePrefixedMatchClassName;
+            bool contextMatchClassNameExists = actionNames.matchClassesToFilters.ContainsKey(PackagePrefixedName(matchClassName, packageContext));
+            ResolvePackage(matchClassName, matchClassPackage, packageContext, contextMatchClassNameExists,
+                out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
+            if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.MatchClassError);
+
+            String filterName = GetFilterName(filterBase, entities);
+
+            String packagePrefixedName = filterName;
+
+            if(entities.Count == 1 && filterBase == "assignStartWithAccumulateBy")
+            {
+                return new SequenceFilterCallLambdaExpressionCompiled(matchClassName, resolvedMatchClassPackage, packagePrefixedMatchClassName,
+                    filterBase, entities[0],
+                    initArrayAccess, initExpr, 
+                    arrayAccess, previousAccumulationAccess, index, element, lambdaExpr);
             }
             else
                 throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedName, SequenceParserError.FilterError);

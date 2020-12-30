@@ -1,0 +1,78 @@
+rule init
+{
+	replace {
+		n0:Node;
+		n1:Node --> n1;
+		n2:Node --> n2 --> n2;
+		n3:Node --> n3 --> n3 --> n3;
+		n4:Node --> n4 --> n4 --> n4 --> n4;
+	}
+}
+
+rule r implements mc
+{
+	n:Node;
+---
+	def var i:int;
+	def var j:int;
+
+	yield {
+		yield i = incident(n).size();
+		yield j = 0;
+	}
+	
+	modify {
+		delete(n);
+	}
+} \ orderAscendingBy<i>
+
+match class mc
+{
+	n:Node;
+	def var i:int;
+	def var j:int;
+} \ orderAscendingBy<i>
+
+rule r_assign(var start:int)
+{
+	modify {
+	---
+		exec({::res1 = [?r\orderAscendingBy<i>]});
+		exec({::res2 = [?r\orderAscendingBy<i>\assign<j>StartWith{start}AccumulateBy{prev:int, m:match<r> -> prev + m.i}]});
+	}
+}
+
+rule r_assign_match_class(var start:int)
+{
+	modify {
+	---
+		exec({::res1 = [?[r]\mc.orderAscendingBy<i>\<class mc>]});
+		exec({::res2 = [?[r]\mc.orderAscendingBy<i>\ mc.assign<j>StartWith{start}AccumulateBy{prev:int, m:match<class mc> -> prev + m.i}\<class mc>]});
+	}
+}
+
+rule rit_assign(var start:int)
+{
+	iterated it {
+		n:Node;
+	---
+		def var i:int;
+		def var j:int;
+
+		yield {
+			yield i = incident(n).size();
+			yield j = 0;
+		}
+		
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<i>
+---
+	iterated it\orderAscendingBy<i>\assign<j>StartWith{start}AccumulateBy{prev:int, m:match<rit_assign.it> -> prev + m.i};
+	def ref i_array:array<int> = yield([?it].extract<i>());
+	def ref j_array:array<int> = yield([?it].extract<j>());
+	
+	modify {
+	}
+}

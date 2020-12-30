@@ -249,8 +249,10 @@ namespace de.unika.ipd.grGen.libGr
                 FilterAssign(procEnv, matches, filter);
             else if(filter.PlainName == "removeIf")
                 FilterRemoveIf(procEnv, matches, filter);
+            else if(filter.PlainName == "assignStartWithAccumulateBy")
+                FilterAssignStartWithAccumulateBy(procEnv, matches, filter);
             else
-                throw new Exception("Unknown lambda expression filter call (available are assign and removeIf)");
+                throw new Exception("Unknown lambda expression filter call (available are assign, removeIf, assignStartWithAccumulateBy)");
         }
 
         public void FilterAssign(IGraphProcessingEnvironment procEnv, IList<IMatch> matchList, FilterCallWithLambdaExpression filterCall)
@@ -292,6 +294,36 @@ namespace de.unika.ipd.grGen.libGr
                 object result = filterCall.lambdaExpression.Evaluate(procEnv);
                 if(!(bool)result)
                     matchList.Add(match);
+            }
+        }
+
+        public void FilterAssignStartWithAccumulateBy(IGraphProcessingEnvironment procEnv, IList<IMatch> matchList, FilterCallWithLambdaExpression filterCall)
+        {
+            List<IMatch> matchListCopy = null;
+            if(filterCall.initArrayAccess != null || filterCall.arrayAccess != null)
+            {
+                matchListCopy = new List<IMatch>();
+                foreach(IMatch match in matchList)
+                {
+                    matchListCopy.Add(match.Clone());
+                }
+            }
+            if(filterCall.initArrayAccess != null)
+                filterCall.initArrayAccess.SetVariableValue(matchListCopy, procEnv);
+            if(filterCall.arrayAccess != null)
+                filterCall.arrayAccess.SetVariableValue(matchListCopy, procEnv);
+
+            filterCall.previousAccumulationAccess.SetVariableValue(filterCall.initExpression.Evaluate(procEnv), procEnv);
+
+            for(int index = 0; index < matchList.Count; ++index)
+            {
+                if(filterCall.index != null)
+                    filterCall.index.SetVariableValue(index, procEnv);
+                IMatch match = matchList[index];
+                filterCall.element.SetVariableValue(match, procEnv);
+                object result = filterCall.lambdaExpression.Evaluate(procEnv);
+                match.SetMember(filterCall.Entity, result);
+                filterCall.previousAccumulationAccess.SetVariableValue(result, procEnv);
             }
         }
     }

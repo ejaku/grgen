@@ -1959,7 +1959,7 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
     String memberOrAttribute = null;
     String typeName;
     SequenceVariable var;
-    Tuple<SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithIndexWithValue = null;
+    Tuple<SequenceVariable, SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithPreviousAccumulationAccessWithIndexWithValue = null;
     SequenceExpression expr = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     List<SequenceVariable> variableList = new List<SequenceVariable>();
@@ -1974,19 +1974,19 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
     |
         "<" (LOOKAHEAD(2) typeName=TypeNonGeneric() | typeName=MatchType()) ">"
         "{" { varDecls.PushScope(ScopeType.Computation); } 
-        arrayAccessWithIndexWithValue=LambdaExprVarDeclPrefix() expr=Expression()
+        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue=LambdaExprVarDeclPrefix() expr=Expression()
         { varDecls.PopScope(variableList); } "}"
             {
                 expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, typeName,
-                    arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, expr);
+                    arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, expr);
             }
     |
         "{" { varDecls.PushScope(ScopeType.Computation); }
-        arrayAccessWithIndexWithValue=LambdaExprVarDeclPrefix() expr=Expression()
+        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue=LambdaExprVarDeclPrefix() expr=Expression()
         { varDecls.PopScope(variableList); } "}"
             {
                 expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, null,
-                    arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, expr);
+                    arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, expr);
             }
     |
         "(" (Arguments(argExprs))? ")"
@@ -2018,15 +2018,34 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
     }
 }
 
-Tuple<SequenceVariable, SequenceVariable, SequenceVariable> LambdaExprVarDeclPrefix():
+Tuple<SequenceVariable, SequenceVariable, SequenceVariable, SequenceVariable> LambdaExprVarDeclPrefix():
 {
     SequenceVariable arrayAccess;
+    Tuple<SequenceVariable, SequenceVariable, SequenceVariable> previousAccumulationAccessWithIndexWithValue;
+}
+{
+    LOOKAHEAD(VariableDefinition() ";") arrayAccess=VariableDefinition() ";" previousAccumulationAccessWithIndexWithValue=MaybePreviousAccumulationAccessLambdaExprVarDecl()
+    {
+        return new Tuple<SequenceVariable, SequenceVariable, SequenceVariable, SequenceVariable>(arrayAccess, previousAccumulationAccessWithIndexWithValue.Item1, 
+            previousAccumulationAccessWithIndexWithValue.Item2, previousAccumulationAccessWithIndexWithValue.Item3);
+    }
+|
+    previousAccumulationAccessWithIndexWithValue=MaybePreviousAccumulationAccessLambdaExprVarDecl()
+    {
+        return new Tuple<SequenceVariable, SequenceVariable, SequenceVariable, SequenceVariable>(null, previousAccumulationAccessWithIndexWithValue.Item1,
+            previousAccumulationAccessWithIndexWithValue.Item2, previousAccumulationAccessWithIndexWithValue.Item3);
+    }
+}
+
+Tuple<SequenceVariable, SequenceVariable, SequenceVariable> MaybePreviousAccumulationAccessLambdaExprVarDecl():
+{
+    SequenceVariable previousAccumulationAccess;
     Tuple<SequenceVariable, SequenceVariable> indexWithValue;
 }
 {
-    LOOKAHEAD(VariableDefinition() ";") arrayAccess=VariableDefinition() ";" indexWithValue=MaybeIndexedLambdaExprVarDecl()
+    LOOKAHEAD(VariableDefinition() ",") previousAccumulationAccess=VariableDefinition() "," indexWithValue=MaybeIndexedLambdaExprVarDecl()
     {
-        return new Tuple<SequenceVariable, SequenceVariable, SequenceVariable>(arrayAccess, indexWithValue.Item1, indexWithValue.Item2);
+        return new Tuple<SequenceVariable, SequenceVariable, SequenceVariable>(previousAccumulationAccess, indexWithValue.Item1, indexWithValue.Item2);
     }
 |
     indexWithValue=MaybeIndexedLambdaExprVarDecl()
@@ -2422,14 +2441,18 @@ SequenceFilterCallBase FilterMatchClassContinuationMember(SequenceRuleCall ruleC
     String package = null;
     String filterExtension = null, filterExtension2 = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
-    SequenceExpression lambdaExpr = null;
-    Tuple<SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithIndexWithValue = null;
+    SequenceExpression initExpr = null, lambdaExpr = null;
+    Tuple<SequenceVariable, SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithPreviousAccumulationAccessWithIndexWithValue = null;
     List<SequenceVariable> variableList = new List<SequenceVariable>();
+    SequenceVariable initArrayAccess = null;
 }
 {
-    (filterExtension=Word() { filterBase += filterExtension; } "<" WordList(words) ">" filterExtension2=Word() { filterBase += filterExtension2; } "<" WordList(words) (">" | ">>") )?
+    (LOOKAHEAD(2) filterExtension=Word() { filterBase += filterExtension; } "<" WordList(words) ">" filterExtension2=Word() { filterBase += filterExtension2; } "<" WordList(words) (">" | ">>") )?
+    ( filterExtension=Word() { filterBase += filterExtension; } "{" { varDecls.PushScope(ScopeType.Computation); } 
+        (LOOKAHEAD(VariableDefinition() ";") initArrayAccess=VariableDefinition() ";")? initExpr=Expression() 
+        { varDecls.PopScope(variableList); } "}" filterExtension2=Word() { filterBase += filterExtension2; } )?
     ( "{" { varDecls.PushScope(ScopeType.Computation); }
-        arrayAccessWithIndexWithValue=LambdaExprVarDeclPrefix() lambdaExpr=Expression()
+        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue=LambdaExprVarDeclPrefix() lambdaExpr=Expression()
         { varDecls.PopScope(variableList); } "}" )?
     ("(" ")")?
     {
@@ -2437,13 +2460,20 @@ SequenceFilterCallBase FilterMatchClassContinuationMember(SequenceRuleCall ruleC
             throw new ParseException("A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
         if(!env.IsAutoGeneratedBaseFilterName(filterBase) && !env.IsPerElementBaseFilterName(filterBase))
-            throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy.");
+            throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy and assign, removeIf, assignStartWithAccumulateBy.");
         else
         {
             if(lambdaExpr != null)
             {
-                return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words,
-                    arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, lambdaExpr);
+                if(initExpr != null) {
+                    return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words,
+                        initArrayAccess, initExpr,
+                        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item2,
+                        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, lambdaExpr);
+                } else {
+                    return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words,
+                        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, lambdaExpr);
+                }
             }
             else
                 return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, argExprs);
@@ -2455,13 +2485,13 @@ SequenceFilterCallBase FilterMatchClassContinuationNonMember(SequenceRuleCall ru
 {
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     SequenceExpression lambdaExpr = null;
-    Tuple<SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithIndexWithValue = null;
+    Tuple<SequenceVariable, SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithPreviousAccumulationAccessWithIndexWithValue = null;
     List<String> words = new List<String>();
     List<SequenceVariable> variableList = new List<SequenceVariable>();
 }
 {
     ( "{" { varDecls.PushScope(ScopeType.Computation); }
-        arrayAccessWithIndexWithValue=LambdaExprVarDeclPrefix() lambdaExpr=Expression()
+        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue=LambdaExprVarDeclPrefix() lambdaExpr=Expression()
         { varDecls.PopScope(variableList); } "}" )?
     ("(" (Arguments(argExprs))? ")")?
     {
@@ -2471,7 +2501,7 @@ SequenceFilterCallBase FilterMatchClassContinuationNonMember(SequenceRuleCall ru
         if(lambdaExpr != null)
         {
             return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words,
-                arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, lambdaExpr);
+                arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, lambdaExpr);
         }
         else if(env.IsAutoSuppliedFilterName(filterBase))
         {
@@ -2511,14 +2541,18 @@ SequenceFilterCallBase FilterRuleContinuationMember(SequenceRuleCall ruleCall, b
 {
     String filterExtension = null, filterExtension2 = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
-    SequenceExpression lambdaExpr = null;
-    Tuple<SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithIndexWithValue = null;
+    SequenceExpression initExpr = null, lambdaExpr = null;
+    Tuple<SequenceVariable, SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithPreviousAccumulationAccessWithIndexWithValue = null;
     List<SequenceVariable> variableList = new List<SequenceVariable>();
+    SequenceVariable initArrayAccess = null;
 }
 {
-    (filterExtension=Word() { filterBase += filterExtension; } "<" WordList(words) ">" filterExtension2=Word() { filterBase += filterExtension2; } "<" WordList(words) (">" | ">>") )?
+    (LOOKAHEAD(2) filterExtension=Word() { filterBase += filterExtension; } "<" WordList(words) ">" filterExtension2=Word() { filterBase += filterExtension2; } "<" WordList(words) (">" | ">>") )?
+    ( filterExtension=Word() { filterBase += filterExtension; } "{" { varDecls.PushScope(ScopeType.Computation); }
+        (LOOKAHEAD(VariableDefinition() ";") initArrayAccess=VariableDefinition() ";")? initExpr=Expression()
+        { varDecls.PopScope(variableList); } "}" filterExtension2=Word() { filterBase += filterExtension2; } )?
     ( "{" { varDecls.PushScope(ScopeType.Computation); }
-        arrayAccessWithIndexWithValue=LambdaExprVarDeclPrefix() lambdaExpr=Expression()
+        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue=LambdaExprVarDeclPrefix() lambdaExpr=Expression()
         { varDecls.PopScope(variableList); } "}" )?
     ("(" ")")?
     {
@@ -2526,13 +2560,20 @@ SequenceFilterCallBase FilterRuleContinuationMember(SequenceRuleCall ruleCall, b
             throw new ParseException("A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
 
         if(!env.IsAutoGeneratedBaseFilterName(filterBase) && !env.IsPerElementBaseFilterName(filterBase))
-            throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy.");
+            throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy and assign, removeIf, assignStartWithAccumulateBy.");
         else
         {
             if(lambdaExpr != null)
             {
-                return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words,
-                    arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, lambdaExpr);
+                if(initExpr != null) {
+                    return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words,
+                        initArrayAccess, initExpr, 
+                        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item2,
+                        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, lambdaExpr);
+                } else {
+                    return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words,
+                        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, lambdaExpr);
+                }
             }
             else
                 return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words, argExprs);
@@ -2544,13 +2585,13 @@ SequenceFilterCallBase FilterRuleContinuationNonMember(SequenceRuleCall ruleCall
 {
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     SequenceExpression lambdaExpr = null;
-    Tuple<SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithIndexWithValue = null;
+    Tuple<SequenceVariable, SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithPreviousAccumulationAccessWithIndexWithValue = null;
     List<String> words = new List<String>();
     List<SequenceVariable> variableList = new List<SequenceVariable>();
 }
 {
     ( "{" { varDecls.PushScope(ScopeType.Computation); }
-        arrayAccessWithIndexWithValue=LambdaExprVarDeclPrefix() lambdaExpr=Expression()
+        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue=LambdaExprVarDeclPrefix() lambdaExpr=Expression()
         { varDecls.PopScope(variableList); } "}" )?
     ("(" (Arguments(argExprs))? ")")?
     {
@@ -2560,7 +2601,7 @@ SequenceFilterCallBase FilterRuleContinuationNonMember(SequenceRuleCall ruleCall
         if(lambdaExpr != null)
         {
             return env.CreateSequenceFilterCall(ruleCall.Name, ruleCall.Package, package, filterBase, words,
-                arrayAccessWithIndexWithValue.Item1, arrayAccessWithIndexWithValue.Item2, arrayAccessWithIndexWithValue.Item3, lambdaExpr);
+                arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, lambdaExpr);
         }
         else if(env.IsAutoSuppliedFilterName(filterBase))
         {

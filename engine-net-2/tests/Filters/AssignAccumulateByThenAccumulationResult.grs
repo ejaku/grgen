@@ -1,0 +1,39 @@
+new graph "Filters/AssignAccumulateByThenAccumulationResult"
+
+exec init
+
+eval [?r \ orderAscendingBy<i>]
+
+eval [?r\orderAscendingBy<i>\assign<j>StartWith{0}AccumulateBy{arrgh:array<match<r>>; prev:int, m:match<r> -> prev + m.i} \ assign<i>{arr:array<match<r>>; m:match<r> -> arr[arr.size() - 1].j}]
+
+exec {::start = 42}
+eval [?r\orderAscendingBy<i>\assign<j>StartWith{::start}AccumulateBy{arrgh:array<match<r>>; prev:int, m:match<r> -> prev + m.i} \ assign<i>{arr:array<match<r>>; m:match<r> -> arr[arr.size() - 1].j}]
+
+exec r_assign(0)
+show var res1
+show var res2
+
+exec r_assign(42)
+show var res1
+show var res2
+
+eval [?[r] \ mc.orderAscendingBy<i> \<class mc>]
+
+exec {::start = 0}
+eval [?[r]\mc.orderAscendingBy<i>\ mc.assign<j>StartWith{::start}AccumulateBy{arrgh:array<match<class mc>>; prev:int, m:match<class mc> -> prev + m.i}\mc.assign<i>{arr:array<match<class mc>>; m:match<class mc> -> arr[arr.size() - 1].j}\<class mc>]
+
+eval [?[r]\mc.orderAscendingBy<i>\ mc.assign<j>StartWith{42}AccumulateBy{arrgh:array<match<class mc>>; prev:int, m:match<class mc> -> prev + m.i}\mc.assign<i>{arr:array<match<class mc>>; m:match<class mc> -> arr[arr.size() - 1].j}\<class mc>]
+
+exec r_assign_match_class(0)
+show var res1
+show var res2
+
+exec r_assign_match_class(42)
+show var res1
+show var res2
+
+eval [?rit_assign(0)]
+
+eval [?rit_assign(42)]
+
+quit

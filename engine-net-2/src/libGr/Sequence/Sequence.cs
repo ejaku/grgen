@@ -1228,7 +1228,21 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceFilterCallLambdaExpression(String filterBase, String entity,
             SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
         {
-            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">" : ""), arrayAccess, index, element, lambdaExpr);
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">" : ""),
+                arrayAccess, index, element, lambdaExpr);
+
+            id = idSource;
+            ++idSource;
+        }
+
+        public SequenceFilterCallLambdaExpression(String filterBase, String entity,
+            SequenceVariable initArrayAccess, SequenceExpression initExpr,
+            SequenceVariable arrayAccess, SequenceVariable previousAccumulationAccess,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+        {
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">" : ""),
+                initArrayAccess, initExpr,
+                arrayAccess, previousAccumulationAccess, index, element, lambdaExpr);
 
             id = idSource;
             ++idSource;
@@ -1246,9 +1260,26 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
+        public SequenceFilterCallLambdaExpressionInterpreted(/*IAction action, */String filterBase, String entity,
+            SequenceVariable initArrayAccess, SequenceExpression initExpr,
+            SequenceVariable arrayAccess, SequenceVariable previousAccumulationAccess,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, initArrayAccess, initExpr, arrayAccess, previousAccumulationAccess, index, element, lambdaExpr)
+        {
+        }
+
         public SequenceFilterCallLambdaExpressionInterpreted(MatchClassFilterer matchClass, String filterBase, String entity,
             SequenceVariable arrayAccess, SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
             : base(filterBase, entity, arrayAccess, index, element, lambdaExpr)
+        {
+            MatchClass = matchClass;
+        }
+
+        public SequenceFilterCallLambdaExpressionInterpreted(MatchClassFilterer matchClass, String filterBase, String entity,
+            SequenceVariable initArrayAccess, SequenceExpression initExpr,
+            SequenceVariable arrayAccess, SequenceVariable previousAccumulationAccess, 
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, initArrayAccess, initExpr, arrayAccess, previousAccumulationAccess, index, element, lambdaExpr)
         {
             MatchClass = matchClass;
         }
@@ -1271,7 +1302,19 @@ namespace de.unika.ipd.grGen.libGr
             sb.Append(Name);
             //if(FilterCall.Entity != null)
             //    sb.Append("<" + FilterCall.Entity + ">");
+            if(FilterCall.initExpression != null)
+            {
+                sb.Append("{");
+                if(FilterCall.initArrayAccess != null)
+                    sb.Append(FilterCall.initArrayAccess.Name + "; ");
+                sb.Append(FilterCall.initExpression.Symbol);
+                sb.Append("}");
+            }
             sb.Append("{");
+            if(FilterCall.arrayAccess != null)
+                sb.Append(FilterCall.arrayAccess.Name + "; ");
+            if(FilterCall.previousAccumulationAccess != null)
+                sb.Append(FilterCall.previousAccumulationAccess + ", ");
             if(FilterCall.index != null)
                 sb.Append(FilterCall.index.Name + " -> ");
             sb.Append(FilterCall.element.Name + " -> ");
@@ -1337,7 +1380,23 @@ namespace de.unika.ipd.grGen.libGr
             MatchClassPackage = null;
             MatchClassPackagePrefixedName = null;
 
-            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">": ""), arrayAccess, index, element, lambdaExpr);
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">": ""),
+                arrayAccess, index, element, lambdaExpr);
+        }
+
+        public SequenceFilterCallLambdaExpressionCompiled(String filterBase, String entity,
+            SequenceVariable initArrayAccess, SequenceExpression initExpr,
+            SequenceVariable arrayAccess, SequenceVariable previousAccumulationAccess,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, initArrayAccess, initExpr, arrayAccess, previousAccumulationAccess, index, element, lambdaExpr)
+        {
+            MatchClassName = null;
+            MatchClassPackage = null;
+            MatchClassPackagePrefixedName = null;
+
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">" : ""),
+                initArrayAccess, initExpr,
+                arrayAccess, previousAccumulationAccess, index, element, lambdaExpr);
         }
 
         public SequenceFilterCallLambdaExpressionCompiled(String matchClassName, String matchClassPackage, String matchClassPackagePrefixedName,
@@ -1349,7 +1408,24 @@ namespace de.unika.ipd.grGen.libGr
             MatchClassPackage = matchClassPackage;
             MatchClassPackagePrefixedName = matchClassPackagePrefixedName;
 
-            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">": ""), arrayAccess, index, element, lambdaExpr);
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">": ""),
+                arrayAccess, index, element, lambdaExpr);
+        }
+
+        public SequenceFilterCallLambdaExpressionCompiled(String matchClassName, String matchClassPackage, String matchClassPackagePrefixedName,
+            String filterBase, String entity,
+            SequenceVariable initArrayAccess, SequenceExpression initExpr,
+            SequenceVariable arrayAccess, SequenceVariable previousAccumulationAccess,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpr)
+            : base(filterBase, entity, initArrayAccess, initExpr, arrayAccess, previousAccumulationAccess, index, element, lambdaExpr)
+        {
+            MatchClassName = matchClassName;
+            MatchClassPackage = matchClassPackage;
+            MatchClassPackagePrefixedName = matchClassPackagePrefixedName;
+
+            FilterCall = new FilterCallWithLambdaExpression(filterBase + (entity != null ? "<" + entity + ">" : ""),
+                initArrayAccess, initExpr,
+                arrayAccess, previousAccumulationAccess, index, element, lambdaExpr);
         }
 
         public override string ToString()
@@ -1360,7 +1436,19 @@ namespace de.unika.ipd.grGen.libGr
             sb.Append(Name);
             //if(FilterCall.Entity != null)
             //    sb.Append("<" + FilterCall.Entity + ">");
+            if(FilterCall.initExpression != null)
+            {
+                sb.Append("{");
+                if(FilterCall.initArrayAccess != null)
+                    sb.Append(FilterCall.initArrayAccess.Name + "; ");
+                sb.Append(FilterCall.initExpression.Symbol);
+                sb.Append("}");
+            }
             sb.Append("{");
+            if(FilterCall.arrayAccess != null)
+                sb.Append(FilterCall.arrayAccess + "; ");
+            if(FilterCall.previousAccumulationAccess != null)
+                sb.Append(FilterCall.previousAccumulationAccess + ", ");
             if(FilterCall.index != null)
                 sb.Append(FilterCall.index.Name + " -> ");
             sb.Append(FilterCall.element.Name + " -> ");

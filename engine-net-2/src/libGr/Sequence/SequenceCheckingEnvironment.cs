@@ -313,10 +313,29 @@ namespace de.unika.ipd.grGen.libGr
                     String filterCallName = GetFilterCallName(sequenceFilterCallLambdaExpression);
 
                     FilterCallWithLambdaExpression filterCall = sequenceFilterCallLambdaExpression.FilterCall;
+
+                    if(filterCall.initArrayAccess != null)
+                    {
+                        String argumentType = filterCall.initArrayAccess.Type;
+                        String paramterType = "array<match<" + ruleName + ">>";
+                        if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
+                            throw new SequenceParserException(ruleName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
+                    }
+
+                    if(filterCall.initExpression != null)
+                        filterCall.initExpression.Check(this);
+
                     if(filterCall.arrayAccess != null)
                     {
                         String argumentType = filterCall.arrayAccess.Type;
                         String paramterType = "array<match<" + ruleName + ">>";
+                        if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
+                            throw new SequenceParserException(ruleName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
+                    }
+                    if(filterCall.previousAccumulationAccess != null)
+                    {
+                        String argumentType = filterCall.previousAccumulationAccess.Type;
+                        String paramterType = TypeOfTopLevelEntityInRule(ruleName, filterCall.Entity);
                         if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
                             throw new SequenceParserException(ruleName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
                     }
@@ -379,10 +398,29 @@ namespace de.unika.ipd.grGen.libGr
                     String filterCallName = GetFilterCallName(sequenceFilterCallLambdaExpression);
 
                     FilterCallWithLambdaExpression filterCall = sequenceFilterCallLambdaExpression.FilterCall;
+
+                    if(filterCall.initArrayAccess != null)
+                    {
+                        String argumentType = filterCall.initArrayAccess.Type;
+                        String paramterType = "array<match<class " + matchClassName + ">>";
+                        if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
+                            throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
+                    }
+
+                    if(filterCall.initExpression != null)
+                        filterCall.initExpression.Check(this);
+
                     if(filterCall.arrayAccess != null)
                     {
                         String argumentType = filterCall.arrayAccess.Type;
                         String paramterType = "array<match<class " + matchClassName + ">>";
+                        if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
+                            throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
+                    }
+                    if(filterCall.previousAccumulationAccess != null)
+                    {
+                        String argumentType = filterCall.previousAccumulationAccess.Type;
+                        String paramterType = TypeOfMemberOrAttribute("match<class " + matchClassName + ">", filterCall.Entity);
                         if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
                             throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
                     }
@@ -398,7 +436,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(!TypesHelper.IsSameOrSubtype(elementArgumentType, elementParamterType, Model))
                         throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterLambdaExpressionError);
 
-                    sequenceFilterCallLambdaExpression.FilterCall.lambdaExpression.Check(this);
+                    filterCall.lambdaExpression.Check(this);
                 }
             }
         }

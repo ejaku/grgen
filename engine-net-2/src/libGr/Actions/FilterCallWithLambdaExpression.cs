@@ -29,6 +29,21 @@ namespace de.unika.ipd.grGen.libGr
             this.lambdaExpression = lambdaExpression;
         }
 
+        public FilterCallWithLambdaExpression(String packagePrefixedName,
+            SequenceVariable initArrayAccess, SequenceExpression initExpression,
+            SequenceVariable arrayAccess, SequenceVariable previousAccumulationAccess,
+            SequenceVariable index, SequenceVariable element, SequenceExpression lambdaExpression)
+        : base(packagePrefixedName)
+        {
+            this.initArrayAccess = initArrayAccess;
+            this.initExpression = initExpression;
+            this.arrayAccess = arrayAccess;
+            this.previousAccumulationAccess = previousAccumulationAccess;
+            this.index = index;
+            this.element = element;
+            this.lambdaExpression = lambdaExpression;
+        }
+
         public string Entity
         {
             get
@@ -52,9 +67,24 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// The array access variable (used to access the array a second time during the iteration)
+        /// The optional init array access variable (used to access the array a second time during the iteration)
+        /// </summary>
+        public readonly SequenceVariable initArrayAccess;
+
+        /// <summary>
+        /// The optional init expression evaluated before the sequence of lambda expression evaluations.
+        /// </summary>
+        public readonly SequenceExpression initExpression;
+
+        /// <summary>
+        /// The array access variable (used to access the array a second time during the iteration) -- optional, null if does not apply.
         /// </summary>
         public readonly SequenceVariable arrayAccess;
+
+        /// <summary>
+        /// The previous accumulation access variable (used to access the accumulation variable value of the previous iteration) -- optional, null if does not apply.
+        /// </summary>
+        public readonly SequenceVariable previousAccumulationAccess;
 
         /// <summary>
         /// The index variable (gives the number of the current match in the matches array) -- optional, null if does not apply.

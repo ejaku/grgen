@@ -21,29 +21,52 @@ public class FilterInvocationLambdaExpression extends FilterInvocationBase
 	String plainName;
 	String entity;
 	Type entityType;
+
+	Variable initArrayAccessVar;
+	Expression initExpr;
 	
 	Variable arrayAccessVar;
-	
+	Variable previousAccumulationAccessVar;
 	Variable indexVar;
 	Variable elementVar;
 	Expression lambdaExpr;
 
 	public FilterInvocationLambdaExpression(String name, Ident ident, String plainName, String entity, Type entityType, Rule iteratedAction, 
-			Variable arrayAccessVar, Variable indexVar, Variable elementVar, Expression lambdaExpr)
+			Variable initArrayAccessVar, Expression initExpr,
+			Variable arrayAccessVar, Variable previousAccumulationAccessVar,
+			Variable indexVar, Variable elementVar, Expression lambdaExpr)
 	{
 		super(name, ident, iteratedAction);
 		this.plainName = plainName;
 		this.entity = entity;
 		this.entityType = entityType;
+		this.initArrayAccessVar = initArrayAccessVar;
+		this.initExpr = initExpr;
 		this.arrayAccessVar = arrayAccessVar;
+		this.previousAccumulationAccessVar = previousAccumulationAccessVar;
 		this.indexVar = indexVar;
 		this.elementVar = elementVar;
 		this.lambdaExpr = lambdaExpr;
 	}
 
+	public Variable getInitArrayAccessVariable()
+	{
+		return initArrayAccessVar;
+	}
+
+	public Expression getInitExpression()
+	{
+		return initExpr;
+	}
+
 	public Variable getArrayAccessVariable()
 	{
 		return arrayAccessVar;
+	}
+
+	public Variable getPreviousAccumulationAccessVariable()
+	{
+		return previousAccumulationAccessVar;
 	}
 
 	public Variable getIndexVariable()
@@ -78,10 +101,16 @@ public class FilterInvocationLambdaExpression extends FilterInvocationBase
 	
 	public void collectNeededEntities(NeededEntities needs)
 	{
+		if(initExpr != null)
+			initExpr.collectNeededEntities(needs);
 		lambdaExpr.collectNeededEntities(needs);
 		if(needs.variables != null) {
+			if(initArrayAccessVar != null)
+				needs.variables.remove(initArrayAccessVar);
 			if(arrayAccessVar != null)
 				needs.variables.remove(arrayAccessVar);
+			if(previousAccumulationAccessVar != null)
+				needs.variables.remove(previousAccumulationAccessVar);
 			if(indexVar != null)
 				needs.variables.remove(indexVar);
 			needs.variables.remove(elementVar);

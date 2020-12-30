@@ -492,6 +492,14 @@ seqExprSelector [ ExprNode prefix, ExecNode xg ] returns [ ExprNode res = prefix
 seqLambdaExprVarDeclPrefix [ ExecNode xg ]
 	options { k = *; }
 	: 	seqEntityDecl[xg] SEMI { xg.append(";"); }
+			seqMaybePreviousAccumulationAccessLambdaExprVarDecl[xg]
+	|
+		seqMaybePreviousAccumulationAccessLambdaExprVarDecl[xg]
+	;
+
+seqMaybePreviousAccumulationAccessLambdaExprVarDecl [ ExecNode xg ]
+	options { k = *; }
+	: 	seqEntityDecl[xg] COMMA { xg.append(","); }
 			seqMaybeIndexedLambdaExprVarDecl[xg]
 	|
 		seqMaybeIndexedLambdaExprVarDecl[xg]
@@ -898,6 +906,7 @@ seqCallRuleFilterContinuationMember [ ExecNode xg, CollectNode<BaseNode> filters
 			}
 		}
 	|
+		(filterBaseTextExt=seqInitExpression[xg, filterBaseText] { filterBaseText = filterBaseTextExt; })?
 		l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); } 
 				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
 				{ env.popScope(); } RBRACE { xg.append("}"); }
@@ -911,9 +920,10 @@ seqCallRuleFilterContinuationMember [ ExecNode xg, CollectNode<BaseNode> filters
 			if(isMatchClassFilter)
 				reportError(getCoords(filterId), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
 
-			if(!filterId.getText().equals("assign"))
+			if(!filterBaseText.equals("assign") 
+				&& !filterBaseText.equals("assignStartWithAccumulateBy"))
 			{
-				reportError(getCoords(filterId), "Unknown per-element with lambda-expression filter " + filterId.getText() + ". Available is: assign.");
+				reportError(getCoords(filterId), "Unknown per-element with lambda-expression filter " + filterBaseText + ". Available are: assign and assignStartWithAccumulateBy.");
 			}
 		}
 	;
@@ -992,7 +1002,8 @@ seqCallMatchClassFilterContinuationMember [ ExecNode xg, CollectNode<BaseNode> f
 				reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBaseText + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy.");
 			}
 		}
-	| l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); }
+	| (filterBaseTextExt=seqInitExpression[xg, filterBaseText] { filterBaseText = filterBaseTextExt; })?
+		l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/exec", getCoords(l)); }
 		seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
 		{ env.popScope(); } RBRACE { xg.append("}"); }
 		(LPAREN { xg.append("("); } RPAREN { xg.append(")"); })?
@@ -1000,9 +1011,10 @@ seqCallMatchClassFilterContinuationMember [ ExecNode xg, CollectNode<BaseNode> f
 			if(!isMatchClassFilter)
 				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
-			if(!filterBase.getText().equals("assign"))
+			if(!filterBaseText.equals("assign")
+				&& !filterBaseText.equals("assignStartWithAccumulateBy"))
 			{
-				reportError(getCoords(filterBase), "Unknown per-element with lambda-expression filter " + filterBase.getText() + ". Available is: assign.");
+				reportError(getCoords(filterBase), "Unknown per-element with lambda-expression filter " + filterBaseText + ". Available are: assign and assignStartWithAccumulateBy.");
 			}
 		}
 	;
@@ -1055,6 +1067,23 @@ seqFilterExtension [ ExecNode xg, String filterBaseText ] returns [ String res =
 		{
 			res = filterBaseText + filterBaseExtension.getText() + filterBaseExtension2.getText();
 		}
+	;
+
+seqInitExpression [ ExecNode xg, String filterBaseText ] returns [ String res = null ]
+	: filterBaseExtension=IDENT { xg.append(filterBaseExtension.getText()); } 
+		l=LBRACE { xg.append("{"); } { env.pushScope("filterassign/initexpr", getCoords(l)); } 
+		seqInitExprVarDeclPrefix[xg]
+		{ env.popScope(); } RBRACE { xg.append("}"); }
+		filterBaseExtension2=IDENT { xg.append(filterBaseExtension2.getText()); }
+		{
+			res = filterBaseText + filterBaseExtension.getText() + filterBaseExtension2.getText();
+		}
+	;
+
+seqInitExprVarDeclPrefix [ ExecNode xg ]
+	options { k = *; }
+	: seqEntityDecl[xg] SEMI { xg.append(";"); } seqExpression[xg]
+	| seqExpression[xg]
 	;
 
 seqFilterCallVariableList [ ExecNode xg ]
