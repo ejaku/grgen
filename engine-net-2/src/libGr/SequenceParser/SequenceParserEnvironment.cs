@@ -1157,7 +1157,20 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             {
                 return new SequenceExpressionArrayRemoveIf(targetExpr, arrayAccess, index, var, argExpr);
             }
-            throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"! (available are map,removeIf)");
+            throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"! (available are map, removeIf, mapStartWithAccumulateBy)");
+        }
+
+        public SequenceExpression CreateSequenceExpressionPerElementMethodCall(SequenceExpression targetExpr,
+            String functionMethodName, String typeName,
+            SequenceVariable initArrayAccess, SequenceExpression initExpr,
+            SequenceVariable arrayAccess, SequenceVariable previousAccumulationAccess, SequenceVariable index, SequenceVariable var, SequenceExpression argExpr)
+        {
+            if(functionMethodName == "mapStartWithAccumulateBy")
+            {
+                return new SequenceExpressionArrayMapStartWithAccumulateBy(targetExpr, typeName, initArrayAccess, initExpr,
+                    arrayAccess, previousAccumulationAccess, index, var, argExpr);
+            }
+            throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"! (available are map, removeIf, mapStartWithAccumulateBy)");
         }
 
         abstract public bool IsFunctionName(String functionName, String package);

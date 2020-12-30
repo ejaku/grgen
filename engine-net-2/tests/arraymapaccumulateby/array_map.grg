@@ -1,0 +1,69 @@
+ref ::aa:array<int>;
+
+rule array_map(ref a:array<int>, var init:double, ref val:array<double>) : (array<double>) {
+	if {
+		a.map<double>StartWith{init}AccumulateBy{prev:double, value:int -> prev + value * 1.5} == val;
+	}
+	
+	modify {
+		return(a.map<double>StartWith{init}AccumulateBy{prev:double, value:int -> prev + value * Math::pi()});
+	}
+}
+
+test array_map3(ref a:array<Node>, var init:string, ref ai:array<string>) {
+---
+	def ref laa:array<string>;
+	yield {
+		yield laa = a.map<string>StartWith{init}AccumulateBy{prev:string, value:Node -> prev + ";" + nameof(value)};
+	}
+}
+
+function array_map4(ref a:array<int>, var init:int) : array<double> {
+	return(a.map<double>StartWith{init}AccumulateBy{prev:double, value:int -> prev + value * Math::pi()});
+}
+
+procedure array_map5(ref a:array<Node>, var init:int, var y:int) : (array<int>) {
+	return(a.map<int>StartWith{init}AccumulateBy{prev:int, value:Node -> prev + (nameof(value)!="$0" ? 1 : 0) + y});
+}
+
+test t implements mc
+{
+	n:Node;
+---
+	def var attr:int = incident(n).size();
+} \ orderAscendingBy<attr>
+
+filter f<t>(var init:int)
+{
+	def ref a:array<int> = this.map<int>StartWith{init}AccumulateBy{prev:int, value:match<t> -> prev + value.attr};
+	for(i:int in [0:this.size()-1])
+	{
+		def ref m:match<t> = this[i];
+		m.attr = a[i];
+	}
+}
+
+match class mc
+{
+	def var attr:int;
+} \ orderAscendingBy<attr>
+
+filter fmc<class mc>(var init:int)
+{
+	def ref a:array<int> = this.map<int>StartWith{init}AccumulateBy{prev:int, value:match<class mc> -> prev + value.attr};
+	for(i:int in [0:this.size()-1])
+	{
+		def ref m:match<class mc> = this[i];
+		m.attr = a[i];
+	}
+}
+
+rule rexec(var init:int) : (array<int>)
+{
+	modify {
+	---
+		def ref x:array<int>;
+		exec({yield x = [?t\orderAscendingBy<attr>].map<int>StartWith{init}AccumulateBy{prev:int, value:match<t> -> prev + value.attr}});
+		return(x);
+	}
+}

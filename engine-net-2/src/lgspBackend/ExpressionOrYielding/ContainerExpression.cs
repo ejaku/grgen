@@ -1907,7 +1907,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array map expression.
+    /// Class representing an array removeIf expression.
     /// </summary>
     public class ArrayRemoveIf : Expression
     {
@@ -2075,6 +2075,196 @@ namespace de.unika.ipd.grGen.expression
         readonly PatternEdge[] PatternEdges;
         readonly PatternVariable[] PatternVariables;
         public bool Parallel;
+    }
+
+    /// <summary>
+    /// Class representing an array map start with accumulate by expression.
+    /// </summary>
+    public class ArrayMapStartWithAccumulateBy : Expression
+    {
+        public ArrayMapStartWithAccumulateBy(Expression target, String targetType,
+            String initArrayAccessVariable, Expression init,
+            String arrayAccessVariable, String previousAccumulationAccessVariable, String indexVariable, String elementVariable,
+            Expression mapping, String resultingType,
+            PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
+        {
+            Target = target;
+            TargetType = targetType;
+            InitArrayAccessVariable = initArrayAccessVariable;
+            Init = init;
+            ArrayAccessVariable = arrayAccessVariable;
+            PreviousAccumulationAccessVariable = previousAccumulationAccessVariable;
+            IndexVariable = indexVariable;
+            ElementVariable = elementVariable;
+            Mapping = mapping;
+            ResultingType = resultingType;
+            PatternNodes = patternNodes;
+            PatternEdges = patternEdges;
+            PatternVariables = patternVariables;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            PatternNode[] newPatternNodes = new PatternNode[PatternNodes.Length];
+            for(int i = 0; i < PatternNodes.Length; ++i)
+            {
+                newPatternNodes[i] = new PatternNode(PatternNodes[i], renameSuffix);
+            }
+            PatternEdge[] newPatternEdges = new PatternEdge[PatternEdges.Length];
+            for(int i = 0; i < PatternEdges.Length; ++i)
+            {
+                newPatternEdges[i] = new PatternEdge(PatternEdges[i], renameSuffix);
+            }
+            PatternVariable[] newPatternVariables = new PatternVariable[PatternVariables.Length];
+            for(int i = 0; i < PatternVariables.Length; ++i)
+            {
+                newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
+            }
+            return new ArrayMapStartWithAccumulateBy(Target.Copy(renameSuffix), TargetType,
+                InitArrayAccessVariable, Init.Copy(renameSuffix),
+                ArrayAccessVariable, PreviousAccumulationAccessVariable, IndexVariable, ElementVariable, Mapping.Copy(renameSuffix), ResultingType,
+                newPatternNodes, newPatternEdges, newPatternVariables);
+        }
+
+        public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        {
+            base.EmitArrayPerElementMethods(sourceCode);
+
+            SourceBuilder sb = new SourceBuilder();
+            sb.Indent();
+            sb.Indent();
+
+            string TargetArrayType = "List<" + TargetType + ">"; // call target
+            string ResultingArrayType = "List<" + ResultingType + ">";
+            string ArrayMapMethodName = "ArrayMapStartWithAccumulateBy_" + "expr" + Id;
+            sb.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", ResultingArrayType, ArrayMapMethodName);
+            sb.Append(", ");
+            sb.AppendFormat("{0} {1}", TargetArrayType, "source");
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.TypeName(patternNode.type));
+                sb.Append(" ");
+                sb.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.TypeName(patternEdge.type));
+                sb.Append(" ");
+                sb.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                sb.Append(", ");
+                sb.Append(TypesHelper.TypeName(patternVariable.type));
+                sb.Append(" ");
+                sb.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+            if(Parallel)
+                sb.Append(", int threadId");
+            sb.Append(")\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sb.AppendFront(ResultingArrayType + " target = new " + ResultingArrayType + "();\n");
+
+            if(InitArrayAccessVariable != null)
+                sb.AppendFrontFormat("{0} {1} = source;\n", TargetArrayType, NamesOfEntities.Variable(InitArrayAccessVariable));
+
+            sb.AppendFront(ResultingType + " " + NamesOfEntities.Variable(PreviousAccumulationAccessVariable) + " = ");
+            Init.Emit(sb);
+            sb.AppendFront(";\n");
+
+            if(ArrayAccessVariable != null)
+                sb.AppendFrontFormat("{0} {1} = source;\n", TargetArrayType, NamesOfEntities.Variable(ArrayAccessVariable));
+
+            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+
+            if(IndexVariable != null)
+                sb.AppendFront("int " + NamesOfEntities.Variable(IndexVariable) + " = index_name;\n");
+            sb.AppendFront(TargetType + " " + NamesOfEntities.Variable(ElementVariable) + " = source[index_name];\n");
+            sb.AppendFront(ResultingType + " result_name = ");
+
+            Mapping.Emit(sb);
+
+            sb.Append(";\n");
+            sb.AppendFront("target.Add(result_name);\n");
+
+            sb.AppendFront(NamesOfEntities.Variable(PreviousAccumulationAccessVariable) + " = result_name;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("return target;\n");
+
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sourceCode.Append(sb.ToString());
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string ArrayMapMethodName = "ArrayMapStartWithAccumulateBy_" + "expr" + Id;
+            sourceCode.AppendFormat("{0}(actionEnv", ArrayMapMethodName);
+            sourceCode.Append(", ");
+            Target.Emit(sourceCode);
+            foreach(PatternNode patternNode in PatternNodes)
+            {
+                sourceCode.Append(", (");
+                sourceCode.Append(TypesHelper.TypeName(patternNode.type));
+                sourceCode.Append(")");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternNode.name));
+            }
+            foreach(PatternEdge patternEdge in PatternEdges)
+            {
+                sourceCode.Append(", (");
+                sourceCode.Append(TypesHelper.TypeName(patternEdge.type));
+                sourceCode.Append(")");
+                sourceCode.Append(NamesOfEntities.CandidateVariable(patternEdge.name));
+            }
+            foreach(PatternVariable patternVariable in PatternVariables)
+            {
+                sourceCode.Append(", (");
+                sourceCode.Append(TypesHelper.TypeName(patternVariable.type));
+                sourceCode.Append(")");
+                sourceCode.Append(NamesOfEntities.Variable(patternVariable.name));
+            }
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Init;
+            yield return Mapping;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        readonly Expression Target;
+        readonly String TargetType;
+        readonly String InitArrayAccessVariable;
+        readonly Expression Init;
+        readonly String ArrayAccessVariable;
+        readonly String PreviousAccumulationAccessVariable;
+        readonly String IndexVariable;
+        readonly String ElementVariable;
+        readonly Expression Mapping;
+        readonly String ResultingType;
+        readonly PatternNode[] PatternNodes;
+        readonly PatternEdge[] PatternEdges;
+        readonly PatternVariable[] PatternVariables;
+        bool Parallel;
     }
 
     /// <summary>

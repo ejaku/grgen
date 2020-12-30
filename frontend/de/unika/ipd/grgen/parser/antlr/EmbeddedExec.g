@@ -459,13 +459,18 @@ seqExprSelector [ ExprNode prefix, ExecNode xg ] returns [ ExprNode res = prefix
 		|
 			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("map") }?
 				LT ti=typeIdentUse GT { xg.append("<" + ti.getSymbol().getText() + ">"); }
-			LBRACE { xg.append("{"); } { env.pushScope("arraymap/exec", getCoords(l)); }
+			( combinedName=seqInitExpression[xg, methodOrAttrName.toString()]
+				{ if(!combinedName.equals("mapStartWithAccumulateBy"))
+					reportError(getCoords(d), "Unknown lambda-expression method " + combinedName + ". Available are: assign, removeIf, assignStartWithAccumulateBy.");
+				}
+			)?
+			LBRACE { xg.append("{"); } { env.pushScope("arraymap/exec", getCoords(d)); }
 				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
 				{ env.popScope(); } RBRACE { xg.append("}"); }
-			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, ti); }
+			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, ti); } // note: "assign" als in case of "assignStartWithAccumulateBy"
 		|
 			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("removeIf") }?
-			LBRACE { xg.append("{"); } { env.pushScope("arrayremoveIf/exec", getCoords(l)); }
+			LBRACE { xg.append("{"); } { env.pushScope("arrayremoveIf/exec", getCoords(d)); }
 				seqLambdaExprVarDeclPrefix[xg] seqExpression[xg]
 				{ env.popScope(); } RBRACE { xg.append("}"); }
 			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, ti); }

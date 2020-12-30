@@ -1956,11 +1956,12 @@ KeyValuePair<String, SequenceExpression> AttributeInitialization():
 SequenceExpression SelectorExpression(SequenceExpression fromExpr):
 {
     String methodOrAttrName;
+    String extendedMethodName = null, methodNameExtension = null, methodNameExtension2 = null;
     String memberOrAttribute = null;
     String typeName;
-    SequenceVariable var;
+    SequenceVariable var, initArrayAccess = null;
     Tuple<SequenceVariable, SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithPreviousAccumulationAccessWithIndexWithValue = null;
-    SequenceExpression expr = null;
+    SequenceExpression expr = null, initExpr = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     List<SequenceVariable> variableList = new List<SequenceVariable>();
 }
@@ -1973,12 +1974,21 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
             { expr = env.CreateSequenceExpressionArrayAttributeAccessMethodCall(fromExpr, methodOrAttrName, memberOrAttribute, argExprs); }
     |
         "<" (LOOKAHEAD(2) typeName=TypeNonGeneric() | typeName=MatchType()) ">"
+        ( { extendedMethodName = methodOrAttrName; } methodNameExtension=Word() { extendedMethodName += methodNameExtension; } "{" { varDecls.PushScope(ScopeType.Computation); } 
+            (LOOKAHEAD(VariableDefinition() ";") initArrayAccess=VariableDefinition() ";")? initExpr=Expression() 
+            { varDecls.PopScope(variableList); } "}" methodNameExtension2=Word() { extendedMethodName += methodNameExtension2; } )?
         "{" { varDecls.PushScope(ScopeType.Computation); } 
         arrayAccessWithPreviousAccumulationAccessWithIndexWithValue=LambdaExprVarDeclPrefix() expr=Expression()
         { varDecls.PopScope(variableList); } "}"
             {
-                expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, typeName,
-                    arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, expr);
+                if(extendedMethodName != null) {
+                    expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, extendedMethodName, typeName,
+                        initArrayAccess, initExpr,
+                        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item2, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, expr);
+                } else {
+                    expr = env.CreateSequenceExpressionPerElementMethodCall(fromExpr, methodOrAttrName, typeName,
+                        arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item1, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item3, arrayAccessWithPreviousAccumulationAccessWithIndexWithValue.Item4, expr);
+                }
             }
     |
         "{" { varDecls.PushScope(ScopeType.Computation); }

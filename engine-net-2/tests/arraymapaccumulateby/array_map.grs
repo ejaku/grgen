@@ -1,0 +1,68 @@
+new graph arraymapaccumulateby/array_map
+
+new :Node
+new :Node
+new :Node
+new @("$1") - :Edge -> @("$1")
+new @("$2") - :Edge -> @("$2")
+new @("$2") - :Edge -> @("$2")
+
+exec (::arr)=array_map(array<int>[0,1,2], 0.0, array<double>[42.0,42.0,42.0])
+exec (::arr)=array_map(array<int>[0,1,2], 0.0, array<double>[0.0,1.5,4.5])
+show var arr
+
+exec (::arr)=array_map(array<int>[0,1,2], 1.0, array<double>[1.0,1.0+1.5,2.5+3.0])
+show var arr
+
+exec { ::a = nodes().asArray().reverse() }
+show var a
+
+eval [?array_map3(::a, "", array<string>["$0","$1","$2"])]
+
+eval [?array_map3(::a, "X", array<string>["$0","$1","$2"])]
+
+eval array_map4(array<int>[0,1,2], 0)
+
+eval array_map4(array<int>[0,1,2], 1)
+
+exec { (::arr) = array_map5(::a, 0, 42) }
+show var arr
+
+exec { (::arr) = array_map5(::a, 42, 0) }
+show var arr
+
+eval [?t\orderAscendingBy<attr>]
+eval [?t\orderAscendingBy<attr>\f(0)]
+eval [?t\orderAscendingBy<attr>\f(1)]
+
+eval [?[t]\mc.orderAscendingBy<attr>\<class mc>]
+eval [?[t]\mc.orderAscendingBy<attr>\mc.fmc(0)\<class mc>]
+eval [?[t]\mc.orderAscendingBy<attr>\mc.fmc(1)\<class mc>]
+
+exec {::init=0}
+eval [?t\orderAscendingBy<attr>].map<int>StartWith{::init}AccumulateBy{prev:int, value:match<t> -> prev + value.attr}
+exec {::init=1}
+eval [?t\orderAscendingBy<attr>].map<int>StartWith{::init}AccumulateBy{prev:int, value:match<t> -> prev + value.attr}
+exec {::init=0}
+eval [?t\orderAscendingBy<attr>].map<int>StartWith{::init}AccumulateBy{prev:int, value:match<t> -> prev + value.attr}.map<double>{value:int -> value * 1.5}.sum()
+exec {::init=1}
+eval [?t\orderAscendingBy<attr>].map<int>StartWith{::init}AccumulateBy{prev:int, value:match<t> -> prev + value.attr}.map<double>{value:int -> value * 1.5}.sum()
+
+exec (::x) = rexec(0)
+show var x
+
+exec (::x) = rexec(42)
+show var x
+
+exec (::x) = rexec(-1)
+show var x
+
+exec { ::a37 = array<int>[3,7] }
+exec {::init=0}
+eval [?t\orderAscendingBy<attr>].map<int>StartWith{::init}AccumulateBy{prev:int, value:match<t> -> prev + value.attr + ::a37.map<int>{element:int -> element}.sum()}
+eval [?t\orderAscendingBy<attr>].map<int>StartWith{::init}AccumulateBy{prev:int, value:match<t> -> prev + value.attr + array<int>[3,7].map<int>{element:int -> value.attr}.sum()};
+exec {::init=1}
+eval [?t\orderAscendingBy<attr>].map<int>StartWith{::init}AccumulateBy{prev:int, value:match<t> -> prev + value.attr + ::a37.map<int>{element:int -> element}.sum()}
+eval [?t\orderAscendingBy<attr>].map<int>StartWith{::init}AccumulateBy{prev:int, value:match<t> -> prev + value.attr + array<int>[3,7].map<int>{element:int -> value.attr}.sum()};
+
+quit

@@ -4343,9 +4343,20 @@ selectorExpr [ AnonymousScopeNamer namer, int context, ExprNode target, boolean 
 		|
 			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("map") }?
 			LT ti=typeIdentUse GT
+			(initExp=initExpression[namer, context, id.toString()])?
 			LBRACE { namer.defExprBlock(id, id.getCoords()); } { env.pushScope(namer.exprBlock()); }
 			lambdaExprVar=lambdaExprVarDeclPrefix[namer, context] e=expr[namer, context, inEnumInit]
-			{ res = new ArrayMapNode(getCoords(d), target, ti, $lambdaExprVar.va, $lambdaExprVar.vi, $lambdaExprVar.vd, e); }
+			{
+				if(initExp != null) {
+					if($initExp.filterText.equals("mapStartWithAccumulateBy")) {
+						res = new ArrayMapStartWithAccumulateByNode(getCoords(d), target, ti,
+							$initExp.va, $initExp.expr,
+							$lambdaExprVar.va, $lambdaExprVar.vp, $lambdaExprVar.vi, $lambdaExprVar.vd, e);
+					} else
+						reportError(id.getCoords(), "Unknown lambda expression method "+ $initExp.filterText + "! Available are: map, removeIf, mapStartWithAccumulateBy.");
+				} else
+					res = new ArrayMapNode(getCoords(d), target, ti, $lambdaExprVar.va, $lambdaExprVar.vi, $lambdaExprVar.vd, e);
+			}
 			{ env.popScope(); } { namer.undefExprBlock(); } RBRACE
 		|
 			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("removeIf") }?

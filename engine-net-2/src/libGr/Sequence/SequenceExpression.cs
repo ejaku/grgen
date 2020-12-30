@@ -43,7 +43,7 @@ namespace de.unika.ipd.grGen.libGr
         ArraySubarray, DequeSubdeque,
         ArrayOrderAscending, ArrayOrderDescending, ArrayGroup, ArrayKeepOneForEach, ArrayReverse, ArrayShuffle,
         ArrayExtract, ArrayOrderAscendingBy, ArrayOrderDescendingBy, ArrayGroupBy, ArrayKeepOneForEachBy,
-        ArrayMap, ArrayRemoveIf,
+        ArrayMap, ArrayRemoveIf, ArrayMapStartWithAccumulateBy,
         ElementFromGraph, NodeByName, EdgeByName, NodeByUnique, EdgeByUnique,
         Source, Target, Opposite,
         GraphElementAttributeOrElementOfMatch, GraphElementAttribute, ElementOfMatch,
@@ -5604,7 +5604,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(ArrayAccess != null)
             {
-                if(ArrayAccess.Type.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                if(ArrayAccess.Type.StartsWith("set<") || ArrayAccess.Type.StartsWith("map<") || ArrayAccess.Type.StartsWith("deque<"))
                     throw new SequenceParserException(Symbol, "array<T> type", ArrayAccess.Type);
 
                 if(!TypesHelper.IsSameOrSubtype(ArrayAccess.Type, containerType, env.Model))
@@ -5700,6 +5700,192 @@ namespace de.unika.ipd.grGen.libGr
                 if(Index != null)
                     sb.Append(Index.Name + " -> ");
                 sb.Append(Var.Name + " -> " + ConditionExpr.Symbol + "}");
+                return sb.ToString();
+            }
+        }
+    }
+
+    public class SequenceExpressionArrayMapStartWithAccumulateBy : SequenceExpressionContainer
+    {
+        public string TypeName;
+        public SequenceVariable InitArrayAccess;
+        public SequenceExpression InitExpr;
+        public SequenceVariable ArrayAccess;
+        public SequenceVariable PreviousAccumulationAccess;
+        public SequenceVariable Index;
+        public SequenceVariable Var;
+        public SequenceExpression MappingExpr;
+
+        public SequenceExpressionArrayMapStartWithAccumulateBy(SequenceExpression containerExpr, String typeName,
+            SequenceVariable initArrayAccess, SequenceExpression initExpr,
+            SequenceVariable arrayAccess, SequenceVariable previousAccumulationAccess, SequenceVariable index, SequenceVariable var, SequenceExpression mappingExpr)
+            : base(SequenceExpressionType.ArrayMapStartWithAccumulateBy, containerExpr)
+        {
+            TypeName = typeName;
+            InitArrayAccess = initArrayAccess;
+            InitExpr = initExpr;
+            ArrayAccess = arrayAccess;
+            PreviousAccumulationAccess = previousAccumulationAccess;
+            Index = index;
+            Var = var;
+            MappingExpr = mappingExpr;
+        }
+
+        protected SequenceExpressionArrayMapStartWithAccumulateBy(SequenceExpressionArrayMapStartWithAccumulateBy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+            TypeName = that.TypeName;
+            if(that.InitArrayAccess != null)
+                InitArrayAccess = that.InitArrayAccess.Copy(originalToCopy, procEnv);
+            InitExpr = that.InitExpr.CopyExpression(originalToCopy, procEnv);
+            if(that.ArrayAccess != null)
+                ArrayAccess = that.ArrayAccess.Copy(originalToCopy, procEnv);
+            PreviousAccumulationAccess = that.PreviousAccumulationAccess.Copy(originalToCopy, procEnv);
+            if(that.Index != null)
+                Index = that.Index.Copy(originalToCopy, procEnv);
+            Var = that.Var.Copy(originalToCopy, procEnv);
+            MappingExpr = that.MappingExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayMapStartWithAccumulateBy(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(InitArrayAccess != null)
+            {
+                if(InitArrayAccess.Type.StartsWith("set<") || InitArrayAccess.Type.StartsWith("map<") || InitArrayAccess.Type.StartsWith("deque<"))
+                    throw new SequenceParserException(Symbol, "array<T> type", ArrayAccess.Type);
+
+                if(!TypesHelper.IsSameOrSubtype(InitArrayAccess.Type, containerType, env.Model))
+                    throw new SequenceParserException(Symbol, containerType, InitArrayAccess.Type);
+            }
+
+            if(!TypesHelper.IsSameOrSubtype(InitExpr.Type(env), TypeName, env.Model))
+                throw new SequenceParserException(Symbol, TypeName, InitExpr.Type(env));
+
+            if(ArrayAccess != null)
+            {
+                if(ArrayAccess.Type.StartsWith("set<") || ArrayAccess.Type.StartsWith("map<") || ArrayAccess.Type.StartsWith("deque<"))
+                    throw new SequenceParserException(Symbol, "array<T> type", ArrayAccess.Type);
+
+                if(!TypesHelper.IsSameOrSubtype(ArrayAccess.Type, containerType, env.Model))
+                    throw new SequenceParserException(Symbol, containerType, ArrayAccess.Type);
+            }
+
+            if(!TypesHelper.IsSameOrSubtype(PreviousAccumulationAccess.Type, TypeName, env.Model))
+                throw new SequenceParserException(Symbol, TypeName, PreviousAccumulationAccess.Type);
+
+            if(Index != null)
+            {
+                if(!TypesHelper.IsSameOrSubtype(Index.Type, "int", env.Model))
+                    throw new SequenceParserException(Symbol, "int", Index.Type);
+            }
+
+            base.Check(env); // check children
+
+            String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
+
+            if(!TypesHelper.IsSameOrSubtype(MappingExpr.Type(env), TypeName, env.Model))
+                throw new SequenceParserException(Symbol, TypeName, MappingExpr.Type(env));
+
+            if(containerType != "")
+            {
+                if(!TypesHelper.IsSameOrSubtype(arrayValueType, Var.Type, env.Model))
+                    throw new SequenceParserException(Symbol, Var.Type, arrayValueType);
+            }
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "array<" + TypeName + ">";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            IList result = ContainerHelper.NewList(TypesHelper.GetType(TypeName, procEnv.Graph.Model));
+            IList source = ArrayValue(procEnv);
+
+            if(InitArrayAccess != null)
+                InitArrayAccess.SetVariableValue(source, procEnv);
+
+            PreviousAccumulationAccess.SetVariableValue(InitExpr.Evaluate(procEnv), procEnv);
+
+            if(ArrayAccess != null)
+                ArrayAccess.SetVariableValue(source, procEnv);
+
+            for(int index_name = 0; index_name < source.Count; ++index_name)
+            {
+                if(Index != null)
+                    Index.SetVariableValue(index_name, procEnv);
+                Var.SetVariableValue(source[index_name], procEnv);
+                object result_name = MappingExpr.Evaluate(procEnv);
+                result.Add(result_name);
+                PreviousAccumulationAccess.SetVariableValue(result_name, procEnv);
+            }
+
+            return result;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, constructors);
+            InitExpr.GetLocalVariables(variables, constructors);
+            MappingExpr.GetLocalVariables(variables, constructors);
+            if(InitArrayAccess != null)
+                variables.Remove(InitArrayAccess);
+            if(ArrayAccess != null)
+                variables.Remove(ArrayAccess);
+            variables.Remove(PreviousAccumulationAccess);
+            if(Index != null)
+                variables.Remove(Index);
+            variables.Remove(Var);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+                yield return InitExpr;
+                yield return MappingExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(Name + ".map<" + TypeName + ">");
+                sb.Append("StartWith");
+                sb.Append("{");
+                if(InitArrayAccess != null)
+                    sb.Append(InitArrayAccess.Name + "; ");
+                sb.Append(InitExpr.Symbol);
+                sb.Append("}");
+                sb.Append("AccumulateBy");
+                sb.Append("{");
+                if(ArrayAccess != null)
+                    sb.Append(ArrayAccess.Name + "; ");
+                sb.Append(PreviousAccumulationAccess.Name + ", ");
+                if(Index != null)
+                    sb.Append(Index.Name + " -> ");
+                sb.Append(Var.Name + " -> " + MappingExpr.Symbol);
+                sb.Append("}");
                 return sb.ToString();
             }
         }
