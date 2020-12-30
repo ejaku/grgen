@@ -867,14 +867,19 @@ namespace de.unika.ipd.grGen.lgsp
             matchesSourceBuilder.Append(GetRuleCallOfSequenceMultiRuleAllCall(seqMulti, seqMulti.Sequences.Count - 1, matchListName, source));
 
             // emit code for match class (non-rule-based) filtering
-            foreach(SequenceFilterCallBase sequenceFilterCall in seqMulti.Filters)
+            for(int i = 0; i < seqMulti.Filters.Count; ++i)
             {
+                if(i == 0)
+                    matchesSourceBuilder.Append(")");
+
+                SequenceFilterCallBase sequenceFilterCall = seqMulti.Filters[i];
                 String matchesSource = matchesSourceBuilder.ToString();
                 matchesSourceBuilder.Reset();
                 EmitMatchClassFilterCall(matchesSourceBuilder, sequenceFilterCall, matchesSource, true);
             }
 
-            matchesSourceBuilder.Append(")");
+            if(seqMulti.Filters.Count == 0) // todo: rethink parenthesis ends handling - maybe fix is frickelei
+                matchesSourceBuilder.Append(")");
 
             if(seqMulti.Filters.Count != 0)
                 return "GRGEN_LIBGR.MatchListHelper.ToList<" + matchType + ">(" + matchesSourceBuilder.ToString() + ")";
