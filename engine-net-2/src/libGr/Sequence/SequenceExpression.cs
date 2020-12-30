@@ -3186,7 +3186,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            base.Check(env); // check children
+            base.Check(env); // check children -- todo: rethink (add children or remove)
 
             string ContainerType = CheckAndReturnContainerType(env);
             if(ContainerType == "")
@@ -3194,6 +3194,9 @@ namespace de.unika.ipd.grGen.libGr
 
             if(TypesHelper.ExtractDst(ContainerType) == "SetValueType")
                 throw new SequenceParserException(Symbol, "map<S,T> or array<S> or deque<S>", ContainerType);
+
+            KeyExpr.Check(env);
+
             if(ContainerType.StartsWith("array"))
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpr.Type(env), "int", env.Model))
