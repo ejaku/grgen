@@ -679,7 +679,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 accumulationYield.ReplaceVariableByIterationVariable(accumulationYield);
 
                                 SourceBuilder yieldAssignmentSource = new SourceBuilder();
-                                accumulationYield.EmitArrayPerElementMethods(env.arrayPerElementMethodBuilder);
+                                accumulationYield.EmitLambdaExpressionImplementationMethods(env.arrayPerElementMethodBuilder);
                                 accumulationYield.Emit(yieldAssignmentSource);
                                 LocalYielding yieldAssignment =
                                     new LocalYielding(yieldAssignmentSource.ToString());
@@ -691,7 +691,7 @@ namespace de.unika.ipd.grGen.lgsp
                         else
                         {
                             SourceBuilder yieldAssignmentSource = new SourceBuilder();
-                            yielding.EmitArrayPerElementMethods(env.arrayPerElementMethodBuilder);
+                            yielding.EmitLambdaExpressionImplementationMethods(env.arrayPerElementMethodBuilder);
                             yielding.Emit(yieldAssignmentSource);
                             LocalYielding yieldAssignment =
                                 new LocalYielding(yieldAssignmentSource.ToString());
@@ -733,7 +733,7 @@ namespace de.unika.ipd.grGen.lgsp
                         );
 
                         SourceBuilder yieldAssignmentSource = new SourceBuilder();
-                        assignment.EmitArrayPerElementMethods(env.arrayPerElementMethodBuilder);
+                        assignment.EmitLambdaExpressionImplementationMethods(env.arrayPerElementMethodBuilder);
                         assignment.Emit(yieldAssignmentSource);
                         LocalYielding yieldAssignment =
                             new LocalYielding(yieldAssignmentSource.ToString());
@@ -1091,7 +1091,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     // no def entites needed as for alternative/iterated as explicit parameter passing is used, instead of implicit access of entity from nesting pattern
                     SourceBuilder argumentExpression = new SourceBuilder();
-                    subpattern.connections[j].EmitArrayPerElementMethods(env.arrayPerElementMethodBuilder);
+                    subpattern.connections[j].EmitLambdaExpressionImplementationMethods(env.arrayPerElementMethodBuilder);
                     subpattern.connections[j].Emit(argumentExpression);
                     argumentExpressions[j] = argumentExpression.ToString();
                 }

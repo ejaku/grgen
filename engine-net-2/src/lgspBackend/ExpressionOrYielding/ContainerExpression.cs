@@ -1778,9 +1778,9 @@ namespace de.unika.ipd.grGen.expression
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
-        public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        public override void EmitLambdaExpressionImplementationMethods(SourceBuilder sourceCode)
         {
-            base.EmitArrayPerElementMethods(sourceCode);
+            base.EmitLambdaExpressionImplementationMethods(sourceCode);
 
             SourceBuilder sb = new SourceBuilder();
             sb.Indent();
@@ -1952,9 +1952,9 @@ namespace de.unika.ipd.grGen.expression
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
-        public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        public override void EmitLambdaExpressionImplementationMethods(SourceBuilder sourceCode)
         {
-            base.EmitArrayPerElementMethods(sourceCode);
+            base.EmitLambdaExpressionImplementationMethods(sourceCode);
 
             SourceBuilder sb = new SourceBuilder();
             sb.Indent();
@@ -2131,9 +2131,9 @@ namespace de.unika.ipd.grGen.expression
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
-        public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        public override void EmitLambdaExpressionImplementationMethods(SourceBuilder sourceCode)
         {
-            base.EmitArrayPerElementMethods(sourceCode);
+            base.EmitLambdaExpressionImplementationMethods(sourceCode);
 
             SourceBuilder sb = new SourceBuilder();
             sb.Indent();

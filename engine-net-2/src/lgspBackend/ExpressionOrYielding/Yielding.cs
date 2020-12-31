@@ -2495,7 +2495,7 @@ namespace de.unika.ipd.grGen.expression
             }
         }
 
-        public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        public override void EmitLambdaExpressionImplementationMethods(SourceBuilder sourceCode)
         {
             foreach(FilterInvocationBase filterInvocation in FilterInvocations)
             {
@@ -2773,14 +2773,14 @@ namespace de.unika.ipd.grGen.expression
             source.Append(";\n");
         }
 
-        public override void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        public override void EmitLambdaExpressionImplementationMethods(SourceBuilder sourceCode)
         {
             throw new NotImplementedException();
         }
 
         public void EmitArrayPerElementMethods(SourceBuilder sourceCode, String ruleOrSubpatternName, bool isSubpattern, String iteratedName)
         {
-            base.EmitArrayPerElementMethods(sourceCode);
+            base.EmitLambdaExpressionImplementationMethods(sourceCode);
 
             if(FilterName == "assign")
                 EmitFilterAssign(sourceCode, ruleOrSubpatternName, isSubpattern, iteratedName);

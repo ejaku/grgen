@@ -827,7 +827,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         SourceBuilder builder = new SourceBuilder();
                         var.initialization.Emit(builder);
-                        var.initialization.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                        var.initialization.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                         initializationExpression = builder.ToString();
                     }
                     else
@@ -855,7 +855,7 @@ namespace de.unika.ipd.grGen.lgsp
                         {
                             SourceBuilder builder = new SourceBuilder();
                             node.initialization.Emit(builder);
-                            node.initialization.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                            node.initialization.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                             initializationExpression = builder.ToString();
                         }
                         else
@@ -876,7 +876,7 @@ namespace de.unika.ipd.grGen.lgsp
                         if(edge.initialization != null)
                         {
                             SourceBuilder builder = new SourceBuilder();
-                            edge.initialization.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                            edge.initialization.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                             edge.initialization.Emit(builder);
                             initializationExpression = builder.ToString();
                         }
@@ -1423,7 +1423,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 IndexAccessEquality indexEquality = (IndexAccessEquality)index;
                 SourceBuilder equalityExpression = new SourceBuilder();
-                indexEquality.Expr.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                indexEquality.Expr.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                 indexEquality.Expr.Emit(equalityExpression);
                 elementsIteration =
                     new GetCandidateByIteration(
@@ -1446,13 +1446,13 @@ namespace de.unika.ipd.grGen.lgsp
                 SourceBuilder fromExpression = new SourceBuilder();
                 if(indexAscending.From != null)
                 {
-                    indexAscending.From.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexAscending.From.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexAscending.From.Emit(fromExpression);
                 }
                 SourceBuilder toExpression = new SourceBuilder();
                 if(indexAscending.To != null)
                 {
-                    indexAscending.To.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexAscending.To.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexAscending.To.Emit(toExpression);
                 }
                 elementsIteration =
@@ -1479,13 +1479,13 @@ namespace de.unika.ipd.grGen.lgsp
                 SourceBuilder fromExpression = new SourceBuilder();
                 if(indexDescending.From != null)
                 {
-                    indexDescending.From.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexDescending.From.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexDescending.From.Emit(fromExpression);
                 }
                 SourceBuilder toExpression = new SourceBuilder();
                 if(indexDescending.To != null)
                 {
-                    indexDescending.To.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexDescending.To.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexDescending.To.Emit(toExpression);
                 }
                 elementsIteration =
@@ -1640,7 +1640,7 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = helper.NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
             SourceBuilder expression = new SourceBuilder();
-            nameLookup.Expr.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+            nameLookup.Expr.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
             nameLookup.Expr.Emit(expression);
 
             // get candidate from name map, only creates variable to hold it, get is fused with check for map membership
@@ -1786,7 +1786,7 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = helper.NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
             SourceBuilder expression = new SourceBuilder();
-            uniqueLookup.Expr.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+            uniqueLookup.Expr.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
             uniqueLookup.Expr.Emit(expression);
 
             // get candidate from unique index, only creates variable to hold it, get is fused with check for index membership
@@ -2143,7 +2143,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // generate c#-code-string out of condition expression ast
             SourceBuilder assignmentExpression = new SourceBuilder();
-            expression.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+            expression.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
             expression.Emit(assignmentExpression);
 
             // get candidate from other element (the cast is simply the following type check)
@@ -2932,7 +2932,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(var.initialization != null)
                     {
                         SourceBuilder builder = new SourceBuilder();
-                        var.initialization.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                        var.initialization.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                         var.initialization.Emit(builder);
                         initializationExpression = builder.ToString();
                     }
@@ -2963,7 +2963,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // generate c#-code-string out of condition expression ast
             SourceBuilder conditionExpression = new SourceBuilder();
-            condition.ConditionExpression.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+            condition.ConditionExpression.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
             condition.ConditionExpression.Emit(conditionExpression);
 
             // check condition with current partial match
@@ -3682,7 +3682,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 IndexAccessEquality indexEquality = (IndexAccessEquality)index;
                 SourceBuilder equalityExpression = new SourceBuilder();
-                indexEquality.Expr.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                indexEquality.Expr.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                 indexEquality.Expr.Emit(equalityExpression);
                 elementsIteration =
                     new GetCandidateByIterationParallelSetup(
@@ -3708,13 +3708,13 @@ namespace de.unika.ipd.grGen.lgsp
                 SourceBuilder fromExpression = new SourceBuilder();
                 if(indexAscending.From != null)
                 {
-                    indexAscending.From.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexAscending.From.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexAscending.From.Emit(fromExpression);
                 }
                 SourceBuilder toExpression = new SourceBuilder();
                 if(indexAscending.To != null)
                 {
-                    indexAscending.To.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexAscending.To.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexAscending.To.Emit(toExpression);
                 }
                 elementsIteration =
@@ -3744,13 +3744,13 @@ namespace de.unika.ipd.grGen.lgsp
                 SourceBuilder fromExpression = new SourceBuilder();
                 if(indexDescending.From != null)
                 {
-                    indexDescending.From.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexDescending.From.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexDescending.From.Emit(fromExpression);
                 }
                 SourceBuilder toExpression = new SourceBuilder();
                 if(indexDescending.To != null)
                 {
-                    indexDescending.To.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexDescending.To.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexDescending.To.Emit(toExpression);
                 }
                 elementsIteration =
@@ -3803,7 +3803,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 IndexAccessEquality indexEquality = (IndexAccessEquality)index;
                 SourceBuilder equalityExpression = new SourceBuilder();
-                indexEquality.Expr.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                indexEquality.Expr.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                 indexEquality.Expr.Emit(equalityExpression);
                 elementsIteration =
                     new GetCandidateByIterationParallel(
@@ -3825,13 +3825,13 @@ namespace de.unika.ipd.grGen.lgsp
                 SourceBuilder fromExpression = new SourceBuilder();
                 if(indexAscending.From != null)
                 {
-                    indexAscending.From.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexAscending.From.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexAscending.From.Emit(fromExpression);
                 }
                 SourceBuilder toExpression = new SourceBuilder();
                 if(indexAscending.To != null)
                 {
-                    indexAscending.To.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexAscending.To.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexAscending.To.Emit(toExpression);
                 }
                 elementsIteration =
@@ -3857,13 +3857,13 @@ namespace de.unika.ipd.grGen.lgsp
                 SourceBuilder fromExpression = new SourceBuilder();
                 if(indexDescending.From != null)
                 {
-                    indexDescending.From.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexDescending.From.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexDescending.From.Emit(fromExpression);
                 }
                 SourceBuilder toExpression = new SourceBuilder();
                 if(indexDescending.To != null)
                 {
-                    indexDescending.To.EmitArrayPerElementMethods(arrayPerElementMethodBuilder);
+                    indexDescending.To.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
                     indexDescending.To.Emit(toExpression);
                 }
                 elementsIteration =

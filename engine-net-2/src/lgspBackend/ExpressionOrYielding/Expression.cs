@@ -26,14 +26,14 @@ namespace de.unika.ipd.grGen.expression
         }
 
         /// <summary>
-        /// pre-run for emitting array per element methods employing lambda expressions (that are then called in the expression/yielding)
+        /// pre-run for emitting array per element methods and filters employing lambda expressions (that are then called in the expression/yielding)
         /// default implementation: recursively walk the tree, real functionality is to be attached to the nodes that require it
         /// </summary>
-        public virtual void EmitArrayPerElementMethods(SourceBuilder sourceCode)
+        public virtual void EmitLambdaExpressionImplementationMethods(SourceBuilder sourceCode)
         {
             foreach(ExpressionOrYielding exprOrYield in this)
             {
-                exprOrYield.EmitArrayPerElementMethods(sourceCode);
+                exprOrYield.EmitLambdaExpressionImplementationMethods(sourceCode);
             }
         }
 
