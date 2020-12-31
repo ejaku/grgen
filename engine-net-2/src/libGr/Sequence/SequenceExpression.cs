@@ -5502,22 +5502,22 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            IList result = ContainerHelper.NewList(TypesHelper.GetType(TypeName, procEnv.Graph.Model));
+            IList target = ContainerHelper.NewList(TypesHelper.GetType(TypeName, procEnv.Graph.Model));
             IList source = ArrayValue(procEnv);
 
             if(ArrayAccess != null)
                 ArrayAccess.SetVariableValue(source, procEnv);
 
-            for(int index_name = 0; index_name < source.Count; ++index_name)
+            for(int index = 0; index < source.Count; ++index)
             {
                 if(Index != null)
-                    Index.SetVariableValue(index_name, procEnv);
-                Var.SetVariableValue(source[index_name], procEnv);
-                object result_name = MappingExpr.Evaluate(procEnv);
-                result.Add(result_name);
+                    Index.SetVariableValue(index, procEnv);
+                Var.SetVariableValue(source[index], procEnv);
+                object result = MappingExpr.Evaluate(procEnv);
+                target.Add(result);
             }
 
-            return result;
+            return target;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -5649,18 +5649,18 @@ namespace de.unika.ipd.grGen.libGr
             if(ArrayAccess != null)
                 ArrayAccess.SetVariableValue(source, procEnv);
 
-            IList result = ContainerHelper.NewList(TypesHelper.GetType(arrayValueType, procEnv.Graph.Model));
+            IList target = ContainerHelper.NewList(TypesHelper.GetType(arrayValueType, procEnv.Graph.Model));
 
-            for(int index_name = 0; index_name < source.Count; ++index_name)
+            for(int index = 0; index < source.Count; ++index)
             {
                 if(Index != null)
-                    Index.SetVariableValue(index_name, procEnv);
-                Var.SetVariableValue(source[index_name], procEnv);
+                    Index.SetVariableValue(index, procEnv);
+                Var.SetVariableValue(source[index], procEnv);
                 if(!(bool)ConditionExpr.Evaluate(procEnv))
-                    result.Add(source[index_name]);
+                    target.Add(source[index]);
             }
 
-            return result;
+            return target;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -5810,7 +5810,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            IList result = ContainerHelper.NewList(TypesHelper.GetType(TypeName, procEnv.Graph.Model));
+            IList target = ContainerHelper.NewList(TypesHelper.GetType(TypeName, procEnv.Graph.Model));
             IList source = ArrayValue(procEnv);
 
             if(InitArrayAccess != null)
@@ -5821,17 +5821,17 @@ namespace de.unika.ipd.grGen.libGr
             if(ArrayAccess != null)
                 ArrayAccess.SetVariableValue(source, procEnv);
 
-            for(int index_name = 0; index_name < source.Count; ++index_name)
+            for(int index = 0; index < source.Count; ++index)
             {
                 if(Index != null)
-                    Index.SetVariableValue(index_name, procEnv);
-                Var.SetVariableValue(source[index_name], procEnv);
-                object result_name = MappingExpr.Evaluate(procEnv);
-                result.Add(result_name);
-                PreviousAccumulationAccess.SetVariableValue(result_name, procEnv);
+                    Index.SetVariableValue(index, procEnv);
+                Var.SetVariableValue(source[index], procEnv);
+                object result = MappingExpr.Evaluate(procEnv);
+                target.Add(result);
+                PreviousAccumulationAccess.SetVariableValue(result, procEnv);
             }
 
-            return result;
+            return target;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,

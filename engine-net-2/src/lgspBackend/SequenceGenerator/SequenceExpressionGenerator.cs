@@ -2441,6 +2441,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             String arrayMapMethodName = "ArrayMap_" + seqArrayMap.Id.ToString();
 
+            string sourceVar = "source";
+            string targetVar = "target";
+            string resultVar = "result";
+
             String arrayInputType = seqArrayMap.ContainerType(env) == "" ? 
                 "IList" : TypesHelper.XgrsTypeToCSharpType(seqArrayMap.ContainerExpr.Type(env), model);
             String elementInputType = seqArrayMap.ContainerType(env) == "" ?
@@ -2455,7 +2459,7 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             seqArrayMap.MappingExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.AppendFormat(", {0} source", arrayInputType);
+            sb.AppendFormat(", {0} {1}", arrayInputType, sourceVar);
 
             if(seqArrayMap.ArrayAccess != null)
                 variables.Remove(seqArrayMap.ArrayAccess);
@@ -2474,37 +2478,37 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
-            sb.AppendFront(arrayOutputType + " target = new " + arrayOutputType + "();\n");
+            sb.AppendFrontFormat("{0} {1} = new {0}();\n", arrayOutputType, targetVar);
 
             if(seqArrayMap.ArrayAccess != null)
             {
                 sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.ArrayAccess));
-                sb.AppendFront(seqHelper.SetVar(seqArrayMap.ArrayAccess, "source"));
+                sb.AppendFront(seqHelper.SetVar(seqArrayMap.ArrayAccess, sourceVar));
             }
 
-            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            String indexVar = "index";
+            sb.AppendFrontFormat("for(int {0} = 0; {0} < {1}.Count; ++{0})\n", indexVar, sourceVar);
             sb.AppendFront("{\n");
             sb.Indent();
 
             if(seqArrayMap.Index != null)
             {
                 sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.Index));
-                sb.AppendFront(seqHelper.SetVar(seqArrayMap.Index, "index_name"));
+                sb.AppendFront(seqHelper.SetVar(seqArrayMap.Index, indexVar));
             }
             sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.Var));
-            sb.AppendFront(seqHelper.SetVar(seqArrayMap.Var, "source[index_name]"));
+            sb.AppendFront(seqHelper.SetVar(seqArrayMap.Var, sourceVar + "[" + indexVar + "]"));
 
             SourceBuilder declarations = new SourceBuilder();
             String seqExpr = GetSequenceExpression(seqArrayMap.MappingExpr, declarations);
             sb.Append(declarations.ToString());
-            sb.AppendFront(elementOutputType + " result_name = " + seqExpr);
-            sb.Append(";\n");
-            sb.AppendFront("target.Add(result_name);\n");
+            sb.AppendFrontFormat("{0} {1} = {2};\n", elementOutputType, resultVar, seqExpr);
+            sb.AppendFrontFormat("{0}.Add({1});\n", targetVar, resultVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFront("return target;\n");
+            sb.AppendFrontFormat("return {0};\n", targetVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");
@@ -2557,6 +2561,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             String arrayRemoveIfMethodName = "ArrayRemoveIf_" + seqArrayRemoveIf.Id.ToString();
 
+            string sourceVar = "source";
+            string targetVar = "target";
+
             String arrayType = seqArrayRemoveIf.ContainerType(env) == "" ?
                 "IList" : TypesHelper.XgrsTypeToCSharpType(seqArrayRemoveIf.ContainerExpr.Type(env), model);
             String elementType = seqArrayRemoveIf.ContainerType(env) == "" ?
@@ -2569,7 +2576,7 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             seqArrayRemoveIf.ConditionExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.AppendFormat(", {0} source", arrayType);
+            sb.AppendFormat(", {0} {1}", arrayType, sourceVar);
 
             if(seqArrayRemoveIf.ArrayAccess != null)
                 variables.Remove(seqArrayRemoveIf.ArrayAccess);
@@ -2588,7 +2595,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
-            sb.AppendFront(arrayType + " target = new " + arrayType + "();\n");
+            sb.AppendFrontFormat("{0} {1} = new {0}();\n", arrayType, targetVar);
 
             if(seqArrayRemoveIf.ArrayAccess != null)
             {
@@ -2596,17 +2603,18 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.AppendFront(seqHelper.SetVar(seqArrayRemoveIf.ArrayAccess, "source"));
             }
 
-            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            String indexVar = "index";
+            sb.AppendFrontFormat("for(int {0} = 0; {0} < {1}.Count; ++{0})\n", indexVar, sourceVar);
             sb.AppendFront("{\n");
             sb.Indent();
 
             if(seqArrayRemoveIf.Index != null)
             {
                 sb.AppendFront(seqHelper.DeclareVar(seqArrayRemoveIf.Index));
-                sb.AppendFront(seqHelper.SetVar(seqArrayRemoveIf.Index, "index_name"));
+                sb.AppendFront(seqHelper.SetVar(seqArrayRemoveIf.Index, indexVar));
             }
             sb.AppendFront(seqHelper.DeclareVar(seqArrayRemoveIf.Var));
-            sb.AppendFront(seqHelper.SetVar(seqArrayRemoveIf.Var, "source[index_name]"));
+            sb.AppendFront(seqHelper.SetVar(seqArrayRemoveIf.Var, sourceVar + "[" + indexVar + "]"));
 
             SourceBuilder declarations = new SourceBuilder();
             String seqExpr = GetSequenceExpression(seqArrayRemoveIf.ConditionExpr, declarations);
@@ -2614,12 +2622,12 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("if(!(bool)(");
             sb.Append(seqExpr);
             sb.Append("))\n");
-            sb.AppendFrontIndented("target.Add(source[index_name]);\n");
+            sb.AppendFrontIndentedFormat("{0}.Add({1}[{2}]);\n", targetVar, sourceVar, indexVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFront("return target;\n");
+            sb.AppendFrontFormat("return {0};\n", targetVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");
@@ -2678,6 +2686,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             String arrayMapMethodName = "ArrayMapStartWithAccumulateBy_" + seqArrayMap.Id.ToString();
 
+            string sourceVar = "source";
+            string targetVar = "target";
+            string resultVar = "result";
+
             String arrayInputType = seqArrayMap.ContainerType(env) == "" ?
                 "IList" : TypesHelper.XgrsTypeToCSharpType(seqArrayMap.ContainerExpr.Type(env), model);
             String elementInputType = seqArrayMap.ContainerType(env) == "" ?
@@ -2693,7 +2705,7 @@ namespace de.unika.ipd.grGen.lgsp
             seqArrayMap.MappingExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
             seqArrayMap.InitExpr.GetLocalVariables(variables, constructors); // potential todo: handle like a container constructor
 
-            sb.AppendFormat(", {0} source", arrayInputType);
+            sb.AppendFormat(", {0} {1}", arrayInputType, sourceVar);
 
             if(seqArrayMap.InitArrayAccess != null)
                 variables.Remove(seqArrayMap.InitArrayAccess);
@@ -2715,18 +2727,18 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = procEnv.graph;\n");
-            sb.AppendFront(arrayOutputType + " target = new " + arrayOutputType + "();\n");
+            sb.AppendFrontFormat("{0} {1} = new {0}();\n", arrayOutputType, targetVar);
 
             if(seqArrayMap.InitArrayAccess != null)
             {
                 sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.InitArrayAccess));
-                sb.AppendFront(seqHelper.SetVar(seqArrayMap.InitArrayAccess, "source"));
+                sb.AppendFront(seqHelper.SetVar(seqArrayMap.InitArrayAccess, sourceVar));
             }
 
             if(seqArrayMap.ArrayAccess != null)
             {
                 sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.ArrayAccess));
-                sb.AppendFront(seqHelper.SetVar(seqArrayMap.ArrayAccess, "source"));
+                sb.AppendFront(seqHelper.SetVar(seqArrayMap.ArrayAccess, sourceVar));
             }
 
             SourceBuilder declarations = new SourceBuilder();
@@ -2735,31 +2747,31 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.PreviousAccumulationAccess));
             sb.AppendFront(seqHelper.SetVar(seqArrayMap.PreviousAccumulationAccess, seqExpr));
 
-            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            String indexVar = "index";
+            sb.AppendFrontFormat("for(int {0} = 0; {0} < {1}.Count; ++{0})\n", indexVar, sourceVar);
             sb.AppendFront("{\n");
             sb.Indent();
 
             if(seqArrayMap.Index != null)
             {
                 sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.Index));
-                sb.AppendFront(seqHelper.SetVar(seqArrayMap.Index, "index_name"));
+                sb.AppendFront(seqHelper.SetVar(seqArrayMap.Index, indexVar));
             }
             sb.AppendFront(seqHelper.DeclareVar(seqArrayMap.Var));
-            sb.AppendFront(seqHelper.SetVar(seqArrayMap.Var, "source[index_name]"));
+            sb.AppendFront(seqHelper.SetVar(seqArrayMap.Var, sourceVar + "[" + indexVar + "]"));
 
             declarations = new SourceBuilder();
             seqExpr = GetSequenceExpression(seqArrayMap.MappingExpr, declarations);
             sb.Append(declarations.ToString());
-            sb.AppendFront(elementOutputType + " result_name = " + seqExpr);
-            sb.Append(";\n");
-            sb.AppendFront("target.Add(result_name);\n");
+            sb.AppendFrontFormat("{0} {1} = {2};\n", elementOutputType, resultVar, seqExpr);
+            sb.AppendFrontFormat("{0}.Add({1});\n", targetVar, resultVar);
 
-            sb.AppendFront(seqHelper.SetVar(seqArrayMap.PreviousAccumulationAccess, "result_name"));
+            sb.AppendFront(seqHelper.SetVar(seqArrayMap.PreviousAccumulationAccess, resultVar));
 
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFront("return target;\n");
+            sb.AppendFrontFormat("return {0};\n", targetVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");

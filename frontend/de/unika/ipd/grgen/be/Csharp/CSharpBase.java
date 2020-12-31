@@ -3811,6 +3811,10 @@ public abstract class CSharpBase
 		String arrayOutputType = formatType(arrayOutputTypeType);
 		String elementOutputType = formatType(arrayOutputTypeType.valueType);
 
+		String targetVarName = "target";
+		String sourceVarName = "source";
+		String resultVarName = "result";
+
 		sb.appendFront("static " + arrayOutputType + " "+ arrayMapName + "(");
 		sb.append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
@@ -3818,10 +3822,7 @@ public abstract class CSharpBase
 		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
 		arrayMap.collectNeededEntities(needs);
 
-		sb.append(", ");
-		sb.append(arrayInputType);
-		sb.append(" ");
-		sb.append("source");
+		sb.append(", " + arrayInputType + " " + sourceVarName);
 
 		for(Node node : needs.nodes) {
 			sb.append(", ");
@@ -3850,29 +3851,29 @@ public abstract class CSharpBase
 		sb.indent();
 
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
-		sb.appendFront(arrayOutputType + " target = new " + arrayOutputType + "();\n");
+		sb.appendFront(arrayOutputType + " " + targetVarName + " = new " + arrayOutputType + "();\n");
 
 		if(arrayMap.getArrayAccessVar() != null) {
 			String arrayAccessVarName = formatEntity(arrayMap.getArrayAccessVar());
-			sb.append(arrayInputType + " " + arrayAccessVarName + " = source;\n");
+			sb.append(arrayInputType + " " + arrayAccessVarName + " = " + sourceVarName + ";\n");
 		}
 		
-		String indexVarName = arrayMap.getIndexVar()!=null ? formatEntity(arrayMap.getIndexVar()) : "index_name";
-		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < source.Count; ++" + indexVarName + ")\n");
+		String indexVarName = arrayMap.getIndexVar()!=null ? formatEntity(arrayMap.getIndexVar()) : "index";
+		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < " +  sourceVarName + ".Count; ++" + indexVarName + ")\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
 		String elementVarName = formatEntity(arrayMap.getElementVar());
-		sb.appendFront(elementInputType + " " + elementVarName + " = source[" + indexVarName + "];\n");
-		sb.appendFront(elementOutputType + " result_name = ");
+		sb.appendFront(elementInputType + " " + elementVarName + " = " + sourceVarName + "[" + indexVarName + "];\n");
+		sb.appendFront(elementOutputType + " " + resultVarName + " = ");
 		genExpression(sb, arrayMap.getMappingExpr(), modifyGenerationState);
 		sb.append(";\n");
-		sb.appendFront("target.Add(result_name);\n");
+		sb.appendFront(targetVarName + ".Add(" + resultVarName + ");\n");
 		
 		sb.unindent();
 		sb.appendFront("}\n");
 
-		sb.appendFront("return target;\n");
+		sb.appendFront("return " + targetVarName + ";\n");
 
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -3891,6 +3892,9 @@ public abstract class CSharpBase
 		String arrayType = formatType(arrayTypeType);
 		String elementType = formatType(arrayTypeType.valueType);
 
+		String targetVarName = "target";
+		String sourceVarName = "source";
+
 		sb.appendFront("static " + arrayType + " "+ arrayRemoveIfName + "(");
 		sb.append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
@@ -3898,10 +3902,7 @@ public abstract class CSharpBase
 		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
 		arrayRemoveIf.collectNeededEntities(needs);
 
-		sb.append(", ");
-		sb.append(arrayType);
-		sb.append(" ");
-		sb.append("source");
+		sb.append(", " + arrayType + " " + sourceVarName);
 
 		for(Node node : needs.nodes) {
 			sb.append(", ");
@@ -3930,29 +3931,29 @@ public abstract class CSharpBase
 		sb.indent();
 
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
-		sb.appendFront(arrayType + " target = new " + arrayType + "();\n");
+		sb.appendFront(arrayType + " " + targetVarName + " = new " + arrayType + "();\n");
 
 		if(arrayRemoveIf.getArrayAccessVar() != null) {
 			String arrayAccessVarName = formatEntity(arrayRemoveIf.getArrayAccessVar());
-			sb.append(arrayType + " " + arrayAccessVarName + " = source;\n");
+			sb.append(arrayType + " " + arrayAccessVarName + " = " + sourceVarName + ";\n");
 		}
 
-		String indexVarName = arrayRemoveIf.getIndexVar()!=null ? formatEntity(arrayRemoveIf.getIndexVar()) : "index_name";
-		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < source.Count; ++" + indexVarName + ")\n");
+		String indexVarName = arrayRemoveIf.getIndexVar()!=null ? formatEntity(arrayRemoveIf.getIndexVar()) : "index";
+		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < " + sourceVarName + ".Count; ++" + indexVarName + ")\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
 		String elementVarName = formatEntity(arrayRemoveIf.getElementVar());
-		sb.appendFront(elementType + " " + elementVarName + " = source[" + indexVarName + "];\n");
+		sb.appendFront(elementType + " " + elementVarName + " = " + sourceVarName + "[" + indexVarName + "];\n");
 		sb.append("if(!(bool)(");
 		genExpression(sb, arrayRemoveIf.getConditionExpr(), modifyGenerationState);
 		sb.append("))\n");
-		sb.appendFrontIndented("target.Add(source[" + indexVarName + "]);\n");
+		sb.appendFrontIndented(targetVarName + ".Add(" + sourceVarName + "[" + indexVarName + "]);\n");
 		
 		sb.unindent();
 		sb.appendFront("}\n");
 
-		sb.appendFront("return target;\n");
+		sb.appendFront("return " + targetVarName + ";\n");
 
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -3974,6 +3975,10 @@ public abstract class CSharpBase
 		String arrayOutputType = formatType(arrayOutputTypeType);
 		String elementOutputType = formatType(arrayOutputTypeType.valueType);
 
+		String targetVarName = "target";
+		String sourceVarName = "source";
+		String resultVarName = "result";
+
 		sb.appendFront("static " + arrayOutputType + " "+ arrayMapName + "(");
 		sb.append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
@@ -3981,10 +3986,7 @@ public abstract class CSharpBase
 		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
 		arrayMap.collectNeededEntities(needs);
 
-		sb.append(", ");
-		sb.append(arrayInputType);
-		sb.append(" ");
-		sb.append("source");
+		sb.append(", " + arrayInputType + " " + sourceVarName);
 
 		for(Node node : needs.nodes) {
 			sb.append(", ");
@@ -4013,11 +4015,11 @@ public abstract class CSharpBase
 		sb.indent();
 
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
-		sb.appendFront(arrayOutputType + " target = new " + arrayOutputType + "();\n");
+		sb.appendFront(arrayOutputType + " " + targetVarName + " = new " + arrayOutputType + "();\n");
 
 		if(arrayMap.getInitArrayAccessVar() != null) {
 			String initArrayAccessVarName = formatEntity(arrayMap.getInitArrayAccessVar());
-			sb.append(arrayInputType + " " + initArrayAccessVarName + " = source;\n");
+			sb.append(arrayInputType + " " + initArrayAccessVarName + " = " + sourceVarName + ";\n");
 		}
 
 		String previousAccumulationAccessVarName = formatEntity(arrayMap.getPreviousAccumulationAccessVar());
@@ -4027,27 +4029,27 @@ public abstract class CSharpBase
 
 		if(arrayMap.getArrayAccessVar() != null) {
 			String arrayAccessVarName = formatEntity(arrayMap.getArrayAccessVar());
-			sb.append(arrayInputType + " " + arrayAccessVarName + " = source;\n");
+			sb.append(arrayInputType + " " + arrayAccessVarName + " = " + sourceVarName + ";\n");
 		}
 		
-		String indexVarName = arrayMap.getIndexVar()!=null ? formatEntity(arrayMap.getIndexVar()) : "index_name";
-		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < source.Count; ++" + indexVarName + ")\n");
+		String indexVarName = arrayMap.getIndexVar()!=null ? formatEntity(arrayMap.getIndexVar()) : "index";
+		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < " + sourceVarName + ".Count; ++" + indexVarName + ")\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
 		String elementVarName = formatEntity(arrayMap.getElementVar());
-		sb.appendFront(elementInputType + " " + elementVarName + " = source[" + indexVarName + "];\n");
-		sb.appendFront(elementOutputType + " result_name = ");
+		sb.appendFront(elementInputType + " " + elementVarName + " = " + sourceVarName + "[" + indexVarName + "];\n");
+		sb.appendFront(elementOutputType + " " + resultVarName + " = ");
 		genExpression(sb, arrayMap.getMappingExpr(), modifyGenerationState);
 		sb.append(";\n");
-		sb.appendFront("target.Add(result_name);\n");
+		sb.appendFront(targetVarName + ".Add(" + resultVarName + ");\n");
 
-		sb.appendFront(previousAccumulationAccessVarName + " = result_name;\n");
+		sb.appendFront(previousAccumulationAccessVarName + " = " + resultVarName + ";\n");
 
 		sb.unindent();
 		sb.appendFront("}\n");
 
-		sb.appendFront("return target;\n");
+		sb.appendFront("return " + targetVarName + ";\n");
 
 		sb.unindent();
 		sb.appendFront("}\n");

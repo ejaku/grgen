@@ -1740,17 +1740,17 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayMap : Expression
     {
-        public ArrayMap(Expression target, String targetType,
-            String arrayAccessVariable, String indexVariable, String elementVariable, Expression mapping, String resultingType,
+        public ArrayMap(Expression source, String sourceType,
+            String arrayAccessVariable, String indexVariable, String elementVariable, Expression mapping, String targetType,
             PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
         {
-            Target = target;
-            TargetType = targetType;
+            Source = source;
+            SourceType = sourceType;
             ArrayAccessVariable = arrayAccessVariable;
             IndexVariable = indexVariable;
             ElementVariable = elementVariable;
             Mapping = mapping;
-            ResultingType = resultingType;
+            TargetType = targetType;
             PatternNodes = patternNodes;
             PatternEdges = patternEdges;
             PatternVariables = patternVariables;
@@ -1773,8 +1773,8 @@ namespace de.unika.ipd.grGen.expression
             {
                 newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
             }
-            return new ArrayMap(Target.Copy(renameSuffix), TargetType,
-                ArrayAccessVariable, IndexVariable, ElementVariable, Mapping.Copy(renameSuffix), ResultingType,
+            return new ArrayMap(Source.Copy(renameSuffix), SourceType,
+                ArrayAccessVariable, IndexVariable, ElementVariable, Mapping.Copy(renameSuffix), TargetType,
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
@@ -1786,12 +1786,16 @@ namespace de.unika.ipd.grGen.expression
             sb.Indent();
             sb.Indent();
 
-            string TargetArrayType = "List<" + TargetType + ">"; // call target
-            string ResultingArrayType = "List<" + ResultingType + ">";
+            string sourceVar = "source";
+            string targetVar = "target";
+            string resultVar = "result";
+
+            string SourceArrayType = "List<" + SourceType + ">";
+            string TargetArrayType = "List<" + TargetType + ">";
             string ArrayMapMethodName = "ArrayMap_" + "expr" + Id;
-            sb.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", ResultingArrayType, ArrayMapMethodName);
+            sb.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", TargetArrayType, ArrayMapMethodName);
             sb.Append(", ");
-            sb.AppendFormat("{0} {1}", TargetArrayType, "source");
+            sb.AppendFormat("{0} {1}", SourceArrayType, sourceVar);
             foreach(PatternNode patternNode in PatternNodes)
             {
                 sb.Append(", ");
@@ -1820,29 +1824,28 @@ namespace de.unika.ipd.grGen.expression
             sb.Indent();
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
-            sb.AppendFront(ResultingArrayType + " target = new " + ResultingArrayType + "();\n");
+            sb.AppendFrontFormat("{0} {1} = new {0}();\n", TargetArrayType, targetVar);
 
             if(ArrayAccessVariable != null)
-                sb.AppendFrontFormat("{0} {1} = source;\n", TargetArrayType, NamesOfEntities.Variable(ArrayAccessVariable));
+                sb.AppendFrontFormat("{0} {1} = {2};\n", SourceArrayType, NamesOfEntities.Variable(ArrayAccessVariable), sourceVar);
 
-            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            string indexVar = IndexVariable != null ? NamesOfEntities.Variable(IndexVariable) : "index";
+            sb.AppendFrontFormat("for(int {0} = 0; {0} < {1}.Count; ++{0})\n", indexVar, sourceVar);
             sb.AppendFront("{\n");
             sb.Indent();
 
-            if(IndexVariable != null)
-                sb.AppendFront("int " + NamesOfEntities.Variable(IndexVariable) + " = index_name;\n");
-            sb.AppendFront(TargetType + " " + NamesOfEntities.Variable(ElementVariable) + " = source[index_name];\n");
-            sb.AppendFront(ResultingType + " result_name = ");
+            sb.AppendFrontFormat("{0} {1} = {2}[{3}];\n", SourceType, NamesOfEntities.Variable(ElementVariable), sourceVar, indexVar);
+            sb.AppendFrontFormat("{0} {1} = ", TargetType, resultVar);
 
             Mapping.Emit(sb);
 
             sb.Append(";\n");
-            sb.AppendFront("target.Add(result_name);\n");
+            sb.AppendFrontFormat("{0}.Add({1});\n", targetVar, resultVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFront("return target;\n");
+            sb.AppendFrontFormat("return {0};\n", targetVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");
@@ -1855,7 +1858,7 @@ namespace de.unika.ipd.grGen.expression
             string ArrayMapMethodName = "ArrayMap_" + "expr" + Id;
             sourceCode.AppendFormat("{0}(actionEnv", ArrayMapMethodName);
             sourceCode.Append(", ");
-            Target.Emit(sourceCode);
+            Source.Emit(sourceCode);
             foreach(PatternNode patternNode in PatternNodes)
             {
                 sourceCode.Append(", (");
@@ -1884,7 +1887,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return Target;
+            yield return Source;
             yield return Mapping;
         }
 
@@ -1893,13 +1896,13 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
-        readonly Expression Target;
-        readonly String TargetType;
+        readonly Expression Source;
+        readonly String SourceType;
         readonly String ArrayAccessVariable;
         readonly String IndexVariable;
         readonly String ElementVariable;
         readonly Expression Mapping;
-        readonly String ResultingType;
+        readonly String TargetType;
         readonly PatternNode[] PatternNodes;
         readonly PatternEdge[] PatternEdges;
         readonly PatternVariable[] PatternVariables;
@@ -1911,17 +1914,17 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayRemoveIf : Expression
     {
-        public ArrayRemoveIf(Expression target, String targetType,
-            String arrayAccessVariable, String indexVariable, String elementVariable, Expression condition, String resultingType,
+        public ArrayRemoveIf(Expression source, String sourceType,
+            String arrayAccessVariable, String indexVariable, String elementVariable, Expression condition, String targetType,
             PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
         {
-            Target = target;
-            TargetType = targetType;
+            Source = source;
+            SourceType = sourceType;
             ArrayAccessVariable = arrayAccessVariable;
             IndexVariable = indexVariable;
             ElementVariable = elementVariable;
             Condition = condition;
-            ResultingType = resultingType;
+            TargetType = targetType;
             PatternNodes = patternNodes;
             PatternEdges = patternEdges;
             PatternVariables = patternVariables;
@@ -1944,8 +1947,8 @@ namespace de.unika.ipd.grGen.expression
             {
                 newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
             }
-            return new ArrayRemoveIf(Target.Copy(renameSuffix), TargetType, 
-                ArrayAccessVariable, IndexVariable, ElementVariable, Condition.Copy(renameSuffix), ResultingType,
+            return new ArrayRemoveIf(Source.Copy(renameSuffix), SourceType,
+                ArrayAccessVariable, IndexVariable, ElementVariable, Condition.Copy(renameSuffix), TargetType,
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
@@ -1957,12 +1960,15 @@ namespace de.unika.ipd.grGen.expression
             sb.Indent();
             sb.Indent();
 
-            string TargetArrayType = "List<" + TargetType + ">"; // call target
-            string ResultingArrayType = "List<" + ResultingType + ">";
+            string sourceVar = "source";
+            string targetVar = "target";
+
+            string SourceArrayType = "List<" + SourceType + ">";
+            string TargetArrayType = "List<" + TargetType + ">";
             string ArrayRemoveIfMethodName = "ArrayRemoveIf_" + "expr" + Id;
-            sb.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", ResultingArrayType, ArrayRemoveIfMethodName);
+            sb.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", TargetArrayType, ArrayRemoveIfMethodName);
             sb.Append(", ");
-            sb.AppendFormat("{0} {1}", TargetArrayType, "source");
+            sb.AppendFormat("{0} {1}", SourceArrayType, sourceVar);
             foreach(PatternNode patternNode in PatternNodes)
             {
                 sb.Append(", ");
@@ -1991,29 +1997,28 @@ namespace de.unika.ipd.grGen.expression
             sb.Indent();
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
-            sb.AppendFront(ResultingArrayType + " target = new " + ResultingArrayType + "();\n");
+            sb.AppendFrontFormat("{0} {1} = new {0}();\n", TargetArrayType, targetVar);
 
             if(ArrayAccessVariable != null)
-                sb.AppendFrontFormat("{0} {1} = source;\n", TargetArrayType, NamesOfEntities.Variable(ArrayAccessVariable));
+                sb.AppendFrontFormat("{0} {1} = {2};\n", SourceArrayType, NamesOfEntities.Variable(ArrayAccessVariable), sourceVar);
 
-            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            String indexVar = IndexVariable != null ? NamesOfEntities.Variable(IndexVariable) : "index";
+            sb.AppendFrontFormat("for(int {0} = 0; {0} < {1}.Count; ++{0})\n", indexVar, sourceVar);
             sb.AppendFront("{\n");
             sb.Indent();
 
-            if(IndexVariable != null)
-                sb.AppendFront("int " + NamesOfEntities.Variable(IndexVariable) + " = index_name;\n");
-            sb.AppendFront(TargetType + " " + NamesOfEntities.Variable(ElementVariable) + " = source[index_name];\n");
+            sb.AppendFrontFormat("{0} {1} = {2}[{3}];\n", SourceType, NamesOfEntities.Variable(ElementVariable), sourceVar, indexVar);
             sb.AppendFront("if(!(bool)(");
 
             Condition.Emit(sb);
 
             sb.Append("))\n");
-            sb.AppendFrontIndented("target.Add(source[index_name]);\n");
+            sb.AppendFrontIndentedFormat("{0}.Add({1}[{2}]);\n", targetVar, sourceVar, indexVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFront("return target;\n");
+            sb.AppendFrontFormat("return {0};\n", targetVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");
@@ -2026,7 +2031,7 @@ namespace de.unika.ipd.grGen.expression
             string ArrayRemoveIfMethodName = "ArrayRemoveIf_" + "expr" + Id;
             sourceCode.AppendFormat("{0}(actionEnv", ArrayRemoveIfMethodName);
             sourceCode.Append(", ");
-            Target.Emit(sourceCode);
+            Source.Emit(sourceCode);
             foreach(PatternNode patternNode in PatternNodes)
             {
                 sourceCode.Append(", (");
@@ -2055,7 +2060,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return Target;
+            yield return Source;
             yield return Condition;
         }
 
@@ -2064,13 +2069,13 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
-        readonly Expression Target;
-        readonly String TargetType;
+        readonly Expression Source;
+        readonly String SourceType;
         readonly String ArrayAccessVariable;
         readonly String IndexVariable;
         readonly String ElementVariable;
         readonly Expression Condition;
-        readonly String ResultingType;
+        readonly String TargetType;
         readonly PatternNode[] PatternNodes;
         readonly PatternEdge[] PatternEdges;
         readonly PatternVariable[] PatternVariables;
@@ -2082,14 +2087,14 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayMapStartWithAccumulateBy : Expression
     {
-        public ArrayMapStartWithAccumulateBy(Expression target, String targetType,
+        public ArrayMapStartWithAccumulateBy(Expression source, String sourceType,
             String initArrayAccessVariable, Expression init,
             String arrayAccessVariable, String previousAccumulationAccessVariable, String indexVariable, String elementVariable,
-            Expression mapping, String resultingType,
+            Expression mapping, String targetType,
             PatternNode[] patternNodes, PatternEdge[] patternEdges, PatternVariable[] patternVariables)
         {
-            Target = target;
-            TargetType = targetType;
+            Source = source;
+            SourceType = sourceType;
             InitArrayAccessVariable = initArrayAccessVariable;
             Init = init;
             ArrayAccessVariable = arrayAccessVariable;
@@ -2097,7 +2102,7 @@ namespace de.unika.ipd.grGen.expression
             IndexVariable = indexVariable;
             ElementVariable = elementVariable;
             Mapping = mapping;
-            ResultingType = resultingType;
+            TargetType = targetType;
             PatternNodes = patternNodes;
             PatternEdges = patternEdges;
             PatternVariables = patternVariables;
@@ -2120,9 +2125,9 @@ namespace de.unika.ipd.grGen.expression
             {
                 newPatternVariables[i] = new PatternVariable(PatternVariables[i], renameSuffix);
             }
-            return new ArrayMapStartWithAccumulateBy(Target.Copy(renameSuffix), TargetType,
+            return new ArrayMapStartWithAccumulateBy(Source.Copy(renameSuffix), SourceType,
                 InitArrayAccessVariable, Init.Copy(renameSuffix),
-                ArrayAccessVariable, PreviousAccumulationAccessVariable, IndexVariable, ElementVariable, Mapping.Copy(renameSuffix), ResultingType,
+                ArrayAccessVariable, PreviousAccumulationAccessVariable, IndexVariable, ElementVariable, Mapping.Copy(renameSuffix), TargetType,
                 newPatternNodes, newPatternEdges, newPatternVariables);
         }
 
@@ -2134,12 +2139,16 @@ namespace de.unika.ipd.grGen.expression
             sb.Indent();
             sb.Indent();
 
-            string TargetArrayType = "List<" + TargetType + ">"; // call target
-            string ResultingArrayType = "List<" + ResultingType + ">";
+            string sourceVar = "source";
+            string targetVar = "target";
+            string resultVar = "result";
+
+            string SourceArrayType = "List<" + SourceType + ">";
+            string TargetArrayType = "List<" + TargetType + ">";
             string ArrayMapMethodName = "ArrayMapStartWithAccumulateBy_" + "expr" + Id;
-            sb.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", ResultingArrayType, ArrayMapMethodName);
+            sb.AppendFrontFormat("static {0} {1}(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv", TargetArrayType, ArrayMapMethodName);
             sb.Append(", ");
-            sb.AppendFormat("{0} {1}", TargetArrayType, "source");
+            sb.AppendFormat("{0} {1}", SourceArrayType, sourceVar);
             foreach(PatternNode patternNode in PatternNodes)
             {
                 sb.Append(", ");
@@ -2168,38 +2177,37 @@ namespace de.unika.ipd.grGen.expression
             sb.Indent();
 
             sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
-            sb.AppendFront(ResultingArrayType + " target = new " + ResultingArrayType + "();\n");
+            sb.AppendFrontFormat("{0} {1} = new {0}();\n", TargetArrayType, targetVar);
 
             if(InitArrayAccessVariable != null)
-                sb.AppendFrontFormat("{0} {1} = source;\n", TargetArrayType, NamesOfEntities.Variable(InitArrayAccessVariable));
+                sb.AppendFrontFormat("{0} {1} = {2};\n", SourceArrayType, NamesOfEntities.Variable(InitArrayAccessVariable), sourceVar);
 
-            sb.AppendFront(ResultingType + " " + NamesOfEntities.Variable(PreviousAccumulationAccessVariable) + " = ");
+            sb.AppendFront(TargetType + " " + NamesOfEntities.Variable(PreviousAccumulationAccessVariable) + " = ");
             Init.Emit(sb);
             sb.AppendFront(";\n");
 
             if(ArrayAccessVariable != null)
-                sb.AppendFrontFormat("{0} {1} = source;\n", TargetArrayType, NamesOfEntities.Variable(ArrayAccessVariable));
+                sb.AppendFrontFormat("{0} {1} = {2};\n", SourceArrayType, NamesOfEntities.Variable(ArrayAccessVariable), sourceVar);
 
-            sb.AppendFront("for(int index_name = 0; index_name < source.Count; ++index_name)\n");
+            String indexVar = IndexVariable != null ? NamesOfEntities.Variable(IndexVariable) : "index";
+            sb.AppendFrontFormat("for(int {0} = 0; {0} < {1}.Count; ++{0})\n", indexVar, sourceVar);
             sb.AppendFront("{\n");
             sb.Indent();
 
-            if(IndexVariable != null)
-                sb.AppendFront("int " + NamesOfEntities.Variable(IndexVariable) + " = index_name;\n");
-            sb.AppendFront(TargetType + " " + NamesOfEntities.Variable(ElementVariable) + " = source[index_name];\n");
-            sb.AppendFront(ResultingType + " result_name = ");
+            sb.AppendFrontFormat("{0} {1} = {2}[{3}];\n", SourceType, NamesOfEntities.Variable(ElementVariable), sourceVar, indexVar);
+            sb.AppendFrontFormat("{0} {1} = ", TargetType, resultVar);
 
             Mapping.Emit(sb);
 
             sb.Append(";\n");
-            sb.AppendFront("target.Add(result_name);\n");
+            sb.AppendFrontFormat("{0}.Add({1});\n", targetVar, resultVar);
 
-            sb.AppendFront(NamesOfEntities.Variable(PreviousAccumulationAccessVariable) + " = result_name;\n");
+            sb.AppendFrontFormat("{0} = {1};\n", NamesOfEntities.Variable(PreviousAccumulationAccessVariable), resultVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFront("return target;\n");
+            sb.AppendFrontFormat("return {0};\n", targetVar);
 
             sb.Unindent();
             sb.AppendFront("}\n");
@@ -2212,7 +2220,7 @@ namespace de.unika.ipd.grGen.expression
             string ArrayMapMethodName = "ArrayMapStartWithAccumulateBy_" + "expr" + Id;
             sourceCode.AppendFormat("{0}(actionEnv", ArrayMapMethodName);
             sourceCode.Append(", ");
-            Target.Emit(sourceCode);
+            Source.Emit(sourceCode);
             foreach(PatternNode patternNode in PatternNodes)
             {
                 sourceCode.Append(", (");
@@ -2241,7 +2249,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return Target;
+            yield return Source;
             yield return Init;
             yield return Mapping;
         }
@@ -2251,8 +2259,8 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
-        readonly Expression Target;
-        readonly String TargetType;
+        readonly Expression Source;
+        readonly String SourceType;
         readonly String InitArrayAccessVariable;
         readonly Expression Init;
         readonly String ArrayAccessVariable;
@@ -2260,7 +2268,7 @@ namespace de.unika.ipd.grGen.expression
         readonly String IndexVariable;
         readonly String ElementVariable;
         readonly Expression Mapping;
-        readonly String ResultingType;
+        readonly String TargetType;
         readonly PatternNode[] PatternNodes;
         readonly PatternEdge[] PatternEdges;
         readonly PatternVariable[] PatternVariables;
