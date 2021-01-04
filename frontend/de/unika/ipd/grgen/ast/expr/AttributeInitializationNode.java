@@ -16,8 +16,8 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+import de.unika.ipd.grgen.ast.model.type.BaseInternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.AttributeInitialization;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.InternalObjectInit;
-import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 
 public class AttributeInitializationNode extends BaseNode
 {
@@ -35,7 +35,7 @@ public class AttributeInitializationNode extends BaseNode
 	public InternalObjectInit objectInitIR;
 	
 	public IdentNode ownerUnresolved;
-	public InternalObjectTypeNode owner;
+	public BaseInternalObjectTypeNode owner;
 
 	public IdentNode attributeUnresolved;
 	public MemberDeclNode attribute;
@@ -67,8 +67,8 @@ public class AttributeInitializationNode extends BaseNode
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<InternalObjectTypeNode> objectTypeResolver =
-			new DeclarationTypeResolver<InternalObjectTypeNode>(InternalObjectTypeNode.class);
+	private static final DeclarationTypeResolver<BaseInternalObjectTypeNode> objectTypeResolver =
+			new DeclarationTypeResolver<BaseInternalObjectTypeNode>(BaseInternalObjectTypeNode.class);
 
 	private static final DeclarationResolver<MemberDeclNode> memberResolver =
 			new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
@@ -143,7 +143,7 @@ public class AttributeInitializationNode extends BaseNode
 
 		assert(objectInitIR != null);
 		ai.init = objectInitIR;
-		ai.owner = owner.checkIR(InternalObjectType.class);
+		ai.owner = owner.checkIR(BaseInternalObjectType.class);
 		ai.attribute = attribute.checkIR(Entity.class);
 		initialization = initialization.evaluate();
 		ai.expr = initialization.checkIR(Expression.class);

@@ -80,13 +80,13 @@ public class ActionsGen extends CSharpBase
 		Action, Subpattern, MatchClass
 	}
 
-	public ActionsGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
+	public ActionsGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix, String transientObjectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		be = backend;
 		model = be.unit.getActionsGraphModel();
-		mg = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
-		eyGen = new ActionsExpressionOrYieldingGen(backend, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		mg = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
+		eyGen = new ActionsExpressionOrYieldingGen(backend, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 	}
 
 	/**
@@ -483,7 +483,7 @@ public class ActionsGen extends CSharpBase
 
 		mg.genModify(sb, subpatternRule, packageName, true);
 
-		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		execGen.genImperativeStatements(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_",
 				subpatternRule.getPackageContainedIn(), true, true);
 		execGen.genImperativeStatementClosures(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_", false);
@@ -528,7 +528,7 @@ public class ActionsGen extends CSharpBase
 
 		mg.genModify(sb, actionRule, packageName, false);
 
-		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		execGen.genImperativeStatements(sb, actionRule, formatIdentifiable(actionRule) + "_",
 				actionRule.getPackageContainedIn(), true, false);
 		execGen.genImperativeStatementClosures(sb, actionRule, formatIdentifiable(actionRule) + "_", true);
@@ -707,7 +707,7 @@ public class ActionsGen extends CSharpBase
 		sb.indent();
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "",
 				isToBeParallelizedActionExisting, emitProfilingInstrumentation);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		for(EvalStatement evalStmt : function.getStatements()) {
 			modifyGenState.functionOrProcedureName = function.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -828,7 +828,7 @@ public class ActionsGen extends CSharpBase
 
 		genStaticConstructor(sb, "Procedures", staticInitializers);
 
-		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ActionsExecGen execGen = new ActionsExecGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		sb.append("#if INITIAL_WARMUP\t\t// GrGen procedure exec section: "
 				+ (packageName != null ? packageName + "::" + "Procedures\n" : "Procedures\n"));
 		for(Procedure procedure : bearer.getProcedures()) {
@@ -869,8 +869,8 @@ public class ActionsGen extends CSharpBase
 		sb.indent();
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
 				emitProfilingInstrumentation);
-		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 
 		if(be.system.mayFireDebugEvents()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
@@ -1047,7 +1047,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)procEnv.Graph;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
 				emitProfilingInstrumentation);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		EvalStatement lastEvalStmt = null;
 		for(EvalStatement evalStmt : filter.getStatements()) {
 			modifyGenState.functionOrProcedureName = filter.getIdent().toString();
@@ -1122,7 +1122,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)procEnv.Graph;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, matchClassName, packagePrefix, false,
 				emitProfilingInstrumentation);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		EvalStatement lastEvalStmt = null;
 		for(EvalStatement evalStmt : matchClassFilter.getStatements()) {
 			modifyGenState.functionOrProcedureName = matchClassFilter.getIdent().toString();
@@ -1155,7 +1155,7 @@ public class ActionsGen extends CSharpBase
 	{
 		// generate getters to contained nodes, edges, variables
 		HashSet<String> elementsAlreadyDeclared = new HashSet<String>();
-		ActionsMatchGen matchGen = new ActionsMatchGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ActionsMatchGen matchGen = new ActionsMatchGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		matchGen.genPatternMatchInterface(sb, matchClass.getPatternGraph(),
 				matchClass.getPatternGraph().getNameOfGraph(), "GRGEN_LIBGR.IMatch",
 				matchClass.getPatternGraph().getNameOfGraph() + "_",
@@ -1325,7 +1325,7 @@ public class ActionsGen extends CSharpBase
 		}
 
 		// generate getters to contained nodes, edges, variables, embedded graphs, alternatives
-		ActionsMatchGen matchGen = new ActionsMatchGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ActionsMatchGen matchGen = new ActionsMatchGen(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		matchGen.genPatternMatchInterface(sb, pattern, pattern.getNameOfGraph(),
 				base, pattern.getNameOfGraph() + "_",
 				false, false, false, elementsAlreadyDeclared);

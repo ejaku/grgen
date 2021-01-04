@@ -48,6 +48,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return "graph.Model.IsEqual((object)"+leftValue+", (object)"+rightValue+")";
             else if(model.ObjectModel.GetType(balancedType) != null)
                 return "GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)" + leftValue + ", (GRGEN_LIBGR.IObject)" + rightValue + ")";
+            else if(model.TransientObjectModel.GetType(balancedType) != null)
+                return "GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)" + leftValue + ", (GRGEN_LIBGR.ITransientObject)" + rightValue + ")";
             else
                 return "Object.Equals("+leftValue+", "+rightValue+")";
         }
@@ -83,6 +85,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return "!graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + ")";
             else if(model.ObjectModel.GetType(balancedType) != null)
                 return "!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)" + leftValue + ", (GRGEN_LIBGR.IObject)" + rightValue + ")";
+            else if(model.TransientObjectModel.GetType(balancedType) != null)
+                return "!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)" + leftValue + ", (GRGEN_LIBGR.ITransientObject)" + rightValue + ")";
             else
                 return "!Object.Equals("+leftValue+", "+rightValue+")";
         }

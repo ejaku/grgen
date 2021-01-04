@@ -203,11 +203,13 @@ import de.unika.ipd.grgen.ir.expr.string.StringStartsWith;
 import de.unika.ipd.grgen.ir.expr.string.StringSubstring;
 import de.unika.ipd.grgen.ir.expr.string.StringToLower;
 import de.unika.ipd.grgen.ir.expr.string.StringToUpper;
+import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+import de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
@@ -222,11 +224,12 @@ import de.unika.ipd.grgen.util.Util;
 
 public abstract class CSharpBase
 {
-	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
+	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix, String transientObjectTypePrefix)
 	{
 		this.nodeTypePrefix = nodeTypePrefix;
 		this.edgeTypePrefix = edgeTypePrefix;
 		this.objectTypePrefix = objectTypePrefix;
+		this.transientObjectTypePrefix = transientObjectTypePrefix;
 	}
 
 	/**
@@ -396,6 +399,8 @@ public abstract class CSharpBase
 			return "Edge";
 		else if(type instanceof InternalObjectType)
 			return "Object";
+		else if(type instanceof InternalTransientObjectType)
+			return "TransientObject";
 		else
 			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
 	}
@@ -418,6 +423,8 @@ public abstract class CSharpBase
 			return edgeTypePrefix;
 		else if(type instanceof InternalObjectType)
 			return objectTypePrefix;
+		else if(type instanceof InternalTransientObjectType)
+			return transientObjectTypePrefix;
 		else
 			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
 	}
@@ -430,6 +437,8 @@ public abstract class CSharpBase
 			return edgeTypePrefix;
 		else if(ent.getType() instanceof InternalObjectType)
 			return objectTypePrefix;
+		else if(ent.getType() instanceof InternalTransientObjectType)
+			return transientObjectTypePrefix;
 		else
 			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
 	}
@@ -495,8 +504,9 @@ public abstract class CSharpBase
 		case "Edge":
 		case "UEdge":
 		case "Object":
-			InheritanceType nodeEdgeType = (InheritanceType)type;
-			return getRootElementInterfaceRef(nodeEdgeType);
+		case "TransientObject":
+			InheritanceType inheritanceType = (InheritanceType)type;
+			return getRootElementInterfaceRef(inheritanceType);
 		}
 
 		return "GRGEN_MODEL." + getPackagePrefixDot(type) + "I" + formatInheritanceClassRaw(type);
@@ -506,6 +516,8 @@ public abstract class CSharpBase
 	{
 		if(inheritanceType instanceof InternalObjectType) {
 			return "GRGEN_LIBGR.IObject";
+		} else if(inheritanceType instanceof InternalTransientObjectType) {
+			return "GRGEN_LIBGR.ITransientObject";
 		} else if(inheritanceType instanceof NodeType) {
 			return "GRGEN_LIBGR.INode";
 		} else { // instanceof EdgeType
@@ -698,11 +710,17 @@ public abstract class CSharpBase
 		return "GRGEN_ACTIONS." + packagePrefix + "Match_" + matchClassName;
 	}
 
-	public String formatInternalObjectType(InternalObjectType objectType)
+	public String formatBaseInternalObjectType(BaseInternalObjectType objectType)
 	{
-		String packagePrefix = getPackagePrefixDot(objectType);
-		String objectTypeName = objectType.getIdent().toString();
-		return "GRGEN_MODEL." + packagePrefix + objectTypePrefix + objectTypeName;
+		if(objectType instanceof InternalObjectType) {
+			String packagePrefix = getPackagePrefixDot(objectType);
+			String objectTypeName = objectType.getIdent().toString();
+			return "GRGEN_MODEL." + packagePrefix + objectTypePrefix + objectTypeName;
+		} else {
+			String packagePrefix = getPackagePrefixDot(objectType);
+			String objectTypeName = objectType.getIdent().toString();
+			return "GRGEN_MODEL." + packagePrefix + transientObjectTypePrefix + objectTypeName;
+		}
 	}
 
 	public String formatAttributeType(Entity e)
@@ -765,7 +783,7 @@ public abstract class CSharpBase
 				return pathPrefix + "var_" + formatIdentifiable(entity) + "_" + entity.getId();
 			else
 				return pathPrefix + "var_" + formatIdentifiable(entity);
-		} else if(entity.getType() instanceof InternalObjectType) {
+		} else if(entity.getType() instanceof BaseInternalObjectType) {
 			return pathPrefix + /*"var_" +*/ formatIdentifiable(entity);
 		} else {
 			throw new IllegalArgumentException("Unknown entity " + entity + " (" + entity.getClass() + ")");
@@ -900,7 +918,7 @@ public abstract class CSharpBase
 				sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(")");
-			} else if(t instanceof InternalObjectType) {
+			} else if(t instanceof BaseInternalObjectType) {
 				sb.append("(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(").Clone()");
@@ -2019,7 +2037,7 @@ public abstract class CSharpBase
 		} else if(expr instanceof InternalObjectInit) {
 			InternalObjectInit ioi = (InternalObjectInit)expr;
 			if(ioi.attributeInitializations.isEmpty()) {
-				sb.append("new " + formatInternalObjectType(ioi.getInternalObjectType()) + "()");
+				sb.append("new " + formatBaseInternalObjectType(ioi.getInternalObjectType()) + "()");
 			} else {
 				sb.append("fill_" + ioi.getAnonymousInternalObjectInitName() + "(");
 				boolean first = true;
@@ -2980,6 +2998,12 @@ public abstract class CSharpBase
 				sb.append("), (GRGEN_LIBGR.IObject)(");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append("))");
+			} else if(opType instanceof InternalTransientObjectType) {
+				sb.append("GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append("), (GRGEN_LIBGR.ITransientObject)(");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append("))");
 			} else {
 				genBinOpDefault(sb, op, modifyGenerationState);
 			}
@@ -3023,6 +3047,12 @@ public abstract class CSharpBase
 				sb.append("!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append("), (GRGEN_LIBGR.IObject)(");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append("))");
+			} else if(opType instanceof InternalTransientObjectType) {
+				sb.append("!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append("), (GRGEN_LIBGR.ITransientObject)(");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append("))");
 			} else {
@@ -3258,6 +3288,7 @@ public abstract class CSharpBase
 		case IS_GRAPH:
 		case IS_OBJECT:
 		case IS_INTERNAL_CLASS_OBJECT:
+		case IS_INTERNAL_TRANSIENT_CLASS_OBJECT:
 		case IS_NODE:
 		case IS_EDGE:
 		case IS_SET:
@@ -3318,6 +3349,8 @@ public abstract class CSharpBase
 			return formatType(cast.getType());
 		case IS_INTERNAL_CLASS_OBJECT:
 			return formatType(cast.getType());
+		case IS_INTERNAL_TRANSIENT_CLASS_OBJECT:
+			return formatType(cast.getType());
 		case IS_NODE:
 			return formatType(cast.getType());
 		case IS_EDGE:
@@ -3369,6 +3402,8 @@ public abstract class CSharpBase
 		case IS_EXTERNAL_CLASS_OBJECT:
 			return "GRGEN_MODEL." + type.getIdent();
 		case IS_INTERNAL_CLASS_OBJECT:
+			return formatElementInterfaceRef(type);
+		case IS_INTERNAL_TRANSIENT_CLASS_OBJECT:
 			return formatElementInterfaceRef(type);
 		case IS_NODE:
 			return formatElementInterfaceRef(type);
@@ -4096,4 +4131,5 @@ public abstract class CSharpBase
 	protected String nodeTypePrefix;
 	protected String edgeTypePrefix;
 	protected String objectTypePrefix;
+	protected String transientObjectTypePrefix;
 }

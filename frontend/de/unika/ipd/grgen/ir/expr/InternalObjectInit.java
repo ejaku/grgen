@@ -16,15 +16,15 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 
 public class InternalObjectInit extends Expression
 {
-	private InternalObjectType objectType;
+	private BaseInternalObjectType objectType;
 
 	public Vector<AttributeInitialization> attributeInitializations = new Vector<AttributeInitialization>();
 
-	public InternalObjectInit(InternalObjectType objectType)
+	public InternalObjectInit(BaseInternalObjectType objectType)
 	{
 		super("internal object init", objectType);
 		this.objectType = objectType;
@@ -53,7 +53,7 @@ public class InternalObjectInit extends Expression
 		return expressions;
 	}
 
-	public InternalObjectType getInternalObjectType()
+	public BaseInternalObjectType getInternalObjectType()
 	{
 		return objectType;
 	}

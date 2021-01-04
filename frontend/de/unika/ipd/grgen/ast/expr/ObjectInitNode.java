@@ -16,23 +16,23 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+import de.unika.ipd.grgen.ast.model.type.BaseInternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.AttributeInitialization;
 import de.unika.ipd.grgen.ir.expr.InternalObjectInit;
-import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ObjectInitNode extends ExprNode
 {
 	static {
-		setName(ObjectInitNode.class, "internal object init");
+		setName(ObjectInitNode.class, "internal (transient) object init");
 	}
 
 	private IdentNode objectTypeUnresolved;
-	private InternalObjectTypeNode objectType;
+	private BaseInternalObjectTypeNode objectType;
 	
 	CollectNode<AttributeInitializationNode> attributeInits =
 			new CollectNode<AttributeInitializationNode>();
@@ -66,8 +66,8 @@ public class ObjectInitNode extends ExprNode
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<InternalObjectTypeNode> objectTypeResolver =
-			new DeclarationTypeResolver<InternalObjectTypeNode>(InternalObjectTypeNode.class);
+	private static final DeclarationTypeResolver<BaseInternalObjectTypeNode> objectTypeResolver =
+			new DeclarationTypeResolver<BaseInternalObjectTypeNode>(BaseInternalObjectTypeNode.class);
 
 	@Override
 	protected boolean resolveLocal()
@@ -88,7 +88,7 @@ public class ObjectInitNode extends ExprNode
 		return getObjectType();
 	}
 
-	public InternalObjectTypeNode getObjectType()
+	public BaseInternalObjectTypeNode getObjectType()
 	{
 		assert(isResolved());
 		return objectType;
@@ -97,7 +97,7 @@ public class ObjectInitNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
-		InternalObjectType type = objectType.checkIR(InternalObjectType.class);
+		BaseInternalObjectType type = objectType.checkIR(BaseInternalObjectType.class);
 		
 		InternalObjectInit init = new InternalObjectInit(type);
 		
@@ -116,6 +116,6 @@ public class ObjectInitNode extends ExprNode
 
 	public static String getKindStr()
 	{
-		return "internal object initialization";
+		return "internal (transient) object initialization";
 	}
 }

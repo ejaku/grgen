@@ -1,0 +1,34 @@
+new graph "transientClass/class.grg"
+
+new n1:Node
+
+exec r1
+
+show var d
+
+exec r2
+
+show var res
+
+exec r3
+
+show var d
+show var rres
+
+exec r4
+
+show var res
+
+exec r5
+
+show var res
+show var o
+
+exec r6
+
+show var c
+show var oa
+show var o
+show var oo
+
+quit

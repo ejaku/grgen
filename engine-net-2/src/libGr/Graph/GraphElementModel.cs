@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A type model for nodes or edges or objects (of node classes, edge classes, internal classes).
+    /// A type model for nodes or edges or objects or transient objects (of node classes, edge classes, internal classes, internal transient classes).
     /// </summary>
     public interface ITypeModel
     {
@@ -130,5 +130,26 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of all types in this type model.
         /// </summary>
         new ObjectType[] Types { get; }
+    }
+
+    /// <summary>
+    /// A type model for transient objects (internal non graph-element values), i.e. classes.
+    /// </summary>
+    public interface ITransientObjectModel : ITypeModel
+    {
+        /// <summary>
+        /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
+        /// </summary>
+        new TransientObjectType RootType { get; }
+
+        /// <summary>
+        /// Returns the transient object type with the given type name or null, if no type with this name exists.
+        /// </summary>
+        new TransientObjectType GetType(String name);
+
+        /// <summary>
+        /// An array of all types in this type model.
+        /// </summary>
+        new TransientObjectType[] Types { get; }
     }
 }

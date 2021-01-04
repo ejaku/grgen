@@ -16,6 +16,7 @@ import java.util.Collection;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+import de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 
 /**
@@ -28,6 +29,8 @@ public interface NodeEdgeEnumBearer
 	public Collection<EdgeType> getEdgeTypes();
 
 	public Collection<InternalObjectType> getObjectTypes();
+
+	public Collection<InternalTransientObjectType> getTransientObjectTypes();
 
 	public Collection<EnumType> getEnumTypes();
 }

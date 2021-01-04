@@ -58,6 +58,7 @@ namespace de.unika.ipd.grGen.libGr
                 case "UEdge": return "GRGEN_LIBGR.IUEdge";
                 case "AEdge": return "GRGEN_LIBGR.IEdge";
                 case "Object": return "GRGEN_LIBGR.IObject";
+                case "TransientObject": return "GRGEN_LIBGR.ITransientObject";
                 default: return "GRGEN_MODEL." + GetPackagePrefixDot(type.Package) + "I" + type.Name;
                 }
             }
@@ -117,6 +118,7 @@ namespace de.unika.ipd.grGen.libGr
             if(type.Name == "IDEdge") return "GRGEN_LIBGR.IDEdge";
             if(type.Name == "IUEdge") return "GRGEN_LIBGR.IUEdge";
             if(type.Name == "IObject") return "GRGEN_LIBGR.IObject";
+            if(type.Name == "ITransientObject") return "GRGEN_LIBGR.ITransientObject";
 
             if(type.Name == "SetValueType") return "GRGEN_LIBGR.SetValueType";
 
@@ -151,6 +153,7 @@ namespace de.unika.ipd.grGen.libGr
             if(type == "Edge") return "GRGEN_LIBGR.IDEdge";
             if(type == "UEdge") return "GRGEN_LIBGR.IUEdge";
             if(type == "Object") return "GRGEN_LIBGR.IObject";
+            if(type == "TransientObject") return "GRGEN_LIBGR.ITransientObject";
 
             if(type == "short" || type == "int" || type == "long" || type == "bool" || type == "string" || type == "float" || type == "double" || type == "object") return type;
             if(type == "byte") return "sbyte";
@@ -235,7 +238,7 @@ namespace de.unika.ipd.grGen.libGr
             else if(type is EdgeType)
             {
                 EdgeType edgeType = (EdgeType)type;
-                if(Type.GetType(edgeType.EdgeInterfaceName) != null) // available in libGr (INode)?
+                if(Type.GetType(edgeType.EdgeInterfaceName) != null) // available in libGr (IEdge)?
                     return Type.GetType(edgeType.EdgeInterfaceName);
                 else
                     return Type.GetType(edgeType.EdgeInterfaceName + "," + Assembly.GetAssembly(model.GetType()).FullName); // no -> search model assembly
@@ -243,10 +246,18 @@ namespace de.unika.ipd.grGen.libGr
             else if(type is ObjectType)
             {
                 ObjectType objectType = (ObjectType)type;
-                if(Type.GetType(objectType.ObjectInterfaceName) != null) // available in libGr (INode)?
+                if(Type.GetType(objectType.ObjectInterfaceName) != null) // available in libGr (IObject)?
                     return Type.GetType(objectType.ObjectInterfaceName);
                 else
                     return Type.GetType(objectType.ObjectInterfaceName + "," + Assembly.GetAssembly(model.GetType()).FullName); // no -> search model assembly
+            }
+            else if(type is TransientObjectType)
+            {
+                TransientObjectType transientObjectType = (TransientObjectType)type;
+                if(Type.GetType(transientObjectType.TransientObjectInterfaceName) != null) // available in libGr (ITransientObject)?
+                    return Type.GetType(transientObjectType.TransientObjectInterfaceName);
+                else
+                    return Type.GetType(transientObjectType.TransientObjectInterfaceName + "," + Assembly.GetAssembly(model.GetType()).FullName); // no -> search model assembly
             }
             else
             {
@@ -323,6 +334,17 @@ namespace de.unika.ipd.grGen.libGr
                     if(type != null)
                         return type;
                     type = Type.GetType(objectType.ObjectInterfaceName + "," + assembly.FullName); // no -> search model assembly
+                    return type;
+                }
+            }
+            foreach(TransientObjectType transientObjectType in model.TransientObjectModel.Types)
+            {
+                if(transientObjectType.PackagePrefixedName == typeName)
+                {
+                    Type type = Type.GetType(transientObjectType.TransientObjectInterfaceName); // available in libGr (ITransientObject)?
+                    if(type != null)
+                        return type;
+                    type = Type.GetType(transientObjectType.TransientObjectInterfaceName + "," + assembly.FullName); // no -> search model assembly
                     return type;
                 }
             }

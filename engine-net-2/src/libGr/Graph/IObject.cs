@@ -14,7 +14,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A GrGen object (value of internal, non-node/edge class)
     /// </summary>
-    public interface IObject : IAttributeBearer
+    public interface IObject : IBaseObject
     {
         /// <summary>
         /// The ObjectType (class) of the object
@@ -26,6 +26,6 @@ namespace de.unika.ipd.grGen.libGr
         /// All attributes will be transfered to the new object.
         /// </summary>
         /// <returns>A copy of this object.</returns>
-        IObject Clone();
+        new IObject Clone();
     }
 }

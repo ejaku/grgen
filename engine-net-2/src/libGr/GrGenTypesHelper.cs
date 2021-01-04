@@ -122,6 +122,13 @@ namespace de.unika.ipd.grGen.libGr
                 else
                     return package + "::" + type.Substring(11); // remove "ObjectType_"
             }
+            if(typeName.StartsWith("TransientObjectType_"))
+            {
+                if(package == null)
+                    return type.Substring(20); // remove "TransientObjectType_"
+                else
+                    return package + "::" + type.Substring(20); // remove "TransientObjectType_"
+            }
 
             if(typeName.StartsWith("IMatch_") || typeName.StartsWith("Match_"))
             {
@@ -195,6 +202,8 @@ namespace de.unika.ipd.grGen.libGr
             case AttributeKind.EdgeAttr:
                 return attributeType.PackagePrefixedTypeName;
             case AttributeKind.InternalClassObjectAttr:
+                return attributeType.PackagePrefixedTypeName;
+            case AttributeKind.InternalClassTransientObjectAttr:
                 return attributeType.PackagePrefixedTypeName;
             case AttributeKind.GraphAttr:
                 return "graph";
@@ -377,6 +386,18 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
+            foreach(TransientObjectType leftTransientObjectType in model.TransientObjectModel.Types)
+            {
+                if(leftTransientObjectType.PackagePrefixedName == xgrsTypeSameOrSub)
+                {
+                    foreach(TransientObjectType rightTransientObjectType in model.TransientObjectModel.Types)
+                    {
+                        if(rightTransientObjectType.PackagePrefixedName == xgrsTypeBase)
+                            return leftTransientObjectType.IsA(rightTransientObjectType);
+                    }
+                }
+            }
+
             foreach(ExternalObjectType leftExternalObjectType in model.ExternalObjectTypes)
             {
                 if(leftExternalObjectType.Name == xgrsTypeSameOrSub)
@@ -499,6 +520,8 @@ namespace de.unika.ipd.grGen.libGr
                 return ((IEdge)constant).Type;
             else if(constant is IObject)
                 return ((IObject)constant).Type;
+            else if(constant is ITransientObject)
+                return ((ITransientObject)constant).Type;
             else
                 return constant;
         }
@@ -523,6 +546,12 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(objectType.PackagePrefixedName == typeName)
                     return objectType;
+            }
+
+            foreach(TransientObjectType transientObjectType in model.TransientObjectModel.Types)
+            {
+                if(transientObjectType.PackagePrefixedName == typeName)
+                    return transientObjectType;
             }
 
             return null;
@@ -573,6 +602,17 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(objectType.PackagePrefixedName == typeName)
                     return objectType;
+            }
+
+            return null;
+        }
+
+        public static TransientObjectType GetTransientObjectType(String typeName, IGraphModel model)
+        {
+            foreach(TransientObjectType transientObjectType in model.TransientObjectModel.Types)
+            {
+                if(transientObjectType.PackagePrefixedName == typeName)
+                    return transientObjectType;
             }
 
             return null;

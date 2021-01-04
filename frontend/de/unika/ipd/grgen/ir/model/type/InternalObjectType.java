@@ -11,16 +11,13 @@
 
 package de.unika.ipd.grgen.ir.model.type;
 
-import de.unika.ipd.grgen.ir.ContainedInPackage;
 import de.unika.ipd.grgen.ir.Ident;
 
 /**
  * IR class that represents (internal non-node/edge) object types (i.e. classes).
  */
-public class InternalObjectType extends InheritanceType implements ContainedInPackage
+public class InternalObjectType extends BaseInternalObjectType
 {
-	private String packageContainedIn;
-
 	/**
 	 * Make a new (internal) object type.
 	 * @param ident The identifier that declares this type.
@@ -28,7 +25,7 @@ public class InternalObjectType extends InheritanceType implements ContainedInPa
 	 */
 	public InternalObjectType(Ident ident, int modifiers)
 	{
-		super("internal object type", ident, modifiers, null);
+		super("internal object type", ident, modifiers);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
@@ -36,16 +33,5 @@ public class InternalObjectType extends InheritanceType implements ContainedInPa
 	public TypeClass classify()
 	{
 		return TypeClass.IS_INTERNAL_CLASS_OBJECT;
-	}
-
-	@Override
-	public String getPackageContainedIn()
-	{
-		return packageContainedIn;
-	}
-
-	public void setPackageContainedIn(String packageContainedIn)
-	{
-		this.packageContainedIn = packageContainedIn;
 	}
 }

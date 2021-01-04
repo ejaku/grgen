@@ -196,5 +196,25 @@ namespace de.unika.ipd.grGen.libGr
             sb.Append("}");
             return sb.ToString();
         }
+
+        private static string ToString(ITransientObject value, IGraph graph)
+        {
+            StringBuilder sb = new StringBuilder();
+            string transientObjectType = value.Type.PackagePrefixedName;
+            sb.Append(transientObjectType + "{");
+            bool first = true;
+            foreach(AttributeType attrType in value.Type.AttributeTypes)
+            {
+                if(first)
+                    first = false;
+                else
+                    sb.Append(",");
+                sb.Append(attrType.Name);
+                sb.Append(":");
+                sb.Append(EmitHelper.ToStringAutomatic(value.GetAttribute(attrType.Name), graph));
+            }
+            sb.Append("}");
+            return sb.ToString();
+        }
     }
 }

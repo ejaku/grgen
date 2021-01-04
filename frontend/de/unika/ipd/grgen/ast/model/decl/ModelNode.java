@@ -30,6 +30,7 @@ import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ModelTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -185,6 +186,7 @@ public class ModelNode extends DeclNode
 	 * - edge class decls
 	 * - node class decls
 	 * - object class decls
+	 * - transient object class decls
 	 * as child.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
@@ -315,6 +317,7 @@ public class ModelNode extends DeclNode
 				((inhType instanceof NodeTypeNode) && (st instanceof NodeTypeNode)) ||
 				((inhType instanceof EdgeTypeNode) && (st instanceof EdgeTypeNode)) ||
 				((inhType instanceof InternalObjectTypeNode) && (st instanceof InternalObjectTypeNode)) ||
+				((inhType instanceof InternalTransientObjectTypeNode) && (st instanceof InternalTransientObjectTypeNode)) ||
 				((inhType instanceof ExternalObjectTypeNode) && (st instanceof ExternalObjectTypeNode))
 			) : "nodes should extend nodes and edges should extend edges";
 

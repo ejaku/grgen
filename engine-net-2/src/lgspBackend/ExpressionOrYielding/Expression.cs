@@ -347,7 +347,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an equality comparison.
+    /// Class representing an equality comparison (of object classes).
     /// </summary>
     public class OBJECT_CLASS_EQ : BinFuncOperator
     {
@@ -368,7 +368,28 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an inequality comparison.
+    /// Class representing an equality comparison (of transient object classes).
+    /// </summary>
+    public class TRANSIENT_OBJECT_CLASS_EQ : BinFuncOperator
+    {
+        public TRANSIENT_OBJECT_CLASS_EQ(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new TRANSIENT_OBJECT_CLASS_EQ(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.ContainerHelper.IsEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing an inequality comparison (of object classes).
     /// </summary>
     public class OBJECT_CLASS_NE : BinFuncOperator
     {
@@ -380,6 +401,27 @@ namespace de.unika.ipd.grGen.expression
         public override Expression Copy(string renameSuffix)
         {
             return new OBJECT_CLASS_NE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "!GRGEN_LIBGR.ContainerHelper.IsEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing an inequality comparison (of transient object classes).
+    /// </summary>
+    public class TRANSIENT_OBJECT_CLASS_NE : BinFuncOperator
+    {
+        public TRANSIENT_OBJECT_CLASS_NE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new TRANSIENT_OBJECT_CLASS_NE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
         public override string GetFuncOperatorAndLParen()
@@ -1262,7 +1304,7 @@ namespace de.unika.ipd.grGen.expression
 
     public enum CopyKind
     {
-        Container, Graph, ClassObject
+        Container, Graph, ClassObject, TransientClassObject
     }
 
     /// <summary>
@@ -1295,6 +1337,12 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append("GRGEN_LIBGR.GraphHelper.Copy(");
                 Source.Emit(sourceCode);
                 sourceCode.Append(")");
+            }
+            else if(CopyKind == CopyKind.ClassObject)
+            {
+                sourceCode.Append("(");
+                Source.Emit(sourceCode);
+                sourceCode.Append(").Clone()");
             }
             else
             {

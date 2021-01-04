@@ -157,6 +157,7 @@ import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+import de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
@@ -176,9 +177,9 @@ public class ModifyEvalGen extends CSharpBase
 	ModifyExecGen execGen;
 
 	public ModifyEvalGen(SearchPlanBackend2 backend, ModifyExecGen execGen,
-			String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
+			String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix, String transientObjectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		be = backend;
 		model = be.unit.getActionsGraphModel();
 
@@ -500,7 +501,8 @@ public class ModifyEvalGen extends CSharpBase
 		} else {
 			if(!(target.getOwner().getType() instanceof MatchType
 					|| target.getOwner().getType() instanceof DefinedMatchType
-					|| target.getOwner().getType() instanceof InternalObjectType))
+					|| target.getOwner().getType() instanceof InternalObjectType
+					|| target.getOwner().getType() instanceof InternalTransientObjectType))
 				genChangingAttribute(sb, state, target, "Assign", varName, "null");
 
 			sb.appendFront("");
@@ -513,7 +515,8 @@ public class ModifyEvalGen extends CSharpBase
 
 			if(!(target.getOwner().getType() instanceof MatchType
 					|| target.getOwner().getType() instanceof DefinedMatchType
-					|| target.getOwner().getType() instanceof InternalObjectType))
+					|| target.getOwner().getType() instanceof InternalObjectType
+					|| target.getOwner().getType() instanceof InternalTransientObjectType))
 				genChangedAttribute(sb, state, target);
 		}
 	}

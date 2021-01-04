@@ -25,6 +25,7 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;
@@ -197,6 +198,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 						&& !(paramVar.getDeclType() instanceof EnumTypeNode)
 						&& !(paramVar.getDeclType() instanceof ContainerTypeNode)
 						&& !(paramVar.getDeclType() instanceof InternalObjectTypeNode)
+						&& !(paramVar.getDeclType() instanceof InternalTransientObjectTypeNode)
 						&& !(paramVar.getDeclType() instanceof ExternalObjectTypeNode)) {
 					paramVar.typeUnresolved.reportError("Type of variable \"" + paramVar.getIdentNode()
 							+ "\" must be a basic type (like int or string), or an enum, or a container type (set|map|array|deque), or an object  type (class) "

@@ -32,6 +32,7 @@ public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer
 	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
 	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
 	private Set<InternalObjectType> objectTypes = new LinkedHashSet<InternalObjectType>();
+	private Set<InternalTransientObjectType> transientObjectTypes = new LinkedHashSet<InternalTransientObjectType>();
 	private Set<EnumType> enumTypes = new LinkedHashSet<EnumType>();
 
 	/** Make a new package type.
@@ -57,6 +58,10 @@ public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer
 			InternalObjectType ot = (InternalObjectType)type;
 			ot.setPackageContainedIn(getIdent().toString());
 			objectTypes.add(ot);
+		} else if(type instanceof InternalTransientObjectType) {
+			InternalTransientObjectType tot = (InternalTransientObjectType)type;
+			tot.setPackageContainedIn(getIdent().toString());
+			transientObjectTypes.add(tot);
 		} else if(type instanceof EnumType) {
 			EnumType enut = (EnumType)type;
 			enut.setPackageContainedIn(getIdent().toString());
@@ -86,6 +91,12 @@ public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer
 	public Collection<InternalObjectType> getObjectTypes()
 	{
 		return Collections.unmodifiableCollection(objectTypes);
+	}
+
+	@Override
+	public Collection<InternalTransientObjectType> getTransientObjectTypes()
+	{
+		return Collections.unmodifiableCollection(transientObjectTypes);
 	}
 
 	@Override

@@ -72,6 +72,7 @@ import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+import de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.model.type.PackageType;
 
@@ -79,15 +80,15 @@ public class ModelGen extends CSharpBase
 {
 	enum InheritanceTypeType
 	{
-		Node, Edge, Object
+		Node, Edge, Object, TransientObject
 	}
 	
 	private final int MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING = 20;
 	private final static String ATTR_IMPL_SUFFIX = "_M0no_suXx_h4rD";
 
-	public ModelGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
+	public ModelGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix, String transientObjectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		be = backend;
 		rootTypes = new HashSet<String>();
 		rootTypes.add("Node");
@@ -95,6 +96,7 @@ public class ModelGen extends CSharpBase
 		rootTypes.add("AEdge");
 		rootTypes.add("UEdge");
 		rootTypes.add("Object");
+		rootTypes.add("TransientObject");
 	}
 
 	/**
@@ -140,7 +142,8 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("{\n");
 			sb.indent();
 
-			genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(), model.getAllObjectTypes(),
+			genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(), 
+					model.getAllObjectTypes(), model.getAllTransientObjectTypes(),
 					pt, pt.getIdent().toString());
 
 			sb.append("\n");
@@ -150,10 +153,11 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("//-----------------------------------------------------------\n");
 		}
 
-		genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(), model.getAllObjectTypes(),
+		genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(),
+				model.getAllObjectTypes(), model.getAllTransientObjectTypes(),
 				model, null);
 
-		ModelExternalGen modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModelExternalGen modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		modelExternalGen.genExternalObjectTypeObject();
 		for(ExternalObjectType et : model.getExternalObjectTypes()) {
 			modelExternalGen.genExternalObjectType(et);
@@ -167,7 +171,7 @@ public class ModelGen extends CSharpBase
 		sb.appendFront("//\n");
 		sb.append("\n");
 
-		ModelIndexGen indexGen = new ModelIndexGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModelIndexGen indexGen = new ModelIndexGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		indexGen.genIndexTypes();
 		indexGen.genIndexImplementations();
 		indexGen.genIndexSetType();
@@ -183,6 +187,10 @@ public class ModelGen extends CSharpBase
 		System.out.println("    generating class model...");
 		sb.append("\n");
 		genModelClass(model.getAllObjectTypes(), InheritanceTypeType.Object);
+
+		System.out.println("    generating transient class model...");
+		sb.append("\n");
+		genModelClass(model.getAllTransientObjectTypes(), InheritanceTypeType.TransientObject);
 
 		System.out.println("    generating graph model...");
 		sb.append("\n");
@@ -224,7 +232,7 @@ public class ModelGen extends CSharpBase
 
 		sb = new SourceBuilder();
 
-		modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 
 		modelExternalGen.genExternalFunctionsFile(be.unit.getFilename());
 
@@ -261,6 +269,7 @@ public class ModelGen extends CSharpBase
 	private void genBearer(Collection<? extends InheritanceType> allNodeTypes,
 			Collection<? extends InheritanceType> allEdgeTypes,
 			Collection<? extends InheritanceType> allObjectTypes,
+			Collection<? extends InheritanceType> allTransientObjectTypes,
 			NodeEdgeEnumBearer bearer, String packageName)
 	{
 
@@ -279,6 +288,10 @@ public class ModelGen extends CSharpBase
 		System.out.println("    generating object types...");
 		sb.append("\n");
 		genInheritanceTypes(allObjectTypes, bearer, packageName, InheritanceTypeType.Object);
+
+		System.out.println("    generating transient object types...");
+		sb.append("\n");
+		genInheritanceTypes(allTransientObjectTypes, bearer, packageName, InheritanceTypeType.TransientObject);
 	}
 
 	private void genEnums(NodeEdgeEnumBearer bearer)
@@ -343,7 +356,7 @@ public class ModelGen extends CSharpBase
 			sb.append("\n");
 			
 			sb.appendFront("public enum EdgeTypes ");
-		} else {
+		} else if(inhType == InheritanceTypeType.Object) {
 			curTypes = bearer.getObjectTypes();
 			
 			sb.appendFront("//\n");
@@ -352,6 +365,15 @@ public class ModelGen extends CSharpBase
 			sb.append("\n");
 			
 			sb.appendFront("public enum ObjectTypes ");
+		} else {
+			curTypes = bearer.getTransientObjectTypes();
+			
+			sb.appendFront("//\n");
+			sb.appendFront("// Transient object types\n");
+			sb.appendFront("//\n");
+			sb.append("\n");
+			
+			sb.appendFront("public enum TransientObjectTypes ");
 		}
 
 		sb.append("{ ");
@@ -623,7 +645,7 @@ public class ModelGen extends CSharpBase
 	 */
 	private void genObjectImplementation(InheritanceType type)
 	{
-		String kindStr = "Object";
+		String kindStr = type instanceof InternalTransientObjectType ? "TransientObject" : "Object";
 		String elemname = formatInheritanceClassName(type);
 		String elemref = formatInheritanceClassRef(type);
 		assert(type.getExternalName() == null);
@@ -709,6 +731,10 @@ public class ModelGen extends CSharpBase
 					+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {\n");
 			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, (GRGEN_LGSP.LGSPNode) newSource, "
 					+ "(GRGEN_LGSP.LGSPNode) newTarget);\n");
+			routedSB.appendFront("}\n");
+		} else if(type instanceof InternalTransientObjectType) {
+			routedSB.appendFront("public override GRGEN_LIBGR.ITransientObject Clone() {\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this);\n");
 			routedSB.appendFront("}\n");
 		} else {
 			routedSB.appendFront("public override GRGEN_LIBGR.IObject Clone() {\n");
@@ -1773,7 +1799,7 @@ deque_init_loop:
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
 				be.system.emitProfilingInstrumentation());
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		for(EvalStatement evalStmt : fm.getStatements()) {
 			modifyGenState.functionOrProcedureName = fm.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -1859,8 +1885,8 @@ deque_init_loop:
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
 				be.system.emitProfilingInstrumentation());
-		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 
 		if(be.system.mayFireDebugEvents()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
@@ -1901,6 +1927,8 @@ deque_init_loop:
 			kindStr = "Node";
 		} else if(type instanceof EdgeType) {
 			kindStr = "Edge";
+		} else if(type instanceof InternalTransientObjectType) {
+			kindStr = "TransientObject";
 		} else {
 			kindStr = "Object";
 		}
@@ -2012,6 +2040,17 @@ deque_init_loop:
 			else
 				sb.appendFront("((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget"
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
+			sb.unindent();
+			sb.appendFront("}\n");
+		} else if(type instanceof InternalTransientObjectType) {
+			sb.appendFront("public override GRGEN_LIBGR.ITransientObject CreateTransientObject()\n");
+			sb.appendFront("{\n");
+			sb.indent();
+			if(type.isAbstract())
+				sb.appendFront("throw new Exception(\"The abstract transient object class type "
+						+ typeident + " cannot be instantiated!\");\n");
+			else
+				sb.appendFront("return new " + allocName + "();\n");
 			sb.unindent();
 			sb.appendFront("}\n");
 		} else {
@@ -2258,6 +2297,8 @@ deque_init_loop:
 			return "GRGEN_LIBGR.AttributeKind.GraphAttr";
 		else if(t instanceof InternalObjectType)
 			return "GRGEN_LIBGR.AttributeKind.InternalClassObjectAttr";
+		else if(t instanceof InternalTransientObjectType)
+			return "GRGEN_LIBGR.AttributeKind.InternalClassTransientObjectAttr";
 		else
 			throw new IllegalArgumentException("Unknown Type: " + t);
 	}
@@ -2443,6 +2484,8 @@ deque_init_loop:
 			kindName = "Node";
 		} else if(type instanceof EdgeType) {
 			kindName = "Edge";
+		} else if(type instanceof InternalTransientObjectType) {
+			kindName = "TransientObject";
 		} else {
 			kindName = "Object";
 		}
@@ -2456,6 +2499,11 @@ deque_init_loop:
 			sb.appendFront("public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons("
 					+ "GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, "
 					+ "GRGEN_LIBGR.IEdge oldIEdge)\n");
+			sb.appendFront("{\n");
+			sb.indent();
+		} else if(type instanceof InternalTransientObjectType) {
+			sb.appendFront("public override GRGEN_LIBGR.ITransientObject CreateTransientObjectWithCopyCommons("
+					+ "GRGEN_LIBGR.ITransientObject oldITransientObject)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 		} else {
@@ -2483,6 +2531,9 @@ deque_init_loop:
 				sb.appendFront("GRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;\n");
 				sb.appendFront(elemref + " newEdge = new " + allocName
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
+			} else if(type instanceof InternalTransientObjectType) {
+				sb.appendFront("GRGEN_LGSP.LGSPTransientClass oldTransientClass = (GRGEN_LGSP.LGSPTransientClass) oldITransientObject;\n");
+				sb.appendFront(elemref + " newTransientObject = new " + allocName + "();\n");
 			} else {
 				sb.appendFront("GRGEN_LGSP.LGSPClass oldClass = (GRGEN_LGSP.LGSPClass) oldIObject;\n");
 				sb.appendFront(elemref + " newObject = new " + allocName + "();\n");
@@ -2500,11 +2551,13 @@ deque_init_loop:
 			sb.appendFront("}\n");
 			sb.append("\n");
 		} else {
-			if(type instanceof NodeType)
+			if(type instanceof NodeType) {
 				sb.appendFront("return new " + allocName + "();\n");
-			else if(type instanceof EdgeType) {
+			} else if(type instanceof EdgeType) {
 				sb.appendFront("return new " + allocName
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
+			} else if(type instanceof InternalTransientObjectType) {
+				sb.appendFront("return new " + allocName + "();\n");
 			} else {
 				sb.appendFront("return new " + allocName + "();\n");
 			}
@@ -3361,6 +3414,7 @@ commonLoop:
 		sb.appendFront("private " + modelName + "NodeModel nodeModel = new " + modelName + "NodeModel();\n");
 		sb.appendFront("private " + modelName + "EdgeModel edgeModel = new " + modelName + "EdgeModel();\n");
 		sb.appendFront("private " + modelName + "ObjectModel objectModel = new " + modelName + "ObjectModel();\n");
+		sb.appendFront("private " + modelName + "TransientObjectModel transientObjectModel = new " + modelName + "TransientObjectModel();\n");
 
 		genPackages();
 		genEnumAttributeTypes();
@@ -3374,6 +3428,7 @@ commonLoop:
 		sb.appendFront("public override GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }\n");
 		sb.appendFront("public override GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }\n");
 		sb.appendFront("public override GRGEN_LIBGR.IObjectModel ObjectModel { get { return objectModel; } }\n");
+		sb.appendFront("public override GRGEN_LIBGR.ITransientObjectModel TransientObjectModel { get { return transientObjectModel; } }\n");
 
 		sb.appendFront("public override IEnumerable<string> Packages "
 				+ "{ get { return packages; } }\n");

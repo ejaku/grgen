@@ -1527,7 +1527,7 @@ namespace de.unika.ipd.grGen.lgsp
         private void EmitAttributeAssignInitialization(AssignmentTargetAttribute tgtAttr, String element, String attrType,
             String value, string sourceValueComputation, SourceBuilder source)
         {
-            source.AppendFrontFormat("GRGEN_LIBGR.IObject {0} = (GRGEN_LIBGR.IObject){1};\n",
+            source.AppendFrontFormat("GRGEN_LIBGR.IBaseObject {0} = (GRGEN_LIBGR.IBaseObject){1};\n",
                 element, seqHelper.GetVar(tgtAttr.DestVar));
             source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
         }
@@ -1616,7 +1616,7 @@ namespace de.unika.ipd.grGen.lgsp
         private void EmitAttributeAssignInitialization(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
             String value, String sourceValueComputation, SourceBuilder source)
         {
-            source.AppendFrontFormat("GRGEN_LIBGR.IObject {0} = (GRGEN_LIBGR.IObject){1};\n",
+            source.AppendFrontFormat("GRGEN_LIBGR.IBaseObject {0} = (GRGEN_LIBGR.IBaseObject){1};\n",
                 element, seqHelper.GetVar(tgtAttrIndexedVar.DestVar));
             source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
         }

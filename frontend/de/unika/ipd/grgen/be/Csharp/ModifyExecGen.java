@@ -37,9 +37,9 @@ public class ModifyExecGen extends CSharpBase
 
 	int xgrsID;
 
-	public ModifyExecGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
+	public ModifyExecGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix, String transientObjectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		be = backend;
 		model = be.unit.getActionsGraphModel();
 

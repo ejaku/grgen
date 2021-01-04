@@ -1697,7 +1697,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            CheckObjectTypeIsKnown(env, ConstructedType, ", constructor type/argument");
+            CheckBaseObjectTypeIsKnown(env, ConstructedType, ", constructor type/argument");
             if(AttributeInitializationList != null)
             {
                 foreach(KeyValuePair<String, SequenceExpression> attributeInitialization in AttributeInitializationList)
@@ -1717,7 +1717,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            IObject obj = procEnv.Graph.Model.ObjectModel.GetType(ConstructedType).CreateObject();
+            BaseObjectType objectType = procEnv.Graph.Model.ObjectModel.GetType(ConstructedType);
+            if(objectType == null)
+                objectType = procEnv.Graph.Model.TransientObjectModel.GetType(ConstructedType);
+            IBaseObject obj = objectType.CreateBaseObject();
             if(AttributeInitializationList != null)
             {
                 foreach(KeyValuePair<string, SequenceExpression> attributeInitialization in AttributeInitializationList)
@@ -6646,7 +6649,7 @@ namespace de.unika.ipd.grGen.libGr
 
             InheritanceType inheritanceType = TypesHelper.GetInheritanceType(Source.Type(env), env.Model);
             if(inheritanceType == null)
-                throw new SequenceParserException(Symbol, "node or edge or object type (class)", Source.Type(env));
+                throw new SequenceParserException(Symbol, "node or edge or object or transient object type (class)", Source.Type(env));
             AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
@@ -6672,8 +6675,10 @@ namespace de.unika.ipd.grGen.libGr
             object source = Source.Evaluate(procEnv);
             if(source is IGraphElement)
                 return Execute(procEnv, (IGraphElement)source, AttributeName);
-            else
+            else if(source is IObject)
                 return Execute(procEnv, (IObject)source, AttributeName);
+            else //if(source is ITransientObject)
+                return Execute(procEnv, (ITransientObject)source, AttributeName);
         }
 
         public static object Execute(IGraphProcessingEnvironment procEnv, IGraphElement elem, string attributeName)
@@ -6690,6 +6695,11 @@ namespace de.unika.ipd.grGen.libGr
             value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
                 elem, attributeName, value);
             return value;
+        }
+
+        public static object Execute(IGraphProcessingEnvironment procEnv, ITransientObject elem, string attributeName)
+        {
+            return elem.GetAttribute(attributeName);
         }
 
         public object ExecuteNoImplicitContainerCopy(IGraphProcessingEnvironment procEnv)
@@ -6883,8 +6893,10 @@ namespace de.unika.ipd.grGen.libGr
                     return SequenceExpressionMatchAccess.Execute(procEnv, (IMatch)source, AttributeOrElementName);
                 else if(source is IGraphElement)
                     return SequenceExpressionAttributeAccess.Execute(procEnv, (IGraphElement)source, AttributeOrElementName);
-                else
+                else if(source is IObject)
                     return SequenceExpressionAttributeAccess.Execute(procEnv, (IObject)source, AttributeOrElementName);
+                else //if(source is ITransientObject)
+                    return SequenceExpressionAttributeAccess.Execute(procEnv, (ITransientObject)source, AttributeOrElementName);
             }
         }
 
@@ -9620,9 +9632,10 @@ namespace de.unika.ipd.grGen.libGr
             if(!TypesHelper.IsSameOrSubtype(ObjectToBeCopied.Type(env), "graph", env.Model)
                 && !ObjectToBeCopied.Type(env).StartsWith("match<")
                 && (TypesHelper.ExtractSrc(ObjectToBeCopied.Type(env)) == null || TypesHelper.ExtractDst(ObjectToBeCopied.Type(env)) == null)
-                && env.Model.ObjectModel.GetType(ObjectToBeCopied.Type(env))==null)
+                && env.Model.ObjectModel.GetType(ObjectToBeCopied.Type(env))==null
+                && env.Model.TransientObjectModel.GetType(ObjectToBeCopied.Type(env)) == null)
             {
-                throw new SequenceParserException(Symbol, "graph type or match type or container type or object class type", ObjectToBeCopied.Type(env));
+                throw new SequenceParserException(Symbol, "graph type or match type or container type or object class type or transient object class type", ObjectToBeCopied.Type(env));
             }
         }
 
@@ -9640,6 +9653,8 @@ namespace de.unika.ipd.grGen.libGr
                 return ((IMatch)toBeCloned).Clone();
             else if(toBeCloned is IObject)
                 return ((IObject)toBeCloned).Clone();
+            else if(toBeCloned is ITransientObject)
+                return ((ITransientObject)toBeCloned).Clone();
             else
                 return ContainerHelper.Clone(toBeCloned);
         }

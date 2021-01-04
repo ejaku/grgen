@@ -35,6 +35,7 @@ import de.unika.ipd.grgen.ast.model.type.DirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
@@ -93,6 +94,7 @@ public abstract class ParserEnvironment extends Base
 	private final IdentNode undirectedEdgeRoot;
 
 	private final IdentNode internalObjectRoot;
+	private final IdentNode internalTransientObjectRoot;
 	
 	private final Sys system;
 
@@ -173,11 +175,16 @@ public abstract class ParserEnvironment extends Base
 		internalObjectRoot = predefineType("Object", internalObjectRootType);
 		InternalObjectTypeNode.internalObjectType = internalObjectRootType;
 
+		InternalTransientObjectTypeNode internalTransientObjectRootType = new InternalTransientObjectTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0);
+		internalTransientObjectRoot = predefineType("TransientObject", internalTransientObjectRootType);
+		InternalTransientObjectTypeNode.internalTransientObjectType = internalTransientObjectRootType;
+
 		stdModelChilds.addChild(nodeRoot);
 		stdModelChilds.addChild(arbitraryEdgeRoot);
 		stdModelChilds.addChild(directedEdgeRoot);
 		stdModelChilds.addChild(undirectedEdgeRoot);
 		stdModelChilds.addChild(internalObjectRoot);
+		stdModelChilds.addChild(internalTransientObjectRoot);
 
 		stdModelChilds.addChild(predefineType("byte", BasicTypeNode.byteType));
 		stdModelChilds.addChild(predefineType("short", BasicTypeNode.shortType));
@@ -372,6 +379,11 @@ public abstract class ParserEnvironment extends Base
 	public IdentNode getInternalObjectRoot()
 	{
 		return internalObjectRoot;
+	}
+
+	public IdentNode getInternalTransientObjectRoot()
+	{
+		return internalTransientObjectRoot;
 	}
 
 	public IntConstNode getOne()

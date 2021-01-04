@@ -68,9 +68,9 @@ public class ModifyGen extends CSharpBase
 	Model model;
 	SearchPlanBackend2 be;
 
-	public ModifyGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix)
+	public ModifyGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix, String internalObjectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, internalObjectTypePrefix);
 		be = backend;
 		model = be.unit.getActionsGraphModel();
 	}
@@ -444,8 +444,8 @@ public class ModifyGen extends CSharpBase
 		String prefix = (task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_CREATION ? "create_" : "")
 				+ pathPrefix + task.left.getNameOfGraph() + "_";
 
-		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
-		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 
 		// Emit function header
 		sb.append("\n");

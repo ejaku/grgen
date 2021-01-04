@@ -1,0 +1,50 @@
+enum enu
+{
+	Baz, Qux
+}
+
+transient class Nested
+{
+}
+
+transient class Foo
+{
+	i:int;
+	e:enu;
+	n:Nested;
+}
+
+transient class Bar1 extends Foo
+{
+	s:string;
+}
+
+transient class Bar2 extends Foo
+{
+	d:double;
+}
+
+transient class Diamond extends Bar1, Bar2
+{
+	function f(var i:int) : int
+	{
+		return(i + this.i);
+	}
+	
+	procedure set_i(var i:int)
+	{
+		this.i = i;
+		return;
+	}
+}
+
+transient class Container
+{
+	a:array<int>;
+}
+
+transient class Simple
+{
+	i:int;
+	j:int;
+}

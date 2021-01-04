@@ -1,0 +1,51 @@
+new graph "transientClass/array_lambda.grg"
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
+
+show var a
+
+exec (::o)=amap(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
+
+show var a
+
+exec (::o)=aremoveif(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
+
+show var a
+
+exec { ::o=::a.map<int>{s:Simple -> s.i} }
+
+show var o
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
+
+show var a
+
+exec { ::o=::a.removeIf{s:Simple -> s.i == 1} }
+
+show var o
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
+
+show var a
+
+exec cmap(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
+
+show var a
+
+exec cremoveif(::a)
+
+show var o
+
+quit

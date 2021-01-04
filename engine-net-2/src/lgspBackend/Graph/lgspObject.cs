@@ -42,6 +42,15 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// The BaseObjectType of the (base) object.
+        /// </summary>
+        BaseObjectType IBaseObject.Type
+        {
+            [DebuggerStepThrough]
+            get { return lgspType; }
+        }
+
+        /// <summary>
         /// The GrGenType of the attribute bearer.
         /// </summary>
         GrGenType IAttributeBearer.Type
@@ -93,6 +102,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <returns>A copy of this object.</returns>
         public abstract IObject Clone();
+
+        /// <summary>
+        /// Creates a copy of this (base) object.
+        /// All attributes will be transfered to the new object.
+        /// </summary>
+        /// <returns>A copy of this (base) object.</returns>
+        IBaseObject IBaseObject.Clone()
+        {
+            return Clone();
+        }
 
         /// <summary>
         /// Returns whether the attributes of this object and that object are equal.

@@ -16,6 +16,7 @@ import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
@@ -330,7 +331,8 @@ public abstract class TypeNode extends BaseNode
 	{
 		return this instanceof ContainerTypeNode
 				|| this instanceof MatchTypeNode
-				|| this instanceof InternalObjectTypeNode;
+				|| this instanceof InternalObjectTypeNode
+				|| this instanceof InternalTransientObjectTypeNode;
 	}
 
 	// returns type name (to be used in error reporting)

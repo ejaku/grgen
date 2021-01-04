@@ -40,6 +40,11 @@ namespace de.unika.ipd.grGen.libGr
         IObjectModel ObjectModel { get; }
 
         /// <summary>
+        /// The model of the objects (internal transient classes).
+        /// </summary>
+        ITransientObjectModel TransientObjectModel { get; }
+
+        /// <summary>
         /// Enumerates all packages declared in this model.
         /// </summary>
         IEnumerable<String> Packages { get; }

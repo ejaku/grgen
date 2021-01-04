@@ -31,6 +31,7 @@ import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+import de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.model.type.PackageType;
 import de.unika.ipd.grgen.ir.type.Type;
@@ -45,6 +46,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
 	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
 	private Set<InternalObjectType> objectTypes = new LinkedHashSet<InternalObjectType>();
+	private Set<InternalTransientObjectType> transientObjectTypes = new LinkedHashSet<InternalTransientObjectType>();
 	private Set<EnumType> enumTypes = new LinkedHashSet<EnumType>();
 	private Set<Index> indices = new LinkedHashSet<Index>();
 	private Set<ExternalObjectType> externalObjectTypes = new LinkedHashSet<ExternalObjectType>();
@@ -62,6 +64,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private Collection<NodeType> allNodeTypes;
 	private Collection<EdgeType> allEdgeTypes;
 	private Collection<InternalObjectType> allObjectTypes;
+	private Collection<InternalTransientObjectType> allTransientObjectTypes;
 	private Collection<InheritanceType> allGraphElementTypes;
 	private Collection<InheritanceType> allInheritanceTypes;
 
@@ -118,6 +121,8 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 			externalObjectTypes.add((ExternalObjectType)type);
 		else if(type instanceof InternalObjectType)
 			objectTypes.add((InternalObjectType)type);
+		else if(type instanceof InternalTransientObjectType)
+			transientObjectTypes.add((InternalTransientObjectType)type);
 		else if(!(type instanceof PrimitiveType))
 			assert false : "Unexpected type added to model: " + type;
 	}
@@ -241,6 +246,30 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		return allObjectTypes;
 	}
 
+	@Override
+	public Collection<InternalTransientObjectType> getTransientObjectTypes()
+	{
+		return Collections.unmodifiableCollection(transientObjectTypes);
+	}
+
+	public Collection<InternalTransientObjectType> getAllTransientObjectTypes()
+	{
+		if(allTransientObjectTypes == null) {
+			Collection<InternalTransientObjectType> allTransientObjectTypes = new ArrayList<InternalTransientObjectType>();
+			allTransientObjectTypes.addAll(getTransientObjectTypes());
+			for(PackageType pt : getPackages()) {
+				allTransientObjectTypes.addAll(pt.getTransientObjectTypes());
+			}
+			int typeID = 0;
+			for(InternalTransientObjectType ot : allTransientObjectTypes) {
+				ot.setInheritanceTypeID(typeID);
+				++typeID;
+			}
+			this.allTransientObjectTypes = Collections.unmodifiableCollection(allTransientObjectTypes);
+		}
+		return allTransientObjectTypes;
+	}
+
 	public Collection<InheritanceType> getAllInheritanceTypes()
 	{
 		if(allInheritanceTypes == null) {
@@ -248,6 +277,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 			allInheritanceTypes.addAll(getAllNodeTypes());
 			allInheritanceTypes.addAll(getAllEdgeTypes());
 			allInheritanceTypes.addAll(getAllObjectTypes());
+			allInheritanceTypes.addAll(getAllTransientObjectTypes());
 			this.allInheritanceTypes = Collections.unmodifiableCollection(allInheritanceTypes);
 		}
 		return allInheritanceTypes;

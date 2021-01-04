@@ -11,7 +11,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 
 /**
  * Class for initializing a single attribute of a type
@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 public class AttributeInitialization extends IR
 {
 	public InternalObjectInit init;
-	public InternalObjectType owner;
+	public BaseInternalObjectType owner;
 	public Entity attribute;
 	public Expression expr;
 

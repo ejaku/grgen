@@ -68,7 +68,11 @@ namespace de.unika.ipd.grGen.libGr
         GraphAttr,
 
         /// <summary>The attribute is an internal class object/attribute type (non-external, non-node/edge).</summary>
-        InternalClassObjectAttr
+        InternalClassObjectAttr,
+
+        /// <summary>The attribute is an internal class transient object/attribute type (non-external, non-node/edge).
+        /// Can only appear within transient object classes (not within node class, edge class, class).</summary>
+        InternalClassTransientObjectAttr
     }
 
     /// <summary>
@@ -209,6 +213,7 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.NodeAttr: return PackagePrefixedTypeName;
                 case AttributeKind.EdgeAttr: return PackagePrefixedTypeName;
                 case AttributeKind.InternalClassObjectAttr: return PackagePrefixedTypeName;
+                case AttributeKind.InternalClassTransientObjectAttr: return PackagePrefixedTypeName;
             }
             return GetKindName(Kind);
         }

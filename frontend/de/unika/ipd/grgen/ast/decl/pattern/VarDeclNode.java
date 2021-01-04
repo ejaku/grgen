@@ -165,7 +165,7 @@ public class VarDeclNode extends DeclNode
 				return false;
 			}
 			else if(type.isReferenceType() && !modifier.equals("ref")) {
-				reportError("ref keyword needed before a variable of reference type (container type, match type, object class type).");
+				reportError("ref keyword needed before a variable of reference type (container type, match type, object class type, transient object class type).");
 				return false;
 			}
 		}

@@ -16,22 +16,12 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode.Operator;
-import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
-import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
-import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
-import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
-import de.unika.ipd.grgen.ast.model.MemberInitNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
@@ -39,7 +29,7 @@ import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 /**
  * A class representing an (internal non-node/edge) object type (i.e. a class)
  */
-public class InternalObjectTypeNode extends InheritanceTypeNode
+public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 {
 	static {
 		setName(InternalObjectTypeNode.class, "internal object type");
@@ -57,12 +47,7 @@ public class InternalObjectTypeNode extends InheritanceTypeNode
 	 */
 	public InternalObjectTypeNode(CollectNode<IdentNode> ext, CollectNode<BaseNode> body, int modifiers)
 	{
-		this.extendUnresolved = ext;
-		becomeParent(this.extendUnresolved);
-		this.bodyUnresolved = body;
-		becomeParent(this.bodyUnresolved);
-		setModifiers(modifiers);
-		setExternalName(null);
+		super(ext, body, modifiers);
 	}
 
 	/** returns children of this node */
@@ -88,11 +73,6 @@ public class InternalObjectTypeNode extends InheritanceTypeNode
 	private static final CollectResolver<InternalObjectTypeNode> extendResolver =
 			new CollectResolver<InternalObjectTypeNode>(new DeclarationTypeResolver<InternalObjectTypeNode>(InternalObjectTypeNode.class));
 
-	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
-			new DeclarationResolver<BaseNode>(MemberDeclNode.class, MemberInitNode.class, ConstructorDeclNode.class,
-					MapInitNode.class, SetInitNode.class, ArrayInitNode.class, DequeInitNode.class,
-					FunctionDeclNode.class, ProcedureDeclNode.class));
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal()
@@ -101,7 +81,7 @@ public class InternalObjectTypeNode extends InheritanceTypeNode
 		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
 		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
 
-		body = bodyResolver.resolve(bodyUnresolved, this);
+		boolean bodyOk = super.resolveLocal();
 		extend = extendResolver.resolve(extendUnresolved, this);
 
 		// Initialize direct sub types
@@ -111,7 +91,7 @@ public class InternalObjectTypeNode extends InheritanceTypeNode
 			}
 		}
 
-		return body != null && extend != null;
+		return bodyOk && extend != null;
 	}
 
 	/**

@@ -130,12 +130,18 @@ namespace de.unika.ipd.grGen.libGr
                     elem, attributeOrElementName, value);
                 return value;
             }
-            else
+            else if(source is IObject)
             {
                 IObject elem = (IObject)source;
                 object value = elem.GetAttribute(attributeOrElementName);
                 value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
                     elem, attributeOrElementName, value);
+                return value;
+            }
+            else
+            {
+                ITransientObject elem = (ITransientObject)source;
+                object value = elem.GetAttribute(attributeOrElementName);
                 return value;
             }
         }
@@ -234,9 +240,15 @@ namespace de.unika.ipd.grGen.libGr
 
                 BaseGraph.ChangedAttribute(graph, elem, attrType);
             }
-            else
+            else if(target is IObject)
             {
                 IObject elem = (IObject)target;
+
+                elem.SetAttribute(attributeName, value);
+            }
+            else //if(target is ITransientObject)
+            {
+                ITransientObject elem = (ITransientObject)target;
 
                 elem.SetAttribute(attributeName, value);
             }
@@ -270,9 +282,31 @@ namespace de.unika.ipd.grGen.libGr
 
                 BaseGraph.ChangedAttribute(graph, elem, attrType);
             }
-            else
+            else if(target is IObject)
             {
                 IObject elem = (IObject)target;
+                object container = elem.GetAttribute(attributeName);
+                AttributeType attrType = elem.Type.GetAttributeType(attributeName);
+
+                if(container is IList)
+                {
+                    IList array = (IList)container;
+                    array[(int)key] = value;
+                }
+                else if(container is IDeque)
+                {
+                    IDeque deque = (IDeque)container;
+                    deque[(int)key] = value;
+                }
+                else
+                {
+                    IDictionary map = (IDictionary)container;
+                    map[key] = value;
+                }
+            }
+            else
+            {
+                ITransientObject elem = (ITransientObject)target;
                 object container = elem.GetAttribute(attributeName);
                 AttributeType attrType = elem.Type.GetAttributeType(attributeName);
 
@@ -359,6 +393,24 @@ namespace de.unika.ipd.grGen.libGr
         /// then return a clone of the given container value, otherwise just return the original value
         /// </summary>
         public static object IfAttributeOfElementIsContainerThenCloneContainer(
+                IAttributeBearer attributeBearer, String AttributeName, object value)
+        {
+            AttributeType attrType;
+            if(attributeBearer is IGraphElement)
+                return IfAttributeOfElementIsContainerThenCloneContainer(
+                    (IGraphElement)attributeBearer, AttributeName, value, out attrType);
+            else if(attributeBearer is IObject)
+                return IfAttributeOfElementIsContainerThenCloneContainer(
+                    (IObject)attributeBearer, AttributeName, value, out attrType);
+            else //if(attributeBearer is ITransientObject)
+                return value; 
+        }
+
+        /// <summary>
+        /// If the attribute of the given name of the given element is a conatiner attribute
+        /// then return a clone of the given container value, otherwise just return the original value
+        /// </summary>
+        public static object IfAttributeOfElementIsContainerThenCloneContainer(
                 IGraphElement element, String AttributeName, object value)
         {
             AttributeType attrType;
@@ -379,6 +431,13 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public static bool IsEqual(IObject this_, IObject that)
+        {
+            if(this_ == that)
+                return true;
+            return this_.AreAttributesEqual(that);
+        }
+
+        public static bool IsEqual(ITransientObject this_, ITransientObject that)
         {
             if(this_ == that)
                 return true;

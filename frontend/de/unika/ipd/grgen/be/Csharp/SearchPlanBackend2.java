@@ -87,6 +87,7 @@ public class SearchPlanBackend2 implements Backend, BackendFactory
 		String nodeTypePrefix = "";
 		String edgeTypePrefix = "";
 		String objectTypePrefix = "";
+		String transientObjectTypePrefix = "";
 modloop:
 		for(Model model : unit.getModels()) {
 			for(Type type : model.getTypes()) {
@@ -97,11 +98,12 @@ modloop:
 				if(reservedWords.contains(typeName)) {
 					BaseNode.error.warning(type.getIdent().getCoords(),
 							"The reserved name \"" + typeName
-									+ "\" has been used for a type. \"Node_\" and \"Edge_\" and \"Object_\""
+									+ "\" has been used for a type. \"Node_\" and \"Edge_\" and \"Object_\" and \"TransientObject_\""
 									+ " prefixes are applied to the C# element class names to avoid errors.");
 					nodeTypePrefix = "Node_";
 					edgeTypePrefix = "Edge_";
 					objectTypePrefix = "Object_";
+					transientObjectTypePrefix = "TransientObject_";
 					break modloop;
 				}
 			}
@@ -121,7 +123,7 @@ modloop:
 		}
 
 		// Generate graph models for all top level models
-		ModelGen modelGen = new ModelGen(this, nodeTypePrefix, edgeTypePrefix, objectTypePrefix);
+		ModelGen modelGen = new ModelGen(this, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		boolean modelGenerated = false;
 		for(Model model : unit.getModels()) {
 			if(forceUnique)
@@ -139,7 +141,7 @@ modloop:
 		modelGen = null; // throw away model generator (including filled output buffer) not needed any more -> reduce memory requirements
 
 		//if(unit.getActionRules().size() != 0 || unit.getSubpatternRules().size() != 0)
-		new ActionsGen(this, nodeTypePrefix, edgeTypePrefix, objectTypePrefix).genActionlike();
+		new ActionsGen(this, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix).genActionlike();
 
 		System.out.println("done!");
 	}

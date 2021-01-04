@@ -15,7 +15,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A representation of a GrGen object type, i.e. class of internal non-node/edge values.
     /// </summary>
-    public abstract class ObjectType : InheritanceType
+    public abstract class ObjectType : BaseObjectType
     {
         /// <summary>
         /// Constructs an ObjectType (non-graph-element internal class) instance with the given type ID.
@@ -31,11 +31,21 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public abstract String ObjectInterfaceName { get; }
 
+        public override String BaseObjectInterfaceName
+        {
+            get { return ObjectInterfaceName; }
+        }
+
         /// <summary>
         /// This ObjectType describes classes whose real .NET class type is named as returned (fully qualified).
         /// It might be null in case this type IsAbstract.
         /// </summary>
         public abstract String ObjectClassName { get; }
+
+        public override String BaseObjectClassName
+        {
+            get { return ObjectClassName; }
+        }
 
         /// <summary>
         /// Creates an object according to this type.
@@ -44,12 +54,32 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IObject CreateObject();
 
         /// <summary>
+        /// Creates an object according to this type.
+        /// </summary>
+        /// <returns>The created (base) object.</returns>
+        public override IBaseObject CreateBaseObject()
+        {
+            return CreateObject();
+        }
+
+        /// <summary>
         /// Creates an object according to this type and copies all
         /// common attributes from the given object.
         /// </summary>
         /// <param name="oldValue">The old value.</param>
         /// <returns>The created object.</returns>
         public abstract IObject CreateObjectWithCopyCommons(IObject oldValue);
+
+        /// <summary>
+        /// Creates an object according to this type and copies all
+        /// common attributes from the given (base) object.
+        /// </summary>
+        /// <param name="oldValue">The old value.</param>
+        /// <returns>The created object.</returns>
+        public override IBaseObject CreateBaseObjectWithCopyCommons(IBaseObject oldValue)
+        {
+            return CreateObjectWithCopyCommons((IObject)oldValue);
+        }
 
         /// <summary>
         /// Array containing this type first and following all sub types
@@ -107,16 +137,16 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Tells whether the given type is the same or a subtype of this type
         /// </summary>
-        public abstract bool IsMyType(int typeID);
+        public override abstract bool IsMyType(int typeID);
 
         /// <summary>
         /// Tells whether this type is the same or a subtype of the given type
         /// </summary>
-        public abstract bool IsA(int typeID);
+        public override abstract bool IsA(int typeID);
 
         /// <summary>
         /// The annotations of the class type
         /// </summary>
-        public abstract Annotations Annotations { get; }
+        public override abstract Annotations Annotations { get; }
     }
 }

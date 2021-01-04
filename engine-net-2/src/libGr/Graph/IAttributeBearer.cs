@@ -12,7 +12,7 @@ using System;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// An interface to IObject and IGraphElement types, both bearing attributes
+    /// An interface to IObject, ITransientObject and IGraphElement (thus INode and IEdge) types, all bearing attributes
     /// </summary>
     public interface IAttributeBearer
     {

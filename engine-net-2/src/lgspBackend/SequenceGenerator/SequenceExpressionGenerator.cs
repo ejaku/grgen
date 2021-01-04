@@ -744,6 +744,10 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 return "((GRGEN_LIBGR.IObject)(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Clone())";
             }
+            else if(env.Model.TransientObjectModel.GetType(seqCopy.ObjectToBeCopied.Type(env)) != null)
+            {
+                return "((GRGEN_LIBGR.ITransientObject)(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Clone())";
+            }
             else //if(seqCopy.ObjectToBeCopied.Type(env) == "")
                 return "GRGEN_LIBGR.TypesHelper.Clone(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ")";
         }
@@ -770,7 +774,7 @@ namespace de.unika.ipd.grGen.lgsp
             string match = "((" + matchInterfaceName + ")" + GetSequenceExpression(seqMA.Source, source) + ")";
             if(TypesHelper.GetNodeType(seqMA.Type(env), model) != null)
                 return match + ".node_" + seqMA.ElementName;
-            else if(TypesHelper.GetNodeType(seqMA.Type(env), model) != null)
+            else if(TypesHelper.GetEdgeType(seqMA.Type(env), model) != null)
                 return match + ".edge_" + seqMA.ElementName;
             else
                 return match + ".var_" + seqMA.ElementName;
@@ -778,9 +782,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionAttributeAccess(SequenceExpressionAttributeAccess seqAttr, SourceBuilder source)
         {
-            bool isObjectType = TypesHelper.GetObjectType(seqAttr.Source.Type(env), model) != null;
-            string elementType = isObjectType ? "GRGEN_LIBGR.IObject" : "GRGEN_LIBGR.IGraphElement";
-            string element = "((" + elementType + ")" + GetSequenceExpression(seqAttr.Source, source) + ")";
+            string element = "((GRGEN_LIBGR.IAttributeBearer)" + GetSequenceExpression(seqAttr.Source, source) + ")";
             string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
             string type = seqAttr.Type(env);
             if(type == ""
@@ -808,7 +810,12 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionNew(SequenceExpressionNew seqNew, SourceBuilder source)
         {
             if(seqNew.AttributeInitializationList == null)
-                return "procEnv.Graph.Model.ObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateObject()";
+            {
+                if(TypesHelper.GetObjectType(seqNew.ConstructedType, model) != null)
+                    return "procEnv.Graph.Model.ObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateObject()";
+                else //if(TypesHelper.GetTransientObjectType(seqNew.ConstructedType, model) != null)
+                    return "procEnv.Graph.Model.TransientObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateTransientObject()";
+            }
             else
             {
                 StringBuilder sb = new StringBuilder();

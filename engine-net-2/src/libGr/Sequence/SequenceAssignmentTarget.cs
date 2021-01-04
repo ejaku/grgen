@@ -336,7 +336,7 @@ namespace de.unika.ipd.grGen.libGr
 
             InheritanceType inheritanceType = TypesHelper.GetInheritanceType(DestVar.Type, env.Model);
             if(inheritanceType == null)
-                throw new SequenceParserException(Symbol, "node or edge or object type (class)", DestVar.Type);
+                throw new SequenceParserException(Symbol, "node or edge or object or transient object type (class)", DestVar.Type);
             AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
@@ -410,7 +410,7 @@ namespace de.unika.ipd.grGen.libGr
 
             InheritanceType inheritanceType = TypesHelper.GetInheritanceType(DestVar.Type, env.Model);
             if(inheritanceType == null)
-                throw new SequenceParserException(Symbol, "node or edge or object type (class)", DestVar.Type);
+                throw new SequenceParserException(Symbol, "node or edge or object or transient object type (class)", DestVar.Type);
             AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);

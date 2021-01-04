@@ -1,0 +1,14 @@
+#using "new.gm"
+
+rule r(ref b:Barfuss) : (Barfuss, Barfuss)
+{
+	if{ new Barfuss@(i=42,s="Hallo Welt",d=3.141592654) == b; }
+
+	modify {
+	---
+		def ref bf:Barfuss = new Barfuss@(i=42,s="Hallo Welt!",d=3.141592654);
+		def ref bf2:Barfuss;
+		exec( { yield bf2 = new Barfuss@(i=42,s="Hallo Welt",d=3.141592654) } );
+		return(bf, bf2);
+	}
+}

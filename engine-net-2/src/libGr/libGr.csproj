@@ -83,13 +83,17 @@
     <Compile Include="AttributeTypeEmitHelper.cs" />
     <Compile Include="DequeHelper.cs" />
     <Compile Include="DotNetTypesHelper.cs" />
+    <Compile Include="Graph\BaseObjectType.cs" />
     <Compile Include="Graph\IAttributeBearer.cs" />
+    <Compile Include="Graph\IBaseObject.cs" />
+    <Compile Include="Graph\ITransientObject.cs" />
     <Compile Include="Graph\ObjectType.cs" />
     <Compile Include="Graph\IObject.cs" />
     <Compile Include="Graph\InheritanceType.cs" />
     <Compile Include="Graph\EdgeType.cs" />
     <Compile Include="Graph\GraphElementType.cs" />
     <Compile Include="Graph\NodeType.cs" />
+    <Compile Include="Graph\TransientObjectType.cs" />
     <Compile Include="GrGenTypesHelper.cs" />
     <Compile Include="INamed.cs" />
     <Compile Include="MapHelper.cs" />

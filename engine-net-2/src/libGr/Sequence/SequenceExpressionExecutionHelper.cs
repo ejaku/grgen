@@ -392,6 +392,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.IsEqual((IObject)leftValue, (IObject)rightValue);
             }
+            else if(leftValue is ITransientObject)
+            {
+                return ContainerHelper.IsEqual((ITransientObject)leftValue, (ITransientObject)rightValue);
+            }
             else
             {
                 return Object.Equals(leftValue, rightValue);
@@ -768,6 +772,10 @@ namespace de.unika.ipd.grGen.libGr
             else if(leftValue is IObject)
             {
                 return !ContainerHelper.IsEqual((IObject)leftValue, (IObject)rightValue);
+            }
+            else if(leftValue is ITransientObject)
+            {
+                return !ContainerHelper.IsEqual((ITransientObject)leftValue, (ITransientObject)rightValue);
             }
             else
             {

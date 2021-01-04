@@ -201,10 +201,10 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected void CheckObjectTypeIsKnown(SequenceCheckingEnvironment env, String objectType, String whichArgument)
+        protected void CheckBaseObjectTypeIsKnown(SequenceCheckingEnvironment env, String baseObjectType, String whichArgument)
         {
-            if(TypesHelper.GetObjectType(objectType, env.Model) == null)
-                throw new SequenceParserException(Symbol + whichArgument, "object type", objectType);
+            if(TypesHelper.GetObjectType(baseObjectType, env.Model) == null && TypesHelper.GetTransientObjectType(baseObjectType, env.Model) == null)
+                throw new SequenceParserException(Symbol + whichArgument, "object type or transient object type", baseObjectType);
         }
 
         protected string GetTypeString(SequenceCheckingEnvironment env, SequenceExpression typeExpr)

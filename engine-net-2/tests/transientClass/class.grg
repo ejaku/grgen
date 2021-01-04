@@ -1,0 +1,83 @@
+#using "class.gm"
+
+function create() : Diamond
+{
+	return(new Diamond());
+}
+
+function f(ref d:Diamond, var i:int) : int
+{
+	return(i + d.i);
+}
+
+procedure set_i(ref d:Diamond, var i:int)
+{
+	d.i = i;
+	return;
+}
+
+rule r(ref d:Diamond) : (Diamond)
+{
+	n:Node;
+	if{ d.d != 42; }
+	
+	modify {
+		eval {
+			d.d = 42;
+		}
+		return(d);
+	}
+}
+
+sequence s(din:Diamond) : (dout:Diamond)
+{
+	{ dout = din; dout.i = dout.i + 1 }
+}
+
+rule r1
+{
+	modify {
+	---
+		exec({::d= new Diamond()});
+	}
+}
+
+rule r2
+{
+	modify {
+	---
+		exec((::res)=r(::d));
+	}
+}
+
+rule r3
+{
+	modify {
+	---
+		exec({ ::d=create(); set_i(::d, 21); ::rres = f(::d, 21) });
+	}
+}
+
+rule r4
+{
+	modify {
+	---
+		exec((::res)=s(::res));
+	}
+}
+
+rule r5
+{
+	modify {
+	---
+		exec({ ::res.s = "foo"; ::o=::res.s });
+	}
+}
+
+rule r6
+{
+	modify {
+	---
+		exec({ ::c=new Container(); ::c.a = array<int>[1,2,3]; ::oa=::c.a; ::o=::c.a[1]; ::c.a[1] = 4; ::oo=::c.a });
+	}
+}

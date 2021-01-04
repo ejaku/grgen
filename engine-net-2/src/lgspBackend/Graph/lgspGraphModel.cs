@@ -26,6 +26,7 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract INodeModel NodeModel { get; }
         public abstract IEdgeModel EdgeModel { get; }
         public abstract IObjectModel ObjectModel { get; }
+        public abstract ITransientObjectModel TransientObjectModel { get; }
         public abstract IEnumerable<String> Packages { get; }
         public abstract IEnumerable<EnumAttributeType> EnumAttributeTypes { get; }
         public abstract IEnumerable<ValidateInfo> ValidateInfo { get; }
