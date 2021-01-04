@@ -86,9 +86,7 @@
     <Compile Include="Graph\BaseObjectType.cs" />
     <Compile Include="Graph\IAttributeBearer.cs" />
     <Compile Include="Graph\IBaseObject.cs" />
-    <Compile Include="Graph\ITransientObject.cs" />
     <Compile Include="Graph\ObjectType.cs" />
-    <Compile Include="Graph\IObject.cs" />
     <Compile Include="Graph\InheritanceType.cs" />
     <Compile Include="Graph\EdgeType.cs" />
     <Compile Include="Graph\GraphElementType.cs" />
@@ -126,7 +124,7 @@
     <Compile Include="Graph\ConnectionAssertionsAndFailures.cs" />
     <Compile Include="Graph\EnumAttributeType.cs" />
     <Compile Include="Graph\ExternalObjectType.cs" />
-    <Compile Include="Graph\GraphElementModel.cs" />
+    <Compile Include="Graph\TypeModel.cs" />
     <Compile Include="Graph\GrGenType.cs" />
     <Compile Include="Graph\IGraphElement.cs" />
     <Compile Include="Graph\IGraphModel.cs" />

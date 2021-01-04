@@ -12,7 +12,7 @@ using System;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A GrGen base object (value of internal, non-node/edge class)
+    /// A GrGen base object (base for values of internal, non-node/edge classes)
     /// </summary>
     public interface IBaseObject : IAttributeBearer
     {
@@ -27,5 +27,41 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <returns>A copy of this object.</returns>
         IBaseObject Clone();
+    }
+
+    /// <summary>
+    /// A GrGen object (value of internal, non-node/edge class)
+    /// </summary>
+    public interface IObject : IBaseObject
+    {
+        /// <summary>
+        /// The ObjectType (class) of the object
+        /// </summary>
+        new ObjectType Type { get; }
+
+        /// <summary>
+        /// Creates a copy of this object.
+        /// All attributes will be transfered to the new object.
+        /// </summary>
+        /// <returns>A copy of this object.</returns>
+        new IObject Clone();
+    }
+
+    /// <summary>
+    /// A GrGen transient object (value of internal, non-node/edge class)
+    /// </summary>
+    public interface ITransientObject : IBaseObject
+    {
+        /// <summary>
+        /// The TransientObjectType (class) of the object
+        /// </summary>
+        new TransientObjectType Type { get; }
+
+        /// <summary>
+        /// Creates a copy of this transient object.
+        /// All attributes will be transferred to the new object.
+        /// </summary>
+        /// <returns>A copy of this object.</returns>
+        new ITransientObject Clone();
     }
 }

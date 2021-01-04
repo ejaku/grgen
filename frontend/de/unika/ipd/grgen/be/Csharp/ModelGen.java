@@ -3110,11 +3110,18 @@ commonLoop:
 			sb.appendFront("public bool IsNodeModel { get { return true; } }\n");
 		} else if(typeType == InheritanceTypeType.Edge) {
 			sb.appendFront("public bool IsNodeModel { get { return false; } }\n");
+		} else if(typeType == InheritanceTypeType.Object) {
+			sb.appendFront("public bool IsTransientModel { get { return false; } }\n");
+		} else {
+			sb.appendFront("public bool IsTransientModel { get { return true; } }\n");
 		}
 		sb.appendFront("public GRGEN_LIBGR." + kindStr + "Type RootType { get { return "
 				+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
 		if(typeType == InheritanceTypeType.Node || typeType == InheritanceTypeType.Edge) {
 			sb.appendFront("GRGEN_LIBGR.GraphElementType GRGEN_LIBGR.IGraphElementTypeModel.RootType { get { return "
+					+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
+		} else {
+			sb.appendFront("GRGEN_LIBGR.BaseObjectType GRGEN_LIBGR.IBaseObjectTypeModel.RootType { get { return "
 					+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
 		}
 		sb.appendFront("GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.RootType { get { return "
@@ -3141,6 +3148,11 @@ commonLoop:
 			sb.appendFront("{\n");
 			sb.appendFrontIndented("return GetType(name);\n");
 			sb.appendFront("}\n");
+		} else {
+			sb.appendFront("GRGEN_LIBGR.BaseObjectType GRGEN_LIBGR.IBaseObjectTypeModel.GetType(string name)\n");
+			sb.appendFront("{\n");
+			sb.appendFrontIndented("return GetType(name);\n");
+			sb.appendFront("}\n");
 		}
 
 		sb.appendFront("GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.GetType(string name)\n");
@@ -3159,6 +3171,9 @@ commonLoop:
 		sb.appendFront("public GRGEN_LIBGR." + kindStr + "Type[] Types { get { return types; } }\n");
 		if(typeType == InheritanceTypeType.Node || typeType == InheritanceTypeType.Edge) {
 			sb.appendFront("GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types "
+				+ "{ get { return types; } }\n");
+		} else {
+			sb.appendFront("GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types "
 				+ "{ get { return types; } }\n");
 		}
 		sb.appendFront("GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types "

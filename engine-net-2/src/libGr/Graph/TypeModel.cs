@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-// by Moritz Kroll
+// by Moritz Kroll, Edgar Jakumeit
 
 using System;
 using System.Collections.Generic;
@@ -112,9 +112,35 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// A type model for base objects (internal non graph-element values), i.e. classes.
+    /// </summary>
+    public interface IBaseObjectTypeModel : ITypeModel
+    {
+        /// <summary>
+        /// Specifies whether this type model is model for internal transient objects (= true) or for internal non-transient objects (= false).
+        /// </summary>
+        bool IsTransientModel { get; }
+
+        /// <summary>
+        /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
+        /// </summary>
+        new BaseObjectType RootType { get; }
+
+        /// <summary>
+        /// Returns the object type with the given type name or null, if no type with this name exists.
+        /// </summary>
+        new BaseObjectType GetType(String name);
+
+        /// <summary>
+        /// An array of all types in this type model.
+        /// </summary>
+        new BaseObjectType[] Types { get; }
+    }
+
+    /// <summary>
     /// A type model for objects (internal non graph-element values), i.e. classes.
     /// </summary>
-    public interface IObjectModel : ITypeModel
+    public interface IObjectModel : IBaseObjectTypeModel
     {
         /// <summary>
         /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
@@ -135,7 +161,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A type model for transient objects (internal non graph-element values), i.e. classes.
     /// </summary>
-    public interface ITransientObjectModel : ITypeModel
+    public interface ITransientObjectModel : IBaseObjectTypeModel
     {
         /// <summary>
         /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
