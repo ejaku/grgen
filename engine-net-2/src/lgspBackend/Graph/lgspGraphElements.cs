@@ -460,7 +460,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The GrGenType of the attribute bearer.
         /// </summary>
-        GrGenType IAttributeBearer.Type
+        InheritanceType IAttributeBearer.Type
         {
             [DebuggerStepThrough]
             get { return lgspType; }
@@ -799,9 +799,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// The GrGenType of the attribute bearer.
+        /// The InheritanceType of the attribute bearer.
         /// </summary>
-        GrGenType IAttributeBearer.Type
+        InheritanceType IAttributeBearer.Type
         {
             [DebuggerStepThrough]
             get { return lgspType; }

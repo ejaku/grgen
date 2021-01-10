@@ -189,7 +189,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return VirtualNodeType.Instance; }
         }
 
-        GrGenType IAttributeBearer.Type
+        InheritanceType IAttributeBearer.Type
         {
             get { return VirtualNodeType.Instance; }
         }

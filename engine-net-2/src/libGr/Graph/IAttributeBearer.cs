@@ -12,14 +12,14 @@ using System;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// An interface to IObject, ITransientObject and IGraphElement (thus INode and IEdge) types, all bearing attributes
+    /// An interface to IBaseObject (thus IObject, ITransientObject) and IGraphElement (thus INode and IEdge) types, all bearing attributes
     /// </summary>
     public interface IAttributeBearer
     {
         /// <summary>
-        /// The GrGenType of the graph element
+        /// The InheritanceType of the attribute bearer
         /// </summary>
-        GrGenType Type { get; }
+        InheritanceType Type { get; }
 
         /// <summary>
         /// Returns true, if the attribute bearer is compatible to the given type
