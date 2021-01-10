@@ -420,6 +420,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of Deque comparison.</returns>
         public static bool Equal<V>(Deque<V> a, Deque<V> b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return true;
+                else
+                    return false;
+            }
             if(a.Count != b.Count)
                 return false;
             if(LessOrEqual(a, b))
@@ -430,6 +437,13 @@ namespace de.unika.ipd.grGen.libGr
 
         public static bool EqualIDeque(IDeque a, IDeque b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return true;
+                else
+                    return false;
+            }
             if(a.Count != b.Count)
                 return false;
             if(LessOrEqualIDeque(a, b))
@@ -446,6 +460,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of Deque comparison.</returns>
         public static bool NotEqual<V>(Deque<V> a, Deque<V> b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return false;
+                else
+                    return true;
+            }
             if(a.Count != b.Count)
                 return true;
             if(LessOrEqual(a, b))
@@ -456,6 +477,13 @@ namespace de.unika.ipd.grGen.libGr
 
         public static bool NotEqualIDeque(IDeque a, IDeque b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return false;
+                else
+                    return true;
+            }
             if(a.Count != b.Count)
                 return true;
             if(LessOrEqualIDeque(a, b))

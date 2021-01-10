@@ -686,6 +686,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of set/map comparison.</returns>
         public static bool Equal<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return true;
+                else
+                    return false;
+            }
             if(a.Count != b.Count)
                 return false;
             if(LessOrEqual(a, b) && LessOrEqual(b, a))
@@ -703,6 +710,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of set/map comparison.</returns>
         public static bool EqualIDictionary(IDictionary a, IDictionary b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return true;
+                else
+                    return false;
+            }
             if(a.Count != b.Count)
                 return false;
             if(LessOrEqualIDictionary(a, b) && LessOrEqualIDictionary(b, a))
@@ -720,6 +734,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of set/map comparison.</returns>
         public static bool NotEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return false;
+                else
+                    return true;
+            }
             if(a.Count != b.Count)
                 return true;
             if(LessOrEqual(a, b) && LessOrEqual(b, a))
@@ -730,6 +751,13 @@ namespace de.unika.ipd.grGen.libGr
 
         public static bool NotEqualIDictionary(IDictionary a, IDictionary b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return false;
+                else
+                    return true;
+            }
             if(a.Count != b.Count)
                 return true;
             if(LessOrEqualIDictionary(a, b) && LessOrEqualIDictionary(b, a))

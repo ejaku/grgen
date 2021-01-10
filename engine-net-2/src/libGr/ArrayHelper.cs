@@ -1028,6 +1028,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of List comparison.</returns>
         public static bool Equal<V>(List<V> a, List<V> b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return true;
+                else
+                    return false;
+            }
             if(a.Count != b.Count)
                 return false;
             if(LessOrEqual(a, b))
@@ -1038,6 +1045,13 @@ namespace de.unika.ipd.grGen.libGr
 
         public static bool EqualIList(IList a, IList b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return true;
+                else
+                    return false;
+            }
             if(a.Count != b.Count)
                 return false;
             if(LessOrEqualIList(a, b))
@@ -1054,6 +1068,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of List comparison.</returns>
         public static bool NotEqual<V>(List<V> a, List<V> b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return false;
+                else
+                    return true;
+            }
             if(a.Count != b.Count)
                 return true;
             if(LessOrEqual(a, b))
@@ -1064,6 +1085,13 @@ namespace de.unika.ipd.grGen.libGr
 
         public static bool NotEqualIList(IList a, IList b)
         {
+            if(a == null || b == null)
+            {
+                if(a == null && b == null)
+                    return false;
+                else
+                    return true;
+            }
             if(a.Count != b.Count)
                 return true;
             if(LessOrEqualIList(a, b))
