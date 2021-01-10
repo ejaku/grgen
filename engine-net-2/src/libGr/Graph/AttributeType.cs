@@ -217,5 +217,10 @@ namespace de.unika.ipd.grGen.libGr
             }
             return GetKindName(Kind);
         }
+
+        public override String ToString()
+        {
+            return GetKindName() + " (for " + Name + ")";
+        }
     }
 }
