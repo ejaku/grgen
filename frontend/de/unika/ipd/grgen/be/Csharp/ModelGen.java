@@ -2252,6 +2252,16 @@ deque_init_loop:
 					+ ","
 					+ "\"" + getPackagePrefixDoubleColon(t) + formatIdentifiable(t) + "\","
 					+ "typeof(" + formatElementInterfaceRef(t) + ")");
+		} else if(t instanceof InternalObjectType || t instanceof InternalTransientObjectType) {
+			sb.append(getAttributeKind(t) + ", null, "
+					+ "null, null, "
+					+ "\"" + formatIdentifiable(t) + "\","
+					+ (((ContainedInPackage)t).getPackageContainedIn() != null
+							? "\"" + ((ContainedInPackage)t).getPackageContainedIn() + "\""
+							: "null")
+					+ ","
+					+ "\"" + getPackagePrefixDoubleColon(t) + formatIdentifiable(t) + "\","
+					+ "typeof(" + formatElementInterfaceRef(t) + ")");
 		} else {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ "null, null, "
@@ -3488,7 +3498,7 @@ commonLoop:
 	{
 		sb.append("\n");
 
-		sb.appendFront("public override IList ArrayOrderAscendingBy(IList array, string member)\n");
+		sb.appendFront("public override System.Collections.IList ArrayOrderAscendingBy(System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayOrderAscendingBy", true);
@@ -3497,7 +3507,7 @@ commonLoop:
 
 		sb.append("\n");
 
-		sb.appendFront("public override IList ArrayOrderDescendingBy(IList array, string member)\n");
+		sb.appendFront("public override System.Collections.IList ArrayOrderDescendingBy(System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayOrderDescendingBy", true);
@@ -3506,7 +3516,7 @@ commonLoop:
 
 		sb.append("\n");
 
-		sb.appendFront("public override IList ArrayGroupBy(IList array, string member)\n");
+		sb.appendFront("public override System.Collections.IList ArrayGroupBy(System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayGroupBy", false);
@@ -3515,7 +3525,7 @@ commonLoop:
 
 		sb.append("\n");
 
-		sb.appendFront("public override IList ArrayKeepOneForEach(IList array, string member)\n");
+		sb.appendFront("public override System.Collections.IList ArrayKeepOneForEach(System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayKeepOneForEachBy", false);
