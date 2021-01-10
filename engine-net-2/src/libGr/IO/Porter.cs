@@ -37,11 +37,11 @@ namespace de.unika.ipd.grGen.libGr
             if(first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase))
             {
                 FileStream filewriter = new FileStream(first, FileMode.OpenOrCreate,  FileAccess.Write);
-                writer = new StreamWriter(new GZipStream(filewriter, CompressionMode.Compress));
+                writer = new StreamWriter(new GZipStream(filewriter, CompressionMode.Compress), System.Text.Encoding.UTF8);
                 first = first.Substring(0, first.Length - 3);
             }
             else
-                writer = new StreamWriter(first);
+                writer = new StreamWriter(first, false, System.Text.Encoding.UTF8);
 
             using(writer)
             {
@@ -80,11 +80,11 @@ namespace de.unika.ipd.grGen.libGr
             if(first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase))
             {
                 FileStream filewriter = new FileStream(first, FileMode.OpenOrCreate, FileAccess.Write);
-                writer = new StreamWriter(new GZipStream(filewriter, CompressionMode.Compress));
+                writer = new StreamWriter(new GZipStream(filewriter, CompressionMode.Compress), System.Text.Encoding.UTF8);
                 first = first.Substring(0, first.Length - 3);
             }
             else
-                writer = new StreamWriter(first);
+                writer = new StreamWriter(first, false, System.Text.Encoding.UTF8);
 
             using(writer)
             {

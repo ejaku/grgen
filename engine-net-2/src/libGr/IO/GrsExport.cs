@@ -71,7 +71,7 @@ namespace de.unika.ipd.grGen.libGr
         readonly StreamWriter writer;
 
         protected GRSExport(String filename) 
-            : this(new StreamWriter(filename))
+            : this(new StreamWriter(filename, false, System.Text.Encoding.UTF8))
         {
         }
 
