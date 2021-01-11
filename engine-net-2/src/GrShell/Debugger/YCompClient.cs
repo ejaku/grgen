@@ -992,22 +992,22 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
-                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false);
                 attrValueString = Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.ArrayAttr)
             {
-                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false);
                 attrValueString = Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.DequeAttr)
             {
-                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false);
                 attrValueString = Encode(attrValueString);
             }
             else
             {
-                EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false);
                 attrValueString = Encode(attrValueString);
             }
         }

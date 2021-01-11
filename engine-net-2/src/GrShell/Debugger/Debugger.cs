@@ -656,13 +656,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
                     else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
                     else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
+                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -674,13 +674,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
                     else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
                     else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph);
+                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -1778,7 +1778,7 @@ namespace de.unika.ipd.grGen.grShell
             for(int i = 0; i < values.Length; ++i)
             {
                 Console.Write(" ");
-                Console.Write(EmitHelper.ToStringAutomatic(values[i], shellProcEnv.ProcEnv.NamedGraph));
+                Console.Write(EmitHelper.ToStringAutomatic(values[i], shellProcEnv.ProcEnv.NamedGraph, false));
             }
             Console.WriteLine();
 

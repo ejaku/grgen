@@ -11,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -40,11 +41,41 @@ namespace de.unika.ipd.grGen.libGr
 
         public string modelPathPrefix = null;
 
+        // potential todo: decide based on model
         public bool graphElementUsedInAttribute = false;
         public bool subgraphUsedInAttribute = false;
+        public bool internalClassObjectUsedInAttribute = false;
 
         public bool isExported = false;
         public bool areGraphAttributesExported = false; // needed due to Recorder
+
+        public int numInternalClassObjects = 0;
+
+        private Dictionary<String, IObject> persistentNameToObject = new Dictionary<string, IObject>();
+        private Dictionary<IObject, String> objectToPersistentName = new Dictionary<IObject, string>();
+        private int persistentNameSource = 0;
+        private string GetPersistentName()
+        {
+            return String.Format("%{0,00000000:X}", persistentNameSource++);
+        }
+
+        public bool HasPersistentName(IObject obj)
+        {
+            return objectToPersistentName.ContainsKey(obj);
+        }
+
+        public string GetOrAssignPersistentName(IObject obj)
+        {
+            if(objectToPersistentName.ContainsKey(obj))
+                return objectToPersistentName[obj];
+            else
+            {
+                String persistentName = GetPersistentName();
+                objectToPersistentName.Add(obj, persistentName);
+                persistentNameToObject.Add(persistentName, obj);
+                return persistentName;
+            }
+        }
     }
 
     public class MainGraphExportContext : GraphExportContext
@@ -240,9 +271,14 @@ restart:
                         subgraphAdded |= AddSubgraphAsNeeded(mainGraphContext, node, attrType);
                         continue;
                     }
+                    if(IsInternalClassObjectUsedInAttribute(attrType))
+                    {
+                        context.internalClassObjectUsedInAttribute = true;
+                        continue;
+                    }
 
                     object value = node.GetAttribute(attrType.Name);
-                    EmitAttributeInitialization(mainGraphContext, attrType, value, context.graph, sw);
+                    EmitAttributeInitialization(mainGraphContext, attrType, value, context.graph, sw, null);
                 }
                 sw.WriteLine(")");
                 ++numNodes;
@@ -276,12 +312,17 @@ restart:
                             subgraphAdded |= AddSubgraphAsNeeded(mainGraphContext, edge, attrType);
                             continue;
                         }
+                        if(IsInternalClassObjectUsedInAttribute(attrType))
+                        {
+                            context.internalClassObjectUsedInAttribute = true;
+                            continue;
+                        }
 
                         object value = edge.GetAttribute(attrType.Name);
                         // TODO: Add support for null values, as the default initializers could assign non-null values!
                         if(value != null)
                         {
-                            EmitAttributeInitialization(mainGraphContext, attrType, value, context.graph, sw);
+                            EmitAttributeInitialization(mainGraphContext, attrType, value, context.graph, sw, null);
                         }
                     }
                     sw.WriteLine(") -> @(\"{0}\")", context.graph.GetElementName(edge.Target));
@@ -307,10 +348,12 @@ restart:
                             continue;
                         if(IsGraphUsedInAttribute(attrType))
                             continue;
+                        if(IsInternalClassObjectUsedInAttribute(attrType))
+                            continue;
 
                         object value = node.GetAttribute(attrType.Name);
                         sw.Write("@(\"{0}\").{1} = ", context.graph.GetElementName(node), attrType.Name);
-                        EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
+                        EmitAttribute(mainGraphContext, attrType, value, context.graph, sw, null);
                         sw.Write("\n");
                     }
 
@@ -324,15 +367,46 @@ restart:
                                 continue;
                             if(IsGraphUsedInAttribute(attrType))
                                 continue;
+                            if(IsInternalClassObjectUsedInAttribute(attrType))
+                                continue;
 
                             object value = edge.GetAttribute(attrType.Name);
                             sw.Write("@(\"{0}\").{1} = ", context.graph.GetElementName(edge), attrType.Name);
-                            EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
+                            EmitAttribute(mainGraphContext, attrType, value, context.graph, sw, null);
                             sw.Write("\n");
                         }
                     }
                 }
             }
+
+            // emit internal class objects
+            foreach(INode node in context.graph.Nodes)
+            {
+                foreach(AttributeType attrType in node.Type.AttributeTypes)
+                {
+                    if(!IsInternalClassObjectUsedInAttribute(attrType))
+                        continue;
+
+                    object value = node.GetAttribute(attrType.Name);
+                    EmitAttributeInitialization(mainGraphContext, node, attrType, value, context.graph, sw);
+                }
+            }
+            foreach(IEdge edge in context.graph.Edges)
+            {
+                foreach(AttributeType attrType in edge.Type.AttributeTypes)
+                {
+                    if(!IsInternalClassObjectUsedInAttribute(attrType))
+                        continue;
+
+                    object value = edge.GetAttribute(attrType.Name);
+                    EmitAttributeInitialization(mainGraphContext, edge, attrType, value, context.graph, sw);
+                }
+            }
+            if(context.modelPathPrefix != null)
+                sw.WriteLine("# total number of internal class objects: {0}", context.numInternalClassObjects);
+            else
+                sw.WriteLine("# total number of internal class objects in subgraph {0}: {1}", context.name, context.numInternalClassObjects);
+            sw.WriteLine();
 
             if(!context.subgraphUsedInAttribute)
                 context.areGraphAttributesExported = true;
@@ -438,7 +512,7 @@ restart:
 
                     object value = node.GetAttribute(attrType.Name);
                     sw.Write("@(\"{0}\").{1} = ", context.graph.GetElementName(node), attrType.Name);
-                    EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
+                    EmitAttribute(mainGraphContext, attrType, value, context.graph, sw, null);
                     sw.Write("\n");
                 }
 
@@ -453,7 +527,7 @@ restart:
 
                         object value = edge.GetAttribute(attrType.Name);
                         sw.Write("@(\"{0}\").{1} = ", context.graph.GetElementName(edge), attrType.Name);
-                        EmitAttribute(mainGraphContext, attrType, value, context.graph, sw);
+                        EmitAttribute(mainGraphContext, attrType, value, context.graph, sw, null);
                         sw.Write("\n");
                     }
                 }
@@ -467,10 +541,84 @@ restart:
         /// for an attribute of the given type with the given value into the stream writer.
         /// </summary>
         private static void EmitAttributeInitialization(MainGraphExportContext mainGraphContext,
-            AttributeType attrType, object value, INamedGraph graph, StreamWriter sw)
+            AttributeType attrType, object value, INamedGraph graph, StreamWriter sw, StringBuilder deferredInits)
         {
             sw.Write(", {0} = ", attrType.Name);
-            EmitAttribute(mainGraphContext, attrType, value, graph, sw);
+            EmitAttribute(mainGraphContext, attrType, value, graph, sw, deferredInits);
+        }
+
+        /// <summary>
+        /// Emits the node/edge/internal class object attribute initialization code in graph exporting
+        /// for an attribute of internal class object type with the given value into the stream writer.
+        /// </summary>
+        private static void EmitAttributeInitialization(MainGraphExportContext mainGraphContext, IAttributeBearer owner,
+            AttributeType attrType, object value, INamedGraph graph, StreamWriter sw)
+        {
+            if(owner is IGraphElement)
+            {
+                String persistentName = graph.GetElementName((IGraphElement)owner);
+                sw.Write("@(\"{0}\").{1} = ", persistentName, attrType.Name);
+            }
+            else
+            {
+                String persistentName = mainGraphContext.GetOrAssignPersistentName((IObject)owner);
+                sw.Write("@@(\"{0}\").{1} = ", persistentName, attrType.Name);
+            }
+
+            StringBuilder deferredInits = new StringBuilder();
+            if(value == null)
+                sw.Write("null");
+            else if(value is IObject)
+            {
+                IObject obj = (IObject)value;
+                EmitObjectFetchingOrCreation(mainGraphContext, obj.Type, obj, graph, sw, deferredInits);
+            }
+            else // container
+                EmitAttribute(mainGraphContext, attrType, value, graph, sw, deferredInits);
+            sw.WriteLine();
+            sw.Write(deferredInits);
+        }
+
+        private static void EmitObjectFetchingOrCreation(MainGraphExportContext mainGraphContext,
+            ObjectType objType, IObject obj, INamedGraph graph, StreamWriter sw, StringBuilder deferredInits)
+        {
+            if(mainGraphContext.HasPersistentName(obj))
+                sw.Write("@@(\"{0}\")", mainGraphContext.GetOrAssignPersistentName(obj));
+            else
+                EmitObjectCreation(mainGraphContext, objType, obj, graph, sw, deferredInits);
+        }
+
+        private static void EmitObjectCreation(MainGraphExportContext mainGraphContext,
+            ObjectType objType, IObject obj, INamedGraph graph, StreamWriter sw, StringBuilder deferredInits)
+        {
+            sw.Write("new {0}(% = \"{1}\"", objType.PackagePrefixedName, mainGraphContext.GetOrAssignPersistentName(obj));
+            foreach(AttributeType attrType in objType.AttributeTypes)
+            {
+                if(IsInternalClassObjectUsedInAttribute(attrType))
+                    continue;
+
+                sw.Write(", {0} = ", attrType.Name);
+                EmitAttribute(mainGraphContext, attrType, obj.GetAttribute(attrType.Name), graph, sw, deferredInits);
+            }
+            sw.Write(")");
+            ++mainGraphContext.numInternalClassObjects;
+
+            foreach(AttributeType attrType in objType.AttributeTypes)
+            {
+                if(!IsInternalClassObjectUsedInAttribute(attrType))
+                    continue;
+
+                object value = obj.GetAttribute(attrType.Name);
+                MemoryStream memStream = new MemoryStream();
+                StreamWriter deferredSw = new StreamWriter(memStream);
+                    EmitAttributeInitialization(mainGraphContext, obj, attrType, value, graph, deferredSw);
+                deferredSw.Flush();
+                memStream.Seek(0, SeekOrigin.Begin);
+                byte[] buffer = new byte[memStream.Length];
+                int read = memStream.Read(buffer, 0, (int)memStream.Length);
+                String deferred = System.Text.Encoding.UTF8.GetString(buffer);
+                deferredInits.Append(deferred);
+            }
         }
 
         /// <summary>
@@ -479,42 +627,48 @@ restart:
         /// Main graph context is needed to get access to the graph -> env dictionary.
         /// </summary>
         public static void EmitAttribute(MainGraphExportContext mainGraphContext,
-            AttributeType attrType, object value, INamedGraph graph, StreamWriter sw)
+            AttributeType attrType, object value, INamedGraph graph, StreamWriter sw, StringBuilder deferredInits)
         {
             if(attrType.Kind==AttributeKind.SetAttr)
             {
-                IDictionary set=(IDictionary)value;
+                IDictionary set = (IDictionary)value;
                 sw.Write("{0}{{", attrType.GetKindName());
                 bool first = true;
                 foreach(DictionaryEntry entry in set)
                 {
                     if(first)
                     {
-                        sw.Write(ToString(mainGraphContext, entry.Key, attrType.ValueType, graph));
+                        EmitAttributeValue(mainGraphContext, entry.Key, attrType.ValueType, graph, sw, deferredInits);
                         first = false;
                     }
                     else
-                        sw.Write("," + ToString(mainGraphContext, entry.Key, attrType.ValueType, graph));
+                    {
+                        sw.Write(",");
+                        EmitAttributeValue(mainGraphContext, entry.Key, attrType.ValueType, graph, sw, deferredInits);
+                    }
                 }
                 sw.Write("}");
             }
             else if(attrType.Kind==AttributeKind.MapAttr)
             {
-                IDictionary map=(IDictionary)value;
+                IDictionary map = (IDictionary)value;
                 sw.Write("{0}{{", attrType.GetKindName());
                 bool first = true;
                 foreach(DictionaryEntry entry in map)
                 {
                     if(first)
                     {
-                        sw.Write(ToString(mainGraphContext, entry.Key, attrType.KeyType, graph)
-                            + "->" + ToString(mainGraphContext, entry.Value, attrType.ValueType, graph));
+                        EmitAttributeValue(mainGraphContext, entry.Key, attrType.KeyType, graph, sw, deferredInits);
+                        sw.Write("->");
+                        EmitAttributeValue(mainGraphContext, entry.Value, attrType.ValueType, graph, sw, deferredInits);
                         first = false;
                     }
                     else
                     {
-                        sw.Write("," + ToString(mainGraphContext, entry.Key, attrType.KeyType, graph)
-                            + "->" + ToString(mainGraphContext, entry.Value, attrType.ValueType, graph));
+                        sw.Write(",");
+                        EmitAttributeValue(mainGraphContext, entry.Key, attrType.KeyType, graph, sw, deferredInits);
+                        sw.Write("->");
+                        EmitAttributeValue(mainGraphContext, entry.Value, attrType.ValueType, graph, sw, deferredInits);
                     }
                 }
                 sw.Write("}");
@@ -528,11 +682,14 @@ restart:
                 {
                     if(first)
                     {
-                        sw.Write(ToString(mainGraphContext, entry, attrType.ValueType, graph));
+                        EmitAttributeValue(mainGraphContext, entry, attrType.ValueType, graph, sw, deferredInits);
                         first = false;
                     }
                     else
-                        sw.Write("," + ToString(mainGraphContext, entry, attrType.ValueType, graph));
+                    {
+                        sw.Write(",");
+                        EmitAttributeValue(mainGraphContext, entry, attrType.ValueType, graph, sw, deferredInits);
+                    }
                 }
                 sw.Write("]");
             }
@@ -545,16 +702,19 @@ restart:
                 {
                     if(first)
                     {
-                        sw.Write(ToString(mainGraphContext, entry, attrType.ValueType, graph));
+                        EmitAttributeValue(mainGraphContext, entry, attrType.ValueType, graph, sw, deferredInits);
                         first = false;
                     }
                     else
-                        sw.Write("," + ToString(mainGraphContext, entry, attrType.ValueType, graph));
+                    {
+                        sw.Write(",");
+                        EmitAttributeValue(mainGraphContext, entry, attrType.ValueType, graph, sw, deferredInits);
+                    }
                 }
                 sw.Write("]");
             }
             else
-                sw.Write("{0}", ToString(mainGraphContext, value, attrType, graph));
+                EmitAttributeValue(mainGraphContext, value, attrType, graph, sw, deferredInits);
         }
 
         /// <summary>
@@ -562,43 +722,66 @@ restart:
         /// Graph needed for node/edge, otherwise null ok.
         /// Main graph context needed to get access to the graph -> env dictionary for subgraph.
         /// </summary>
-        public static String ToString(MainGraphExportContext mainGraphContext,
-            object value, AttributeType type, INamedGraph graph)
+        public static void EmitAttributeValue(MainGraphExportContext mainGraphContext,
+            object value, AttributeType type, INamedGraph graph, StreamWriter sw, StringBuilder deferredInits)
         {
             switch(type.Kind)
             {
             case AttributeKind.ByteAttr:
-                return ((sbyte)value).ToString()+"Y";
+                sw.Write(((sbyte)value).ToString()+"Y");
+                return;
             case AttributeKind.ShortAttr:
-                return ((short)value).ToString()+"S";
+                sw.Write(((short)value).ToString()+"S");
+                return;
             case AttributeKind.IntegerAttr:
-                return ((int)value).ToString();
+                sw.Write(((int)value).ToString());
+                return;
             case AttributeKind.LongAttr:
-                return ((long)value).ToString()+"L";
+                sw.Write(((long)value).ToString()+"L");
+                return;
             case AttributeKind.BooleanAttr:
-                return ((bool)value).ToString();
+                sw.Write(((bool)value).ToString());
+                return;
             case AttributeKind.StringAttr:
-                if(value == null) return "\"\"";
-                else return "\"" + ((string)value).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
+                if(value == null)
+                    sw.Write("\"\"");
+                else
+                    sw.Write("\"" + ((string)value).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"");
+                return;
             case AttributeKind.FloatAttr:
-                return ((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture)+"f";
+                sw.Write(((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture)+"f");
+                return;
             case AttributeKind.DoubleAttr:
-                return ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                sw.Write(((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture));
+                return;
             case AttributeKind.ObjectAttr:
-                return graph.Model.Serialize(value, type, graph);
+                sw.Write(graph.Model.Serialize(value, type, graph));
+                return;
             case AttributeKind.GraphAttr:
                 if(value != null && mainGraphContext != null && mainGraphContext.graphToContext != null)
-                    return "\"" + mainGraphContext.graphToContext[(INamedGraph)value].name + "\"";
+                    sw.Write("\"" + mainGraphContext.graphToContext[(INamedGraph)value].name + "\"");
                 else
-                    return "null";
+                    sw.Write("null");
+                return;
             case AttributeKind.EnumAttr:
-                return type.EnumType.PackagePrefixedName + "::" + type.EnumType[(int)value].Name;
+                sw.Write(type.EnumType.PackagePrefixedName + "::" + type.EnumType[(int)value].Name);
+                return;
             case AttributeKind.NodeAttr:
             case AttributeKind.EdgeAttr:
                 if(value != null)
-                    return "@(\"" + graph.GetElementName((IGraphElement)value) + "\")";
+                    sw.Write("@(\"" + graph.GetElementName((IGraphElement)value) + "\")");
                 else
-                    return "null";
+                    sw.Write("null");
+                return;
+            case AttributeKind.InternalClassObjectAttr:
+                if(value != null)
+                {
+                    IObject obj = (IObject)value;
+                    EmitObjectFetchingOrCreation(mainGraphContext, obj.Type, obj, graph, sw, deferredInits);
+                }
+                else
+                    sw.Write("null");
+                return;
             default:
                 throw new Exception("Unsupported attribute kind in export");
             }
@@ -631,6 +814,11 @@ restart:
                 if(attrType.ValueType.Kind == AttributeKind.NodeAttr
                     || attrType.ValueType.Kind == AttributeKind.EdgeAttr)
                 {
+                    if(attrType.Kind == AttributeKind.MapAttr
+                        && attrType.KeyType.Kind == AttributeKind.InternalClassObjectAttr)
+                    {
+                        return false; // internal class has priority, is handled in a following step of the calling algorithm
+                    }
                     return true;
                 }
             }
@@ -639,6 +827,8 @@ restart:
                 if(attrType.KeyType.Kind == AttributeKind.NodeAttr
                     || attrType.KeyType.Kind == AttributeKind.EdgeAttr)
                 {
+                    if(attrType.ValueType.Kind == AttributeKind.InternalClassObjectAttr)
+                        return false; // internal class has priority, is handled in a following step of the calling algorithm
                     return true;
                 }
             }
@@ -661,6 +851,26 @@ restart:
             if(attrType.Kind == AttributeKind.MapAttr)
             {
                 if(attrType.KeyType.Kind == AttributeKind.GraphAttr)
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool IsInternalClassObjectUsedInAttribute(AttributeType attrType)
+        {
+            if(attrType.Kind == AttributeKind.InternalClassObjectAttr)
+                return true;
+            if(attrType.Kind == AttributeKind.SetAttr
+                || attrType.Kind == AttributeKind.MapAttr
+                || attrType.Kind == AttributeKind.ArrayAttr
+                || attrType.Kind == AttributeKind.DequeAttr)
+            {
+                if(attrType.ValueType.Kind == AttributeKind.InternalClassObjectAttr)
+                    return true;
+            }
+            if(attrType.Kind == AttributeKind.MapAttr)
+            {
+                if(attrType.KeyType.Kind == AttributeKind.InternalClassObjectAttr)
                     return true;
             }
             return false;

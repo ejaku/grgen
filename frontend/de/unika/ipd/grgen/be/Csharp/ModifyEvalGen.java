@@ -2787,7 +2787,7 @@ public class ModifyEvalGen extends CSharpBase
 			sb.append(";\n");
 			sb.appendFront("if(" + emitVar + " != null)\n");
 			sb.appendFrontIndented("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv)." + emitWriter + ".Write("
-					+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
+					+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph, false));\n");
 		}
 	}
 
@@ -2887,7 +2887,7 @@ public class ModifyEvalGen extends CSharpBase
 		sb.append(";\n");
 		sb.appendFront("if(" + recordVar + " != null)\n");
 		sb.appendFrontIndented("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
-				+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + recordVar + ", graph));\n");
+				+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + recordVar + ", graph, false));\n");
 	}
 
 	private void genExportProc(SourceBuilder sb, ModifyGenerationStateConst state, ExportProc ep)
@@ -3215,12 +3215,17 @@ public class ModifyEvalGen extends CSharpBase
 			kindStr = "Edge";
 			isDeletedElem = state.delEdges().contains(element);
 		} else if(element instanceof Variable) {
-			if(((Variable)element).getType() instanceof NodeType)
+			Variable var = (Variable)element;
+			if(var.getType() instanceof NodeType)
 				kindStr = "Node";
-			else
+			else if(var.getType() instanceof EdgeType)
 				kindStr = "Edge";
+			else if(var.getType() instanceof InternalObjectType)
+				return;
+			else
+				assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
 		} else
-			assert false : "Entity is neither a node nor an edge (" + element + ")!";
+			assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
 
 		if(!isDeletedElem && be.system.mayFireEvents()) {
 			if(!Expression.isGlobalVariable(element)) {
@@ -3256,13 +3261,18 @@ public class ModifyEvalGen extends CSharpBase
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
 			isDeletedElem = state.delEdges().contains(element);
-		} else if(element instanceof Variable && ((Variable)element).getType() instanceof NodeType) {
-			if(((Variable)element).getType() instanceof NodeType)
+		} else if(element instanceof Variable) {
+			Variable var = (Variable)element;
+			if(var.getType() instanceof NodeType)
 				kindStr = "Node";
-			else if(element instanceof Variable && ((Variable)element).getType() instanceof EdgeType)
+			else if(var.getType() instanceof EdgeType)
 				kindStr = "Edge";
+			else if(var.getType() instanceof InternalObjectType)
+				return;
+			else
+				assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
 		} else
-			assert false : "Entity is neither a node nor an edge (" + element + ")!";
+			assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
 
 		if(!isDeletedElem && be.system.mayFireDebugEvents()) {
 			if(!Expression.isGlobalVariable(element)) {

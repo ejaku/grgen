@@ -1,0 +1,241 @@
+using porterclassobject;
+
+rule createGroup
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			n.g = new Group@(a=42, b=3.141592654, c="Weltherrschaft!");
+			n.l = null;
+			n.b = null;
+			n.gra = null;
+
+			e.g = new Group@(a=42, b=3.141592654, c="Weltherrschaft!");
+			e.l = null;
+			e.b = null;
+			e.gra = null;
+		}
+	}
+}
+
+test checkGroup
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.g != null &&
+		n.g.a == 42 &&
+		n.g.b == 3.141592654 &&
+		n.g.c == "Weltherrschaft!" &&
+		n.l == null &&
+		n.b == null &&
+		n.gra == null &&
+
+		e.g != null &&
+		e.g.a == 42 &&
+		e.g.b == 3.141592654 &&
+		e.g.c == "Weltherrschaft!" &&
+		e.l == null &&
+		e.b == null &&
+		e.gra == null;
+	}
+}
+
+rule createList
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			n.g = null;
+			n.l = new List@(value = 1, next = new List@(value = 2, next = new List@(value = 3, next = null)));
+			n.b = null;
+			n.gra = null;
+
+			e.g = null;
+			e.l = new List@(value = 1, next = new List@(value = 2, next = new List@(value = 3, next = null)));
+			e.b = null;
+			e.gra = null;
+		}
+	}
+}
+
+test checkList
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.g == null &&
+		n.l != null &&
+		n.l.value == 1 &&
+		n.l.next != null &&
+		n.l.next.value == 2 &&
+		n.l.next.next != null &&
+		n.l.next.next.value == 3 &&
+		n.l.next.next.next == null &&
+		n.b == null &&
+		n.gra == null &&
+
+		e.g == null &&
+		e.l != null &&
+		e.l.value == 1 &&
+		e.l.next != null &&
+		e.l.next.value == 2 &&
+		e.l.next.next != null &&
+		e.l.next.next.value == 3 &&
+		e.l.next.next.next == null &&
+		e.b == null &&
+		e.gra == null;
+	}
+}
+
+rule createTree
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			n.g = null;
+			n.l = null;
+			n.b = new Tree@(value = 1, left = new Tree@(value = 2, left = new Tree@(value = 3)), right = new Tree@(value = 4, right = new Tree@(value = 5)));
+			n.gra = null;
+
+			e.g = null;
+			e.l = null;
+			e.b = new Tree@(value = 1, left = new Tree@(value = 2, left = new Tree@(value = 3)), right = new Tree@(value = 4, right = new Tree@(value = 5)));
+			e.gra = null;
+		}
+	}
+}
+
+test checkTree
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.g == null &&
+		n.l == null &&
+		n.b.value == 1 &&
+		n.b.left.value == 2 &&
+		n.b.left.left.value == 3 &&
+		n.b.right.value == 4 &&
+		n.b.right.right.value == 5 &&
+		n.gra == null &&
+
+		e.g == null &&
+		e.l == null &&
+		e.b.value == 1 &&
+		e.b.left.value == 2 &&
+		e.b.left.left.value == 3 &&
+		e.b.right.value == 4 &&
+		e.b.right.right.value == 5 &&
+		e.gra == null;
+	}
+}
+
+rule createDAG
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			def ref final:Graph = new Graph@(value = 5);
+			
+			n.g = null;
+			n.l = null;
+			n.b = null;
+			n.gra = new Graph@(value = 1, children = array<Graph>[new Graph@(value = 2, children = array<Graph>[final]), new Graph@(value = 3), new Graph@(value = 4, children = array<Graph>[final])]);
+
+			e.g = null;
+			e.l = null;
+			e.b = null;	
+			e.gra = new Graph@(value = 1, children = array<Graph>[new Graph@(value = 2, children = array<Graph>[final]), new Graph@(value = 3), new Graph@(value = 4, children = array<Graph>[final])]);
+		}
+	}
+}
+
+test checkDAG
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.g == null &&
+		n.l == null &&
+		n.b == null &&
+		n.gra != null &&
+		n.gra.value == 1 &&
+		n.gra.children.size() == 3 &&
+		n.gra.children[0].value == 2 &&
+		n.gra.children[0].children.size() == 1 &&
+		n.gra.children[0].children[0].value == 5 &&
+		n.gra.children[1].value == 3 &&
+		n.gra.children[1].children.empty() &&
+		n.gra.children[2].value == 4 &&
+		n.gra.children[2].children.size() == 1 &&
+		n.gra.children[2].children[0].value == 5 &&
+
+		e.g == null &&
+		e.l == null &&
+		e.b == null &&
+		e.gra != null &&
+		e.gra.value == 1 &&
+		e.gra.children.size() == 3 &&
+		e.gra.children[0].value == 2 &&
+		e.gra.children[0].children.size() == 1 &&
+		e.gra.children[0].children[0].value == 5 &&
+		e.gra.children[1].value == 3 &&
+		e.gra.children[1].children.empty() &&
+		e.gra.children[2].value == 4 &&
+		e.gra.children[2].children.size() == 1 &&
+		e.gra.children[2].children[0].value == 5;
+	}
+}
+
+rule createGraph
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			n.g = null;
+			n.l = null;
+			n.b = null;
+			n.gra = new Graph@(value = 1);
+			def ref grra:Graph = n.gra;
+			grra.children = array<Graph>[n.gra, new Graph@(value = 2, children = array<Graph>[n.gra])];
+
+			e.g = null;
+			e.l = null;
+			e.b = null;
+			e.gra = new Graph@(value = 1);
+			def ref egrra:Graph = e.gra;
+			egrra.children = array<Graph>[e.gra, new Graph@(value = 2, children = array<Graph>[e.gra])];
+		}
+	}
+}
+
+test checkGraph
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.g == null &&
+		n.l == null &&
+		n.b == null &&
+		n.gra.value == 1 &&
+		n.gra.children[0].value == 1 &&
+		n.gra.children[0].children.size() == 2 &&
+		n.gra.children[1].value == 2 &&
+		n.gra.children[1].children.size() == 1 &&
+
+		e.g == null &&
+		e.l == null &&
+		e.b == null &&
+		e.gra.value == 1 &&
+		e.gra.children[0].value == 1 &&
+		e.gra.children[0].children.size() == 2 &&
+		e.gra.children[1].value == 2 &&
+		e.gra.children[1].children.size() == 1;
+	}
+}

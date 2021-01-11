@@ -27,8 +27,9 @@ namespace de.unika.ipd.grGen.grShell
 
         // for basic types, enums
         public String Value; // the attribute value
+        public ElementDef ObjectValue;
 
-        // for set, map attributed
+        // for container types (set, map, array, deque) attributed
         public String Type; // set/map(domain) type, array/deque value type
         public String TgtType; // map target type, array/deque index type
         public ArrayList Values; // set/map(domain) values, array/deque values
@@ -38,40 +39,11 @@ namespace de.unika.ipd.grGen.grShell
         {
             Key = key;
             Value = null;
+            ObjectValue = null;
             Type = null;
             TgtType = null;
             Values = null;
             TgtValues = null;
-        }
-
-        public Param(String key, String value)
-        {
-            Key = key;
-            Value = value;
-            Type = null;
-            TgtType = null;
-            Values = null;
-            TgtValues = null;
-        }
-
-        public Param(String key, String value, String type)
-        {
-            Key = key;
-            Value = value;
-            Type = type;
-            TgtType = null;
-            Values = new ArrayList();
-            TgtValues = null;
-        }
-
-        public Param(String key, String value, String type, String tgtType)
-        {
-            Key = key;
-            Value = value;
-            Type = type;
-            TgtType = tgtType;
-            Values = new ArrayList();
-            TgtValues = new ArrayList();
         }
     }
 
@@ -129,6 +101,7 @@ namespace de.unika.ipd.grGen.grShell
         void HandleSequenceParserException(SequenceParserException ex);
         string ShowGraphWith(String programName, String arguments, bool keep);
         IGraphElement GetElemByName(String elemName);
+        IObject GetClassObjectByName(String objName);
     }
 
     /// <summary>
@@ -441,7 +414,7 @@ namespace de.unika.ipd.grGen.grShell
 
         #endregion get/set variable
 
-        #region get graph element
+        #region get graph element or class object
 
         public IGraphElement GetElemByVar(String varName)
         {
@@ -526,7 +499,56 @@ namespace de.unika.ipd.grGen.grShell
             return (IEdge)elem;
         }
 
-        #endregion get graph element
+        public IObject GetClassObjectByVar(String varName)
+        {
+            if(!GraphExists())
+                return null;
+            object elem = curShellProcEnv.ProcEnv.GetVariableValue(varName);
+            if(elem == null)
+            {
+                errOut.WriteLine("Unknown variable: \"{0}\"", varName);
+                return null;
+            }
+            if(!(elem is IObject))
+            {
+                errOut.WriteLine("\"{0}\" is not a class object!", varName);
+                return null;
+            }
+            return (IObject)elem;
+        }
+
+        public IObject GetClassObjectByName(String objName)
+        {
+            if(!GraphExists())
+                return null;
+            IObject obj;
+            if(!curShellProcEnv.NameToClassObject.TryGetValue(objName, out obj))
+            {
+                errOut.WriteLine("Unknown class object: \"{0}\"", objName);
+                return null;
+            }
+            return obj;
+        }
+
+        public IAttributeBearer GetGraphElementOrClassObjectByName(String elemOrObjName)
+        {
+            if(!GraphExists())
+                return null;
+            IObject obj;
+            if(!curShellProcEnv.NameToClassObject.TryGetValue(elemOrObjName, out obj))
+            {
+                IGraphElement elem = curShellProcEnv.ProcEnv.NamedGraph.GetGraphElement(elemOrObjName);
+                if(elem == null)
+                {
+                    errOut.WriteLine("Unknown class object or graph element: \"{0}\"", elemOrObjName);
+                    return null;
+                }
+                return elem;
+            }
+            return obj;
+        }
+
+        #endregion get graph element or class object
 
         #region get/set attribute
 
@@ -542,23 +564,23 @@ namespace de.unika.ipd.grGen.grShell
             return elem.GetAttribute(attributeName);
         }
 
-        public void SetElementAttribute(IGraphElement elem, Param param)
+        public void SetElementAttribute(IAttributeBearer owner, Param param)
         {
-            if(elem == null)
+            if(owner == null)
                 return;
             ArrayList attributes = new ArrayList();
             attributes.Add(param);
-            if(!CheckAttributes(elem.Type, attributes))
+            if(!CheckAttributes(owner.Type, attributes))
                 return;
-            SetAttributes(elem, attributes);
+            SetAttributes(owner, attributes);
         }
 
-        public void SetElementAttributeIndexed(IGraphElement elem, String attrName, String val, object index)
+        public void SetElementAttributeIndexed(IAttributeBearer owner, String attrName, String val, object index)
         {
-            if(elem == null)
+            if(owner == null)
                 return;
 
-            GraphElementType type = elem.Type;
+            InheritanceType type = owner.Type;
             AttributeType attrType = type.GetAttributeType(attrName);
             if(attrType == null)
             {
@@ -580,7 +602,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 return;
             }
-            object attr = elem.GetAttribute(attrName);
+            object attr = owner.GetAttribute(attrName);
             if(attr == null)
             {
                 errOut.WriteLine("Can't retrieve attribute " + attrName + " !");
@@ -592,7 +614,8 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            BaseGraph.ChangingAttributeAssignElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, value, index);
+            if(owner is IGraphElement)
+                BaseGraph.ChangingAttributeAssignElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, value, index);
 
             if(attr is IList)
             {
@@ -610,26 +633,27 @@ namespace de.unika.ipd.grGen.grShell
                 map[index] = value;
             }
 
-            BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+            if(owner is IGraphElement)
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
         }
 
         #endregion get/set attribute
 
         #region container add/remove
 
-        private object GetAttribute(IGraphElement elem, String attrName)
+        private object GetAttribute(IAttributeBearer owner, String attrName)
         {
-            if(elem == null)
+            if(owner == null)
                 return null;
-            AttributeType attrType = GetElementAttributeType(elem, attrName);
+            AttributeType attrType = GetElementAttributeType(owner, attrName);
             if(attrType == null)
                 return null;
-            return elem.GetAttribute(attrName);
+            return owner.GetAttribute(attrName);
         }
 
-        public void ContainerAdd(IGraphElement elem, String attrName, object keyObj)
+        public void ContainerAdd(IAttributeBearer owner, String attrName, object keyObj)
         {
-            object attr = GetAttribute(elem, attrName);
+            object attr = GetAttribute(owner, attrName);
             if(attr == null)
                 return;
 
@@ -640,7 +664,7 @@ namespace de.unika.ipd.grGen.grShell
                 IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
                 if(dict == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a set.");
+                    errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is not a set.");
                     return;
                 }
                 if(keyType != keyObj.GetType())
@@ -654,13 +678,15 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
 
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                BaseGraph.ChangingSetAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangingSetAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj);
 
                 dict[keyObj] = null;
 
-                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
             }
             else if(attr is IList)
             {
@@ -668,7 +694,7 @@ namespace de.unika.ipd.grGen.grShell
                 IList array = ContainerHelper.GetListType(attr, out valueType);
                 if(array == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not an array.");
+                    errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is not an array.");
                     return;
                 }
                 if(valueType != keyObj.GetType())
@@ -677,13 +703,15 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
 
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj, null);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj, null);
 
                 array.Add(keyObj);
 
-                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
             }
             else if(attr is IDeque)
             {
@@ -691,7 +719,7 @@ namespace de.unika.ipd.grGen.grShell
                 IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
                 if(deque == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a deque.");
+                    errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is not a deque.");
                     return;
                 }
                 if(valueType != keyObj.GetType())
@@ -700,21 +728,23 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
 
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj, null);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj, null);
 
                 deque.Enqueue(keyObj);
 
-                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
             }
             else
-                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a set nor an array nor a deque.");
+                errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is neither a set nor an array nor a deque.");
         }
 
-        public void IndexedContainerAdd(IGraphElement elem, String attrName, object keyObj, object valueObj)
+        public void IndexedContainerAdd(IAttributeBearer owner, String attrName, object keyObj, object valueObj)
         {
-            object attr = GetAttribute(elem, attrName);
+            object attr = GetAttribute(owner, attrName);
             if(attr == null)
                 return;
 
@@ -725,7 +755,7 @@ namespace de.unika.ipd.grGen.grShell
                 IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
                 if(dict == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a map.");
+                    errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is not a map.");
                     return;
                 }
                 if(keyType != keyObj.GetType())
@@ -739,13 +769,15 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
 
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                BaseGraph.ChangingMapAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj, valueObj);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangingMapAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj, valueObj);
 
                 dict[keyObj] = valueObj;
 
-                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
             }
             else if(attr is IList)
             {
@@ -753,7 +785,7 @@ namespace de.unika.ipd.grGen.grShell
                 IList array = ContainerHelper.GetListType(attr, out valueType);
                 if(array == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not an array.");
+                    errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is not an array.");
                     return;
                 }
                 if(valueType != keyObj.GetType())
@@ -767,13 +799,15 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
 
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj, valueObj);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj, valueObj);
 
                 array.Insert((int)valueObj, keyObj);
 
-                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
             }
             else if(attr is IDeque)
             {
@@ -781,7 +815,7 @@ namespace de.unika.ipd.grGen.grShell
                 IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
                 if(deque == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a deque.");
+                    errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is not a deque.");
                     return;
                 }
                 if(valueType != keyObj.GetType())
@@ -795,21 +829,23 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
 
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj, valueObj);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj, valueObj);
 
                 deque.EnqueueAt((int)valueObj, keyObj);
 
-                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
             }
             else
-                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a map nor an array nor a deque.");
+                errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is neither a map nor an array nor a deque.");
         }
 
-        public void ContainerRemove(IGraphElement elem, String attrName, object keyObj)
+        public void ContainerRemove(IAttributeBearer owner, String attrName, object keyObj)
         {
-            object attr = GetAttribute(elem, attrName);
+            object attr = GetAttribute(owner, attrName);
             if(attr == null)
                 return;
 
@@ -820,7 +856,7 @@ namespace de.unika.ipd.grGen.grShell
                 IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
                 if(dict == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a set/map.");
+                    errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is not a set/map.");
                     return;
                 }
                 if(keyType != keyObj.GetType())
@@ -829,16 +865,20 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
 
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                if(attrType.Kind == AttributeKind.SetAttr)
-                    BaseGraph.ChangingSetAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj);
-                else
-                    BaseGraph.ChangingMapAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj);
+                if(owner is IGraphElement)
+                {
+                    if(attrType.Kind == AttributeKind.SetAttr)
+                        BaseGraph.ChangingSetAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj);
+                    else
+                        BaseGraph.ChangingMapAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj);
+                }
 
                 dict.Remove(keyObj);
 
-                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
             }
             else if(attr is IList)
             {
@@ -846,7 +886,7 @@ namespace de.unika.ipd.grGen.grShell
                 IList array = ContainerHelper.GetListType(attr, out valueType);
                 if(array == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not an array.");
+                    errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is not an array.");
                     return;
                 }
                 if(keyObj != null && typeof(int) != keyObj.GetType())
@@ -855,16 +895,18 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
 
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                BaseGraph.ChangingAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangingAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj);
 
                 if(keyObj != null)
                     array.RemoveAt((int)keyObj);
                 else
                     array.RemoveAt(array.Count - 1);
 
-                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
             }
             else if(attr is IDeque)
             {
@@ -872,7 +914,7 @@ namespace de.unika.ipd.grGen.grShell
                 IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
                 if(deque == null)
                 {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a deque.");
+                    errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is not a deque.");
                     return;
                 }
                 if(keyObj != null && typeof(int) != keyObj.GetType())
@@ -881,19 +923,21 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
 
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                BaseGraph.ChangingAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangingAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj);
 
                 if(keyObj != null)
                     deque.DequeueAt((int)keyObj);
                 else
                     deque.Dequeue();
 
-                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
             }
             else
-                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a container.");
+                errOut.WriteLine(GetNameOfGraphElementOrClassObject(owner) + "." + attrName + " is not a container.");
         }
 
         #endregion container add/remove
@@ -1749,7 +1793,7 @@ namespace de.unika.ipd.grGen.grShell
 
         #endregion graph commands (delete, clear, in subgraph)
 
-        #region "new" graph element commands
+        #region "new" graph element/class object commands
 
         public INode NewNode(ElementDef elemDef)
         {
@@ -2074,6 +2118,21 @@ namespace de.unika.ipd.grGen.grShell
                         value = GetEdgeByVar(valueString);
                     break;
                 }
+            case AttributeKind.InternalClassObjectAttr:
+                {
+                    if(valueString[0] == '@' && valueString[1] == '@' && valueString[2] == '(' && valueString[valueString.Length - 1] == ')')
+                    {
+                        if((valueString[3] == '\"' || valueString[3] == '\'') && (valueString[valueString.Length - 2] == '\"' || valueString[valueString.Length - 2] == '\''))
+                            value = GetClassObjectByName(valueString.Substring(4, valueString.Length - 6));
+                        else
+                            value = GetClassObjectByName(valueString.Substring(3, valueString.Length - 4));
+                    }
+                    else if(valueString == "null")
+                        value = null;
+                    else
+                        value = GetClassObjectByVar(valueString);
+                    break;
+                }
             }
             return value;
         }
@@ -2124,7 +2183,7 @@ namespace de.unika.ipd.grGen.grShell
             return value;
         }
 
-        private bool CheckAttributes(GraphElementType type, ArrayList attributes)
+        private bool CheckAttributes(InheritanceType type, ArrayList attributes)
         {
             foreach(Param par in attributes)
             {
@@ -2132,7 +2191,7 @@ namespace de.unika.ipd.grGen.grShell
 
                 try
                 {
-                    GetCheckAttributes(par, type, attributes);
+                    GetCheckAttributes(par, type, attributes, true);
                 }
                 catch(Exception)
                 {
@@ -2142,32 +2201,34 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        private bool SetAttributes(IGraphElement elem, ArrayList attributes)
+        private bool SetAttributes(IAttributeBearer owner, ArrayList attributes)
         {
             foreach(Param par in attributes)
             {
-                AttributeType attrType = elem.Type.GetAttributeType(par.Key);
+                AttributeType attrType = owner.Type.GetAttributeType(par.Key);
 
                 object value;
                 try
                 {
-                    value = GetCheckAttributes(par, elem.Type, attributes);
+                    value = GetCheckAttributes(par, owner.Type, attributes, false);
                 }
                 catch(Exception)
                 {
                     return false;
                 }
 
-                BaseGraph.ChangingAttributeAssign(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, value);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangingAttributeAssign(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, value);
 
-                elem.SetAttribute(par.Key, value);
+                owner.SetAttribute(par.Key, value);
 
-                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
+                if(owner is IGraphElement)
+                    BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType);
             }
             return true;
         }
 
-        private object GetCheckAttributes(Param par, GraphElementType type, ArrayList attributes)
+        private object GetCheckAttributes(Param par, InheritanceType type, ArrayList attributes, bool onlyCheck)
         {
             AttributeType attrType = type.GetAttributeType(par.Key);
             if(attrType == null)
@@ -2193,7 +2254,13 @@ namespace de.unika.ipd.grGen.grShell
                     typeof(SetValueType));
                 foreach(object val in par.Values)
                 {
-                    setmap[ParseAttributeValue(attrType.ValueType, (String)val, par.Key)] = null;
+                    object obj;
+                    if(val is ElementDef)
+                        obj = GetObjectOrParseAttributeValue((ElementDef)val, null, null, null, onlyCheck);
+                    else
+                        obj = GetObjectOrParseAttributeValue(null, attrType.ValueType, (String)val, par.Key, onlyCheck);
+                    if(!onlyCheck)
+                        setmap[obj] = null;
                 }
                 value = setmap;
                 break;
@@ -2210,8 +2277,18 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(object val in par.Values)
                 {
                     tgtValEnum.MoveNext();
-                    setmap[ParseAttributeValue(attrType.KeyType, (String)val, par.Key)] =
-                        ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key);
+                    object obj;
+                    if(val is ElementDef)
+                        obj = GetObjectOrParseAttributeValue((ElementDef)val, null, null, null, onlyCheck);
+                    else
+                        obj = GetObjectOrParseAttributeValue(null, attrType.KeyType, (String)val, par.Key, onlyCheck);
+                    object tgtObj;
+                    if(tgtValEnum.Current is ElementDef)
+                        tgtObj = GetObjectOrParseAttributeValue((ElementDef)tgtValEnum.Current, null, null, null, onlyCheck);
+                    else
+                        tgtObj = GetObjectOrParseAttributeValue(null, attrType.ValueType, (String)tgtValEnum.Current, par.Key, onlyCheck);
+                    if(!onlyCheck)
+                        setmap[obj] = tgtObj;
                 }
                 value = setmap;
                 break;
@@ -2225,7 +2302,13 @@ namespace de.unika.ipd.grGen.grShell
                     TypesHelper.GetType(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model));
                 foreach(object val in par.Values)
                 {
-                    array.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
+                    object obj;
+                    if(val is ElementDef)
+                        obj = GetObjectOrParseAttributeValue((ElementDef)val, null, null, null, onlyCheck);
+                    else
+                        obj = GetObjectOrParseAttributeValue(null, attrType.ValueType, (String)val, par.Key, onlyCheck);
+                    if(!onlyCheck)
+                        array.Add(obj);
                 }
                 value = array;
                 break;
@@ -2239,19 +2322,73 @@ namespace de.unika.ipd.grGen.grShell
                     TypesHelper.GetType(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model));
                 foreach(object val in par.Values)
                 {
-                    deque.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
+                    object obj;
+                    if(val is ElementDef)
+                        obj = GetObjectOrParseAttributeValue((ElementDef)val, null, null, null, onlyCheck);
+                    else
+                        obj = GetObjectOrParseAttributeValue(null, attrType.ValueType, (String)val, par.Key, onlyCheck);
+                    if(!onlyCheck)
+                        deque.Enqueue(obj);
                 }
                 value = deque;
                 break;
             default:
-                value = ParseAttributeValue(attrType, par.Value, par.Key);
+                value = GetObjectOrParseAttributeValue(par.ObjectValue, attrType, par.Value, par.Key, onlyCheck);
                 break;
             }
 
             return value;
         }
 
-        #endregion "new" graph element commands
+        object GetObjectOrParseAttributeValue(ElementDef elemDef, AttributeType attrType, string value, string attr, bool onlyCheck)
+        {
+            if(elemDef != null)
+                return GetObject(elemDef, onlyCheck);
+            else
+                return ParseAttributeValue(attrType, value, attr);
+        }
+
+        object GetObject(ElementDef elemDef, bool onlyCheck)
+        {
+            if(elemDef.TypeName == null)
+            {
+                return curShellProcEnv.NameToClassObject[elemDef.ElemName];
+            }
+            else
+            {
+                ObjectType objType = curShellProcEnv.ProcEnv.NamedGraph.Model.ObjectModel.GetType(elemDef.TypeName);
+                if(objType == null)
+                {
+                    errOut.WriteLine("Class object type \"{0}\" not known!", elemDef.TypeName);
+                    throw new Exception("Class object type not known");
+                }
+                if(onlyCheck)
+                {
+                    foreach(Param objAttr in elemDef.Attributes)
+                    {
+                        GetObjectOrParseAttributeValue(objAttr.ObjectValue,
+                            objType.GetAttributeType(objAttr.Key), objAttr.Value, objAttr.Key, onlyCheck);
+                    }
+                    return null;
+                }
+                else
+                {
+                    IObject obj = objType.CreateObject();
+                    if(elemDef.ElemName != null)
+                    {
+                        curShellProcEnv.NameToClassObject.Add(elemDef.ElemName, obj);
+                        foreach(Param objAttr in elemDef.Attributes)
+                        {
+                            obj.SetAttribute(objAttr.Key, GetObjectOrParseAttributeValue(objAttr.ObjectValue,
+                                objType.GetAttributeType(objAttr.Key), objAttr.Value, objAttr.Key, onlyCheck));
+                        }
+                    }
+                    return obj;
+                }
+            }
+        }
+
+        #endregion "new" graph element/class object commands
 
         #region graph element commands (delete, retype, redirect)
 
@@ -2578,7 +2715,7 @@ namespace de.unika.ipd.grGen.grShell
 
         #endregion "show" type related information commands
 
-        #region "show" graph and graph element related information commands
+        #region "show" graph and graph element/class object related information commands
 
         private bool ShowElements<T>(IEnumerable<T> elements) where T : IGraphElement
         {
@@ -2678,52 +2815,84 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private AttributeType GetElementAttributeType(IGraphElement elem, String attributeName)
+        private AttributeType GetElementAttributeType(IAttributeBearer owner, String attributeName)
         {
-            AttributeType attrType = elem.Type.GetAttributeType(attributeName);
+            AttributeType attrType = owner.Type.GetAttributeType(attributeName);
             if(attrType == null)
             {
-                debugOut.WriteLine(((elem is INode) ? "Node" : "Edge") + " \"" + curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem)
+                debugOut.WriteLine(GetKind(owner) + " \"" + GetNameOfGraphElementOrClassObject(owner)
                     + "\" does not have an attribute \"" + attributeName + "\"!");
                 return attrType;
             }
             return attrType;
         }
 
-        public void ShowElementAttributes(IGraphElement elem)
+        public string GetKind(IAttributeBearer owner)
         {
-            if(elem == null)
-                return;
-            if(elem.Type.NumAttributes == 0)
+            if(owner is INode)
+                return "Node";
+            else if(owner is IEdge)
+                return "Edge";
+            else if(owner is IObject)
+                return "Object";
+            else if(owner is ITransientObject)
+                return "TransientObject";
+            else
+                throw new Exception("Internal error - unsupported type!");
+        }
+
+        // maybe todo: expensive, would benefit from reverse dictionary, to be taken into account if used often
+        public String GetNameOfGraphElementOrClassObject(IAttributeBearer owner)
+        {
+            if(!GraphExists())
+                return null;
+            if(owner is IGraphElement)
+                return curShellProcEnv.ProcEnv.NamedGraph.GetElementName((IGraphElement)owner);
+            else
             {
-                errOut.WriteLine("{0} \"{1}\" of type \"{2}\" does not have any attributes!", (elem is INode) ? "Node" : "Edge",
-                    curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem), elem.Type.PackagePrefixedName);
+                foreach(KeyValuePair<string, IObject> keyValuePair in curShellProcEnv.NameToClassObject)
+                {
+                    if(keyValuePair.Value == owner)
+                        return keyValuePair.Key;
+                }
+            }
+            return null;
+        }
+
+        public void ShowElementAttributes(IAttributeBearer owner)
+        {
+            if(owner == null)
+                return;
+            if(owner.Type.NumAttributes == 0)
+            {
+                errOut.WriteLine("{0} \"{1}\" of type \"{2}\" does not have any attributes!", GetKind(owner),
+                    GetNameOfGraphElementOrClassObject(owner), owner.Type.PackagePrefixedName);
                 return;
             }
-            debugOut.WriteLine("All attributes for {0} \"{1}\" of type \"{2}\":", (elem is INode) ? "node" : "edge",
-                curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem), elem.Type.PackagePrefixedName);
-            foreach(AttributeType attrType in elem.Type.AttributeTypes)
+            debugOut.WriteLine("All attributes for {0} \"{1}\" of type \"{2}\":", GetKind(owner),
+                GetNameOfGraphElementOrClassObject(owner), owner.Type.PackagePrefixedName);
+            foreach(AttributeType attrType in owner.Type.AttributeTypes)
             {
                 debugOut.WriteLine(" - {0}::{1} = {2}", attrType.OwnerType.PackagePrefixedName,
-                    attrType.Name, EmitHelper.ToStringAutomatic(elem.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph));
+                    attrType.Name, EmitHelper.ToStringAutomatic(owner.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph, false));
             }
         }
 
-        public void ShowElementAttribute(IGraphElement elem, String attributeName)
+        public void ShowElementAttribute(IAttributeBearer owner, String attributeName)
         {
-            if(elem == null)
+            if(owner == null)
                 return;
 
-            AttributeType attrType = GetElementAttributeType(elem, attributeName);
+            AttributeType attrType = GetElementAttributeType(owner, attributeName);
             if(attrType == null)
                 return;
 
             debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"");
-            debugOut.Write(EmitHelper.ToStringAutomatic(elem.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph));
+            debugOut.Write(EmitHelper.ToStringAutomatic(owner.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph, false));
             debugOut.WriteLine("\".");
         }
 
-        #endregion "show" graph and graph element related information commands
+        #endregion "show" graph and graph element/class object related information commands
 
         #region "show graph" command
 
@@ -2994,21 +3163,21 @@ namespace de.unika.ipd.grGen.grShell
                 if(val.GetType().Name=="Dictionary`2")
                 {
                     EmitHelper.ToString((IDictionary)val, out type, out content,
-                        null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null);
+                        null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
                 else if(val.GetType().Name == "List`1")
                 {
                     EmitHelper.ToString((IList)val, out type, out content,
-                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null);
+                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
                 else if(val.GetType().Name == "Deque`1")
                 {
                     EmitHelper.ToString((IDeque)val, out type, out content,
-                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null);
+                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
@@ -3027,7 +3196,7 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
                 EmitHelper.ToString(val, out type, out content,
-                    null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null);
+                    null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false);
                 debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                 return;
             }

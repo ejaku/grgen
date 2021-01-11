@@ -21,6 +21,7 @@ namespace de.unika.ipd.grGen.libGr
         COLON, //:
         DOUBLECOLON, //::
         DOLLAR, //$
+        PERCENT, //%
         EQUAL, //=
         DOT, //.
         COMMA, //,
@@ -29,6 +30,7 @@ namespace de.unika.ipd.grGen.libGr
         LPARENTHESIS, //(
         RPARENTHESIS, //)
         AT, //@
+        ATAT, //@@
         LANGLE, //<
         RANGLE, //>
         LBRACE, //{
@@ -89,6 +91,7 @@ namespace de.unika.ipd.grGen.libGr
         TokenKind tokenKind; // gives the kind of token matched lately
         readonly StringBuilder tokenContent; // the buffer with the token matched lately
         readonly Dictionary<string, INamedGraph> nameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
+        readonly Dictionary<string, IObject> nameToClassObject = new Dictionary<string, IObject>(); // maps "persistent" name to class object
         readonly AttributeType intAttrType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 
         /// <summary>
@@ -226,6 +229,7 @@ namespace de.unika.ipd.grGen.libGr
                     ParseExternalAttributeChange();
                     break;
                 case TokenKind.AT:
+                case TokenKind.ATAT:
                     ParseDeferredAttributeAssignment();
                     break;
                 default:
@@ -356,16 +360,21 @@ namespace de.unika.ipd.grGen.libGr
 
         private void ParseDeferredAttributeAssignment()
         {
-            IGraphElement elem = ParseGraphElement();
+            IAttributeBearer owner;
+            if(LookaheadToken()==TokenKind.ATAT)
+                owner = ParseClassObjectElement();
+            else //if(LookaheadToken()==TokenKind.AT)
+                owner = ParseGraphElement();
+
             Match(TokenKind.DOT);
             string attrName = ParseText();
-            AttributeType attrType = elem.Type.GetAttributeType(attrName);
+            AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
             if(LookaheadToken()==TokenKind.EQUAL)
             {
-                // GraphElement . Text = Value
+                // Owner . Text = Value
                 Match(TokenKind.EQUAL);
-                ParseAttributeValue(elem, attrType);
+                ParseAttributeValue(owner, attrType);
             }
             else if(LookaheadToken()==TokenKind.LBOXBRACKET) // [ for indexed assignment to attribute
             {
@@ -384,7 +393,7 @@ namespace de.unika.ipd.grGen.libGr
                 object index = ParseAttributeSimpleValue(indexAttrType);
                 Match(TokenKind.RBOXBRACKET);
                 Match(TokenKind.EQUAL);
-                ParseAttributeValueIndexed(elem, attrType.ValueType, attrType.Name, index);
+                ParseAttributeValueIndexed(owner, attrType.ValueType, attrType.Name, index);
             }
             else if(LookaheadToken()==TokenKind.DOT) // . for add/rem to/from container
             {
@@ -399,10 +408,10 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         Match(TokenKind.COMMA);
                         object param2 = ParseAttributeSimpleValue(attrType.Kind == AttributeKind.MapAttr ? attrType.ValueType : intAttrType);
-                        ContainerAddIndexed(elem, attrName, param1, param2);
+                        ContainerAddIndexed(owner, attrName, param1, param2);
                     }
                     else
-                        ContainerAdd(elem, attrName, param1);
+                        ContainerAdd(owner, attrName, param1);
                     Match(TokenKind.RPARENTHESIS);
                 }
                 else if(LookaheadToken() == TokenKind.REM)
@@ -412,10 +421,10 @@ namespace de.unika.ipd.grGen.libGr
                     if(LookaheadToken() != TokenKind.RPARENTHESIS)
                     {
                         object param = ParseAttributeSimpleValue(attrType.Kind == AttributeKind.MapAttr ? attrType.KeyType : attrType.Kind == AttributeKind.SetAttr ? attrType.ValueType : intAttrType);
-                        ContainerRem(elem, attrName, param);
+                        ContainerRem(owner, attrName, param);
                     }
                     else
-                        ContainerRem(elem, attrName, null);
+                        ContainerRem(owner, attrName, null);
                     Match(TokenKind.RPARENTHESIS);
                 }
                 else
@@ -425,9 +434,9 @@ namespace de.unika.ipd.grGen.libGr
                 throw GetSyntaxException("Syntax error", "= for assignment to attribute");
         }
 
-        private void ContainerAdd(IGraphElement elem, String attrName, object keyObj)
+        private void ContainerAdd(IAttributeBearer owner, String attrName, object keyObj)
         {
-            object attr = elem.GetAttribute(attrName);
+            object attr = owner.GetAttribute(attrName);
 
             if(attr is IDictionary)
             {
@@ -445,12 +454,12 @@ namespace de.unika.ipd.grGen.libGr
                 deque.Enqueue(keyObj);
             }
             else
-                throw new Exception(graph.GetElementName(elem) + "." + attrName + " is neither a set nor an array nor a deque.");
+                throw new Exception(GetOwnerName(owner) + "." + attrName + " is neither a set nor an array nor a deque.");
         }
 
-        private void ContainerAddIndexed(IGraphElement elem, String attrName, object keyObj, object valueObj)
+        private void ContainerAddIndexed(IAttributeBearer owner, String attrName, object keyObj, object valueObj)
         {
-            object attr = elem.GetAttribute(attrName);
+            object attr = owner.GetAttribute(attrName);
 
             if(attr is IDictionary)
             {
@@ -468,12 +477,28 @@ namespace de.unika.ipd.grGen.libGr
                 deque.EnqueueAt((int)valueObj, keyObj);
             }
             else
-                throw new Exception(graph.GetElementName(elem) + "." + attrName + " is neither a map nor an array nor a deque.");
+                throw new Exception(GetOwnerName(owner) + "." + attrName + " is neither a map nor an array nor a deque.");
         }
 
-        private void ContainerRem(IGraphElement elem, String attrName, object keyObj)
+        // expensive, only intended to be used under exceptional circumstances
+        private string GetOwnerName(IAttributeBearer owner)
         {
-            object attr = elem.GetAttribute(attrName);
+            if(owner is IGraphElement)
+                graph.GetElementName((IGraphElement)owner);
+            else
+            {
+                foreach(KeyValuePair<string, IObject> keyValuePair in nameToClassObject)
+                {
+                    if(keyValuePair.Value == owner)
+                        return keyValuePair.Key;
+                }
+            }
+            return null;
+        }
+
+        private void ContainerRem(IAttributeBearer owner, String attrName, object keyObj)
+        {
+            object attr = owner.GetAttribute(attrName);
 
             if(attr is IDictionary)
             {
@@ -497,7 +522,7 @@ namespace de.unika.ipd.grGen.libGr
                     deque.Dequeue();
             }
             else
-                throw new Exception(graph.GetElementName(elem) + "." + attrName + " is not a container.");
+                throw new Exception(GetOwnerName(owner) + "." + attrName + " is not a container.");
         }
 
         private void ParseExternalAttributeChange()
@@ -589,6 +614,16 @@ namespace de.unika.ipd.grGen.libGr
             string elemName = ParseText();
             Match(TokenKind.RPARENTHESIS);
             return GetElemByName(elemName);
+        }
+
+        private IObject ParseClassObjectElement()
+        {
+            // atat lparen Text rparen
+            Match(TokenKind.ATAT);
+            Match(TokenKind.LPARENTHESIS);
+            string elemName = ParseText();
+            Match(TokenKind.RPARENTHESIS);
+            return nameToClassObject[elemName];
         }
 
         private NodeType ParseNodeType()
@@ -694,28 +729,28 @@ namespace de.unika.ipd.grGen.libGr
             return edge;
         }
 
-        private void ParseAttributeValue(IGraphElement elem, AttributeType attrType)
+        private void ParseAttributeValue(IAttributeBearer owner, AttributeType attrType)
         {
-            object attributeValue = JustParseAttributeValue(elem, attrType);
+            object attributeValue = JustParseAttributeValue(attrType);
 
             /*AttributeChangeType changeType = AttributeChangeType.Assign;
             if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
+                graph.ChangingNodeAttribute((INode)owner, attrType, changeType, value, null);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);            
+                graph.ChangingEdgeAttribute((IEdge)owner, attrType, changeType, value, null);            
             */
-            elem.SetAttribute(attrType.Name, attributeValue);
+            owner.SetAttribute(attrType.Name, attributeValue);
             /*if(elem is INode)
-                graph.ChangedNodeAttribute((INode)elem, attrType);
+                graph.ChangedNodeAttribute((INode)owner, attrType);
             else
-                graph.ChangedEdgeAttribute((IEdge)elem, attrType);            
+                graph.ChangedEdgeAttribute((IEdge)owner, attrType);            
             */
         }
 
-        private void ParseAttributeValueIndexed(IGraphElement elem, AttributeType attrType, string attrName, object index)
+        private void ParseAttributeValueIndexed(IAttributeBearer owner, AttributeType attrType, string attrName, object index)
         {
             object value = ParseAttributeSimpleValue(attrType);
-            object attr = elem.GetAttribute(attrName);
+            object attr = owner.GetAttribute(attrName);
 
             if(attr is IList)
             {
@@ -734,7 +769,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        private object JustParseAttributeValue(IGraphElement elem, AttributeType attrType)
+        private object JustParseAttributeValue(AttributeType attrType)
         {
             object attributeValue;
             if(attrType.Kind == AttributeKind.SetAttr)
@@ -853,6 +888,39 @@ namespace de.unika.ipd.grGen.libGr
 
                 attributeValue = deque;
             }
+            else if(attrType.Kind == AttributeKind.InternalClassObjectAttr)
+            {
+                if(LookaheadToken() == TokenKind.NULL)
+                {
+                    Match(TokenKind.NULL);
+
+                    attributeValue = null;
+                }
+                else
+                {
+                    Match(TokenKind.NEW);
+                    string type = ParseTypeText();
+                    Match(TokenKind.LPARENTHESIS);
+                    Match(TokenKind.PERCENT);
+                    Match(TokenKind.EQUAL);
+                    string persistentName = ParseStringValue();
+                    ObjectType classObjectType = graph.Model.ObjectModel.GetType(type);
+                    IObject classObject = classObjectType.CreateObject();
+                    nameToClassObject[persistentName] = classObject;
+                    while(LookaheadToken() == TokenKind.COMMA) // , AttrName = Value
+                    {
+                        Match(TokenKind.COMMA);
+                        string attrName = ParseText();
+                        AttributeType nestedAttrType = classObjectType.GetAttributeType(attrName);
+                        Match(TokenKind.EQUAL);
+                        object value = ParseAttributeSimpleValue(nestedAttrType);
+                        classObject.SetAttribute(attrName, value);
+                    }
+                    Match(TokenKind.RPARENTHESIS);
+
+                    attributeValue = classObject;
+                }
+            }
             else
             {
                 // value
@@ -892,6 +960,8 @@ namespace de.unika.ipd.grGen.libGr
                 return ParseNodeValue(attrType.PackagePrefixedTypeName);
             case AttributeKind.EdgeAttr:
                 return ParseEdgeValue(attrType.PackagePrefixedTypeName);
+            case AttributeKind.InternalClassObjectAttr:
+                return ParseClassObjectValue(attrType.PackagePrefixedTypeName);
             case AttributeKind.MapAttr:
             case AttributeKind.SetAttr:
             case AttributeKind.ArrayAttr:
@@ -899,6 +969,44 @@ namespace de.unika.ipd.grGen.libGr
                 throw new Exception("Internal error, non-simple value in simple value parsing");
             default:
                 throw new Exception("Unsupported attribute type " + attrType.ToString());
+            }
+        }
+
+        private IObject ParseClassObjectValue(String typeName)
+        {
+            if(LookaheadToken() == TokenKind.NULL)
+            {
+                Match(TokenKind.NULL);
+
+                return null;
+            }
+            else if(LookaheadToken() == TokenKind.NEW)
+            {
+                Match(TokenKind.NEW);
+                string type = ParseTypeText();
+                Match(TokenKind.LPARENTHESIS);
+                Match(TokenKind.PERCENT);
+                Match(TokenKind.EQUAL);
+                string persistentName = ParseStringValue();
+                ObjectType classObjectType = graph.Model.ObjectModel.GetType(type);
+                IObject classObject = classObjectType.CreateObject();
+                nameToClassObject[persistentName] = classObject;
+                while(LookaheadToken() == TokenKind.COMMA) // , AttrName = Value
+                {
+                    Match(TokenKind.COMMA);
+                    string attrName = ParseText();
+                    AttributeType nestedAttrType = classObjectType.GetAttributeType(attrName);
+                    Match(TokenKind.EQUAL);
+                    object value = ParseAttributeSimpleValue(nestedAttrType);
+                    classObject.SetAttribute(attrName, value);
+                }
+                Match(TokenKind.RPARENTHESIS);
+
+                return classObject;
+            }
+            else
+            {
+                return ParseClassObjectElement();
             }
         }
 
@@ -1199,6 +1307,8 @@ namespace de.unika.ipd.grGen.libGr
                 throw GetSyntaxException("Syntax error", "::");
             case TokenKind.DOLLAR:
                 throw GetSyntaxException("Syntax error", "$");
+            case TokenKind.PERCENT:
+                throw GetSyntaxException("Syntax error", "%");
             case TokenKind.EQUAL:
                 throw GetSyntaxException("Syntax error", "=");
             case TokenKind.COMMA:
@@ -1467,6 +1577,10 @@ namespace de.unika.ipd.grGen.libGr
                     EatChar();
                     return FoundToken(TokenKind.DOLLAR);
 
+                case '%':
+                    EatChar();
+                    return FoundToken(TokenKind.PERCENT);
+
                 case '=':
                     EatChar();
                     return FoundToken(TokenKind.EQUAL);
@@ -1485,6 +1599,11 @@ namespace de.unika.ipd.grGen.libGr
 
                 case '@':
                     EatChar();
+                    if(Lookahead() == '@')
+                    {
+                        EatChar();
+                        return FoundToken(TokenKind.ATAT);
+                    }
                     return FoundToken(TokenKind.AT);
 
                 case '<':

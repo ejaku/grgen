@@ -73,6 +73,7 @@ TOKEN: {
 |   < LANGLE: "<" >
 |   < RANGLE: ">" >
 |   < AT : "@" >
+|   < ATAT : "@@" >
 }
 
 TOKEN: {
@@ -385,29 +386,99 @@ String AttributeValue():
     String package, enumName, enumValue=null, elemName;
 }
 {
-    (
-        LOOKAHEAD(2)
-        package=WordOrText() "::" enumName=AttributeName() ("::" enumValue=AttributeName())?
-        {
-            if(enumValue!=null)
-                return package + "::" + enumName + "::" + enumValue;
-            else
-                return package + "::" + enumName; // package is enumName, enumName is enumValue
-        }
-    |
-        "@" "(" elemName=WordOrText() ")"
-        {
-            return "@(" + elemName + ")";
-        }
-    |
-        (tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>
-        | tok=<NUMBER> | tok=<NUMBER_BYTE> | tok=<NUMBER_SHORT> | tok=<NUMBER_LONG> 
-        | tok=<HEXNUMBER> | tok=<HEXNUMBER_BYTE> | tok=<HEXNUMBER_SHORT> | tok=<HEXNUMBER_LONG>
-        | tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL>)
-        {
-            return tok.image;
-        }
-    )
+    LOOKAHEAD(2)
+    package=WordOrText() "::" enumName=AttributeName() ("::" enumValue=AttributeName())?
+    {
+        if(enumValue!=null)
+            return package + "::" + enumName + "::" + enumValue;
+        else
+            return package + "::" + enumName; // package is enumName, enumName is enumValue
+    }
+|
+    "@" "(" elemName=WordOrText() ")"
+    {
+        return "@(" + elemName + ")";
+    }
+|
+    (tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>
+    | tok=<NUMBER> | tok=<NUMBER_BYTE> | tok=<NUMBER_SHORT> | tok=<NUMBER_LONG> 
+    | tok=<HEXNUMBER> | tok=<HEXNUMBER_BYTE> | tok=<HEXNUMBER_SHORT> | tok=<HEXNUMBER_LONG>
+    | tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL>)
+    {
+        return tok.image;
+    }
+}
+
+ElementDef ObjectAttributeValue():
+{
+    String objName = null, typeName;
+    ArrayList attributes = new ArrayList();
+}
+{
+    "new" typeName=TypeName()
+       "("
+        (
+            "%" "=" objName=WordOrText() ("," Attributes(attributes))?
+        |
+            Attributes(attributes)
+        )?
+        ")"
+    {
+        return new ElementDef(objName, null, typeName, attributes);
+    }
+|
+    "@@" "(" objName=WordOrText() ")"
+    {
+        return new ElementDef(objName, null, null, null);
+    }
+}
+
+object AttributeOrObjectAttributeValue():
+{
+    Token tok;
+    String package, enumName, enumValue=null, elemName;
+    String objName = null, typeName;
+    ArrayList attributes = new ArrayList();
+}
+{
+    LOOKAHEAD(2)
+    package=WordOrText() "::" enumName=AttributeName() ("::" enumValue=AttributeName())?
+    {
+        if(enumValue!=null)
+            return package + "::" + enumName + "::" + enumValue;
+        else
+            return package + "::" + enumName; // package is enumName, enumName is enumValue
+    }
+|
+    "@" "(" elemName=WordOrText() ")"
+    {
+        return "@(" + elemName + ")";
+    }
+|
+    (tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>
+    | tok=<NUMBER> | tok=<NUMBER_BYTE> | tok=<NUMBER_SHORT> | tok=<NUMBER_LONG> 
+    | tok=<HEXNUMBER> | tok=<HEXNUMBER_BYTE> | tok=<HEXNUMBER_SHORT> | tok=<HEXNUMBER_LONG>
+    | tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL>)
+    {
+        return tok.image;
+    }
+|
+    "new" typeName=TypeName()
+       "("
+       (
+            "%" "=" objName=WordOrText() ("," Attributes(attributes))?
+       |
+            Attributes(attributes)
+       )?
+       ")"
+    {
+        return new ElementDef(objName, null, typeName, attributes);
+    }
+|
+    "@@" "(" objName=WordOrText() ")"
+    {
+        return new ElementDef(objName, null, null, null);
+    }
 }
 
 int Number():
@@ -576,6 +647,22 @@ String CommandLine():
         str = tok.image.Replace("\\\r\n", "").Replace("\\\n", "").Replace("\n", "");
         return str;
     }
+}
+
+IAttributeBearer GraphElementOrClassObject():
+{
+    IAttributeBearer owner;
+    String str;
+}
+{
+    (
+        "@@" "(" str=WordOrText() ")" { owner = impl.GetClassObjectByName(str); }
+    |
+        "@" "(" str=WordOrText() ")" { owner = impl.GetElemByName(str); }
+    |
+        str=Variable() { owner = impl.GetElemByVar(str); }
+    )
+    { return owner; }
 }
 
 IGraphElement GraphElement():
@@ -877,7 +964,7 @@ bool ParseShellCommand():
 void ShellCommand():
 {
     String str1, str2 = null, str3 = null, graphName = null;
-    IGraphElement elem;
+    IAttributeBearer owner;
     object obj, obj2;
     INode node1, node2;
     IEdge edge1, edge2;
@@ -1085,33 +1172,33 @@ void ShellCommand():
 
     try
     {
-        LOOKAHEAD(GraphElement() ".") elem=GraphElement() "." str1=AttributeName()
+        LOOKAHEAD(GraphElementOrClassObject() ".") owner=GraphElementOrClassObject() "." str1=AttributeName()
         (
             LineEnd()
             {
-                impl.ShowElementAttribute(elem, str1);
+                impl.ShowElementAttribute(owner, str1);
             }
         |
             "=" { param = new Param(str1); } AttributeParamValue(ref param) LineEnd()
             {
-                impl.SetElementAttribute(elem, param);
+                impl.SetElementAttribute(owner, param);
             }
         |
             "[" obj=SimpleConstant() "]" "=" str2=AttributeValue() LineEnd()
             {
-                impl.SetElementAttributeIndexed(elem, str1, str2, obj);
+                impl.SetElementAttributeIndexed(owner, str1, str2, obj);
             }
         |
             LOOKAHEAD(2) "." "add" "(" obj=SimpleConstant()
             (
                 "," obj2=SimpleConstant() ")" LineEnd()
                 {
-                    impl.IndexedContainerAdd(elem, str1, obj, obj2);
+                    impl.IndexedContainerAdd(owner, str1, obj, obj2);
                 }
             |
                 ")" LineEnd()
                 {
-                    impl.ContainerAdd(elem, str1, obj);
+                    impl.ContainerAdd(owner, str1, obj);
                 }
             )
         |
@@ -1119,12 +1206,12 @@ void ShellCommand():
             (
                 obj=SimpleConstant() ")" LineEnd()
                 {
-                    impl.ContainerRemove(elem, str1, obj);
+                    impl.ContainerRemove(owner, str1, obj);
                 }
             |
                 ")" LineEnd()
                 {
-                    impl.ContainerRemove(elem, str1, null);
+                    impl.ContainerRemove(owner, str1, null);
                 }
             )
         )
@@ -1307,11 +1394,17 @@ void AttributeParamValue(ref Param param):
 {
     String value, valueTgt;
     String typeName, typeNameTgt;
+    ElementDef elemDef, elemDefTgt;
+    object obj, objTgt;
 }
 {
     value=AttributeValue()
         {
             param.Value = value;
+        }
+    | elemDef=ObjectAttributeValue()
+        {
+            param.ObjectValue = elemDef;
         }
     | "set" "<" typeName=TypeName() ">"
         {
@@ -1319,8 +1412,14 @@ void AttributeParamValue(ref Param param):
             param.Type = typeName;
             param.Values = new ArrayList();
         }
-        "{" ( value=AttributeValue() { param.Values.Add(value); } )?
-            (<COMMA> value=AttributeValue() { param.Values.Add(value); })* "}"
+        "{"
+            (
+                obj=AttributeOrObjectAttributeValue() { param.Values.Add(obj); }
+                ( <COMMA> obj=AttributeOrObjectAttributeValue() { param.Values.Add(obj); } )*
+            |
+                {}
+            )
+        "}"
     | "map" "<" typeName=TypeName() "," typeNameTgt=TypeName() ">"
         {
             param.Value = "map";
@@ -1329,24 +1428,42 @@ void AttributeParamValue(ref Param param):
             param.Values = new ArrayList();
             param.TgtValues = new ArrayList();
         }
-        "{" ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
-            ( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* "}"
+        "{"
+            (
+                obj=AttributeOrObjectAttributeValue() { param.Values.Add(obj); } <ARROW> objTgt=AttributeOrObjectAttributeValue() { param.TgtValues.Add(objTgt); }
+                ( <COMMA> obj=AttributeValue() { param.Values.Add(obj); } <ARROW> objTgt=AttributeValue() { param.TgtValues.Add(objTgt); } )*
+            |
+                {}
+            )
+        "}"
     | "array" "<" typeName=TypeName() ">"
         {
             param.Value = "array";
             param.Type = typeName;
             param.Values = new ArrayList();
         }
-        "[" ( value=AttributeValue() { param.Values.Add(value); } )?
-            (<COMMA> value=AttributeValue() { param.Values.Add(value); })* "]"
+        "["
+             (
+                obj=AttributeOrObjectAttributeValue() { param.Values.Add(obj); }
+                ( <COMMA> obj=AttributeOrObjectAttributeValue() { param.Values.Add(obj); } )*
+             |
+                 {}
+             )
+        "]"
     | "deque" "<" typeName=TypeName() ">"
         {
             param.Value = "deque";
             param.Type = typeName;
             param.Values = new ArrayList();
         }
-        "[" ( value=AttributeValue() { param.Values.Add(value); } )?
-            (<COMMA> value=AttributeValue() { param.Values.Add(value); })* "]"
+        "["
+            (
+                obj=AttributeOrObjectAttributeValue() { param.Values.Add(obj); }
+                ( <COMMA> obj=AttributeOrObjectAttributeValue() { param.Values.Add(obj); } )*
+            |
+                {}
+            )
+        "]"
 }
 
 //////////////////////

@@ -228,32 +228,32 @@ namespace de.unika.ipd.grGen.lgsp
                 if(leftType == "string")
                 {
                     if(rightType.StartsWith("set<"))
-                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph, false))";
                     else if(rightType.StartsWith("map<"))
-                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph, false))";
                     else if(rightType.StartsWith("array<"))
-                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph, false))";
                     else if(rightType.StartsWith("deque<"))
-                        return "(" + leftValue + " + GRGEN_LIBGR.EmitHelper.ToString(" + rightValue + ", graph))";
+                        return "(" + leftValue + " + GRGEN_LIBGR.EmitHelper.ToString(" + rightValue + ", graph, false))";
                     else if(rightType == "string")
                         return "("+leftValue+" + "+rightValue+")";
                     else
-                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph))";
+                        return "("+leftValue+" + GRGEN_LIBGR.EmitHelper.ToString("+rightValue+", graph, false))";
                 }
                 else //rightType == "string"
                 {
                     if(leftType.StartsWith("set<"))
-                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph, false) + "+rightValue+")";
                     else if(leftType.StartsWith("map<"))
-                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph, false) + "+rightValue+")";
                     else if(leftType.StartsWith("array<"))
-                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph, false) + "+rightValue+")";
                     else if(leftType.StartsWith("deque<"))
-                        return "(GRGEN_LIBGR.EmitHelper.ToString(" + leftValue + ", graph) + " + rightValue + ")";
+                        return "(GRGEN_LIBGR.EmitHelper.ToString(" + leftValue + ", graph, false) + " + rightValue + ")";
                     else if(leftType == "string")
                         return "("+leftValue+" + "+rightValue+")";
                     else
-                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph) + "+rightValue+")";
+                        return "(GRGEN_LIBGR.EmitHelper.ToString("+leftValue+", graph, false) + "+rightValue+")";
                 }
             }
             else if(balancedType.StartsWith("array<"))

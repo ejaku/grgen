@@ -945,19 +945,19 @@ public abstract class CSharpBase
 						|| cast.getExpression().getType() instanceof SetType) {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph)");
+					sb.append(", graph, false)");
 				} else if(cast.getExpression().getType() instanceof ArrayType) {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph)");
+					sb.append(", graph, false)");
 				} else if(cast.getExpression().getType() instanceof DequeType) {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph)");
+					sb.append(", graph, false)");
 				} else {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph)");
+					sb.append(", graph, false)");
 				}
 			} else if(typeName == "object") {
 				// no cast needed

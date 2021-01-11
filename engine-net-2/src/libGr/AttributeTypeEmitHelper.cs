@@ -24,8 +24,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
         /// <param name="attrType">The attribute type of the dictionary if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        /// <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
         public static void ToString(IDictionary setmap, out string type, out string content,
-            AttributeType attrType, IGraph graph)
+            AttributeType attrType, IGraph graph, bool firstLevelObjectEmitted)
         {
             Type keyType;
             Type valueType;
@@ -42,12 +43,12 @@ namespace de.unika.ipd.grGen.libGr
                 if(valueType == typeof(SetValueType))
                 {
                     type = "set<" + keyType.Name + ">";
-                    AppendSet(sb, setmap, attrValueType, graph);
+                    AppendSet(sb, setmap, attrValueType, graph, firstLevelObjectEmitted);
                 }
                 else
                 {
                     type = "map<" + keyType.Name + "," + valueType.Name + ">";
-                    AppendMap(sb, setmap, attrKeyType, attrValueType, graph);
+                    AppendMap(sb, setmap, attrKeyType, attrValueType, graph, firstLevelObjectEmitted);
                 }
             }
             else
@@ -57,7 +58,7 @@ namespace de.unika.ipd.grGen.libGr
             content = sb.ToString();
         }
 
-        private static void AppendSet(StringBuilder sb, IDictionary set, AttributeType attrValueType, IGraph graph)
+        private static void AppendSet(StringBuilder sb, IDictionary set, AttributeType attrValueType, IGraph graph, bool firstLevelObjectEmitted)
         {
             bool first = true;
             foreach(DictionaryEntry entry in set)
@@ -68,14 +69,14 @@ namespace de.unika.ipd.grGen.libGr
                     sb.Append(",");
 
                 if(attrValueType != null)
-                    sb.Append(ToString(entry.Key, attrValueType, graph));
+                    sb.Append(ToString(entry.Key, attrValueType, graph, firstLevelObjectEmitted));
                 else
-                    sb.Append(ToStringAutomatic(entry.Key, graph));
+                    sb.Append(ToStringAutomatic(entry.Key, graph, firstLevelObjectEmitted));
             }
         }
 
         private static void AppendMap(StringBuilder sb, IDictionary setmap, 
-            AttributeType attrKeyType, AttributeType attrValueType, IGraph graph)
+            AttributeType attrKeyType, AttributeType attrValueType, IGraph graph, bool firstLevelObjectEmitted)
         {
             bool first = true;
             foreach(DictionaryEntry entry in setmap)
@@ -86,14 +87,14 @@ namespace de.unika.ipd.grGen.libGr
                     sb.Append(",");
 
                 if(attrKeyType != null)
-                    sb.Append(ToString(entry.Key, attrKeyType, graph));
+                    sb.Append(ToString(entry.Key, attrKeyType, graph, firstLevelObjectEmitted));
                 else
-                    sb.Append(ToStringAutomatic(entry.Key, graph));
+                    sb.Append(ToStringAutomatic(entry.Key, graph, firstLevelObjectEmitted));
                 sb.Append("->");
                 if(attrValueType != null)
-                    sb.Append(ToString(entry.Value, attrValueType, graph));
+                    sb.Append(ToString(entry.Value, attrValueType, graph, firstLevelObjectEmitted));
                 else
-                    sb.Append(ToStringAutomatic(entry.Value, graph));
+                    sb.Append(ToStringAutomatic(entry.Value, graph, firstLevelObjectEmitted));
             }
         }
 
@@ -105,8 +106,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="content">The content as string, e.g. [ 42, 43 ]</param>
         /// <param name="attrType">The attribute type of the array if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        /// <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
         public static void ToString(IList array, out string type, out string content,
-            AttributeType attrType, IGraph graph)
+            AttributeType attrType, IGraph graph, bool firstLevelObjectEmitted)
         {
             Type valueType;
             ContainerHelper.GetListType(array, out valueType);
@@ -119,7 +121,7 @@ namespace de.unika.ipd.grGen.libGr
             if(array != null)
             {
                 type = "array<" + valueType.Name + ">";
-                AppendArray(sb, array, attrValueType, graph);
+                AppendArray(sb, array, attrValueType, graph, firstLevelObjectEmitted);
             }
             else
                 type = "<INVALID>";
@@ -128,7 +130,7 @@ namespace de.unika.ipd.grGen.libGr
             content = sb.ToString();
         }
 
-        private static void AppendArray(StringBuilder sb, IList array, AttributeType attrValueType, IGraph graph)
+        private static void AppendArray(StringBuilder sb, IList array, AttributeType attrValueType, IGraph graph, bool firstLevelObjectEmitted)
         {
             bool first = true;
             foreach(Object entry in array)
@@ -138,9 +140,9 @@ namespace de.unika.ipd.grGen.libGr
                 else
                     sb.Append(",");
                 if(attrValueType != null)
-                    sb.Append(ToString(entry, attrValueType, graph));
+                    sb.Append(ToString(entry, attrValueType, graph, firstLevelObjectEmitted));
                 else
-                    sb.Append(ToStringAutomatic(entry, graph));
+                    sb.Append(ToStringAutomatic(entry, graph, firstLevelObjectEmitted));
             }
         }
 
@@ -152,8 +154,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="content">The content as string, e.g. ] 42, 43 [</param>
         /// <param name="attrType">The attribute type of the deque if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        /// <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
         public static void ToString(IDeque deque, out string type, out string content,
-            AttributeType attrType, IGraph graph)
+            AttributeType attrType, IGraph graph, bool firstLevelObjectEmitted)
         {
             Type valueType;
             ContainerHelper.GetDequeType(deque, out valueType);
@@ -166,7 +169,7 @@ namespace de.unika.ipd.grGen.libGr
             if(deque != null)
             {
                 type = "deque<" + valueType.Name + ">";
-                AppendDeque(sb, deque, attrValueType, graph);
+                AppendDeque(sb, deque, attrValueType, graph, firstLevelObjectEmitted);
             }
             else
                 type = "<INVALID>";
@@ -175,7 +178,7 @@ namespace de.unika.ipd.grGen.libGr
             content = sb.ToString();
         }
 
-        private static void AppendDeque(StringBuilder sb, IDeque deque, AttributeType attrValueType, IGraph graph)
+        private static void AppendDeque(StringBuilder sb, IDeque deque, AttributeType attrValueType, IGraph graph, bool firstLevelObjectEmitted)
         {
             bool first = true;
             foreach(Object entry in deque)
@@ -186,9 +189,9 @@ namespace de.unika.ipd.grGen.libGr
                     sb.Append(",");
 
                 if(attrValueType != null)
-                    sb.Append(ToString(entry, attrValueType, graph));
+                    sb.Append(ToString(entry, attrValueType, graph, firstLevelObjectEmitted));
                 else
-                    sb.Append(ToStringAutomatic(entry, graph));
+                    sb.Append(ToStringAutomatic(entry, graph, firstLevelObjectEmitted));
             }
         }
 
@@ -200,12 +203,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="content">The content as string, e.g. 42,"foo",bar } </param>
         /// <param name="attrType">The attribute type of the value (may be null)</param>
         /// <param name="graph">The graph with the model and the element names</param>
+        /// <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
         public static void ToString(object value, out string type, out string content,
-            AttributeType attrType, IGraph graph)
+            AttributeType attrType, IGraph graph, bool firstLevelObjectEmitted)
         {
             if(attrType == null)
             {
-                ToString(value, out type, out content, graph);
+                ToString(value, out type, out content, graph, firstLevelObjectEmitted);
                 return;
             }
 
@@ -216,36 +220,36 @@ namespace de.unika.ipd.grGen.libGr
             if(type == "object")
                 content = ToStringObject(value, attrType, graph);
             else
-                content = ToString(value, attrType, graph);
+                content = ToString(value, attrType, graph, firstLevelObjectEmitted);
         }
 
-        private static void ToString(object value, out string type, out string content, IGraph graph)
+        private static void ToString(object value, out string type, out string content, IGraph graph, bool firstLevelObjectEmitted)
         {
             if(value == null)
             {
                 type = "<INVALID>";
-                content = ToString(value, null, graph);
+                content = ToString(value, null, graph, firstLevelObjectEmitted);
                 return;
             }
 
             if(value is IMatch)
             {
                 type = "IMatch";
-                content = ToString((IMatch)value, graph);
+                content = ToString((IMatch)value, graph, firstLevelObjectEmitted);
                 return;
             }
 
             if(value is IObject)
             {
                 type = ((IObject)value).Type.PackagePrefixedName;
-                content = ToString((IObject)value, graph);
+                content = ToString((IObject)value, graph, firstLevelObjectEmitted);
                 return;
             }
 
             if(value is ITransientObject)
             {
                 type = ((ITransientObject)value).Type.PackagePrefixedName;
-                content = ToString((ITransientObject)value, graph);
+                content = ToString((ITransientObject)value, graph, firstLevelObjectEmitted);
                 return;
             }
 
@@ -262,7 +266,7 @@ namespace de.unika.ipd.grGen.libGr
             if(type == "object")
                 content = ToStringObject(value, null, graph);
             else
-                content = ToString(value, null, graph);
+                content = ToString(value, null, graph, firstLevelObjectEmitted);
         }
 
         /// <summary>
@@ -272,14 +276,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="attrType">The attribute type (may be null)</param>
         /// <param name="graph">The graph with the model and the element names</param>
         /// <returns>String representation of the scalar.</returns>
-        private static string ToString(object value, AttributeType attrType, IGraph graph)
+        /// <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+        private static string ToString(object value, AttributeType attrType, IGraph graph, bool firstLevelObjectEmitted)
         {
             if(value is IMatch)
-                return ToString((IMatch)value, graph);
+                return ToString((IMatch)value, graph, firstLevelObjectEmitted);
             if(value is IObject)
-                return ToString((IObject)value, graph);
+                return ToString((IObject)value, graph, firstLevelObjectEmitted);
             if(value is ITransientObject)
-                return ToString((ITransientObject)value, graph);
+                return ToString((ITransientObject)value, graph, firstLevelObjectEmitted);
 
             // enums are bitches, sometimes ToString gives the symbolic name, sometimes only the integer value
             // we always want the symbolic name, enforce this here
@@ -293,7 +298,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(graph != null && value is Enum)
             {
-                Debug.Assert(value.GetType().Name != "Dictionary`2" 
+                Debug.Assert(value.GetType().Name != "Dictionary`2"
                     && value.GetType().Name != "List`1" && value.GetType().Name != "Deque`1");
                 foreach(EnumAttributeType enumAttrType in graph.Model.EnumAttributeTypes)
                 {

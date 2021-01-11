@@ -29,6 +29,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public readonly Dictionary<string, INamedGraph> NameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
 
+        public readonly Dictionary<string, IObject> NameToClassObject = new Dictionary<string, IObject>(); // maps "transient" name to class object
+
 
         public ShellGraphProcessingEnvironment(IGraph graph, String backendFilename, String[] backendParameters, String modelFilename)
         {
