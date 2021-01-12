@@ -55,7 +55,7 @@ namespace de.unika.ipd.grGen.lgsp
         public bool Parallel = false;
 
 
-        public Object Clone()
+        public object Clone()
         {
             IsomorphyInformation ii = new IsomorphyInformation();
             ii.CheckIsMatchedBit = CheckIsMatchedBit;
@@ -119,7 +119,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string TheOtherPatternNodeName;
 
 
-        public Object Clone()
+        public object Clone()
         {
             ConnectednessCheck cc = new ConnectednessCheck();
             cc.PatternElementName = PatternElementName;
@@ -175,12 +175,12 @@ namespace de.unika.ipd.grGen.lgsp
             CostToEnd = costToEnd;
         }
 
-        public Object Clone()
+        public object Clone()
         {
             return Clone(Type);
         }
 
-        public Object Clone(SearchOperationType searchOperationType)
+        public object Clone(SearchOperationType searchOperationType)
         {
             // clone the condition as we may need to set the parallelized flag for it, while the original must stay untouched
             object ElementWithConditionCloned = Element is PatternCondition ? (Element as PatternCondition).Clone() : Element;
@@ -225,7 +225,7 @@ namespace de.unika.ipd.grGen.lgsp
             Cost = cost;
         }
 
-        public Object Clone()
+        public object Clone()
         {
             ScheduledSearchPlan ssp = new ScheduledSearchPlan(PatternGraph, new SearchOperation[Operations.Length], Cost);
             for(int i = 0; i < Operations.Length; ++i)

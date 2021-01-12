@@ -1973,7 +1973,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // create action instance
-            Object obj = compResults.CompiledAssembly.CreateInstance("de.unika.ipd.grGen.lgspActions.DynAction_" + action.Name);
+            object obj = compResults.CompiledAssembly.CreateInstance("de.unika.ipd.grGen.lgspActions.DynAction_" + action.Name);
 
 //            long compSourceTicks = compilerWatch.ElapsedTicks;
 //            Console.WriteLine("GenMatcher: Compile source: {0} us", compSourceTicks / (Stopwatch.Frequency / 1000000));

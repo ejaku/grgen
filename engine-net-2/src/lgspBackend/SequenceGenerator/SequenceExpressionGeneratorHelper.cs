@@ -51,7 +51,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(model.TransientObjectModel.GetType(balancedType) != null)
                 return "GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)" + leftValue + ", (GRGEN_LIBGR.ITransientObject)" + rightValue + ")";
             else
-                return "Object.Equals("+leftValue+", "+rightValue+")";
+                return "object.Equals("+leftValue+", "+rightValue+")";
         }
 
         public static string NotEqualStatic(string leftValue, string rightValue,
@@ -88,7 +88,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(model.TransientObjectModel.GetType(balancedType) != null)
                 return "!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)" + leftValue + ", (GRGEN_LIBGR.ITransientObject)" + rightValue + ")";
             else
-                return "!Object.Equals("+leftValue+", "+rightValue+")";
+                return "!object.Equals("+leftValue+", "+rightValue+")";
         }
 
         public static string LowerStatic(string leftValue, string rightValue,

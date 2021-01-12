@@ -133,7 +133,7 @@ namespace de.unika.ipd.grGen.libGr
         private static void AppendArray(StringBuilder sb, IList array, AttributeType attrValueType, IGraph graph, bool firstLevelObjectEmitted)
         {
             bool first = true;
-            foreach(Object entry in array)
+            foreach(object entry in array)
             {
                 if(first)
                     first = false;
@@ -181,7 +181,7 @@ namespace de.unika.ipd.grGen.libGr
         private static void AppendDeque(StringBuilder sb, IDeque deque, AttributeType attrValueType, IGraph graph, bool firstLevelObjectEmitted)
         {
             bool first = true;
-            foreach(Object entry in deque)
+            foreach(object entry in deque)
             {
                 if(first)
                     first = false;

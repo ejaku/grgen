@@ -435,7 +435,7 @@ namespace de.unika.ipd.grGen.grShell
 
         // called from a timer while a sequence is executed outside of the debugger 
         // (this may still mean the debugger is open and attached ("debug enable"), but just not under user control)
-        static void PrintStatistics(Object state)
+        static void PrintStatistics(object state)
         {
             StatisticsSource statisticsSource = (StatisticsSource)state;
             if(!statisticsSource.ActionEnv.HighlightingUnderway)

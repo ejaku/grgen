@@ -29,7 +29,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="attrType">The attribute type of the dictionary</param>
         /// <param name="graph">The graph with the model and the element names</param>
         public static void ToString(IDictionary setmap,
-            AttributeChangeType changeType, Object newValue, Object keyValue,
+            AttributeChangeType changeType, object newValue, object keyValue,
             out string type, out string content,
             AttributeType attrType, IGraph graph)
         {
@@ -87,7 +87,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="attrType">The attribute type of the List</param>
         /// <param name="graph">The graph with the model and the element names</param>
         public static void ToString(IList array,
-            AttributeChangeType changeType, Object newValue, Object keyValue,
+            AttributeChangeType changeType, object newValue, object keyValue,
             out string type, out string content,
             AttributeType attrType, IGraph graph)
         {
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="attrType">The attribute type of the Deque</param>
         /// <param name="graph">The graph with the model and the element names</param>
         public static void ToString(IDeque deque,
-            AttributeChangeType changeType, Object newValue,
+            AttributeChangeType changeType, object newValue,
             out string type, out string content,
             AttributeType attrType, IGraph graph)
         {

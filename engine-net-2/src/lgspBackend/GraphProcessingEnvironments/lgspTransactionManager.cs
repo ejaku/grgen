@@ -352,7 +352,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(recording && !paused && !undoing)
             {
                 undoItems.Add(new LGSPUndoElemRemoved(elem, procEnv));
-                if(Object.ReferenceEquals(elem, currentlyRedirectedEdge))
+                if(object.ReferenceEquals(elem, currentlyRedirectedEdge))
                 {
                     LGSPEdge edge = (LGSPEdge)elem;
                     undoItems.Add(new LGSPUndoElemRedirecting(edge, edge.lgspSource, edge.lgspTarget, procEnv));
@@ -362,7 +362,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public void ChangingElementAttribute(IGraphElement elem, AttributeType attrType,
-                AttributeChangeType changeType, Object newValue, Object keyValue)
+                AttributeChangeType changeType, object newValue, object keyValue)
         {
 #if LOG_TRANSACTION_HANDLING
             writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(elem) + ":" + elem.Type.Name + "." + attrType.Name);

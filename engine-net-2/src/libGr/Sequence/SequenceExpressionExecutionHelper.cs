@@ -398,7 +398,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                return Object.Equals(leftValue, rightValue);
+                return object.Equals(leftValue, rightValue);
             }
         }
 
@@ -779,7 +779,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                return !Object.Equals(leftValue, rightValue);
+                return !object.Equals(leftValue, rightValue);
             }
         }
 

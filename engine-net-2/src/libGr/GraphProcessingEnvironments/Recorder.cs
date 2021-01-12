@@ -282,7 +282,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
         ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
         void ChangingAttribute(IAttributeBearer owner, AttributeType attrType,
-                AttributeChangeType changeType, Object newValue, Object keyValue)
+                AttributeChangeType changeType, object newValue, object keyValue)
         {
             foreach(RecordingState recordingState in recordings.Values)
             {
@@ -431,7 +431,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         private bool AddSubgraphsAsNeeded(MainGraphExportContext mainExportContext,
-            IAttributeBearer owner, AttributeType attrType, Object value, StreamWriter writer)
+            IAttributeBearer owner, AttributeType attrType, object value, StreamWriter writer)
         {
             if(!GRSExport.IsGraphUsedInAttribute(attrType))
                 return false;

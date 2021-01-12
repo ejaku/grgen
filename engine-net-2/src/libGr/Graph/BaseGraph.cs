@@ -204,14 +204,14 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public void ChangingNodeAttribute(INode node, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue)
+            AttributeChangeType changeType, object newValue, object keyValue)
         {
             if(OnChangingNodeAttribute != null)
                 OnChangingNodeAttribute(node, attrType, changeType, newValue, keyValue);
         }
 
         public void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue)
+            AttributeChangeType changeType, object newValue, object keyValue)
         {
             if(OnChangingEdgeAttribute != null)
                 OnChangingEdgeAttribute(edge, attrType, changeType, newValue, keyValue);

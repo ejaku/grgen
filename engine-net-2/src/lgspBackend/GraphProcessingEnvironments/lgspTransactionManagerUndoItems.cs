@@ -180,13 +180,13 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly IGraphElement _elem;
         public readonly AttributeType _attrType;
         public readonly UndoOperation _undoOperation;
-        public readonly Object _value;
-        public readonly Object _keyOfValue;
+        public readonly object _value;
+        public readonly object _keyOfValue;
         public readonly String _name; // for ToString only
         public readonly IGraph _graph; // for ToString only
 
         public LGSPUndoAttributeChanged(IGraphElement elem, AttributeType attrType,
-                AttributeChangeType changeType, Object newValue, Object keyValue, 
+                AttributeChangeType changeType, object newValue, object keyValue, 
                 LGSPGraphProcessingEnvironment procEnv)
         {
             _elem = elem;

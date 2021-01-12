@@ -91,7 +91,7 @@ namespace de.unika.ipd.grGen.libGr
     /// with exact information about the change to occur,
     /// to allow rollback of changes, in case a transaction is underway.
     /// </summary>
-    /// <param name="node">The node whose attribute is changed.</param>
+    /// <param name="node">The node whose attribute is to be changed.</param>
     /// <param name="attrType">The type of the attribute to be changed.</param>
     /// <param name="changeType">The type of the change which will be made.</param>
     /// <param name="newValue">The new value of the attribute, if changeType==Assign.
@@ -102,14 +102,14 @@ namespace de.unika.ipd.grGen.libGr
     /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
     ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
     public delegate void ChangingNodeAttributeHandler(INode node, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue);
+            AttributeChangeType changeType, object newValue, object keyValue);
 
     /// <summary>
     /// Represents a method called just before an edge attribute is changed,
     /// with exact information about the change to occur,
     /// to allow rollback of changes, in case a transaction is underway.
     /// </summary>
-    /// <param name="edge">The edge whose attribute is changed.</param>
+    /// <param name="edge">The edge whose attribute is to be changed.</param>
     /// <param name="attrType">The type of the attribute to be changed.</param>
     /// <param name="changeType">The type of the change which will be made.</param>
     /// <param name="newValue">The new value of the attribute, if changeType==Assign.
@@ -120,7 +120,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
     ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
     public delegate void ChangingEdgeAttributeHandler(IEdge edge, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue);
+            AttributeChangeType changeType, object newValue, object keyValue);
 
     /// <summary>
     /// Represents a method called just before an object attribute is changed,
@@ -770,7 +770,7 @@ namespace de.unika.ipd.grGen.libGr
         /// with exact information about the change to occur,
         /// to allow rollback of changes, in case a transaction is underway.
         /// </summary>
-        /// <param name="node">The node whose attribute is changed.</param>
+        /// <param name="node">The node whose attribute is to be changed.</param>
         /// <param name="attrType">The type of the attribute to be changed.</param>
         /// <param name="changeType">The type of the change which will be made.</param>
         /// <param name="newValue">The new value of the attribute, if changeType==Assign.
@@ -781,7 +781,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
         ///                        The index to be removed/written to if changeType==RemoveElement/AssignElement on array/deque.</param>
         void ChangingNodeAttribute(INode node, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue);
+            AttributeChangeType changeType, object newValue, object keyValue);
 
         /// <summary>
         /// Fires an OnChangingEdgeAttribute event.
@@ -789,7 +789,7 @@ namespace de.unika.ipd.grGen.libGr
         /// with exact information about the change to occur,
         /// to allow rollback of changes, in case a transaction is underway.
         /// </summary>
-        /// <param name="edge">The edge whose attribute is changed.</param>
+        /// <param name="edge">The edge whose attribute is to be changed.</param>
         /// <param name="attrType">The type of the attribute to be changed.</param>
         /// <param name="changeType">The type of the change which will be made.</param>
         /// <param name="newValue">The new value of the attribute, if changeType==Assign.
@@ -800,7 +800,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
         ///                        The index to be removed/written to if changeType==RemoveElement/AssignElement on array/deque.</param>
         void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue);
+            AttributeChangeType changeType, object newValue, object keyValue);
 
         /// <summary>
         /// Fires an OnChangingObjectAttribute event.

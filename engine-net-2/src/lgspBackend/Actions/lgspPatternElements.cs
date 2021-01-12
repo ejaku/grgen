@@ -1585,7 +1585,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Instantiates a new PatternCondition object as a copy from the original condition; for parallelization.
         /// </summary>
-        public Object Clone()
+        public object Clone()
         {
             PatternCondition condition = new PatternCondition(ConditionExpression.Copy(""), 
                 NeededNodeNames, NeededEdgeNames, NeededVariableNames,
@@ -1747,7 +1747,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Instantiates a new PatternYielding object as a copy from the original yielding; for parallelization.
         /// </summary>
-        public Object Clone()
+        public object Clone()
         {
             Yielding[] elementaryYieldings = new Yielding[ElementaryYieldings.Length];
             for(int i = 0; i < ElementaryYieldings.Length; ++i)
