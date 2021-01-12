@@ -2348,7 +2348,7 @@ namespace de.unika.ipd.grGen.grShell
                 return ParseAttributeValue(attrType, value, attr);
         }
 
-        object GetObject(ElementDef elemDef, bool onlyCheck)
+        public object GetObject(ElementDef elemDef, bool onlyCheck)
         {
             if(elemDef.TypeName == null)
             {

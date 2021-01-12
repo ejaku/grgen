@@ -588,7 +588,7 @@ restart:
                 EmitObjectCreation(mainGraphContext, objType, obj, graph, sw, deferredInits);
         }
 
-        private static void EmitObjectCreation(MainGraphExportContext mainGraphContext,
+        public static void EmitObjectCreation(MainGraphExportContext mainGraphContext,
             ObjectType objType, IObject obj, INamedGraph graph, StreamWriter sw, StringBuilder deferredInits)
         {
             sw.Write("new {0}(% = \"{1}\"", objType.PackagePrefixedName, mainGraphContext.GetOrAssignPersistentName(obj));

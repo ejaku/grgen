@@ -1,0 +1,24 @@
+new graph "recordreplay/recordreplayClassObject"
+
+# record the graph changes
+record recordreplay/testgraph.grs start
+
+# do graph changes
+exec createTreeTopDown
+
+# stop recording
+record recordreplay/testgraph.grs stop
+
+# check the result graph
+exec checkTree
+
+# replay the changes
+replay recordreplay/testgraph.grs
+
+# check the result graph
+exec checkTree
+
+# the test script tries to test all available .grs; no sense in trying to test the recorded graph
+!rm recordreplay/testgraph.grs
+
+quit

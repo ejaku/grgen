@@ -1286,7 +1286,7 @@ void NewCommand():
 {
     try
     {
-        ("new" { on = true; })? "graph" modelFilename=Filename() (graphName=WordOrText())? LineEnd()
+        ("new" { on = true; })? "graph" modelFilename=Filename() (graphName=WordOrText())? LineEnd() // new new
         {
             noError = impl.NewGraph(modelFilename, graphName, on);
         }
@@ -1333,9 +1333,15 @@ void NewCommand():
             noError = impl.NewEdge(elemDef, srcNode, tgtNode, directed) != null;
         }
     |
+        LOOKAHEAD(2)
         elemDef=ElementDefinition() LineEnd()
         {
             noError = impl.NewNode(elemDef) != null;
+        }
+    |
+        elemDef=ObjectDefinition() LineEnd()
+        {
+            impl.GetObject(elemDef, false);
         }
     }
     catch(ParseException ex)
@@ -1369,6 +1375,25 @@ ElementDef ElementDefinition():
     )?
     {
         return new ElementDef(elemName, varName, typeName, attributes);
+    }
+}
+
+ElementDef ObjectDefinition():
+{
+    String objName = null, typeName;
+    ArrayList attributes = new ArrayList();
+}
+{
+    typeName=TypeName()
+       "("
+        (
+            "%" "=" objName=WordOrText() ("," Attributes(attributes))?
+        |
+            Attributes(attributes)
+        )?
+        ")"
+    {
+        return new ElementDef(objName, null, typeName, attributes);
     }
 }
 

@@ -1,0 +1,24 @@
+node class N
+{
+	b:Tree;
+	gra:Graph;
+}
+
+edge class E
+{
+	b:Tree;
+	gra:Graph;
+}
+
+class /*Binary*/Tree
+{
+	value:int;
+	left:Tree;
+	right:Tree;
+}
+
+class Graph
+{
+	value:int;
+	children:array<Graph>;
+}

@@ -1634,6 +1634,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("else if({0} is GRGEN_LIBGR.IEdge)\n", element);
             source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.{2}, {3}, {4});\n",
                 element, attrType, attrChangeType.ToString(), newValue, keyValue);
+            source.AppendFrontFormat("else\n", element);
+            source.AppendFrontIndentedFormat("graph.ChangingObjectAttribute((GRGEN_LIBGR.IObject){0}, {1}, GRGEN_LIBGR.AttributeChangeType.{2}, {3}, {4});\n",
+                element, attrType, attrChangeType.ToString(), newValue, keyValue);
         }
 
         private void EmitAttributeChangedEvent(int id, SourceBuilder source)

@@ -123,7 +123,25 @@ namespace de.unika.ipd.grGen.libGr
             AttributeChangeType changeType, Object newValue, Object keyValue);
 
     /// <summary>
-    /// Represents a method called after a node attribute was changed (for debugging, omitted in case nodebugevents).
+    /// Represents a method called just before an object attribute is changed,
+    /// with exact information about the change to occur,
+    /// to allow rollback of changes, in case a transaction is underway.
+    /// </summary>
+    /// <param name="obj">The object whose attribute is to be changed.</param>
+    /// <param name="attrType">The type of the attribute to be changed.</param>
+    /// <param name="changeType">The type of the change which will be made.</param>
+    /// <param name="newValue">The new value of the attribute, if changeType==Assign.
+    ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+    ///                        Or the new map pair value to be inserted if changeType==PutElement on map.
+    ///                        Or the new value to be inserted/added if changeType==PutElement on array.
+    ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+    /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
+    ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
+    public delegate void ChangingObjectAttributeHandler(IObject obj, AttributeType attrType,
+            AttributeChangeType changeType, object newValue, object keyValue);
+
+    /// <summary>
+    /// Represents a method called after a node attribute was changed (for debugging, omitted in case of nodebugevents).
     /// </summary>
     /// <param name="node">The node whose attribute was changed.</param>
     /// <param name="attrType">The type of the attribute changed.</param>
@@ -671,6 +689,16 @@ namespace de.unika.ipd.grGen.libGr
         event ChangingEdgeAttributeHandler OnChangingEdgeAttribute;
 
         /// <summary>
+        /// Fired before an attribute of an object is changed.
+        /// Note for LGSPBackend:
+        /// Because objects (of the LGSPBackend) don't know their graph a call to
+        /// LGSPObject.SetAttribute will not fire this event. If you use this function
+        /// and want the event to be fired, you have to fire it yourself
+        /// using ChangingObjectAttributes.
+        /// </summary>
+        event ChangingObjectAttributeHandler OnChangingObjectAttribute;
+
+        /// <summary>
         /// Fired after an attribute of a node is changed; for debugging purpose.
         /// Note for LGSPBackend:
         /// Because graph elements of the LGSPBackend don't know their graph a call to
@@ -773,6 +801,25 @@ namespace de.unika.ipd.grGen.libGr
         ///                        The index to be removed/written to if changeType==RemoveElement/AssignElement on array/deque.</param>
         void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue);
+
+        /// <summary>
+        /// Fires an OnChangingObjectAttribute event.
+        /// To be called before changing an attribute of an internal object,
+        /// with exact information about the change to occur,
+        /// to allow rollback of changes, in case a transaction is underway.
+        /// </summary>
+        /// <param name="obj">The object whose attribute is to be changed.</param>
+        /// <param name="attrType">The type of the attribute to be changed.</param>
+        /// <param name="changeType">The type of the change which will be made.</param>
+        /// <param name="newValue">The new value of the attribute, if changeType==Assign.
+        ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.
+        ///                        Or the new value to be inserted/added if changeType==PutElement on array/deque.
+        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array/deque.</param>
+        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
+        ///                        The index to be removed/written to if changeType==RemoveElement/AssignElement on array/deque.</param>
+        void ChangingObjectAttribute(IObject obj, AttributeType attrType,
+            AttributeChangeType changeType, object newValue, object keyValue);
 
         /// <summary>
         /// Fires an OnChangedNodeAttribute event.

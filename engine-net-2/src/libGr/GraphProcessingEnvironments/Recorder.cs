@@ -147,6 +147,7 @@ namespace de.unika.ipd.grGen.libGr
             graph.OnRemovingEdge += RemovingEdge;
             graph.OnChangingNodeAttribute += ChangingAttribute;
             graph.OnChangingEdgeAttribute += ChangingAttribute;
+            graph.OnChangingObjectAttribute += ChangingAttribute;
             graph.OnRetypingNode += RetypingNode;
             graph.OnRetypingEdge += RetypingEdge;
             graph.OnVisitedAlloc += VisitedAlloc;
@@ -171,6 +172,7 @@ namespace de.unika.ipd.grGen.libGr
             graph.OnRemovingEdge -= RemovingEdge;
             graph.OnChangingNodeAttribute -= ChangingAttribute;
             graph.OnChangingEdgeAttribute -= ChangingAttribute;
+            graph.OnChangingObjectAttribute -= ChangingAttribute;
             graph.OnRetypingNode -= RetypingNode;
             graph.OnRetypingEdge -= RetypingEdge;
             graph.OnVisitedAlloc -= VisitedAlloc;
@@ -253,10 +255,23 @@ namespace de.unika.ipd.grGen.libGr
                 recordingState.writer.WriteLine("retype -@(\"" + graph.GetElementName(oldEdge) + "\")<" + newEdge.Type.Name + ">->");
         }
 
+        void EmitObjectAttributeAssignmentCreatingAsNeeded(IObject owner, AttributeType attrType,
+            MainGraphExportContext mainExportContext, RecordingState recordingState)
+        {
+            if(!mainExportContext.HasPersistentName(owner))
+            {
+                StringBuilder deferredInits = new StringBuilder();
+                GRSExport.EmitObjectCreation(mainExportContext, owner.Type, owner, graph, recordingState.writer, deferredInits);
+                recordingState.writer.WriteLine();
+                recordingState.writer.Write(deferredInits.ToString());
+            }
+            recordingState.writer.Write("@@(\"" + mainExportContext.GetOrAssignPersistentName((IObject)owner) + "\")." + attrType.Name + " = ");
+        }
+
         /// <summary>
-        /// Event handler for IGraph.OnChangingNodeAttribute and IGraph.OnChangingEdgeAttribute.
+        /// Event handler for IGraph.OnChangingNodeAttribute and IGraph.OnChangingEdgeAttribute and IGraph.OnChangingObjectAttribute.
         /// </summary>
-        /// <param name="element">The node or edge whose attribute is changed.</param>
+        /// <param name="owner">The node or edge or object whose attribute is changed.</param>
         /// <param name="attrType">The type of the attribute to be changed.</param>
         /// <param name="changeType">The type of the change which will be made.</param>
         /// <param name="newValue">The new value of the attribute, if changeType==Assign.
@@ -266,26 +281,33 @@ namespace de.unika.ipd.grGen.libGr
         ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
         /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
         ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
-        void ChangingAttribute(IGraphElement element, AttributeType attrType,
+        void ChangingAttribute(IAttributeBearer owner, AttributeType attrType,
                 AttributeChangeType changeType, Object newValue, Object keyValue)
         {
             foreach(RecordingState recordingState in recordings.Values)
             {
                 MainGraphExportContext mainExportContext = recordingState.mainExportContext;
                 StringBuilder deferredInits = new StringBuilder();
-                AddSubgraphsAsNeeded(mainExportContext, element, attrType, newValue, recordingState.writer);
-                AddSubgraphsAsNeeded(mainExportContext, element, attrType, keyValue, recordingState.writer);
+                AddSubgraphsAsNeeded(mainExportContext, owner, attrType, newValue, recordingState.writer);
+                AddSubgraphsAsNeeded(mainExportContext, owner, attrType, keyValue, recordingState.writer);
                 switch(changeType)
                 {
                 case AttributeChangeType.Assign:
-                    recordingState.writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name + " = ");
+                    if(owner is IGraphElement)
+                        recordingState.writer.Write("@(\"" + graph.GetElementName((IGraphElement)owner) + "\")." + attrType.Name + " = ");
+                    else
+                        EmitObjectAttributeAssignmentCreatingAsNeeded((IObject)owner, attrType, mainExportContext, recordingState);
+
                     StringBuilder sb = new StringBuilder();
                     GRSExport.EmitAttribute(mainExportContext, attrType, newValue, graph, recordingState.writer, sb);
                     recordingState.writer.WriteLine();
                     recordingState.writer.Write(sb.ToString());
                     break;
                 case AttributeChangeType.PutElement:
-                    recordingState.writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
+                    if(owner is IGraphElement)
+                        recordingState.writer.Write("@(\"" + graph.GetElementName((IGraphElement)owner) + "\")." + attrType.Name);
+                    else
+                        EmitObjectAttributeAssignmentCreatingAsNeeded((IObject)owner, attrType, mainExportContext, recordingState);
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
@@ -337,7 +359,10 @@ namespace de.unika.ipd.grGen.libGr
                     }
                     break;
                 case AttributeChangeType.RemoveElement:
-                    recordingState.writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
+                    if(owner is IGraphElement)
+                        recordingState.writer.Write("@(\"" + graph.GetElementName((IGraphElement)owner) + "\")." + attrType.Name);
+                    else
+                        EmitObjectAttributeAssignmentCreatingAsNeeded((IObject)owner, attrType, mainExportContext, recordingState);
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
@@ -367,7 +392,10 @@ namespace de.unika.ipd.grGen.libGr
                     }
                     break;
                 case AttributeChangeType.AssignElement:
-                    recordingState.writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
+                    if(owner is IGraphElement)
+                        recordingState.writer.Write("@(\"" + graph.GetElementName((IGraphElement)owner) + "\")." + attrType.Name);
+                    else
+                        EmitObjectAttributeAssignmentCreatingAsNeeded((IObject)owner, attrType, mainExportContext, recordingState);
                     switch(attrType.Kind)
                     {
                     case AttributeKind.ArrayAttr:
@@ -403,7 +431,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         private bool AddSubgraphsAsNeeded(MainGraphExportContext mainExportContext,
-            IGraphElement element, AttributeType attrType, Object value, StreamWriter writer)
+            IAttributeBearer owner, AttributeType attrType, Object value, StreamWriter writer)
         {
             if(!GRSExport.IsGraphUsedInAttribute(attrType))
                 return false;

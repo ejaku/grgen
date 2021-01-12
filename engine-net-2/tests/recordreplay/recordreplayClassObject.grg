@@ -1,0 +1,135 @@
+using recordreplayClassObject;
+
+rule createTree
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			n.b = new Tree@(value = 1, left = new Tree@(value = 2, left = new Tree@(value = 3)), right = new Tree@(value = 4, right = new Tree@(value = 5)));
+			n.gra = null;
+
+			e.b = new Tree@(value = 1, left = new Tree@(value = 2, left = new Tree@(value = 3)), right = new Tree@(value = 4, right = new Tree@(value = 5)));
+			e.gra = null;
+		}
+	}
+}
+
+rule createTreeTopDown
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			n.b = new Tree@(value = 1);
+			def ref nt:Tree = n.b;
+			nt.left = new Tree@(value = 2);
+			nt.right = new Tree@(value = 4);
+			def ref ntl:Tree = nt.left;
+			ntl.left = new Tree@(value = 3);
+			def ref ntr:Tree = nt.right;
+			ntr.right = new Tree@(value = 5);
+
+			e.b = new Tree@(value = 1);
+			def ref et:Tree = e.b;
+			et.left = new Tree@(value = 2);
+			et.right = new Tree@(value = 4);
+			def ref etl:Tree = et.left;
+			etl.left = new Tree@(value = 3);
+			def ref etr:Tree = et.right;
+			etr.right = new Tree@(value = 5);
+		}
+	}
+}
+
+rule createTreeBottomUp
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			def ref ntll:Tree = new Tree@(value = 3);
+			def ref ntl:Tree = new Tree@(value = 2);
+			ntl.left = ntll;
+			def ref ntrr:Tree = new Tree@(value = 5);
+			def ref ntr:Tree = new Tree@(value = 4);
+			ntr.right = ntrr;
+			def ref nt:Tree = new Tree@(value = 1);
+			nt.left = ntl;
+			nt.right = ntr;
+			n.b = nt;
+
+			def ref etll:Tree = new Tree@(value = 3);
+			def ref etl:Tree = new Tree@(value = 2);
+			etl.left = etll;
+			def ref etrr:Tree = new Tree@(value = 5);
+			def ref etr:Tree = new Tree@(value = 4);
+			etr.right = etrr;
+			def ref et:Tree = new Tree@(value = 1);
+			et.left = etl;
+			et.right = etr;
+			e.b = et;
+		}
+	}
+}
+
+test checkTree
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.b.value == 1 &&
+		n.b.left.value == 2 &&
+		n.b.left.left.value == 3 &&
+		n.b.right.value == 4 &&
+		n.b.right.right.value == 5 &&
+		n.gra == null &&
+
+		e.b.value == 1 &&
+		e.b.left.value == 2 &&
+		e.b.left.left.value == 3 &&
+		e.b.right.value == 4 &&
+		e.b.right.right.value == 5 &&
+		e.gra == null;
+	}
+}
+
+rule createGraph
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			n.b = null;
+			n.gra = new Graph@(value = 1);
+			def ref grra:Graph = n.gra;
+			grra.children = array<Graph>[n.gra, new Graph@(value = 2, children = array<Graph>[n.gra])];
+
+			e.b = null;
+			e.gra = new Graph@(value = 1);
+			def ref egrra:Graph = e.gra;
+			egrra.children = array<Graph>[e.gra, new Graph@(value = 2, children = array<Graph>[e.gra])];
+		}
+	}
+}
+
+test checkGraph
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.b == null &&
+		n.gra.value == 1 &&
+		n.gra.children[0].value == 1 &&
+		n.gra.children[0].children.size() == 2 &&
+		n.gra.children[1].value == 2 &&
+		n.gra.children[1].children.size() == 1 &&
+
+		e.b == null &&
+		e.gra.value == 1 &&
+		e.gra.children[0].value == 1 &&
+		e.gra.children[0].children.size() == 2 &&
+		e.gra.children[1].value == 2 &&
+		e.gra.children[1].children.size() == 1;
+	}
+}

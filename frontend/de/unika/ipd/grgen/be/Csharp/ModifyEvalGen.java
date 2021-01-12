@@ -501,7 +501,6 @@ public class ModifyEvalGen extends CSharpBase
 		} else {
 			if(!(target.getOwner().getType() instanceof MatchType
 					|| target.getOwner().getType() instanceof DefinedMatchType
-					|| target.getOwner().getType() instanceof InternalObjectType
 					|| target.getOwner().getType() instanceof InternalTransientObjectType))
 				genChangingAttribute(sb, state, target, "Assign", varName, "null");
 
@@ -3221,11 +3220,15 @@ public class ModifyEvalGen extends CSharpBase
 			else if(var.getType() instanceof EdgeType)
 				kindStr = "Edge";
 			else if(var.getType() instanceof InternalObjectType)
-				return;
-			else
+				kindStr = "Object";
+			else {
 				assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
-		} else
+				return;
+			}
+		} else {
 			assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
+			return;
+		}
 
 		if(!isDeletedElem && be.system.mayFireEvents()) {
 			if(!Expression.isGlobalVariable(element)) {
@@ -3267,12 +3270,14 @@ public class ModifyEvalGen extends CSharpBase
 				kindStr = "Node";
 			else if(var.getType() instanceof EdgeType)
 				kindStr = "Edge";
-			else if(var.getType() instanceof InternalObjectType)
+			else {
+				assert false : "Entity is neither a node nor an edge (" + element + ")!";
 				return;
-			else
-				assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
-		} else
-			assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
+			}
+		} else {
+			assert false : "Entity is neither a node nor an edge (" + element + ")!";
+			return;
+		}
 
 		if(!isDeletedElem && be.system.mayFireDebugEvents()) {
 			if(!Expression.isGlobalVariable(element)) {
@@ -3307,8 +3312,22 @@ public class ModifyEvalGen extends CSharpBase
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
 			isDeletedElem = state.delEdges().contains(element);
-		} else
-			assert false : "Entity is neither a node nor an edge (" + element + ")!";
+		} else if(element instanceof Variable) {
+			Variable var = (Variable)element;
+			if(var.getType() instanceof NodeType)
+				kindStr = "Node";
+			else if(var.getType() instanceof EdgeType)
+				kindStr = "Edge";
+			else if(var.getType() instanceof InternalObjectType)
+				kindStr = "Object";
+			else {
+				assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
+				return;
+			}
+		} else {
+			assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
+			return;
+		}
 
 		if(!isDeletedElem && be.system.mayFireEvents()) {
 			if(attribute.getType() instanceof MapType) {
@@ -3369,8 +3388,20 @@ public class ModifyEvalGen extends CSharpBase
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
 			isDeletedElem = state.delEdges().contains(element);
-		} else
+		} else if(element instanceof Variable) {
+			Variable var = (Variable)element;
+			if(var.getType() instanceof NodeType)
+				kindStr = "Node";
+			else if(var.getType() instanceof EdgeType)
+				kindStr = "Edge";
+			else {
+				assert false : "Entity is neither a node nor an edge (" + element + ")!";
+				return;
+			}
+		} else {
 			assert false : "Entity is neither a node nor an edge (" + element + ")!";
+			return;
+		}
 
 		if(!isDeletedElem && be.system.mayFireDebugEvents()) {
 			sb.appendFront("graph.Changed" + kindStr + "Attribute(" +

@@ -306,6 +306,11 @@ namespace de.unika.ipd.grGen.libGr
                 INode node = ParseNodeDefinition(out nodeName);
                 graph.AddNode(node, nodeName);
             }
+            else if(LookaheadToken()==TokenKind.IDENT)
+            {
+                // new Object (overaccepting also null)
+                IObject obj = ParseClassObjectValue(); // used for side effect: inserts object into nameToClassObject
+            }
             else
                 throw GetSyntaxException("Syntax error", "@ for node start in edge definition or : for node definition");
         }
@@ -736,14 +741,16 @@ namespace de.unika.ipd.grGen.libGr
             /*AttributeChangeType changeType = AttributeChangeType.Assign;
             if(elem is INode)
                 graph.ChangingNodeAttribute((INode)owner, attrType, changeType, value, null);
+            else if(elem is IEdge)
+                graph.ChangingEdgeAttribute((IEdge)owner, attrType, changeType, value, null);
             else
-                graph.ChangingEdgeAttribute((IEdge)owner, attrType, changeType, value, null);            
+                graph.ChangingObjectAttribute((IObject)owner, attrType, changeType, value, null);
             */
             owner.SetAttribute(attrType.Name, attributeValue);
             /*if(elem is INode)
                 graph.ChangedNodeAttribute((INode)owner, attrType);
-            else
-                graph.ChangedEdgeAttribute((IEdge)owner, attrType);            
+            else if(elem is IEdge)
+                graph.ChangedEdgeAttribute((IEdge)owner, attrType);
             */
         }
 
@@ -961,7 +968,7 @@ namespace de.unika.ipd.grGen.libGr
             case AttributeKind.EdgeAttr:
                 return ParseEdgeValue(attrType.PackagePrefixedTypeName);
             case AttributeKind.InternalClassObjectAttr:
-                return ParseClassObjectValue(attrType.PackagePrefixedTypeName);
+                return ParseClassObjectValue();
             case AttributeKind.MapAttr:
             case AttributeKind.SetAttr:
             case AttributeKind.ArrayAttr:
@@ -972,7 +979,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        private IObject ParseClassObjectValue(String typeName)
+        private IObject ParseClassObjectValue()
         {
             if(LookaheadToken() == TokenKind.NULL)
             {

@@ -128,6 +128,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public event ChangingNodeAttributeHandler OnChangingNodeAttribute;
         public event ChangingEdgeAttributeHandler OnChangingEdgeAttribute;
+        public event ChangingObjectAttributeHandler OnChangingObjectAttribute;
         public event ChangedNodeAttributeHandler OnChangedNodeAttribute;
         public event ChangedEdgeAttributeHandler OnChangedEdgeAttribute;
 
@@ -214,6 +215,13 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(OnChangingEdgeAttribute != null)
                 OnChangingEdgeAttribute(edge, attrType, changeType, newValue, keyValue);
+        }
+
+        public void ChangingObjectAttribute(IObject obj, AttributeType attrType,
+            AttributeChangeType changeType, object newValue, object keyValue)
+        {
+            if(OnChangingObjectAttribute != null)
+                OnChangingObjectAttribute(obj, attrType, changeType, newValue, keyValue);
         }
 
         public void ChangedNodeAttribute(INode node, AttributeType attrType)
@@ -306,76 +314,92 @@ namespace de.unika.ipd.grGen.libGr
         }
 
 
-        // convenience helper function for firing the changing node/edge attribute event (contains graph element type dispatching and fixes the change type to assignment)
-        public static void ChangingAttributeAssign(IGraph graph, IGraphElement elem, AttributeType attrType, object value)
+        // convenience helper function for firing the changing node/edge/object attribute event (contains type dispatching and fixes the change type to assignment)
+        public static void ChangingAttributeAssign(IGraph graph, IAttributeBearer owner, AttributeType attrType, object value)
         {
-            if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.Assign, value, null);
+            if(owner is INode)
+                graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.Assign, value, null);
+            else if(owner is IEdge)
+                graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.Assign, value, null);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.Assign, value, null);
+                graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.Assign, value, null);
         }
 
-        // convenience helper function for firing the changing node/edge attribute event (contains graph element type dispatching and fixes the change type to (indexed) container element assignment)
-        public static void ChangingAttributeAssignElement(IGraph graph, IGraphElement elem, AttributeType attrType, object value, object key)
+        // convenience helper function for firing the changing node/edge/object attribute event (contains type dispatching and fixes the change type to (indexed) container element assignment)
+        public static void ChangingAttributeAssignElement(IGraph graph, IAttributeBearer owner, AttributeType attrType, object value, object key)
         {
-            if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.AssignElement, value, key);
+            if(owner is INode)
+                graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.AssignElement, value, key);
+            else if(owner is IEdge)
+                graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.AssignElement, value, key);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.AssignElement, value, key);
+                graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.AssignElement, value, key);
         }
 
-        // convenience helper function for firing the changing node/edge attribute event (for an attribute of array or deque type, contains graph element type dispatching and fixes the change type to element addition)
-        public static void ChangingAttributePutElement(IGraph graph, IGraphElement elem, AttributeType attrType, object value, object optionalIndex)
+        // convenience helper function for firing the changing node/edge/object attribute event (for an attribute of array or deque type, contains type dispatching and fixes the change type to element addition)
+        public static void ChangingAttributePutElement(IGraph graph, IAttributeBearer owner, AttributeType attrType, object value, object optionalIndex)
         {
-            if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, value, optionalIndex);
+            if(owner is INode)
+                graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.PutElement, value, optionalIndex);
+            else if(owner is IEdge)
+                graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.PutElement, value, optionalIndex);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, value, optionalIndex);
+                graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.PutElement, value, optionalIndex);
         }
 
-        // convenience helper function for firing the changing node/edge attribute event (for an attribute of array or deque type, contains graph element type dispatching and fixes the change type to element removal)
-        public static void ChangingAttributeRemoveElement(IGraph graph, IGraphElement elem, AttributeType attrType, object indexToRemove)
+        // convenience helper function for firing the changing node/edge/object attribute event (for an attribute of array or deque type, contains type dispatching and fixes the change type to element removal)
+        public static void ChangingAttributeRemoveElement(IGraph graph, IAttributeBearer owner, AttributeType attrType, object indexToRemove)
         {
-            if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, indexToRemove);
+            if(owner is INode)
+                graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.RemoveElement, null, indexToRemove);
+            else if(owner is IEdge)
+                graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.RemoveElement, null, indexToRemove);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, indexToRemove);
+                graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.RemoveElement, null, indexToRemove);
         }
 
-        // convenience helper function for firing the changing node/edge attribute event (for an attribute of set type, contains graph element type dispatching and fixes the change type to element addition)
-        public static void ChangingSetAttributePutElement(IGraph graph, IGraphElement elem, AttributeType attrType, object value)
+        // convenience helper function for firing the changing node/edge/object attribute event (for an attribute of set type, contains type dispatching and fixes the change type to element addition)
+        public static void ChangingSetAttributePutElement(IGraph graph, IAttributeBearer owner, AttributeType attrType, object value)
         {
-            if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, value, null);
+            if(owner is INode)
+                graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.PutElement, value, null);
+            else if(owner is IEdge)
+                graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.PutElement, value, null);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, value, null);
+                graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.PutElement, value, null);
         }
 
-        // convenience helper function for firing the changing node/edge attribute event (for an attribute of set type, contains graph element type dispatching and fixes the change type to element removal)
-        public static void ChangingSetAttributeRemoveElement(IGraph graph, IGraphElement elem, AttributeType attrType, object valueToRemove)
+        // convenience helper function for firing the changing node/edge/object attribute event (for an attribute of set type, contains type dispatching and fixes the change type to element removal)
+        public static void ChangingSetAttributeRemoveElement(IGraph graph, IAttributeBearer owner, AttributeType attrType, object valueToRemove)
         {
-            if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, valueToRemove, null);
+            if(owner is INode)
+                graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.RemoveElement, valueToRemove, null);
+            else if(owner is IEdge)
+                graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.RemoveElement, valueToRemove, null);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, valueToRemove, null);
+                graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.RemoveElement, valueToRemove, null);
         }
 
-        // convenience helper function for firing the changing node/edge attribute event (for an attribute of map type, contains graph element type dispatching and fixes the change type to element addition)
-        public static void ChangingMapAttributePutElement(IGraph graph, IGraphElement elem, AttributeType attrType, object key, object value)
+        // convenience helper function for firing the changing node/edge/object attribute event (for an attribute of map type, contains type dispatching and fixes the change type to element addition)
+        public static void ChangingMapAttributePutElement(IGraph graph, IAttributeBearer owner, AttributeType attrType, object key, object value)
         {
-            if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, value, key);
+            if(owner is INode)
+                graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.PutElement, value, key);
+            else if(owner is IEdge)
+                graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.PutElement, value, key);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, value, key);
+                graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.PutElement, value, key);
         }
 
-        // convenience helper function for firing the changing node/edge attribute event (for an attribute of map type, contains graph element type dispatching and fixes the change type to element removal)
-        public static void ChangingMapAttributeRemoveElement(IGraph graph, IGraphElement elem, AttributeType attrType, object keyToRemove)
+        // convenience helper function for firing the changing node/edge/object attribute event (for an attribute of map type, contains type dispatching and fixes the change type to element removal)
+        public static void ChangingMapAttributeRemoveElement(IGraph graph, IAttributeBearer owner, AttributeType attrType, object keyToRemove)
         {
-            if(elem is INode)
-                graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, keyToRemove);
+            if(owner is INode)
+                graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.RemoveElement, null, keyToRemove);
+            else if(owner is IEdge)
+                graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.RemoveElement, null, keyToRemove);
             else
-                graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, keyToRemove);
+                graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.RemoveElement, null, keyToRemove);
         }
 
         // convenience helper function for firing the changed node/edge attribute event (contains graph element type dispatching)
