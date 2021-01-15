@@ -1,0 +1,17 @@
+new graph transaction/transactionClassObject
+
+exec createTree
+
+exec <destroyTreeBottomUp ;> false>
+
+exec checkTree
+
+clear graph
+
+exec createTree
+
+exec <destroyTreeBottomUp ;> true>
+
+exec checkDestroyed
+
+quit

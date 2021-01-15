@@ -468,6 +468,18 @@ SequenceExpression InitMatchClassExprCont():
     }
 }
 
+SequenceExpression InitObjectExpr():
+{
+    String type;
+    SequenceExpression expr = null;
+}
+{
+    "new" type=TypeNonGeneric() expr=ExpressionInitObjectCont(type)
+    {
+        return expr;
+    }
+}
+
 SequenceExpression InitContainerExpr():
 {
     SequenceExpression res = null;
@@ -1216,9 +1228,14 @@ Sequence SimpleSequence():
             return new SequenceAssignConstToVar(toVar, constant); // needed as sequence to allow variable declaration and initialization in sequence scope
         }
     |
-        expr=InitContainerExpr()
+        LOOKAHEAD(3) expr=InitContainerExpr()
         {
             return new SequenceAssignContainerConstructorToVar(toVar, expr); // needed as sequence to allow variable declaration and initialization in sequence scope
+        }
+    |
+        expr=InitObjectExpr()
+        {
+            return new SequenceAssignObjectConstructorToVar(toVar, expr); // needed as sequence to allow variable declaration and initialization in sequence scope
         }
     |
         fromVar=Variable()

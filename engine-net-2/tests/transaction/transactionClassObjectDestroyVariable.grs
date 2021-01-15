@@ -1,0 +1,5 @@
+new graph transaction/transactionClassObject
+
+exec ::g=new Tree@(value = 0) ;> < {::g.left = new Tree@(value = 1); ::g.right = new Tree@(value = 2) } ;> false > ;> {{::g.left == null && ::g.right == null}}
+
+quit

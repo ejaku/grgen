@@ -177,7 +177,7 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoAttributeChanged : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
-        public readonly IGraphElement _elem;
+        public readonly IAttributeBearer _elem;
         public readonly AttributeType _attrType;
         public readonly UndoOperation _undoOperation;
         public readonly object _value;
@@ -185,14 +185,19 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly String _name; // for ToString only
         public readonly IGraph _graph; // for ToString only
 
-        public LGSPUndoAttributeChanged(IGraphElement elem, AttributeType attrType,
+        public LGSPUndoAttributeChanged(IAttributeBearer elem, AttributeType attrType,
                 AttributeChangeType changeType, object newValue, object keyValue, 
                 LGSPGraphProcessingEnvironment procEnv)
         {
             _elem = elem;
             _attrType = attrType;
             if(procEnv.graph is LGSPNamedGraph)
-                _name = ((LGSPNamedGraph)procEnv.graph).GetElementName(_elem);
+            {
+                if(_elem is IGraphElement)
+                    _name = ((LGSPNamedGraph)procEnv.graph).GetElementName((IGraphElement)_elem);
+                else
+                    _name = "hash" + _elem.GetHashCode();
+            }
             else
                 _name = "?";
             _graph = procEnv.graph;
@@ -483,14 +488,12 @@ namespace de.unika.ipd.grGen.lgsp
             default: throw new Exception("Internal error during transaction handling");
             }
 
-            LGSPNode node = _elem as LGSPNode;
-            if(node != null)
-                procEnv.graph.ChangingNodeAttribute(node, _attrType, changeType, _value, _keyOfValue);
+            if(_elem is LGSPNode)
+                procEnv.graph.ChangingNodeAttribute((LGSPNode)_elem, _attrType, changeType, _value, _keyOfValue);
+            else if(_elem is LGSPEdge)
+                procEnv.graph.ChangingEdgeAttribute((LGSPEdge)_elem, _attrType, changeType, _value, _keyOfValue);
             else
-            {
-                LGSPEdge edge = (LGSPEdge)_elem;
-                procEnv.graph.ChangingEdgeAttribute(edge, _attrType, changeType, _value, _keyOfValue);
-            }
+                procEnv.graph.ChangingObjectAttribute((LGSPObject)_elem, _attrType, changeType, _value, _keyOfValue);
         }
 
         public override string ToString()

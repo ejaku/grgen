@@ -1,0 +1,416 @@
+using transactionClassObject;
+
+rule createSeed
+{
+	modify {
+		n:N -e:E-> n;		
+	}
+}
+
+rule fillTreeTopDown
+{
+	n:N -e:E-> n;
+	
+	modify {	
+		eval {
+			n.b = new Tree@(value = 1);
+			def ref nt:Tree = n.b;
+			nt.left = new Tree@(value = 2);
+			nt.right = new Tree@(value = 4);
+			def ref ntl:Tree = nt.left;
+			ntl.left = new Tree@(value = 3);
+			def ref ntr:Tree = nt.right;
+			ntr.right = new Tree@(value = 5);
+
+			e.b = new Tree@(value = 1);
+			def ref et:Tree = e.b;
+			et.left = new Tree@(value = 2);
+			et.right = new Tree@(value = 4);
+			def ref etl:Tree = et.left;
+			etl.left = new Tree@(value = 3);
+			def ref etr:Tree = et.right;
+			etr.right = new Tree@(value = 5);
+		}
+	}
+}
+
+rule fillTreeBottomUp
+{
+	n:N -e:E-> n;
+	
+	modify {		
+		eval {
+			def ref ntll:Tree = new Tree@(value = 3);
+			def ref ntl:Tree = new Tree@(value = 2);
+			ntl.left = ntll;
+			def ref ntrr:Tree = new Tree@(value = 5);
+			def ref ntr:Tree = new Tree@(value = 4);
+			ntr.right = ntrr;
+			def ref nt:Tree = new Tree@(value = 1);
+			nt.left = ntl;
+			nt.right = ntr;
+			n.b = nt;
+
+			def ref etll:Tree = new Tree@(value = 3);
+			def ref etl:Tree = new Tree@(value = 2);
+			etl.left = etll;
+			def ref etrr:Tree = new Tree@(value = 5);
+			def ref etr:Tree = new Tree@(value = 4);
+			etr.right = etrr;
+			def ref et:Tree = new Tree@(value = 1);
+			et.left = etl;
+			et.right = etr;
+			e.b = et;
+		}
+	}
+}
+
+test checkTree
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.b.value == 1 &&
+		n.b.left.value == 2 &&
+		n.b.left.left.value == 3 &&
+		n.b.right.value == 4 &&
+		n.b.right.right.value == 5 &&
+		n.gra == null &&
+
+		e.b.value == 1 &&
+		e.b.left.value == 2 &&
+		e.b.left.left.value == 3 &&
+		e.b.right.value == 4 &&
+		e.b.right.right.value == 5 &&
+		e.gra == null;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+rule fillGraphTopDown
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			n.gra = new Graph@(value = 1);
+			def ref grra:Graph = n.gra;
+			def ref grrra:Graph = new Graph@(value = 2);
+			grra.children = array<Graph>[n.gra, grrra];
+			grrra.children = array<Graph>[n.gra];
+
+			e.gra = new Graph@(value = 1);
+			def ref egrra:Graph = e.gra;
+			def ref egrrra:Graph = new Graph@(value = 2);
+			egrra.children = array<Graph>[e.gra, egrrra];
+			egrrra.children = array<Graph>[e.gra];
+		}
+	}
+}
+
+rule fillGraphBottomUp
+{
+	n:N -e:E-> n;
+
+	modify {
+		eval {
+			n.gra = new Graph@(value = 1);
+			def ref grra:Graph = n.gra;
+			def ref grrra:Graph = new Graph@(value = 2);
+			grrra.children = array<Graph>[n.gra];
+			grra.children = array<Graph>[n.gra, grrra];
+
+			e.gra = new Graph@(value = 1);
+			def ref egrra:Graph = e.gra;
+			def ref egrrra:Graph = new Graph@(value = 2);
+			egrrra.children = array<Graph>[e.gra];
+			egrra.children = array<Graph>[e.gra, egrrra];
+		}
+	}
+}
+
+rule fillGraphTopDownAdding
+{
+	n:N -e:E-> n;
+
+	modify {
+		eval {
+			n.gra = new Graph@(value = 1);
+			def ref grra:Graph = n.gra;
+			grra.children = array<Graph>[];
+			grra.children.add(n.gra);
+			def ref grrra:Graph = new Graph@(value = 2);
+			grra.children.add(grrra);
+			grrra.children = array<Graph>[];
+			grrra.children.add(n.gra);
+
+			e.gra = new Graph@(value = 1);
+			def ref egrra:Graph = e.gra;
+			egrra.children = array<Graph>[];
+			egrra.children.add(e.gra);
+			def ref egrrra:Graph = new Graph@(value = 2);
+			egrra.children.add(egrrra);
+			egrrra.children = array<Graph>[];
+			egrrra.children.add(e.gra);
+		}
+	}
+}
+
+rule fillGraphBottomUpAdding
+{
+	n:N -e:E-> n;
+
+	modify {
+		eval {
+			def ref grrra:Graph = new Graph@(value = 2);
+			grrra.children = array<Graph>[];
+			n.gra = new Graph@(value = 1);
+			def ref grra:Graph = n.gra;
+			grrra.children.add(n.gra);
+			grra.children = array<Graph>[];
+			grra.children.add(n.gra);
+			grra.children.add(grrra);
+
+			def ref egrrra:Graph = new Graph@(value = 2);
+			egrrra.children = array<Graph>[];
+			e.gra = new Graph@(value = 1);
+			def ref egrra:Graph = e.gra;
+			egrrra.children.add(e.gra);
+			egrra.children = array<Graph>[];
+			egrra.children.add(e.gra);
+			egrra.children.add(egrrra);
+		}
+	}
+}
+
+test checkGraph
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.b == null &&
+		n.gra.value == 1 &&
+		n.gra.children[0].value == 1 &&
+		n.gra.children[0].children.size() == 2 &&
+		n.gra.children[1].value == 2 &&
+		n.gra.children[1].children.size() == 1 &&
+
+		e.b == null &&
+		e.gra.value == 1 &&
+		e.gra.children[0].value == 1 &&
+		e.gra.children[0].children.size() == 2 &&
+		e.gra.children[1].value == 2 &&
+		e.gra.children[1].children.size() == 1;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+rule createTree
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			n.b = new Tree@(value = 1, left = new Tree@(value = 2, left = new Tree@(value = 3)), right = new Tree@(value = 4, right = new Tree@(value = 5)));
+			n.gra = null;
+
+			e.b = new Tree@(value = 1, left = new Tree@(value = 2, left = new Tree@(value = 3)), right = new Tree@(value = 4, right = new Tree@(value = 5)));
+			e.gra = null;
+		}
+	}
+}
+
+rule destroyTreeTopDown
+{
+	n:N -e:E-> n;
+
+	modify {		
+		eval {
+			def ref nt:Tree = n.b;
+			n.b = null;
+			def ref ntl:Tree = nt.left;
+			ntl.left = null;
+			def ref ntr:Tree = nt.right;
+			ntr.right = null;
+
+			def ref et:Tree = e.b;
+			e.b = null;
+			def ref etl:Tree = et.left;
+			etl.left = null;
+			def ref etr:Tree = et.right;
+			etr.right = null;
+		}
+	}
+}
+
+rule destroyTreeBottomUp
+{
+	n:N -e:E-> n;
+
+	modify {		
+		eval {
+			def ref nt:Tree = n.b;
+			def ref ntl:Tree = nt.left;
+			def ref ntr:Tree = nt.right;
+			ntl.left = null;
+			ntr.right = null;
+			nt.right = null;
+			nt.left = null;
+			n.b = null;
+
+			def ref et:Tree = e.b;
+			def ref etl:Tree = et.left;
+			def ref etr:Tree = et.right;
+			etl.left = null;
+			etr.right = null;
+			et.right = null;
+			et.left = null;
+			e.b = null;
+		}
+	}
+}
+
+test checkDestroyed
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.b == null && e.b == null;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+rule createGraph
+{
+	modify {
+		n:N -e:E-> n;
+		
+		eval {
+			n.b = null;
+			n.gra = new Graph@(value = 1);
+			def ref grra:Graph = n.gra;
+			grra.children = array<Graph>[n.gra, new Graph@(value = 2, children = array<Graph>[n.gra])];
+
+			e.b = null;
+			e.gra = new Graph@(value = 1);
+			def ref egrra:Graph = e.gra;
+			egrra.children = array<Graph>[e.gra, new Graph@(value = 2, children = array<Graph>[e.gra])];
+		}
+	}
+}
+
+rule destroyGraphTopDown
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			def ref grra:Graph = n.gra;
+			def ref grrra:Graph = grra.children[1];
+			n.gra = null;
+			grra.children = null;
+			grrra.children = null;
+			
+			def ref egrra:Graph = e.gra;
+			def ref egrrra:Graph = egrra.children[1];
+			e.gra = null;
+			egrra.children = null;
+			egrrra.children = null;
+		}
+	}
+}
+
+rule destroyGraphBottomUp
+{
+	n:N -e:E-> n;
+
+	modify {		
+		eval {
+			def ref grra:Graph = n.gra;
+			def ref grrra:Graph = grra.children[1];
+			grrra.children = null;
+			grra.children = null;
+			n.gra = null;
+			
+			def ref egrra:Graph = e.gra;
+			def ref egrrra:Graph = egrra.children[1];
+			egrrra.children = null;
+			egrra.children = null;
+			e.gra = null;
+		}
+	}
+}
+
+rule destroyGraphTopDownRemoving
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			def ref grra:Graph = n.gra;
+			def ref grrra:Graph = grra.children[1];
+			n.gra = null;
+			grra.children.rem();
+			grra.children.rem();
+			grra.children = null;
+			grrra.children.rem();
+			grrra.children = null;
+			
+			def ref egrra:Graph = e.gra;
+			def ref egrrra:Graph = egrra.children[1];
+			e.gra = null;
+			egrra.children.rem();
+			egrra.children.rem();
+			egrra.children = null;
+			egrrra.children.rem();
+			egrrra.children = null;
+		}
+	}
+}
+
+rule destroyGraphBottomUpRemoving
+{
+	n:N -e:E-> n;
+	
+	modify {		
+		eval {
+			def ref grra:Graph = n.gra;
+			def ref grrra:Graph = grra.children[1];
+			grrra.children.rem();
+			grrra.children = null;
+			grra.children.rem();
+			grra.children.rem();
+			grra.children = null;
+			n.gra = null;
+			
+			def ref egrra:Graph = e.gra;
+			def ref egrrra:Graph = egrra.children[1];
+			egrrra.children.rem();
+			egrrra.children = null;
+			egrra.children.rem();
+			egrra.children.rem();
+			egrra.children = null;
+			e.gra = null;
+		}
+	}
+}
+
+test checkGraphDestroyed
+{
+	n:N -e:E-> n;
+	
+	if {
+		n.gra == null && e.gra == null;
+	}
+}
+
+rule smokeTest
+{
+	modify {
+	---
+		exec(::g=new Tree@(value = 0));
+	}
+}

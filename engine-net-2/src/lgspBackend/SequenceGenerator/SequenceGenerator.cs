@@ -171,6 +171,10 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequenceAssignContainerConstructorToVar((SequenceAssignContainerConstructorToVar)seq, source);
                 break;
 
+            case SequenceType.AssignObjectConstructorToVar:
+                EmitSequenceAssignObjectConstructorToVar((SequenceAssignObjectConstructorToVar)seq, source);
+                break;
+
             case SequenceType.AssignVarToVar:
                 EmitSequenceAssignVarToVar((SequenceAssignVarToVar)seq, source);
                 break;
@@ -1091,6 +1095,12 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private void EmitSequenceAssignContainerConstructorToVar(SequenceAssignContainerConstructorToVar seqToVar, SourceBuilder source)
+        {
+            source.AppendFront(seqHelper.SetVar(seqToVar.DestVar, exprGen.GetSequenceExpression(seqToVar.Constructor, source)));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqToVar, "true"));
+        }
+
+        private void EmitSequenceAssignObjectConstructorToVar(SequenceAssignObjectConstructorToVar seqToVar, SourceBuilder source)
         {
             source.AppendFront(seqHelper.SetVar(seqToVar.DestVar, exprGen.GetSequenceExpression(seqToVar.Constructor, source)));
             source.AppendFront(COMP_HELPER.SetResultVar(seqToVar, "true"));

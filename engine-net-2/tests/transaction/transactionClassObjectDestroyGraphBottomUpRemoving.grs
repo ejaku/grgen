@@ -1,0 +1,17 @@
+new graph transaction/transactionClassObject
+
+exec createGraph
+
+exec <destroyGraphBottomUpRemoving ;> false>
+
+exec checkGraph
+
+clear graph
+
+exec createGraph
+
+exec <destroyGraphBottomUpRemoving ;> true>
+
+exec checkGraphDestroyed
+
+quit

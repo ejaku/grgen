@@ -35,7 +35,7 @@ namespace de.unika.ipd.grGen.lgsp
         private readonly LGSPGraphProcessingEnvironment procEnv;
 
 #if LOG_TRANSACTION_HANDLING
-        private StreamWriter writer;
+        private System.IO.StreamWriter writer;
         private int transactionLevel = 0;
 #endif
 
@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.procEnv = procEnv;
 
 #if LOG_TRANSACTION_HANDLING
-            writer = new StreamWriter(procEnv.graph.Name + "_transaction_log.txt");
+            writer = new System.IO.StreamWriter(procEnv.graph.Name + "_transaction_log.txt");
 #endif
         }
 
@@ -56,6 +56,7 @@ namespace de.unika.ipd.grGen.lgsp
             procEnv.graph.OnRemovingEdge += RemovingElement;
             procEnv.graph.OnChangingNodeAttribute += ChangingElementAttribute;
             procEnv.graph.OnChangingEdgeAttribute += ChangingElementAttribute;
+            procEnv.graph.OnChangingObjectAttribute += ChangingElementAttribute;
             procEnv.graph.OnRetypingNode += RetypingElement;
             procEnv.graph.OnRetypingEdge += RetypingElement;
             procEnv.graph.OnRedirectingEdge += RedirectingEdge;
@@ -79,6 +80,7 @@ namespace de.unika.ipd.grGen.lgsp
             procEnv.graph.OnRemovingEdge -= RemovingElement;
             procEnv.graph.OnChangingNodeAttribute -= ChangingElementAttribute;
             procEnv.graph.OnChangingEdgeAttribute -= ChangingElementAttribute;
+            procEnv.graph.OnChangingObjectAttribute -= ChangingElementAttribute;
             procEnv.graph.OnRetypingNode -= RetypingElement;
             procEnv.graph.OnRetypingEdge -= RetypingElement;
             procEnv.graph.OnRedirectingEdge -= RedirectingEdge;
@@ -221,10 +223,15 @@ namespace de.unika.ipd.grGen.lgsp
                         INode node = (INode)item._elem;
                         writer.WriteLine("ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
                     }
-                    else
+                    else if(item._elem is IEdge)
                     {
                         IEdge edge = (IEdge)item._elem;
                         writer.WriteLine("ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + " ->" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
+                    }
+                    else
+                    {
+                        IObject obj = (IObject)item._elem;
+                        writer.WriteLine("ElementAdded: hash" + obj.GetHashCode() + ":" + obj.Type.Name);
                     }
                 }
                 else if(lastItem is LGSPUndoElemRemoved)
@@ -235,16 +242,24 @@ namespace de.unika.ipd.grGen.lgsp
                         INode node = (INode)item._elem;
                         writer.WriteLine("RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
                     }
-                    else
+                    else if(item._elem is IEdge)
                     {
                         IEdge edge = (IEdge)item._elem;
                         writer.WriteLine("RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + "-> " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
+                    }
+                    else
+                    {
+                        IObject obj = (IObject)item._elem;
+                        writer.WriteLine("RemovingElement: hash" + obj.GetHashCode() + ":" + obj.Type.Name);
                     }
                 }
                 else if(lastItem is LGSPUndoAttributeChanged)
                 {
                     LGSPUndoAttributeChanged item = (LGSPUndoAttributeChanged)lastItem;
-                    writer.WriteLine("ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._elem) + ":" + item._elem.Type.Name + "." + item._attrType.Name);
+                    if(item._elem is IGraphElement)
+                        writer.WriteLine("ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName((IGraphElement)item._elem) + ":" + item._elem.Type.Name + "." + item._attrType.Name);
+                    else
+                        writer.WriteLine("ChangingElementAttribute: hash" + ((IObject)item._elem).GetHashCode() + ":" + item._elem.Type.Name + "." + item._attrType.Name);
                 }
                 else if(lastItem is LGSPUndoElemRetyped)
                 {
@@ -361,14 +376,17 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public void ChangingElementAttribute(IGraphElement elem, AttributeType attrType,
+        public void ChangingElementAttribute(IAttributeBearer owner, AttributeType attrType,
                 AttributeChangeType changeType, object newValue, object keyValue)
         {
 #if LOG_TRANSACTION_HANDLING
-            writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(elem) + ":" + elem.Type.Name + "." + attrType.Name);
+            if(owner is IGraphElement)
+                writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName((IGraphElement)owner) + ":" + owner.Type.Name + "." + attrType.Name);
+            else
+                writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ChangingElementAttribute: hash" + ((IObject)owner).GetHashCode() + ":" + owner.Type.Name + "." + attrType.Name);
 #endif
             if(recording && !paused && !undoing)
-                undoItems.Add(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue, procEnv));
+                undoItems.Add(new LGSPUndoAttributeChanged(owner, attrType, changeType, newValue, keyValue, procEnv));
         }
 
         public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)

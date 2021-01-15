@@ -156,6 +156,8 @@ seqSimpleSequence [ ExecNode xg ]
 		|
 			(seqConstant[null]) => seqConstant[xg]
 		|
+			seqInitObjectExpr[xg]
+		|
 			seqVarUse[xg]
 		|
 			d=DOLLAR MOD LPAREN seqTypeIdentUse RPAREN

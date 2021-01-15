@@ -38,9 +38,13 @@ public abstract class ContainerQualProcedureMethodInvocationBase extends Builtin
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();
-		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity)entity);
-
+		if(!isGlobalVariable(entity)) {
+			if(entity instanceof GraphEntity)
+				needs.add((GraphEntity)entity);
+			else
+				needs.add((Variable)entity);
+		}
+		
 		// Temporarily do not collect variables for target
 		HashSet<Variable> varSet = needs.variables;
 		needs.variables = null;

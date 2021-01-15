@@ -244,6 +244,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 IObject elem = (IObject)target;
 
+                AttributeType attrType = elem.Type.GetAttributeType(attributeName);
+
+                BaseGraph.ChangingAttributeAssign(graph, elem, attrType, value);
+
                 elem.SetAttribute(attributeName, value);
             }
             else //if(target is ITransientObject)

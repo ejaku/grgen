@@ -1,0 +1,17 @@
+new graph transaction/transactionClassObject
+
+exec createSeed
+
+exec <fillTreeTopDown ;> false>
+
+exec checkDestroyed
+
+clear graph
+
+exec createSeed
+
+exec <fillTreeTopDown ;> true>
+
+exec checkTree
+
+quit

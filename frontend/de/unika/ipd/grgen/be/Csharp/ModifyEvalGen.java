@@ -397,10 +397,10 @@ public class ModifyEvalGen extends CSharpBase
 			String typeName = formatAttributeType(targetType);
 			String varName = "tempvar_" + tmpVarID++;
 			sb.appendFront(typeName + " " + varName + " = ");
-			if(mustCopy)
+			if(mustCopy && !(expr instanceof Constant)) // only null supported as constant
 				sb.append("new " + typeName + "(");
 			genExpression(sb, expr, state);
-			if(mustCopy)
+			if(mustCopy && !(expr instanceof Constant))
 				sb.append(")");
 			sb.append(";\n");
 
@@ -3270,12 +3270,14 @@ public class ModifyEvalGen extends CSharpBase
 				kindStr = "Node";
 			else if(var.getType() instanceof EdgeType)
 				kindStr = "Edge";
+			else if(var.getType() instanceof InternalObjectType)
+				return;
 			else {
-				assert false : "Entity is neither a node nor an edge (" + element + ")!";
+				assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
 				return;
 			}
 		} else {
-			assert false : "Entity is neither a node nor an edge (" + element + ")!";
+			assert false : "Entity is neither a node nor an edge nor an object (" + element + ")!";
 			return;
 		}
 

@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.libGr
         RuleCall, RuleAllCall, RuleCountAllCall, RulePrefixedSequence,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
         AssignUserInputToVar, AssignRandomIntToVar, AssignRandomDoubleToVar, // needed as sequence because of debugger integration
-        DeclareVariable, AssignConstToVar, AssignContainerConstructorToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
+        DeclareVariable, AssignConstToVar, AssignContainerConstructorToVar, AssignObjectConstructorToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
         ExecuteInSubgraph,
         BooleanComputation,
@@ -2773,6 +2773,68 @@ namespace de.unika.ipd.grGen.libGr
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceAssignContainerConstructorToVar(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            Constructor.Check(env);
+
+            if(!TypesHelper.IsSameOrSubtype(Constructor.Type(env), DestVar.Type, env.Model))
+                throw new SequenceParserException(Constructor.Symbol, DestVar.Type, Constructor.Type(env));
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            return Assign(Constructor.Evaluate(procEnv), procEnv);
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors, Sequence target)
+        {
+            DestVar.GetLocalVariables(variables);
+            Constructor.GetLocalVariables(variables, constructors);
+            return this == target;
+        }
+
+        public override IEnumerable<SequenceBase> ChildrenBase
+        {
+            get
+            {
+                foreach(Sequence child in Children)
+                {
+                    yield return child;
+                }
+            }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                return DestVar.Name + "=" + Constructor.Symbol;
+            }
+        }
+    }
+
+    public class SequenceAssignObjectConstructorToVar : SequenceAssignToVar
+    {
+        public readonly SequenceExpression Constructor;
+
+        public SequenceAssignObjectConstructorToVar(SequenceVariable destVar, SequenceExpression constructor)
+            : base(SequenceType.AssignObjectConstructorToVar, destVar)
+        {
+            Constructor = constructor;
+        }
+
+        protected SequenceAssignObjectConstructorToVar(SequenceAssignObjectConstructorToVar that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+            Constructor = that.Constructor.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceAssignObjectConstructorToVar(this, originalToCopy, procEnv);
         }
 
         public override void Check(SequenceCheckingEnvironment env)
