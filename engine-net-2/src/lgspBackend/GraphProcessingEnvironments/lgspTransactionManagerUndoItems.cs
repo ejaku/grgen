@@ -502,54 +502,54 @@ namespace de.unika.ipd.grGen.lgsp
             if(_undoOperation == UndoOperation.PutElement)
             {
                 if(_attrType.Kind == AttributeKind.SetAttr)
-                    return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_value, _graph, false) + ")";
+                    return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_value, _graph, false, null) + ")";
                 else if(_attrType.Kind == AttributeKind.MapAttr)
-                    return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false) + ", " + EmitHelper.ToStringAutomatic(_value, _graph, false) + ")";
+                    return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false, null) + ", " + EmitHelper.ToStringAutomatic(_value, _graph, false, null) + ")";
                 else if(_attrType.Kind == AttributeKind.ArrayAttr)
                 {
                     if(_keyOfValue == null)
-                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_value, _graph, false) + ")";
+                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_value, _graph, false, null) + ")";
                     else
-                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false) + ", " + EmitHelper.ToStringAutomatic(_value, _graph, false) + ")";
+                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false, null) + ", " + EmitHelper.ToStringAutomatic(_value, _graph, false, null) + ")";
                 }
                 else //if(_attrType.Kind == AttributeKind.DequeAttr)
                 {
                     if(_keyOfValue == null)
-                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_value, _graph, false) + ")";
+                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_value, _graph, false, null) + ")";
                     else
-                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false) + ", " + EmitHelper.ToStringAutomatic(_value, _graph, false) + ")";
+                        return NameDotAttribute() + ".add(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false, null) + ", " + EmitHelper.ToStringAutomatic(_value, _graph, false, null) + ")";
                 }
             }
             else if(_undoOperation == UndoOperation.RemoveElement)
             {
                 if(_attrType.Kind == AttributeKind.SetAttr)
-                    return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_value, _graph, false) + ")";
+                    return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_value, _graph, false, null) + ")";
                 else if(_attrType.Kind == AttributeKind.MapAttr)
-                    return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false) + ")";
+                    return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false, null) + ")";
                 else if(_attrType.Kind == AttributeKind.ArrayAttr)
                 {
                     if(_keyOfValue == null)
                         return NameDotAttribute() + ".rem()";
                     else
-                        return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false) + ")";
+                        return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false, null) + ")";
                 }
                 else //if(_attrType.Kind == AttributeKind.DequeAttr)
                 {
                     if(_keyOfValue == null)
                         return NameDotAttribute() + ".rem()";
                     else
-                        return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false) + ")";
+                        return NameDotAttribute() + ".rem(" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false, null) + ")";
                 }
             }
             else if(_undoOperation == UndoOperation.AssignElement)
             {
                 if(_attrType.Kind == AttributeKind.ArrayAttr)
-                    return NameDotAttribute() + "[" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false) + "] = " + EmitHelper.ToStringAutomatic(_value, _graph, false);
+                    return NameDotAttribute() + "[" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false, null) + "] = " + EmitHelper.ToStringAutomatic(_value, _graph, false, null);
                 else //if(_attrType.Kind == AttributeKind.DequeAttr)
-                    return NameDotAttribute() + "[" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false) + "] = " + EmitHelper.ToStringAutomatic(_value, _graph, false);
+                    return NameDotAttribute() + "[" + EmitHelper.ToStringAutomatic(_keyOfValue, _graph, false, null) + "] = " + EmitHelper.ToStringAutomatic(_value, _graph, false, null);
             }
             else if(_undoOperation == UndoOperation.Assign)
-                return NameDotAttribute() + " = " + EmitHelper.ToStringAutomatic(_value, _graph, false);
+                return NameDotAttribute() + " = " + EmitHelper.ToStringAutomatic(_value, _graph, false, null);
             return "nop (idempotent action)";
         }
 

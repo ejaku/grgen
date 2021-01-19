@@ -918,7 +918,11 @@ public abstract class CSharpBase
 				sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(")");
-			} else if(t instanceof BaseInternalObjectType) {
+			} else if(t instanceof InternalObjectType) {
+				sb.append("(");
+				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+				sb.append(").Clone(graph)");
+			} else if(t instanceof InternalTransientObjectType) {
 				sb.append("(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(").Clone()");
@@ -945,19 +949,19 @@ public abstract class CSharpBase
 						|| cast.getExpression().getType() instanceof SetType) {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, false)");
+					sb.append(", graph, false, null)");
 				} else if(cast.getExpression().getType() instanceof ArrayType) {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, false)");
+					sb.append(", graph, false, null)");
 				} else if(cast.getExpression().getType() instanceof DequeType) {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, false)");
+					sb.append(", graph, false, null)");
 				} else {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, false)");
+					sb.append(", graph, false, null)");
 				}
 			} else if(typeName == "object") {
 				// no cast needed
@@ -2036,11 +2040,12 @@ public abstract class CSharpBase
 			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
 		} else if(expr instanceof InternalObjectInit) {
 			InternalObjectInit ioi = (InternalObjectInit)expr;
+			String fetchUniqueIdIfObject = ioi.getBaseInternalObjectType() instanceof InternalObjectType ? "graph.FetchObjectUniqueId()" : "";
 			if(ioi.attributeInitializations.isEmpty()) {
-				sb.append("new " + formatBaseInternalObjectType(ioi.getInternalObjectType()) + "()");
+				sb.append("new " + formatBaseInternalObjectType(ioi.getBaseInternalObjectType()) + "(" + fetchUniqueIdIfObject + ")");
 			} else {
-				sb.append("fill_" + ioi.getAnonymousInternalObjectInitName() + "(");
-				boolean first = true;
+				sb.append("fill_" + ioi.getAnonymousInternalObjectInitName() + "(" + fetchUniqueIdIfObject);
+				boolean first = ioi.getBaseInternalObjectType() instanceof InternalObjectType ? false : true;
 				for(Expression aie : ioi.getAttributeInitializationExpressions()) {
 					if(first)
 						first = false;
@@ -3709,9 +3714,10 @@ public abstract class CSharpBase
 		Entity internalObject = new Entity(internalObjectName, new Ident(internalObjectName, Coords.getBuiltin()), internalObjectInit.getType(), false, true, 0);
 		String attrType = formatInheritanceClassRef(internalObjectInit.getType());
 
-		sb.appendFront("public static " + attrType + " fill_" + internalObjectName + "(");
+		String uniqueIdDeclIfObject = internalObjectInit.getBaseInternalObjectType() instanceof InternalObjectType ? "long uniqueId" : "";
+		sb.appendFront("public static " + attrType + " fill_" + internalObjectName + "(" + uniqueIdDeclIfObject);
 		int itemCounter = 0;
-		boolean first = true;
+		boolean first = internalObjectInit.getBaseInternalObjectType() instanceof InternalObjectType ?  false : true;
 		for(Expression item : internalObjectInit.getAttributeInitializationExpressions()) {
 			String itemType = formatType(item.getType());
 			if(first) {
@@ -3724,8 +3730,10 @@ public abstract class CSharpBase
 		}
 		sb.append(") {\n");
 		sb.indent();
+
+		String uniqueIdUsageIfObject = internalObjectInit.getBaseInternalObjectType() instanceof InternalObjectType ? "uniqueId" : "";
 		sb.appendFront(attrType + " " + internalObjectName + " = " +
-				"new " + attrType + "();\n");
+				"new " + attrType + "(" + uniqueIdUsageIfObject + ");\n");
 
 		int itemLength = internalObjectInit.attributeInitializations.size();
 		for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {

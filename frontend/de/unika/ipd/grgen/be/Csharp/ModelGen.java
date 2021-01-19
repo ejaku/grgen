@@ -705,6 +705,13 @@ public class ModelGen extends CSharpBase
 			initAllMembersNonConst(type, "this", false, false);
 			sb.unindent();
 			sb.appendFront("}\n");
+		} else if(type instanceof InternalObjectType) {
+			sb.appendFront("public " + elemname + "(long uniqueId) : base(" + typeref + ".typeVar, uniqueId)\n");
+			sb.appendFront("{\n");
+			sb.indent();
+			initAllMembersNonConst(type, "this", false, false);
+			sb.unindent();
+			sb.appendFront("}\n");
 		} else {
 			sb.appendFront("public " + elemname + "() : base(" + typeref + ".typeVar)\n");
 			sb.appendFront("{\n");
@@ -737,8 +744,8 @@ public class ModelGen extends CSharpBase
 			routedSB.appendFrontIndented("return new " + routedDeclName + "(this);\n");
 			routedSB.appendFront("}\n");
 		} else {
-			routedSB.appendFront("public override GRGEN_LIBGR.IObject Clone() {\n");
-			routedSB.appendFrontIndented("return new " + routedDeclName + "(this);\n");
+			routedSB.appendFront("public override GRGEN_LIBGR.IObject Clone(GRGEN_LIBGR.IGraph graph) {\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, ((GRGEN_LGSP.LGSPGraph)graph).FetchObjectUniqueId());\n");
 			routedSB.appendFront("}\n");
 		}
 	}
@@ -754,6 +761,9 @@ public class ModelGen extends CSharpBase
 					+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)\n");
 			routedSB.appendFrontIndented(": base("
 					+ (extName == null ? typeref + ".typeVar, " : "") + "newSource, newTarget)\n");
+		} else if(type instanceof InternalObjectType) {
+			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, long uniqueId) : base("
+					+ (extName == null ? typeref + ".typeVar," : "") + "uniqueId)\n");
 		} else {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem) : base("
 					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
@@ -2046,22 +2056,26 @@ deque_init_loop:
 			sb.appendFront("public override GRGEN_LIBGR.ITransientObject CreateTransientObject()\n");
 			sb.appendFront("{\n");
 			sb.indent();
-			if(type.isAbstract())
+			if(type.isAbstract()) {
 				sb.appendFront("throw new Exception(\"The abstract transient object class type "
 						+ typeident + " cannot be instantiated!\");\n");
-			else
+			} else
 				sb.appendFront("return new " + allocName + "();\n");
 			sb.unindent();
 			sb.appendFront("}\n");
 		} else {
-			sb.appendFront("public override GRGEN_LIBGR.IObject CreateObject()\n");
+			sb.appendFront("public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)\n");
 			sb.appendFront("{\n");
 			sb.indent();
-			if(type.isAbstract())
+			if(type.isAbstract()) {
 				sb.appendFront("throw new Exception(\"The abstract object class type "
 						+ typeident + " cannot be instantiated!\");\n");
-			else
-				sb.appendFront("return new " + allocName + "();\n");
+			} else {
+				sb.appendFront("if(uniqueId != -1)\n");
+				sb.appendFrontIndented("return new " + allocName + "(graph.FetchObjectUniqueId(uniqueId));\n");
+				sb.appendFront("else\n");
+				sb.appendFrontIndented("return new " + allocName + "(graph.FetchObjectUniqueId());\n");
+			}
 			sb.unindent();
 			sb.appendFront("}\n");
 		}
@@ -2518,7 +2532,7 @@ deque_init_loop:
 			sb.indent();
 		} else {
 			sb.appendFront("public override GRGEN_LIBGR.IObject CreateObjectWithCopyCommons("
-					+ "GRGEN_LIBGR.IObject oldIObject)\n");
+					+ "GRGEN_LIBGR.IObject oldIObject, GRGEN_LIBGR.IGraph graph)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 		}
@@ -2546,7 +2560,7 @@ deque_init_loop:
 				sb.appendFront(elemref + " newTransientObject = new " + allocName + "();\n");
 			} else {
 				sb.appendFront("GRGEN_LGSP.LGSPClass oldClass = (GRGEN_LGSP.LGSPClass) oldIObject;\n");
-				sb.appendFront(elemref + " newObject = new " + allocName + "();\n");
+				sb.appendFront(elemref + " newObject = new " + allocName + "(graph.FetchObjectUniqueId());\n");
 			}
 			sb.appendFront("switch(old" + kindName + ".Type.TypeID)\n");
 			sb.appendFront("{\n");
@@ -2569,7 +2583,7 @@ deque_init_loop:
 			} else if(type instanceof InternalTransientObjectType) {
 				sb.appendFront("return new " + allocName + "();\n");
 			} else {
-				sb.appendFront("return new " + allocName + "();\n");
+				sb.appendFront("return new " + allocName + "(graph.FetchObjectUniqueId());\n");
 			}
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -2895,6 +2909,9 @@ commonLoop:
 		if(type instanceof EdgeType) {
 			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = "
 					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "(null, null);\n");
+		} else if (type instanceof InternalObjectType) {
+			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = "
+					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "(-1);\n");
 		} else {
 			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = "
 					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "();\n");
@@ -3099,7 +3116,7 @@ commonLoop:
 	////////////////////////////
 
 	/**
-	 * Generates the model class for the edge or node types.
+	 * Generates the model class for the node or edge or class object or transient class object types.
 	 */
 	private void genModelClass(Collection<? extends InheritanceType> types, InheritanceTypeType typeType)
 	{

@@ -1,6 +1,6 @@
 0
 0
-"Diamond{i:42,e:Baz,n:,s:foo,d:3.141592654}"
+"Diamond{%:%0,i:42,e:Baz,n:,s:foo,d:3.141592654}"
 1
 1
 "True"
@@ -15,7 +15,7 @@
 "False"
 0
 0
-"Diamond{i:43,e:Baz,n:,s:bar,d:3.141592654}"
+"Diamond{%:%1,i:43,e:Baz,n:,s:bar,d:3.141592654}"
 1
 1
 "False"

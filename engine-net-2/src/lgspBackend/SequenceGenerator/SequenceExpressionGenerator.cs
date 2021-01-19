@@ -742,7 +742,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(env.Model.ObjectModel.GetType(seqCopy.ObjectToBeCopied.Type(env)) != null)
             {
-                return "((GRGEN_LIBGR.IObject)(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Clone())";
+                return "((GRGEN_LIBGR.IObject)(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Clone(graph))";
             }
             else if(env.Model.TransientObjectModel.GetType(seqCopy.ObjectToBeCopied.Type(env)) != null)
             {
@@ -812,19 +812,21 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqNew.AttributeInitializationList == null)
             {
                 if(TypesHelper.GetObjectType(seqNew.ConstructedType, model) != null)
-                    return "procEnv.Graph.Model.ObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateObject()";
+                    return "procEnv.Graph.Model.ObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateObject(procEnv.Graph, procEnv.Graph.FetchObjectUniqueId())";
                 else //if(TypesHelper.GetTransientObjectType(seqNew.ConstructedType, model) != null)
                     return "procEnv.Graph.Model.TransientObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateTransientObject()";
             }
             else
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append("fillFromSequence_" + seqNew.Id);
-                sb.Append("(");
+                sb.Append("fillFromSequence_" + seqNew.Id + "(");
+                BaseObjectType objectType = env.Model.ObjectModel.GetType(seqNew.ConstructedType);
+                if(objectType != null)
+                    sb.Append("procEnv.Graph.FetchObjectUniqueId()");
                 for(int i = 0; i < seqNew.AttributeInitializationList.Count; ++i)
                 {
                     KeyValuePair<string, SequenceExpression> attributeInitialization = seqNew.AttributeInitializationList[i];
-                    if(i > 0)
+                    if(i > 0 || objectType != null)
                         sb.Append(", ");
                     sb.Append("(");
                     sb.Append(TypesHelper.XgrsTypeToCSharpType(env.TypeOfMemberOrAttribute(seqNew.ConstructedType, attributeInitialization.Key), model));

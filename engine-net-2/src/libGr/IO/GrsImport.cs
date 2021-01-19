@@ -10,6 +10,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -485,20 +486,12 @@ namespace de.unika.ipd.grGen.libGr
                 throw new Exception(GetOwnerName(owner) + "." + attrName + " is neither a map nor an array nor a deque.");
         }
 
-        // expensive, only intended to be used under exceptional circumstances
         private string GetOwnerName(IAttributeBearer owner)
         {
             if(owner is IGraphElement)
-                graph.GetElementName((IGraphElement)owner);
+                return graph.GetElementName((IGraphElement)owner);
             else
-            {
-                foreach(KeyValuePair<string, IObject> keyValuePair in nameToClassObject)
-                {
-                    if(keyValuePair.Value == owner)
-                        return keyValuePair.Key;
-                }
-            }
-            return null;
+                return ((IObject)owner).GetObjectName();
         }
 
         private void ContainerRem(IAttributeBearer owner, String attrName, object keyObj)
@@ -912,7 +905,8 @@ namespace de.unika.ipd.grGen.libGr
                     Match(TokenKind.EQUAL);
                     string persistentName = ParseStringValue();
                     ObjectType classObjectType = graph.Model.ObjectModel.GetType(type);
-                    IObject classObject = classObjectType.CreateObject();
+                    IObject classObject = classObjectType.CreateObject(graph, persistentName);
+                    Debug.Assert(classObject.GetObjectName() == persistentName);
                     nameToClassObject[persistentName] = classObject;
                     while(LookaheadToken() == TokenKind.COMMA) // , AttrName = Value
                     {
@@ -996,7 +990,8 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.EQUAL);
                 string persistentName = ParseStringValue();
                 ObjectType classObjectType = graph.Model.ObjectModel.GetType(type);
-                IObject classObject = classObjectType.CreateObject();
+                IObject classObject = classObjectType.CreateObject(graph, persistentName);
+                Debug.Assert(classObject.GetObjectName() == persistentName);
                 nameToClassObject[persistentName] = classObject;
                 while(LookaheadToken() == TokenKind.COMMA) // , AttrName = Value
                 {

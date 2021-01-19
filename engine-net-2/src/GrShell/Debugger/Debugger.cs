@@ -476,6 +476,11 @@ namespace de.unika.ipd.grGen.grShell
                     SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                     break;
+                case 'j':
+                    HandleShowClassObject(seq);
+                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    Console.WriteLine();
+                    break;
                 case 'p':
                     HandleDump();
                     break;
@@ -497,7 +502,7 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 default:
                     Console.WriteLine("Illegal command (Key = " + key.Key
-                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, and (a)bort allowed!");
+                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, show (v)ariables, show class ob(j)ect, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, and (a)bort allowed!");
                     break;
                 }
             }
@@ -525,6 +530,33 @@ namespace de.unika.ipd.grGen.grShell
             PrintVariables(null, null);
             PrintVariables(debugSequences.Peek(), seq);
             PrintVisited();
+        }
+
+        private void HandleShowClassObject(Sequence seq)
+        {
+            do
+            {
+                Console.Write("Enter id of class object to emit (or just enter for abort): ");
+                String argument = Console.ReadLine();
+                if(argument.Length == 0)
+                    return;
+
+                long uniqueId;
+                if(long.TryParse(argument, out uniqueId))
+                {
+                    String objectName = String.Format("%{0,00000000:X}", uniqueId);
+                    if(shellProcEnv.NameToClassObject.ContainsKey(objectName))
+                    {
+                        IObject obj = shellProcEnv.NameToClassObject[objectName];
+                        EmitHelper.ToStringAutomatic(obj, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
+                    }
+                    else
+                        Console.WriteLine("Unknown class object id " + objectName + "!");
+                }
+                else
+                    Console.WriteLine("Invalid class object id " + argument + "!");
+            }
+            while(true);
         }
 
         private void HandleDump()
@@ -656,13 +688,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
                     else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
                     else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
+                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -674,13 +706,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
                     else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
                     else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false);
+                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -1565,7 +1597,7 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
             Console.Write(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, ");
             Console.Write("toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, ");
-            Console.Write("show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, ");
+            Console.Write("show (v)ariables, show class ob(j)ect, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, ");
             Console.WriteLine("and (a)bort (plus Ctrl+C for forced abort).");
         }
 
@@ -1778,7 +1810,7 @@ namespace de.unika.ipd.grGen.grShell
             for(int i = 0; i < values.Length; ++i)
             {
                 Console.Write(" ");
-                Console.Write(EmitHelper.ToStringAutomatic(values[i], shellProcEnv.ProcEnv.NamedGraph, false));
+                Console.Write(EmitHelper.ToStringAutomatic(values[i], shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject));
             }
             Console.WriteLine();
 

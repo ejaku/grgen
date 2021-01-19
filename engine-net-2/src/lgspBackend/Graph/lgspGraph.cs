@@ -814,6 +814,8 @@ namespace de.unika.ipd.grGen.lgsp
                 edgesByTypeCounts[i] = 0;
             }
 
+            ResetObjectUniqueIdSource();
+
             statistics.ResetStatisticalData();
 
             ++changesCounter;

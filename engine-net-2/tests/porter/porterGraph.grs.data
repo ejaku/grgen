@@ -7,11 +7,11 @@
 
 
 
-Graph{value:1,children:[Graph,Graph]}
+Graph{%:%0,value:1,children:[Graph{%:%0},Graph{%:%1}]}
 
 
 
-Graph{value:1,children:[Graph,Graph]}
+Graph{%:%2,value:1,children:[Graph{%:%2},Graph{%:%3}]}
 1
 1
 1
@@ -23,11 +23,11 @@ Graph{value:1,children:[Graph,Graph]}
 
 
 
-Graph{value:1,children:[Graph,Graph]}
+Graph{%:%0,value:1,children:[Graph{%:%0},Graph{%:%1}]}
 
 
 
-Graph{value:1,children:[Graph,Graph]}
+Graph{%:%2,value:1,children:[Graph{%:%2},Graph{%:%3}]}
 1
 1
 1
@@ -37,10 +37,10 @@ Graph{value:1,children:[Graph,Graph]}
 
 
 
-Graph{value:1,children:[Graph,Graph]}
+Graph{%:%0,value:1,children:[Graph{%:%0},Graph{%:%1}]}
 
 
 
-Graph{value:1,children:[Graph,Graph]}
+Graph{%:%2,value:1,children:[Graph{%:%2},Graph{%:%3}]}
 1
 1

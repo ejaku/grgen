@@ -23,6 +23,35 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IGraphModel Model { get; }
         public abstract IIndexSet Indices { get; }
         public abstract IUniquenessHandler UniquenessHandler { get; }
+
+        /// <summary>
+        /// Source for assigning unique ids to internal class objects.
+        /// </summary>
+        private long objectUniqueIdSource = 0;
+
+        public long FetchObjectUniqueId()
+        {
+            return objectUniqueIdSource++;
+        }
+
+        public long FetchObjectUniqueId(long idToObtain)
+        {
+            // not possible to check -- requests may come out of order
+            if(idToObtain < objectUniqueIdSource)
+                return idToObtain;
+            //    throw new Exception("id to obtain is out of admissible range");
+            while(objectUniqueIdSource != idToObtain)
+            {
+                ++objectUniqueIdSource;
+            }
+            return objectUniqueIdSource++;
+        }
+
+        public void ResetObjectUniqueIdSource()
+        {
+            objectUniqueIdSource = 0;
+        }
+
         public abstract bool ReuseOptimization { get; set; }
         public abstract long ChangesCounter{ get; }
 

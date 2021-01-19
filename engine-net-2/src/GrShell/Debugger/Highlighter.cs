@@ -188,9 +188,9 @@ namespace de.unika.ipd.grGen.grShell
                     else
                     {
                         if(entry.Key is IGraphElement)
-                            HighlightSingleValue(entry.Key, name + ".Domain -> " + EmitHelper.ToString(entry.Value, shellProcEnv.ProcEnv.NamedGraph, false), addAnnotation);
+                            HighlightSingleValue(entry.Key, name + ".Domain -> " + EmitHelper.ToString(entry.Value, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject), addAnnotation);
                         if(entry.Value is IGraphElement)
-                            HighlightSingleValue(entry.Value, EmitHelper.ToString(entry.Key, shellProcEnv.ProcEnv.NamedGraph, false) + " -> " + name + ".Range", addAnnotation);
+                            HighlightSingleValue(entry.Value, EmitHelper.ToString(entry.Key, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject) + " -> " + name + ".Range", addAnnotation);
                     }
                 }
             }

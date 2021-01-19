@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using de.unika.ipd.grGen.libGr;
+using System;
 using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.lgsp
@@ -24,12 +25,19 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly ObjectType lgspType;
 
         /// <summary>
+        /// Contains a unique id (filled at creation, never changed)
+        /// </summary>
+        public readonly long uniqueId;
+
+
+        /// <summary>
         /// Instantiates a LGSPObject object.
         /// </summary>
         /// <param name="objectType">The object type.</param>
-        protected LGSPObject(ObjectType objectType)
+        protected LGSPObject(ObjectType objectType, long uniqueId)
         {
             lgspType = objectType;
+            this.uniqueId = uniqueId;
         }
 
         /// <summary>
@@ -66,7 +74,25 @@ namespace de.unika.ipd.grGen.lgsp
         {
             return lgspType.IsA(otherType);
         }
-        
+
+        /// <summary>
+        /// Gets the unique id of the class object.
+        /// </summary>
+        /// <returns>The unique id of the class object.</returns>
+        public long GetUniqueId()
+        {
+            return uniqueId;
+        }
+
+        /// <summary>
+        /// Gets the name of the class object.
+        /// </summary>
+        /// <returns>The name of the class object.</returns>
+        public string GetObjectName()
+        {
+            return String.Format("%{0,00000000:X}", uniqueId);
+        }
+
         /// <summary>
         /// Indexer that gives access to the attributes of the class object.
         /// </summary>
@@ -101,7 +127,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// All attributes will be transfered to the new object.
         /// </summary>
         /// <returns>A copy of this object.</returns>
-        public abstract IObject Clone();
+        public abstract IObject Clone(IGraph graph);
 
         /// <summary>
         /// Creates a copy of this (base) object.
@@ -110,7 +136,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>A copy of this (base) object.</returns>
         IBaseObject IBaseObject.Clone()
         {
-            return Clone();
+            throw new Exception("Use IObject.Clone(IGraph graph)");
         }
 
         /// <summary>

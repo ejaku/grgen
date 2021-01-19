@@ -1310,9 +1310,11 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		} else if(expr instanceof InternalObjectInit) {
 			InternalObjectInit oi = (InternalObjectInit)expr;
 			if(oi.attributeInitializations.isEmpty()) {
-				sb.append("new GRGEN_EXPR.InternalObjectConstructor(\"" + formatBaseInternalObjectType(oi.getInternalObjectType()) + "\")");
+				sb.append("new GRGEN_EXPR.InternalObjectConstructor(\"" + formatBaseInternalObjectType(oi.getBaseInternalObjectType()) + "\", "
+						+ (oi.getBaseInternalObjectType() instanceof InternalTransientObjectType ? "true" : "false") + ")");
 			} else {
-				sb.append("new GRGEN_EXPR.InternalObjectConstructor(\"" + className + "\", \"" + oi.getAnonymousInternalObjectInitName() + "\", ");
+				sb.append("new GRGEN_EXPR.InternalObjectConstructor(\"" + className + "\", \"" + oi.getAnonymousInternalObjectInitName() + "\", "
+						+ (oi.getBaseInternalObjectType() instanceof InternalTransientObjectType ? "true, " : "false, "));
 				int openParenthesis = 0;
 				for(Expression item : oi.getAttributeInitializationExpressions()) {
 					sb.append("new GRGEN_EXPR.AttributeInitialization(");

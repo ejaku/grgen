@@ -52,26 +52,19 @@ namespace de.unika.ipd.grGen.libGr
         public int numInternalClassObjects = 0;
 
         private Dictionary<String, IObject> persistentNameToObject = new Dictionary<string, IObject>();
-        private Dictionary<IObject, String> objectToPersistentName = new Dictionary<IObject, string>();
-        private int persistentNameSource = 0;
-        private string GetPersistentName()
-        {
-            return String.Format("%{0,00000000:X}", persistentNameSource++);
-        }
 
         public bool HasPersistentName(IObject obj)
         {
-            return objectToPersistentName.ContainsKey(obj);
+            return persistentNameToObject.ContainsKey(obj.GetObjectName());
         }
 
         public string GetOrAssignPersistentName(IObject obj)
         {
-            if(objectToPersistentName.ContainsKey(obj))
-                return objectToPersistentName[obj];
+            if(HasPersistentName(obj))
+                return obj.GetObjectName();
             else
             {
-                String persistentName = GetPersistentName();
-                objectToPersistentName.Add(obj, persistentName);
+                String persistentName = obj.GetObjectName();
                 persistentNameToObject.Add(persistentName, obj);
                 return persistentName;
             }

@@ -49,9 +49,38 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Creates an object according to this type.
+        /// Requires the graph to fetch the unique id / the name,
+        /// in case the unique id is given (!= -1) it is taken, or an exception is thrown in case the id is already in use or id fetching has passed its value.
         /// </summary>
         /// <returns>The created object.</returns>
-        public abstract IObject CreateObject();
+        public abstract IObject CreateObject(IGraph graph, long uniqueId);
+
+        /// <summary>
+        /// Creates an object according to this type.
+        /// Requires the graph to fetch the unique id / the name,
+        /// in case the name is given and valid it is taken, or an exception is thrown in case the name/id is already in use or id fetching has passed its value.
+        /// The name is expected in format "%" + uniqueId (if null, a name is fetched).
+        /// </summary>
+        /// <returns>The created object.</returns>
+        public IObject CreateObject(IGraph graph, String name)
+        {
+            if(name != null)
+            {
+                char prefix = name[0];
+                if(prefix != '%')
+                    throw new Exception("Name must be in format % + uniqueId (prefix is not the percent character)");
+
+                long uniqueId;
+                if(long.TryParse(name.Substring(1), out uniqueId))
+                {
+                    return CreateObject(graph, uniqueId);
+                }
+                else
+                    throw new Exception("Name must be in format % + uniqueId (uniqueId is not a long number)");
+            }
+            else
+                return CreateObject(graph, -1);
+        }
 
         /// <summary>
         /// Creates an object according to this type.
@@ -59,7 +88,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The created (base) object.</returns>
         public override IBaseObject CreateBaseObject()
         {
-            return CreateObject();
+            throw new Exception("use the ObjectType.CreateObject method");
         }
 
         /// <summary>
@@ -68,7 +97,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="oldValue">The old value.</param>
         /// <returns>The created object.</returns>
-        public abstract IObject CreateObjectWithCopyCommons(IObject oldValue);
+        public abstract IObject CreateObjectWithCopyCommons(IObject oldValue, IGraph graph);
 
         /// <summary>
         /// Creates an object according to this type and copies all
@@ -78,7 +107,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The created object.</returns>
         public override IBaseObject CreateBaseObjectWithCopyCommons(IBaseObject oldValue)
         {
-            return CreateObjectWithCopyCommons((IObject)oldValue);
+            throw new Exception("Use ObjectType.CreateObjectWithCopyCommons");
         }
 
         /// <summary>

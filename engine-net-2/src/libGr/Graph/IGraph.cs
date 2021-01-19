@@ -248,6 +248,10 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         long ChangesCounter { get; }
 
+        long FetchObjectUniqueId();
+
+        long FetchObjectUniqueId(long idToObtain);
+
 
         /// <summary>
         /// The total number of nodes in the graph.
@@ -388,6 +392,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Removes all nodes and edges from the graph (so any variables pointing to them start dangling).
+        /// Also resets the class object unique id source.
         /// </summary>
         void Clear();
 

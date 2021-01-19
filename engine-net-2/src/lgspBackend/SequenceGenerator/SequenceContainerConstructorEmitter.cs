@@ -94,12 +94,14 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append("\n");
             source.AppendFront("public static ");
             source.Append(internalObjectType);
-            source.Append(" fillFromSequence_" + attributeInitializer.Id);
-            source.Append("(");
+            source.Append(" fillFromSequence_" + attributeInitializer.Id + "(");
+            BaseObjectType objectType = env.Model.ObjectModel.GetType(attributeInitializer.ConstructedType);
+            if(objectType != null)
+                source.Append("long uniqueId");
             for(int i = 0; i < attributeInitializer.AttributeInitializationList.Count; ++i)
             {
                 KeyValuePair<string, SequenceExpression> attributeInitialization = attributeInitializer.AttributeInitializationList[i];
-                if(i > 0)
+                if(i > 0 || objectType != null)
                     source.Append(", ");
                 string valueType = TypesHelper.XgrsTypeToCSharpType(env.TypeOfMemberOrAttribute(attributeInitializer.ConstructedType, attributeInitialization.Key), model);
                 source.AppendFormat("{0} {1}", valueType, "param" + i);
@@ -108,7 +110,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFront("{\n");
             source.Indent();
-            source.AppendFrontFormat("{0} obj = new {0}();\n", internalObjectType);
+            source.AppendFrontFormat("{0} obj = new {0}({1});\n", internalObjectType, objectType != null ? "uniqueId" : "");
             for(int i = 0; i < attributeInitializer.AttributeInitializationList.Count; ++i)
             {
                 KeyValuePair<string, SequenceExpression> attributeInitialization = attributeInitializer.AttributeInitializationList[i];

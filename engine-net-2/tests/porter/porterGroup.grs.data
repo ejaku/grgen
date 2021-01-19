@@ -4,27 +4,11 @@
 1
 1
 1
-Group{a:42,b:3.141592654,c:Weltherrschaft!}
+Group{%:%0,a:42,b:3.141592654,c:Weltherrschaft!}
 
 
 
-Group{a:42,b:3.141592654,c:Weltherrschaft!}
-
-
-
-1
-1
-1
-1
-1
-1
-1
-1
-Group{a:42,b:3.141592654,c:Weltherrschaft!}
-
-
-
-Group{a:42,b:3.141592654,c:Weltherrschaft!}
+Group{%:%1,a:42,b:3.141592654,c:Weltherrschaft!}
 
 
 
@@ -34,11 +18,27 @@ Group{a:42,b:3.141592654,c:Weltherrschaft!}
 1
 1
 1
-Group{a:42,b:3.141592654,c:Weltherrschaft!}
+1
+1
+Group{%:%0,a:42,b:3.141592654,c:Weltherrschaft!}
 
 
 
-Group{a:42,b:3.141592654,c:Weltherrschaft!}
+Group{%:%1,a:42,b:3.141592654,c:Weltherrschaft!}
+
+
+
+1
+1
+1
+1
+1
+1
+Group{%:%0,a:42,b:3.141592654,c:Weltherrschaft!}
+
+
+
+Group{%:%1,a:42,b:3.141592654,c:Weltherrschaft!}
 
 
 

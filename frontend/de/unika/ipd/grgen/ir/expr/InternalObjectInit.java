@@ -17,6 +17,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
+import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 
 public class InternalObjectInit extends Expression
 {
@@ -34,6 +35,9 @@ public class InternalObjectInit extends Expression
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(this);
+		if(objectType instanceof InternalObjectType) {
+			needs.needsGraph();
+		}
 		for(Expression attributeInitializationExpression : getAttributeInitializationExpressions()) {
 			attributeInitializationExpression.collectNeededEntities(needs);
 		}
@@ -53,7 +57,7 @@ public class InternalObjectInit extends Expression
 		return expressions;
 	}
 
-	public BaseInternalObjectType getInternalObjectType()
+	public BaseInternalObjectType getBaseInternalObjectType()
 	{
 		return objectType;
 	}

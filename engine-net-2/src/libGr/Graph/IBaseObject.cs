@@ -40,11 +40,24 @@ namespace de.unika.ipd.grGen.libGr
         new ObjectType Type { get; }
 
         /// <summary>
+        /// Gets the unique id of the class object.
+        /// </summary>
+        /// <returns>The unique id of the class object.</returns>
+        long GetUniqueId();
+
+        /// <summary>
+        /// Gets the name of the class object (which has the form "%" + uniqueId).
+        /// </summary>
+        /// <returns>The name of the class object.</returns>
+        string GetObjectName();
+
+        /// <summary>
         /// Creates a copy of this object.
         /// All attributes will be transfered to the new object.
+        /// A new name will be fetched from the graph.
         /// </summary>
         /// <returns>A copy of this object.</returns>
-        new IObject Clone();
+        IObject Clone(IGraph graph);
     }
 
     /// <summary>

@@ -1,7 +1,7 @@
 0
 0
-"Barfuss{i:42,s:Hallo Welt,d:3.141592654}"
+"Barfuss{%:%0,i:42,s:Hallo Welt,d:3.141592654}"
 1
 1
-"Barfuss{i:42,s:Hallo Welt!,d:3.141592654}"
-"Barfuss{i:42,s:Hallo Welt,d:3.141592654}"
+"Barfuss{%:%2,i:42,s:Hallo Welt!,d:3.141592654}"
+"Barfuss{%:%3,i:42,s:Hallo Welt,d:3.141592654}"

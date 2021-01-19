@@ -1720,7 +1720,11 @@ namespace de.unika.ipd.grGen.libGr
             BaseObjectType objectType = procEnv.Graph.Model.ObjectModel.GetType(ConstructedType);
             if(objectType == null)
                 objectType = procEnv.Graph.Model.TransientObjectModel.GetType(ConstructedType);
-            IBaseObject obj = objectType.CreateBaseObject();
+            IBaseObject obj;
+            if(objectType is ObjectType)
+                obj = ((ObjectType)objectType).CreateObject(procEnv.Graph, procEnv.Graph.FetchObjectUniqueId());
+            else
+                obj = ((TransientObjectType)objectType).CreateTransientObject();
             if(AttributeInitializationList != null)
             {
                 foreach(KeyValuePair<string, SequenceExpression> attributeInitialization in AttributeInitializationList)
@@ -9652,7 +9656,7 @@ namespace de.unika.ipd.grGen.libGr
             else if(toBeCloned is IMatch)
                 return ((IMatch)toBeCloned).Clone();
             else if(toBeCloned is IObject)
-                return ((IObject)toBeCloned).Clone();
+                return ((IObject)toBeCloned).Clone(procEnv.Graph);
             else if(toBeCloned is ITransientObject)
                 return ((ITransientObject)toBeCloned).Clone();
             else

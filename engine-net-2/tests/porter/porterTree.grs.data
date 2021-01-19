@@ -6,28 +6,14 @@
 1
 
 
-Tree{value:1,left:Tree,right:Tree}
+Tree{%:%0,value:1,left:Tree{%:%1},right:Tree{%:%3}}
 
 
 
-Tree{value:1,left:Tree,right:Tree}
+Tree{%:%5,value:1,left:Tree{%:%6},right:Tree{%:%8}}
 
 1
 1
-1
-1
-1
-1
-1
-1
-
-
-Tree{value:1,left:Tree,right:Tree}
-
-
-
-Tree{value:1,left:Tree,right:Tree}
-
 1
 1
 1
@@ -36,11 +22,25 @@ Tree{value:1,left:Tree,right:Tree}
 1
 
 
-Tree{value:1,left:Tree,right:Tree}
+Tree{%:%0,value:1,left:Tree{%:%1},right:Tree{%:%3}}
 
 
 
-Tree{value:1,left:Tree,right:Tree}
+Tree{%:%5,value:1,left:Tree{%:%6},right:Tree{%:%8}}
+
+1
+1
+1
+1
+1
+1
+
+
+Tree{%:%0,value:1,left:Tree{%:%1},right:Tree{%:%3}}
+
+
+
+Tree{%:%5,value:1,left:Tree{%:%6},right:Tree{%:%8}}
 
 1
 1

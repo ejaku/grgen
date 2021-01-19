@@ -3743,32 +3743,32 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class InternalObjectConstructor : Expression
     {
-        public InternalObjectConstructor(String className)
+        public InternalObjectConstructor(String className, bool isTransientClass)
         {
             ClassName = className;
+            IsTransientClass = isTransientClass;
         }
 
-        public InternalObjectConstructor(String className, String objectName, AttributeInitialization first)
+        public InternalObjectConstructor(String className, String objectName, bool isTransientClass, AttributeInitialization first)
         {
             ClassName = className;
             ObjectName = objectName;
+            IsTransientClass = isTransientClass;
             First = first;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new InternalObjectConstructor(ClassName, ObjectName, First != null ? (AttributeInitialization)First.Copy(renameSuffix) : null);
+            return new InternalObjectConstructor(ClassName, ObjectName, IsTransientClass, First != null ? (AttributeInitialization)First.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             if(ObjectName == null)
-            {
-                sourceCode.Append("new " + ClassName + "()");
-            }
+                sourceCode.Append("new " + ClassName + "(" + (IsTransientClass ? "" : "graph.FetchObjectUniqueId()") + ")");
             else
             {
-                sourceCode.Append(ClassName + ".fill_" + ObjectName + "(");
+                sourceCode.Append(ClassName + ".fill_" + ObjectName + "(" + (IsTransientClass ? "" : "graph.FetchObjectUniqueId(), "));
                 if(First != null)
                     First.Emit(sourceCode);
                 sourceCode.Append(")");
@@ -3782,6 +3782,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         readonly String ClassName;
+        readonly bool IsTransientClass;
 
         readonly String ObjectName;
         readonly AttributeInitialization First;

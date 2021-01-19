@@ -5,27 +5,11 @@
 1
 1
 
-List{value:1,next:List}
+List{%:%0,value:1,next:List{%:%1}}
 
 
 
-List{value:1,next:List}
-
-
-1
-1
-1
-1
-1
-1
-1
-1
-
-List{value:1,next:List}
-
-
-
-List{value:1,next:List}
+List{%:%3,value:1,next:List{%:%4}}
 
 
 1
@@ -34,12 +18,28 @@ List{value:1,next:List}
 1
 1
 1
+1
+1
 
-List{value:1,next:List}
+List{%:%0,value:1,next:List{%:%1}}
 
 
 
-List{value:1,next:List}
+List{%:%3,value:1,next:List{%:%4}}
+
+
+1
+1
+1
+1
+1
+1
+
+List{%:%0,value:1,next:List{%:%1}}
+
+
+
+List{%:%3,value:1,next:List{%:%4}}
 
 
 1
