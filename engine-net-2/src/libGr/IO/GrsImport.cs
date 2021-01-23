@@ -900,6 +900,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     Match(TokenKind.NEW);
                     string type = ParseTypeText();
+                    Match(TokenKind.AT);
                     Match(TokenKind.LPARENTHESIS);
                     Match(TokenKind.PERCENT);
                     Match(TokenKind.EQUAL);
@@ -985,6 +986,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 Match(TokenKind.NEW);
                 string type = ParseTypeText();
+                Match(TokenKind.AT);
                 Match(TokenKind.LPARENTHESIS);
                 Match(TokenKind.PERCENT);
                 Match(TokenKind.EQUAL);

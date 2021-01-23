@@ -584,7 +584,7 @@ restart:
         public static void EmitObjectCreation(MainGraphExportContext mainGraphContext,
             ObjectType objType, IObject obj, INamedGraph graph, StreamWriter sw, StringBuilder deferredInits)
         {
-            sw.Write("new {0}(% = \"{1}\"", objType.PackagePrefixedName, mainGraphContext.GetOrAssignPersistentName(obj));
+            sw.Write("new {0}@(% = \"{1}\"", objType.PackagePrefixedName, mainGraphContext.GetOrAssignPersistentName(obj));
             foreach(AttributeType attrType in objType.AttributeTypes)
             {
                 if(IsInternalClassObjectUsedInAttribute(attrType))
