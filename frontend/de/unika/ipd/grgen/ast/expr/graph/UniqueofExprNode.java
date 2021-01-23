@@ -14,6 +14,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -23,7 +24,7 @@ import de.unika.ipd.grgen.ir.expr.graph.Uniqueof;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the name of some node/edge or the graph.
+ * A node yielding the name of some node/edge or the graph or an internal class object.
  */
 public class UniqueofExprNode extends BuiltinFunctionInvocationBaseNode
 {
@@ -76,8 +77,11 @@ public class UniqueofExprNode extends BuiltinFunctionInvocationBaseNode
 			if(entity.getType() instanceof NodeTypeNode) {
 				return true;
 			}
+			if(entity.getType() instanceof InternalObjectTypeNode) {
+				return true;
+			}
 
-			reportError("uniqueof(.) expects an entity of node or edge or subgraph type");
+			reportError("uniqueof(.) expects an entity of node or edge or subgraph or internal class object type");
 			return false;
 		}
 		return true;
@@ -96,6 +100,9 @@ public class UniqueofExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	public TypeNode getType()
 	{
-		return BasicTypeNode.intType;
+		if(entity != null && entity.getType() instanceof InternalObjectTypeNode)
+			return BasicTypeNode.longType;
+		else
+			return BasicTypeNode.intType;
 	}
 }

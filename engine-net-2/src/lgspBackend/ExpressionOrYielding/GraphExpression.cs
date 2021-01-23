@@ -182,24 +182,31 @@ namespace de.unika.ipd.grGen.expression
         readonly Expression Entity;
     }
 
+    public enum UniqueofType
+    {
+        Node,
+        Edge,
+        Graph,
+        ClassObject
+    }
+
     /// <summary>
     /// Class representing unique id expression
     /// </summary>
     public class Uniqueof : Expression
     {
-        public Uniqueof(Expression entity, bool isNode, bool isGraph)
+        public Uniqueof(Expression entity, UniqueofType type)
         {
             Entity = entity;
-            IsNode = isNode;
-            IsGraph = isGraph;
+            Type = type;
         }
 
         public override Expression Copy(string renameSuffix)
         {
             if(Entity != null)
-                return new Uniqueof(Entity.Copy(renameSuffix), IsNode, IsGraph);
+                return new Uniqueof(Entity.Copy(renameSuffix), Type);
             else
-                return new Uniqueof(null, IsNode, IsGraph);
+                return new Uniqueof(null, Type);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -211,14 +218,16 @@ namespace de.unika.ipd.grGen.expression
             else
             {
                 sourceCode.Append("(");
-                if(IsNode && !IsGraph)
+                if(Type == UniqueofType.Node)
                     sourceCode.Append("(GRGEN_LGSP.LGSPNode)");
-                else if(!IsNode && !IsGraph)
+                else if(Type == UniqueofType.Edge)
                     sourceCode.Append("(GRGEN_LGSP.LGSPEdge)");
-                else
+                else if(Type == UniqueofType.Graph)
                     sourceCode.Append("(GRGEN_LGSP.LGSPGraph)");
+                else //if(Type == UniqueofType.ClassObject)
+                    sourceCode.Append("(GRGEN_LGSP.LGSPObject)");
                 Entity.Emit(sourceCode);
-                if(IsGraph)
+                if(Type == UniqueofType.Graph)
                     sourceCode.Append(").GraphId");
                 else
                     sourceCode.Append(").uniqueId");
@@ -232,8 +241,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         readonly Expression Entity;
-        readonly bool IsNode;
-        readonly bool IsGraph;
+        readonly UniqueofType Type;
     }
 
     /// <summary>

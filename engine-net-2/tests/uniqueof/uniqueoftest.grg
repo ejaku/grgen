@@ -6,11 +6,15 @@ rule t {
 	def var nodeunique:int;
 	def var edgeunique:int;
 	def var graphunique:int;
+	def var objectunique:long;
+	def var objectunique2:long;
 	
 	yield {
 		yield nodeunique = uniqueof(n);
 		yield edgeunique = uniqueof(e);
 		yield graphunique = uniqueof();
+		yield objectunique = uniqueof(n.o);
+		yield objectunique2 = uniqueof(e.o);
 	}
 	
 	modify {
@@ -18,6 +22,8 @@ rule t {
 		emit("The value of attribute noattribute is " + nodeunique + "\n");
 		emit("The value of attribute noattribute is " + edgeunique + "\n");
 		emit("The value of attribute noattribute is " + graphunique + "\n");
+		emit("The value of attribute noattribute is " + objectunique + "\n");
+		emit("The value of attribute noattribute is " + objectunique2 + "\n");
 	}
 }
 
@@ -48,5 +54,45 @@ rule s {
 	---
 		emit("The value of attribute noattribute is " + uniqueof(nodeByUnique(0)) + "\n");
 		emit("The value of attribute noattribute is " + uniqueof(edgeByUnique(1)) + "\n");
+	}
+}
+
+rule texec {
+	n:N -e:E-> n;
+
+	modify {
+	---
+		def var i:int;
+		def var l:long;
+		
+		exec({i=uniqueof(n); emit("The value of attribute noattribute is " + i + "\n")});
+		exec({i=uniqueof(e); emit("The value of attribute noattribute is " + i + "\n")});
+		exec({i=uniqueof(); emit("The value of attribute noattribute is " + i + "\n")});
+		exec({l=uniqueof(n.o); emit("The value of attribute noattribute is " + l + "\n")});
+		exec({l=uniqueof(e.o); emit("The value of attribute noattribute is " + l + "\n")});
+	}
+}
+
+rule texec2 {
+	n:N -e:E-> n;
+
+	modify {
+	---		
+		exec({i:int=uniqueof(n); emit("The value of attribute noattribute is " + i + "\n")});
+		exec({i:int=uniqueof(e); emit("The value of attribute noattribute is " + i + "\n")});
+		exec({i:int=uniqueof(); emit("The value of attribute noattribute is " + i + "\n")});
+		exec({l:long=uniqueof(n.o); emit("The value of attribute noattribute is " + l + "\n")});
+		exec({l:long=uniqueof(e.o); emit("The value of attribute noattribute is " + l + "\n")});
+	}
+}
+
+rule texec3 {
+	modify {
+	---		
+		exec({i:int=uniqueof(::n); emit("The value of attribute noattribute is " + i + "\n")});
+		exec({i:int=uniqueof(::e); emit("The value of attribute noattribute is " + i + "\n")});
+		exec({i:int=uniqueof(); emit("The value of attribute noattribute is " + i + "\n")});
+		exec({l:long=uniqueof(::n.o); emit("The value of attribute noattribute is " + l + "\n")});
+		exec({l:long=uniqueof(::e.o); emit("The value of attribute noattribute is " + l + "\n")});
 	}
 }

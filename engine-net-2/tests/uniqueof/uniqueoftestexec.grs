@@ -1,0 +1,26 @@
+new graph "uniqueof/uniqueoftest"
+
+new n:N($="foo", i=1)
+new @("foo") -e:E($="bar", i=0)-> @("foo")
+@("foo").o=new O()
+@("bar").o=new O@(%="%1")
+
+exec {i:int=uniqueof(::n); emit("The value of attribute n is " + i + "\n")}
+exec {i:int=uniqueof(::e); emit("The value of attribute e is " + i + "\n")}
+exec {i:int=uniqueof(); emit("The value of attribute noattribute is " + i + "\n")}
+exec {l:long=uniqueof(::n.o); emit("The value of attribute n.o is " + l + "\n")}
+exec {l:long=uniqueof(::e.o); emit("The value of attribute e.o is " + l + "\n")}
+
+exec {n1:N=::n; i:int=uniqueof(n1); emit("The value of attribute n is " + i + "\n")}
+exec {e1:E=::e; i:int=uniqueof(e1); emit("The value of attribute e is " + i + "\n")}
+exec {i:int=uniqueof(); emit("The value of attribute noattribute is " + i + "\n")}
+exec {n1:N=::n; l:long=uniqueof(::n.o); emit("The value of attribute n.o is " + l + "\n")}
+exec {e1:E=::e; l:long=uniqueof(::e.o); emit("The value of attribute e.o is " + l + "\n")}
+
+exec texec
+
+exec texec2
+
+exec texec3
+
+quit

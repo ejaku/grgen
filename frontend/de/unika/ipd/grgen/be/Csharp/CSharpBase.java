@@ -880,19 +880,21 @@ public abstract class CSharpBase
 				sb.append(", graph)");
 			}
 		} else if(expr instanceof Uniqueof) {
-			Uniqueof no = (Uniqueof)expr;
-			if(no.getEntity() == null)
+			Uniqueof uo = (Uniqueof)expr;
+			if(uo.getEntity() == null)
 				sb.append("((GRGEN_LGSP.LGSPGraph)graph).GraphId");
 			else {
 				sb.append("(");
-				if(no.getEntity().getType() instanceof NodeType)
+				if(uo.getEntity().getType() instanceof NodeType)
 					sb.append("(GRGEN_LGSP.LGSPNode)");
-				else if(no.getEntity().getType() instanceof EdgeType)
+				else if(uo.getEntity().getType() instanceof EdgeType)
 					sb.append("(GRGEN_LGSP.LGSPEdge)");
+				else if(uo.getEntity().getType() instanceof InternalObjectType)
+					sb.append("(GRGEN_LGSP.LGSPObject)");
 				else
 					sb.append("(GRGEN_LGSP.LGSPGraph)");
-				genExpression(sb, no.getEntity(), modifyGenerationState); // unique id of entity
-				if(no.getEntity().getType() instanceof GraphType)
+				genExpression(sb, uo.getEntity(), modifyGenerationState); // unique id of entity
+				if(uo.getEntity()==null || uo.getEntity().getType() instanceof GraphType)
 					sb.append(").GraphId");
 				else
 					sb.append(").uniqueId");

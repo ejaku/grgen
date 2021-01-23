@@ -4949,10 +4949,12 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns the unique if of the given entity (which might be a node, an edge, or a graph).
         /// If the entity is null, the unique id of the graph is returned.
         /// </summary>
-        public static int Uniqueof(object entity, IGraph graph)
+        public static long Uniqueof(object entity, IGraph graph)
         {
             if(entity is IGraphElement)
                 return ((IGraphElement)entity).GetUniqueId();
+            else if(entity is IObject)
+                return ((IObject)entity).GetUniqueId();
             else if(entity is IGraph)
                 return ((IGraph)entity).GraphId;
             else

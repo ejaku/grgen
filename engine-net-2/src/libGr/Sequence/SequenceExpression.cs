@@ -9367,7 +9367,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return "int";
+            if(UniquelyIdentifiedEntity == null)
+                return "int";
+            if(UniquelyIdentifiedEntity.Type(env) == "")
+                return "";
+            if(TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Object", env.Model))
+                return "long";
+            else
+                return "int";
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -9378,9 +9385,10 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(!TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Node", env.Model)
                     && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "AEdge", env.Model)
-                    && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "graph", env.Model))
+                    && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "graph", env.Model)
+                    && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Object", env.Model))
                 {
-                    throw new SequenceParserException(Symbol, "node or edge or graph type", UniquelyIdentifiedEntity.Type(env));
+                    throw new SequenceParserException(Symbol, "node or edge or graph or internal object type", UniquelyIdentifiedEntity.Type(env));
                 }
             }
         }

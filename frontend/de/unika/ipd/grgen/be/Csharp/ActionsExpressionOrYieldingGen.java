@@ -386,12 +386,15 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				genExpressionTree(sb, uo.getEntity(), className, pathPrefix, alreadyDefinedEntityToName);
 			else
 				sb.append("null");
+			sb.append(", ");
 			if(uo.getEntity() != null && uo.getEntity().getType() instanceof NodeType)
-				sb.append(", true, false");
+				sb.append("GRGEN_EXPR.UniqueofType.Node");
 			else if(uo.getEntity() != null && uo.getEntity().getType() instanceof EdgeType)
-				sb.append(", false, false");
+				sb.append("GRGEN_EXPR.UniqueofType.Edge");
+			else if(uo.getEntity() != null && uo.getEntity().getType() instanceof InternalObjectType)
+				sb.append("GRGEN_EXPR.UniqueofType.ClassObject");
 			else
-				sb.append(", false, true");
+				sb.append("GRGEN_EXPR.UniqueofType.Graph");
 			sb.append(")");
 		} else if(expr instanceof ExistsFileExpr) {
 			ExistsFileExpr efe = (ExistsFileExpr)expr;

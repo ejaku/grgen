@@ -1,9 +1,16 @@
 node class N
 {
 	i:int;
+	o:O;
 }
 
 edge class E
+{
+	i:int;
+	o:O;
+}
+
+class O
 {
 	i:int;
 }
