@@ -163,6 +163,8 @@ namespace de.unika.ipd.grGen.grShell
 
         private static Dictionary<String, bool> availableLayouts;
 
+        private Dictionary<string, IObject> nameToClassObject;
+
 
         static YCompClient()
         {
@@ -182,7 +184,8 @@ namespace de.unika.ipd.grGen.grShell
         /// Creates a new YCompClient instance and connects to the local YComp server.
         /// If it is not available a SocketException is thrown
         /// </summary>
-        public YCompClient(INamedGraph graph, String layoutModule, int connectionTimeout, int port, DumpInfo dumpInfo, ElementRealizers realizers)
+        public YCompClient(INamedGraph graph, String layoutModule, int connectionTimeout, int port,
+            DumpInfo dumpInfo, ElementRealizers realizers, Dictionary<string, IObject> nameToClassObject)
         {
             this.graph = graph;
             this.dumpInfo = dumpInfo;
@@ -217,6 +220,7 @@ namespace de.unika.ipd.grGen.grShell
             this.realizers = realizers;
             realizers.RegisterYComp(this);
 
+            this.nameToClassObject = nameToClassObject;
             // TODO: Add group related events
         }
 
@@ -992,22 +996,22 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
-                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, null);
+                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject);
                 attrValueString = Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.ArrayAttr)
             {
-                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, null);
+                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject);
                 attrValueString = Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.DequeAttr)
             {
-                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, null);
+                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject);
                 attrValueString = Encode(attrValueString);
             }
             else
             {
-                EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, null);
+                EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject);
                 attrValueString = Encode(attrValueString);
             }
         }

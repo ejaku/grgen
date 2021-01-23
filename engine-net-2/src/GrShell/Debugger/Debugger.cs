@@ -134,7 +134,7 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 ycompClient = new YCompClient(shellProcEnv.ProcEnv.NamedGraph, debugLayout ?? "Orthogonal", 20000, ycompPort, 
-                    shellProcEnv.DumpInfo, realizers);
+                    shellProcEnv.DumpInfo, realizers, shellProcEnv.NameToClassObject);
             }
             catch(Exception ex)
             {
@@ -536,25 +536,27 @@ namespace de.unika.ipd.grGen.grShell
         {
             do
             {
-                Console.Write("Enter id of class object to emit (or just enter for abort): ");
+                Console.Write("Enter id of class object to emit (without % prefix; or just enter for abort): ");
                 String argument = Console.ReadLine();
                 if(argument.Length == 0)
                     return;
 
-                long uniqueId;
-                if(long.TryParse(argument, out uniqueId))
+                try
                 {
+                    long uniqueId = Convert.ToInt64(argument, 16);
                     String objectName = String.Format("%{0,00000000:X}", uniqueId);
                     if(shellProcEnv.NameToClassObject.ContainsKey(objectName))
                     {
                         IObject obj = shellProcEnv.NameToClassObject[objectName];
-                        EmitHelper.ToStringAutomatic(obj, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
+                        Console.WriteLine(EmitHelper.ToStringAutomatic(obj, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject));
                     }
                     else
                         Console.WriteLine("Unknown class object id " + objectName + "!");
                 }
-                else
+                catch(Exception ex)
+                {
                     Console.WriteLine("Invalid class object id " + argument + "!");
+                }
             }
             while(true);
         }
