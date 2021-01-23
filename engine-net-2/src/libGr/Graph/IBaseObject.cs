@@ -46,6 +46,12 @@ namespace de.unika.ipd.grGen.libGr
         long GetUniqueId();
 
         /// <summary>
+        /// Sets the unique id of the class object.
+        /// You have to ensure consistency! (only meant for internal use.)
+        /// </summary>
+        void SetUniqueId(long uniqueId);
+
+        /// <summary>
         /// Gets the name of the class object (which has the form "%" + uniqueId).
         /// </summary>
         /// <returns>The name of the class object.</returns>

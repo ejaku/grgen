@@ -2213,8 +2213,9 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     value = GetCheckAttributes(par, owner.Type, attributes, false);
                 }
-                catch(Exception)
+                catch(Exception ex)
                 {
+                    errOut.WriteLine(ex.ToString());
                     return false;
                 }
 
@@ -4619,7 +4620,7 @@ showavail:
             {
                 graph = Porter.Import(curGraphBackend, filenameParameters, out actions);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 errOut.WriteLine("Unable to import graph for union: " + e.Message);
                 return false;
@@ -4688,10 +4689,126 @@ showavail:
                 }
             }
 
-            // TODO: internal class object handling
+            Dictionary<IObject, IObject> alreadyVisitedObjectMap = new Dictionary<IObject, IObject>();
+
+            foreach(INode node in oldToNewNodeMap.Values)
+            {
+                foreach(AttributeType attr in node.Type.AttributeTypes)
+                {
+                    if(IsInternalClassObjectUsedInAttribute(attr))
+                    {
+                        RenameAttribute(node, attr, alreadyVisitedObjectMap);
+                    }
+                }
+            }
+
+            foreach(INode node in oldToNewNodeMap.Values)
+            {
+                foreach(IEdge edge in node.Outgoing)
+                {
+                    foreach(AttributeType attr in edge.Type.AttributeTypes)
+                    {
+                        if(IsInternalClassObjectUsedInAttribute(attr))
+                        {
+                            RenameAttribute(edge, attr, alreadyVisitedObjectMap);
+                        }
+                    }
+                }
+            }
 
             debugOut.WriteLine("Graph \"" + graph.Name + "\" imported and added to current graph \"" + CurrentGraph.Name + "\"");
             return true;
+        }
+
+        private static bool IsInternalClassObjectUsedInAttribute(AttributeType attrType)
+        {
+            if(attrType.Kind == AttributeKind.InternalClassObjectAttr)
+                return true;
+            if(attrType.Kind == AttributeKind.SetAttr
+                || attrType.Kind == AttributeKind.MapAttr
+                || attrType.Kind == AttributeKind.ArrayAttr
+                || attrType.Kind == AttributeKind.DequeAttr)
+            {
+                if(attrType.ValueType.Kind == AttributeKind.InternalClassObjectAttr)
+                    return true;
+            }
+            if(attrType.Kind == AttributeKind.MapAttr)
+            {
+                if(attrType.KeyType.Kind == AttributeKind.InternalClassObjectAttr)
+                    return true;
+            }
+            return false;
+        }
+
+        private void RenameAttribute(IAttributeBearer obj, AttributeType attr, IDictionary<IObject, IObject> alreadyVisitedObjectMap)
+        {
+            if(attr.Kind == AttributeKind.InternalClassObjectAttr)
+            {
+                RenameInternalClassObject((IObject)obj.GetAttribute(attr.Name), alreadyVisitedObjectMap);
+            }
+            else if(attr.Kind == AttributeKind.SetAttr)
+            {
+                IDictionary set = (IDictionary)obj.GetAttribute(attr.Name);
+                foreach(IObject value in set)
+                {
+                    RenameInternalClassObject(value, alreadyVisitedObjectMap);
+                }
+            }
+            else if(attr.Kind == AttributeKind.MapAttr)
+            {
+                IDictionary map = (IDictionary)obj.GetAttribute(attr.Name);
+                if(attr.KeyType.Kind == AttributeKind.InternalClassObjectAttr)
+                {
+                    foreach(IObject key in map.Keys)
+                    {
+                        RenameInternalClassObject(key, alreadyVisitedObjectMap);
+                    }
+                }
+                if(attr.ValueType.Kind == AttributeKind.InternalClassObjectAttr)
+                {
+                    foreach(IObject value in map.Values)
+                    {
+                        RenameInternalClassObject(value, alreadyVisitedObjectMap);
+                    }
+                }
+            }
+            else if(attr.Kind == AttributeKind.ArrayAttr)
+            {
+                IList array = (IList)obj.GetAttribute(attr.Name);
+                foreach(IObject value in array)
+                {
+                    RenameInternalClassObject(value, alreadyVisitedObjectMap);
+                }
+            }
+            else if(attr.Kind == AttributeKind.DequeAttr)
+            {
+                IDeque deque = (IDeque)obj.GetAttribute(attr.Name);
+                foreach(IObject value in deque)
+                {
+                    RenameInternalClassObject(value, alreadyVisitedObjectMap);
+                }
+            }
+        }
+
+        private void RenameInternalClassObject(IObject obj, IDictionary<IObject, IObject> alreadyVisitedObjectMap)
+        {
+            if(obj == null)
+                return;
+
+            if(alreadyVisitedObjectMap.ContainsKey(obj))
+                return;
+
+            alreadyVisitedObjectMap.Add(obj, null);
+
+            obj.SetUniqueId(CurrentGraph.FetchObjectUniqueId());
+
+            foreach(AttributeType attr in obj.Type.AttributeTypes)
+            {
+                if(IsInternalClassObjectUsedInAttribute(attr))
+                {
+                    RenameAttribute(obj, attr, alreadyVisitedObjectMap);
+                }
+            }
         }
 
         public bool Record(String filename, bool actionSpecified, bool start)

@@ -25,9 +25,9 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly ObjectType lgspType;
 
         /// <summary>
-        /// Contains a unique id (filled at creation, never changed)
+        /// Contains a unique id (intended use: filled at creation, never changed)
         /// </summary>
-        public readonly long uniqueId;
+        public long uniqueId;
 
 
         /// <summary>
@@ -82,6 +82,15 @@ namespace de.unika.ipd.grGen.lgsp
         public long GetUniqueId()
         {
             return uniqueId;
+        }
+
+        /// <summary>
+        /// Sets the unique id of the class object.
+        /// You have to ensure consistency! (only meant for internal use.)
+        /// </summary>
+        public void SetUniqueId(long uniqueId)
+        {
+            this.uniqueId = uniqueId;
         }
 
         /// <summary>

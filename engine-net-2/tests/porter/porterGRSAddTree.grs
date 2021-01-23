@@ -1,0 +1,38 @@
+new graph "porter/porterclassobject"
+
+exec createTree
+
+show num nodes
+show num nodes only N
+
+show num edges
+show num edges only E
+
+show node @("$0")
+show edge @("$1")
+
+exec [checkTree]
+
+export porter/testgraph.grs
+
+import add porter/testgraph.grs porter/porterclassobject.gm
+
+show num nodes
+show num nodes only N
+
+show num edges
+show num edges only E
+
+select actions porter/lgsp-porterclassobjectActions.dll
+
+show node @("$0")
+show edge @("$1")
+show node @("$01")
+show edge @("$11")
+
+exec [checkTree]
+
+# the test script tries to test all available .grs; no sense in trying to test the exported graph
+!rm porter/testgraph.grs
+
+quit
