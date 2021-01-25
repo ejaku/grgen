@@ -33,8 +33,9 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 	}
 
 	private ExprNode sourceExpr;
+	private boolean deep;
 
-	public CopyExprNode(Coords coords, ExprNode sourceExpr)
+	public CopyExprNode(Coords coords, ExprNode sourceExpr, boolean deep)
 	{
 		super(coords);
 		this.sourceExpr = sourceExpr;
@@ -86,7 +87,7 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 	protected IR constructIR()
 	{
 		sourceExpr = sourceExpr.evaluate();
-		return new CopyExpr(sourceExpr.checkIR(Expression.class), getType().getType());
+		return new CopyExpr(sourceExpr.checkIR(Expression.class), getType().getType(), deep);
 	}
 
 	@Override

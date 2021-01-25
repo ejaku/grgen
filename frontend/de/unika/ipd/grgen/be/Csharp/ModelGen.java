@@ -48,6 +48,7 @@ import de.unika.ipd.grgen.ir.type.basic.ShortType;
 import de.unika.ipd.grgen.ir.type.basic.StringType;
 import de.unika.ipd.grgen.ir.type.basic.VoidType;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
+import de.unika.ipd.grgen.ir.type.container.ContainerType;
 import de.unika.ipd.grgen.ir.type.container.DequeType;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.ir.type.container.SetType;
@@ -67,6 +68,7 @@ import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.model.MemberInit;
 import de.unika.ipd.grgen.ir.model.Model;
 import de.unika.ipd.grgen.ir.model.NodeEdgeEnumBearer;
+import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
@@ -611,6 +613,8 @@ public class ModelGen extends CSharpBase
 
 		genElementCloneMethod(type, routedSB, routedDeclName);
 		routedSB.append("\n");
+		genElementCopyMethod(type, routedSB, routedDeclName);
+		routedSB.append("\n");
 		genElementCopyConstructor(type, extName, typeref, routedSB, routedClassName, routedDeclName);
 		routedSB.append("\n");
 
@@ -673,6 +677,8 @@ public class ModelGen extends CSharpBase
 
 		genElementCloneMethod(type, routedSB, routedDeclName);
 		routedSB.append("\n");
+		genElementCopyMethod(type, routedSB, routedDeclName);
+		routedSB.append("\n");
 		genElementCopyConstructor(type, null, typeref, routedSB, routedClassName, routedDeclName);
 		routedSB.append("\n");
 
@@ -731,63 +737,170 @@ public class ModelGen extends CSharpBase
 	{
 		if(type instanceof NodeType) {
 			routedSB.appendFront("public override GRGEN_LIBGR.INode Clone() {\n");
-			routedSB.appendFrontIndented("return new " + routedDeclName + "(this);\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, null, null);\n");
 			routedSB.appendFront("}\n");
 		} else if(type instanceof EdgeType) {
 			routedSB.appendFront("public override GRGEN_LIBGR.IEdge Clone("
 					+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {\n");
-			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, (GRGEN_LGSP.LGSPNode) newSource, "
-					+ "(GRGEN_LGSP.LGSPNode) newTarget);\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, "
+					+ "(GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);\n");
 			routedSB.appendFront("}\n");
 		} else if(type instanceof InternalTransientObjectType) {
 			routedSB.appendFront("public override GRGEN_LIBGR.ITransientObject Clone() {\n");
-			routedSB.appendFrontIndented("return new " + routedDeclName + "(this);\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, null, null);\n");
 			routedSB.appendFront("}\n");
 		} else {
 			routedSB.appendFront("public override GRGEN_LIBGR.IObject Clone(GRGEN_LIBGR.IGraph graph) {\n");
-			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, ((GRGEN_LGSP.LGSPGraph)graph).FetchObjectUniqueId());\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, graph, null);\n");
 			routedSB.appendFront("}\n");
 		}
 	}
 
+	private static void genElementCopyMethod(InheritanceType type, SourceBuilder routedSB, String routedDeclName)
+	{
+		if(type instanceof NodeType) {
+			routedSB.appendFront("public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, graph, oldToNewObjectMap);\n");
+			routedSB.appendFront("}\n");
+		} else if(type instanceof EdgeType) {
+			routedSB.appendFront("public override GRGEN_LIBGR.IEdge Copy("
+					+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, "
+					+ "(GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);\n");
+			routedSB.appendFront("}\n");
+		} else if(type instanceof InternalTransientObjectType) {
+			routedSB.appendFront("public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, graph, oldToNewObjectMap);\n");
+			routedSB.appendFront("}\n");
+		} else {
+			routedSB.appendFront("public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, graph, oldToNewObjectMap);\n");
+			routedSB.appendFront("}\n");
+		}
+	}
+
+	private void genContainerCopying(SourceBuilder sb, Entity member, String attrName)
+	{		
+		if(member.getType() instanceof ArrayType
+				|| member.getType() instanceof DequeType) {
+			String valueType = member.getType() instanceof ArrayType ? 
+					formatAttributeType(((ArrayType)member.getType()).getValueType()) :
+					formatAttributeType(((DequeType)member.getType()).getValueType());
+			sb.appendFront("for(int i = 0; i < oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ".Count; ++i)\n");
+			sb.appendFront("{\n");
+			sb.appendFrontIndented(attrName + ModelGen.ATTR_IMPL_SUFFIX + ".Add((" + valueType + ")Copy(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "[i], graph, oldToNewObjectMap));\n");
+			sb.appendFront("}\n");
+		} else if(member.getType() instanceof SetType) {
+			SetType setType = (SetType)member.getType();
+			String valueType = formatAttributeType(setType.getValueType());
+			sb.appendFront("foreach(KeyValuePair<" + valueType + ", GRGEN_LIBGR.SetValueType> kvp in oldElem." + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+			sb.appendFront("{\n");
+			String key = "(" + valueType + ")Copy(kvp.Key, graph, oldToNewObjectMap)";
+			sb.appendFrontIndented(attrName + ModelGen.ATTR_IMPL_SUFFIX + "[" + key + "] = null;\n");
+			sb.appendFront("}\n");
+		} else if(member.getType() instanceof MapType) {
+			MapType mapType = (MapType)member.getType();
+			String keyType = formatAttributeType(mapType.getKeyType());
+			String valueType = formatAttributeType(mapType.getValueType());
+			sb.appendFront("foreach(KeyValuePair<" + keyType + "," + valueType + "> kvp in oldElem." + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+			sb.appendFront("{\n");
+			String key = "kvp.Key";
+			if(mapType.getKeyType() instanceof BaseInternalObjectType)
+				key = "(" + keyType + ")Copy(kvp.Key, graph, oldToNewObjectMap)";
+			String value = "kvp.Value";
+			if(mapType.getValueType() instanceof BaseInternalObjectType)
+				value = "(" + valueType + ")Copy(kvp.Value, graph, oldToNewObjectMap)";
+			sb.appendFrontIndented(attrName + ModelGen.ATTR_IMPL_SUFFIX + "[" + key + "] = " + value + ";\n");
+			sb.appendFront("}\n");
+		}
+	}
+	
 	private void genElementCopyConstructor(InheritanceType type, String extName, String typeref,
 			SourceBuilder routedSB, String routedClassName, String routedDeclName)
 	{
 		if(type instanceof NodeType) {
-			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem) : base("
+			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base("
 					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
 		} else if(type instanceof EdgeType) {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName
-					+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)\n");
+					+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)\n");
 			routedSB.appendFrontIndented(": base("
 					+ (extName == null ? typeref + ".typeVar, " : "") + "newSource, newTarget)\n");
 		} else if(type instanceof InternalObjectType) {
-			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, long uniqueId) : base("
-					+ (extName == null ? typeref + ".typeVar," : "") + "uniqueId)\n");
+			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base("
+					+ (extName == null ? typeref + ".typeVar, " : "") + "graph.FetchObjectUniqueId())\n");
 		} else {
-			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem) : base("
+			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base("
 					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
 		}
 		routedSB.appendFront("{\n");
 		routedSB.indent();
 		if(model.isUniqueDefined() && (type instanceof NodeType || type instanceof EdgeType))
 			routedSB.appendFront("uniqueId = oldElem.uniqueId;\n");
+
+		if(type instanceof InternalObjectType || type instanceof InternalTransientObjectType) {
+			routedSB.appendFront("if(oldToNewObjectMap != null)\n");
+			routedSB.appendFrontIndented("oldToNewObjectMap.Add(oldElem, this);\n");
+		}
+
 		for(Entity member : type.getAllMembers()) {
 			if(member.isConst())
 				continue;
 
 			String attrName = formatIdentifiable(member);
-			if(member.getType() instanceof MapType || member.getType() instanceof SetType
-					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
-				routedSB.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
+			if(member.getType() instanceof ContainerType) {
+				if(type instanceof InternalTransientObjectType)
+				{
+					routedSB.appendFront("if(oldToNewObjectMap != null) {\n");
+					routedSB.indent();
+
+					if(((ContainerType)member.getType()).containsBaseInternalObjectType()) {
+						sb.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
+								+ "();\n");
+						genContainerCopying(routedSB, member, attrName);
+					} else {
+						sb.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
 								+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
+					}
+					
+					routedSB.unindent();
+					routedSB.appendFront("} else\n");
+					routedSB.appendFrontIndented(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = "
+							+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
+				}
+				else
+				{
+					if(((ContainerType)member.getType()).containsBaseInternalObjectType()) {
+						routedSB.appendFront("if(oldToNewObjectMap != null) {\n");
+						routedSB.indent();
+
+						sb.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
+								+ "();\n");
+
+						genContainerCopying(routedSB, member, attrName);
+
+						routedSB.unindent();
+						routedSB.appendFront("} else\n");
+						sb.appendFrontIndented(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
+								+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
+					} else {
+						sb.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
+								+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
+					}
+				}
 			} else if(model.isCopyClassDefined()
 					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
 				routedSB.appendFront("AttributeTypeObjectCopierComparer.Copy("
 						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
-			//} else if(member.getType() instanceof InternalObjectType) {
-				// TODO - as of now case below, reference assignment
+			} else if(member.getType() instanceof BaseInternalObjectType) {
+				routedSB.appendFront("if(oldToNewObjectMap != null) {\n");
+				routedSB.appendFrontIndented(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = "
+						+ "(" + formatAttributeType(member.getType()) + ")"
+						+ "Copy(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", graph, oldToNewObjectMap);\n");
+				routedSB.appendFront("} else\n");
+				routedSB.appendFrontIndented(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = "
+						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
 			} else {
 				routedSB.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = "
 						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
@@ -795,6 +908,39 @@ public class ModelGen extends CSharpBase
 		}
 		routedSB.unindent();
 		routedSB.appendFront("}\n");
+
+		routedSB.appendFront("\n");
+		genCopyHelper(routedSB, routedClassName);
+	}
+
+	private static void genCopyHelper(SourceBuilder sb, String type)
+	{
+		sb.appendFront("private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("if(oldObj == null)\n");
+		sb.appendFrontIndented("return null;\n");
+		sb.appendFront("if(oldToNewObjectMap.ContainsKey(oldObj))\n");
+		sb.appendFrontIndented("return oldToNewObjectMap[oldObj];\n");
+		sb.appendFront("else {\n");
+		sb.indent();
+		sb.appendFront("if(oldObj is GRGEN_LIBGR.IObject) {\n");
+		sb.indent();
+		sb.appendFront("GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);\n");
+		//sb.appendFront("oldToNewObjectMap[oldObj] = newObj;\n");
+		sb.appendFront("return newObj;\n");
+		sb.unindent();
+		sb.appendFront("} else {\n");
+		sb.indent();
+		sb.appendFront("GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);\n");
+		//sb.appendFront("oldToNewObjectMap[oldObj] = newObj;\n");
+		sb.appendFront("return newObj;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.unindent();
+		sb.appendFront("}\n");
 	}
 
 	private void genElementAttributeComparisonMethod(InheritanceType type, SourceBuilder routedSB,

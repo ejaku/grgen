@@ -11,6 +11,7 @@
 
 package de.unika.ipd.grgen.ir.type.container;
 
+import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 import de.unika.ipd.grgen.ir.type.Type;
 
 public class DequeType extends ContainerType
@@ -45,5 +46,11 @@ public class DequeType extends ContainerType
 	public Type getElementType()
 	{
 		return valueType;
+	}
+	
+	@Override
+	public boolean containsBaseInternalObjectType()
+	{
+		return valueType instanceof BaseInternalObjectType;
 	}
 }

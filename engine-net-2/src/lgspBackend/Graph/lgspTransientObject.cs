@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using de.unika.ipd.grGen.libGr;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.lgsp
@@ -97,21 +98,20 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract void ResetAllAttributes();
 
         /// <summary>
-        /// Creates a copy of this transient object.
-        /// All attributes will be transfered to the new object.
+        /// Creates a shallow clone of this transient object.
+        /// All attributes will be transferred to the new object.
         /// </summary>
         /// <returns>A copy of this object.</returns>
         public abstract ITransientObject Clone();
 
         /// <summary>
-        /// Creates a copy of this object.
-        /// All attributes will be transfered to the new object.
+        /// Creates a deep copy of this transient object.
+        /// All attributes will be transferred to the new object.
         /// </summary>
+        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
+        /// <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
         /// <returns>A copy of this object.</returns>
-        IBaseObject IBaseObject.Clone()
-        {
-            return Clone();
-        }
+        public abstract ITransientObject Copy(IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap);
 
         /// <summary>
         /// Returns whether the attributes of this transient object and that transient object are equal.

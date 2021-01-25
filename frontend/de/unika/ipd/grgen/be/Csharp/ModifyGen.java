@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode.CopyKind;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.executable.Rule;
@@ -1217,7 +1218,7 @@ public class ModifyGen extends CSharpBase
 		String new_type;
 
 		if(redge.inheritsType()) {
-			assert !redge.isCopy();
+			assert redge.getCopy() == CopyKind.None;
 			Edge typeofElem = (Edge)getConcreteTypeofElem(redge);
 			new_type = formatEntity(typeofElem) + "_type";
 			edgesNeededAsElements.add(typeofElem);
@@ -1255,7 +1256,7 @@ public class ModifyGen extends CSharpBase
 		String new_type;
 
 		if(rnode.inheritsType()) {
-			assert !rnode.isCopy();
+			assert rnode.getCopy() == CopyKind.None;
 			Node typeofElem = (Node)getConcreteTypeofElem(rnode);
 			new_type = formatEntity(typeofElem) + "_type";
 			nodesNeededAsElements.add(typeofElem);
@@ -1619,10 +1620,14 @@ public class ModifyGen extends CSharpBase
 			Node typeofElem = (Node)getConcreteTypeofElem(node);
 			nodesNeededAsElements.add(typeofElem);
 
-			if(node.isCopy()) { // node:copy<typeofElem>
+			if(node.getCopy() == CopyKind.Clone) { // node:clone<typeofElem>
 				sb2.appendFront("GRGEN_LGSP.LGSPNode " + formatEntity(node)
 						+ " = (GRGEN_LGSP.LGSPNode) "
 						+ formatEntity(typeofElem) + ".Clone();\n");
+			} else if(node.getCopy() == CopyKind.Copy) { // node:copy<typeofElem>
+				sb2.appendFront("GRGEN_LGSP.LGSPNode " + formatEntity(node)
+				+ " = (GRGEN_LGSP.LGSPNode) "
+				+ formatEntity(typeofElem) + ".Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>());\n");
 			} else { // node:typeof(typeofElem)
 				nodesNeededAsTypes.add(typeofElem);
 				sb2.appendFront("GRGEN_LGSP.LGSPNode " + formatEntity(node)
@@ -1705,11 +1710,16 @@ public class ModifyGen extends CSharpBase
 			Edge typeofElem = (Edge)getConcreteTypeofElem(edge);
 			edgesNeededAsElements.add(typeofElem);
 
-			if(edge.isCopy()) { // -edge:copy<typeofElem>->
+			if(edge.getCopy() == CopyKind.Clone) { // -edge:clone<typeofElem>->
 				sb2.appendFront("GRGEN_LGSP.LGSPEdge " + formatEntity(edge)
 						+ " = (GRGEN_LGSP.LGSPEdge) "
 						+ formatEntity(typeofElem) + ".Clone("
 						+ formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n");
+			} else if(edge.getCopy() == CopyKind.Copy) { // -edge:copy<typeofElem>->
+				sb2.appendFront("GRGEN_LGSP.LGSPEdge " + formatEntity(edge)
+						+ " = (GRGEN_LGSP.LGSPEdge) "
+						+ formatEntity(typeofElem) + ".Copy("
+						+ formatEntity(src_node) + ", " + formatEntity(tgt_node) + ", graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>());\n");
 			} else { // -edge:typeof(typeofElem)->
 				edgesNeededAsTypes.add(typeofElem);
 				sb2.appendFront("GRGEN_LGSP.LGSPEdge " + formatEntity(edge) + " = (GRGEN_LGSP.LGSPEdge) "

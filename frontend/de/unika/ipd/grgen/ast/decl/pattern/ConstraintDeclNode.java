@@ -32,6 +32,11 @@ import java.util.HashSet;
 
 public abstract class ConstraintDeclNode extends DeclNode
 {
+	public enum CopyKind
+	{
+		None, Clone, Copy;
+	}
+
 	protected TypeExprNode constraints;
 
 	public int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
@@ -40,7 +45,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 	public PatternGraphLhsNode directlyNestingLHSGraph;
 	public boolean defEntityToBeYieldedTo;
 
-	protected boolean isCopy;
+	protected CopyKind copyKind;
 
 	/** The retyped version of this element if any. */
 	protected ConstraintDeclNode retypedElem = null;
@@ -54,11 +59,11 @@ public abstract class ConstraintDeclNode extends DeclNode
 	CollectNode<NameOrAttributeInitializationNode> nameOrAttributeInits =
 			new CollectNode<NameOrAttributeInitializationNode>();
 
-	protected ConstraintDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constraints,
+	protected ConstraintDeclNode(IdentNode id, BaseNode type, CopyKind copyKind, int context, TypeExprNode constraints,
 			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
 	{
 		super(id, type);
-		this.isCopy = isCopy;
+		this.copyKind = copyKind;
 		this.constraints = constraints;
 		becomeParent(this.constraints);
 		this.context = context;
@@ -130,7 +135,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS)
 			return true;
 		
-		if(isCopy) {
+		if(copyKind != CopyKind.None) {
 			reportError("LHS copy<> not allowed");
 			return false;
 		}

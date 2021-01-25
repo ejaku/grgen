@@ -1,0 +1,41 @@
+node class N
+{
+	g:Group;
+	l:List;
+	b:Tree;
+	gra:Graph;
+}
+
+edge class E
+{
+	g:Group;
+	l:List;
+	b:Tree;
+	gra:Graph;
+}
+
+class Group
+{
+	a:int;
+	b:double;
+	c:string;
+}
+
+class List
+{
+	value:int;
+	next:List;
+}
+
+class /*Binary*/Tree
+{
+	value:int;
+	left:Tree;
+	right:Tree;
+}
+
+class Graph
+{
+	value:int;
+	children:array<Graph>;
+}

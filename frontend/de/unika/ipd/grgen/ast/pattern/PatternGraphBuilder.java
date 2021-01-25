@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode.CopyKind;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
@@ -138,8 +139,8 @@ public class PatternGraphBuilder
 	public static void genTypeConditionsFromTypeof(PatternGraphLhs patternGraph, GraphEntity elem)
 	{
 		if(elem.inheritsType()) {
-			assert !elem.isCopy(); // must extend this function and lgsp nodes if left hand side copy/copyof are wanted
-								   // (meaning compare attributes of exact dynamic types)
+			assert elem.getCopy() == CopyKind.None; // must extend this function and lgsp nodes if left hand side copy/copyof are wanted
+													// (meaning compare attributes of exact dynamic types)
 
 			Expression e1 = new Typeof(elem);
 			Expression e2 = new Typeof(elem.getTypeof());

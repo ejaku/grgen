@@ -14,16 +14,23 @@ import de.unika.ipd.grgen.ir.type.Type;
 public class CopyExpr extends BuiltinFunctionInvocationExpr
 {
 	private final Expression sourceExpr;
+	private final boolean deep;
 
-	public CopyExpr(Expression sourceExpr, Type type)
+	public CopyExpr(Expression sourceExpr, Type type, boolean deep)
 	{
 		super("copy expression", type);
 		this.sourceExpr = sourceExpr;
+		this.deep = deep;
 	}
 
 	public Expression getSourceExpr()
 	{
 		return sourceExpr;
+	}
+
+	public boolean getDeep()
+	{
+		return deep;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */

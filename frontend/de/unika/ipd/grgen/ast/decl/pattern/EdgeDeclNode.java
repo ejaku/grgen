@@ -48,23 +48,23 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	protected static final DeclarationPairResolver<EdgeDeclNode, TypeDeclNode> typeResolver =
 			new DeclarationPairResolver<EdgeDeclNode, TypeDeclNode>(EdgeDeclNode.class, TypeDeclNode.class);
 
-	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constraints,
+	public EdgeDeclNode(IdentNode id, BaseNode type, CopyKind copyKind, int context, TypeExprNode constraints,
 			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
 	{
-		super(id, type, isCopy, context, constraints, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
+		super(id, type, copyKind, context, constraints, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
 		setName("edge");
 	}
 
-	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constraints,
+	public EdgeDeclNode(IdentNode id, BaseNode type, CopyKind copyKind, int context, TypeExprNode constraints,
 			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
-		this(id, type, isCopy, context, constraints, directlyNestingLHSGraph, false, false);
+		this(id, type, copyKind, context, constraints, directlyNestingLHSGraph, false, false);
 	}
 
 	public EdgeDeclNode cloneForAuto(PatternGraphLhsNode directlyNestingLhsGraph)
 	{
 		EdgeDeclNode clone = new EdgeDeclNode(ident, typeUnresolved,
-				isCopy, context, constraints, directlyNestingLhsGraph, maybeNull, defEntityToBeYieldedTo);
+				copyKind, context, constraints, directlyNestingLhsGraph, maybeNull, defEntityToBeYieldedTo);
 		clone.resolve();
 		if(typeEdgeDecl != null)
 			reportError("A typeof edge cannot be used in an auto statement.");
@@ -79,7 +79,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	public EdgeDeclNode(IdentNode id, TypeDeclNode type, int declLocation, BaseNode parent,
 			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
-		this(id, type, false, declLocation, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+		this(id, type, CopyKind.None, declLocation, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		parent.becomeParent(this);
 
 		resolve();
@@ -251,7 +251,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		edge.setConstraints(getConstraints());
 
 		if(inheritsType()) {
-			edge.setTypeof(typeEdgeDecl.checkIR(Edge.class), isCopy);
+			edge.setTypeofCopy(typeEdgeDecl.checkIR(Edge.class), copyKind);
 		}
 
 		edge.setMaybeNull(maybeNull);

@@ -11,6 +11,7 @@
 
 package de.unika.ipd.grgen.ir.type.container;
 
+import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 import de.unika.ipd.grgen.ir.type.Type;
 
 public class MapType extends ContainerType
@@ -52,5 +53,11 @@ public class MapType extends ContainerType
 	public Type getElementType()
 	{
 		return keyType;
+	}
+	
+	@Override
+	public boolean containsBaseInternalObjectType()
+	{
+		return keyType instanceof BaseInternalObjectType || valueType instanceof BaseInternalObjectType;
 	}
 }

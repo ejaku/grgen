@@ -24,7 +24,7 @@ public class DummyNodeDeclNode extends NodeDeclNode
 
 	public DummyNodeDeclNode(IdentNode id, BaseNode type, int context, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+		super(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 	}
 
 	@Override

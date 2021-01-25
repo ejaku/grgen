@@ -29,7 +29,7 @@ public abstract class MatchEdgeByIndexDeclNode extends EdgeDeclNode
 	protected MatchEdgeByIndexDeclNode(IdentNode id, BaseNode type, int context,
 			IdentNode index, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+		super(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.indexUnresolved = index;
 		becomeParent(this.indexUnresolved);
 	}

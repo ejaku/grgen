@@ -434,6 +434,24 @@ namespace de.unika.ipd.grGen.grShell
             return (IGraphElement)elem;
         }
 
+        public IAttributeBearer GetGraphElementOrClassObjectByVar(String varName)
+        {
+            if(!GraphExists())
+                return null;
+            object elem = curShellProcEnv.ProcEnv.GetVariableValue(varName);
+            if(elem == null)
+            {
+                errOut.WriteLine("Unknown variable: \"{0}\"", varName);
+                return null;
+            }
+            if(!(elem is IGraphElement) && !(elem is IBaseObject))
+            {
+                errOut.WriteLine("\"{0}\" is neither a graph element nor a (transient) class object!", varName);
+                return null;
+            }
+            return (IAttributeBearer)elem;
+        }
+
         public IGraphElement GetElemByName(String elemName)
         {
             if(!GraphExists())
@@ -552,26 +570,28 @@ namespace de.unika.ipd.grGen.grShell
 
         #region get/set attribute
 
-        public object GetElementAttribute(IGraphElement elem, String attributeName)
+        public object GetElementAttribute(IAttributeBearer owner, String attributeName)
         {
-            if(elem == null)
+            if(owner == null)
                 return null;
 
-            AttributeType attrType = GetElementAttributeType(elem, attributeName);
+            AttributeType attrType = GetElementAttributeType(owner, attributeName);
             if(attrType == null)
                 return null;
 
-            return elem.GetAttribute(attributeName);
+            return owner.GetAttribute(attributeName);
         }
 
         public void SetElementAttribute(IAttributeBearer owner, Param param)
         {
             if(owner == null)
                 return;
+
             ArrayList attributes = new ArrayList();
             attributes.Add(param);
             if(!CheckAttributes(owner.Type, attributes))
                 return;
+
             SetAttributes(owner, attributes);
         }
 

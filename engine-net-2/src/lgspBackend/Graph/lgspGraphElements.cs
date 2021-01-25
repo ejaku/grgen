@@ -515,13 +515,24 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract void ResetAllAttributes();
 
         /// <summary>
-        /// Creates a copy of this node.
+        /// Creates a shallow clone of this node.
         /// All attributes will be transfered to the new node.
         /// The node will not be associated to a graph, yet.
         /// So it will not have any incident edges nor any assigned variables.
         /// </summary>
         /// <returns>A copy of this node.</returns>
         public abstract INode Clone();
+
+        /// <summary>
+        /// Creates a deep copy of this node (i.e. internal (transient) class objects will be replicated).
+        /// All attributes will be transfered to the new node.
+        /// The node will not be associated to a graph, yet.
+        /// So it will not have any incident edges nor any assigned variables.
+        /// </summary>
+        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
+        /// <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+        /// <returns>A copy of this node.</returns>
+        public abstract INode Copy(IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap);
 
         /// <summary>
         /// Returns whether the attributes of this element and that are equal.
@@ -588,6 +599,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override INode Clone()
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override INode Copy(IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -856,7 +872,7 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract void ResetAllAttributes();
 
         /// <summary>
-        /// Creates a copy of this edge.
+        /// Creates a shallow clone of this edge.
         /// All attributes will be transfered to the new edge.
         /// The edge will not be associated to a graph, yet.
         /// So it will not have any assigned variables.
@@ -865,6 +881,19 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newTarget">The new target node for the new edge.</param>
         /// <returns>A copy of this edge.</returns>
         public abstract IEdge Clone(INode newSource, INode newTarget);
+
+        /// <summary>
+        /// Creates a deep copy of this edge (i.e. internal (transient) class objects will be replicated).
+        /// All attributes will be transfered to the new edge.
+        /// The edge will not be associated to a graph, yet.
+        /// So it will not have any assigned variables.
+        /// </summary>
+        /// <param name="newSource">The new source node for the new edge.</param>
+        /// <param name="newTarget">The new target node for the new edge.</param>
+        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
+        /// <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+        /// <returns>A copy of this edge.</returns>
+        public abstract IEdge Copy(INode newSource, INode newTarget, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap);
 
         /// <summary>
         /// Returns whether the attributes of this element and that are equal.
@@ -931,6 +960,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override IEdge Clone(INode newSource, INode newTarget)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override IEdge Copy(INode newSource, INode newTarget, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap)
         {
             throw new Exception("The method or operation is not implemented.");
         }

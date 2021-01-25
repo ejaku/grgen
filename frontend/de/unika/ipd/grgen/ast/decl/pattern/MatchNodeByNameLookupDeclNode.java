@@ -36,7 +36,7 @@ public class MatchNodeByNameLookupDeclNode extends NodeDeclNode
 	public MatchNodeByNameLookupDeclNode(IdentNode id, BaseNode type, int context,
 			ExprNode expr, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+		super(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.expr = expr;
 		becomeParent(this.expr);
 	}

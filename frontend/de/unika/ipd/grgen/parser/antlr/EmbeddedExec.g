@@ -538,7 +538,7 @@ seqFunctionCall [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 	}
 	// built-in function or user defined function, backend has to decide whether the call is valid
 	: ( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); packPrefix=true; } )?
-	  ( i=IDENT | i=COPY | i=NAMEOF | i=TYPEOF ) LPAREN { xg.append(i.getText()); xg.append("("); }
+	  ( i=IDENT | i=COPY | i=CLONE | i=NAMEOF | i=TYPEOF ) LPAREN { xg.append(i.getText()); xg.append("("); }
 			params=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
 			if(i.getText().equals("now") && params.getChildren().size() == 0 || env.isGlobalFunction(null, i, params)) {

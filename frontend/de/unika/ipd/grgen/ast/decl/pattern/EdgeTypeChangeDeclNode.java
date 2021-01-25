@@ -42,7 +42,7 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 	public EdgeTypeChangeDeclNode(IdentNode id, BaseNode newType, int context, BaseNode oldid,
 			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
-		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+		super(id, newType, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.oldUnresolved = oldid;
 		becomeParent(this.oldUnresolved);
 	}
@@ -136,8 +136,8 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 		res.setOldEdge(oldEdge);
 
 		if(inheritsType()) {
-			assert !isCopy;
-			res.setTypeof(typeEdgeDecl.checkIR(Edge.class), false);
+			assert copyKind == CopyKind.None;
+			res.setTypeofCopy(typeEdgeDecl.checkIR(Edge.class), copyKind);
 		}
 
 		return res;

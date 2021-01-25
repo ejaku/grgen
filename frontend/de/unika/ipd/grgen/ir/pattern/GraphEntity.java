@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode.CopyKind;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -36,7 +37,7 @@ public abstract class GraphEntity extends Entity
 
 	/** The entity from which this one will inherit its dynamic type */
 	protected GraphEntity typeof = null;
-	protected boolean isCopy = false;
+	protected CopyKind copyKind = CopyKind.None;
 
 	/** The interface type of the parameter if any. */
 	protected InheritanceType parameterInterfaceType = null;
@@ -97,10 +98,10 @@ public abstract class GraphEntity extends Entity
 	}
 
 	/** Sets the entity this one inherits its dynamic type from */
-	public void setTypeof(GraphEntity typeof, boolean isCopy)
+	public void setTypeofCopy(GraphEntity typeof, CopyKind copyKind)
 	{
 		this.typeof = typeof;
-		this.isCopy = isCopy;
+		this.copyKind = copyKind;
 	}
 
 	/** Sets the type constraints for this entity */
@@ -188,9 +189,9 @@ public abstract class GraphEntity extends Entity
 
 	/** returns whether the inherited type / typeof is the extended version in fact,
 	 * named copy, copying the attributes too  */
-	public boolean isCopy()
+	public CopyKind getCopy()
 	{
-		return isCopy;
+		return copyKind;
 	}
 
 	/** @return true, if this entity inherits its type from some other entitiy */

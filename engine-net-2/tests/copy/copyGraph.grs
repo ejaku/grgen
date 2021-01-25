@@ -1,0 +1,101 @@
+new graph "copy/copyclassobject"
+
+exec createGraph
+
+show num nodes
+show num nodes only N
+
+show num edges
+show num edges only E
+
+show node @("$0")
+show edge @("$1")
+
+exec [checkGraph]
+
+exec copyClassObjectStructure
+
+show num nodes
+show num nodes only N
+
+show num edges
+show num edges only E
+
+show node @("$0")
+show edge @("$1")
+show node @("$2")
+show edge @("$3")
+
+exec [checkGraph]
+
+gr=@("$0").gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+gr=@("$1").gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+gr=@("$2").gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+gr=@("$3").gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+gr=@("$0").gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+gr.value = 42
+grc0.value = 43
+grc1.value = 44
+
+gr=@("$1").gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+gr.value = 42
+grc0.value = 43
+grc1.value = 44
+
+gr=@("$0").gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+gr=@("$1").gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+gr=@("$2").gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+gr=@("$3").gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+quit

@@ -38,7 +38,7 @@ public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 	public EdgeInterfaceTypeChangeDeclNode(IdentNode id, BaseNode newType, int context, IdentNode interfaceType,
 			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull)
 	{
-		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull, false);
+		super(id, newType, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull, false);
 		this.interfaceTypeUnresolved = interfaceType;
 		becomeParent(this.interfaceTypeUnresolved);
 	}

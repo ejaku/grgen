@@ -46,7 +46,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 	public NodeTypeChangeDeclNode(IdentNode id, BaseNode newType, int context, BaseNode oldid,
 			CollectNode<IdentNode> mergees, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
-		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+		super(id, newType, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.oldUnresolved = oldid;
 		becomeParent(this.oldUnresolved);
 		this.mergeesUnresolved = mergees;
@@ -175,8 +175,8 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 		res.setOldNode(oldNode);
 
 		if(inheritsType()) {
-			assert !isCopy;
-			res.setTypeof(typeNodeDecl.checkIR(Node.class), false);
+			assert copyKind == CopyKind.None;
+			res.setTypeofCopy(typeNodeDecl.checkIR(Node.class), copyKind);
 		}
 
 		for(NodeDeclNode mergee : mergees.getChildren()) {

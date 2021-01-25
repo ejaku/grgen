@@ -9,6 +9,7 @@
 
 using de.unika.ipd.grGen.libGr;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.lgsp
@@ -132,21 +133,22 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract void ResetAllAttributes();
 
         /// <summary>
-        /// Creates a copy of this object.
+        /// Creates a shallow clone of this object.
         /// All attributes will be transfered to the new object.
+        /// A new name will be fetched from the graph.
         /// </summary>
         /// <returns>A copy of this object.</returns>
         public abstract IObject Clone(IGraph graph);
 
         /// <summary>
-        /// Creates a copy of this (base) object.
+        /// Creates a deep copy of this object (i.e. internal (transient) class objects will be replicated).
         /// All attributes will be transfered to the new object.
+        /// A new name will be fetched from the graph.
         /// </summary>
-        /// <returns>A copy of this (base) object.</returns>
-        IBaseObject IBaseObject.Clone()
-        {
-            throw new Exception("Use IObject.Clone(IGraph graph)");
-        }
+        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
+        /// <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+        /// <returns>A copy of this object.</returns>
+        public abstract IObject Copy(IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap);
 
         /// <summary>
         /// Returns whether the attributes of this object and that object are equal.

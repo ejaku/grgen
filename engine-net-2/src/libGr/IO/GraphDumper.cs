@@ -271,6 +271,11 @@ namespace de.unika.ipd.grGen.libGr
             throw new NotImplementedException("The method or operation is not implemented.");
         }
 
+        public INode Copy(IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap)
+        {
+            throw new NotImplementedException("The method or operation is not implemented.");
+        }
+
         public bool AreAttributesEqual(IAttributeBearer that)
         {
             throw new NotImplementedException("The method or operation is not implemented.");

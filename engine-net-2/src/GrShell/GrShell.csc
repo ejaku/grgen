@@ -668,7 +668,7 @@ IAttributeBearer GraphElementOrClassObject():
     |
         "@" "(" str=WordOrText() ")" { owner = impl.GetElemByName(str); }
     |
-        str=Variable() { owner = impl.GetElemByVar(str); }
+        str=Variable() { owner = impl.GetGraphElementOrClassObjectByVar(str); }
     )
     { return owner; }
 }
@@ -1260,7 +1260,7 @@ void ShellCommand():
             ) LineEnd()
         |
             LOOKAHEAD(2) obj=GraphElementOrUnquotedVar()
-            ( "." str2=AnyString() { obj = impl.GetElementAttribute((IGraphElement) obj, str2); } )? LineEnd()
+            ( "." str2=AnyString() { obj = impl.GetElementAttribute((IAttributeBearer) obj, str2); } )? LineEnd()
         |
             obj=Constant() LineEnd()
         )

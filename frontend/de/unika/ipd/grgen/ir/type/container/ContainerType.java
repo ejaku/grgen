@@ -22,4 +22,6 @@ public abstract class ContainerType extends Type
 	
 	// returns value type for array|deque|set and key type for map
 	public abstract Type getElementType();
+	
+	public abstract boolean containsBaseInternalObjectType();
 }

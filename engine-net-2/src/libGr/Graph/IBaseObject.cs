@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using System;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -20,13 +21,6 @@ namespace de.unika.ipd.grGen.libGr
         /// The BaseObjectType (class) of the object
         /// </summary>
         new BaseObjectType Type { get; }
-
-        /// <summary>
-        /// Creates a copy of this base object.
-        /// All attributes will be transferred to the new object.
-        /// </summary>
-        /// <returns>A copy of this object.</returns>
-        IBaseObject Clone();
     }
 
     /// <summary>
@@ -58,12 +52,22 @@ namespace de.unika.ipd.grGen.libGr
         string GetObjectName();
 
         /// <summary>
-        /// Creates a copy of this object.
+        /// Creates a shallow clone of this object.
         /// All attributes will be transfered to the new object.
         /// A new name will be fetched from the graph.
         /// </summary>
         /// <returns>A copy of this object.</returns>
         IObject Clone(IGraph graph);
+
+        /// <summary>
+        /// Creates a deep copy of this object (i.e. internal (transient) class objects will be replicated).
+        /// All attributes will be transfered to the new object.
+        /// A new name will be fetched from the graph.
+        /// </summary>
+        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
+        /// <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+        /// <returns>A copy of this object.</returns>
+        IObject Copy(IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap);
     }
 
     /// <summary>
@@ -77,10 +81,19 @@ namespace de.unika.ipd.grGen.libGr
         new TransientObjectType Type { get; }
 
         /// <summary>
-        /// Creates a copy of this transient object.
+        /// Creates a shallow clone of this transient object.
         /// All attributes will be transferred to the new object.
         /// </summary>
         /// <returns>A copy of this object.</returns>
-        new ITransientObject Clone();
+        ITransientObject Clone();
+
+        /// <summary>
+        /// Creates a deep copy of this transient object.
+        /// All attributes will be transferred to the new object.
+        /// </summary>
+        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
+        /// <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+        /// <returns>A copy of this object.</returns>
+        ITransientObject Copy(IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap);
     }
 }

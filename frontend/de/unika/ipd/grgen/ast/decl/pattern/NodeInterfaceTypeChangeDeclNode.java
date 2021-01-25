@@ -38,7 +38,7 @@ public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode
 	public NodeInterfaceTypeChangeDeclNode(IdentNode id, BaseNode type, int context, IdentNode interfaceType,
 			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull)
 	{
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull, false);
+		super(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull, false);
 		this.interfaceTypeUnresolved = interfaceType;
 		becomeParent(this.interfaceTypeUnresolved);
 	}

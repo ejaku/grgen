@@ -86,6 +86,7 @@ tokens {
 	import de.unika.ipd.grgen.ast.decl.*;
 	import de.unika.ipd.grgen.ast.decl.executable.*;
 	import de.unika.ipd.grgen.ast.decl.pattern.*;
+	import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode.CopyKind;
 	import de.unika.ipd.grgen.ast.pattern.*;
 	import de.unika.ipd.grgen.ast.expr.*;
 	import de.unika.ipd.grgen.ast.expr.numeric.*;
@@ -370,11 +371,11 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 globalVarDecl 
 	: DOUBLECOLON id=entIdentDecl COLON type=typeIdentUse SEMI
 		{
-			id.setDecl(new NodeDeclNode(id, type, false, 0, TypeExprNode.getEmpty(), null));
+			id.setDecl(new NodeDeclNode(id, type, CopyKind.None, 0, TypeExprNode.getEmpty(), null));
 		}
 	| MINUS DOUBLECOLON id=entIdentDecl COLON type=typeIdentUse (RARROW | MINUS) SEMI
 		{
-			id.setDecl(new EdgeDeclNode(id, type, false, 0, TypeExprNode.getEmpty(), null));
+			id.setDecl(new EdgeDeclNode(id, type, CopyKind.None, 0, TypeExprNode.getEmpty(), null));
 		}
 	| modifier=IDENT DOUBLECOLON id=entIdentDecl COLON 
 		(
@@ -1143,7 +1144,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn,
 	| c=COLON // anonymous node or subpattern declaration
 		anonymousFirstNodeOrSubpatternDeclaration[c, conn, subpatterns, namer, context, directlyNestingLHSGraph]
 	| d=DOT { id = env.defineAnonymousEntity("node", getCoords(d)); } // anonymous node declaration of type node		
-		{ nodeDecl = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
+		{ nodeDecl = new NodeDeclNode(id, type, CopyKind.None, context, constr, directlyNestingLHSGraph); }
 		//( AT LPAREN nameAndAttributesInitializationList[nodeDecl, context] RPAREN )?
 		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	;
@@ -1158,12 +1159,13 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, Col
 		curId = env.getDummyIdent();
 		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
 		NodeDeclNode nodeDecl = null;
+		CopyKind copyKind = CopyKind.None;
 	}
 	: // node declaration
 		type=typeIdentUse
 		( constr=typeConstraint )?
 		( 
-			{ nodeDecl = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
+			{ nodeDecl = new NodeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph); }
 		| LT oldid=entIdentUse ( COMMA curId=entIdentUse { mergees.addChild(curId); } )* GT
 			{ nodeDecl = new NodeTypeChangeDeclNode(id, type, context, oldid, mergees, directlyNestingLHSGraph); }
 		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, namer, context, directlyNestingLHSGraph ] RBRACE
@@ -1177,16 +1179,16 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, Col
 		( LT oldid=entIdentUse ( COMMA curId=entIdentUse { mergees.addChild(curId); } )* GT )?
 		{
 			if(oldid == null) {
-				nodeDecl = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
+				nodeDecl = new NodeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph);
 			} else {
 				nodeDecl = new NodeTypeChangeDeclNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
 		}
 		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
 		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
-	| // node copy declaration
-		COPY LT type=entIdentUse GT 
-		{ nodeDecl = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph); }
+	| // node copy/clone declaration
+		( COPY { copyKind = CopyKind.Copy; } | CLONE { copyKind = CopyKind.Clone; } ) LT type=entIdentUse GT 
+		{ nodeDecl = new NodeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph); }
 		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
 		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // subpattern declaration
@@ -1253,13 +1255,14 @@ anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn,
 		curId = env.getDummyIdent();
 		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
 		NodeDeclNode nodeDecl = null;
+		CopyKind copyKind = CopyKind.None;
 	}
 	:  // node declaration
 		{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 		type=typeIdentUse
 		( constr=typeConstraint )?
 		(
-			{ nodeDecl = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
+			{ nodeDecl = new NodeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph); }
 		| LT oldid=entIdentUse ( COMMA curId=entIdentUse { mergees.addChild(curId); } )* GT
 			{ nodeDecl = new NodeTypeChangeDeclNode(id, type, context, oldid, mergees, directlyNestingLHSGraph); }
 		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, namer, context, directlyNestingLHSGraph ] RBRACE
@@ -1274,16 +1277,16 @@ anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn,
 		( LT oldid=entIdentUse ( COMMA curId=entIdentUse { mergees.addChild(curId); } )* GT )?
 		{
 			if(oldid == null) {
-				nodeDecl = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
+				nodeDecl = new NodeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph);
 			} else {
 				nodeDecl = new NodeTypeChangeDeclNode(id, type, context, oldid, mergees, directlyNestingLHSGraph);
 			}
 		}
 		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
 		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
-	| // node copy declaration
-		COPY LT type=entIdentUse GT 
-		{ nodeDecl = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph); }
+	| // node copy/clone declaration
+		( COPY { copyKind = CopyKind.Copy; } | CLONE { copyKind = CopyKind.Clone; } ) LT type=entIdentUse GT 
+		{ nodeDecl = new NodeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph); }
 		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
 		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // subpattern declaration
@@ -1340,12 +1343,12 @@ defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclN
 
 defNodeToBeYieldedTo [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ NodeDeclNode res = null ]
 	: id=entIdentDecl COLON type=typeIdentUse
-		{ res = new NodeDeclNode(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false, true); }
+		{ res = new NodeDeclNode(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false, true); }
 	;
 	
 defEdgeToBeYieldedTo [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
 	: id=entIdentDecl COLON type=typeIdentUse
-		{ res = new EdgeDeclNode(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false, true); }
+		{ res = new EdgeDeclNode(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false, true); }
 	;
 
 defGraphElementInitialization [ AnonymousScopeNamer namer, int context, ConstraintDeclNode graphElement ]
@@ -1635,7 +1638,7 @@ nodeOcc [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNe
 		co=nodeTypeContinuation[id, namer, context, directlyNestingLHSGraph] { res = co; }
 	| d=DOT { id = env.defineAnonymousEntity("node", getCoords(d)); } // anonymous node declaration of type node		
 		//( AT LPAREN nameAndAttributesInitializationList[n, namer, context] RPAREN )?
-		{ res = new NodeDeclNode(id, env.getNodeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph); }
+		{ res = new NodeDeclNode(id, env.getNodeRoot(), CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph); }
 	;
 
 nodeTypeContinuation [ IdentNode id, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ NodeDeclNode res = null ]
@@ -1644,21 +1647,22 @@ nodeTypeContinuation [ IdentNode id, AnonymousScopeNamer namer, int context, Pat
 		constr = TypeExprNode.getEmpty();
 		curId = env.getDummyIdent();
 		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
+		CopyKind copyKind = CopyKind.None;
 	}
 	:	( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
 		( 
-			{ res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
+			{ res = new NodeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph); }
 		| LT oldid=entIdentUse ( COMMA curId=entIdentUse { mergees.addChild(curId); } )* GT
 			{ res = new NodeTypeChangeDeclNode(id, type, context, oldid, mergees, directlyNestingLHSGraph); }
 		| LBRACE nsic=nodeStorageIndexContinuation [ id, type, namer, context, directlyNestingLHSGraph ] RBRACE
 			{ res = nsic; }
 		)
 		( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
-	| COPY LT type=entIdentUse GT
-		{ res = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph); }
+	| ( COPY { copyKind = CopyKind.Copy; } | CLONE { copyKind = CopyKind.Clone; } ) LT type=entIdentUse GT
+		{ res = new NodeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph); }
 		( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	;
 
@@ -1673,7 +1677,7 @@ nodeDeclParam [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] retur
 				| maybe=NULL (PLUS interfaceType=typeIdentUse)?) GT )?
 			{
 				if(interfaceType == null) {
-					res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph, maybe!=null, false);
+					res = new NodeDeclNode(id, type, CopyKind.None, context, constr, directlyNestingLHSGraph, maybe!=null, false);
 				} else {
 					res = new NodeInterfaceTypeChangeDeclNode(id, type, context, interfaceType, directlyNestingLHSGraph, maybe!=null);
 				}
@@ -1705,14 +1709,14 @@ forwardOrUndirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mutable<Con
 	| da=DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
-			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.ConnectionKind.DIRECTED);
 		}
 		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	| mm=MINUSMINUS
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, env.getUndirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+			res = new EdgeDeclNode(id, env.getUndirectedEdgeRoot(), CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.ConnectionKind.UNDIRECTED);
 		}
 		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
@@ -1735,14 +1739,14 @@ backwardOrArbitraryDirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mut
 	| da=DOUBLE_LARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
-			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.ConnectionKind.DIRECTED);
 		}
 		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	| lr=LRARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(lr));
-			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY_DIRECTED);
 		}
 		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
@@ -1763,7 +1767,7 @@ arbitraryEdgeOcc [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode d
 	| q=QMMQ
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(q));
-			res = new EdgeDeclNode(id, env.getArbitraryEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+			res = new EdgeDeclNode(id, env.getArbitraryEdgeRoot(), CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		}
 		//( AT LPAREN nameAndAttributesInitializationList[res, context] RPAREN )?
 	;
@@ -1792,7 +1796,7 @@ edgeDeclParam [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] retur
 				| maybe=NULL (PLUS interfaceType=typeIdentUse)?) GT )?
 			{
 				if( interfaceType == null ) {
-					res = new EdgeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph, maybe!=null, false);
+					res = new EdgeDeclNode(id, type, CopyKind.None, context, constr, directlyNestingLHSGraph, maybe!=null, false);
 				} else {
 					res = new EdgeInterfaceTypeChangeDeclNode(id, type, context, interfaceType, directlyNestingLHSGraph, maybe!=null);
 				}
@@ -1804,21 +1808,22 @@ edgeTypeContinuation [ IdentNode id, AnonymousScopeNamer namer, int context, Pat
 	@init {
 		type = env.getNodeRoot();
 		constr = TypeExprNode.getEmpty();
+		CopyKind copyKind = CopyKind.None;
 	}
 	:	( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
 		(
-			{ res = new EdgeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph); }
+			{ res = new EdgeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph); }
 		| LT oldid=entIdentUse GT
 			{ res = new EdgeTypeChangeDeclNode(id, type, context, oldid, directlyNestingLHSGraph); }
 		| LBRACE esic=edgeStorageIndexContinuation [ id, type, namer, context, directlyNestingLHSGraph ] RBRACE
 			{ res = esic; }
 		)
 		( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
-	| COPY LT type=entIdentUse GT
-		{ res = new EdgeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph); }
+	| ( COPY { copyKind = CopyKind.Copy; } | CLONE { copyKind = CopyKind.Clone; } ) LT type=entIdentUse GT
+		{ res = new EdgeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph); }
 		( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	;
 
@@ -3126,14 +3131,14 @@ inClassFunctionDecl [ IdentNode clsId, InheritanceTypeKind kind ] returns [ Func
 					evals.addChild(new DefDeclStatementNode(getCoords(f), new SingleNodeConnNode(
 							new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
-									false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true)),
+									CopyKind.None, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true)),
 							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
 				} else if(kind == InheritanceTypeKind.EDGE) {
 					evals.addChild(new DefDeclStatementNode(getCoords(f), new ConnectionNode(
 							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION, PatternGraphLhsNode.getInvalid()),
 							new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
-									false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true),
+									CopyKind.None, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true),
 							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), ConnectionNode.ConnectionKind.DIRECTED, ConnectionNode.NO_REDIRECTION),
 							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
 				}
@@ -3174,14 +3179,14 @@ inClassProcedureDecl [ IdentNode clsId, InheritanceTypeKind kind ] returns [ Pro
 					evals.addChild(new DefDeclStatementNode(getCoords(pr), new SingleNodeConnNode(
 							new NodeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))),
 									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
-									false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true)),
+									CopyKind.None, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true)),
 							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
 				} else if(kind == InheritanceTypeKind.EDGE) {
 					evals.addChild(new DefDeclStatementNode(getCoords(pr), new ConnectionNode(
 							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), 
 							new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))),
 									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
-									false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true),
+									CopyKind.None, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true),
 							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), ConnectionNode.ConnectionKind.DIRECTED, ConnectionNode.NO_REDIRECTION),
 							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
 				}
@@ -4367,7 +4372,7 @@ externalFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean
 	@init {
 		boolean packPrefix = false;
 	}
-	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY) params=paramExprs[namer, context, inEnumInit]
+	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY | i=CLONE) params=paramExprs[namer, context, inEnumInit]
 		{
 			if(env.isKnownFunction(pack, i, params)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
@@ -4713,6 +4718,7 @@ AUTO : 'auto';
 BREAK : 'break';
 CASE : 'case';
 CLASS : 'class';
+CLONE : 'clone';
 COPY : 'copy';
 CONNECT : 'connect';
 CONST : 'const';

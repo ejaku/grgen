@@ -51,23 +51,23 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	private static DeclarationPairResolver<NodeDeclNode, TypeDeclNode> typeResolver =
 			new DeclarationPairResolver<NodeDeclNode, TypeDeclNode>(NodeDeclNode.class, TypeDeclNode.class);
 
-	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constr,
+	public NodeDeclNode(IdentNode id, BaseNode type, CopyKind copyKind, int context, TypeExprNode constr,
 			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
 	{
-		super(id, type, isCopy, context, constr, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
+		super(id, type, copyKind, context, constr, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
 	}
 
-	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constr,
+	public NodeDeclNode(IdentNode id, BaseNode type, CopyKind copyKind, int context, TypeExprNode constr,
 			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
-		this(id, type, isCopy, context, constr, directlyNestingLHSGraph, false, false);
+		this(id, type, copyKind, context, constr, directlyNestingLHSGraph, false, false);
 	}
 
 	public NodeDeclNode cloneForAuto(PatternGraphLhsNode directlyNestingLhsGraph)
 	{
 		//new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));	
 		NodeDeclNode clone = new NodeDeclNode(ident, typeUnresolved,
-				isCopy, context, constraints, directlyNestingLhsGraph, maybeNull, defEntityToBeYieldedTo);
+				copyKind, context, constraints, directlyNestingLhsGraph, maybeNull, defEntityToBeYieldedTo);
 		clone.resolve();
 		if(typeNodeDecl != null)
 			reportError("A typeof node cannot be used in an auto statement.");
@@ -251,7 +251,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		}
 
 		if(inheritsType()) {
-			node.setTypeof(typeNodeDecl.checkIR(Node.class), isCopy);
+			node.setTypeofCopy(typeNodeDecl.checkIR(Node.class), copyKind);
 		}
 
 		node.setMaybeNull(maybeNull);

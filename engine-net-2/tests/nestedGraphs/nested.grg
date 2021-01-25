@@ -102,8 +102,8 @@ rule r4
 	modify {
 	---
 		def var result:boolean;
-		exec( { clone:graph=copy(this); full:graph=File::import("redgreenbluefull2C.grs"); initial:graph=File::import("redgreenblueC.grs"); 
-			yield result = this==clone && this==full && this!=initial } 
+		exec( { clone_:graph=copy(this); full:graph=File::import("redgreenbluefull2C.grs"); initial:graph=File::import("redgreenblueC.grs"); 
+			yield result = this==clone_ && this==full && this!=initial } 
 		);
 		emit("The value of variable result of type bool is: ");
 		emit( result );

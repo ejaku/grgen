@@ -31,7 +31,7 @@ public abstract class MatchNodeFromByStorageDeclNode extends NodeDeclNode
 	protected MatchNodeFromByStorageDeclNode(IdentNode id, BaseNode type, int context, BaseNode storage,
 			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+		super(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.storageUnresolved = storage;
 		becomeParent(this.storageUnresolved);
 	}

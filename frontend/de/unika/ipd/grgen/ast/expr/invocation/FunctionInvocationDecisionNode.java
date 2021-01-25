@@ -611,7 +611,13 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				env.reportError("copy(.) takes one parameter.");
 				return null;
 			} else
-				return new CopyExprNode(env.getCoords(), arguments.get(0));
+				return new CopyExprNode(env.getCoords(), arguments.get(0), true);
+		case "clone":
+			if(arguments.size() != 1) {
+				env.reportError("clone(.) takes one parameter.");
+				return null;
+			} else
+				return new CopyExprNode(env.getCoords(), arguments.get(0), false);
 		case "canonize":
 			if(arguments.size() != 1) {
 				env.reportError("canonize(.) takes one parameter.");
