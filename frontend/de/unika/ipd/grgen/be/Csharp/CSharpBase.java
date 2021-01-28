@@ -912,26 +912,53 @@ public abstract class CSharpBase
 		} else if(expr instanceof CopyExpr) {
 			CopyExpr ce = (CopyExpr)expr;
 			Type t = ce.getSourceExpr().getType();
-			if(t instanceof MatchType || t instanceof MatchTypeIterated || t instanceof DefinedMatchType) {
-				sb.append("((" + formatType(t) + ")(");
-				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-				sb.append(").Clone())");
-			} else if(t instanceof GraphType) {
-				sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
-				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-				sb.append(")");
-			} else if(t instanceof InternalObjectType) {
-				sb.append("(");
-				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-				sb.append(").Clone(graph)");
-			} else if(t instanceof InternalTransientObjectType) {
-				sb.append("(");
-				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-				sb.append(").Clone()");
-			} else {
-				sb.append("new " + formatType(t) + "(");
-				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-				sb.append(")");
+			if(ce.getDeep())
+			{
+				if(t instanceof MatchType || t instanceof MatchTypeIterated || t instanceof DefinedMatchType) {
+					sb.append("((" + formatType(t) + ")(");
+					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+					sb.append(").Clone())");
+				} else if(t instanceof GraphType) {
+					sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
+					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(t instanceof InternalObjectType) {
+					sb.append("((" + formatType(t) + ")(");
+					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+					sb.append(").Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>()))");
+				} else if(t instanceof InternalTransientObjectType) {
+					sb.append("((" + formatType(t) + ")(");
+					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+					sb.append(").Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>()))");
+				} else { // container
+					sb.append("GRGEN_LIBGR.ContainerHelper.Copy(");
+					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+					sb.append(", graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())");
+				}
+			}
+			else
+			{
+				if(t instanceof MatchType || t instanceof MatchTypeIterated || t instanceof DefinedMatchType) {
+					sb.append("((" + formatType(t) + ")(");
+					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+					sb.append(").Clone())");
+				} else if(t instanceof GraphType) {
+					sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
+					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(t instanceof InternalObjectType) {
+					sb.append("((" + formatType(t) + ")(");
+					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+					sb.append(").Clone(graph))");
+				} else if(t instanceof InternalTransientObjectType) {
+					sb.append("((" + formatType(t) + ")(");
+					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+					sb.append(").Clone())");
+				} else { // container
+					sb.append("new " + formatType(t) + "(");
+					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+					sb.append(")");
+				}
 			}
 		} else if(expr instanceof Count) {
 			Count count = (Count)expr;

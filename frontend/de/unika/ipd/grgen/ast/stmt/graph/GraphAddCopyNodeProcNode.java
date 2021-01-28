@@ -35,11 +35,14 @@ public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 
 	Vector<TypeNode> returnTypes;
 
-	public GraphAddCopyNodeProcNode(Coords coords, ExprNode nodeType)
+	private boolean deep;
+
+	public GraphAddCopyNodeProcNode(Coords coords, ExprNode nodeType, boolean deep)
 	{
 		super(coords);
 		this.oldNode = nodeType;
 		becomeParent(this.oldNode);
+		this.deep = deep;
 	}
 
 	/** returns children of this node */
@@ -65,7 +68,8 @@ public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(oldNode.getType() instanceof NodeTypeNode)) {
-			reportError("argument of addCopy(.) must be a node");
+			String functionSignature = "addCopy(.)";
+			reportError("argument of " + functionSignature + " must be a node");
 			return false;
 		}
 		return true;
@@ -82,7 +86,7 @@ public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		oldNode = oldNode.evaluate();
 		GraphAddCopyNodeProc addCopyNode = new GraphAddCopyNodeProc(oldNode.checkIR(Expression.class),
-				oldNode.getType().getType());
+				oldNode.getType().getType(), deep);
 		return addCopyNode;
 	}
 

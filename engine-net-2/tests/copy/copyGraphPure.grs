@@ -1,0 +1,46 @@
+new graph "copy/copyclassobject"
+
+exec {(::gra)=createGraphPure()}
+
+exec {{checkGraphPure(::gra)}}
+
+exec {::gracopy=copyClassObjectStructureGraph(::gra)}
+
+exec {{checkGraphPure(::gracopy)}}
+
+gr=gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+gr=gracopy
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+gr=gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+gr.value = 42
+grc0.value = 43
+grc1.value = 44
+
+gr=gra
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+gr=gracopy
+exec {::grc0=::gr.children[0]}
+exec {::grc1=::gr.children[1]}
+show var gr
+show var grc0
+show var grc1
+
+quit

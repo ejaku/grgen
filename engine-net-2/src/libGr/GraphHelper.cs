@@ -4986,10 +4986,31 @@ namespace de.unika.ipd.grGen.libGr
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
-        /// creates a node of given type and adds it to the graph, returns it
-        /// type might be a string denoting a NodeType or a NodeType
+        /// creates a deep copy of the given node and adds it to the graph, returns it
         /// </summary>
         public static INode AddCopyOfNode(object node, IGraph graph)
+        {
+            IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap = new Dictionary<IBaseObject, IBaseObject>();
+            INode copy = ((INode)node).Copy(graph, oldToNewObjectMap);
+            graph.AddNode(copy);
+            return copy;
+        }
+
+        /// <summary>
+        /// creates a deep copy of the given edge and adds it to the graph between from and to, returns it
+        /// </summary>
+        public static IEdge AddCopyOfEdge(object edge, INode src, INode tgt, IGraph graph)
+        {
+            IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap = new Dictionary<IBaseObject, IBaseObject>();
+            IEdge copy = ((IEdge)edge).Copy(src, tgt, graph, oldToNewObjectMap);
+            graph.AddEdge(copy);
+            return copy;
+        }
+
+        /// <summary>
+        /// creates a shallow clone of the given node and adds it to the graph, returns it
+        /// </summary>
+        public static INode AddCloneOfNode(object node, IGraph graph)
         {
             INode copy = ((INode)node).Clone();
             graph.AddNode(copy);
@@ -4997,16 +5018,15 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// creates an edge of given type and adds it to the graph between from and to, returns it
-        /// type might be a string denoting an EdgeType or an EdgeType
+        /// creates a shallow clone of the given edge and adds it to the graph between from and to, returns it
         /// </summary>
-        public static IEdge AddCopyOfEdge(object edge, INode src, INode tgt, IGraph graph)
+        public static IEdge AddCloneOfEdge(object edge, INode src, INode tgt, IGraph graph)
         {
             IEdge copy = ((IEdge)edge).Clone(src, tgt);
             graph.AddEdge(copy);
             return copy;
         }
-        
+
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>

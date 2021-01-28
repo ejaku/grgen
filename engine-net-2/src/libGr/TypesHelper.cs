@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using System;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -130,18 +131,41 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns a clone of either a graph or a match or a container
+        /// Returns a shallow clone of either a graph or a match or a class object or a transient class object or a container
         /// </summary>
-        /// <param name="toBeCloned">The graph or match or container to be cloned</param>
-        /// <returns>The cloned graph or match or container</returns>
-        public static object Clone(object toBeCloned)
+        /// <param name="toBeCloned">The graph or match or (transient) class object or container to be cloned</param>
+        /// <returns>The clone</returns>
+        public static object Clone(object toBeCloned, IGraph graph)
         {
             if(toBeCloned is IGraph)
                 return GraphHelper.Copy((IGraph)toBeCloned);
             else if(toBeCloned is IMatch)
                 return ((IMatch)toBeCloned).Clone();
+            else if(toBeCloned is IObject)
+                return ((IObject)toBeCloned).Clone(graph);
+            else if(toBeCloned is ITransientObject)
+                return ((ITransientObject)toBeCloned).Clone();
             else
                 return ContainerHelper.Clone(toBeCloned);
+        }
+
+        /// <summary>
+        /// Returns a deep copy of either a graph or a match or a class object or a transient class object or a container
+        /// </summary>
+        /// <param name="toBeCopied">The graph or match or (transient) class object or container to be copied</param>
+        /// <returns>The copy</returns>
+        public static object Copy(object toBeCopied, IGraph graph)
+        {
+            if(toBeCopied is IGraph)
+                return GraphHelper.Copy((IGraph)toBeCopied);
+            else if(toBeCopied is IMatch)
+                return ((IMatch)toBeCopied).Clone();
+            else if(toBeCopied is IObject)
+                return ((IObject)toBeCopied).Copy(graph, new Dictionary<IBaseObject, IBaseObject>());
+            else if(toBeCopied is ITransientObject)
+                return ((ITransientObject)toBeCopied).Copy(graph, new Dictionary<IBaseObject, IBaseObject>());
+            else
+                return ContainerHelper.Copy(toBeCopied, graph, new Dictionary<IBaseObject, IBaseObject>());
         }
     }
 }

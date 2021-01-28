@@ -1,0 +1,101 @@
+new graph "copy/copyclassobject"
+
+exec createTree
+
+show num nodes
+show num nodes only N
+
+show num edges
+show num edges only E
+
+show node @("$0")
+show edge @("$1")
+
+exec [checkTree]
+
+exec copyClassObjectStructure2
+
+show num nodes
+show num nodes only N
+
+show num edges
+show num edges only E
+
+show node @("$0")
+show edge @("$1")
+show node @("$2")
+show edge @("$3")
+
+exec [checkTree]
+
+bt=@("$0").b
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+bt=@("$1").b
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+bt=@("$2").b
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+bt=@("$3").b
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+bt=@("$0").b
+btl=bt.left
+btll=btl.left
+bt.value = 42
+btl.value = 43
+btll.value = 44
+
+bt=@("$1").b
+btr=bt.right
+btrr=btr.right
+bt.value = 44
+btr.value = 43
+btrr.value = 42
+
+bt=@("$0").b
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+bt=@("$1").b
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+bt=@("$2").b
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+bt=@("$3").b
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+quit

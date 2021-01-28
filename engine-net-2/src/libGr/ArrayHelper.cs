@@ -1195,5 +1195,55 @@ namespace de.unika.ipd.grGen.libGr
 
             return true;
         }
+
+        public static IList Copy(IList array, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        {
+            IList copy = (IList)Activator.CreateInstance(array.GetType());
+
+            foreach(object element in array)
+            {
+                if(element is IObject)
+                {
+                    IObject elem = (IObject)element;
+                    copy.Add(elem.Copy(graph, oldToNewObjects));
+                }
+                else if(element is ITransientObject)
+                {
+                    ITransientObject elem = (ITransientObject)element;
+                    copy.Add(elem.Copy(graph, oldToNewObjects));
+                }
+                else
+                {
+                    copy.Add(element);
+                }
+            }
+
+            return copy;
+        }
+
+        public static List<T> Copy<T>(List<T> array, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        {
+            List<T> copy = new List<T>();
+
+            foreach(T element in array)
+            {
+                if(element is IObject)
+                {
+                    IObject elem = (IObject)element;
+                    copy.Add((T)elem.Copy(graph, oldToNewObjects));
+                }
+                else if(element is ITransientObject)
+                {
+                    ITransientObject elem = (ITransientObject)element;
+                    copy.Add((T)elem.Copy(graph, oldToNewObjects));
+                }
+                else
+                {
+                    copy.Add(element);
+                }
+            }
+
+            return copy;
+        }
     }
 }

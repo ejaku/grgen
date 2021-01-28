@@ -1936,13 +1936,15 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceExpression Expr;
         public readonly SequenceExpression ExprSrc;
         public readonly SequenceExpression ExprDst;
+        public readonly bool Deep;
 
-        public SequenceComputationGraphAddCopy(SequenceExpression expr, SequenceExpression exprSrc, SequenceExpression exprDst)
+        public SequenceComputationGraphAddCopy(SequenceExpression expr, SequenceExpression exprSrc, SequenceExpression exprDst, bool deep)
             : base(SequenceComputationType.GraphAddCopy)
         {
             Expr = expr;
             ExprSrc = exprSrc;
             ExprDst = exprDst;
+            Deep = deep;
         }
 
         protected SequenceComputationGraphAddCopy(SequenceComputationGraphAddCopy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -1953,6 +1955,7 @@ namespace de.unika.ipd.grGen.libGr
                 ExprSrc = that.ExprSrc.CopyExpression(originalToCopy, procEnv);
             if(that.ExprDst != null)
                 ExprDst = that.ExprDst.CopyExpression(originalToCopy, procEnv);
+            Deep = that.Deep;
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -1997,9 +2000,19 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             if(ExprSrc == null)
-                return GraphHelper.AddCopyOfNode(Expr.Evaluate(procEnv), procEnv.Graph);
+            {
+                if(Deep)
+                    return GraphHelper.AddCopyOfNode(Expr.Evaluate(procEnv), procEnv.Graph);
+                else
+                    return GraphHelper.AddCloneOfNode(Expr.Evaluate(procEnv), procEnv.Graph);
+            }
             else
-                return GraphHelper.AddCopyOfEdge(Expr.Evaluate(procEnv), (INode)ExprSrc.Evaluate(procEnv), (INode)ExprDst.Evaluate(procEnv), procEnv.Graph);
+            {
+                if(Deep)
+                    return GraphHelper.AddCopyOfEdge(Expr.Evaluate(procEnv), (INode)ExprSrc.Evaluate(procEnv), (INode)ExprDst.Evaluate(procEnv), procEnv.Graph);
+                else
+                    return GraphHelper.AddCloneOfEdge(Expr.Evaluate(procEnv), (INode)ExprSrc.Evaluate(procEnv), (INode)ExprDst.Evaluate(procEnv), procEnv.Graph);
+            }
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -2031,7 +2044,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "addCopy(" + Expr.Symbol + (ExprSrc != null ? "," + ExprSrc.Symbol + "," + ExprDst.Symbol : "") + ")"; }
+            get { return (Deep ? "addCopy(" : "addClone(") + Expr.Symbol + (ExprSrc != null ? "," + ExprSrc.Symbol + "," + ExprDst.Symbol : "") + ")"; }
         }
     }
 

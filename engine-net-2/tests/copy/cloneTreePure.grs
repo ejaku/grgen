@@ -1,0 +1,81 @@
+new graph "copy/copyclassobject"
+
+exec {(::b)=createTreePure()}
+
+exec {{checkTreePure(::b)}}
+
+exec {::bclone=cloneClassObjectStructureTree(::b)}
+
+exec {{checkTreePure(::bclone)}}
+
+bt=b
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+bt=b
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+bt=bclone
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+bt=bclone
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+bt=b
+btl=bt.left
+btll=btl.left
+bt.value = 42
+btl.value = 43
+btll.value = 44
+
+bt=b
+btr=bt.right
+btrr=btr.right
+bt.value = 44
+btr.value = 43
+btrr.value = 42
+
+bt=b
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+bt=b
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+bt=bclone
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+bt=bclone
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+quit

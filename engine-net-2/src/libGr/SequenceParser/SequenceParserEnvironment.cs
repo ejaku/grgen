@@ -220,7 +220,13 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             {
                 if(argExprs.Count != 1 && argExprs.Count != 3)
                     throw new ParseException("\"" + procedureName + "\" expects 1(for a node) or 3(for an edge) parameters)");
-                return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAddCopy(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2)), returnVars);
+                return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAddCopy(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), true), returnVars);
+            }
+            else if(procedureName == "addClone" && PackageIsNullOrGlobal(package))
+            {
+                if(argExprs.Count != 1 && argExprs.Count != 3)
+                    throw new ParseException("\"" + procedureName + "\" expects 1(for a node) or 3(for an edge) parameters)");
+                return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGraphAddCopy(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), false), returnVars);
             }
             else if(procedureName == "merge" && PackageIsNullOrGlobal(package))
             {
@@ -854,8 +860,14 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             else if(functionName == "copy" && PackageIsNullOrGlobal(package))
             {
                 if(argExprs.Count != 1)
-                    throw new ParseException("\"" + functionName + "\" expects 1 parameter (the subgraph or container to copy)");
-                return new SequenceExpressionCopy(getArgument(argExprs, 0));
+                    throw new ParseException("\"" + functionName + "\" expects 1 parameter (the subgraph or match or container or class object or transient class object to copy)");
+                return new SequenceExpressionCopy(getArgument(argExprs, 0), true);
+            }
+            else if(functionName == "clone" && PackageIsNullOrGlobal(package))
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"" + functionName + "\" expects 1 parameter (the subgraph or match or container or class object or transient class object to clone)");
+                return new SequenceExpressionCopy(getArgument(argExprs, 0), false);
             }
             else if(functionName == "random" && PackageIsNullOrGlobal(package))
             {

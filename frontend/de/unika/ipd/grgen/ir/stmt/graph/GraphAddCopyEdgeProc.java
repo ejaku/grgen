@@ -17,19 +17,23 @@ public class GraphAddCopyEdgeProc extends BuiltinProcedureInvocationBase
 	private final Expression sourceNode;
 	private final Expression targetNode;
 	private final Expression oldEdge;
-	
+
 	private final Type returnType;
+
+	private final boolean deep;
 
 	public GraphAddCopyEdgeProc(Expression edgeType,
 			Expression sourceNode,
 			Expression targetNode,
-			Type returnType)
+			Type returnType,
+			boolean deep)
 	{
 		super("graph add copy edge procedure");
 		this.oldEdge = edgeType;
 		this.sourceNode = sourceNode;
 		this.targetNode = targetNode;
 		this.returnType = returnType;
+		this.deep = deep;
 	}
 
 	public Expression getOldEdgeExpr()
@@ -68,5 +72,10 @@ public class GraphAddCopyEdgeProc extends BuiltinProcedureInvocationBase
 	{
 		assert(index == 0);
 		return returnType;
+	}
+	
+	public boolean getDeep()
+	{
+		return deep;
 	}
 }

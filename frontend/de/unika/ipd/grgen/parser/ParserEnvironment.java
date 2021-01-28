@@ -871,6 +871,8 @@ public abstract class ParserEnvironment extends Base
 			return numParams == 2;
 		case "addCopy":
 			return (numParams == 1 || numParams == 3);
+		case "addClone":
+			return (numParams == 1 || numParams == 3);
 		case "merge":
 			return (numParams >= 2 && numParams <= 3);
 		case "redirectSource":

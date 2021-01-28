@@ -40,6 +40,7 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 		super(coords);
 		this.sourceExpr = sourceExpr;
 		becomeParent(this.sourceExpr);
+		this.deep = deep;
 	}
 
 	/** returns children of this node */

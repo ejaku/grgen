@@ -213,9 +213,18 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			}
 		case "addCopy":
 			if(arguments.size() == 1) {
-				return new GraphAddCopyNodeProcNode(env.getCoords(), arguments.get(0));
+				return new GraphAddCopyNodeProcNode(env.getCoords(), arguments.get(0), true);
 			} else if(arguments.size() == 3) {
-				return new GraphAddCopyEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
+				return new GraphAddCopyEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), true);
+			} else {
+				env.reportError(procedureName + "() takes 1 or 3 parameters.");
+				return null;
+			}
+		case "addClone":
+			if(arguments.size() == 1) {
+				return new GraphAddCopyNodeProcNode(env.getCoords(), arguments.get(0), false);
+			} else if(arguments.size() == 3) {
+				return new GraphAddCopyEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), false);
 			} else {
 				env.reportError(procedureName + "() takes 1 or 3 parameters.");
 				return null;

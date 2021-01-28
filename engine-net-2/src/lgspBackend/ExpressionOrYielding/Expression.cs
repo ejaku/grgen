@@ -1312,43 +1312,74 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class CopyExpression : Expression
     {
-        public CopyExpression(Expression source, CopyKind copyKind, String type)
+        public CopyExpression(Expression source, CopyKind copyKind, String type, bool deep)
         {
             Source = source;
             CopyKind = copyKind;
             Type = type;
+            Deep = deep;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new CopyExpression(Source.Copy(renameSuffix), CopyKind, Type);
+            return new CopyExpression(Source.Copy(renameSuffix), CopyKind, Type, Deep);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if(CopyKind == CopyKind.Container)
+            if(Deep)
             {
-                sourceCode.Append("new " + Type + "(");
-                Source.Emit(sourceCode);
-                sourceCode.Append(")");
-            }
-            else if(CopyKind == CopyKind.Graph)
-            {
-                sourceCode.Append("GRGEN_LIBGR.GraphHelper.Copy(");
-                Source.Emit(sourceCode);
-                sourceCode.Append(")");
-            }
-            else if(CopyKind == CopyKind.ClassObject)
-            {
-                sourceCode.Append("(");
-                Source.Emit(sourceCode);
-                sourceCode.Append(").Clone(graph)");
+                if(CopyKind == CopyKind.Container)
+                {
+                    sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Copy(");
+                    Source.Emit(sourceCode);
+                    sourceCode.Append(", graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())");
+                }
+                else if(CopyKind == CopyKind.Graph)
+                {
+                    sourceCode.Append("GRGEN_LIBGR.GraphHelper.Copy(");
+                    Source.Emit(sourceCode);
+                    sourceCode.Append(")");
+                }
+                else if(CopyKind == CopyKind.ClassObject)
+                {
+                    sourceCode.Append("(");
+                    Source.Emit(sourceCode);
+                    sourceCode.Append(").Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())");
+                }
+                else //if(CopyKind == CopyKind.TransientClassObject)
+                {
+                    sourceCode.Append("(");
+                    Source.Emit(sourceCode);
+                    sourceCode.Append(").Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())");
+                }
             }
             else
             {
-                sourceCode.Append("(");
-                Source.Emit(sourceCode);
-                sourceCode.Append(").Clone()");
+                if(CopyKind == CopyKind.Container)
+                {
+                    sourceCode.Append("new " + Type + "(");
+                    Source.Emit(sourceCode);
+                    sourceCode.Append(")");
+                }
+                else if(CopyKind == CopyKind.Graph)
+                {
+                    sourceCode.Append("GRGEN_LIBGR.GraphHelper.Copy(");
+                    Source.Emit(sourceCode);
+                    sourceCode.Append(")");
+                }
+                else if(CopyKind == CopyKind.ClassObject)
+                {
+                    sourceCode.Append("(");
+                    Source.Emit(sourceCode);
+                    sourceCode.Append(").Clone(graph)");
+                }
+                else //if(CopyKind == CopyKind.TransientClassObject)
+                {
+                    sourceCode.Append("(");
+                    Source.Emit(sourceCode);
+                    sourceCode.Append(").Clone()");
+                }
             }
         }
 
@@ -1360,6 +1391,7 @@ namespace de.unika.ipd.grGen.expression
         readonly CopyKind CopyKind;
         readonly String Type; // if non-null, gives the container type to copy, if null it's a graph or class object
         readonly Expression Source;
+        readonly bool Deep;
     }
 
     /// <summary>

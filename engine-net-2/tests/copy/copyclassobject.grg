@@ -19,6 +19,32 @@ rule createTree
 	}
 }
 
+procedure createTreePure() : (Tree)
+{
+	return(new Tree@(value = 1, left = new Tree@(value = 2, left = new Tree@(value = 3)), right = new Tree@(value = 4, right = new Tree@(value = 5))));
+}
+
+procedure createTreeArray() : (array<Tree>)
+{
+	return(array<Tree>[
+		new Tree@(value = 1, left = new Tree@(value = 2, left = new Tree@(value = 3)), right = new Tree@(value = 4, right = new Tree@(value = 5))),
+		new Tree@(value = 1, left = new Tree@(value = 2, left = new Tree@(value = 3)), right = new Tree@(value = 4, right = new Tree@(value = 5)))
+	]);
+}
+
+procedure createTTreePure() : (TTree)
+{
+	return(new TTree@(value = 1, left = new TTree@(value = 2, left = new TTree@(value = 3)), right = new TTree@(value = 4, right = new TTree@(value = 5))));
+}
+
+procedure createTTreeArray() : (array<TTree>)
+{
+	return(array<TTree>[
+		new TTree@(value = 1, left = new TTree@(value = 2, left = new TTree@(value = 3)), right = new TTree@(value = 4, right = new TTree@(value = 5))),
+		new TTree@(value = 1, left = new TTree@(value = 2, left = new TTree@(value = 3)), right = new TTree@(value = 4, right = new TTree@(value = 5)))
+	]);
+}
+
 test checkTree
 {
 	n:N -e:E-> n;
@@ -44,6 +70,28 @@ test checkTree
 	}
 }
 
+function checkTreePure(ref b:Tree) : boolean
+{
+	return(
+		b.value == 1 &&
+		b.left.value == 2 &&
+		b.left.left.value == 3 &&
+		b.right.value == 4 &&
+		b.right.right.value == 5
+	);
+}
+
+function checkTTreePure(ref b:TTree) : boolean
+{
+	return(
+		b.value == 1 &&
+		b.left.value == 2 &&
+		b.left.left.value == 3 &&
+		b.right.value == 4 &&
+		b.right.right.value == 5
+	);
+}
+
 rule createGraph
 {
 	modify {
@@ -65,6 +113,13 @@ rule createGraph
 			egrra.children = array<Graph>[e.gra, new Graph@(value = 2, children = array<Graph>[e.gra])];
 		}
 	}
+}
+
+procedure createGraphPure() : (Graph)
+{
+	def ref gra:Graph = new Graph@(value = 1);
+	gra.children = array<Graph>[gra, new Graph@(value = 2, children = array<Graph>[gra])];
+	return(gra);
 }
 
 test checkGraph
@@ -92,6 +147,17 @@ test checkGraph
 	}
 }
 
+function checkGraphPure(ref gra:Graph) : boolean
+{
+	return(
+		gra.value == 1 &&
+		gra.children[0].value == 1 &&
+		gra.children[0].children.size() == 2 &&
+		gra.children[1].value == 2 &&
+		gra.children[1].children.size() == 1
+	);
+}
+
 rule copyClassObjectStructure
 {
 	n:N -e:E-> n;
@@ -110,4 +176,80 @@ rule cloneClassObjectStructure
 		nc:clone<n>;
 		nc -ne:clone<e>-> nc;
 	}
+}
+
+rule copyClassObjectStructure2
+{
+	n:N -e:E-> n;
+	
+	modify {
+	---
+		eval {
+			(def nc:Node) = addCopy(n);
+			addCopy(e, nc, nc);
+		}
+	}
+}
+
+rule cloneClassObjectStructure2
+{
+	n:N -e:E-> n;
+	
+	modify {
+	---
+		eval {
+			(def nc:Node) = addClone(n);
+			addClone(e, nc, nc);
+		}
+	}
+}
+
+function copyClassObjectStructureTree(ref b:Tree) : Tree
+{
+	return(copy(b));
+}
+
+function cloneClassObjectStructureTree(ref b:Tree) : Tree
+{
+	return(clone(b));
+}
+
+function copyClassObjectStructureTTree(ref b:TTree) : TTree
+{
+	return(copy(b));
+}
+
+function cloneClassObjectStructureTTree(ref b:TTree) : TTree
+{
+	return(clone(b));
+}
+
+function copyClassObjectStructureGraph(ref gra:Graph) : Graph
+{
+	return(copy(gra));
+}
+
+function cloneClassObjectStructureGraph(ref gra:Graph) : Graph
+{
+	return(clone(gra));
+}
+
+function copyClassObjectStructureTreeArray(ref arr:array<Tree>) : array<Tree>
+{
+	return(copy(arr));
+}
+
+function cloneClassObjectStructureTreeArray(ref arr:array<Tree>) : array<Tree>
+{
+	return(clone(arr));
+}
+
+function copyClassObjectStructureTTreeArray(ref arr:array<TTree>) : array<TTree>
+{
+	return(copy(arr));
+}
+
+function cloneClassObjectStructureTTreeArray(ref arr:array<TTree>) : array<TTree>
+{
+	return(clone(arr));
 }

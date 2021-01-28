@@ -886,5 +886,83 @@ namespace de.unika.ipd.grGen.libGr
 
             return true;
         }
+
+        public static IDictionary Copy(IDictionary dictionary, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        {
+            Type keyType;
+            Type valueType;
+            Type dictType = dictionary.GetType();
+            GetDictionaryTypes(dictType, out keyType, out valueType);
+            IDictionary copy = NewDictionary(keyType, valueType);
+
+            foreach(DictionaryEntry element in dictionary)
+            {
+                object key = element.Key;
+                object value = element.Value;
+
+                if(key is IObject)
+                {
+                    IObject elem = (IObject)key;
+                    key = elem.Copy(graph, oldToNewObjects);
+                }
+                else if(key is ITransientObject)
+                {
+                    ITransientObject elem = (ITransientObject)key;
+                    key = elem.Copy(graph, oldToNewObjects);
+                }
+
+                if(value is IObject)
+                {
+                    IObject elem = (IObject)key;
+                    value = elem.Copy(graph, oldToNewObjects);
+                }
+                else if(value is ITransientObject)
+                {
+                    ITransientObject elem = (ITransientObject)key;
+                    value = elem.Copy(graph, oldToNewObjects);
+                }
+
+                copy.Add(key, value);
+            }
+
+            return copy;
+        }
+
+        public static Dictionary<K, V> Copy<K, V>(Dictionary<K, V> dictionary, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        {
+            Dictionary<K, V> copy = new Dictionary<K, V>();
+
+            foreach(KeyValuePair<K, V> element in dictionary)
+            {
+                K key = element.Key;
+                V value = element.Value;
+
+                if(key is IObject)
+                {
+                    IObject elem = (IObject)key;
+                    key = (K)elem.Copy(graph, oldToNewObjects);
+                }
+                else if(key is ITransientObject)
+                {
+                    ITransientObject elem = (ITransientObject)key;
+                    key = (K)elem.Copy(graph, oldToNewObjects);
+                }
+
+                if(value is IObject)
+                {
+                    IObject elem = (IObject)key;
+                    value = (V)elem.Copy(graph, oldToNewObjects);
+                }
+                else if(value is ITransientObject)
+                {
+                    ITransientObject elem = (ITransientObject)key;
+                    value = (V)elem.Copy(graph, oldToNewObjects);
+                }
+
+                copy.Add(key, value);
+            }
+
+            return copy;
+        }
     }
 }

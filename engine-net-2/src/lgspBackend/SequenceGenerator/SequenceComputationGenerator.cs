@@ -473,15 +473,17 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqAddCopy.ExprSrc == null)
             {
                 string nodeExpr = exprGen.GetSequenceExpression(seqAddCopy.Expr, source);
-                source.AppendFormat("GRGEN_LIBGR.GraphHelper.AddCopyOfNode({0}, graph)", nodeExpr);
+                String functionName = seqAddCopy.Deep ? "AddCopyOfNode" : "AddCloneOfNode";
+                source.AppendFormat("GRGEN_LIBGR.GraphHelper.{0}({1}, graph)", functionName, nodeExpr);
             }
             else
             {
                 string edgeExpr = exprGen.GetSequenceExpression(seqAddCopy.Expr, source);
                 string srcExpr = exprGen.GetSequenceExpression(seqAddCopy.ExprSrc, source);
                 string tgtExpr = exprGen.GetSequenceExpression(seqAddCopy.ExprDst, source);
-                source.AppendFormat("GRGEN_LIBGR.GraphHelper.AddCopyOfEdge({0}, (GRGEN_LIBGR.INode){1}, (GRGEN_LIBGR.INode){2}, graph)",
-                    edgeExpr, srcExpr, tgtExpr);
+                String functionName = seqAddCopy.Deep ? "AddCopyOfEdge" : "AddCloneOfEdge";
+                source.AppendFormat("GRGEN_LIBGR.GraphHelper.{0}({1}, (GRGEN_LIBGR.INode){2}, (GRGEN_LIBGR.INode){3}, graph)",
+                    functionName, edgeExpr, srcExpr, tgtExpr);
             }
         }
 

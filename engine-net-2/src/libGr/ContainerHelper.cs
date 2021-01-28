@@ -46,6 +46,28 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates a deep copy of the given container.
+        /// </summary>
+        /// <param name="oldContainer">The container to copy.</param>
+        /// <returns>A deep copy of the container</returns>
+        public static object Copy(object oldContainer, IGraph graph, System.Collections.Generic.IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        {
+            if(oldContainer is IDictionary)
+            {
+                return Copy((IDictionary)oldContainer, graph, oldToNewObjects);
+            }
+            else if(oldContainer is IList)
+            {
+                return Copy((IList)oldContainer, graph, oldToNewObjects);
+            }
+            else if(oldContainer is IDeque)
+            {
+                return Copy((IDeque)oldContainer, graph, oldToNewObjects);
+            }
+            return null; // no known container type
+        }
+
+        /// <summary>
         /// Creates a new list containing all values from the given dictionary representing a set.
         /// </summary>
         public static IList AsArray(object container, IGraphModel model)

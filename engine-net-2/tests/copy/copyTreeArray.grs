@@ -1,0 +1,83 @@
+new graph "copy/copyclassobject"
+
+exec {(::arr)=createTreeArray()}
+
+exec {{checkTreePure(::arr[0])}}
+exec {{checkTreePure(::arr[1])}}
+
+exec {::arrcopy=copyClassObjectStructureTreeArray(::arr)}
+
+exec {{checkTreePure(::arrcopy[0])}}
+exec {{checkTreePure(::arrcopy[1])}}
+
+exec {::bt=::arr[0]}
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+exec {::bt=::arr[1]}
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+exec {::bt=::arrcopy[0]}
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+exec {::bt=::arrcopy[1]}
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+exec {::bt=::arr[0]}
+btl=bt.left
+btll=btl.left
+bt.value = 42
+btl.value = 43
+btll.value = 44
+
+exec {::bt=::arr[1]}
+btr=bt.right
+btrr=btr.right
+bt.value = 44
+btr.value = 43
+btrr.value = 42
+
+exec {::bt=::arr[0]}
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+exec {::bt=::arr[1]}
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+exec {::bt=::arrcopy[0]}
+show var bt
+btl=bt.left
+show var btl
+btll=btl.left
+show var btll
+
+exec {::bt=::arrcopy[1]}
+show var bt
+btr=bt.right
+show var btr
+btrr=btr.right
+show var btrr
+
+quit

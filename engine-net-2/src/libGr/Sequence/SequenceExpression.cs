@@ -9616,17 +9616,21 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionCopy : SequenceExpression
     {
         public readonly SequenceExpression ObjectToBeCopied;
+        public readonly bool Deep;
 
-        public SequenceExpressionCopy(SequenceExpression objectToBeCopied)
+
+        public SequenceExpressionCopy(SequenceExpression objectToBeCopied, bool deep)
             : base(SequenceExpressionType.Copy)
         {
             ObjectToBeCopied = objectToBeCopied;
+            Deep = deep;
         }
 
         protected SequenceExpressionCopy(SequenceExpressionCopy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
           : base(that)
         {
             ObjectToBeCopied = that.ObjectToBeCopied.CopyExpression(originalToCopy, procEnv);
+            Deep = that.Deep;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -9658,17 +9662,34 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object toBeCloned = ObjectToBeCopied.Evaluate(procEnv);
-            if(toBeCloned is IGraph)
-                return GraphHelper.Copy((IGraph)toBeCloned);
-            else if(toBeCloned is IMatch)
-                return ((IMatch)toBeCloned).Clone();
-            else if(toBeCloned is IObject)
-                return ((IObject)toBeCloned).Clone(procEnv.Graph);
-            else if(toBeCloned is ITransientObject)
-                return ((ITransientObject)toBeCloned).Clone();
+            if(Deep)
+            {
+                object toBeCopied = ObjectToBeCopied.Evaluate(procEnv);
+                if(toBeCopied is IGraph)
+                    return GraphHelper.Copy((IGraph)toBeCopied);
+                else if(toBeCopied is IMatch)
+                    return ((IMatch)toBeCopied).Clone();
+                else if(toBeCopied is IObject)
+                    return ((IObject)toBeCopied).Copy(procEnv.Graph, new Dictionary<IBaseObject, IBaseObject>());
+                else if(toBeCopied is ITransientObject)
+                    return ((ITransientObject)toBeCopied).Copy(procEnv.Graph, new Dictionary<IBaseObject, IBaseObject>());
+                else
+                    return ContainerHelper.Copy(toBeCopied, procEnv.Graph, new Dictionary<IBaseObject, IBaseObject>());
+            }
             else
-                return ContainerHelper.Clone(toBeCloned);
+            {
+                object toBeCloned = ObjectToBeCopied.Evaluate(procEnv);
+                if(toBeCloned is IGraph)
+                    return GraphHelper.Copy((IGraph)toBeCloned);
+                else if(toBeCloned is IMatch)
+                    return ((IMatch)toBeCloned).Clone();
+                else if(toBeCloned is IObject)
+                    return ((IObject)toBeCloned).Clone(procEnv.Graph);
+                else if(toBeCloned is ITransientObject)
+                    return ((ITransientObject)toBeCloned).Clone();
+                else
+                    return ContainerHelper.Clone(toBeCloned);
+            }
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -9689,7 +9710,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "copy(" + ObjectToBeCopied.Symbol + ")"; }
+            get { return (Deep ? "copy(" : "clone(") + ObjectToBeCopied.Symbol + ")"; }
         }
     }
 

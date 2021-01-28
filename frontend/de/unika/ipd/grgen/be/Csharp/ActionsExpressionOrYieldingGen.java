@@ -424,6 +424,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				sb.append(", GRGEN_EXPR.CopyKind.Container");
 				sb.append(", \"" + formatType(t) + "\"");
 			}
+			sb.append(", " + ce.getDeep());
 			sb.append(")");
 		} else if(expr instanceof Count) {
 			Count count = (Count)expr;

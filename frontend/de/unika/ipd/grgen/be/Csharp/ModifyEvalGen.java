@@ -2980,7 +2980,8 @@ public class ModifyEvalGen extends CSharpBase
 	private void genGraphAddCopyNodeProc(SourceBuilder sb, ModifyGenerationStateConst state, GraphAddCopyNodeProc gacnp)
 	{
 		sb.append("(" + formatType(gacnp.getOldNodeExpr().getType()) + ")");
-		sb.append("GRGEN_LIBGR.GraphHelper.AddCopyOfNode(");
+		String functionName = gacnp.getDeep() ? "AddCopyOfNode" : "AddCloneOfNode";
+		sb.append("GRGEN_LIBGR.GraphHelper." + functionName + "(");
 		genExpression(sb, gacnp.getOldNodeExpr(), state);
 		sb.append(", graph)");
 	}
@@ -2988,7 +2989,8 @@ public class ModifyEvalGen extends CSharpBase
 	private void genGraphAddCopyEdgeProc(SourceBuilder sb, ModifyGenerationStateConst state, GraphAddCopyEdgeProc gacep)
 	{
 		sb.append("(" + formatType(gacep.getOldEdgeExpr().getType()) + ")");
-		sb.append("GRGEN_LIBGR.GraphHelper.AddCopyOfEdge(");
+		String functionName = gacep.getDeep() ? "AddCopyOfEdge" : "AddCloneOfEdge";
+		sb.append("GRGEN_LIBGR.GraphHelper." + functionName + "(");
 		genExpression(sb, gacep.getOldEdgeExpr(), state);
 		sb.append(", (GRGEN_LIBGR.INode)");
 		genExpression(sb, gacep.getSourceNodeExpr(), state);

@@ -34,6 +34,13 @@ class /*Binary*/Tree
 	right:Tree;
 }
 
+transient class /*Binary*/TTree
+{
+	value:int;
+	left:TTree;
+	right:TTree;
+}
+
 class Graph
 {
 	value:int;

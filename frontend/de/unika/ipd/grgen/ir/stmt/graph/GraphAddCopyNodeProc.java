@@ -18,11 +18,14 @@ public class GraphAddCopyNodeProc extends BuiltinProcedureInvocationBase
 
 	private final Type returnType;
 
-	public GraphAddCopyNodeProc(Expression nodeType, Type returnType)
+	private final boolean deep;
+
+	public GraphAddCopyNodeProc(Expression nodeType, Type returnType, boolean deep)
 	{
 		super("graph add copy node procedure");
 		this.oldNode = nodeType;
 		this.returnType = returnType;
+		this.deep = deep;
 	}
 
 	public Expression getOldNodeExpr()
@@ -49,5 +52,10 @@ public class GraphAddCopyNodeProc extends BuiltinProcedureInvocationBase
 	{
 		assert(index == 0);
 		return returnType;
+	}
+	
+	public boolean getDeep()
+	{
+		return deep;
 	}
 }

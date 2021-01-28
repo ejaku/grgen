@@ -38,7 +38,9 @@ public class GraphAddCopyEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 
 	Vector<TypeNode> returnTypes;
 
-	public GraphAddCopyEdgeProcNode(Coords coords, ExprNode edgeType, ExprNode sourceNode, ExprNode targetNode)
+	private boolean deep;
+
+	public GraphAddCopyEdgeProcNode(Coords coords, ExprNode edgeType, ExprNode sourceNode, ExprNode targetNode, boolean deep)
 	{
 		super(coords);
 		this.oldEdge = edgeType;
@@ -47,6 +49,7 @@ public class GraphAddCopyEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 		becomeParent(this.sourceNode);
 		this.targetNode = targetNode;
 		becomeParent(this.targetNode);
+		this.deep = deep;
 	}
 
 	/** returns children of this node */
@@ -75,16 +78,17 @@ public class GraphAddCopyEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
+		String functionSignature = "addCopy(.,.,.)";
 		if(!(oldEdge.getType() instanceof EdgeTypeNode)) {
-			reportError("first argument of addCopy(.,.,.) must be an edge");
+			reportError("first argument of " + functionSignature + " must be an edge");
 			return false;
 		}
 		if(!(sourceNode.getType() instanceof NodeTypeNode)) {
-			reportError("second argument of addCopy(.,.,.) must be a node (source)");
+			reportError("second argument of " + functionSignature + " must be a node (source)");
 			return false;
 		}
 		if(!(targetNode.getType() instanceof NodeTypeNode)) {
-			reportError("third argument of addCopy(.,.,.) must be a node (target)");
+			reportError("third argument of " + functionSignature + " must be a node (target)");
 			return false;
 		}
 		return true;
@@ -104,7 +108,7 @@ public class GraphAddCopyEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 		targetNode = targetNode.evaluate();
 		GraphAddCopyEdgeProc addCopyEdge = new GraphAddCopyEdgeProc(oldEdge.checkIR(Expression.class),
 				sourceNode.checkIR(Expression.class), targetNode.checkIR(Expression.class),
-				oldEdge.getType().getType());
+				oldEdge.getType().getType(), deep);
 		return addCopyEdge;
 	}
 

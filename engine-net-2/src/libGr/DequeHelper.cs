@@ -585,5 +585,55 @@ namespace de.unika.ipd.grGen.libGr
 
             return true;
         }
+
+        public static IDeque Copy(IDeque deque, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        {
+            IDeque copy = (IDeque)Activator.CreateInstance(deque.GetType());
+
+            foreach(object element in deque)
+            {
+                if(element is IObject)
+                {
+                    IObject elem = (IObject)element;
+                    copy.Add(elem.Copy(graph, oldToNewObjects));
+                }
+                else if(element is ITransientObject)
+                {
+                    ITransientObject elem = (ITransientObject)element;
+                    copy.Add(elem.Copy(graph, oldToNewObjects));
+                }
+                else
+                {
+                    copy.Add(element);
+                }
+            }
+
+            return copy;
+        }
+
+        public static Deque<T> Copy<T>(Deque<T> deque, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        {
+            Deque<T> copy = new Deque<T>();
+
+            foreach(T element in deque)
+            {
+                if(element is IObject)
+                {
+                    IObject elem = (IObject)element;
+                    copy.Add((T)elem.Copy(graph, oldToNewObjects));
+                }
+                else if(element is ITransientObject)
+                {
+                    ITransientObject elem = (ITransientObject)element;
+                    copy.Add((T)elem.Copy(graph, oldToNewObjects));
+                }
+                else
+                {
+                    copy.Add(element);
+                }
+            }
+
+            return copy;
+        }
     }
 }
