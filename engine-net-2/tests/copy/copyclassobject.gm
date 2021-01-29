@@ -21,6 +21,13 @@ class Group
 	c:string;
 }
 
+transient class TGroup
+{
+	a:int;
+	b:double;
+	c:string;
+}
+
 class List
 {
 	value:int;
@@ -45,4 +52,25 @@ class Graph
 {
 	value:int;
 	children:array<Graph>;
+}
+
+class DequeSetMap
+{
+	d:deque<Group>;
+	s:set<Group>;
+	m:map<Group,Group>;
+}
+
+node class NDequeSetMap
+{
+	d:deque<Group>;
+	s:set<Group>;
+	m:map<Group,Group>;
+}
+
+edge class EDequeSetMap
+{
+	d:deque<Group>;
+	s:set<Group>;
+	m:map<Group,Group>;
 }

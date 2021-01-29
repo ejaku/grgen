@@ -1,0 +1,15 @@
+new graph "copy/copyclassobject"
+
+exec  {(::d)=createTGroupDeque()}
+
+exec {::dclone=cloneTGroupDeque(::d)}
+
+show var d
+show var dclone
+
+exec {::item=::d[0]; ::item.a = 42}
+
+show var d
+show var dclone
+
+quit

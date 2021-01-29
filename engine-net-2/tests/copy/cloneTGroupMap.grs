@@ -1,0 +1,15 @@
+new graph "copy/copyclassobject"
+
+exec  {(::m)=createTGroupMap()}
+
+exec {::mclone=cloneTGroupMap(::m)}
+
+show var m
+show var mclone
+
+exec {::item=::m.peek(0); ::item.a = 42; ::item=::m[::item]; ::item.a = 43}
+
+show var m
+show var mclone
+
+quit

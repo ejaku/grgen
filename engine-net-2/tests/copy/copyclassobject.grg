@@ -253,3 +253,151 @@ function cloneClassObjectStructureTTreeArray(ref arr:array<TTree>) : array<TTree
 {
 	return(clone(arr));
 }
+
+rule createDequeSetMapGroup
+{
+	modify {
+		n:NDequeSetMap -e:EDequeSetMap-> n;
+		
+		eval {
+			n.d = deque<Group>[new Group@(a = 1, b = 3.141592654, c = "Hallo Welt!")];
+			n.s = set<Group>{new Group@(a = 2, b = 3.141592654, c = "Hallo Welt!")};
+			n.m = map<Group,Group>{new Group@(a = 3, b = 3.141592654, c = "Hallo Welt!") -> new Group@(a = 4, b = 3.141592654, c = "Hallo Welt!")};
+
+			e.d = deque<Group>[new Group@(a = 5, b = 3.141592654, c = "Hallo Krieg!")];
+			e.s = set<Group>{new Group@(a = 6, b = 3.141592654, c = "Hallo Krieg!")};
+			e.m = map<Group,Group>{new Group@(a = 7, b = 3.141592654, c = "Hallo Krieg!") -> new Group@(a = 8, b = 3.141592654, c = "Hallo Krieg!")};
+		}
+	}
+}
+
+rule cloneDequeSetMapGroup
+{
+	n:NDequeSetMap -e:EDequeSetMap-> n;
+	
+	modify {
+		nc:clone<n>;
+		nc -ne:clone<e>-> nc;
+	}
+}
+
+rule copyDequeSetMapGroup
+{
+	n:NDequeSetMap -e:EDequeSetMap-> n;
+	
+	modify {
+		nc:copy<n>;
+		nc -ne:copy<e>-> nc;
+	}
+}
+
+
+procedure createGroupDeque() : (deque<Group>)
+{
+	return(deque<Group>[
+		new Group@(a = 1, b = 3.141592654, c = "Hallo Welt!"),
+		new Group@(a = 2, b = 3.141592654, c = "Hallo Krieg!")
+	]);
+}
+
+procedure createGroupSet() : (set<Group>)
+{
+	return(set<Group>{
+		new Group@(a = 1, b = 3.141592654, c = "Hallo Welt!"),
+		new Group@(a = 2, b = 3.141592654, c = "Hallo Krieg!")
+	});
+}
+
+procedure createGroupMap() : (map<Group, Group>)
+{
+	return(map<Group, Group>{
+		new Group@(a = 1, b = 3.141592654, c = "Hallo Welt!") -> new Group@(a = 2, b = 3.141592654, c = "Hallo Krieg!")
+	});
+}
+
+
+procedure createTGroupDeque() : (deque<TGroup>)
+{
+	return(deque<TGroup>[
+		new TGroup@(a = 1, b = 3.141592654, c = "Hallo Welt!"),
+		new TGroup@(a = 2, b = 3.141592654, c = "Hallo Krieg!")
+	]);
+}
+
+procedure createTGroupSet() : (set<TGroup>)
+{
+	return(set<TGroup>{
+		new TGroup@(a = 1, b = 3.141592654, c = "Hallo Welt!"),
+		new TGroup@(a = 2, b = 3.141592654, c = "Hallo Krieg!")
+	});
+}
+
+procedure createTGroupMap() : (map<TGroup, TGroup>)
+{
+	return(map<TGroup, TGroup>{
+		new TGroup@(a = 1, b = 3.141592654, c = "Hallo Welt!") -> new TGroup@(a = 2, b = 3.141592654, c = "Hallo Krieg!")
+	});
+}
+
+
+function cloneGroupDeque(ref d:deque<Group>) : deque<Group>
+{
+	return(clone(d));
+}
+
+function copyGroupDeque(ref d:deque<Group>) : deque<Group>
+{
+	return(copy(d));
+}
+
+function cloneGroupSet(ref s:set<Group>) : set<Group>
+{
+	return(clone(s));
+}
+
+function copyGroupSet(ref s:set<Group>) : set<Group>
+{
+	return(copy(s));
+}
+
+function cloneGroupMap(ref m:map<Group, Group>) : map<Group, Group>
+{
+	return(clone(m));
+}
+
+function copyGroupMap(ref m:map<Group, Group>) : map<Group, Group>
+{
+	return(copy(m));
+}
+
+
+function cloneTGroupDeque(ref d:deque<TGroup>) : deque<TGroup>
+{
+	return(clone(d));
+}
+
+function copyTGroupDeque(ref d:deque<TGroup>) : deque<TGroup>
+{
+	return(copy(d));
+}
+
+function cloneTGroupSet(ref s:set<TGroup>) : set<TGroup>
+{
+	return(clone(s));
+}
+
+function copyTGroupSet(ref s:set<TGroup>) : set<TGroup>
+{
+	return(copy(s));
+}
+
+function cloneTGroupMap(ref m:map<TGroup, TGroup>) : map<TGroup, TGroup>
+{
+	return(clone(m));
+}
+
+function copyTGroupMap(ref m:map<TGroup, TGroup>) : map<TGroup, TGroup>
+{
+	return(copy(m));
+}
+

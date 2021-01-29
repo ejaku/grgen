@@ -1,0 +1,15 @@
+new graph "copy/copyclassobject"
+
+exec  {(::s)=createGroupSet()}
+
+exec {::sclone=cloneGroupSet(::s)}
+
+show var s
+show var sclone
+
+exec {::item=::s.peek(0); ::item.a = 42}
+
+show var s
+show var sclone
+
+quit

@@ -793,7 +793,7 @@ public class ModelGen extends CSharpBase
 		} else if(member.getType() instanceof SetType) {
 			SetType setType = (SetType)member.getType();
 			String valueType = formatAttributeType(setType.getValueType());
-			sb.appendFront("foreach(KeyValuePair<" + valueType + ", GRGEN_LIBGR.SetValueType> kvp in oldElem." + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+			sb.appendFront("foreach(KeyValuePair<" + valueType + ", GRGEN_LIBGR.SetValueType> kvp in oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			sb.appendFront("{\n");
 			String key = "(" + valueType + ")Copy(kvp.Key, graph, oldToNewObjectMap)";
 			sb.appendFrontIndented(attrName + ModelGen.ATTR_IMPL_SUFFIX + "[" + key + "] = null;\n");
@@ -802,7 +802,7 @@ public class ModelGen extends CSharpBase
 			MapType mapType = (MapType)member.getType();
 			String keyType = formatAttributeType(mapType.getKeyType());
 			String valueType = formatAttributeType(mapType.getValueType());
-			sb.appendFront("foreach(KeyValuePair<" + keyType + "," + valueType + "> kvp in oldElem." + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+			sb.appendFront("foreach(KeyValuePair<" + keyType + "," + valueType + "> kvp in oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			sb.appendFront("{\n");
 			String key = "kvp.Key";
 			if(mapType.getKeyType() instanceof BaseInternalObjectType)
@@ -1783,7 +1783,7 @@ deque_init_loop:
 			sb.appendFront("}\n");
 		}
 		sb.appendFront("throw new NullReferenceException(\n");
-		sb.appendFrontIndented("\"The " + (type instanceof NodeType ? "node" : "edge")
+		sb.appendFrontIndented("\"The " + getKindName(type)
 				+ " type \\\"" + formatIdentifiable(type)
 				+ "\\\" does not have the attribute \\\"\" + attrName + \"\\\"!\");\n");
 
@@ -1805,7 +1805,7 @@ deque_init_loop:
 				if(member.isConst()) {
 					sb.appendFront("case \"" + name + "\": ");
 					sb.append("throw new NullReferenceException(");
-					sb.append("\"The attribute " + name + " of the " + (type instanceof NodeType ? "node" : "edge")
+					sb.append("\"The attribute " + name + " of the " + getKindName(type)
 							+ " type \\\"" + formatIdentifiable(type)
 							+ "\\\" is read only!\");\n");
 				} else {
@@ -1817,7 +1817,7 @@ deque_init_loop:
 			sb.appendFront("}\n");
 		}
 		sb.appendFront("throw new NullReferenceException(\n");
-		sb.appendFrontIndented("\"The " + (type instanceof NodeType ? "node" : "edge")
+		sb.appendFrontIndented("\"The " + getKindName(type)
 				+ " type \\\"" + formatIdentifiable(type)
 				+ "\\\" does not have the attribute \\\"\" + attrName + \"\\\"!\");\n");
 		sb.unindent();
@@ -2078,16 +2078,7 @@ deque_init_loop:
 		String elemref = formatInheritanceClassRef(type);
 		String extName = type.getExternalName();
 		String allocName = extName != null ? "global::" + extName : elemref;
-		String kindStr;
-		if(type instanceof NodeType) {
-			kindStr = "Node";
-		} else if(type instanceof EdgeType) {
-			kindStr = "Edge";
-		} else if(type instanceof InternalTransientObjectType) {
-			kindStr = "TransientObject";
-		} else {
-			kindStr = "Object";
-		}
+		String kindStr = getKindName(type);
 
 		sb.append("\n");
 		sb.appendFront("public sealed partial class " + typename + " : GRGEN_LIBGR." + kindStr + "Type\n");
@@ -2649,16 +2640,7 @@ deque_init_loop:
 		String elemref = formatInheritanceClassRef(type);
 		String extName = type.getExternalName();
 		String allocName = extName != null ? "global::" + extName : elemref;
-		String kindName;
-		if(type instanceof NodeType) {
-			kindName = "Node";
-		} else if(type instanceof EdgeType) {
-			kindName = "Edge";
-		} else if(type instanceof InternalTransientObjectType) {
-			kindName = "TransientObject";
-		} else {
-			kindName = "Object";
-		}
+		String kindName = getKindName(type);
 
 		if(type instanceof NodeType) {
 			sb.appendFront("public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons("
@@ -3981,6 +3963,19 @@ commonLoop:
 	private void genEnumAttributeType(EnumType enumt)
 	{
 		sb.appendFront("GRGEN_MODEL." + getPackagePrefixDot(enumt) + "Enums.@" + formatIdentifiable(enumt) + ",\n");
+	}
+	
+	private static String getKindName(InheritanceType type)
+	{
+		if(type instanceof NodeType) {
+			return "Node";
+		} else if(type instanceof EdgeType) {
+			return "Edge";
+		} else if(type instanceof InternalTransientObjectType) {
+			return "TransientObject";
+		} else {
+			return "Object";
+		}
 	}
 
 	///////////////////////

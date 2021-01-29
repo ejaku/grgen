@@ -913,12 +913,12 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(value is IObject)
                 {
-                    IObject elem = (IObject)key;
+                    IObject elem = (IObject)value;
                     value = elem.Copy(graph, oldToNewObjects);
                 }
                 else if(value is ITransientObject)
                 {
-                    ITransientObject elem = (ITransientObject)key;
+                    ITransientObject elem = (ITransientObject)value;
                     value = elem.Copy(graph, oldToNewObjects);
                 }
 
@@ -950,12 +950,12 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(value is IObject)
                 {
-                    IObject elem = (IObject)key;
+                    IObject elem = (IObject)value;
                     value = (V)elem.Copy(graph, oldToNewObjects);
                 }
                 else if(value is ITransientObject)
                 {
-                    ITransientObject elem = (ITransientObject)key;
+                    ITransientObject elem = (ITransientObject)value;
                     value = (V)elem.Copy(graph, oldToNewObjects);
                 }
 

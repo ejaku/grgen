@@ -1,0 +1,27 @@
+new graph "copy/copyclassobject"
+
+exec createDequeSetMapGroup
+
+show num nodes
+show num nodes only NDequeSetMap
+
+show num edges
+show num edges only EDequeSetMap
+
+show node @("$0")
+show edge @("$1")
+
+exec cloneDequeSetMapGroup
+
+show num nodes
+show num nodes only NDequeSetMap
+
+show num edges
+show num edges only EDequeSetMap
+
+show node @("$0")
+show edge @("$1")
+show node @("$2")
+show edge @("$3")
+
+quit

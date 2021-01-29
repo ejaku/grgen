@@ -1,0 +1,30 @@
+1
+1
+1
+1
+1
+1
+]Group{%:%0,a:1,b:3.141592654,c:Hallo Welt!}[
+{Group{%:%1,a:2,b:3.141592654,c:Hallo Welt!}}
+{Group{%:%2,a:3,b:3.141592654,c:Hallo Welt!}->Group{%:%3,a:4,b:3.141592654,c:Hallo Welt!}}
+]Group{%:%4,a:5,b:3.141592654,c:Hallo Krieg!}[
+{Group{%:%5,a:6,b:3.141592654,c:Hallo Krieg!}}
+{Group{%:%6,a:7,b:3.141592654,c:Hallo Krieg!}->Group{%:%7,a:8,b:3.141592654,c:Hallo Krieg!}}
+1
+1
+2
+2
+2
+2
+]Group{%:%0,a:1,b:3.141592654,c:Hallo Welt!}[
+{Group{%:%1,a:2,b:3.141592654,c:Hallo Welt!}}
+{Group{%:%2,a:3,b:3.141592654,c:Hallo Welt!}->Group{%:%3,a:4,b:3.141592654,c:Hallo Welt!}}
+]Group{%:%4,a:5,b:3.141592654,c:Hallo Krieg!}[
+{Group{%:%5,a:6,b:3.141592654,c:Hallo Krieg!}}
+{Group{%:%6,a:7,b:3.141592654,c:Hallo Krieg!}->Group{%:%7,a:8,b:3.141592654,c:Hallo Krieg!}}
+]Group{%:%0,a:1,b:3.141592654,c:Hallo Welt!}[
+{Group{%:%1,a:2,b:3.141592654,c:Hallo Welt!}}
+{Group{%:%2,a:3,b:3.141592654,c:Hallo Welt!}->Group{%:%3,a:4,b:3.141592654,c:Hallo Welt!}}
+]Group{%:%4,a:5,b:3.141592654,c:Hallo Krieg!}[
+{Group{%:%5,a:6,b:3.141592654,c:Hallo Krieg!}}
+{Group{%:%6,a:7,b:3.141592654,c:Hallo Krieg!}->Group{%:%7,a:8,b:3.141592654,c:Hallo Krieg!}}
