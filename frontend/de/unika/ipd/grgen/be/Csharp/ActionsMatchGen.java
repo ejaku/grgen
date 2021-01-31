@@ -207,7 +207,7 @@ public class ActionsMatchGen extends CSharpBase
 		sb.appendFront("public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) "
 				+ "{ _matchOfEnclosingPattern = matchOfEnclosingPattern; }\n");
 
-		genCopyConstructor(sb, pattern, name, pathPrefixForElements, className);
+		genCopyConstructorAndContentAssignment(sb, pattern, name, pathPrefixForElements, className);
 
 		sb.appendFront("public " + className + "()\n");
 		sb.appendFront("{\n");
@@ -260,7 +260,7 @@ public class ActionsMatchGen extends CSharpBase
 		if(parallelized)
 			sb.appendFront("public int duplicateMatchHash;\n");
 
-		genCopyConstructor(sb, pattern, name, pathPrefixForElements, className);
+		genCopyConstructorAndContentAssignment(sb, pattern, name, pathPrefixForElements, className);
 
 		sb.appendFront("public " + className + "()\n");
 		sb.appendFront("{\n");
@@ -292,10 +292,10 @@ public class ActionsMatchGen extends CSharpBase
 		sb.append("\n");
 	}
 
-	private void genCopyConstructor(SourceBuilder sb, PatternGraphLhs pattern, String name, String pathPrefixForElements,
+	private void genCopyConstructorAndContentAssignment(SourceBuilder sb, PatternGraphLhs pattern, String name, String pathPrefixForElements,
 			String className)
 	{
-		sb.appendFront("public void CopyMatchContent(" + className + " that)\n");
+		sb.appendFront("public void AssignContent(" + className + " that)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		for(int i = MATCH_PART_NODES; i < MATCH_PART_END; ++i) {
@@ -308,7 +308,7 @@ public class ActionsMatchGen extends CSharpBase
 
 		sb.appendFront("public " + className + "(" + className + " that)\n");
 		sb.appendFront("{\n");
-		sb.appendFrontIndented("CopyMatchContent(that);\n");
+		sb.appendFrontIndented("AssignContent(that);\n");
 		sb.appendFront("}\n");
 	}
 

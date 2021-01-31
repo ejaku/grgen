@@ -1,0 +1,9 @@
+test t {
+	x:Node;
+}
+
+filter f<t>
+{
+	def ref m:match<t> = copy(this[0]); // has to fail - no deep copy on match type
+	m = clone(this[0]); // ok - only shallow clone match type
+}

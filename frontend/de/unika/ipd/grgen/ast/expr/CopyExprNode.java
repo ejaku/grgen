@@ -73,13 +73,22 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		TypeNode type = sourceExpr.getType();
-		if(!(type instanceof GraphTypeNode)
-				&& !(type instanceof MatchTypeNode)
-				&& !(type instanceof ContainerTypeNode)
-				&& !(type instanceof InternalObjectTypeNode)
-				&& !(type instanceof InternalTransientObjectTypeNode)) {
-			sourceExpr.reportError("container or graph or match or class object or transient class object expected as argument to copy");
-			return false;
+		if(deep) {
+			if(!(type instanceof GraphTypeNode)
+					&& !(type instanceof ContainerTypeNode)
+					&& !(type instanceof InternalObjectTypeNode)
+					&& !(type instanceof InternalTransientObjectTypeNode)) {
+				sourceExpr.reportError("container or graph or class object or transient class object expected as argument to copy");
+				return false;
+			}
+		} else {
+			if(!(type instanceof MatchTypeNode)
+					&& !(type instanceof ContainerTypeNode)
+					&& !(type instanceof InternalObjectTypeNode)
+					&& !(type instanceof InternalTransientObjectTypeNode)) {
+				sourceExpr.reportError("container or match or class object or transient class object expected as argument to clone");
+				return false;
+			}
 		}
 		return true;
 	}

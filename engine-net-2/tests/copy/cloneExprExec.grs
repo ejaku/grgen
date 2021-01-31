@@ -5,19 +5,14 @@ exec init
 show num nodes
 show num nodes "N"
 
-exec (a:N,b:N,c:N,d:N)=ggraph\
-;> { emit("1 value of attribute 5 6 "); emit(copy(inducedSubgraph(set<Node>{a,b,c,d}))~~inducedSubgraph(set<Node>{a,b,c,d})); emit("\n") }\
-;> { ::x = inducedSubgraph(set<Node>{a,b,c,d}) }\
-;> { emit("1 value of attribute 5 6 "); emit(copy(::x)~~inducedSubgraph(set<Node>{a,b,c,d})); emit("\n") }
-
 exec mmatch\
-;> mm:match<testmatch> ;> for{ m:match<testmatch> in [?testmatch]; { mm = copy(m) } } ;> {\
+;> mm:match<testmatch> ;> for{ m:match<testmatch> in [?testmatch]; { mm = clone(m) } } ;> {\
 emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");\
 emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");\
 emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");\
 emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n")\
 }\
-;> for{ m:match<testmatch> in [?testmatch]; { ::x = m; mm = copy(::x) } } ;> {\
+;> for{ m:match<testmatch> in [?testmatch]; { ::x = m; mm = clone(::x) } } ;> {\
 emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");\
 emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");\
 emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");\

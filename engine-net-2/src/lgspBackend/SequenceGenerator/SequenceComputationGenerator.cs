@@ -1355,7 +1355,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             String visval = "visval_" + tgtVisitedFlag.Id;
             source.AppendFrontFormat("bool {0} = (bool){1};\n", visval, sourceValueComputation);
-            String visitedFlagExpr = exprGen.GetSequenceExpression(tgtVisitedFlag.VisitedFlagExpression, source);
+            String visitedFlagExpr = tgtVisitedFlag.VisitedFlagExpression != null ? exprGen.GetSequenceExpression(tgtVisitedFlag.VisitedFlagExpression, source) : "0";
             source.AppendFrontFormat("graph.SetVisited((GRGEN_LIBGR.IGraphElement){0}, (int){1}, {2});\n",
                 seqHelper.GetVar(tgtVisitedFlag.GraphElementVar), visitedFlagExpr, visval);
             source.AppendFront(COMP_HELPER.SetResultVar(tgtVisitedFlag, visval));

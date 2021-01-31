@@ -12,7 +12,7 @@ rule r(start:Node)
 filter rf<r>
 {
 	if(this[0].start.visited[0]) {
-		this.add(copy(this.peek()));
+		this.add(clone(this.peek()));
 		this.rem();
 	}
 }

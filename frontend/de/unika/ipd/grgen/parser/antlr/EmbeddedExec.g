@@ -271,7 +271,7 @@ seqAssignTarget [ ExecNode xg ]
 seqAssignTargetSelector [ ExecNode xg ]
 	: DOT attr=IDENT { xg.append("."+attr.getText()); } 
 		(LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); })?
-	| DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); } 
+	| DOT VISITED { xg.append(".visited"); } (LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); })?
 	| LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
 	|
 	;
@@ -486,8 +486,8 @@ seqExprSelector [ ExprNode prefix, ExecNode xg ] returns [ ExprNode res = prefix
 			{ res = new MemberAccessExprNode(getCoords(d), prefix, methodOrAttrName); }
 		)
 		sel=seqExprSelector[res, xg] { res = sel; }
-	| DOT v=VISITED LBRACK 
-		{ xg.append(".visited["); } visId=seqExpression[xg] RBRACK { xg.append("]"); }
+	| DOT v=VISITED { xg.append(".visited"); } ((LBRACK) => LBRACK 
+		{ xg.append("["); } visId=seqExpression[xg] RBRACK { xg.append("]"); })?
 		{ res = new VisitedNode(getCoords(v), visId, prefix); }
 		sel=seqExprSelector[res, xg] { res = sel; }
 	| l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
@@ -1255,21 +1255,23 @@ seqEntityDeclGenericTypeDequeCont [ ExecNode xg, IdentNode id ] returns [ ExecVa
 
 seqEntityDeclGenericTypeMatchCont [ ExecNode xg, IdentNode id ] returns [ ExecVarDeclNode res = null ]
 	:
-		actionIdent=seqActionIdentUse GT // match decl
+		actionIdent=seqActionIdentUse // match decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, MatchTypeActionNode.getMatchTypeIdentNode(env, actionIdent));
-			xg.append(id.toString() + ":match<" + actionIdent.toString() + ">");
+			xg.append(id.toString() + ":match<" + actionIdent.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
+		genericTypeEnd[xg]
 	|
-		CLASS matchClassIdent=seqTypeIdentUse GT // match class decl
+		CLASS matchClassIdent=seqTypeIdentUse // match class decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, matchClassIdent);
-			xg.append(id.toString() + ":match<class " + matchClassIdent.toString() + ">");
+			xg.append(id.toString() + ":match<class " + matchClassIdent.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
+		genericTypeEnd[xg]
 	;
 
 seqMatchTypeIdentUseInContainerType [ ExecNode xg ] returns [ IdentNode res = null ]

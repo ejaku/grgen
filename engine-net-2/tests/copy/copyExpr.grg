@@ -32,26 +32,6 @@ rule ggraph
 	}
 }
 
-test testmatch
-{
-	a:N; b:N; c:N; d:N;
-	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
-}
-
-filter mmatch<testmatch>
-{
-	def ref mm:match<testmatch>;
-	for(m:match<testmatch> in this)
-	{
-		mm = copy(m);
-	}
-	this[0] = null;
-	emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");
-	emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");
-	emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");
-	emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n");
-}
-
 rule mmap
 {
 	a:N; b:N; c:N; d:N;

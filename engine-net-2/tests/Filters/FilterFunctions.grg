@@ -7,7 +7,7 @@ rule addNode
 
 filter filterAdd<addNode>
 {
-	this.add(copy(this.peek()));
+	this.add(clone(this.peek()));
 }
 
 rule remNode
@@ -33,7 +33,7 @@ filter filterRemByNull<remNode>
 
 filter filterAddForRem<remNode>
 {
-	this.add(copy(this.peek()));
+	this.add(clone(this.peek()));
 	emit("The value of variable this of type arrayofmatch is: ");
 	emit(this.size());
 	emit("\n");

@@ -25,8 +25,8 @@ filter fBase<filterBase>(var x:int)
 		m.i = m.i + adjacent(m.n).size() + x;
 		m.i = m.i + m.j;
 	}
-	this.add(copy(this.peek()));
-	this.add(copy(this.peek()), x);
+	this.add(clone(this.peek()));
+	this.add(clone(this.peek()), x);
 	this.rem(x);
 	this.rem();
 	this[x] = this[x];

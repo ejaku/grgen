@@ -10,20 +10,6 @@ exec (a:N,b:N,c:N,d:N)=ggraph\
 ;> { ::x = inducedSubgraph(set<Node>{a,b,c,d}) }\
 ;> { emit("1 value of attribute 5 6 "); emit(copy(::x)~~inducedSubgraph(set<Node>{a,b,c,d})); emit("\n") }
 
-exec mmatch\
-;> mm:match<testmatch> ;> for{ m:match<testmatch> in [?testmatch]; { mm = copy(m) } } ;> {\
-emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");\
-emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");\
-emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");\
-emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n")\
-}\
-;> for{ m:match<testmatch> in [?testmatch]; { ::x = m; mm = copy(::x) } } ;> {\
-emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");\
-emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");\
-emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");\
-emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n")\
-}
-
 exec (a:N,b:N,c:N,d:N)=mmap\
 ;> container:map<N, int> = map<N, int>{a->a.a,b->b.a,c->c.a,d->d.a}\
 ;> ccontainer:map<N, int> ;> { ccontainer = copy(container) }\

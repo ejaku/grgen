@@ -497,7 +497,8 @@ namespace de.unika.ipd.grGen.libGr
             : base(that)
         {
             GraphElementVar = that.GraphElementVar.Copy(originalToCopy, procEnv);
-            VisitedFlagExpression = that.VisitedFlagExpression.CopyExpression(originalToCopy, procEnv);
+            if(VisitedFlagExpression != null)
+                VisitedFlagExpression = that.VisitedFlagExpression.CopyExpression(originalToCopy, procEnv);
         }
 
         internal override AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -512,8 +513,11 @@ namespace de.unika.ipd.grGen.libGr
             GraphElementType graphElementType = TypesHelper.GetGraphElementType(GraphElementVar.Type, env.Model);
             if(GraphElementVar.Type != "" && graphElementType == null)
                 throw new SequenceParserException(Symbol, "node or edge type", GraphElementVar.Type);
-            if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
-                throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
+            if(VisitedFlagExpression != null)
+            {
+                if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
+                    throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
+            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -524,7 +528,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Assign(object value, IGraphProcessingEnvironment procEnv)
         {
             IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(procEnv);
-            int visitedFlag = (int)VisitedFlagExpression.Evaluate(procEnv);
+            int visitedFlag = VisitedFlagExpression != null ? (int)VisitedFlagExpression.Evaluate(procEnv) : 0;
             procEnv.Graph.SetVisited(elem, visitedFlag, (bool)value);
         }
 
@@ -532,17 +536,18 @@ namespace de.unika.ipd.grGen.libGr
             List<SequenceExpressionConstructor> constructors)
         {
             GraphElementVar.GetLocalVariables(variables);
-            VisitedFlagExpression.GetLocalVariables(variables, constructors);
+            if(VisitedFlagExpression != null)
+                VisitedFlagExpression.GetLocalVariables(variables, constructors);
         }
 
         public override string Symbol
         {
-            get { return GraphElementVar.Name + ".visited[" + VisitedFlagExpression.Symbol + "]"; }
+            get { return GraphElementVar.Name + ".visited" + (VisitedFlagExpression != null ? ("[" + VisitedFlagExpression.Symbol + "]") : ""); }
         }
 
         public override IEnumerable<SequenceComputation> Children
         {
-            get { yield return VisitedFlagExpression; }
+            get { if(VisitedFlagExpression != null) yield return VisitedFlagExpression; }
         }
     }
 }

@@ -16,20 +16,6 @@ rule init
 
 //////////////////////////////////////
 
-rule ggraph : (N,N,N,N)
-{
-	a:N; b:N; c:N; d:N;
-	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
-
-	modify {
-	---
-		exec( { emit("1 value of attribute 5 6 " + (clone(inducedSubgraph(set<Node>{a,b,c,d}))~~inducedSubgraph(set<Node>{a,b,c,d})) + "\n") } );
-		exec( { ::x = inducedSubgraph(set<Node>{a,b,c,d}) } );
-		exec( { emit("1 value of attribute 5 6 " + (clone(::x)~~inducedSubgraph(set<Node>{a,b,c,d})) + "\n") } );
-		return(a,b,c,d);
-	}
-}
-
 test testmatch
 {
 	a:N; b:N; c:N; d:N;

@@ -13,7 +13,7 @@ rule r(start:Node)
 filter rf<r>
 {
 	if(incident(this[0].start).empty()) {
-		this.add(copy(this.peek()));
+		this.add(clone(this.peek()));
 		this.rem();
 	}
 }

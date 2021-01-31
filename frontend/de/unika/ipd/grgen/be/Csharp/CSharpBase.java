@@ -914,11 +914,7 @@ public abstract class CSharpBase
 			Type t = ce.getSourceExpr().getType();
 			if(ce.getDeep())
 			{
-				if(t instanceof MatchType || t instanceof MatchTypeIterated || t instanceof DefinedMatchType) {
-					sb.append("((" + formatType(t) + ")(");
-					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(").Clone())");
-				} else if(t instanceof GraphType) {
+				if(t instanceof GraphType) {
 					sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
 					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 					sb.append(")");
@@ -942,10 +938,6 @@ public abstract class CSharpBase
 					sb.append("((" + formatType(t) + ")(");
 					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 					sb.append(").Clone())");
-				} else if(t instanceof GraphType) {
-					sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
-					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(")");
 				} else if(t instanceof InternalObjectType) {
 					sb.append("((" + formatType(t) + ")(");
 					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);

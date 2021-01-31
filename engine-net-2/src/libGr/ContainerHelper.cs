@@ -144,26 +144,12 @@ namespace de.unika.ipd.grGen.libGr
                 value = match.getVariable(attributeOrElementName);
                 return value;
             }
-            else if(source is IGraphElement)
-            {
-                IGraphElement elem = (IGraphElement)source;
-                object value = elem.GetAttribute(attributeOrElementName);
-                value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
-                    elem, attributeOrElementName, value);
-                return value;
-            }
-            else if(source is IObject)
-            {
-                IObject elem = (IObject)source;
-                object value = elem.GetAttribute(attributeOrElementName);
-                value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
-                    elem, attributeOrElementName, value);
-                return value;
-            }
             else
             {
-                ITransientObject elem = (ITransientObject)source;
-                object value = elem.GetAttribute(attributeOrElementName);
+                IAttributeBearer attributeBearer = (IAttributeBearer)source;
+                object value = attributeBearer.GetAttribute(attributeOrElementName);
+                value = attributeBearer is ITransientObject ? value : ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
+                    attributeBearer, attributeOrElementName, value);
                 return value;
             }
         }

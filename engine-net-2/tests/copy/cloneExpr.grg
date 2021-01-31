@@ -16,22 +16,6 @@ rule init
 
 //////////////////////////////////////
 
-rule ggraph
-{
-	a:N; b:N; c:N; d:N;
-	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
-	if{ inducedSubgraph(set<Node>{a,b,c,d}) == clone(inducedSubgraph(set<Node>{a,b,c,d})); }
-
-	modify {
-	---
-		eval {
-			def var gr:graph = inducedSubgraph(set<Node>{a,b,c,d});
-			def var ggr:graph = clone(gr);
-			emit("1 value of attribute 5 6 " + (gr~~ggr) + "\n");
-		}
-	}
-}
-
 test testmatch
 {
 	a:N; b:N; c:N; d:N;

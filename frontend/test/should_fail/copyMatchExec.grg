@@ -1,0 +1,8 @@
+test t {
+	x:Node;
+}
+
+sequence s
+{
+	{ m:match<t>=clone([?t][0]); m=copy([?t][0]); } // clone is ok, copy has to fail
+}

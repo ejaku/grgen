@@ -1609,7 +1609,7 @@ AssignmentTarget AssignmentTarget():
 
 AssignmentTarget AssignmentTargetSelector(SequenceVariable toVar):
 {
-    SequenceExpression fromExpr;
+    SequenceExpression fromExpr = null;
     String attrName;
 }
 {
@@ -1623,7 +1623,7 @@ AssignmentTarget AssignmentTargetSelector(SequenceVariable toVar):
         return new AssignmentTargetAttribute(toVar, attrName);
     }
 |
-    "." "visited" "[" fromExpr=Expression() "]"
+    "." "visited" ("[" fromExpr=Expression() "]")?
     {
         return new AssignmentTargetVisited(toVar, fromExpr);
     }
@@ -2026,7 +2026,7 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
         return expr;
     }
 |
-    "." "visited" "[" expr=Expression() "]"
+    "." "visited" (LOOKAHEAD(2) "[" expr=Expression() "]")?
         { expr = new SequenceExpressionIsVisited(fromExpr, expr); }
     expr=SelectorExpression(expr)
     {

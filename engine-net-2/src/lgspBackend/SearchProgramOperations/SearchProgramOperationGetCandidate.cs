@@ -1930,7 +1930,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             string matchType = RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName);
             sourceCode.AppendFrontFormat("{0} match = matches.GetNextUnfilledPosition();\n", matchType);
-            sourceCode.AppendFrontFormat("match.CopyMatchContent(({0})parallelTaskMatches[minIterationValueIndex].First);\n", matchType);
+            sourceCode.AppendFrontFormat("match.AssignContent(({0})parallelTaskMatches[minIterationValueIndex].First);\n", matchType);
             sourceCode.AppendFront("parallelTaskMatches[minIterationValueIndex].RemoveFirst();\n");
             sourceCode.AppendFront("matches.PositionWasFilledFixIt();\n");
             sourceCode.AppendFront("threadOfLastlyChosenMatch = minIterationValueIndex;\n");

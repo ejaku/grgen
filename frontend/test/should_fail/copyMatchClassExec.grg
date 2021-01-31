@@ -1,0 +1,13 @@
+match class mc
+{
+	x:Node;
+}
+
+test t implements mc {
+	x:Node;
+}
+
+sequence s
+{
+	{ m:match<class mc>=clone([?[t]\<class mc>][0]); m=copy([?[t]\<class mc>][0]); } // clone is ok, copy has to fail
+}

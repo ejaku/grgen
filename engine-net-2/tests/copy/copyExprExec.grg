@@ -30,31 +30,6 @@ rule ggraph : (N,N,N,N)
 	}
 }
 
-test testmatch
-{
-	a:N; b:N; c:N; d:N;
-	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
-}
-
-rule mmatch
-{
-	modify {
-	---
-		exec( mm:match<testmatch> ;> for{ m:match<testmatch> in [?testmatch]; { mm = copy(m); } } ;> {
-			emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");
-			emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");
-			emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");
-			emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n");
-		} );
-		exec( mm:match<testmatch> ;> for{ m:match<testmatch> in [?testmatch]; { ::x = m; mm = copy(::x); } } ;> {
-			emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");
-			emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");
-			emit("1 value of attribute 5 6 "); emit(mm.c); emit("\n");
-			emit("1 value of attribute 5 6 "); emit(mm.d); emit("\n");
-		} );
-	}
-}
-
 rule mmap : (N,N,N,N)
 {
 	a:N; b:N; c:N; d:N;

@@ -2878,7 +2878,8 @@ namespace de.unika.ipd.grGen.libGr
            : base(that)
         {
             GraphElementVarExpr = that.GraphElementVarExpr.CopyExpression(originalToCopy, procEnv);
-            VisitedFlagExpr = that.VisitedFlagExpr.CopyExpression(originalToCopy, procEnv);
+            if(VisitedFlagExpr != null)
+                VisitedFlagExpr = that.VisitedFlagExpr.CopyExpression(originalToCopy, procEnv);
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -2892,14 +2893,17 @@ namespace de.unika.ipd.grGen.libGr
 
             if(GraphElementVarExpr.Type(env) != "" && TypesHelper.GetGraphElementType(GraphElementVarExpr.Type(env), env.Model) == null)
                 throw new SequenceParserException(Symbol, "node or edge type", GraphElementVarExpr.Type(env));
-            if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpr.Type(env), "int", env.Model))
-                throw new SequenceParserException(Symbol, "int", VisitedFlagExpr.Type(env));
+            if(VisitedFlagExpr != null)
+            {
+                if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpr.Type(env), "int", env.Model))
+                    throw new SequenceParserException(Symbol, "int", VisitedFlagExpr.Type(env));
+            }
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             IGraphElement elem = (IGraphElement)GraphElementVarExpr.Evaluate(procEnv);
-            int visitedFlag = (int)VisitedFlagExpr.Evaluate(procEnv);
+            int visitedFlag = VisitedFlagExpr != null ? (int)VisitedFlagExpr.Evaluate(procEnv) : 0;
             return procEnv.Graph.IsVisited(elem, visitedFlag);
         }
 
@@ -2907,12 +2911,13 @@ namespace de.unika.ipd.grGen.libGr
             List<SequenceExpressionConstructor> constructors)
         {
             GraphElementVarExpr.GetLocalVariables(variables, constructors);
-            VisitedFlagExpr.GetLocalVariables(variables, constructors);
+            if(VisitedFlagExpr != null)
+                VisitedFlagExpr.GetLocalVariables(variables, constructors);
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
-            get{ yield break; }
+            get { if(VisitedFlagExpr != null) yield return VisitedFlagExpr; }
         }
 
         public override int Precedence
@@ -2922,7 +2927,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return GraphElementVarExpr.Symbol + ".visited[" + VisitedFlagExpr.Symbol + "]"; }
+            get { return GraphElementVarExpr.Symbol + ".visited" + (VisitedFlagExpr != null ? ("[" + VisitedFlagExpr.Symbol + "]") : ""); }
         }
     }
 
@@ -9645,13 +9650,25 @@ namespace de.unika.ipd.grGen.libGr
             if(ObjectToBeCopied.Type(env) == "")
                 return; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
-            if(!TypesHelper.IsSameOrSubtype(ObjectToBeCopied.Type(env), "graph", env.Model)
-                && !ObjectToBeCopied.Type(env).StartsWith("match<")
-                && (TypesHelper.ExtractSrc(ObjectToBeCopied.Type(env)) == null || TypesHelper.ExtractDst(ObjectToBeCopied.Type(env)) == null)
-                && env.Model.ObjectModel.GetType(ObjectToBeCopied.Type(env))==null
-                && env.Model.TransientObjectModel.GetType(ObjectToBeCopied.Type(env)) == null)
+            if(Deep)
             {
-                throw new SequenceParserException(Symbol, "graph type or match type or container type or object class type or transient object class type", ObjectToBeCopied.Type(env));
+                if(!TypesHelper.IsSameOrSubtype(ObjectToBeCopied.Type(env), "graph", env.Model)
+                    && (TypesHelper.ExtractSrc(ObjectToBeCopied.Type(env)) == null || TypesHelper.ExtractDst(ObjectToBeCopied.Type(env)) == null)
+                    && env.Model.ObjectModel.GetType(ObjectToBeCopied.Type(env)) == null
+                    && env.Model.TransientObjectModel.GetType(ObjectToBeCopied.Type(env)) == null)
+                {
+                    throw new SequenceParserException(Symbol, "graph type or container type or object class type or transient object class type", ObjectToBeCopied.Type(env));
+                }
+            }
+            else
+            {
+                if(!ObjectToBeCopied.Type(env).StartsWith("match<")
+                    && (TypesHelper.ExtractSrc(ObjectToBeCopied.Type(env)) == null || TypesHelper.ExtractDst(ObjectToBeCopied.Type(env)) == null)
+                    && env.Model.ObjectModel.GetType(ObjectToBeCopied.Type(env)) == null
+                    && env.Model.TransientObjectModel.GetType(ObjectToBeCopied.Type(env)) == null)
+                {
+                    throw new SequenceParserException(Symbol, "match type or container type or object class type or transient object class type", ObjectToBeCopied.Type(env));
+                }
             }
         }
 
@@ -9667,8 +9684,6 @@ namespace de.unika.ipd.grGen.libGr
                 object toBeCopied = ObjectToBeCopied.Evaluate(procEnv);
                 if(toBeCopied is IGraph)
                     return GraphHelper.Copy((IGraph)toBeCopied);
-                else if(toBeCopied is IMatch)
-                    return ((IMatch)toBeCopied).Clone();
                 else if(toBeCopied is IObject)
                     return ((IObject)toBeCopied).Copy(procEnv.Graph, new Dictionary<IBaseObject, IBaseObject>());
                 else if(toBeCopied is ITransientObject)
@@ -9679,9 +9694,7 @@ namespace de.unika.ipd.grGen.libGr
             else
             {
                 object toBeCloned = ObjectToBeCopied.Evaluate(procEnv);
-                if(toBeCloned is IGraph)
-                    return GraphHelper.Copy((IGraph)toBeCloned);
-                else if(toBeCloned is IMatch)
+                if(toBeCloned is IMatch)
                     return ((IMatch)toBeCloned).Clone();
                 else if(toBeCloned is IObject)
                     return ((IObject)toBeCloned).Clone(procEnv.Graph);

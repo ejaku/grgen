@@ -674,7 +674,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             return "graph.IsVisited("
                 + "(GRGEN_LIBGR.IGraphElement)" + GetSequenceExpression(seqIsVisited.GraphElementVarExpr, source)
-                + ", (int)" + GetSequenceExpression(seqIsVisited.VisitedFlagExpr, source)
+                + (seqIsVisited.VisitedFlagExpr != null ? ", (int)" + GetSequenceExpression(seqIsVisited.VisitedFlagExpr, source) : ", 0")
                 + ")";
         }
 

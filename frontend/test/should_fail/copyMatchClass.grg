@@ -1,0 +1,14 @@
+match class mc
+{
+	x:Node;
+}
+
+test t implements mc {
+	x:Node;
+}
+
+filter f<class mc>
+{
+	def ref m:match<class mc> = copy(this[0]); // has to fail - no deep copy on match class type
+	m = clone(this[0]); // ok - only shallow clone match class type
+}

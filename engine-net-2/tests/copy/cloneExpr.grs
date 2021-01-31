@@ -5,8 +5,6 @@ exec init
 show num nodes
 show num nodes "N"
 
-exec ggraph
-
 exec testmatch\mmatch
 
 exec mmap

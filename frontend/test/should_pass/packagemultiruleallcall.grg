@@ -17,7 +17,7 @@ package Bar
 	filter rf<r>(var n:int)
 	{
 		if(incident(this[0].start).empty()) {
-			this.add(copy(this.peek()));
+			this.add(clone(this.peek()));
 			this.rem();
 		}
 	}

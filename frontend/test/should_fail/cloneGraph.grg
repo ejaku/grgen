@@ -1,0 +1,14 @@
+rule r {
+	x:Node;
+	
+	if{ clone(this) != clone(this); } // has to fail (no shallow clone on graph)
+	if{ copy(this) != copy(this); } // ok - only deep copy on graph
+
+	modify {
+		eval {
+			x.visited = clone(this) == clone(this); // has to fail (no shallow clone on graph)
+			x.visited = copy(this) == copy(this);  // ok - only deep copy on graph
+		}
+	}
+}
+
