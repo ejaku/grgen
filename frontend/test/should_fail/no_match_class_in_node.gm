@@ -1,0 +1,4 @@
+node class N
+{
+	m:match<class mc>;
+}

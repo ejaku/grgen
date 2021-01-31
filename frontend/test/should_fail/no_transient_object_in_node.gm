@@ -1,0 +1,8 @@
+transient class TransObj
+{
+}
+
+node class N
+{
+	tobj:TransObj;
+}

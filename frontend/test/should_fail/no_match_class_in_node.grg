@@ -1,0 +1,11 @@
+using no_match_class_in_node;
+
+match class mc
+{
+	n:N;
+}
+
+test t implements mc
+{
+	n:N --> n;
+}

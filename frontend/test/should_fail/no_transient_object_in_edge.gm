@@ -1,0 +1,8 @@
+transient class TransObj
+{
+}
+
+edge class E
+{
+	tobj:TransObj;
+}

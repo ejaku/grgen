@@ -541,6 +541,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	@Override
 	public String toString()
 	{
-		return getIdentNode().toString() + "(" + super.toString() + ")";
+		return getIdentNode().toString() + " (" + super.toString() + ")";
 	}
 }

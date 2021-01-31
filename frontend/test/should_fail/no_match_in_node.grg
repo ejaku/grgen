@@ -1,0 +1,6 @@
+using no_match_in_node;
+
+test t
+{
+	n:N --> n;
+}

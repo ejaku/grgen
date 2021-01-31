@@ -18,11 +18,13 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode.Operator;
+import de.unika.ipd.grgen.ast.expr.ContainerInitNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
 import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
 import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
@@ -143,6 +145,22 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 		Vector<ConnAssertNode> connAssertsToCopy = getConnectionAssertionsToCopy();
 		for(ConnAssertNode caToCopy : connAssertsToCopy) {
 			cas.addChild(caToCopy);
+		}
+
+		for(BaseNode child : body.getChildren()) {
+			if(child instanceof ConstructorDeclNode
+					|| child instanceof MemberInitNode
+					|| child instanceof ContainerInitNode
+					|| child instanceof FunctionDeclNode
+					|| child instanceof ProcedureDeclNode)
+				continue;
+			
+			DeclNode decl = (DeclNode)child;
+			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
+				error.error(decl.getCoords(), "no value of a transient object class allowed in an edge class, but "
+						+ decl + " is of type " + decl.getDeclType());
+				res &= false;
+			}
 		}
 
 		// todo: check for duplicate connection assertions and issue warning about being senseless

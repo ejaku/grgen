@@ -16,9 +16,15 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.model.MemberInitNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode.Operator;
+import de.unika.ipd.grgen.ast.expr.ContainerInitNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
@@ -92,6 +98,29 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 		}
 
 		return bodyOk && extend != null;
+	}
+
+	@Override
+	protected boolean checkLocal()
+	{
+		boolean res = super.checkLocal();
+
+		for(BaseNode child : body.getChildren()) {
+			if(child instanceof ConstructorDeclNode
+					|| child instanceof MemberInitNode
+					|| child instanceof ContainerInitNode
+					|| child instanceof FunctionDeclNode
+					|| child instanceof ProcedureDeclNode)
+				continue;
+			DeclNode decl = (DeclNode)child;
+			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
+				error.error(decl.getCoords(), "no value of a transient object class allowed in an object class, but "
+						+ decl + " is of type " + decl.getDeclType());
+				res &= false;
+			}
+		}
+		
+		return res;
 	}
 
 	/**
