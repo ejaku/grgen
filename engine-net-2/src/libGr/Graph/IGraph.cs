@@ -248,6 +248,10 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         long ChangesCounter { get; }
 
+        /// <summary>
+        /// Fetches a unique id for an internal class object (non-transient).
+        /// May be called concurrently from multiple threads.
+        /// </summary>
         long FetchObjectUniqueId();
 
         long FetchObjectUniqueId(long idToObtain);
