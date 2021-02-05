@@ -240,7 +240,8 @@ namespace de.unika.ipd.grGen.libGr
             StringBuilder sb = new StringBuilder();
             string transientObjectType = value.Type.PackagePrefixedName;
             sb.Append(transientObjectType);
-            sb.Append("{");
+            if(procEnv != null || !firstLevelObjectEmitted)
+                sb.Append("{");
             bool first = true;
             if(procEnv != null)
             {
@@ -261,7 +262,8 @@ namespace de.unika.ipd.grGen.libGr
                         nameToObject, procEnv));
                 }
             }
-            sb.Append("}");
+            if(procEnv != null || !firstLevelObjectEmitted)
+                sb.Append("}");
             return sb.ToString();
         }
     }
