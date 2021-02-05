@@ -32,6 +32,17 @@ namespace de.unika.ipd.grGen.lgsp
         protected readonly Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
         protected readonly Dictionary<String, object> SpecialVariables = new Dictionary<String, object>();
 
+        private readonly Dictionary<ITransientObject, long> transientObjectToUniqueId = new Dictionary<ITransientObject, long>();
+        private readonly Dictionary<long, ITransientObject> uniqueIdToTransientObject = new Dictionary<long, ITransientObject>();
+        
+        // Source for assigning unique ids to internal transient class objects.
+        private long transientObjectUniqueIdSource = 0;
+
+        private long FetchTransientObjectUniqueId()
+        {
+            return transientObjectUniqueIdSource++;
+        }
+
         readonly List<object[]> emptyList = new List<object[]>(); // performance optimization (for ApplyRewrite, empty list is only created once)
 
 
@@ -619,6 +630,32 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         #endregion Special variables management
+
+
+        #region Transient Object id handling
+
+        public long GetUniqueId(ITransientObject transientObject)
+        {
+            if(transientObject == null)
+                return -1;
+
+            if(!transientObjectToUniqueId.ContainsKey(transientObject))
+            {
+                long uniqueId = FetchTransientObjectUniqueId();
+                transientObjectToUniqueId[transientObject] = uniqueId;
+                uniqueIdToTransientObject[uniqueId] = transientObject;
+            }
+            return transientObjectToUniqueId[transientObject];
+        }
+
+        public ITransientObject GetTransientObject(long uniqueId)
+        {
+            ITransientObject transientObject;
+            uniqueIdToTransientObject.TryGetValue(uniqueId, out transientObject);
+            return transientObject;
+        }
+
+        #endregion Transient Object id handling
 
 
         #region Variables of graph elements convenience

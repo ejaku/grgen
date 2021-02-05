@@ -41,13 +41,13 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(valueType == typeof(SetValueType))
                 {
-                    ToString(setmap, out type, out content, attrType, graph, false, null);
-                    content += "|" + ToString(newValue, attrType.ValueType, graph, false, null);
+                    ToString(setmap, out type, out content, attrType, graph, false, null, null);
+                    content += "|" + ToString(newValue, attrType.ValueType, graph, false, null, null);
                 }
                 else
                 {
-                    ToString(setmap, out type, out content, attrType, graph, false, null);
-                    content += "|" + ToString(keyValue, attrType.KeyType, graph, false, null) + "->" + ToString(newValue, attrType.ValueType, graph, false, null);
+                    ToString(setmap, out type, out content, attrType, graph, false, null, null);
+                    content += "|" + ToString(keyValue, attrType.KeyType, graph, false, null, null) + "->" + ToString(newValue, attrType.ValueType, graph, false, null, null);
                 }
             }
             else if(changeType == AttributeChangeType.RemoveElement)
@@ -58,18 +58,18 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(valueType == typeof(SetValueType))
                 {
-                    ToString(setmap, out type, out content, attrType, graph, false, null);
-                    content += "\\" + ToString(newValue, attrType.ValueType, graph, false, null);
+                    ToString(setmap, out type, out content, attrType, graph, false, null, null);
+                    content += "\\" + ToString(newValue, attrType.ValueType, graph, false, null, null);
                 }
                 else
                 {
-                    ToString(setmap, out type, out content, attrType, graph, false, null);
-                    content += "\\" + ToString(keyValue, attrType.KeyType, graph, false, null) + "->.";
+                    ToString(setmap, out type, out content, attrType, graph, false, null, null);
+                    content += "\\" + ToString(keyValue, attrType.KeyType, graph, false, null, null) + "->.";
                 }
             }
             else // changeType==AttributeChangeType.Assign
             {
-                ToString((IDictionary)newValue, out type, out content, attrType, graph, false, null);
+                ToString((IDictionary)newValue, out type, out content, attrType, graph, false, null, null);
             }
         }
 
@@ -95,8 +95,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 Type valueType;
                 ContainerHelper.GetListType(array, out valueType);
-                ToString(array, out type, out content, attrType, graph, false, null);
-                content += ".add(" + ToString(newValue, attrType.ValueType, graph, false, null);
+                ToString(array, out type, out content, attrType, graph, false, null, null);
+                content += ".add(" + ToString(newValue, attrType.ValueType, graph, false, null, null);
                 if(keyValue != null)
                     content += ", " + keyValue.ToString() + ")";
                 else
@@ -106,7 +106,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 Type valueType;
                 ContainerHelper.GetListType(array, out valueType);
-                ToString(array, out type, out content, attrType, graph, false, null);
+                ToString(array, out type, out content, attrType, graph, false, null, null);
                 content += ".rem(";
                 if(keyValue != null)
                     content += keyValue.ToString() + ")";
@@ -117,11 +117,11 @@ namespace de.unika.ipd.grGen.libGr
             {
                 Type valueType;
                 ContainerHelper.GetListType(array, out valueType);
-                ToString(array, out type, out content, attrType, graph, false, null);
-                content += "[" + keyValue.ToString() + "] = " + ToString(newValue, attrType.ValueType, graph, false, null);
+                ToString(array, out type, out content, attrType, graph, false, null, null);
+                content += "[" + keyValue.ToString() + "] = " + ToString(newValue, attrType.ValueType, graph, false, null, null);
             }
             else // changeType==AttributeChangeType.Assign
-                ToString((IList)newValue, out type, out content, attrType, graph, false, null);
+                ToString((IList)newValue, out type, out content, attrType, graph, false, null, null);
         }
 
         /// <summary>
@@ -144,18 +144,18 @@ namespace de.unika.ipd.grGen.libGr
             {
                 Type valueType;
                 ContainerHelper.GetDequeType(deque, out valueType);
-                ToString(deque, out type, out content, attrType, graph, false, null);
-                content += ".add(" + ToString(newValue, attrType.ValueType, graph, false, null) + ")";
+                ToString(deque, out type, out content, attrType, graph, false, null, null);
+                content += ".add(" + ToString(newValue, attrType.ValueType, graph, false, null, null) + ")";
             }
             else if(changeType == AttributeChangeType.RemoveElement)
             {
                 Type valueType;
                 ContainerHelper.GetDequeType(deque, out valueType);
-                ToString(deque, out type, out content, attrType, graph, false, null);
+                ToString(deque, out type, out content, attrType, graph, false, null, null);
                 content += ".rem()";
             }
             else // changeType==AttributeChangeType.Assign
-                ToString((IDeque)newValue, out type, out content, attrType, graph, false, null);
+                ToString((IDeque)newValue, out type, out content, attrType, graph, false, null, null);
         }
     }
 }

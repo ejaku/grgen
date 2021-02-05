@@ -2901,7 +2901,7 @@ namespace de.unika.ipd.grGen.grShell
             foreach(AttributeType attrType in owner.Type.AttributeTypes)
             {
                 debugOut.WriteLine(" - {0}::{1} = {2}", attrType.OwnerType.PackagePrefixedName,
-                    attrType.Name, EmitHelper.ToStringAutomatic(owner.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.NameToClassObject));
+                    attrType.Name, EmitHelper.ToStringAutomatic(owner.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.NameToClassObject, null));
             }
         }
 
@@ -2915,7 +2915,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"");
-            debugOut.Write(EmitHelper.ToStringAutomatic(owner.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.NameToClassObject));
+            debugOut.Write(EmitHelper.ToStringAutomatic(owner.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.NameToClassObject, null));
             debugOut.WriteLine("\".");
         }
 
@@ -3190,21 +3190,21 @@ namespace de.unika.ipd.grGen.grShell
                 if(val.GetType().Name=="Dictionary`2")
                 {
                     EmitHelper.ToString((IDictionary)val, out type, out content,
-                        null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv!=null ? curShellProcEnv.NameToClassObject : null);
+                        null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv!=null ? curShellProcEnv.NameToClassObject : null, null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
                 else if(val.GetType().Name == "List`1")
                 {
                     EmitHelper.ToString((IList)val, out type, out content,
-                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.NameToClassObject : null);
+                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.NameToClassObject : null, null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
                 else if(val.GetType().Name == "Deque`1")
                 {
                     EmitHelper.ToString((IDeque)val, out type, out content,
-                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.NameToClassObject : null);
+                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.NameToClassObject : null, null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
@@ -3223,7 +3223,7 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
                 EmitHelper.ToString(val, out type, out content,
-                    null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.NameToClassObject : null);
+                    null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.NameToClassObject : null, null);
                 debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                 return;
             }

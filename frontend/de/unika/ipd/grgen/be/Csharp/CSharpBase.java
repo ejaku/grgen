@@ -970,19 +970,19 @@ public abstract class CSharpBase
 						|| cast.getExpression().getType() instanceof SetType) {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, false, null)");
+					sb.append(", graph, false, null, null)");
 				} else if(cast.getExpression().getType() instanceof ArrayType) {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, false, null)");
+					sb.append(", graph, false, null, null)");
 				} else if(cast.getExpression().getType() instanceof DequeType) {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, false, null)");
+					sb.append(", graph, false, null, null)");
 				} else {
 					sb.append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
 					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, false, null)");
+					sb.append(", graph, false, null, null)");
 				}
 			} else if(typeName == "object") {
 				// no cast needed

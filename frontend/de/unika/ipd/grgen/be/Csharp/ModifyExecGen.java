@@ -193,7 +193,7 @@ public class ModifyExecGen extends CSharpBase
 			sb.appendFront("procEnv." + emitWriter + ".Write(");
 			sb.append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
 			genExpression(sb, arg, state);
-			sb.append(", graph, false, null)");
+			sb.append(", graph, false, null, null)");
 			sb.append(");\n");
 		}
 	}

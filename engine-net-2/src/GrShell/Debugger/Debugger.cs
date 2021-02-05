@@ -536,31 +536,100 @@ namespace de.unika.ipd.grGen.grShell
         {
             do
             {
-                Console.Write("Enter id of class object to emit (without % prefix; or just enter for abort): ");
+                Console.Write("Enter id of class object to emit (with % prefix), of transient class object to emit (with & prefix), or name of variable to emit (or just enter for abort): ");
                 String argument = Console.ReadLine();
                 if(argument.Length == 0)
                     return;
 
-                try
-                {
-                    long uniqueId = Convert.ToInt64(argument, 16);
-                    String objectName = String.Format("%{0,00000000:X}", uniqueId);
-                    if(shellProcEnv.NameToClassObject.ContainsKey(objectName))
-                    {
-                        IObject obj = shellProcEnv.NameToClassObject[objectName];
-                        Console.WriteLine(EmitHelper.ToStringAutomatic(obj, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject));
-                    }
-                    else
-                        Console.WriteLine("Unknown class object id " + objectName + "!");
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine("Invalid class object id " + argument + "!");
-                }
+                if(argument.StartsWith("%"))
+                    HandleShowClassObjectObject(argument);
+                else if(argument.StartsWith("&"))
+                    HandleShowClassObjectTransientObject(argument);
+                else
+                    HandleShowClassObjectVariable(seq, argument);
             }
             while(true);
         }
 
+        private void HandleShowClassObjectObject(string argument)
+        {
+            long uniqueId;
+            if(HexToLong(argument.Substring(1), out uniqueId))
+            {
+                String objectName = String.Format("%{0,00000000:X}", uniqueId);
+                if(shellProcEnv.NameToClassObject.ContainsKey(objectName))
+                {
+                    IObject obj = shellProcEnv.NameToClassObject[objectName];
+                    Console.WriteLine(EmitHelper.ToStringAutomatic(obj, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, shellProcEnv.ProcEnv));
+                }
+                else
+                    Console.WriteLine("Unknown class object id %" + objectName + "!");
+            }
+            else
+                Console.WriteLine("Invalid class object id " + argument + "!");
+        }
+
+        private void HandleShowClassObjectTransientObject(string argument)
+        {
+            long uniqueId;
+            if(HexToLong(argument.Substring(1), out uniqueId))
+            {
+                if(shellProcEnv.ProcEnv.GetTransientObject(uniqueId) != null)
+                {
+                    ITransientObject obj = shellProcEnv.ProcEnv.GetTransientObject(uniqueId);
+                    Console.WriteLine(EmitHelper.ToStringAutomatic(obj, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, shellProcEnv.ProcEnv));
+                }
+                else
+                    Console.WriteLine("Unknown transient class object id " + argument + "!");
+            }
+            else
+                Console.WriteLine("Invalid transient class object id " + argument + "!");
+        }
+
+        private void HandleShowClassObjectVariable(Sequence seq, string argument)
+        {
+            if(GetSequenceVariable(argument, debugSequences.Peek(), seq) != null
+                && GetSequenceVariable(argument, debugSequences.Peek(), seq).GetVariableValue(shellProcEnv.ProcEnv) != null)
+            {
+                object value = GetSequenceVariable(argument, debugSequences.Peek(), seq).GetVariableValue(shellProcEnv.ProcEnv);
+                Console.WriteLine(EmitHelper.ToStringAutomatic(value, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, shellProcEnv.ProcEnv));
+            }
+            else if(shellProcEnv.ProcEnv.GetVariableValue(argument) != null)
+            {
+                object value = shellProcEnv.ProcEnv.GetVariableValue(argument);
+                Console.WriteLine(EmitHelper.ToStringAutomatic(value, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, shellProcEnv.ProcEnv));
+            }
+            else
+                Console.WriteLine("The given " + argument + " is not a known variable name (of non-null value)!");
+        }
+
+        private bool HexToLong(String argument, out long result)
+        {
+            try
+            {
+                result = Convert.ToInt64(argument, 16);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                result = -1;
+                return false;
+            }
+        }
+
+        private SequenceVariable GetSequenceVariable(String name, Sequence seqStart, Sequence seq)
+        {
+            Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqStart.GetLocalVariables(seqVars, constructors, seq);
+            foreach(SequenceVariable var in seqVars.Keys)
+            {
+                if(name == var.Name)
+                    return var;
+            }
+            return null;
+        }
+        
         private void HandleDump()
         {
             string filename = env.ShowGraphWith("ycomp", "", false);
@@ -690,13 +759,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
                     else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
                     else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
+                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -708,13 +777,13 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
                     else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
                     else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject);
+                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -1812,7 +1881,7 @@ namespace de.unika.ipd.grGen.grShell
             for(int i = 0; i < values.Length; ++i)
             {
                 Console.Write(" ");
-                Console.Write(EmitHelper.ToStringAutomatic(values[i], shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject));
+                Console.Write(EmitHelper.ToStringAutomatic(values[i], shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null));
             }
             Console.WriteLine();
 

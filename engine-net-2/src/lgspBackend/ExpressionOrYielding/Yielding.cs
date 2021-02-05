@@ -2160,7 +2160,7 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("if(" + emitVar + " != null)\n");
                 String emitWriter = IsDebug ? "EmitWriterDebug" : "EmitWriter";
                 sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv)." + emitWriter + ".Write("
-                        + "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph, false, null));\n");
+                        + "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph, false, null, null));\n");
             }
         }
 
@@ -2452,7 +2452,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(";\n");
             sourceCode.AppendFront("if(" + recordVar + " != null)\n");
             sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
-                    + "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + recordVar + ", graph, false, null));\n");
+                    + "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + recordVar + ", graph, false, null, null));\n");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()

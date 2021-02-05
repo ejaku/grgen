@@ -1168,13 +1168,13 @@ namespace de.unika.ipd.grGen.expression
                 {
                     sourceCode.Append("GRGEN_LIBGR.EmitHelper.ToString(");
                     Nested.Emit(sourceCode);
-                    sourceCode.Append(", graph, false, null)");
+                    sourceCode.Append(", graph, false, null, null)");
                 }
                 else
                 {
                     sourceCode.Append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
                     Nested.Emit(sourceCode);
-                    sourceCode.Append(", graph, false, null)");
+                    sourceCode.Append(", graph, false, null, null)");
                 }
             }
             else
