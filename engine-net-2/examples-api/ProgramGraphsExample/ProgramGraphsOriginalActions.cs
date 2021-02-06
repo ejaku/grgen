@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sat Nov 21 22:18:52 CET 2020
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Fri Feb 05 19:33:07 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -397,7 +397,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Subclasses that)
+			public void AssignContent(Match_Subclasses that)
 			{
 				_node_c = that._node_c;
 				_iter_0 = that._iter_0;
@@ -405,7 +405,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Subclasses(Match_Subclasses that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Subclasses()
 			{
@@ -601,7 +601,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Subclasses_iter_0 that)
+			public void AssignContent(Match_Subclasses_iter_0 that)
 			{
 				_node_c = that._node_c;
 				_node_sub = that._node_sub;
@@ -611,7 +611,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Subclasses_iter_0(Match_Subclasses_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Subclasses_iter_0()
 			{
@@ -1023,7 +1023,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Subclass that)
+			public void AssignContent(Match_Subclass that)
 			{
 				_node_sub = that._node_sub;
 				@__sub0 = that.@__sub0;
@@ -1032,7 +1032,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Subclass(Match_Subclass that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Subclass()
 			{
@@ -1409,7 +1409,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Features that)
+			public void AssignContent(Match_Features that)
 			{
 				_node_c = that._node_c;
 				_iter_0 = that._iter_0;
@@ -1417,7 +1417,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Features(Match_Features that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Features()
 			{
@@ -1603,7 +1603,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Features_iter_0 that)
+			public void AssignContent(Match_Features_iter_0 that)
 			{
 				_node_c = that._node_c;
 				@__sub0 = that.@__sub0;
@@ -1611,7 +1611,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Features_iter_0(Match_Features_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Features_iter_0()
 			{
@@ -2332,7 +2332,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_FeaturePattern that)
+			public void AssignContent(Match_FeaturePattern that)
 			{
 				_node_c = that._node_c;
 				_alt_0 = that._alt_0;
@@ -2340,7 +2340,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_FeaturePattern(Match_FeaturePattern that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_FeaturePattern()
 			{
@@ -2534,7 +2534,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_FeaturePattern_alt_0_MethodBody that)
+			public void AssignContent(Match_FeaturePattern_alt_0_MethodBody that)
 			{
 				_node_c = that._node_c;
 				_node_b = that._node_b;
@@ -2545,7 +2545,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_FeaturePattern_alt_0_MethodBody(Match_FeaturePattern_alt_0_MethodBody that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_FeaturePattern_alt_0_MethodBody()
 			{
@@ -2731,7 +2731,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_FeaturePattern_alt_0_MethodSignature that)
+			public void AssignContent(Match_FeaturePattern_alt_0_MethodSignature that)
 			{
 				_node_c = that._node_c;
 				_node__node0 = that._node__node0;
@@ -2740,7 +2740,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_FeaturePattern_alt_0_MethodSignature(Match_FeaturePattern_alt_0_MethodSignature that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_FeaturePattern_alt_0_MethodSignature()
 			{
@@ -2924,7 +2924,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_FeaturePattern_alt_0_Variable that)
+			public void AssignContent(Match_FeaturePattern_alt_0_Variable that)
 			{
 				_node_c = that._node_c;
 				_node__node0 = that._node__node0;
@@ -2933,7 +2933,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_FeaturePattern_alt_0_Variable(Match_FeaturePattern_alt_0_Variable that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_FeaturePattern_alt_0_Variable()
 			{
@@ -3117,7 +3117,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_FeaturePattern_alt_0_Konstante that)
+			public void AssignContent(Match_FeaturePattern_alt_0_Konstante that)
 			{
 				_node_c = that._node_c;
 				_node__node0 = that._node__node0;
@@ -3126,7 +3126,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_FeaturePattern_alt_0_Konstante(Match_FeaturePattern_alt_0_Konstante that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_FeaturePattern_alt_0_Konstante()
 			{
@@ -3503,7 +3503,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Parameters that)
+			public void AssignContent(Match_Parameters that)
 			{
 				_node_b = that._node_b;
 				_iter_0 = that._iter_0;
@@ -3511,7 +3511,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Parameters(Match_Parameters that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Parameters()
 			{
@@ -3697,7 +3697,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Parameters_iter_0 that)
+			public void AssignContent(Match_Parameters_iter_0 that)
 			{
 				_node_b = that._node_b;
 				@__sub0 = that.@__sub0;
@@ -3705,7 +3705,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Parameters_iter_0(Match_Parameters_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Parameters_iter_0()
 			{
@@ -4220,7 +4220,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Parameter that)
+			public void AssignContent(Match_Parameter that)
 			{
 				_node_b = that._node_b;
 				_alt_0 = that._alt_0;
@@ -4228,7 +4228,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Parameter(Match_Parameter that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Parameter()
 			{
@@ -4412,7 +4412,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Parameter_alt_0_Variable that)
+			public void AssignContent(Match_Parameter_alt_0_Variable that)
 			{
 				_node_b = that._node_b;
 				_node_v = that._node_v;
@@ -4421,7 +4421,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Parameter_alt_0_Variable(Match_Parameter_alt_0_Variable that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Parameter_alt_0_Variable()
 			{
@@ -4605,7 +4605,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Parameter_alt_0_Konstante that)
+			public void AssignContent(Match_Parameter_alt_0_Konstante that)
 			{
 				_node_b = that._node_b;
 				_node_c = that._node_c;
@@ -4614,7 +4614,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Parameter_alt_0_Konstante(Match_Parameter_alt_0_Konstante that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Parameter_alt_0_Konstante()
 			{
@@ -4991,7 +4991,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Statements that)
+			public void AssignContent(Match_Statements that)
 			{
 				_node_b = that._node_b;
 				_iter_0 = that._iter_0;
@@ -4999,7 +4999,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Statements(Match_Statements that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Statements()
 			{
@@ -5185,7 +5185,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Statements_iter_0 that)
+			public void AssignContent(Match_Statements_iter_0 that)
 			{
 				_node_b = that._node_b;
 				@__sub0 = that.@__sub0;
@@ -5193,7 +5193,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Statements_iter_0(Match_Statements_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Statements_iter_0()
 			{
@@ -5852,7 +5852,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Statement that)
+			public void AssignContent(Match_Statement that)
 			{
 				_node_b = that._node_b;
 				_alt_0 = that._alt_0;
@@ -5860,7 +5860,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Statement(Match_Statement that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Statement()
 			{
@@ -6054,7 +6054,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Statement_alt_0_Assignment that)
+			public void AssignContent(Match_Statement_alt_0_Assignment that)
 			{
 				_node_b = that._node_b;
 				_node_e = that._node_e;
@@ -6065,7 +6065,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Statement_alt_0_Assignment(Match_Statement_alt_0_Assignment that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Statement_alt_0_Assignment()
 			{
@@ -6260,7 +6260,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Statement_alt_0_Call that)
+			public void AssignContent(Match_Statement_alt_0_Call that)
 			{
 				_node_b = that._node_b;
 				_node_e = that._node_e;
@@ -6271,7 +6271,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Statement_alt_0_Call(Match_Statement_alt_0_Call that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Statement_alt_0_Call()
 			{
@@ -6462,7 +6462,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Statement_alt_0_Return that)
+			public void AssignContent(Match_Statement_alt_0_Return that)
 			{
 				_node_b = that._node_b;
 				_node_e = that._node_e;
@@ -6472,7 +6472,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Statement_alt_0_Return(Match_Statement_alt_0_Return that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Statement_alt_0_Return()
 			{
@@ -6850,7 +6850,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Expressions that)
+			public void AssignContent(Match_Expressions that)
 			{
 				_node_e = that._node_e;
 				_iter_0 = that._iter_0;
@@ -6858,7 +6858,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Expressions(Match_Expressions that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Expressions()
 			{
@@ -7044,7 +7044,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Expressions_iter_0 that)
+			public void AssignContent(Match_Expressions_iter_0 that)
 			{
 				_node_e = that._node_e;
 				@__sub0 = that.@__sub0;
@@ -7052,7 +7052,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Expressions_iter_0(Match_Expressions_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Expressions_iter_0()
 			{
@@ -7591,7 +7591,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_ExpressionPattern that)
+			public void AssignContent(Match_ExpressionPattern that)
 			{
 				_node_e = that._node_e;
 				_node_sub = that._node_sub;
@@ -7601,7 +7601,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_ExpressionPattern(Match_ExpressionPattern that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ExpressionPattern()
 			{
@@ -7786,7 +7786,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_ExpressionPattern_alt_0_Call that)
+			public void AssignContent(Match_ExpressionPattern_alt_0_Call that)
 			{
 				_node_sub = that._node_sub;
 				_edge__edge0 = that._edge__edge0;
@@ -7795,7 +7795,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_ExpressionPattern_alt_0_Call(Match_ExpressionPattern_alt_0_Call that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ExpressionPattern_alt_0_Call()
 			{
@@ -7974,7 +7974,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_ExpressionPattern_alt_0_Use that)
+			public void AssignContent(Match_ExpressionPattern_alt_0_Use that)
 			{
 				_node_sub = that._node_sub;
 				_edge__edge0 = that._edge__edge0;
@@ -7982,7 +7982,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_ExpressionPattern_alt_0_Use(Match_ExpressionPattern_alt_0_Use that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ExpressionPattern_alt_0_Use()
 			{
@@ -8414,7 +8414,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Bodies that)
+			public void AssignContent(Match_Bodies that)
 			{
 				_node_m5 = that._node_m5;
 				_node_c1 = that._node_c1;
@@ -8423,7 +8423,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Bodies(Match_Bodies that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Bodies()
 			{
@@ -8615,7 +8615,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Bodies_iter_0 that)
+			public void AssignContent(Match_Bodies_iter_0 that)
 			{
 				_node_m5 = that._node_m5;
 				_node_c1 = that._node_c1;
@@ -8624,7 +8624,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Bodies_iter_0(Match_Bodies_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Bodies_iter_0()
 			{
@@ -9122,7 +9122,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_Body that)
+			public void AssignContent(Match_Body that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -9137,7 +9137,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_Body(Match_Body that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Body()
 			{
@@ -9478,13 +9478,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_createProgramGraphExample that)
+			public void AssignContent(Match_createProgramGraphExample that)
 			{
 			}
 
 			public Match_createProgramGraphExample(Match_createProgramGraphExample that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createProgramGraphExample()
 			{
@@ -9820,13 +9820,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_createProgramGraphPullUp that)
+			public void AssignContent(Match_createProgramGraphPullUp that)
 			{
 			}
 
 			public Match_createProgramGraphPullUp(Match_createProgramGraphPullUp that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createProgramGraphPullUp()
 			{
@@ -10230,7 +10230,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_pullUpMethod that)
+			public void AssignContent(Match_pullUpMethod that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c3 = that._node_c3;
@@ -10244,7 +10244,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_pullUpMethod(Match_pullUpMethod that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_pullUpMethod()
 			{
@@ -10842,7 +10842,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_matchAll that)
+			public void AssignContent(Match_matchAll that)
 			{
 				_node_c1 = that._node_c1;
 				@__sub0 = that.@__sub0;
@@ -10850,7 +10850,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_matchAll(Match_matchAll that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_matchAll()
 			{
@@ -11307,13 +11307,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_InsertHelperEdgesForNestedLayout that)
+			public void AssignContent(Match_InsertHelperEdgesForNestedLayout that)
 			{
 			}
 
 			public Match_InsertHelperEdgesForNestedLayout(Match_InsertHelperEdgesForNestedLayout that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_InsertHelperEdgesForNestedLayout()
 			{
@@ -11715,7 +11715,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_LinkMethodBodyToContainedEntity that)
+			public void AssignContent(Match_LinkMethodBodyToContainedEntity that)
 			{
 				_node_mb = that._node_mb;
 				_node_e = that._node_e;
@@ -11724,7 +11724,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_LinkMethodBodyToContainedEntity(Match_LinkMethodBodyToContainedEntity that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_LinkMethodBodyToContainedEntity()
 			{
@@ -11908,7 +11908,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_LinkMethodBodyToContainedEntity_neg_0 that)
+			public void AssignContent(Match_LinkMethodBodyToContainedEntity_neg_0 that)
 			{
 				_node_mb = that._node_mb;
 				_node_e = that._node_e;
@@ -11917,7 +11917,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_LinkMethodBodyToContainedEntity_neg_0(Match_LinkMethodBodyToContainedEntity_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_LinkMethodBodyToContainedEntity_neg_0()
 			{
@@ -12470,7 +12470,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_LinkMethodBodyToContainedExpressionTransitive that)
+			public void AssignContent(Match_LinkMethodBodyToContainedExpressionTransitive that)
 			{
 				_node_mb = that._node_mb;
 				_node_e1 = that._node_e1;
@@ -12481,7 +12481,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_LinkMethodBodyToContainedExpressionTransitive(Match_LinkMethodBodyToContainedExpressionTransitive that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_LinkMethodBodyToContainedExpressionTransitive()
 			{
@@ -12667,7 +12667,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_LinkMethodBodyToContainedExpressionTransitive_neg_0 that)
+			public void AssignContent(Match_LinkMethodBodyToContainedExpressionTransitive_neg_0 that)
 			{
 				_node_e1 = that._node_e1;
 				_node_e2 = that._node_e2;
@@ -12676,7 +12676,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_LinkMethodBodyToContainedExpressionTransitive_neg_0(Match_LinkMethodBodyToContainedExpressionTransitive_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_LinkMethodBodyToContainedExpressionTransitive_neg_0()
 			{
@@ -13210,7 +13210,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_RemoveMethodBodyContainsBetweenExpressions that)
+			public void AssignContent(Match_RemoveMethodBodyContainsBetweenExpressions that)
 			{
 				_node_e1 = that._node_e1;
 				_node_e2 = that._node_e2;
@@ -13219,7 +13219,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_RemoveMethodBodyContainsBetweenExpressions(Match_RemoveMethodBodyContainsBetweenExpressions that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_RemoveMethodBodyContainsBetweenExpressions()
 			{
@@ -13673,7 +13673,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 
-			public void CopyMatchContent(Match_RetypeClassContainment that)
+			public void AssignContent(Match_RetypeClassContainment that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -13682,7 +13682,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 			public Match_RetypeClassContainment(Match_RetypeClassContainment that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_RetypeClassContainment()
 			{
@@ -23878,6 +23878,6 @@ label3: ;
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
+        public override string ModelMD5Hash { get { return "3e947971465bf83c5691f1c6511014b5"; } }
     }
 }

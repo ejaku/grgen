@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sat Nov 21 22:18:38 CET 2020
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Fri Feb 05 19:32:37 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -441,7 +441,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_SpanningTree that)
+			public void AssignContent(Match_SpanningTree that)
 			{
 				_node_root = that._node_root;
 				_iter_0 = that._iter_0;
@@ -449,7 +449,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_SpanningTree(Match_SpanningTree that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_SpanningTree()
 			{
@@ -645,7 +645,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_SpanningTree_iter_0 that)
+			public void AssignContent(Match_SpanningTree_iter_0 that)
 			{
 				_node_root = that._node_root;
 				_node_next = that._node_next;
@@ -655,7 +655,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_SpanningTree_iter_0(Match_SpanningTree_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_SpanningTree_iter_0()
 			{
@@ -1201,7 +1201,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_SpanningTreeReverse that)
+			public void AssignContent(Match_SpanningTreeReverse that)
 			{
 				_node_root = that._node_root;
 				_iter_0 = that._iter_0;
@@ -1209,7 +1209,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_SpanningTreeReverse(Match_SpanningTreeReverse that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_SpanningTreeReverse()
 			{
@@ -1405,7 +1405,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_SpanningTreeReverse_iter_0 that)
+			public void AssignContent(Match_SpanningTreeReverse_iter_0 that)
 			{
 				_node_root = that._node_root;
 				_node_next = that._node_next;
@@ -1415,7 +1415,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_SpanningTreeReverse_iter_0(Match_SpanningTreeReverse_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_SpanningTreeReverse_iter_0()
 			{
@@ -1919,7 +1919,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_SpanningTreeOutgoing that)
+			public void AssignContent(Match_SpanningTreeOutgoing that)
 			{
 				_node_root = that._node_root;
 				_iter_0 = that._iter_0;
@@ -1927,7 +1927,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_SpanningTreeOutgoing(Match_SpanningTreeOutgoing that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_SpanningTreeOutgoing()
 			{
@@ -2123,7 +2123,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_SpanningTreeOutgoing_iter_0 that)
+			public void AssignContent(Match_SpanningTreeOutgoing_iter_0 that)
 			{
 				_node_root = that._node_root;
 				_node_next = that._node_next;
@@ -2133,7 +2133,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_SpanningTreeOutgoing_iter_0(Match_SpanningTreeOutgoing_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_SpanningTreeOutgoing_iter_0()
 			{
@@ -2637,7 +2637,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_SpanningTreeIncoming that)
+			public void AssignContent(Match_SpanningTreeIncoming that)
 			{
 				_node_root = that._node_root;
 				_iter_0 = that._iter_0;
@@ -2645,7 +2645,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_SpanningTreeIncoming(Match_SpanningTreeIncoming that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_SpanningTreeIncoming()
 			{
@@ -2841,7 +2841,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_SpanningTreeIncoming_iter_0 that)
+			public void AssignContent(Match_SpanningTreeIncoming_iter_0 that)
 			{
 				_node_next = that._node_next;
 				_node_root = that._node_root;
@@ -2851,7 +2851,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_SpanningTreeIncoming_iter_0(Match_SpanningTreeIncoming_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_SpanningTreeIncoming_iter_0()
 			{
@@ -3250,13 +3250,13 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_initTree that)
+			public void AssignContent(Match_initTree that)
 			{
 			}
 
 			public Match_initTree(Match_initTree that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_initTree()
 			{
@@ -3559,13 +3559,13 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_initUndirected that)
+			public void AssignContent(Match_initUndirected that)
 			{
 			}
 
 			public Match_initUndirected(Match_initUndirected that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_initUndirected()
 			{
@@ -3868,13 +3868,13 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_initDirected that)
+			public void AssignContent(Match_initDirected that)
 			{
 			}
 
 			public Match_initDirected(Match_initDirected that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_initDirected()
 			{
@@ -4197,7 +4197,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_spanningTree that)
+			public void AssignContent(Match_spanningTree that)
 			{
 				_node_root = that._node_root;
 				@_sptr = that.@_sptr;
@@ -4205,7 +4205,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_spanningTree(Match_spanningTree that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_spanningTree()
 			{
@@ -4546,14 +4546,14 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_edgesVisited that)
+			public void AssignContent(Match_edgesVisited that)
 			{
 				_edge_e = that._edge_e;
 			}
 
 			public Match_edgesVisited(Match_edgesVisited that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_edgesVisited()
 			{
@@ -4893,14 +4893,14 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_nodesVisited that)
+			public void AssignContent(Match_nodesVisited that)
 			{
 				_node_n = that._node_n;
 			}
 
 			public Match_nodesVisited(Match_nodesVisited that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_nodesVisited()
 			{
@@ -5259,7 +5259,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_spanningTreeReverse that)
+			public void AssignContent(Match_spanningTreeReverse that)
 			{
 				_node_root = that._node_root;
 				@_sptrr = that.@_sptrr;
@@ -5267,7 +5267,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_spanningTreeReverse(Match_spanningTreeReverse that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_spanningTreeReverse()
 			{
@@ -5619,7 +5619,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_spanningTreeOutgoing that)
+			public void AssignContent(Match_spanningTreeOutgoing that)
 			{
 				_node_root = that._node_root;
 				@__sub0 = that.@__sub0;
@@ -5627,7 +5627,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_spanningTreeOutgoing(Match_spanningTreeOutgoing that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_spanningTreeOutgoing()
 			{
@@ -5979,7 +5979,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 
-			public void CopyMatchContent(Match_spanningTreeIncoming that)
+			public void AssignContent(Match_spanningTreeIncoming that)
 			{
 				_node_root = that._node_root;
 				@__sub0 = that.@__sub0;
@@ -5987,7 +5987,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			public Match_spanningTreeIncoming(Match_spanningTreeIncoming that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_spanningTreeIncoming()
 			{
@@ -11562,6 +11562,6 @@ maxMatchesIterReached:
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
+        public override string ModelMD5Hash { get { return "3fd10d45f2c120dfa544acdd2c0cc30a"; } }
     }
 }

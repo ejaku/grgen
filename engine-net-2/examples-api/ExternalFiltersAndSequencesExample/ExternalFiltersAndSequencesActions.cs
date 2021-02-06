@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Sat Nov 21 22:18:27 CET 2020
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Fri Feb 05 19:32:17 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -273,13 +273,13 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				}
 			}
 
-			public void CopyMatchContent(Match_filterBase that)
+			public void AssignContent(Match_filterBase that)
 			{
 			}
 
 			public Match_filterBase(Match_filterBase that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_filterBase()
 			{
@@ -608,7 +608,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				}
 			}
 
-			public void CopyMatchContent(Match_filterBass that)
+			public void AssignContent(Match_filterBass that)
 			{
 				_node_n = that._node_n;
 				_edge_e = that._edge_e;
@@ -617,7 +617,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 
 			public Match_filterBass(Match_filterBass that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_filterBass()
 			{
@@ -1088,7 +1088,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				}
 			}
 
-			public void CopyMatchContent(Match_filterHass that)
+			public void AssignContent(Match_filterHass that)
 			{
 				_node_n = that._node_n;
 				_edge_e = that._edge_e;
@@ -1097,7 +1097,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 
 			public Match_filterHass(Match_filterHass that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_filterHass()
 			{
@@ -1537,13 +1537,13 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 				}
 			}
 
-			public void CopyMatchContent(Match_init that)
+			public void AssignContent(Match_init that)
 			{
 			}
 
 			public Match_init(Match_init that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_init()
 			{
@@ -1683,7 +1683,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 			GRGEN_MODEL.ENUM_Enu tempvar_node_n_enu = inode_n.@enu;
 			string tempvar_node_n_s = inode_n.@s;
 			bool tempvar_node_n_b = inode_n.@b;
-			Object tempvar_node_n_o = inode_n.@o;
+			object tempvar_node_n_o = inode_n.@o;
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			ApplyXGRS_r_0(procEnv, (GRGEN_MODEL.IN)node_n, (GRGEN_MODEL.IN)node_m, (GRGEN_MODEL.IE)edge_e);
 			ApplyXGRS_r_1(procEnv, (GRGEN_MODEL.IN)node_n);
@@ -1726,14 +1726,14 @@ procEnv.SetVariableValue("v", tmpvar_4v);
                 res_5 = (bool)(false);
             }
             int tmpvar_5 = 0;double tmpvar_6 = 0.0;GRGEN_MODEL.ENUM_Enu tmpvar_7 = (GRGEN_MODEL.ENUM_Enu)0;string tmpvar_8 = "";bool tmpvar_9 = false;
-            if(GRGEN_ACTIONS.Sequence_foo.ApplyXGRS_foo(procEnv, (int)(int)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("i")), (double)(double)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("d")), (GRGEN_MODEL.ENUM_Enu)(GRGEN_MODEL.ENUM_Enu)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("enu")), (string)(string)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("s")), (bool)(bool)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("b")), ref tmpvar_5, ref tmpvar_6, ref tmpvar_7, ref tmpvar_8, ref tmpvar_9)) {
+            if(GRGEN_ACTIONS.Sequence_foo.ApplyXGRS_foo(procEnv, (int)(int)(((GRGEN_LIBGR.IAttributeBearer)var_n).GetAttribute("i")), (double)(double)(((GRGEN_LIBGR.IAttributeBearer)var_n).GetAttribute("d")), (GRGEN_MODEL.ENUM_Enu)(GRGEN_MODEL.ENUM_Enu)(((GRGEN_LIBGR.IAttributeBearer)var_n).GetAttribute("enu")), (string)(string)(((GRGEN_LIBGR.IAttributeBearer)var_n).GetAttribute("s")), (bool)(bool)(((GRGEN_LIBGR.IAttributeBearer)var_n).GetAttribute("b")), ref tmpvar_5, ref tmpvar_6, ref tmpvar_7, ref tmpvar_8, ref tmpvar_9)) {
                 res_16 = (bool)(true);
             } else {
                 res_16 = (bool)(false);
             }
             res_17 = (bool)(res_16);
             object tmpvar_10nul = null;
-            if(GRGEN_ACTIONS.Sequence_bar.ApplyXGRS_bar(procEnv, (object)null, (object)(object)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("o")), ref tmpvar_10nul)) {
+            if(GRGEN_ACTIONS.Sequence_bar.ApplyXGRS_bar(procEnv, (object)null, (object)(object)(((GRGEN_LIBGR.IAttributeBearer)var_n).GetAttribute("o")), ref tmpvar_10nul)) {
                 procEnv.SetVariableValue("nul", tmpvar_10nul);
 
                 res_21 = (bool)(true);
@@ -1930,7 +1930,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterHass.IMatch_filterHass> matches_59 = rule_filterHass.Match(procEnv, 1, (GRGEN_MODEL.IN)procEnv.GetVariableValue("n"));
             procEnv.PerformanceInfo.MatchesFound += matches_59.Count;
             procEnv.PreMatched(matches_59);
-            GRGEN_ACTIONS.MatchFilters.Filter_f4(procEnv, matches_59, (int)(GRGEN_LIBGR.ContainerHelper.GetGraphElementAttributeOrElementOfMatch(procEnv.GetVariableValue("n"), (string)("i"))), (string)("foo"));
+            GRGEN_ACTIONS.MatchFilters.Filter_f4(procEnv, matches_59, (int)(GRGEN_LIBGR.ContainerHelper.GetAttributeOrElementOfMatch(procEnv.GetVariableValue("n"), (string)("i"))), (string)("foo"));
             GRGEN_ACTIONS.MatchFilters.Filter_filterHass_orderAscendingBy_i(procEnv, matches_59);
             matches_59.Filter_keepFirst((System.Int32)(42));
             if(matches_59.Count == 0) {
@@ -2244,7 +2244,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				}
 			}
 
-			public void CopyMatchContent(Match_r that)
+			public void AssignContent(Match_r that)
 			{
 				_node_n = that._node_n;
 				_edge_e = that._edge_e;
@@ -2252,7 +2252,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 
 			public Match_r(Match_r that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_r()
 			{
@@ -2692,7 +2692,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				}
 			}
 
-			public void CopyMatchContent(Match_rs that)
+			public void AssignContent(Match_rs that)
 			{
 				_node_start = that._node_start;
 				_node_n = that._node_n;
@@ -2703,7 +2703,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 
 			public Match_rs(Match_rs that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_rs()
 			{
@@ -3313,7 +3313,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				}
 			}
 
-			public void CopyMatchContent(Match_ss that)
+			public void AssignContent(Match_ss that)
 			{
 				_node_root = that._node_root;
 				_node_m1 = that._node_m1;
@@ -3326,7 +3326,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 
 			public Match_ss(Match_ss that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ss()
 			{
@@ -3883,7 +3883,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 			for(int index_0=0; index_0<entry_1.Count; ++index_0)
 			{
 				GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass var_m = entry_1[index_0];
-				string tempvar_2 = (string )(GRGEN_LIBGR.GraphHelper.Nameof(var_m.node_n, graph) + GRGEN_LIBGR.EmitHelper.ToStringNonNull(var_f, graph));
+				string tempvar_2 = (string )(GRGEN_LIBGR.GraphHelper.Nameof(var_m.node_n, graph) + GRGEN_LIBGR.EmitHelper.ToStringNonNull(var_f, graph, false, null, null));
 				var_m.var_s = tempvar_2;
 			}
 			matches.FromListExact();
@@ -3995,6 +3995,10 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 				return ((List<GRGEN_ACTIONS.IMatch_shared>)parameter);
 			else
 				return GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_ACTIONS.IMatch_shared>((IList<GRGEN_LIBGR.IMatch>)parameter);
+		}
+		public override GRGEN_LIBGR.IMatch Create()
+		{
+			return new Match_shared();
 		}
 	}
 
@@ -4152,7 +4156,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 		public override GRGEN_LIBGR.IMatchClass MatchClass { get { return MatchClassInfo_shared.Instance; } }
 		public override GRGEN_LIBGR.IMatch Clone() { return new Match_shared(this); }
 		public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
-		public void CopyMatchContent(Match_shared that)
+		public void AssignContent(Match_shared that)
 		{
 			_node_x = that._node_x;
 			_var_v = that._var_v;
@@ -4160,7 +4164,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 
 		public Match_shared(Match_shared that)
 		{
-			CopyMatchContent(that);
+			AssignContent(that);
 		}
 		public Match_shared()
 		{
@@ -7007,6 +7011,6 @@ procEnv.SetVariableValue("m2", tmpvarlist_18m2);
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "d117fe33b154ad3192df1300b58f58ea"; } }
+        public override string ModelMD5Hash { get { return "05f4fa5ec9c398824a1d5cb06f40c628"; } }
     }
 }

@@ -593,7 +593,7 @@ namespace de.unika.ipd.grGen.grShell
                     IDictionary setmap = (IDictionary)node.GetAttribute(attrType.Name);
                     string attrTypeString;
                     string attrValue;
-                    EmitHelper.ToString(setmap, out attrTypeString, out attrValue, attrType, graph);
+                    EmitHelper.ToString(setmap, out attrTypeString, out attrValue, attrType, graph, false, null, null);
                     ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                         + attrTypeString + "\" \"" + Encode(attrValue) + "\"\n");
                 }
@@ -602,7 +602,7 @@ namespace de.unika.ipd.grGen.grShell
                     IList array = (IList)node.GetAttribute(attrType.Name);
                     string attrTypeString;
                     string attrValue;
-                    EmitHelper.ToString(array, out attrTypeString, out attrValue, attrType, graph);
+                    EmitHelper.ToString(array, out attrTypeString, out attrValue, attrType, graph, false, null, null);
                     ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                         + attrTypeString + "\" \"" + Encode(attrValue) + "\"\n");
                 }
@@ -635,7 +635,7 @@ namespace de.unika.ipd.grGen.grShell
                     IDictionary setmap = (IDictionary)edge.GetAttribute(attrType.Name);
                     string attrTypeString;
                     string attrValue;
-                    EmitHelper.ToString(setmap, out attrTypeString, out attrValue, attrType, graph);
+                    EmitHelper.ToString(setmap, out attrTypeString, out attrValue, attrType, graph, false, null, null);
                     ycompStream.Write("changeEdgeAttr \"e" + edgeName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                         + attrTypeString + "\" \"" + Encode(attrValue) + "\"\n");
                 }
@@ -644,7 +644,7 @@ namespace de.unika.ipd.grGen.grShell
                     IList array = (IList)edge.GetAttribute(attrType.Name);
                     string attrTypeString;
                     string attrValue;
-                    EmitHelper.ToString(array, out attrTypeString, out attrValue, attrType, graph);
+                    EmitHelper.ToString(array, out attrTypeString, out attrValue, attrType, graph, false, null, null);
                     ycompStream.Write("changeEdgeAttr \"e" + edgeName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                         + attrTypeString + "\" \"" + Encode(attrValue) + "\"\n");
                 }
@@ -710,7 +710,7 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         public void ChangeNodeAttribute(INode node, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue)
+            AttributeChangeType changeType, object newValue, object keyValue)
         {
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
@@ -755,7 +755,7 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType,
-            AttributeChangeType changeType, Object newValue, Object keyValue)
+            AttributeChangeType changeType, object newValue, object keyValue)
         {
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {

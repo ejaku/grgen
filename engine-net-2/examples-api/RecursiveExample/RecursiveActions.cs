@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Sat Nov 21 22:18:56 CET 2020
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Fri Feb 05 19:33:15 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -502,7 +502,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromTo that)
+			public void AssignContent(Match_ChainFromTo that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -511,7 +511,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromTo(Match_ChainFromTo that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromTo()
 			{
@@ -696,7 +696,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromTo_alt_0_base that)
+			public void AssignContent(Match_ChainFromTo_alt_0_base that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -705,7 +705,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromTo_alt_0_base(Match_ChainFromTo_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromTo_alt_0_base()
 			{
@@ -898,7 +898,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromTo_alt_0_rec that)
+			public void AssignContent(Match_ChainFromTo_alt_0_rec that)
 			{
 				_node_from = that._node_from;
 				_node_intermediate = that._node_intermediate;
@@ -909,7 +909,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromTo_alt_0_rec(Match_ChainFromTo_alt_0_rec that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromTo_alt_0_rec()
 			{
@@ -1370,7 +1370,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFrom that)
+			public void AssignContent(Match_ChainFrom that)
 			{
 				_node_from = that._node_from;
 				_alt_0 = that._alt_0;
@@ -1378,7 +1378,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFrom(Match_ChainFrom that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFrom()
 			{
@@ -1547,13 +1547,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFrom_alt_0_base that)
+			public void AssignContent(Match_ChainFrom_alt_0_base that)
 			{
 			}
 
 			public Match_ChainFrom_alt_0_base(Match_ChainFrom_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFrom_alt_0_base()
 			{
@@ -1738,7 +1738,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFrom_alt_0_rec that)
+			public void AssignContent(Match_ChainFrom_alt_0_rec that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -1748,7 +1748,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFrom_alt_0_rec(Match_ChainFrom_alt_0_rec that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFrom_alt_0_rec()
 			{
@@ -2290,7 +2290,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromComplete that)
+			public void AssignContent(Match_ChainFromComplete that)
 			{
 				_node_from = that._node_from;
 				_alt_0 = that._alt_0;
@@ -2298,7 +2298,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromComplete(Match_ChainFromComplete that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromComplete()
 			{
@@ -2472,14 +2472,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromComplete_alt_0_base that)
+			public void AssignContent(Match_ChainFromComplete_alt_0_base that)
 			{
 				_node_from = that._node_from;
 			}
 
 			public Match_ChainFromComplete_alt_0_base(Match_ChainFromComplete_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromComplete_alt_0_base()
 			{
@@ -2661,7 +2661,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromComplete_alt_0_base_neg_0 that)
+			public void AssignContent(Match_ChainFromComplete_alt_0_base_neg_0 that)
 			{
 				_node_from = that._node_from;
 				_node__node0 = that._node__node0;
@@ -2670,7 +2670,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromComplete_alt_0_base_neg_0(Match_ChainFromComplete_alt_0_base_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromComplete_alt_0_base_neg_0()
 			{
@@ -2858,7 +2858,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromComplete_alt_0_rec that)
+			public void AssignContent(Match_ChainFromComplete_alt_0_rec that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -2868,7 +2868,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromComplete_alt_0_rec(Match_ChainFromComplete_alt_0_rec that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromComplete_alt_0_rec()
 			{
@@ -3410,7 +3410,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromCompleteArbitraryPatternpathLocked that)
+			public void AssignContent(Match_ChainFromCompleteArbitraryPatternpathLocked that)
 			{
 				_node_from = that._node_from;
 				_alt_0 = that._alt_0;
@@ -3418,7 +3418,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromCompleteArbitraryPatternpathLocked(Match_ChainFromCompleteArbitraryPatternpathLocked that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromCompleteArbitraryPatternpathLocked()
 			{
@@ -3592,14 +3592,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base that)
+			public void AssignContent(Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base that)
 			{
 				_node_from = that._node_from;
 			}
 
 			public Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base(Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base()
 			{
@@ -3781,7 +3781,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0 that)
+			public void AssignContent(Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0 that)
 			{
 				_node_from = that._node_from;
 				_node__node0 = that._node__node0;
@@ -3790,7 +3790,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0(Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0()
 			{
@@ -3978,7 +3978,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec that)
+			public void AssignContent(Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -3988,7 +3988,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec(Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec()
 			{
@@ -4530,7 +4530,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards that)
+			public void AssignContent(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards that)
 			{
 				_node_from = that._node_from;
 				_alt_0 = that._alt_0;
@@ -4538,7 +4538,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards()
 			{
@@ -4712,14 +4712,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base that)
+			public void AssignContent(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base that)
 			{
 				_node_from = that._node_from;
 			}
 
 			public Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base()
 			{
@@ -4901,7 +4901,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0 that)
+			public void AssignContent(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0 that)
 			{
 				_node_from = that._node_from;
 				_node__node0 = that._node__node0;
@@ -4910,7 +4910,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0()
 			{
@@ -5098,7 +5098,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec that)
+			public void AssignContent(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -5108,7 +5108,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec(Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec()
 			{
@@ -5650,7 +5650,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_Blowball that)
+			public void AssignContent(Match_Blowball that)
 			{
 				_node_head = that._node_head;
 				_alt_0 = that._alt_0;
@@ -5658,7 +5658,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_Blowball(Match_Blowball that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Blowball()
 			{
@@ -5832,14 +5832,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_Blowball_alt_0_end that)
+			public void AssignContent(Match_Blowball_alt_0_end that)
 			{
 				_node_head = that._node_head;
 			}
 
 			public Match_Blowball_alt_0_end(Match_Blowball_alt_0_end that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Blowball_alt_0_end()
 			{
@@ -6021,7 +6021,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_Blowball_alt_0_end_neg_0 that)
+			public void AssignContent(Match_Blowball_alt_0_end_neg_0 that)
 			{
 				_node_head = that._node_head;
 				_node__node0 = that._node__node0;
@@ -6030,7 +6030,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_Blowball_alt_0_end_neg_0(Match_Blowball_alt_0_end_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Blowball_alt_0_end_neg_0()
 			{
@@ -6218,7 +6218,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_Blowball_alt_0_further that)
+			public void AssignContent(Match_Blowball_alt_0_further that)
 			{
 				_node_head = that._node_head;
 				_node__node0 = that._node__node0;
@@ -6228,7 +6228,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_Blowball_alt_0_further(Match_Blowball_alt_0_further that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Blowball_alt_0_further()
 			{
@@ -6734,7 +6734,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ReverseChainFromTo that)
+			public void AssignContent(Match_ReverseChainFromTo that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -6743,7 +6743,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ReverseChainFromTo(Match_ReverseChainFromTo that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ReverseChainFromTo()
 			{
@@ -6928,7 +6928,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ReverseChainFromTo_alt_0_base that)
+			public void AssignContent(Match_ReverseChainFromTo_alt_0_base that)
 			{
 				_node_to = that._node_to;
 				_node_from = that._node_from;
@@ -6937,7 +6937,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ReverseChainFromTo_alt_0_base(Match_ReverseChainFromTo_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ReverseChainFromTo_alt_0_base()
 			{
@@ -7130,7 +7130,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ReverseChainFromTo_alt_0_rec that)
+			public void AssignContent(Match_ReverseChainFromTo_alt_0_rec that)
 			{
 				_node_intermediate = that._node_intermediate;
 				_node_from = that._node_from;
@@ -7141,7 +7141,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ReverseChainFromTo_alt_0_rec(Match_ReverseChainFromTo_alt_0_rec that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ReverseChainFromTo_alt_0_rec()
 			{
@@ -7713,7 +7713,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromToReverse that)
+			public void AssignContent(Match_ChainFromToReverse that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -7722,7 +7722,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromToReverse(Match_ChainFromToReverse that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromToReverse()
 			{
@@ -7907,7 +7907,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromToReverse_alt_0_base that)
+			public void AssignContent(Match_ChainFromToReverse_alt_0_base that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -7916,7 +7916,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromToReverse_alt_0_base(Match_ChainFromToReverse_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromToReverse_alt_0_base()
 			{
@@ -8109,7 +8109,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromToReverse_alt_0_rec that)
+			public void AssignContent(Match_ChainFromToReverse_alt_0_rec that)
 			{
 				_node_from = that._node_from;
 				_node_intermediate = that._node_intermediate;
@@ -8120,7 +8120,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromToReverse_alt_0_rec(Match_ChainFromToReverse_alt_0_rec that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromToReverse_alt_0_rec()
 			{
@@ -8695,7 +8695,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromToReverseToCommon that)
+			public void AssignContent(Match_ChainFromToReverseToCommon that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -8704,7 +8704,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromToReverseToCommon(Match_ChainFromToReverseToCommon that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromToReverseToCommon()
 			{
@@ -8889,7 +8889,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromToReverseToCommon_alt_0_base that)
+			public void AssignContent(Match_ChainFromToReverseToCommon_alt_0_base that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -8898,7 +8898,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromToReverseToCommon_alt_0_base(Match_ChainFromToReverseToCommon_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromToReverseToCommon_alt_0_base()
 			{
@@ -9091,7 +9091,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ChainFromToReverseToCommon_alt_0_rec that)
+			public void AssignContent(Match_ChainFromToReverseToCommon_alt_0_rec that)
 			{
 				_node_from = that._node_from;
 				_node_intermediate = that._node_intermediate;
@@ -9102,7 +9102,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ChainFromToReverseToCommon_alt_0_rec(Match_ChainFromToReverseToCommon_alt_0_rec that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ChainFromToReverseToCommon_alt_0_rec()
 			{
@@ -9656,7 +9656,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ReverseChainFromToToCommon that)
+			public void AssignContent(Match_ReverseChainFromToToCommon that)
 			{
 				_node_from = that._node_from;
 				_node_to = that._node_to;
@@ -9666,7 +9666,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ReverseChainFromToToCommon(Match_ReverseChainFromToToCommon that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ReverseChainFromToToCommon()
 			{
@@ -9862,7 +9862,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ReverseChainFromToToCommon_alt_0_base that)
+			public void AssignContent(Match_ReverseChainFromToToCommon_alt_0_base that)
 			{
 				_node_to = that._node_to;
 				_node_from = that._node_from;
@@ -9873,7 +9873,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ReverseChainFromToToCommon_alt_0_base(Match_ReverseChainFromToToCommon_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ReverseChainFromToToCommon_alt_0_base()
 			{
@@ -10078,7 +10078,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_ReverseChainFromToToCommon_alt_0_rec that)
+			public void AssignContent(Match_ReverseChainFromToToCommon_alt_0_rec that)
 			{
 				_node_intermediate = that._node_intermediate;
 				_node_from = that._node_from;
@@ -10091,7 +10091,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_ReverseChainFromToToCommon_alt_0_rec(Match_ReverseChainFromToToCommon_alt_0_rec that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ReverseChainFromToToCommon_alt_0_rec()
 			{
@@ -10377,13 +10377,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_createChain that)
+			public void AssignContent(Match_createChain that)
 			{
 			}
 
 			public Match_createChain(Match_createChain that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createChain()
 			{
@@ -10707,7 +10707,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_chainFromTo that)
+			public void AssignContent(Match_chainFromTo that)
 			{
 				_node_beg = that._node_beg;
 				_node_end = that._node_end;
@@ -10716,7 +10716,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_chainFromTo(Match_chainFromTo that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_chainFromTo()
 			{
@@ -11109,7 +11109,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_chainFrom that)
+			public void AssignContent(Match_chainFrom that)
 			{
 				_node_beg = that._node_beg;
 				@__sub0 = that.@__sub0;
@@ -11117,7 +11117,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_chainFrom(Match_chainFrom that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_chainFrom()
 			{
@@ -11469,7 +11469,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_chainFromComplete that)
+			public void AssignContent(Match_chainFromComplete that)
 			{
 				_node_beg = that._node_beg;
 				@__sub0 = that.@__sub0;
@@ -11477,7 +11477,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_chainFromComplete(Match_chainFromComplete that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_chainFromComplete()
 			{
@@ -11829,7 +11829,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_chainFromCompleteArbitraryPatternpathLocked that)
+			public void AssignContent(Match_chainFromCompleteArbitraryPatternpathLocked that)
 			{
 				_node_beg = that._node_beg;
 				@__sub0 = that.@__sub0;
@@ -11837,7 +11837,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_chainFromCompleteArbitraryPatternpathLocked(Match_chainFromCompleteArbitraryPatternpathLocked that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_chainFromCompleteArbitraryPatternpathLocked()
 			{
@@ -12189,7 +12189,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards that)
+			public void AssignContent(Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards that)
 			{
 				_node_beg = that._node_beg;
 				@__sub0 = that.@__sub0;
@@ -12197,7 +12197,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards()
 			{
@@ -12536,13 +12536,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_createBlowball that)
+			public void AssignContent(Match_createBlowball that)
 			{
 			}
 
 			public Match_createBlowball(Match_createBlowball that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createBlowball()
 			{
@@ -12852,7 +12852,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_blowball that)
+			public void AssignContent(Match_blowball that)
 			{
 				_node_head = that._node_head;
 				@__sub0 = that.@__sub0;
@@ -12860,7 +12860,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_blowball(Match_blowball that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_blowball()
 			{
@@ -13226,7 +13226,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_reverseChainFromTo that)
+			public void AssignContent(Match_reverseChainFromTo that)
 			{
 				_node_beg = that._node_beg;
 				_node_end = that._node_end;
@@ -13235,7 +13235,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_reverseChainFromTo(Match_reverseChainFromTo that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_reverseChainFromTo()
 			{
@@ -13614,13 +13614,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_createReverseChain that)
+			public void AssignContent(Match_createReverseChain that)
 			{
 			}
 
 			public Match_createReverseChain(Match_createReverseChain that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createReverseChain()
 			{
@@ -13951,7 +13951,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_chainFromToReverse that)
+			public void AssignContent(Match_chainFromToReverse that)
 			{
 				_node_beg = that._node_beg;
 				_node_end = that._node_end;
@@ -13960,7 +13960,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_chainFromToReverse(Match_chainFromToReverse that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_chainFromToReverse()
 			{
@@ -14376,7 +14376,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_chainFromToReverseToCommon that)
+			public void AssignContent(Match_chainFromToReverseToCommon that)
 			{
 				_node_beg = that._node_beg;
 				_node_end = that._node_end;
@@ -14385,7 +14385,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_chainFromToReverseToCommon(Match_chainFromToReverseToCommon that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_chainFromToReverseToCommon()
 			{
@@ -14806,7 +14806,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 
-			public void CopyMatchContent(Match_reverseChainFromToToCommon that)
+			public void AssignContent(Match_reverseChainFromToToCommon that)
 			{
 				_node_beg = that._node_beg;
 				_node_end = that._node_end;
@@ -14816,7 +14816,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 			public Match_reverseChainFromToToCommon(Match_reverseChainFromToToCommon that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_reverseChainFromToToCommon()
 			{
@@ -26895,6 +26895,6 @@ label23: ;
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
+        public override string ModelMD5Hash { get { return "3fd10d45f2c120dfa544acdd2c0cc30a"; } }
     }
 }

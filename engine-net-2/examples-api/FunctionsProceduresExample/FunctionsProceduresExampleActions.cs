@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Sat Nov 21 22:18:33 CET 2020
+// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Fri Feb 05 19:32:28 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -272,13 +272,13 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 				}
 			}
 
-			public void CopyMatchContent(Match_init that)
+			public void AssignContent(Match_init that)
 			{
 			}
 
 			public Match_init(Match_init that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_init()
 			{
@@ -607,7 +607,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 				}
 			}
 
-			public void CopyMatchContent(Match_r that)
+			public void AssignContent(Match_r that)
 			{
 				_node_nn = that._node_nn;
 				_edge_ee = that._edge_ee;
@@ -615,7 +615,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 
 			public Match_r(Match_r that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_r()
 			{
@@ -1712,6 +1712,6 @@ var_eo = (GRGEN_MODEL.IE)(tmpvar_1eo);
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "9435e7299d00cb79680575270aa3cce6"; } }
+        public override string ModelMD5Hash { get { return "21a439e33bc45ddb4edd71c010646a97"; } }
     }
 }

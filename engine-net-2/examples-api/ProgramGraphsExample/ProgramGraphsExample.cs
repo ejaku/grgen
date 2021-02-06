@@ -26,7 +26,7 @@ namespace ProgramGraphs
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
             // use new exact 2.5 interface
-            IClass cls = null; 
+            de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IClass cls = null; 
             IMethodBody mb = null;
             bool success = actions.createProgramGraphPullUp.Apply(procEnv, ref cls, ref mb);
             IMatchesExact<Rule_pullUpMethod.IMatch_pullUpMethod> matchesExact =

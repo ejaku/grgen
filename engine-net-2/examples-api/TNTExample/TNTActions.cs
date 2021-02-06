@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sat Nov 21 22:18:59 CET 2020
+// Generated from "..\..\tests\TNT\TNT.grg" on Fri Feb 05 19:33:23 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -512,7 +512,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_BenzolRing that)
+			public void AssignContent(Match_BenzolRing that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -533,7 +533,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_BenzolRing(Match_BenzolRing that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_BenzolRing()
 			{
@@ -1036,7 +1036,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_BenzolRingC123456Exposed that)
+			public void AssignContent(Match_BenzolRingC123456Exposed that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -1057,7 +1057,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_BenzolRingC123456Exposed(Match_BenzolRingC123456Exposed that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_BenzolRingC123456Exposed()
 			{
@@ -1580,7 +1580,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_BenzolRingC1Exposed that)
+			public void AssignContent(Match_BenzolRingC1Exposed that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -1601,7 +1601,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_BenzolRingC1Exposed(Match_BenzolRingC1Exposed that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_BenzolRingC1Exposed()
 			{
@@ -2230,7 +2230,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_BenzolRingC1ExposedNotC6Nitro that)
+			public void AssignContent(Match_BenzolRingC1ExposedNotC6Nitro that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -2251,7 +2251,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_BenzolRingC1ExposedNotC6Nitro(Match_BenzolRingC1ExposedNotC6Nitro that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_BenzolRingC1ExposedNotC6Nitro()
 			{
@@ -2467,7 +2467,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_BenzolRingC1ExposedNotC6Nitro_neg_0 that)
+			public void AssignContent(Match_BenzolRingC1ExposedNotC6Nitro_neg_0 that)
 			{
 				_node_c6 = that._node_c6;
 				_node_n = that._node_n;
@@ -2480,7 +2480,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_BenzolRingC1ExposedNotC6Nitro_neg_0(Match_BenzolRingC1ExposedNotC6Nitro_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_BenzolRingC1ExposedNotC6Nitro_neg_0()
 			{
@@ -2816,7 +2816,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_Oxygen that)
+			public void AssignContent(Match_Oxygen that)
 			{
 				_node_o1 = that._node_o1;
 				_node_o2 = that._node_o2;
@@ -2826,7 +2826,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_Oxygen(Match_Oxygen that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Oxygen()
 			{
@@ -3138,7 +3138,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_Hydrogen that)
+			public void AssignContent(Match_Hydrogen that)
 			{
 				_node_anchor = that._node_anchor;
 				_node__node0 = that._node__node0;
@@ -3147,7 +3147,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_Hydrogen(Match_Hydrogen that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Hydrogen()
 			{
@@ -3491,7 +3491,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_Hydroxyl that)
+			public void AssignContent(Match_Hydroxyl that)
 			{
 				_node_anchor = that._node_anchor;
 				_node__node0 = that._node__node0;
@@ -3502,7 +3502,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_Hydroxyl(Match_Hydroxyl that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Hydroxyl()
 			{
@@ -3914,7 +3914,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_Methyl that)
+			public void AssignContent(Match_Methyl that)
 			{
 				_node_anchor = that._node_anchor;
 				_node_c = that._node_c;
@@ -3929,7 +3929,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_Methyl(Match_Methyl that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Methyl()
 			{
@@ -4312,7 +4312,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_Nitro that)
+			public void AssignContent(Match_Nitro that)
 			{
 				_node_anchor = that._node_anchor;
 				_node_n = that._node_n;
@@ -4325,7 +4325,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_Nitro(Match_Nitro that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Nitro()
 			{
@@ -4677,7 +4677,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_TriNitro that)
+			public void AssignContent(Match_TriNitro that)
 			{
 				_node_c2 = that._node_c2;
 				_node_c4 = that._node_c4;
@@ -4689,7 +4689,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_TriNitro(Match_TriNitro that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_TriNitro()
 			{
@@ -5094,7 +5094,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_ToluolCoreThenTriNitro that)
+			public void AssignContent(Match_ToluolCoreThenTriNitro that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -5110,7 +5110,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_ToluolCoreThenTriNitro(Match_ToluolCoreThenTriNitro that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ToluolCoreThenTriNitro()
 			{
@@ -5397,14 +5397,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_BenzolRing that)
+			public void AssignContent(Match_BenzolRing that)
 			{
 				@__sub0 = that.@__sub0;
 			}
 
 			public Match_BenzolRing(Match_BenzolRing that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_BenzolRing()
 			{
@@ -5869,7 +5869,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_TNTTotallyFolded that)
+			public void AssignContent(Match_TNTTotallyFolded that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -5888,7 +5888,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_TNTTotallyFolded(Match_TNTTotallyFolded that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_TNTTotallyFolded()
 			{
@@ -6540,7 +6540,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_TNTChain that)
+			public void AssignContent(Match_TNTChain that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -6554,7 +6554,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_TNTChain(Match_TNTChain that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_TNTChain()
 			{
@@ -7126,7 +7126,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_ToluolCore that)
+			public void AssignContent(Match_ToluolCore that)
 			{
 				_node_c1 = that._node_c1;
 				@__sub0 = that.@__sub0;
@@ -7135,7 +7135,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_ToluolCore(Match_ToluolCore that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ToluolCore()
 			{
@@ -7502,7 +7502,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_ToluolCoreNotC6Nitro that)
+			public void AssignContent(Match_ToluolCoreNotC6Nitro that)
 			{
 				_node_c1 = that._node_c1;
 				@__sub0 = that.@__sub0;
@@ -7511,7 +7511,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_ToluolCoreNotC6Nitro(Match_ToluolCoreNotC6Nitro that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ToluolCoreNotC6Nitro()
 			{
@@ -8018,7 +8018,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_Toluol that)
+			public void AssignContent(Match_Toluol that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -8037,7 +8037,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_Toluol(Match_Toluol that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Toluol()
 			{
@@ -8863,7 +8863,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_TNT that)
+			public void AssignContent(Match_TNT that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -8890,7 +8890,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_TNT(Match_TNT that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_TNT()
 			{
@@ -10384,7 +10384,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_TNTUnfolded that)
+			public void AssignContent(Match_TNTUnfolded that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -10435,7 +10435,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_TNTUnfolded(Match_TNTUnfolded that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_TNTUnfolded()
 			{
@@ -12612,13 +12612,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_createTNT that)
+			public void AssignContent(Match_createTNT that)
 			{
 			}
 
 			public Match_createTNT(Match_createTNT that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createTNT()
 			{
@@ -13191,7 +13191,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_DNT that)
+			public void AssignContent(Match_DNT that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -13218,7 +13218,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_DNT(Match_DNT that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_DNT()
 			{
@@ -14660,7 +14660,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_DNTUnfolded that)
+			public void AssignContent(Match_DNTUnfolded that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -14707,7 +14707,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_DNTUnfolded(Match_DNTUnfolded that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_DNTUnfolded()
 			{
@@ -16716,13 +16716,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_createDNT that)
+			public void AssignContent(Match_createDNT that)
 			{
 			}
 
 			public Match_createDNT(Match_createDNT that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createDNT()
 			{
@@ -17295,7 +17295,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_TNB that)
+			public void AssignContent(Match_TNB that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -17322,7 +17322,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_TNB(Match_TNB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_TNB()
 			{
@@ -18738,7 +18738,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_TNBUnfolded that)
+			public void AssignContent(Match_TNBUnfolded that)
 			{
 				_node_c1 = that._node_c1;
 				_node_c2 = that._node_c2;
@@ -18783,7 +18783,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			public Match_TNBUnfolded(Match_TNBUnfolded that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_TNBUnfolded()
 			{
@@ -20708,13 +20708,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_createTNB that)
+			public void AssignContent(Match_createTNB that)
 			{
 			}
 
 			public Match_createTNB(Match_createTNB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createTNB()
 			{
@@ -21014,14 +21014,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_keepBenzolRingPattern that)
+			public void AssignContent(Match_keepBenzolRingPattern that)
 			{
 				@_br = that.@_br;
 			}
 
 			public Match_keepBenzolRingPattern(Match_keepBenzolRingPattern that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_keepBenzolRingPattern()
 			{
@@ -21310,13 +21310,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_createBenzolRingPattern that)
+			public void AssignContent(Match_createBenzolRingPattern that)
 			{
 			}
 
 			public Match_createBenzolRingPattern(Match_createBenzolRingPattern that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createBenzolRingPattern()
 			{
@@ -21617,14 +21617,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_deleteBenzolRingPattern that)
+			public void AssignContent(Match_deleteBenzolRingPattern that)
 			{
 				@__sub0 = that.@__sub0;
 			}
 
 			public Match_deleteBenzolRingPattern(Match_deleteBenzolRingPattern that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_deleteBenzolRingPattern()
 			{
@@ -21926,14 +21926,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 
-			public void CopyMatchContent(Match_deleteInModifyBenzolRingPattern that)
+			public void AssignContent(Match_deleteInModifyBenzolRingPattern that)
 			{
 				@_br = that.@_br;
 			}
 
 			public Match_deleteInModifyBenzolRingPattern(Match_deleteInModifyBenzolRingPattern that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_deleteInModifyBenzolRingPattern()
 			{
@@ -41575,6 +41575,6 @@ label3: ;
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
+        public override string ModelMD5Hash { get { return "583af96ffaea1ff96cb47dfd0ed198ce"; } }
     }
 }

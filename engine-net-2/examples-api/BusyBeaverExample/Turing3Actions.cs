@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sat Nov 21 22:18:18 CET 2020
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Fri Feb 05 19:32:01 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_LGSP.PatternNode readZeroRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternEdge readZeroRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readZero, GRGEN_MODEL.EdgeType_readZero.typeVar, "GRGEN_MODEL.IreadZero", "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternCondition readZeroRule_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
+				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", true, "readZeroRule_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "readZeroRule_node_bp" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { readZeroRule_node_bp }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			pat_readZeroRule = new GRGEN_LGSP.PatternGraph(
@@ -340,7 +340,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 
-			public void CopyMatchContent(Match_readZeroRule that)
+			public void AssignContent(Match_readZeroRule that)
 			{
 				_node_s = that._node_s;
 				_node_wv = that._node_wv;
@@ -350,7 +350,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 			public Match_readZeroRule(Match_readZeroRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_readZeroRule()
 			{
@@ -613,7 +613,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_LGSP.PatternNode readOneRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternEdge readOneRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readOne, GRGEN_MODEL.EdgeType_readOne.typeVar, "GRGEN_MODEL.IreadOne", "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternCondition readOneRule_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
+				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", true, "readOneRule_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
 				new string[] { "readOneRule_node_bp" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { readOneRule_node_bp }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			pat_readOneRule = new GRGEN_LGSP.PatternGraph(
@@ -871,7 +871,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 
-			public void CopyMatchContent(Match_readOneRule that)
+			public void AssignContent(Match_readOneRule that)
 			{
 				_node_s = that._node_s;
 				_node_wv = that._node_wv;
@@ -881,7 +881,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 			public Match_readOneRule(Match_readOneRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_readOneRule()
 			{
@@ -1463,7 +1463,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 
-			public void CopyMatchContent(Match_ensureMoveLeftValidRule that)
+			public void AssignContent(Match_ensureMoveLeftValidRule that)
 			{
 				_node_wv = that._node_wv;
 				_node__node0 = that._node__node0;
@@ -1473,7 +1473,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 			public Match_ensureMoveLeftValidRule(Match_ensureMoveLeftValidRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ensureMoveLeftValidRule()
 			{
@@ -1658,7 +1658,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 
-			public void CopyMatchContent(Match_ensureMoveLeftValidRule_neg_0 that)
+			public void AssignContent(Match_ensureMoveLeftValidRule_neg_0 that)
 			{
 				_node__node0 = that._node__node0;
 				_node_bp = that._node_bp;
@@ -1667,7 +1667,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 			public Match_ensureMoveLeftValidRule_neg_0(Match_ensureMoveLeftValidRule_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ensureMoveLeftValidRule_neg_0()
 			{
@@ -2248,7 +2248,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 
-			public void CopyMatchContent(Match_ensureMoveRightValidRule that)
+			public void AssignContent(Match_ensureMoveRightValidRule that)
 			{
 				_node_wv = that._node_wv;
 				_node__node0 = that._node__node0;
@@ -2258,7 +2258,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 			public Match_ensureMoveRightValidRule(Match_ensureMoveRightValidRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ensureMoveRightValidRule()
 			{
@@ -2443,7 +2443,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 
-			public void CopyMatchContent(Match_ensureMoveRightValidRule_neg_0 that)
+			public void AssignContent(Match_ensureMoveRightValidRule_neg_0 that)
 			{
 				_node_bp = that._node_bp;
 				_node__node0 = that._node__node0;
@@ -2452,7 +2452,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 			public Match_ensureMoveRightValidRule_neg_0(Match_ensureMoveRightValidRule_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ensureMoveRightValidRule_neg_0()
 			{
@@ -2986,7 +2986,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 
-			public void CopyMatchContent(Match_moveLeftRule that)
+			public void AssignContent(Match_moveLeftRule that)
 			{
 				_node_wv = that._node_wv;
 				_node_s = that._node_s;
@@ -2998,7 +2998,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 			public Match_moveLeftRule(Match_moveLeftRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_moveLeftRule()
 			{
@@ -3615,7 +3615,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 
-			public void CopyMatchContent(Match_moveRightRule that)
+			public void AssignContent(Match_moveRightRule that)
 			{
 				_node_wv = that._node_wv;
 				_node_s = that._node_s;
@@ -3627,7 +3627,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 			public Match_moveRightRule(Match_moveRightRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_moveRightRule()
 			{
@@ -3958,7 +3958,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[] countZeros_isEdgeTotallyHomomorphic = new bool[0];
 			GRGEN_LGSP.PatternNode countZeros_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "bp", countZeros_node_bp_AllowedTypes, countZeros_node_bp_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternCondition countZeros_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
+				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", true, "countZeros_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "countZeros_node_bp" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { countZeros_node_bp }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			pat_countZeros = new GRGEN_LGSP.PatternGraph(
@@ -4178,14 +4178,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 
-			public void CopyMatchContent(Match_countZeros that)
+			public void AssignContent(Match_countZeros that)
 			{
 				_node_bp = that._node_bp;
 			}
 
 			public Match_countZeros(Match_countZeros that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_countZeros()
 			{
@@ -4311,7 +4311,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[] countOnes_isEdgeTotallyHomomorphic = new bool[0];
 			GRGEN_LGSP.PatternNode countOnes_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, GRGEN_MODEL.NodeType_BandPosition.typeVar, "GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "bp", countOnes_node_bp_AllowedTypes, countOnes_node_bp_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternCondition countOnes_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
+				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", true, "countOnes_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
 				new string[] { "countOnes_node_bp" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { countOnes_node_bp }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			pat_countOnes = new GRGEN_LGSP.PatternGraph(
@@ -4531,14 +4531,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 
-			public void CopyMatchContent(Match_countOnes that)
+			public void AssignContent(Match_countOnes that)
 			{
 				_node_bp = that._node_bp;
 			}
 
 			public Match_countOnes(Match_countOnes that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_countOnes()
 			{
@@ -7519,6 +7519,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
+        public override string ModelMD5Hash { get { return "24df59ad26cdf459c8c89162a70ce265"; } }
     }
 }

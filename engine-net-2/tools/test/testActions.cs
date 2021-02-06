@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sat Nov 21 22:18:40 CET 2020
+// Generated from "test.grg" on Fri Feb 05 19:31:52 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -362,7 +362,7 @@ namespace de.unika.ipd.grGen.Action_test
 				}
 			}
 
-			public void CopyMatchContent(Match_testRule that)
+			public void AssignContent(Match_testRule that)
 			{
 				_node_a = that._node_a;
 				_node_f = that._node_f;
@@ -373,7 +373,7 @@ namespace de.unika.ipd.grGen.Action_test
 
 			public Match_testRule(Match_testRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_testRule()
 			{
@@ -1184,6 +1184,6 @@ namespace de.unika.ipd.grGen.Action_test
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
+        public override string ModelMD5Hash { get { return "363c3af47059e8ddde9b24be11c17a1a"; } }
     }
 }

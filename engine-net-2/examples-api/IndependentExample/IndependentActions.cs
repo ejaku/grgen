@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sat Nov 21 22:18:35 CET 2020
+// Generated from "..\..\tests\independent\Independent.grg" on Fri Feb 05 19:32:32 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -502,7 +502,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_iteratedPath that)
+			public void AssignContent(Match_iteratedPath that)
 			{
 				_node_beg = that._node_beg;
 				_node_end = that._node_end;
@@ -511,7 +511,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_iteratedPath(Match_iteratedPath that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_iteratedPath()
 			{
@@ -696,7 +696,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_iteratedPath_alt_0_base that)
+			public void AssignContent(Match_iteratedPath_alt_0_base that)
 			{
 				_node_beg = that._node_beg;
 				_node_end = that._node_end;
@@ -705,7 +705,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_iteratedPath_alt_0_base(Match_iteratedPath_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_iteratedPath_alt_0_base()
 			{
@@ -898,7 +898,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_iteratedPath_alt_0_recursive that)
+			public void AssignContent(Match_iteratedPath_alt_0_recursive that)
 			{
 				_node_beg = that._node_beg;
 				_node_intermediate = that._node_intermediate;
@@ -909,7 +909,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_iteratedPath_alt_0_recursive(Match_iteratedPath_alt_0_recursive that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_iteratedPath_alt_0_recursive()
 			{
@@ -1401,7 +1401,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_iteratedPathToIntNode that)
+			public void AssignContent(Match_iteratedPathToIntNode that)
 			{
 				_node_beg = that._node_beg;
 				_alt_0 = that._alt_0;
@@ -1409,7 +1409,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_iteratedPathToIntNode(Match_iteratedPathToIntNode that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_iteratedPathToIntNode()
 			{
@@ -1593,7 +1593,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_iteratedPathToIntNode_alt_0_base that)
+			public void AssignContent(Match_iteratedPathToIntNode_alt_0_base that)
 			{
 				_node_beg = that._node_beg;
 				_node_end = that._node_end;
@@ -1602,7 +1602,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_iteratedPathToIntNode_alt_0_base(Match_iteratedPathToIntNode_alt_0_base that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_iteratedPathToIntNode_alt_0_base()
 			{
@@ -1790,7 +1790,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_iteratedPathToIntNode_alt_0_recursive that)
+			public void AssignContent(Match_iteratedPathToIntNode_alt_0_recursive that)
 			{
 				_node_beg = that._node_beg;
 				_node_intermediate = that._node_intermediate;
@@ -1800,7 +1800,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_iteratedPathToIntNode_alt_0_recursive(Match_iteratedPathToIntNode_alt_0_recursive that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_iteratedPathToIntNode_alt_0_recursive()
 			{
@@ -2083,13 +2083,13 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_create that)
+			public void AssignContent(Match_create that)
 			{
 			}
 
 			public Match_create(Match_create that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_create()
 			{
@@ -2478,7 +2478,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_find that)
+			public void AssignContent(Match_find that)
 			{
 				_node_beg = that._node_beg;
 				_node__node0 = that._node__node0;
@@ -2492,7 +2492,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_find(Match_find that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_find()
 			{
@@ -3260,7 +3260,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_findIndependent that)
+			public void AssignContent(Match_findIndependent that)
 			{
 				_node_beg = that._node_beg;
 				_node__node0 = that._node__node0;
@@ -3272,7 +3272,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_findIndependent(Match_findIndependent that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findIndependent()
 			{
@@ -3468,7 +3468,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_findIndependent_idpt_0 that)
+			public void AssignContent(Match_findIndependent_idpt_0 that)
 			{
 				_node__node0 = that._node__node0;
 				_node_beg = that._node_beg;
@@ -3479,7 +3479,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_findIndependent_idpt_0(Match_findIndependent_idpt_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findIndependent_idpt_0()
 			{
@@ -4389,7 +4389,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_findMultiNested that)
+			public void AssignContent(Match_findMultiNested that)
 			{
 				_node_beg = that._node_beg;
 				_node__node0 = that._node__node0;
@@ -4402,7 +4402,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_findMultiNested(Match_findMultiNested that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findMultiNested()
 			{
@@ -4602,7 +4602,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_findMultiNested_idpt_0 that)
+			public void AssignContent(Match_findMultiNested_idpt_0 that)
 			{
 				_node__node0 = that._node__node0;
 				_node_beg = that._node_beg;
@@ -4614,7 +4614,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_findMultiNested_idpt_0(Match_findMultiNested_idpt_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findMultiNested_idpt_0()
 			{
@@ -4810,7 +4810,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_findMultiNested_idpt_0_idpt_1 that)
+			public void AssignContent(Match_findMultiNested_idpt_0_idpt_1 that)
 			{
 				_node_beg = that._node_beg;
 				_node__node0 = that._node__node0;
@@ -4821,7 +4821,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_findMultiNested_idpt_0_idpt_1(Match_findMultiNested_idpt_0_idpt_1 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findMultiNested_idpt_0_idpt_1()
 			{
@@ -5021,7 +5021,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_findMultiNested_idpt_2 that)
+			public void AssignContent(Match_findMultiNested_idpt_2 that)
 			{
 				_node_beg = that._node_beg;
 				_node__node0 = that._node__node0;
@@ -5033,7 +5033,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_findMultiNested_idpt_2(Match_findMultiNested_idpt_2 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findMultiNested_idpt_2()
 			{
@@ -5229,7 +5229,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_findMultiNested_idpt_2_idpt_3 that)
+			public void AssignContent(Match_findMultiNested_idpt_2_idpt_3 that)
 			{
 				_node__node0 = that._node__node0;
 				_node_beg = that._node_beg;
@@ -5240,7 +5240,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_findMultiNested_idpt_2_idpt_3(Match_findMultiNested_idpt_2_idpt_3 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findMultiNested_idpt_2_idpt_3()
 			{
@@ -5748,13 +5748,13 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_createIterated that)
+			public void AssignContent(Match_createIterated that)
 			{
 			}
 
 			public Match_createIterated(Match_createIterated that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createIterated()
 			{
@@ -6092,7 +6092,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_findChainPlusChainToInt that)
+			public void AssignContent(Match_findChainPlusChainToInt that)
 			{
 				_node_beg = that._node_beg;
 				_node_end = that._node_end;
@@ -6102,7 +6102,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_findChainPlusChainToInt(Match_findChainPlusChainToInt that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findChainPlusChainToInt()
 			{
@@ -6580,7 +6580,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_findChainPlusChainToIntIndependent that)
+			public void AssignContent(Match_findChainPlusChainToIntIndependent that)
 			{
 				_node_beg = that._node_beg;
 				_node_end = that._node_end;
@@ -6590,7 +6590,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_findChainPlusChainToIntIndependent(Match_findChainPlusChainToIntIndependent that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findChainPlusChainToIntIndependent()
 			{
@@ -6768,7 +6768,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 
-			public void CopyMatchContent(Match_findChainPlusChainToIntIndependent_idpt_0 that)
+			public void AssignContent(Match_findChainPlusChainToIntIndependent_idpt_0 that)
 			{
 				_node_end = that._node_end;
 				@__sub0 = that.@__sub0;
@@ -6776,7 +6776,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 			public Match_findChainPlusChainToIntIndependent_idpt_0(Match_findChainPlusChainToIntIndependent_idpt_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findChainPlusChainToIntIndependent_idpt_0()
 			{
@@ -12170,6 +12170,6 @@ label15: ;
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
+        public override string ModelMD5Hash { get { return "911e5447ef0fb27fadc55f9e8bd75e76"; } }
     }
 }

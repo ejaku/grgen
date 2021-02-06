@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sat Nov 21 22:18:24 CET 2020
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Fri Feb 05 19:32:11 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -272,13 +272,13 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				}
 			}
 
-			public void CopyMatchContent(Match_init that)
+			public void AssignContent(Match_init that)
 			{
 			}
 
 			public Match_init(Match_init that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_init()
 			{
@@ -421,7 +421,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
                         procEnv.SetVariableValue("nn", var_n);
             res_0 = procEnv.GetVariableValue("nn");
             res_2 = res_0;
-            procEnv.SetVariableValue("v", (object)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("ow")));
+            procEnv.SetVariableValue("v", (object)(((GRGEN_LIBGR.IAttributeBearer)var_n).GetAttribute("ow")));
             res_3 = procEnv.GetVariableValue("v");
             res_6 = res_3;
             res_7 = res_6;
@@ -599,13 +599,13 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				}
 			}
 
-			public void CopyMatchContent(Match_init2 that)
+			public void AssignContent(Match_init2 that)
 			{
 			}
 
 			public Match_init2(Match_init2 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_init2()
 			{
@@ -696,11 +696,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, GRGEN_MODEL.EdgeType_E.typeVar, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternCondition r_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.ExternalFunctionInvocation("foo", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Constant("42"), new GRGEN_EXPR.Constant("3.141"), new GRGEN_EXPR.ConstantEnumExpression("Enu", "hurz"), new GRGEN_EXPR.Constant("\"S21-heiteitei\""), }, new String[] {null, null, null, null, }), new GRGEN_EXPR.ExternalFunctionInvocation("foo", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "i"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "d"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "enu"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "s"), }, new String[] {null, null, null, null, })),
+				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.ExternalFunctionInvocation("foo", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Constant("42"), new GRGEN_EXPR.Constant("3.141"), new GRGEN_EXPR.ConstantEnumExpression("Enu", "hurz"), new GRGEN_EXPR.Constant("\"S21-heiteitei\""), }, new String[] {null, null, null, null, }), new GRGEN_EXPR.ExternalFunctionInvocation("foo", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "r_node_n", "i"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "r_node_n", "d"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "r_node_n", "enu"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "r_node_n", "s"), }, new String[] {null, null, null, null, })),
 				new string[] { "r_node_n" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { r_node_n }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition r_cond_1 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.ExternalFunctionInvocation("isnull", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.ExternalFunctionInvocation("bar", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Constant("null"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "o"), }, new String[] {null, null, }), }, new String[] {null, }),
+				new GRGEN_EXPR.ExternalFunctionInvocation("isnull", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.ExternalFunctionInvocation("bar", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Constant("null"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "r_node_n", "o"), }, new String[] {null, null, }), }, new String[] {null, }),
 				new string[] { "r_node_n" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { r_node_n }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition r_cond_2 = new GRGEN_LGSP.PatternCondition(
@@ -708,7 +708,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				new string[] { "r_node_n" }, new string[] { "r_edge_e" }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { r_node_n }, new GRGEN_LGSP.PatternEdge[] { r_edge_e }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition r_cond_3 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.ExternalFunctionInvocation("hur", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.ExternalFunctionInvocation("har", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "ow"), new GRGEN_EXPR.ExternalFunctionInvocation("har", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "op"), }, new String[] {"GRGEN_MODEL.Own", "GRGEN_MODEL.OwnPown", }), }, new String[] {"GRGEN_MODEL.Own", "GRGEN_MODEL.OwnPown", }), }, new String[] {"GRGEN_MODEL.OwnPown", }), new GRGEN_EXPR.ExternalFunctionInvocation("hurdur", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "r_node_n", "oh"), }, new String[] {"GRGEN_MODEL.OwnPownHome", })),
+				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.ExternalFunctionInvocation("hur", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.ExternalFunctionInvocation("har", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "r_node_n", "ow"), new GRGEN_EXPR.ExternalFunctionInvocation("har", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "r_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "r_node_n", "op"), }, new String[] {"GRGEN_MODEL.Own", "GRGEN_MODEL.OwnPown", }), }, new String[] {"GRGEN_MODEL.Own", "GRGEN_MODEL.OwnPown", }), }, new String[] {"GRGEN_MODEL.OwnPown", }), new GRGEN_EXPR.ExternalFunctionInvocation("hurdur", new GRGEN_EXPR.Expression[] {new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "r_node_n", "oh"), }, new String[] {"GRGEN_MODEL.OwnPownHome", })),
 				new string[] { "r_node_n" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { r_node_n }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			pat_r = new GRGEN_LGSP.PatternGraph(
@@ -762,7 +762,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_b, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_0, null);
 				node_m.@b = tempvar_0;
 				graph.ChangedNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_b);
-				Object tempvar_1 = (Object )GRGEN_EXPR.ExternalFunctions.bar(actionEnv, graph, null, inode_n.@o);
+				object tempvar_1 = (object )GRGEN_EXPR.ExternalFunctions.bar(actionEnv, graph, null, inode_n.@o);
 				graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_o, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 				node_m.@o = tempvar_1;
 				graph.ChangedNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_o);
@@ -961,7 +961,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				}
 			}
 
-			public void CopyMatchContent(Match_r that)
+			public void AssignContent(Match_r that)
 			{
 				_node_n = that._node_n;
 				_edge_e = that._edge_e;
@@ -969,7 +969,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 			public Match_r(Match_r that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_r()
 			{
@@ -1193,7 +1193,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				GRGEN_EXPR.ExternalProcedures.fooProc(actionEnv, graph, inode_n.@i, inode_n.@d, inode_n.@enu, inode_n.@s);
 				object outvar_0;
 				GRGEN_EXPR.ExternalProcedures.barProc(actionEnv, graph, null, inode_n.@o, out outvar_0);
-				Object tempvar_1 = (Object )outvar_0;
+				object tempvar_1 = (object )outvar_0;
 				graph.ChangingNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_o, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_1, null);
 				node_m.@o = tempvar_1;
 				graph.ChangedNodeAttribute(node_m, GRGEN_MODEL.NodeType_N.AttributeType_o);
@@ -1408,7 +1408,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				}
 			}
 
-			public void CopyMatchContent(Match_rp that)
+			public void AssignContent(Match_rp that)
 			{
 				_node_n = that._node_n;
 				_edge_e = that._edge_e;
@@ -1416,7 +1416,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 			public Match_rp(Match_rp that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_rp()
 			{
@@ -1619,7 +1619,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			Match_testCopy curMatch = (Match_testCopy)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			graph.SettingAddedNodeNames( testCopy_addedNodeNames );
-			GRGEN_LGSP.LGSPNode node_nn = (GRGEN_LGSP.LGSPNode) node_n.Clone();
+			GRGEN_LGSP.LGSPNode node_nn = (GRGEN_LGSP.LGSPNode) node_n.Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>());
 			graph.AddNode(node_nn);
 			graph.SettingAddedEdgeNames( testCopy_addedEdgeNames );
 			return;
@@ -1802,14 +1802,14 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				}
 			}
 
-			public void CopyMatchContent(Match_testCopy that)
+			public void AssignContent(Match_testCopy that)
 			{
 				_node_n = that._node_n;
 			}
 
 			public Match_testCopy(Match_testCopy that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_testCopy()
 			{
@@ -1940,75 +1940,75 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			GRGEN_LGSP.PatternNode testComparison_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "testComparison_node_n", "n", testComparison_node_n_AllowedTypes, testComparison_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternNode testComparison_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, GRGEN_MODEL.NodeType_N.typeVar, "GRGEN_MODEL.IN", "testComparison_node_m", "m", testComparison_node_m_AllowedTypes, testComparison_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, null, false, null);
 			GRGEN_LGSP.PatternCondition testComparison_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "ow")),
+				new GRGEN_EXPR.EXTERNAL_EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "ow")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_1 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_NE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "ow")),
+				new GRGEN_EXPR.EXTERNAL_NE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "ow")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_2 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_LT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "ow")),
+				new GRGEN_EXPR.EXTERNAL_LT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "ow")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_3 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_LE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "ow")),
+				new GRGEN_EXPR.EXTERNAL_LE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "ow")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_4 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "ow")),
+				new GRGEN_EXPR.EXTERNAL_GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "ow")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_5 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_GE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "ow")),
+				new GRGEN_EXPR.EXTERNAL_GE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "ow")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_6 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op")),
+				new GRGEN_EXPR.EXTERNAL_EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_7 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_NE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op")),
+				new GRGEN_EXPR.EXTERNAL_NE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_8 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_LT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op")),
+				new GRGEN_EXPR.EXTERNAL_LT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_9 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_LE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op")),
+				new GRGEN_EXPR.EXTERNAL_LE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_10 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op")),
+				new GRGEN_EXPR.EXTERNAL_GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_11 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_GE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op")),
+				new GRGEN_EXPR.EXTERNAL_GE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "op"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op")),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_12 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op"), false)),
+				new GRGEN_EXPR.EXTERNAL_EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op"), false)),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_13 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_NE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op"), false)),
+				new GRGEN_EXPR.EXTERNAL_NE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op"), false)),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_14 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_LT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op"), false)),
+				new GRGEN_EXPR.EXTERNAL_LT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op"), false)),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_15 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_LE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op"), false)),
+				new GRGEN_EXPR.EXTERNAL_LE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op"), false)),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_16 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op"), false)),
+				new GRGEN_EXPR.EXTERNAL_GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op"), false)),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			GRGEN_LGSP.PatternCondition testComparison_cond_17 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.EXTERNAL_GE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", "testComparison_node_m", "op"), false)),
+				new GRGEN_EXPR.EXTERNAL_GE(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_n", "ow"), new GRGEN_EXPR.Cast("GRGEN_MODEL.Own", new GRGEN_EXPR.Qualification("GRGEN_MODEL.IN", true, "testComparison_node_m", "op"), false)),
 				new string[] { "testComparison_node_n", "testComparison_node_m" }, new string[] {  }, new string[] {  },
 				new GRGEN_LGSP.PatternNode[] { testComparison_node_n, testComparison_node_m }, new GRGEN_LGSP.PatternEdge[] {  }, new GRGEN_LGSP.PatternVariable[] {  });
 			pat_testComparison = new GRGEN_LGSP.PatternGraph(
@@ -2243,7 +2243,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				}
 			}
 
-			public void CopyMatchContent(Match_testComparison that)
+			public void AssignContent(Match_testComparison that)
 			{
 				_node_n = that._node_n;
 				_node_m = that._node_m;
@@ -2251,7 +2251,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 			public Match_testComparison(Match_testComparison that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_testComparison()
 			{
@@ -4926,6 +4926,6 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "c31b4a83d7adddb9205f28026a0414cd"; } }
+        public override string ModelMD5Hash { get { return "0eccc353feb77ad7bc7c3697fa3720c2"; } }
     }
 }

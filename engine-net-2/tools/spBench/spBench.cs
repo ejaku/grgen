@@ -96,7 +96,7 @@ namespace spBench
             return idList;
         }
 
-        public Object Clone()
+        public object Clone()
         {
             SearchPlanID newID = new SearchPlanID();
             newID.idList = new List<int>(idList);
@@ -749,7 +749,7 @@ namespace spBench
             }
         }
 
-        static void BenchmarkAction(Object param)
+        static void BenchmarkAction(object param)
         {
             try
             {

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sat Nov 21 22:18:40 CET 2020
+// Generated from "test.grg" on Fri Feb 05 19:31:51 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -48,14 +48,35 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@Node(this);
+			return new GRGEN_MODEL.@Node(this, null, null);
 		}
 
-		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@Node(this, graph, oldToNewObjectMap);
+		}
+
+		private @Node(GRGEN_MODEL.@Node oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @Node)) return false;
 			@Node that_ = (@Node)that;
 			return true
@@ -105,12 +126,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The node type \"Node\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"Node\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -202,15 +223,36 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_A1 TypeInstance { get { return GRGEN_MODEL.NodeType_A1.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@A1(this);
+			return new GRGEN_MODEL.@A1(this, null, null);
 		}
 
-		private @A1(GRGEN_MODEL.@A1 oldElem) : base(GRGEN_MODEL.NodeType_A1.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@A1(this, graph, oldToNewObjectMap);
+		}
+
+		private @A1(GRGEN_MODEL.@A1 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A1.typeVar)
 		{
 			a1_M0no_suXx_h4rD = oldElem.a1_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @A1)) return false;
 			@A1 that_ = (@A1)that;
 			return true
@@ -276,7 +318,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a1": return this.@a1;
 			}
 			throw new NullReferenceException(
-				"The node type \"A1\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"A1\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -285,7 +327,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a1": this.@a1 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"A1\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"A1\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -516,15 +558,36 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_A2 TypeInstance { get { return GRGEN_MODEL.NodeType_A2.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@A2(this);
+			return new GRGEN_MODEL.@A2(this, null, null);
 		}
 
-		private @A2(GRGEN_MODEL.@A2 oldElem) : base(GRGEN_MODEL.NodeType_A2.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@A2(this, graph, oldToNewObjectMap);
+		}
+
+		private @A2(GRGEN_MODEL.@A2 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A2.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @A2)) return false;
 			@A2 that_ = (@A2)that;
 			return true
@@ -590,7 +653,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a2": return this.@a2;
 			}
 			throw new NullReferenceException(
-				"The node type \"A2\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"A2\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -599,7 +662,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a2": this.@a2 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"A2\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"A2\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -837,15 +900,36 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_A3 TypeInstance { get { return GRGEN_MODEL.NodeType_A3.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@A3(this);
+			return new GRGEN_MODEL.@A3(this, null, null);
 		}
 
-		private @A3(GRGEN_MODEL.@A3 oldElem) : base(GRGEN_MODEL.NodeType_A3.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@A3(this, graph, oldToNewObjectMap);
+		}
+
+		private @A3(GRGEN_MODEL.@A3 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A3.typeVar)
 		{
 			a3_M0no_suXx_h4rD = oldElem.a3_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @A3)) return false;
 			@A3 that_ = (@A3)that;
 			return true
@@ -911,7 +995,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a3": return this.@a3;
 			}
 			throw new NullReferenceException(
-				"The node type \"A3\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"A3\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -920,7 +1004,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a3": this.@a3 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"A3\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"A3\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1151,15 +1235,36 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_A4 TypeInstance { get { return GRGEN_MODEL.NodeType_A4.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@A4(this);
+			return new GRGEN_MODEL.@A4(this, null, null);
 		}
 
-		private @A4(GRGEN_MODEL.@A4 oldElem) : base(GRGEN_MODEL.NodeType_A4.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@A4(this, graph, oldToNewObjectMap);
+		}
+
+		private @A4(GRGEN_MODEL.@A4 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A4.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @A4)) return false;
 			@A4 that_ = (@A4)that;
 			return true
@@ -1225,7 +1330,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a4": return this.@a4;
 			}
 			throw new NullReferenceException(
-				"The node type \"A4\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"A4\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -1234,7 +1339,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a4": this.@a4 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"A4\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"A4\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1473,15 +1578,36 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_A5 TypeInstance { get { return GRGEN_MODEL.NodeType_A5.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@A5(this);
+			return new GRGEN_MODEL.@A5(this, null, null);
 		}
 
-		private @A5(GRGEN_MODEL.@A5 oldElem) : base(GRGEN_MODEL.NodeType_A5.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@A5(this, graph, oldToNewObjectMap);
+		}
+
+		private @A5(GRGEN_MODEL.@A5 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A5.typeVar)
 		{
 			a5_M0no_suXx_h4rD = oldElem.a5_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @A5)) return false;
 			@A5 that_ = (@A5)that;
 			return true
@@ -1547,7 +1673,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a5": return this.@a5;
 			}
 			throw new NullReferenceException(
-				"The node type \"A5\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"A5\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -1556,7 +1682,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a5": this.@a5 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"A5\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"A5\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -1791,16 +1917,37 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_B21 TypeInstance { get { return GRGEN_MODEL.NodeType_B21.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@B21(this);
+			return new GRGEN_MODEL.@B21(this, null, null);
 		}
 
-		private @B21(GRGEN_MODEL.@B21 oldElem) : base(GRGEN_MODEL.NodeType_B21.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@B21(this, graph, oldToNewObjectMap);
+		}
+
+		private @B21(GRGEN_MODEL.@B21 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B21.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b21_M0no_suXx_h4rD = oldElem.b21_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @B21)) return false;
 			@B21 that_ = (@B21)that;
 			return true
@@ -1879,7 +2026,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b21": return this.@b21;
 			}
 			throw new NullReferenceException(
-				"The node type \"B21\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B21\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -1889,7 +2036,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b21": this.@b21 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B21\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B21\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -2250,16 +2397,37 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_B22 TypeInstance { get { return GRGEN_MODEL.NodeType_B22.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@B22(this);
+			return new GRGEN_MODEL.@B22(this, null, null);
 		}
 
-		private @B22(GRGEN_MODEL.@B22 oldElem) : base(GRGEN_MODEL.NodeType_B22.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@B22(this, graph, oldToNewObjectMap);
+		}
+
+		private @B22(GRGEN_MODEL.@B22 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B22.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @B22)) return false;
 			@B22 that_ = (@B22)that;
 			return true
@@ -2338,7 +2506,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b22": return this.@b22;
 			}
 			throw new NullReferenceException(
-				"The node type \"B22\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B22\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -2348,7 +2516,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b22": this.@b22 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B22\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B22\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -2709,16 +2877,37 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_B23 TypeInstance { get { return GRGEN_MODEL.NodeType_B23.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@B23(this);
+			return new GRGEN_MODEL.@B23(this, null, null);
 		}
 
-		private @B23(GRGEN_MODEL.@B23 oldElem) : base(GRGEN_MODEL.NodeType_B23.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@B23(this, graph, oldToNewObjectMap);
+		}
+
+		private @B23(GRGEN_MODEL.@B23 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B23.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b23_M0no_suXx_h4rD = oldElem.b23_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @B23)) return false;
 			@B23 that_ = (@B23)that;
 			return true
@@ -2797,7 +2986,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b23": return this.@b23;
 			}
 			throw new NullReferenceException(
-				"The node type \"B23\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B23\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -2807,7 +2996,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b23": this.@b23 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B23\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B23\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -3168,16 +3357,37 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_B41 TypeInstance { get { return GRGEN_MODEL.NodeType_B41.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@B41(this);
+			return new GRGEN_MODEL.@B41(this, null, null);
 		}
 
-		private @B41(GRGEN_MODEL.@B41 oldElem) : base(GRGEN_MODEL.NodeType_B41.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@B41(this, graph, oldToNewObjectMap);
+		}
+
+		private @B41(GRGEN_MODEL.@B41 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B41.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @B41)) return false;
 			@B41 that_ = (@B41)that;
 			return true
@@ -3256,7 +3466,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b41": return this.@b41;
 			}
 			throw new NullReferenceException(
-				"The node type \"B41\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B41\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -3266,7 +3476,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b41": this.@b41 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B41\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B41\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -3628,16 +3838,37 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_B42 TypeInstance { get { return GRGEN_MODEL.NodeType_B42.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@B42(this);
+			return new GRGEN_MODEL.@B42(this, null, null);
 		}
 
-		private @B42(GRGEN_MODEL.@B42 oldElem) : base(GRGEN_MODEL.NodeType_B42.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@B42(this, graph, oldToNewObjectMap);
+		}
+
+		private @B42(GRGEN_MODEL.@B42 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B42.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @B42)) return false;
 			@B42 that_ = (@B42)that;
 			return true
@@ -3716,7 +3947,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b42": return this.@b42;
 			}
 			throw new NullReferenceException(
-				"The node type \"B42\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B42\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -3726,7 +3957,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "b42": this.@b42 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B42\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B42\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -4087,15 +4318,36 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_B43 TypeInstance { get { return GRGEN_MODEL.NodeType_B43.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@B43(this);
+			return new GRGEN_MODEL.@B43(this, null, null);
 		}
 
-		private @B43(GRGEN_MODEL.@B43 oldElem) : base(GRGEN_MODEL.NodeType_B43.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@B43(this, graph, oldToNewObjectMap);
+		}
+
+		private @B43(GRGEN_MODEL.@B43 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B43.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @B43)) return false;
 			@B43 that_ = (@B43)that;
 			return true
@@ -4163,7 +4415,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a4": return this.@a4;
 			}
 			throw new NullReferenceException(
-				"The node type \"B43\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B43\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -4172,7 +4424,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a4": this.@a4 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"B43\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"B43\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -4422,17 +4674,38 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_C221 TypeInstance { get { return GRGEN_MODEL.NodeType_C221.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@C221(this);
+			return new GRGEN_MODEL.@C221(this, null, null);
 		}
 
-		private @C221(GRGEN_MODEL.@C221 oldElem) : base(GRGEN_MODEL.NodeType_C221.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@C221(this, graph, oldToNewObjectMap);
+		}
+
+		private @C221(GRGEN_MODEL.@C221 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C221.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
 			c221_M0no_suXx_h4rD = oldElem.c221_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @C221)) return false;
 			@C221 that_ = (@C221)that;
 			return true
@@ -4524,7 +4797,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c221": return this.@c221;
 			}
 			throw new NullReferenceException(
-				"The node type \"C221\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"C221\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -4535,7 +4808,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c221": this.@c221 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"C221\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"C221\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -5026,10 +5299,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_C222_411 TypeInstance { get { return GRGEN_MODEL.NodeType_C222_411.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@C222_411(this);
+			return new GRGEN_MODEL.@C222_411(this, null, null);
 		}
 
-		private @C222_411(GRGEN_MODEL.@C222_411 oldElem) : base(GRGEN_MODEL.NodeType_C222_411.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@C222_411(this, graph, oldToNewObjectMap);
+		}
+
+		private @C222_411(GRGEN_MODEL.@C222_411 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C222_411.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
@@ -5037,8 +5314,25 @@ namespace de.unika.ipd.grGen.Model_complModel
 			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
 			c222_411_M0no_suXx_h4rD = oldElem.c222_411_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @C222_411)) return false;
 			@C222_411 that_ = (@C222_411)that;
 			return true
@@ -5156,7 +5450,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c222_411": return this.@c222_411;
 			}
 			throw new NullReferenceException(
-				"The node type \"C222_411\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"C222_411\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -5169,7 +5463,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c222_411": this.@c222_411 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"C222_411\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"C222_411\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -5921,18 +6215,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_C412_421_431_51 TypeInstance { get { return GRGEN_MODEL.NodeType_C412_421_431_51.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@C412_421_431_51(this);
+			return new GRGEN_MODEL.@C412_421_431_51(this, null, null);
 		}
 
-		private @C412_421_431_51(GRGEN_MODEL.@C412_421_431_51 oldElem) : base(GRGEN_MODEL.NodeType_C412_421_431_51.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@C412_421_431_51(this, graph, oldToNewObjectMap);
+		}
+
+		private @C412_421_431_51(GRGEN_MODEL.@C412_421_431_51 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C412_421_431_51.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
 			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
 			a5_M0no_suXx_h4rD = oldElem.a5_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @C412_421_431_51)) return false;
 			@C412_421_431_51 that_ = (@C412_421_431_51)that;
 			return true
@@ -6041,7 +6356,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a5": return this.@a5;
 			}
 			throw new NullReferenceException(
-				"The node type \"C412_421_431_51\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"C412_421_431_51\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -6053,7 +6368,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "a5": this.@a5 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"C412_421_431_51\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"C412_421_431_51\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -6685,17 +7000,38 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_C432_422 TypeInstance { get { return GRGEN_MODEL.NodeType_C432_422.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@C432_422(this);
+			return new GRGEN_MODEL.@C432_422(this, null, null);
 		}
 
-		private @C432_422(GRGEN_MODEL.@C432_422 oldElem) : base(GRGEN_MODEL.NodeType_C432_422.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@C432_422(this, graph, oldToNewObjectMap);
+		}
+
+		private @C432_422(GRGEN_MODEL.@C432_422 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C432_422.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
 			c432_422_M0no_suXx_h4rD = oldElem.c432_422_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @C432_422)) return false;
 			@C432_422 that_ = (@C432_422)that;
 			return true
@@ -6789,7 +7125,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c432_422": return this.@c432_422;
 			}
 			throw new NullReferenceException(
-				"The node type \"C432_422\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"C432_422\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -6800,7 +7136,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "c432_422": this.@c432_422 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"C432_422\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"C432_422\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -7314,10 +7650,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_D11_2221 TypeInstance { get { return GRGEN_MODEL.NodeType_D11_2221.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@D11_2221(this);
+			return new GRGEN_MODEL.@D11_2221(this, null, null);
 		}
 
-		private @D11_2221(GRGEN_MODEL.@D11_2221 oldElem) : base(GRGEN_MODEL.NodeType_D11_2221.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@D11_2221(this, graph, oldToNewObjectMap);
+		}
+
+		private @D11_2221(GRGEN_MODEL.@D11_2221 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_D11_2221.typeVar)
 		{
 			a1_M0no_suXx_h4rD = oldElem.a1_M0no_suXx_h4rD;
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
@@ -7327,8 +7667,25 @@ namespace de.unika.ipd.grGen.Model_complModel
 			c222_411_M0no_suXx_h4rD = oldElem.c222_411_M0no_suXx_h4rD;
 			d11_2221_M0no_suXx_h4rD = oldElem.d11_2221_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @D11_2221)) return false;
 			@D11_2221 that_ = (@D11_2221)that;
 			return true
@@ -7472,7 +7829,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d11_2221": return this.@d11_2221;
 			}
 			throw new NullReferenceException(
-				"The node type \"D11_2221\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"D11_2221\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -7487,7 +7844,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d11_2221": this.@d11_2221 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"D11_2221\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"D11_2221\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -8491,10 +8848,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.NodeType_D2211_2222_31 TypeInstance { get { return GRGEN_MODEL.NodeType_D2211_2222_31.typeVar; } }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new GRGEN_MODEL.@D2211_2222_31(this);
+			return new GRGEN_MODEL.@D2211_2222_31(this, null, null);
 		}
 
-		private @D2211_2222_31(GRGEN_MODEL.@D2211_2222_31 oldElem) : base(GRGEN_MODEL.NodeType_D2211_2222_31.typeVar)
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@D2211_2222_31(this, graph, oldToNewObjectMap);
+		}
+
+		private @D2211_2222_31(GRGEN_MODEL.@D2211_2222_31 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_D2211_2222_31.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
@@ -8505,8 +8866,25 @@ namespace de.unika.ipd.grGen.Model_complModel
 			a3_M0no_suXx_h4rD = oldElem.a3_M0no_suXx_h4rD;
 			d2211_2222_31_M0no_suXx_h4rD = oldElem.d2211_2222_31_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @D2211_2222_31)) return false;
 			@D2211_2222_31 that_ = (@D2211_2222_31)that;
 			return true
@@ -8663,7 +9041,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d2211_2222_31": return this.@d2211_2222_31;
 			}
 			throw new NullReferenceException(
-				"The node type \"D2211_2222_31\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"D2211_2222_31\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -8679,7 +9057,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d2211_2222_31": this.@d2211_2222_31 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"D2211_2222_31\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"D2211_2222_31\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -9899,7 +10277,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d231_4121": return this.@d231_4121;
 			}
 			throw new NullReferenceException(
-				"The node type \"D231_4121\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"D231_4121\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
@@ -9914,7 +10292,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case "d231_4121": this.@d231_4121 = (int) value; return;
 			}
 			throw new NullReferenceException(
-				"The node type \"D231_4121\" does not have the attribute \"" + attrName + "\"!");
+				"The Node type \"D231_4121\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -10209,15 +10587,36 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
-			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
+		}
+
+		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @Edge)) return false;
 			@Edge that_ = (@Edge)that;
 			return true
@@ -10267,12 +10666,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
+				"The Edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
+				"The Edge type \"Edge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -10365,15 +10764,36 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
-			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
+		}
+
+		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is @UEdge)) return false;
 			@UEdge that_ = (@UEdge)that;
 			return true
@@ -10423,12 +10843,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
+				"The Edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
+				"The Edge type \"UEdge\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
@@ -10501,9 +10921,280 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
-	public sealed class ExternalType_object : GRGEN_LIBGR.ExternalType
+	//
+	// Object types
+	//
+
+	public enum ObjectTypes { @Object=0 };
+
+	// *** Object Object ***
+
+
+	public sealed partial class @Object : GRGEN_LGSP.LGSPObject, GRGEN_LIBGR.IObject
 	{
-		public ExternalType_object()
+
+		static @Object() {
+		}
+
+		public @Object(long uniqueId) : base(GRGEN_MODEL.ObjectType_Object.typeVar, uniqueId)
+		{
+			// implicit initialization, container creation of Object
+		}
+
+		public static GRGEN_MODEL.ObjectType_Object TypeInstance { get { return GRGEN_MODEL.ObjectType_Object.typeVar; } }
+
+		public override GRGEN_LIBGR.IObject Clone(GRGEN_LIBGR.IGraph graph) {
+			return new GRGEN_MODEL.@Object(this, graph, null);
+		}
+
+		public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@Object(this, graph, oldToNewObjectMap);
+		}
+
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
+		{
+			if(oldToNewObjectMap != null)
+				oldToNewObjectMap.Add(oldElem, this);
+		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
+			if(!(that is @Object)) return false;
+			@Object that_ = (@Object)that;
+			return true
+			;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The Object type \"Object\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The Object type \"Object\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of Object
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Object does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("Object does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed partial class ObjectType_Object : GRGEN_LIBGR.ObjectType
+	{
+		public static GRGEN_MODEL.ObjectType_Object typeVar = new GRGEN_MODEL.ObjectType_Object();
+		public static bool[] isA = new bool[] { true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public ObjectType_Object() : base((int) ObjectTypes.@Object)
+		{
+		}
+		public override string Name { get { return "Object"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "Object"; } }
+		public override string ObjectInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.IObject"; } }
+		public override string ObjectClassName { get { return "de.unika.ipd.grGen.Model_complModel.@Object"; } }
+		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
+		{
+			if(uniqueId != -1)
+				return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
+			else
+				return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IObject CreateObjectWithCopyCommons(GRGEN_LIBGR.IObject oldIObject, GRGEN_LIBGR.IGraph graph)
+		{
+			return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+		}
+
+	}
+
+	//
+	// Transient object types
+	//
+
+	public enum TransientObjectTypes { @TransientObject=0 };
+
+	// *** TransientObject TransientObject ***
+
+
+	public sealed partial class @TransientObject : GRGEN_LGSP.LGSPTransientObject, GRGEN_LIBGR.ITransientObject
+	{
+
+		static @TransientObject() {
+		}
+
+		public @TransientObject() : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
+		{
+			// implicit initialization, container creation of TransientObject
+		}
+
+		public static GRGEN_MODEL.TransientObjectType_TransientObject TypeInstance { get { return GRGEN_MODEL.TransientObjectType_TransientObject.typeVar; } }
+
+		public override GRGEN_LIBGR.ITransientObject Clone() {
+			return new GRGEN_MODEL.@TransientObject(this, null, null);
+		}
+
+		public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new GRGEN_MODEL.@TransientObject(this, graph, oldToNewObjectMap);
+		}
+
+		private @TransientObject(GRGEN_MODEL.@TransientObject oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
+		{
+			if(oldToNewObjectMap != null)
+				oldToNewObjectMap.Add(oldElem, this);
+		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
+			if(!(that is @TransientObject)) return false;
+			@TransientObject that_ = (@TransientObject)that;
+			return true
+			;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The TransientObject type \"TransientObject\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The TransientObject type \"TransientObject\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of TransientObject
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("TransientObject does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("TransientObject does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed partial class TransientObjectType_TransientObject : GRGEN_LIBGR.TransientObjectType
+	{
+		public static GRGEN_MODEL.TransientObjectType_TransientObject typeVar = new GRGEN_MODEL.TransientObjectType_TransientObject();
+		public static bool[] isA = new bool[] { true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public TransientObjectType_TransientObject() : base((int) TransientObjectTypes.@TransientObject)
+		{
+		}
+		public override string Name { get { return "TransientObject"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "TransientObject"; } }
+		public override string TransientObjectInterfaceName { get { return "de.unika.ipd.grGen.Model_complModel.ITransientObject"; } }
+		public override string TransientObjectClassName { get { return "de.unika.ipd.grGen.Model_complModel.@TransientObject"; } }
+		public override GRGEN_LIBGR.ITransientObject CreateTransientObject()
+		{
+			return new GRGEN_MODEL.@TransientObject();
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.ITransientObject CreateTransientObjectWithCopyCommons(GRGEN_LIBGR.ITransientObject oldITransientObject)
+		{
+			return new GRGEN_MODEL.@TransientObject();
+		}
+
+	}
+
+	public sealed class ExternalObjectType_object : GRGEN_LIBGR.ExternalObjectType
+	{
+		public ExternalObjectType_object()
 			: base("object", typeof(object))
 		{
 		}
@@ -10912,7 +11603,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public bool IsNodeModel { get { return true; } }
 		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		GRGEN_LIBGR.GraphElementType GRGEN_LIBGR.IGraphElementTypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 		public GRGEN_LIBGR.NodeType GetType(string name)
 		{
 			switch(name)
@@ -10939,7 +11631,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 			return null;
 		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
+		GRGEN_LIBGR.GraphElementType GRGEN_LIBGR.IGraphElementTypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.GetType(string name)
 		{
 			return GetType(name);
 		}
@@ -10965,7 +11661,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.NodeType_D231_4121.typeVar,
 		};
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
-		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
+		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
+		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
 		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_A1),
@@ -11058,7 +11755,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public bool IsNodeModel { get { return false; } }
 		public GRGEN_LIBGR.EdgeType RootType { get { return GRGEN_MODEL.EdgeType_AEdge.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.EdgeType_AEdge.typeVar; } }
+		GRGEN_LIBGR.GraphElementType GRGEN_LIBGR.IGraphElementTypeModel.RootType { get { return GRGEN_MODEL.EdgeType_AEdge.typeVar; } }
+		GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.EdgeType_AEdge.typeVar; } }
 		public GRGEN_LIBGR.EdgeType GetType(string name)
 		{
 			switch(name)
@@ -11069,7 +11767,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 			return null;
 		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
+		GRGEN_LIBGR.GraphElementType GRGEN_LIBGR.IGraphElementTypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.GetType(string name)
 		{
 			return GetType(name);
 		}
@@ -11079,11 +11781,120 @@ namespace de.unika.ipd.grGen.Model_complModel
 			GRGEN_MODEL.EdgeType_UEdge.typeVar,
 		};
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
-		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
+		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
+		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
 		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.EdgeType_AEdge),
 			typeof(GRGEN_MODEL.EdgeType_Edge),
 			typeof(GRGEN_MODEL.EdgeType_UEdge),
+		};
+		public System.Type[] TypeTypes { get { return typeTypes; } }
+		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
+		};
+		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
+	}
+
+	//
+	// Object model
+	//
+
+	public sealed class complModelObjectModel : GRGEN_LIBGR.IObjectModel
+	{
+		public complModelObjectModel()
+		{
+			GRGEN_MODEL.ObjectType_Object.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.ObjectType_Object.typeVar.subOrSameTypes = new GRGEN_LIBGR.ObjectType[] {
+				GRGEN_MODEL.ObjectType_Object.typeVar,
+			};
+			GRGEN_MODEL.ObjectType_Object.typeVar.directSubGrGenTypes = GRGEN_MODEL.ObjectType_Object.typeVar.directSubTypes = new GRGEN_LIBGR.ObjectType[] {
+			};
+			GRGEN_MODEL.ObjectType_Object.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.ObjectType_Object.typeVar.superOrSameTypes = new GRGEN_LIBGR.ObjectType[] {
+				GRGEN_MODEL.ObjectType_Object.typeVar,
+			};
+			GRGEN_MODEL.ObjectType_Object.typeVar.directSuperGrGenTypes = GRGEN_MODEL.ObjectType_Object.typeVar.directSuperTypes = new GRGEN_LIBGR.ObjectType[] {
+			};
+		}
+		public bool IsTransientModel { get { return false; } }
+		public GRGEN_LIBGR.ObjectType RootType { get { return GRGEN_MODEL.ObjectType_Object.typeVar; } }
+		GRGEN_LIBGR.BaseObjectType GRGEN_LIBGR.IBaseObjectTypeModel.RootType { get { return GRGEN_MODEL.ObjectType_Object.typeVar; } }
+		GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.ObjectType_Object.typeVar; } }
+		public GRGEN_LIBGR.ObjectType GetType(string name)
+		{
+			switch(name)
+			{
+				case "Object" : return GRGEN_MODEL.ObjectType_Object.typeVar;
+			}
+			return null;
+		}
+		GRGEN_LIBGR.BaseObjectType GRGEN_LIBGR.IBaseObjectTypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		private GRGEN_LIBGR.ObjectType[] types = {
+			GRGEN_MODEL.ObjectType_Object.typeVar,
+		};
+		public GRGEN_LIBGR.ObjectType[] Types { get { return types; } }
+		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
+		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
+		private System.Type[] typeTypes = {
+			typeof(GRGEN_MODEL.ObjectType_Object),
+		};
+		public System.Type[] TypeTypes { get { return typeTypes; } }
+		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
+		};
+		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
+	}
+
+	//
+	// TransientObject model
+	//
+
+	public sealed class complModelTransientObjectModel : GRGEN_LIBGR.ITransientObjectModel
+	{
+		public complModelTransientObjectModel()
+		{
+			GRGEN_MODEL.TransientObjectType_TransientObject.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.TransientObjectType_TransientObject.typeVar.subOrSameTypes = new GRGEN_LIBGR.TransientObjectType[] {
+				GRGEN_MODEL.TransientObjectType_TransientObject.typeVar,
+			};
+			GRGEN_MODEL.TransientObjectType_TransientObject.typeVar.directSubGrGenTypes = GRGEN_MODEL.TransientObjectType_TransientObject.typeVar.directSubTypes = new GRGEN_LIBGR.TransientObjectType[] {
+			};
+			GRGEN_MODEL.TransientObjectType_TransientObject.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.TransientObjectType_TransientObject.typeVar.superOrSameTypes = new GRGEN_LIBGR.TransientObjectType[] {
+				GRGEN_MODEL.TransientObjectType_TransientObject.typeVar,
+			};
+			GRGEN_MODEL.TransientObjectType_TransientObject.typeVar.directSuperGrGenTypes = GRGEN_MODEL.TransientObjectType_TransientObject.typeVar.directSuperTypes = new GRGEN_LIBGR.TransientObjectType[] {
+			};
+		}
+		public bool IsTransientModel { get { return true; } }
+		public GRGEN_LIBGR.TransientObjectType RootType { get { return GRGEN_MODEL.TransientObjectType_TransientObject.typeVar; } }
+		GRGEN_LIBGR.BaseObjectType GRGEN_LIBGR.IBaseObjectTypeModel.RootType { get { return GRGEN_MODEL.TransientObjectType_TransientObject.typeVar; } }
+		GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.TransientObjectType_TransientObject.typeVar; } }
+		public GRGEN_LIBGR.TransientObjectType GetType(string name)
+		{
+			switch(name)
+			{
+				case "TransientObject" : return GRGEN_MODEL.TransientObjectType_TransientObject.typeVar;
+			}
+			return null;
+		}
+		GRGEN_LIBGR.BaseObjectType GRGEN_LIBGR.IBaseObjectTypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		GRGEN_LIBGR.InheritanceType GRGEN_LIBGR.ITypeModel.GetType(string name)
+		{
+			return GetType(name);
+		}
+		private GRGEN_LIBGR.TransientObjectType[] types = {
+			GRGEN_MODEL.TransientObjectType_TransientObject.typeVar,
+		};
+		public GRGEN_LIBGR.TransientObjectType[] Types { get { return types; } }
+		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
+		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
+		private System.Type[] typeTypes = {
+			typeof(GRGEN_MODEL.TransientObjectType_TransientObject),
 		};
 		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
@@ -11098,11 +11909,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public complModelGraphModel()
 		{
-			FullyInitializeExternalTypes();
+			FullyInitializeExternalObjectTypes();
 		}
 
 		private complModelNodeModel nodeModel = new complModelNodeModel();
 		private complModelEdgeModel edgeModel = new complModelEdgeModel();
+		private complModelObjectModel objectModel = new complModelObjectModel();
+		private complModelTransientObjectModel transientObjectModel = new complModelTransientObjectModel();
 		private string[] packages = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
@@ -11124,6 +11937,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override string ModelName { get { return "complModel"; } }
 		public override GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public override GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
+		public override GRGEN_LIBGR.IObjectModel ObjectModel { get { return objectModel; } }
+		public override GRGEN_LIBGR.ITransientObjectModel TransientObjectModel { get { return transientObjectModel; } }
 		public override IEnumerable<string> Packages { get { return packages; } }
 		public override IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public override IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
@@ -11141,22 +11956,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override bool AreFunctionsParallelized { get { return false; } }
 		public override int BranchingFactorForEqualsAny { get { return 0; } }
 
-		public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();
-		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
-		public override GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
+		public static GRGEN_LIBGR.ExternalObjectType externalObjectType_object = new ExternalObjectType_object();
+		private GRGEN_LIBGR.ExternalObjectType[] externalObjectTypes = { externalObjectType_object };
+		public override GRGEN_LIBGR.ExternalObjectType[] ExternalObjectTypes { get { return externalObjectTypes; } }
 
-		private void FullyInitializeExternalTypes()
+		private void FullyInitializeExternalObjectTypes()
 		{
-			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
+			externalObjectType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalObjectType[] { } );
 		}
 
-		public override IList ArrayOrderAscendingBy(IList array, string member)
+		public override System.Collections.IList ArrayOrderAscendingBy(System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
-			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
 				return null;
-			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
 			switch(elem.Type.PackagePrefixedName)
 			{
 			case "Node":
@@ -11377,17 +12192,29 @@ namespace de.unika.ipd.grGen.Model_complModel
 				default:
 					return null;
 				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return null;
+				}
 			default: return null;
 			}
 		}
 
-		public override IList ArrayOrderDescendingBy(IList array, string member)
+		public override System.Collections.IList ArrayOrderDescendingBy(System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
-			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
 				return null;
-			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
 			switch(elem.Type.PackagePrefixedName)
 			{
 			case "Node":
@@ -11608,17 +12435,29 @@ namespace de.unika.ipd.grGen.Model_complModel
 				default:
 					return null;
 				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return null;
+				}
 			default: return null;
 			}
 		}
 
-		public override IList ArrayGroupBy(IList array, string member)
+		public override System.Collections.IList ArrayGroupBy(System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
-			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
 				return null;
-			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
 			switch(elem.Type.PackagePrefixedName)
 			{
 			case "Node":
@@ -11839,17 +12678,29 @@ namespace de.unika.ipd.grGen.Model_complModel
 				default:
 					return null;
 				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return null;
+				}
 			default: return null;
 			}
 		}
 
-		public override IList ArrayKeepOneForEach(IList array, string member)
+		public override System.Collections.IList ArrayKeepOneForEach(System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
-			if(!(array[0] is GRGEN_LIBGR.IGraphElement))
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
 				return null;
-			GRGEN_LIBGR.IGraphElement elem = (GRGEN_LIBGR.IGraphElement)array[0];
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
 			switch(elem.Type.PackagePrefixedName)
 			{
 			case "Node":
@@ -12070,12 +12921,24 @@ namespace de.unika.ipd.grGen.Model_complModel
 				default:
 					return null;
 				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return null;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return null;
+				}
 			default: return null;
 			}
 		}
 
 		public override void FailAssertion() { Debug.Assert(false); }
-		public override string MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
+		public override string MD5Hash { get { return "363c3af47059e8ddde9b24be11c17a1a"; } }
 	}
 
 	//

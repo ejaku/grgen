@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sat Nov 21 22:18:09 CET 2020
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Fri Feb 05 19:31:41 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -462,7 +462,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_toAorB that)
+			public void AssignContent(Match_toAorB that)
 			{
 				_node_x = that._node_x;
 				_edge_y = that._edge_y;
@@ -471,7 +471,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_toAorB(Match_toAorB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_toAorB()
 			{
@@ -651,7 +651,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_toAorB_alt_0_toA that)
+			public void AssignContent(Match_toAorB_alt_0_toA that)
 			{
 				_node_a = that._node_a;
 				_edge_y = that._edge_y;
@@ -659,7 +659,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_toAorB_alt_0_toA(Match_toAorB_alt_0_toA that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_toAorB_alt_0_toA()
 			{
@@ -837,7 +837,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_toAorB_alt_0_toB that)
+			public void AssignContent(Match_toAorB_alt_0_toB that)
 			{
 				_node_b = that._node_b;
 				_edge_y = that._edge_y;
@@ -845,7 +845,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_toAorB_alt_0_toB(Match_toAorB_alt_0_toB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_toAorB_alt_0_toB()
 			{
@@ -1118,13 +1118,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_createA that)
+			public void AssignContent(Match_createA that)
 			{
 			}
 
 			public Match_createA(Match_createA that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createA()
 			{
@@ -1412,13 +1412,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_createB that)
+			public void AssignContent(Match_createB that)
 			{
 			}
 
 			public Match_createB(Match_createB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createB()
 			{
@@ -1706,13 +1706,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_createC that)
+			public void AssignContent(Match_createC that)
 			{
 			}
 
 			public Match_createC(Match_createC that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createC()
 			{
@@ -2002,13 +2002,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_createAtoB that)
+			public void AssignContent(Match_createAtoB that)
 			{
 			}
 
 			public Match_createAtoB(Match_createAtoB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createAtoB()
 			{
@@ -2361,14 +2361,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_leer that)
+			public void AssignContent(Match_leer that)
 			{
 				_alt_0 = that._alt_0;
 			}
 
 			public Match_leer(Match_leer that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_leer()
 			{
@@ -2535,13 +2535,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_leer_alt_0_altleer that)
+			public void AssignContent(Match_leer_alt_0_altleer that)
 			{
 			}
 
 			public Match_leer_alt_0_altleer(Match_leer_alt_0_altleer that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_leer_alt_0_altleer()
 			{
@@ -2970,14 +2970,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AorB that)
+			public void AssignContent(Match_AorB that)
 			{
 				_alt_0 = that._alt_0;
 			}
 
 			public Match_AorB(Match_AorB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AorB()
 			{
@@ -3150,14 +3150,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AorB_alt_0_A that)
+			public void AssignContent(Match_AorB_alt_0_A that)
 			{
 				_node__node0 = that._node__node0;
 			}
 
 			public Match_AorB_alt_0_A(Match_AorB_alt_0_A that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AorB_alt_0_A()
 			{
@@ -3329,14 +3329,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AorB_alt_0_B that)
+			public void AssignContent(Match_AorB_alt_0_B that)
 			{
 				_node__node0 = that._node__node0;
 			}
 
 			public Match_AorB_alt_0_B(Match_AorB_alt_0_B that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AorB_alt_0_B()
 			{
@@ -3826,14 +3826,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AandnotCorB that)
+			public void AssignContent(Match_AandnotCorB that)
 			{
 				_alt_0 = that._alt_0;
 			}
 
 			public Match_AandnotCorB(Match_AandnotCorB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AandnotCorB()
 			{
@@ -4006,14 +4006,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AandnotCorB_alt_0_A that)
+			public void AssignContent(Match_AandnotCorB_alt_0_A that)
 			{
 				_node__node0 = that._node__node0;
 			}
 
 			public Match_AandnotCorB_alt_0_A(Match_AandnotCorB_alt_0_A that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AandnotCorB_alt_0_A()
 			{
@@ -4185,14 +4185,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AandnotCorB_alt_0_A_neg_0 that)
+			public void AssignContent(Match_AandnotCorB_alt_0_A_neg_0 that)
 			{
 				_node__node0 = that._node__node0;
 			}
 
 			public Match_AandnotCorB_alt_0_A_neg_0(Match_AandnotCorB_alt_0_A_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AandnotCorB_alt_0_A_neg_0()
 			{
@@ -4364,14 +4364,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AandnotCorB_alt_0_B that)
+			public void AssignContent(Match_AandnotCorB_alt_0_B that)
 			{
 				_node__node0 = that._node__node0;
 			}
 
 			public Match_AandnotCorB_alt_0_B(Match_AandnotCorB_alt_0_B that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AandnotCorB_alt_0_B()
 			{
@@ -4868,14 +4868,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AorBorC that)
+			public void AssignContent(Match_AorBorC that)
 			{
 				_alt_0 = that._alt_0;
 			}
 
 			public Match_AorBorC(Match_AorBorC that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AorBorC()
 			{
@@ -5049,14 +5049,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AorBorC_alt_0_A that)
+			public void AssignContent(Match_AorBorC_alt_0_A that)
 			{
 				_node__node0 = that._node__node0;
 			}
 
 			public Match_AorBorC_alt_0_A(Match_AorBorC_alt_0_A that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AorBorC_alt_0_A()
 			{
@@ -5228,14 +5228,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AorBorC_alt_0_B that)
+			public void AssignContent(Match_AorBorC_alt_0_B that)
 			{
 				_node__node0 = that._node__node0;
 			}
 
 			public Match_AorBorC_alt_0_B(Match_AorBorC_alt_0_B that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AorBorC_alt_0_B()
 			{
@@ -5407,14 +5407,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AorBorC_alt_0_C that)
+			public void AssignContent(Match_AorBorC_alt_0_C that)
 			{
 				_node__node0 = that._node__node0;
 			}
 
 			public Match_AorBorC_alt_0_C(Match_AorBorC_alt_0_C that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AorBorC_alt_0_C()
 			{
@@ -5886,7 +5886,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AtoAorB that)
+			public void AssignContent(Match_AtoAorB that)
 			{
 				_node_a = that._node_a;
 				_alt_0 = that._alt_0;
@@ -5894,7 +5894,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_AtoAorB(Match_AtoAorB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AtoAorB()
 			{
@@ -6078,7 +6078,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AtoAorB_alt_0_toA that)
+			public void AssignContent(Match_AtoAorB_alt_0_toA that)
 			{
 				_node_a = that._node_a;
 				_node__node0 = that._node__node0;
@@ -6087,7 +6087,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_AtoAorB_alt_0_toA(Match_AtoAorB_alt_0_toA that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AtoAorB_alt_0_toA()
 			{
@@ -6271,7 +6271,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_AtoAorB_alt_0_toB that)
+			public void AssignContent(Match_AtoAorB_alt_0_toB that)
 			{
 				_node_a = that._node_a;
 				_node__node0 = that._node__node0;
@@ -6280,7 +6280,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_AtoAorB_alt_0_toB(Match_AtoAorB_alt_0_toB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_AtoAorB_alt_0_toB()
 			{
@@ -6623,13 +6623,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_createComplex that)
+			public void AssignContent(Match_createComplex that)
 			{
 			}
 
 			public Match_createComplex(Match_createComplex that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createComplex()
 			{
@@ -7371,7 +7371,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_Complex that)
+			public void AssignContent(Match_Complex that)
 			{
 				_node_a = that._node_a;
 				_node_b = that._node_b;
@@ -7382,7 +7382,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_Complex(Match_Complex that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Complex()
 			{
@@ -7600,7 +7600,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_Complex_alt_0_ExtendAv that)
+			public void AssignContent(Match_Complex_alt_0_ExtendAv that)
 			{
 				_node_a = that._node_a;
 				_node_b2 = that._node_b2;
@@ -7615,7 +7615,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_Complex_alt_0_ExtendAv(Match_Complex_alt_0_ExtendAv that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Complex_alt_0_ExtendAv()
 			{
@@ -7845,7 +7845,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_Complex_alt_0_ExtendAv2 that)
+			public void AssignContent(Match_Complex_alt_0_ExtendAv2 that)
 			{
 				_node_a = that._node_a;
 				_node_b2 = that._node_b2;
@@ -7862,7 +7862,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_Complex_alt_0_ExtendAv2(Match_Complex_alt_0_ExtendAv2 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Complex_alt_0_ExtendAv2()
 			{
@@ -8084,7 +8084,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_Complex_alt_0_ExtendNA2 that)
+			public void AssignContent(Match_Complex_alt_0_ExtendNA2 that)
 			{
 				_node_a = that._node_a;
 				_node__node0 = that._node__node0;
@@ -8099,7 +8099,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_Complex_alt_0_ExtendNA2(Match_Complex_alt_0_ExtendNA2 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_Complex_alt_0_ExtendNA2()
 			{
@@ -9084,7 +9084,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_ComplexMax that)
+			public void AssignContent(Match_ComplexMax that)
 			{
 				_node_a = that._node_a;
 				_node_b = that._node_b;
@@ -9095,7 +9095,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_ComplexMax(Match_ComplexMax that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ComplexMax()
 			{
@@ -9313,7 +9313,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_ComplexMax_alt_0_ExtendAv that)
+			public void AssignContent(Match_ComplexMax_alt_0_ExtendAv that)
 			{
 				_node_a = that._node_a;
 				_node_b2 = that._node_b2;
@@ -9328,7 +9328,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_ComplexMax_alt_0_ExtendAv(Match_ComplexMax_alt_0_ExtendAv that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ComplexMax_alt_0_ExtendAv()
 			{
@@ -9518,7 +9518,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_ComplexMax_alt_0_ExtendAv_neg_0 that)
+			public void AssignContent(Match_ComplexMax_alt_0_ExtendAv_neg_0 that)
 			{
 				_node_c = that._node_c;
 				_node__node0 = that._node__node0;
@@ -9527,7 +9527,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_ComplexMax_alt_0_ExtendAv_neg_0(Match_ComplexMax_alt_0_ExtendAv_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ComplexMax_alt_0_ExtendAv_neg_0()
 			{
@@ -9751,7 +9751,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_ComplexMax_alt_0_ExtendAv2 that)
+			public void AssignContent(Match_ComplexMax_alt_0_ExtendAv2 that)
 			{
 				_node_a = that._node_a;
 				_node_b2 = that._node_b2;
@@ -9768,7 +9768,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_ComplexMax_alt_0_ExtendAv2(Match_ComplexMax_alt_0_ExtendAv2 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ComplexMax_alt_0_ExtendAv2()
 			{
@@ -9990,7 +9990,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_ComplexMax_alt_0_ExtendNA2 that)
+			public void AssignContent(Match_ComplexMax_alt_0_ExtendNA2 that)
 			{
 				_node_a = that._node_a;
 				_node__node0 = that._node__node0;
@@ -10005,7 +10005,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_ComplexMax_alt_0_ExtendNA2(Match_ComplexMax_alt_0_ExtendNA2 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ComplexMax_alt_0_ExtendNA2()
 			{
@@ -10467,13 +10467,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_createABA that)
+			public void AssignContent(Match_createABA that)
 			{
 			}
 
 			public Match_createABA(Match_createABA that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_createABA()
 			{
@@ -11007,7 +11007,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_homm that)
+			public void AssignContent(Match_homm that)
 			{
 				_node_a = that._node_a;
 				_node_b = that._node_b;
@@ -11018,7 +11018,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_homm(Match_homm that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_homm()
 			{
@@ -11215,7 +11215,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_homm_alt_0_case1 that)
+			public void AssignContent(Match_homm_alt_0_case1 that)
 			{
 				_node_a = that._node_a;
 				_node_b2 = that._node_b2;
@@ -11226,7 +11226,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_homm_alt_0_case1(Match_homm_alt_0_case1 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_homm_alt_0_case1()
 			{
@@ -11417,7 +11417,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_homm_alt_0_case2 that)
+			public void AssignContent(Match_homm_alt_0_case2 that)
 			{
 				_node_a = that._node_a;
 				_node_b2 = that._node_b2;
@@ -11427,7 +11427,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_homm_alt_0_case2(Match_homm_alt_0_case2 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_homm_alt_0_case2()
 			{
@@ -11901,7 +11901,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_XtoAorB that)
+			public void AssignContent(Match_XtoAorB that)
 			{
 				_node_x = that._node_x;
 				@__sub0 = that.@__sub0;
@@ -11909,7 +11909,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_XtoAorB(Match_XtoAorB that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_XtoAorB()
 			{
@@ -12438,13 +12438,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_alternative_in_negative that)
+			public void AssignContent(Match_alternative_in_negative that)
 			{
 			}
 
 			public Match_alternative_in_negative(Match_alternative_in_negative that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_alternative_in_negative()
 			{
@@ -12614,14 +12614,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_alternative_in_negative_neg_0 that)
+			public void AssignContent(Match_alternative_in_negative_neg_0 that)
 			{
 				_alt_0 = that._alt_0;
 			}
 
 			public Match_alternative_in_negative_neg_0(Match_alternative_in_negative_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_alternative_in_negative_neg_0()
 			{
@@ -12794,14 +12794,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_alternative_in_negative_neg_0_alt_0_Foo that)
+			public void AssignContent(Match_alternative_in_negative_neg_0_alt_0_Foo that)
 			{
 				_node__node0 = that._node__node0;
 			}
 
 			public Match_alternative_in_negative_neg_0_alt_0_Foo(Match_alternative_in_negative_neg_0_alt_0_Foo that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_alternative_in_negative_neg_0_alt_0_Foo()
 			{
@@ -12983,7 +12983,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_alternative_in_negative_neg_0_alt_0_Bar that)
+			public void AssignContent(Match_alternative_in_negative_neg_0_alt_0_Bar that)
 			{
 				_node__node0 = that._node__node0;
 				_node__node1 = that._node__node1;
@@ -12992,7 +12992,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_alternative_in_negative_neg_0_alt_0_Bar(Match_alternative_in_negative_neg_0_alt_0_Bar that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_alternative_in_negative_neg_0_alt_0_Bar()
 			{
@@ -13569,14 +13569,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_alternative_in_iterated that)
+			public void AssignContent(Match_alternative_in_iterated that)
 			{
 				_iter_0 = that._iter_0;
 			}
 
 			public Match_alternative_in_iterated(Match_alternative_in_iterated that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_alternative_in_iterated()
 			{
@@ -13761,7 +13761,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_alternative_in_iterated_iter_0 that)
+			public void AssignContent(Match_alternative_in_iterated_iter_0 that)
 			{
 				_node__node0 = that._node__node0;
 				_alt_0 = that._alt_0;
@@ -13769,7 +13769,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_alternative_in_iterated_iter_0(Match_alternative_in_iterated_iter_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_alternative_in_iterated_iter_0()
 			{
@@ -13943,14 +13943,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_alternative_in_iterated_iter_0_alt_0_Foo that)
+			public void AssignContent(Match_alternative_in_iterated_iter_0_alt_0_Foo that)
 			{
 				_node__node0 = that._node__node0;
 			}
 
 			public Match_alternative_in_iterated_iter_0_alt_0_Foo(Match_alternative_in_iterated_iter_0_alt_0_Foo that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_alternative_in_iterated_iter_0_alt_0_Foo()
 			{
@@ -14132,7 +14132,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 
-			public void CopyMatchContent(Match_alternative_in_iterated_iter_0_alt_0_Bar that)
+			public void AssignContent(Match_alternative_in_iterated_iter_0_alt_0_Bar that)
 			{
 				_node__node0 = that._node__node0;
 				_node__node1 = that._node__node1;
@@ -14141,7 +14141,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			public Match_alternative_in_iterated_iter_0_alt_0_Bar(Match_alternative_in_iterated_iter_0_alt_0_Bar that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_alternative_in_iterated_iter_0_alt_0_Bar()
 			{
@@ -24030,6 +24030,6 @@ maxMatchesIterReached:
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }
+        public override string ModelMD5Hash { get { return "eda3f90b55d93d14a7d999b4279fcda1"; } }
     }
 }

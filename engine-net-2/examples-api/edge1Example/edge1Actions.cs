@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Sat Nov 21 22:18:21 CET 2020
+// Generated from "..\..\tests\edge1\edge1.grg" on Fri Feb 05 19:32:06 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -276,13 +276,13 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_init that)
+			public void AssignContent(Match_init that)
 			{
 			}
 
 			public Match_init(Match_init that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_init()
 			{
@@ -574,13 +574,13 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_init2 that)
+			public void AssignContent(Match_init2 that)
 			{
 			}
 
 			public Match_init2(Match_init2 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_init2()
 			{
@@ -873,13 +873,13 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_init3 that)
+			public void AssignContent(Match_init3 that)
 			{
 			}
 
 			public Match_init3(Match_init3 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_init3()
 			{
@@ -1202,7 +1202,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_findUndirectedEdge that)
+			public void AssignContent(Match_findUndirectedEdge that)
 			{
 				_node_x = that._node_x;
 				_node_y = that._node_y;
@@ -1211,7 +1211,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 			public Match_findUndirectedEdge(Match_findUndirectedEdge that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findUndirectedEdge()
 			{
@@ -1657,7 +1657,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_findArbitraryEdge that)
+			public void AssignContent(Match_findArbitraryEdge that)
 			{
 				_node_x = that._node_x;
 				_node_y = that._node_y;
@@ -1666,7 +1666,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 			public Match_findArbitraryEdge(Match_findArbitraryEdge that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findArbitraryEdge()
 			{
@@ -2112,7 +2112,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_findArbitraryDirectedEdge that)
+			public void AssignContent(Match_findArbitraryDirectedEdge that)
 			{
 				_node_x = that._node_x;
 				_node_y = that._node_y;
@@ -2121,7 +2121,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 			public Match_findArbitraryDirectedEdge(Match_findArbitraryDirectedEdge that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findArbitraryDirectedEdge()
 			{
@@ -2555,7 +2555,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_findArbitraryDirectedReflexiveEdge that)
+			public void AssignContent(Match_findArbitraryDirectedReflexiveEdge that)
 			{
 				_node_x = that._node_x;
 				_edge__edge0 = that._edge__edge0;
@@ -2563,7 +2563,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 			public Match_findArbitraryDirectedReflexiveEdge(Match_findArbitraryDirectedReflexiveEdge that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findArbitraryDirectedReflexiveEdge()
 			{
@@ -2982,7 +2982,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne that)
+			public void AssignContent(Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne that)
 			{
 				_node_x = that._node_x;
 				_node_y = that._node_y;
@@ -2992,7 +2992,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 			public Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne(Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne()
 			{
@@ -3505,7 +3505,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_findArbitraryDirectedTriple that)
+			public void AssignContent(Match_findArbitraryDirectedTriple that)
 			{
 				_node__node0 = that._node__node0;
 				_node__node1 = that._node__node1;
@@ -3516,7 +3516,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 			public Match_findArbitraryDirectedTriple(Match_findArbitraryDirectedTriple that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findArbitraryDirectedTriple()
 			{
@@ -4044,7 +4044,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_findDirectedEdge that)
+			public void AssignContent(Match_findDirectedEdge that)
 			{
 				_node_x = that._node_x;
 				_node_y = that._node_y;
@@ -4053,7 +4053,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 			public Match_findDirectedEdge(Match_findDirectedEdge that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findDirectedEdge()
 			{
@@ -4539,7 +4539,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				}
 			}
 
-			public void CopyMatchContent(Match_findTripleCircle that)
+			public void AssignContent(Match_findTripleCircle that)
 			{
 				_node_x = that._node_x;
 				_node_y = that._node_y;
@@ -4551,7 +4551,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 			public Match_findTripleCircle(Match_findTripleCircle that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_findTripleCircle()
 			{
@@ -8564,6 +8564,6 @@ namespace de.unika.ipd.grGen.Action_edge1
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
+        public override string ModelMD5Hash { get { return "3fd10d45f2c120dfa544acdd2c0cc30a"; } }
     }
 }

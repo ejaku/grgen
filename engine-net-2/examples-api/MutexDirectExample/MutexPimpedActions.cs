@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sat Nov 21 22:18:50 CET 2020
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Fri Feb 05 19:32:59 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -320,7 +320,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_newRule that)
+			public void AssignContent(Match_newRule that)
 			{
 				_node_p1 = that._node_p1;
 				_node_p2 = that._node_p2;
@@ -329,7 +329,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_newRule(Match_newRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_newRule()
 			{
@@ -817,7 +817,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_killRule that)
+			public void AssignContent(Match_killRule that)
 			{
 				_node_p1 = that._node_p1;
 				_node_p = that._node_p;
@@ -828,7 +828,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_killRule(Match_killRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_killRule()
 			{
@@ -1337,14 +1337,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_mountRule that)
+			public void AssignContent(Match_mountRule that)
 			{
 				_node_p = that._node_p;
 			}
 
 			public Match_mountRule(Match_mountRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_mountRule()
 			{
@@ -1720,7 +1720,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_unmountRule that)
+			public void AssignContent(Match_unmountRule that)
 			{
 				_node_r = that._node_r;
 				_node_p = that._node_p;
@@ -1729,7 +1729,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_unmountRule(Match_unmountRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_unmountRule()
 			{
@@ -2283,7 +2283,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_passRule that)
+			public void AssignContent(Match_passRule that)
 			{
 				_node_r = that._node_r;
 				_node_p1 = that._node_p1;
@@ -2294,7 +2294,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_passRule(Match_passRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_passRule()
 			{
@@ -2480,7 +2480,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_passRule_neg_0 that)
+			public void AssignContent(Match_passRule_neg_0 that)
 			{
 				_node_p1 = that._node_p1;
 				_node_r = that._node_r;
@@ -2489,7 +2489,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_passRule_neg_0(Match_passRule_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_passRule_neg_0()
 			{
@@ -3153,7 +3153,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_requestRule that)
+			public void AssignContent(Match_requestRule that)
 			{
 				_node_p = that._node_p;
 				_node_r = that._node_r;
@@ -3161,7 +3161,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_requestRule(Match_requestRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_requestRule()
 			{
@@ -3344,7 +3344,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_requestRule_neg_0 that)
+			public void AssignContent(Match_requestRule_neg_0 that)
 			{
 				_node_r = that._node_r;
 				_node_p = that._node_p;
@@ -3353,7 +3353,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_requestRule_neg_0(Match_requestRule_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_requestRule_neg_0()
 			{
@@ -3537,7 +3537,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_requestRule_neg_1 that)
+			public void AssignContent(Match_requestRule_neg_1 that)
 			{
 				_node_p = that._node_p;
 				_node_m = that._node_m;
@@ -3546,7 +3546,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_requestRule_neg_1(Match_requestRule_neg_1 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_requestRule_neg_1()
 			{
@@ -3980,7 +3980,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_takeRule that)
+			public void AssignContent(Match_takeRule that)
 			{
 				_node_r = that._node_r;
 				_node_p = that._node_p;
@@ -3990,7 +3990,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_takeRule(Match_takeRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_takeRule()
 			{
@@ -4563,7 +4563,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_releaseRule that)
+			public void AssignContent(Match_releaseRule that)
 			{
 				_node_r = that._node_r;
 				_node_p = that._node_p;
@@ -4572,7 +4572,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_releaseRule(Match_releaseRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_releaseRule()
 			{
@@ -4756,7 +4756,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_releaseRule_neg_0 that)
+			public void AssignContent(Match_releaseRule_neg_0 that)
 			{
 				_node_p = that._node_p;
 				_node_m = that._node_m;
@@ -4765,7 +4765,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_releaseRule_neg_0(Match_releaseRule_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_releaseRule_neg_0()
 			{
@@ -5249,7 +5249,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_giveRule that)
+			public void AssignContent(Match_giveRule that)
 			{
 				_node_r = that._node_r;
 				_node_p1 = that._node_p1;
@@ -5260,7 +5260,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_giveRule(Match_giveRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_giveRule()
 			{
@@ -5824,7 +5824,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_blockedRule that)
+			public void AssignContent(Match_blockedRule that)
 			{
 				_node_p1 = that._node_p1;
 				_node_r = that._node_r;
@@ -5835,7 +5835,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_blockedRule(Match_blockedRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_blockedRule()
 			{
@@ -6442,7 +6442,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_waitingRule that)
+			public void AssignContent(Match_waitingRule that)
 			{
 				_node_r2 = that._node_r2;
 				_node_p1 = that._node_p1;
@@ -6456,7 +6456,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_waitingRule(Match_waitingRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_waitingRule()
 			{
@@ -7190,7 +7190,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_ignoreRule that)
+			public void AssignContent(Match_ignoreRule that)
 			{
 				_node_r = that._node_r;
 				_node_p = that._node_p;
@@ -7199,7 +7199,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_ignoreRule(Match_ignoreRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ignoreRule()
 			{
@@ -7383,7 +7383,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_ignoreRule_neg_0 that)
+			public void AssignContent(Match_ignoreRule_neg_0 that)
 			{
 				_node_m = that._node_m;
 				_node_p = that._node_p;
@@ -7392,7 +7392,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_ignoreRule_neg_0(Match_ignoreRule_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_ignoreRule_neg_0()
 			{
@@ -7866,7 +7866,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_unlockRule that)
+			public void AssignContent(Match_unlockRule that)
 			{
 				_node_r = that._node_r;
 				_node_p = that._node_p;
@@ -7876,7 +7876,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_unlockRule(Match_unlockRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_unlockRule()
 			{
@@ -8494,7 +8494,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_requestStarRule that)
+			public void AssignContent(Match_requestStarRule that)
 			{
 				_node_r1 = that._node_r1;
 				_node_p1 = that._node_p1;
@@ -8507,7 +8507,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_requestStarRule(Match_requestStarRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_requestStarRule()
 			{
@@ -8695,7 +8695,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_requestStarRule_neg_0 that)
+			public void AssignContent(Match_requestStarRule_neg_0 that)
 			{
 				_node_p1 = that._node_p1;
 				_node_r2 = that._node_r2;
@@ -8704,7 +8704,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_requestStarRule_neg_0(Match_requestStarRule_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_requestStarRule_neg_0()
 			{
@@ -9373,7 +9373,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_releaseStarRule that)
+			public void AssignContent(Match_releaseStarRule that)
 			{
 				_node_p1 = that._node_p1;
 				_node_r1 = that._node_r1;
@@ -9386,7 +9386,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_releaseStarRule(Match_releaseStarRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_releaseStarRule()
 			{
@@ -10076,7 +10076,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_requestSimpleRule that)
+			public void AssignContent(Match_requestSimpleRule that)
 			{
 				_node_r = that._node_r;
 				_node_p = that._node_p;
@@ -10085,7 +10085,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_requestSimpleRule(Match_requestSimpleRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_requestSimpleRule()
 			{
@@ -10269,7 +10269,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_requestSimpleRule_neg_0 that)
+			public void AssignContent(Match_requestSimpleRule_neg_0 that)
 			{
 				_node_p = that._node_p;
 				_node_r = that._node_r;
@@ -10278,7 +10278,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_requestSimpleRule_neg_0(Match_requestSimpleRule_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_requestSimpleRule_neg_0()
 			{
@@ -10779,14 +10779,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_aux_attachResource that)
+			public void AssignContent(Match_aux_attachResource that)
 			{
 				_node_p = that._node_p;
 			}
 
 			public Match_aux_attachResource(Match_aux_attachResource that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_aux_attachResource()
 			{
@@ -10968,7 +10968,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_aux_attachResource_neg_0 that)
+			public void AssignContent(Match_aux_attachResource_neg_0 that)
 			{
 				_node_r = that._node_r;
 				_node_p = that._node_p;
@@ -10977,7 +10977,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_aux_attachResource_neg_0(Match_aux_attachResource_neg_0 that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_aux_attachResource_neg_0()
 			{
@@ -11340,7 +11340,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 
-			public void CopyMatchContent(Match_annotationTestRule that)
+			public void AssignContent(Match_annotationTestRule that)
 			{
 				_node_n1 = that._node_n1;
 				_edge_e1 = that._edge_e1;
@@ -11348,7 +11348,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			public Match_annotationTestRule(Match_annotationTestRule that)
 			{
-				CopyMatchContent(that);
+				AssignContent(that);
 			}
 			public Match_annotationTestRule()
 			{
@@ -17892,6 +17892,6 @@ label7: ;
             }
         }
         public override void FailAssertion() { Debug.Assert(false); }
-        public override string ModelMD5Hash { get { return "b75cc12d5d56ba550bb415bb40c4947f"; } }
+        public override string ModelMD5Hash { get { return "3709956e21aa338330de705c56128fe8"; } }
     }
 }

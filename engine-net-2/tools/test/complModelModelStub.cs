@@ -1,7 +1,7 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
 // Rename this file or use a copy!
-// Generated from "test.grg" on Sat Nov 21 22:18:40 CET 2020
+// Generated from "test.grg" on Fri Feb 05 19:31:51 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -16,10 +16,14 @@ namespace test
 		public D231_4121_Impl() : base() { }
 
 		public override GRGEN_LIBGR.INode Clone() {
-			return new D231_4121_Impl(this);
+			return new D231_4121_Impl(this, null, null);
 		}
 
-		private D231_4121_Impl(D231_4121_Impl oldElem) : base()
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+			return new D231_4121_Impl(this, graph, oldToNewObjectMap);
+		}
+
+		private D231_4121_Impl(D231_4121_Impl oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base()
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b23_M0no_suXx_h4rD = oldElem.b23_M0no_suXx_h4rD;
@@ -29,8 +33,25 @@ namespace test
 			a5_M0no_suXx_h4rD = oldElem.a5_M0no_suXx_h4rD;
 			d231_4121_M0no_suXx_h4rD = oldElem.d231_4121_M0no_suXx_h4rD;
 		}
+		
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		{
+			if(oldObj == null)
+				return null;
+			if(oldToNewObjectMap.ContainsKey(oldObj))
+				return oldToNewObjectMap[oldObj];
+			else {
+				if(oldObj is GRGEN_LIBGR.IObject) {
+					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				} else {
+					GRGEN_LIBGR.ITransientObject newObj = ((GRGEN_LIBGR.ITransientObject)oldObj).Copy(graph, oldToNewObjectMap);
+					return newObj;
+				}
+			}
+		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
 			if(!(that is D231_4121_Impl)) return false;
 			D231_4121_Impl that_ = (D231_4121_Impl)that;
 			return true
