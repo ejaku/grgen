@@ -1394,15 +1394,13 @@ ElementDef ObjectDefinition():
 {
     typeName=TypeName()
     (
-        "@" "("
+        ("@")? "("
         (
             "%" "=" objName=WordOrText() ("," Attributes(attributes))?
         |
             Attributes(attributes)
         )?
         ")"
-    |
-        "(" ")"
     )
     {
         return new ElementDef(objName, null, typeName, attributes);
