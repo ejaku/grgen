@@ -64,6 +64,26 @@
             in order to carry out lambda expression filter calls (currently supported ("package prefixed") filter names: <![CDATA[removeIf, assign<match-element-name>]]>).
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression.initArrayAccess">
+            <summary>
+            The optional init array access variable (used to access the array a second time during the iteration)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression.initExpression">
+            <summary>
+            The optional init expression evaluated before the sequence of lambda expression evaluations.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression.arrayAccess">
+            <summary>
+            The array access variable (used to access the array a second time during the iteration) -- optional, null if does not apply.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression.previousAccumulationAccess">
+            <summary>
+            The previous accumulation access variable (used to access the accumulation variable value of the previous iteration) -- optional, null if does not apply.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.FilterCallWithLambdaExpression.index">
             <summary>
             The index variable (gives the number of the current match in the matches array) -- optional, null if does not apply.
@@ -532,6 +552,11 @@
             Returns the (package prefixed) filter if it is available, otherwise null
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatchClass.Create">
+            <summary>
+            Returns an instance of the match class
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.MatchClassInfo.GetPatternElement(System.String)">
             <summary>
             Returns the pattern element with the given name if it is available, otherwise null.
@@ -540,6 +565,11 @@
         <member name="M:de.unika.ipd.grGen.libGr.MatchClassInfo.GetFilter(System.String)">
             <summary>
             Returns the (package prefixed) filter if it is available, otherwise null
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.MatchClassInfo.Create">
+            <summary>
+            Returns an instance of the match class
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.MatchClassInfo.name">
@@ -1373,6 +1403,13 @@
             <param name="oldContainer">The container to clone.</param>
             <returns>A shallow clone of the container</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Copy(System.Object,de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+            <summary>
+            Creates a deep copy of the given container.
+            </summary>
+            <param name="oldContainer">The container to copy.</param>
+            <returns>A deep copy of the container</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.AsArray(System.Object,de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
             Creates a new list containing all values from the given dictionary representing a set.
@@ -1393,7 +1430,26 @@
             additionally returns the AttributeType of the attribute of the element.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(de.unika.ipd.grGen.libGr.IObject,System.String,System.Object,de.unika.ipd.grGen.libGr.AttributeType@)">
+            <summary>
+            If the attribute of the given name of the given element is a container attribute
+            then return a clone of the given container value, otherwise just return the original value;
+            additionally returns the AttributeType of the attribute of the element.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(de.unika.ipd.grGen.libGr.IAttributeBearer,System.String,System.Object)">
+            <summary>
+            If the attribute of the given name of the given element is a conatiner attribute
+            then return a clone of the given container value, otherwise just return the original value
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object)">
+            <summary>
+            If the attribute of the given name of the given element is a conatiner attribute
+            then return a clone of the given container value, otherwise just return the original value
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(de.unika.ipd.grGen.libGr.IObject,System.String,System.Object)">
             <summary>
             If the attribute of the given name of the given element is a conatiner attribute
             then return a clone of the given container value, otherwise just return the original value
@@ -1685,10 +1741,10 @@
         <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
         <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
         <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given non-container value
             </summary>
@@ -1697,8 +1753,11 @@
             <param name="content">The content as string, e.g. 42,"foo",bar } </param>
             <param name="attrType">The attribute type of the value (may be null)</param>
             <param name="graph">The graph with the model and the element names</param>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given non-container value
             </summary>
@@ -1706,6 +1765,9 @@
             <param name="attrType">The attribute type (may be null)</param>
             <param name="graph">The graph with the model and the element names</param>
             <returns>String representation of the scalar.</returns>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringObject(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
@@ -1717,52 +1779,70 @@
             <param name="graph">The graph with the model and the element names</param>
             <returns>String representation of the scalar.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a deque
             </summary>
             <param name="value">The value of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of value</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringNonNull(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringNonNull(System.Object,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given value, which must be not null (for emit,record)
             </summary>
             <param name="value">The value of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of the value</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given dictionary
             </summary>
             <param name="setmap">The dictionary of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of dictionary</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given List
             </summary>
             <param name="array">The List of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of List</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given Deque
             </summary>
             <param name="deque">The Deque of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of Deque</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given scalar value
             </summary>
             <param name="value">The scalar value of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of scalar value</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.TypesHelper">
@@ -1799,12 +1879,908 @@
             <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
             <returns>The type object corresponding to the given string, null if type was not found</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.Clone(System.Object)">
+        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.Clone(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            Returns a clone of either a graph or a match or a container
+            Returns a shallow clone of either a graph or a match or a class object or a transient class object or a container
             </summary>
-            <param name="toBeCloned">The graph or match or container to be cloned</param>
-            <returns>The cloned graph or match or container</returns>
+            <param name="toBeCloned">The graph or match or (transient) class object or container to be cloned</param>
+            <returns>The clone</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.Copy(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a deep copy of either a graph or a match or a class object or a transient class object or a container
+            </summary>
+            <param name="toBeCopied">The graph or match or (transient) class object or container to be copied</param>
+            <returns>The copy</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.BaseObjectType">
+            <summary>
+            A representation of a GrGen base object type, i.e. class of internal non-node/edge values.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseObjectType.#ctor(System.Int32)">
+            <summary>
+            Constructs a BaseObjectType (non-graph-element internal class) instance with the given type ID.
+            </summary>
+            <param name="typeID">The unique type ID.</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseObjectType.BaseObjectInterfaceName">
+            <summary>
+            This BaseObjectType describes classes whose real .NET interface type is named as returned (fully qualified).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseObjectType.BaseObjectClassName">
+            <summary>
+            This BaseObjectType describes classes whose real .NET class type is named as returned (fully qualified).
+            It might be null in case this type IsAbstract.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseObjectType.CreateBaseObject">
+            <summary>
+            Creates a base object according to this type.
+            </summary>
+            <returns>The created object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseObjectType.CreateBaseObjectWithCopyCommons(de.unika.ipd.grGen.libGr.IBaseObject)">
+            <summary>
+            Creates a transient object according to this type and copies all
+            common attributes from the given transient object.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <returns>The created object.</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseObjectType.SubOrSameTypes">
+            <summary>
+            Array containing this type first and following all sub types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseObjectType.DirectSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseObjectType.SuperOrSameTypes">
+            <summary>
+            Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseObjectType.DirectSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseObjectType.IsMyType(System.Int32)">
+            <summary>
+            Tells whether the given type is the same or a subtype of this type
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseObjectType.IsA(System.Int32)">
+            <summary>
+            Tells whether this type is the same or a subtype of the given type
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseObjectType.Annotations">
+            <summary>
+            The annotations of the transient class type
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IAttributeBearer">
+            <summary>
+            An interface to IBaseObject (thus IObject, ITransientObject) and IGraphElement (thus INode and IEdge) types, all bearing attributes
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IAttributeBearer.Type">
+            <summary>
+            The InheritanceType of the attribute bearer
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IAttributeBearer.InstanceOf(de.unika.ipd.grGen.libGr.GrGenType)">
+            <summary>
+            Returns true, if the attribute bearer is compatible to the given type
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IAttributeBearer.Item(System.String)">
+            <summary>
+            Indexer that gives access to the attributes of the attribute bearer.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IAttributeBearer.GetAttribute(System.String)">
+            <summary>
+            Returns the attribute with the given attribute name.
+            If the attribute bearer (type) doesn't have an attribute with this name, a NullReferenceException is thrown.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IAttributeBearer.SetAttribute(System.String,System.Object)">
+            <summary>
+            Sets the attribute with the given attribute name to the given value.
+            If the attribute bearer (type) doesn't have an attribute with this name, a NullReferenceException is thrown.
+            </summary>
+            <param name="attrName">The name of the attribute.</param>
+            <param name="value">The new value for the attribute. It must have the correct type.
+            Otherwise a TargetException is thrown.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IAttributeBearer.ResetAllAttributes">
+            <summary>
+            Resets all attribute bearer attributes to their initial values.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IAttributeBearer.AreAttributesEqual(de.unika.ipd.grGen.libGr.IAttributeBearer)">
+            <summary>
+            Returns whether the attributes of this attribute bearer and that attribute bearer are equal.
+            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IAttributeBearer.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the function method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the function method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>The return value of function application.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IAttributeBearer.ApplyProcedureMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the procedure method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the procedure method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IBaseObject">
+            <summary>
+            A GrGen base object (base for values of internal, non-node/edge classes)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IBaseObject.Type">
+            <summary>
+            The BaseObjectType (class) of the object
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IObject">
+            <summary>
+            A GrGen object (value of internal, non-node/edge class)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IObject.Type">
+            <summary>
+            The ObjectType (class) of the object
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IObject.GetUniqueId">
+            <summary>
+            Gets the unique id of the class object.
+            </summary>
+            <returns>The unique id of the class object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IObject.SetUniqueId(System.Int64)">
+            <summary>
+            Sets the unique id of the class object.
+            You have to ensure consistency! (only meant for internal use.)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IObject.GetObjectName">
+            <summary>
+            Gets the name of the class object (which has the form "%" + uniqueId).
+            </summary>
+            <returns>The name of the class object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IObject.Clone(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Creates a shallow clone of this object.
+            All attributes will be transfered to the new object.
+            A new name will be fetched from the graph.
+            </summary>
+            <returns>A copy of this object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IObject.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+            <summary>
+            Creates a deep copy of this object (i.e. internal (transient) class objects will be replicated).
+            All attributes will be transfered to the new object.
+            A new name will be fetched from the graph.
+            </summary>
+            <param name="graph">The graph to fetch the names of the new objects from.</param>
+            <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+            <returns>A copy of this object.</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ITransientObject">
+            <summary>
+            A GrGen transient object (value of internal, non-node/edge class)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ITransientObject.Type">
+            <summary>
+            The TransientObjectType (class) of the object
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ITransientObject.Clone">
+            <summary>
+            Creates a shallow clone of this transient object.
+            All attributes will be transferred to the new object.
+            </summary>
+            <returns>A copy of this object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ITransientObject.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+            <summary>
+            Creates a deep copy of this transient object.
+            All attributes will be transferred to the new object.
+            </summary>
+            <param name="graph">The graph to fetch the names of the new objects from.</param>
+            <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+            <returns>A copy of this object.</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ObjectType">
+            <summary>
+            A representation of a GrGen object type, i.e. class of internal non-node/edge values.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ObjectType.#ctor(System.Int32)">
+            <summary>
+            Constructs an ObjectType (non-graph-element internal class) instance with the given type ID.
+            </summary>
+            <param name="typeID">The unique type ID.</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ObjectType.ObjectInterfaceName">
+            <summary>
+            This ObjectType describes classes whose real .NET interface type is named as returned (fully qualified).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ObjectType.ObjectClassName">
+            <summary>
+            This ObjectType describes classes whose real .NET class type is named as returned (fully qualified).
+            It might be null in case this type IsAbstract.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ObjectType.CreateObject(de.unika.ipd.grGen.libGr.IGraph,System.Int64)">
+            <summary>
+            Creates an object according to this type.
+            Requires the graph to fetch the unique id / the name,
+            in case the unique id is given (!= -1) it is taken, or an exception is thrown in case the id is already in use or id fetching has passed its value.
+            </summary>
+            <returns>The created object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ObjectType.CreateObject(de.unika.ipd.grGen.libGr.IGraph,System.String)">
+            <summary>
+            Creates an object according to this type.
+            Requires the graph to fetch the unique id / the name,
+            in case the name is given and valid it is taken, or an exception is thrown in case the name/id is already in use or id fetching has passed its value.
+            The name is expected in format "%" + uniqueId (if null, a name is fetched).
+            </summary>
+            <returns>The created object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ObjectType.CreateBaseObject">
+            <summary>
+            Creates an object according to this type.
+            </summary>
+            <returns>The created (base) object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ObjectType.CreateObjectWithCopyCommons(de.unika.ipd.grGen.libGr.IObject,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Creates an object according to this type and copies all
+            common attributes from the given object.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <returns>The created object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ObjectType.CreateBaseObjectWithCopyCommons(de.unika.ipd.grGen.libGr.IBaseObject)">
+            <summary>
+            Creates an object according to this type and copies all
+            common attributes from the given (base) object.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <returns>The created object.</returns>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ObjectType.subOrSameTypes">
+            <summary>
+            Array containing this type first and following all sub types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ObjectType.directSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ObjectType.superOrSameTypes">
+            <summary>
+            Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ObjectType.directSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ObjectType.SubOrSameTypes">
+            <summary>
+            Array containing this type first and following all sub types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ObjectType.DirectSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ObjectType.SuperOrSameTypes">
+            <summary>
+            Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ObjectType.DirectSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ObjectType.IsMyType(System.Int32)">
+            <summary>
+            Tells whether the given type is the same or a subtype of this type
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ObjectType.IsA(System.Int32)">
+            <summary>
+            Tells whether this type is the same or a subtype of the given type
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ObjectType.Annotations">
+            <summary>
+            The annotations of the class type
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.InheritanceType">
+            <summary>
+            A representation of a GrGen inheritance type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.InheritanceType.#ctor(System.Int32)">
+            <summary>
+            Initializes an InheritanceType object.
+            </summary>
+            <param name="typeID">The type id for this inheritance type.</param>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InheritanceType.subOrSameGrGenTypes">
+            <summary>
+            Array containing this type first and following all sub types.
+            </summary>
+            <remarks>
+            Must be assigned the same array as SubOrSameTypes of NodeType/EdgeType/ObjectType.
+            It is ugly, but one of the few ways to override a property of
+            an abstract class with another return type.
+            Not meant to be used by users, but public because of assignments from
+            generated code.
+            </remarks>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InheritanceType.directSubGrGenTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+            <remarks>
+            Must be assigned the same array as DirectSubTypes of NodeType/EdgeType/ObjectType.
+            It is ugly, but one of the few ways to override a property of
+            an abstract class with another return type.
+            Not meant to be used by users, but public because of assignments from
+            generated code.
+            </remarks>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InheritanceType.superOrSameGrGenTypes">
+            <summary>
+            Array containing this type first and following all super types.
+            </summary>
+            <remarks>
+            Must be assigned the same array as SubOrSameTypes of NodeType/EdgeType/ObjectType.
+            It is ugly, but one of the few ways to override a property of
+            an abstract class with another return type.
+            Not meant to be used by users, but public because of assignments from
+            generated code.
+            </remarks>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.InheritanceType.directSuperGrGenTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+            <remarks>
+            Must be assigned the same array as DirectSuperTypes of NodeType/EdgeType/ObjectType.
+            It is ugly, but one of the few ways to override a property of
+            an abstract class with another return type.
+            Not meant to be used by users, but public because of assignments from
+            generated code.
+            </remarks>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.SubOrSameTypes">
+            <summary>
+            Array containing this type first and following all sub types.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.DirectSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.SuperOrSameTypes">
+            <summary>
+            Array containing this type first and following all super types.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.DirectSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.SubTypes">
+            <summary>
+            Enumerates over all real subtypes of this type
+            Warning: You should not use this property, but SubOrSameTypes starting from index 1,
+                     because Enumerators in .NET are quite slow!
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.SuperTypes">
+            <summary>
+            Enumerates over all real supertypes of this type
+            Warning: You should not use this property, but SuperOrSameTypes starting from index 1,
+                     because Enumerators in .NET are quite slow!
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.HasSuperTypes">
+            <summary>
+            True, if this type has any super types, i.e. if it is not the root type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.HasSubTypes">
+            <summary>
+            True, if this type has any sub types.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.IsAbstract">
+            <summary>
+            True, if this type is an abstract element type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.IsConst">
+            <summary>
+            True, if this type is a const element type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.NumAttributes">
+            <summary>
+            The number of attributes of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.AttributeTypes">
+            <summary>
+            Enumerates all attribute types of this type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.InheritanceType.GetAttributeType(System.String)">
+            <summary>
+            Returns an AttributeType object for the given attribute name.
+            If this type does not have an attribute with this name, null is returned.
+            </summary>
+            <param name="name">Name of the attribute</param>
+            <returns>The AttributeType matching the name, or null if there is no such</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.NumFunctionMethods">
+            <summary>
+            The number of function methods of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.FunctionMethods">
+            <summary>
+            Enumerates all function methods of this type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.InheritanceType.GetFunctionMethod(System.String)">
+            <summary>
+            Returns a function definition object for the given function method name.
+            If this type does not have a function method with this name, null is returned.
+            </summary>
+            <param name="name">Name of the function method</param>
+            <returns>The function definition of the function method matching the name, or null if there is no such</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.NumProcedureMethods">
+            <summary>
+            The number of procedure methods of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.InheritanceType.ProcedureMethods">
+            <summary>
+            Enumerates all procedure methods of this type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.InheritanceType.GetProcedureMethod(System.String)">
+            <summary>
+            Returns a procedure definition object for the given procedure method name.
+            If this type does not have a procedure method with this name, null is returned.
+            </summary>
+            <param name="name">Name of the procedure method</param>
+            <returns>The procedure definition of the procedure method matching the name, or null if there is no such</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.InheritanceType.op_LessThanOrEqual(de.unika.ipd.grGen.libGr.InheritanceType,de.unika.ipd.grGen.libGr.InheritanceType)">
+            <summary>
+            Checks, whether the first type is a super type of the second type or the types are the same.
+            </summary>
+            <param name="type">The first type.</param>
+            <param name="otherType">The second type.</param>
+            <returns>True, if otherType is compatible to type.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.InheritanceType.op_GreaterThanOrEqual(de.unika.ipd.grGen.libGr.InheritanceType,de.unika.ipd.grGen.libGr.InheritanceType)">
+            <summary>
+            Checks, whether the first type is a sub type of the second type or the types are the same.
+            </summary>
+            <param name="type">The first type.</param>
+            <param name="otherType">The second type.</param>
+            <returns>True, if type is compatible to otherType.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.InheritanceType.op_LessThan(de.unika.ipd.grGen.libGr.InheritanceType,de.unika.ipd.grGen.libGr.InheritanceType)">
+            <summary>
+            Checks, whether the first type is a super type of the second type.
+            </summary>
+            <param name="type">The first type.</param>
+            <param name="otherType">The second type.</param>
+            <returns>True, if type is a super type of otherType.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.InheritanceType.op_GreaterThan(de.unika.ipd.grGen.libGr.InheritanceType,de.unika.ipd.grGen.libGr.InheritanceType)">
+            <summary>
+            Checks, whether the first type is a sub type of the second type.
+            </summary>
+            <param name="type">The first type.</param>
+            <param name="otherType">The second type.</param>
+            <returns>True, if type is a sub type of otherType.</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.Directedness">
+            <summary>
+            Specifies the kind of directedness for an EdgeType
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.Directedness.Arbitrary">
+            <summary>Arbitrary directed. Only for abstract edge types.</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.Directedness.Directed">
+            <summary>Directed.</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.Directedness.Undirected">
+            <summary>Undirected.</summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.EdgeType">
+            <summary>
+            A representation of a GrGen edge type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.#ctor(System.Int32)">
+            <summary>
+            Constructs an EdgeType instance with the given type ID.
+            </summary>
+            <param name="typeID">The unique type ID.</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.IsNodeType">
+            <summary>
+            Always returns false.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.EdgeInterfaceName">
+            <summary>
+            This EdgeType describes edges whose real .NET interface type is named as returned (fully qualified).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.EdgeClassName">
+            <summary>
+            This EdgeType describes edges whose real .NET class type is named as returned (fully qualified).
+            It might be null in case this type IsAbstract.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.Directedness">
+            <summary>
+            Specifies the directedness of this edge type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.CreateEdge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Creates an IEdge object according to this type.
+            </summary>
+            <param name="source">The source of the edge.</param>
+            <param name="target">The target of the edge.</param>
+            <returns>The created IEdge object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.CreateEdge">
+            <summary>
+            Creates an IEdge object according to this type.
+            ATTENTION: You must call SetSourceAndTarget() before adding an edge created this way to a graph.
+            This is an unsafe function that allows to first set the attributes of an edge, as needed in efficient .grs importing.
+            </summary>
+            <returns>The created IEdge object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.SetSourceAndTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Sets the source and target nodes of the edge after creation without.
+            Must be called before an edge created with CreateEdge() is added to the graph.
+            </summary>
+            <param name="edge">The edge to set the source and target for.</param>
+            <param name="source">The source of the edge.</param>
+            <param name="target">The target of the edge.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.CreateEdgeWithCopyCommons(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge)">
+            <summary>
+            Creates an IEdge object according to this type and copies all
+            common attributes from the given edge.
+            </summary>
+            <param name="source">The source of the edge.</param>
+            <param name="target">The target of the edge.</param>
+            <param name="oldEdge">The old edge.</param>
+            <returns>The created IEdge object.</returns>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.EdgeType.subOrSameTypes">
+            <summary>
+            Array containing this type first and following all sub types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.EdgeType.directSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.EdgeType.superOrSameTypes">
+            <summary>
+            Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.EdgeType.directSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.SubOrSameTypes">
+            <summary>
+            Array containing this type first and following all sub types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.DirectSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.SuperOrSameTypes">
+            <summary>
+            Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.DirectSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.IsMyType(System.Int32)">
+            <summary>
+            Tells whether the given type is the same or a subtype of this type
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.IsA(System.Int32)">
+            <summary>
+            Tells whether this type is the same or a subtype of the given type
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.Annotations">
+            <summary>
+            The annotations of the edge type
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.GraphElementType">
+            <summary>
+            A representation of a GrGen graph element type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphElementType.#ctor(System.Int32)">
+            <summary>
+            Initializes a GrGenType object.
+            </summary>
+            <param name="typeID">The type id for this GrGen type.</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.GraphElementType.IsNodeType">
+            <summary>
+            True, if this type is a node type.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.NodeType">
+            <summary>
+            A representation of a GrGen node type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NodeType.#ctor(System.Int32)">
+            <summary>
+            Constructs a NodeType instance with the given type ID.
+            </summary>
+            <param name="typeID">The unique type ID.</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.IsNodeType">
+            <summary>
+            Always returns true.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.NodeInterfaceName">
+            <summary>
+            This NodeType describes nodes whose real .NET interface type is named as returned (fully qualified).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.NodeClassName">
+            <summary>
+            This NodeType describes nodes whose real .NET class type is named as returned (fully qualified).
+            It might be null in case this type IsAbstract.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NodeType.CreateNode">
+            <summary>
+            Creates an INode object according to this type.
+            </summary>
+            <returns>The created INode object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NodeType.CreateNodeWithCopyCommons(de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Creates an INode object according to this type and copies all
+            common attributes from the given node.
+            </summary>
+            <param name="oldNode">The old node.</param>
+            <returns>The created INode object.</returns>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.NodeType.subOrSameTypes">
+            <summary>
+            Array containing this type first and following all sub types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.NodeType.directSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.NodeType.superOrSameTypes">
+            <summary>
+            Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.NodeType.directSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.SubOrSameTypes">
+            <summary>
+            Array containing this type first and following all sub types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.DirectSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.SuperOrSameTypes">
+            <summary>
+            Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.DirectSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NodeType.IsMyType(System.Int32)">
+            <summary>
+            Tells whether the given type is the same or a subtype of this type
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NodeType.IsA(System.Int32)">
+            <summary>
+            Tells whether this type is the same or a subtype of the given type
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.Annotations">
+            <summary>
+            The annotations of the node type
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.TransientObjectType">
+            <summary>
+            A representation of a GrGen transient object type, i.e. class of internal non-node/edge values.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TransientObjectType.#ctor(System.Int32)">
+            <summary>
+            Constructs a TransientObjectType (non-graph-element internal class) instance with the given type ID.
+            </summary>
+            <param name="typeID">The unique type ID.</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.TransientObjectType.TransientObjectInterfaceName">
+            <summary>
+            This TransientObjectType describes classes whose real .NET interface type is named as returned (fully qualified).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.TransientObjectType.TransientObjectClassName">
+            <summary>
+            This TransientObjectType describes classes whose real .NET class type is named as returned (fully qualified).
+            It might be null in case this type IsAbstract.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TransientObjectType.CreateTransientObject">
+            <summary>
+            Creates a transient object according to this type.
+            </summary>
+            <returns>The created transient object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TransientObjectType.CreateBaseObject">
+            <summary>
+            Creates a transient object according to this type.
+            </summary>
+            <returns>The created transient object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TransientObjectType.CreateTransientObjectWithCopyCommons(de.unika.ipd.grGen.libGr.ITransientObject)">
+            <summary>
+            Creates a transient object according to this type and copies all
+            common attributes from the given transient object.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <returns>The created object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TransientObjectType.CreateBaseObjectWithCopyCommons(de.unika.ipd.grGen.libGr.IBaseObject)">
+            <summary>
+            Creates a transient object according to this type and copies all
+            common attributes from the given transient object.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <returns>The created object.</returns>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.TransientObjectType.subOrSameTypes">
+            <summary>
+            Array containing this type first and following all sub types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.TransientObjectType.directSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.TransientObjectType.superOrSameTypes">
+            <summary>
+            Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.TransientObjectType.directSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.TransientObjectType.SubOrSameTypes">
+            <summary>
+            Array containing this type first and following all sub types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.TransientObjectType.DirectSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.TransientObjectType.SuperOrSameTypes">
+            <summary>
+            Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.TransientObjectType.DirectSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TransientObjectType.IsMyType(System.Int32)">
+            <summary>
+            Tells whether the given type is the same or a subtype of this type
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.TransientObjectType.IsA(System.Int32)">
+            <summary>
+            Tells whether this type is the same or a subtype of the given type
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.TransientObjectType.Annotations">
+            <summary>
+            The annotations of the transient class type
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.INamed">
             <summary>
@@ -3168,7 +4144,7 @@
             <summary>The attribute is a double.</summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.ObjectAttr">
-            <summary>The attribute is an object (this includes external attribute types).</summary>
+            <summary>The attribute is an object (this includes external class/attribute types).</summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.MapAttr">
             <summary>The attribute is a map.</summary>
@@ -3183,13 +4159,20 @@
             <summary>The attribute is a deque.</summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.NodeAttr">
-            <summary>The attribute is a node (only valid for set/map/array key/value type).</summary>
+            <summary>The attribute is a node (only valid for set/map/array/deque key/value type).</summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.EdgeAttr">
-            <summary>The attribute is an edge (only valid for set/map/array key/value type).</summary>
+            <summary>The attribute is an edge (only valid for set/map/array/deque key/value type).</summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.GraphAttr">
             <summary>The attribute is a graph (created as a subgraph of the host graph).</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.InternalClassObjectAttr">
+            <summary>The attribute is an internal class object/attribute type (non-external, non-node/edge).</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.InternalClassTransientObjectAttr">
+            <summary>The attribute is an internal class transient object/attribute type (non-external, non-node/edge).
+            Can only appear within transient object classes (not within node class, edge class, class).</summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.AttributeType">
             <summary>
@@ -3261,7 +4244,7 @@
             The annotations of the attribute
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeType,System.String,System.String,System.String,System.Type)">
+        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.InheritanceType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeType,System.String,System.String,System.String,System.Type)">
             <summary>
             Initializes an AttributeType instance.
             </summary>
@@ -3293,6 +4276,11 @@
             <summary>
             A partial implementation of the IGraph interface.
             Adding some methods implemented over the IGraph interface (some convenience stuff).
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.BaseGraph.objectUniqueIdSource">
+            <summary>
+            Source for assigning unique ids to internal class objects.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.NodeAdded(de.unika.ipd.grGen.libGr.INode)">
@@ -4098,14 +5086,22 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AddCopyOfNode(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            creates a node of given type and adds it to the graph, returns it
-            type might be a string denoting a NodeType or a NodeType
+            creates a deep copy of the given node and adds it to the graph, returns it
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AddCopyOfEdge(System.Object,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            creates an edge of given type and adds it to the graph between from and to, returns it
-            type might be a string denoting an EdgeType or an EdgeType
+            creates a deep copy of the given edge and adds it to the graph between from and to, returns it
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AddCloneOfNode(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            creates a shallow clone of the given node and adds it to the graph, returns it
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AddCloneOfEdge(System.Object,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            creates a shallow clone of the given edge and adds it to the graph between from and to, returns it
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.AddNodeOfType(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
@@ -5044,33 +6040,34 @@
             Returns an enum member corresponding the given enum member integer or null if no such member exists
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.libGr.ExternalType">
+        <member name="T:de.unika.ipd.grGen.libGr.ExternalObjectType">
             <summary>
-            A representation of an external type registered with GrGen.
-            The bottom type of the external type hierarchy that is always available is type object.
+            A representation of an external object type registered with GrGen.
+            The bottom type of the external object type hierarchy that is always available is type object
+            (not to be mistaken with type Object, the bottom type of the internal object type hierarchy).
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ExternalType.Name">
+        <member name="F:de.unika.ipd.grGen.libGr.ExternalObjectType.Name">
             <summary>
             The name of the type.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ExternalType.Type">
+        <member name="F:de.unika.ipd.grGen.libGr.ExternalObjectType.Type">
             <summary>
             The .NET type of the type.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ExternalType.DirectSuperTypes">
+        <member name="P:de.unika.ipd.grGen.libGr.ExternalObjectType.DirectSuperTypes">
             <summary>
             Array containing all direct super types of this type, the readonly interface.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.ExternalType.directSuperTypes">
+        <member name="F:de.unika.ipd.grGen.libGr.ExternalObjectType.directSuperTypes">
             <summary>
             Array containing all direct super types of this type, the real array.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ExternalType.IsA(de.unika.ipd.grGen.libGr.ExternalType)">
+        <member name="M:de.unika.ipd.grGen.libGr.ExternalObjectType.IsA(de.unika.ipd.grGen.libGr.ExternalObjectType)">
             <summary>
             Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
             or it is a sub type of the given type.
@@ -5078,17 +6075,17 @@
             <param name="that">The type to be compared to.</param>
             <returns>True, if this type is compatible to the given type.</returns>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ExternalType.NumFunctionMethods">
+        <member name="P:de.unika.ipd.grGen.libGr.ExternalObjectType.NumFunctionMethods">
             <summary>
             The number of function methods of this type.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ExternalType.FunctionMethods">
+        <member name="P:de.unika.ipd.grGen.libGr.ExternalObjectType.FunctionMethods">
             <summary>
             Enumerates all function methods of this type.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ExternalType.GetFunctionMethod(System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.ExternalObjectType.GetFunctionMethod(System.String)">
             <summary>
             Returns a function definition object for the given function method name.
             If this type does not have a function method with this name, null is returned.
@@ -5096,17 +6093,17 @@
             <param name="name">Name of the function method</param>
             <returns>The function definition of the function method matching the name, or null if there is no such</returns>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ExternalType.NumProcedureMethods">
+        <member name="P:de.unika.ipd.grGen.libGr.ExternalObjectType.NumProcedureMethods">
             <summary>
             The number of procedure methods of this type.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ExternalType.ProcedureMethods">
+        <member name="P:de.unika.ipd.grGen.libGr.ExternalObjectType.ProcedureMethods">
             <summary>
             Enumerates all procedure methods of this type.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ExternalType.GetProcedureMethod(System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.ExternalObjectType.GetProcedureMethod(System.String)">
             <summary>
             Returns a procedure definition object for the given procedure method name.
             If this type does not have a procedure method with this name, null is returned.
@@ -5114,7 +6111,7 @@
             <param name="name">Name of the procedure method</param>
             <returns>The procedure definition of the procedure method matching the name, or null if there is no such</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ExternalType.ToString">
+        <member name="M:de.unika.ipd.grGen.libGr.ExternalObjectType.ToString">
             <summary>
             Returns the name of the type.
             </summary>
@@ -5122,12 +6119,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ITypeModel">
             <summary>
-            A type model for node or edge elements.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ITypeModel.IsNodeModel">
-            <summary>
-            Specifies whether this type model is model for nodes (= true) or for edges (= false).
+            A type model for nodes or edges or objects or transient objects (of node classes, edge classes, internal classes, internal transient classes).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.ITypeModel.RootType">
@@ -5155,9 +6147,34 @@
             Enumerates all attribute types of this model.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IGraphElementTypeModel">
+            <summary>
+            A type model for node or edge elements.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphElementTypeModel.IsNodeModel">
+            <summary>
+            Specifies whether this type model is model for nodes (= true) or for edges (= false).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphElementTypeModel.RootType">
+            <summary>
+            The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphElementTypeModel.GetType(System.String)">
+            <summary>
+            Returns the element type with the given type name or null, if no type with this name exists.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphElementTypeModel.Types">
+            <summary>
+            An array of all types in this type model.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.INodeModel">
             <summary>
-            A type model for nodes.
+            A type model for nodes, i.e. node classes.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.INodeModel.RootType">
@@ -5177,7 +6194,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IEdgeModel">
             <summary>
-            A type model for edges.
+            A type model for edges, i.e. edge classes.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IEdgeModel.RootType">
@@ -5195,241 +6212,74 @@
             An array of all types in this type model.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.libGr.NodeType">
+        <member name="T:de.unika.ipd.grGen.libGr.IBaseObjectTypeModel">
             <summary>
-            A representation of a GrGen node type.
+            A type model for base objects (internal non graph-element values), i.e. classes.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NodeType.#ctor(System.Int32)">
+        <member name="P:de.unika.ipd.grGen.libGr.IBaseObjectTypeModel.IsTransientModel">
             <summary>
-            Constructs a NodeType instance with the given type ID.
-            </summary>
-            <param name="typeID">The unique type ID.</param>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.NodeType.IsNodeType">
-            <summary>
-            Always returns true.
+            Specifies whether this type model is model for internal transient objects (= true) or for internal non-transient objects (= false).
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.NodeType.NodeInterfaceName">
+        <member name="P:de.unika.ipd.grGen.libGr.IBaseObjectTypeModel.RootType">
             <summary>
-            This NodeType describes nodes whose real .NET interface type is named as returned (fully qualified).
+            The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.NodeType.NodeClassName">
+        <member name="M:de.unika.ipd.grGen.libGr.IBaseObjectTypeModel.GetType(System.String)">
             <summary>
-            This NodeType describes nodes whose real .NET class type is named as returned (fully qualified).
-            It might be null in case this type IsAbstract.
+            Returns the object type with the given type name or null, if no type with this name exists.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NodeType.CreateNode">
+        <member name="P:de.unika.ipd.grGen.libGr.IBaseObjectTypeModel.Types">
             <summary>
-            Creates an INode object according to this type.
-            </summary>
-            <returns>The created INode object.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NodeType.CreateNodeWithCopyCommons(de.unika.ipd.grGen.libGr.INode)">
-            <summary>
-            Creates an INode object according to this type and copies all
-            common attributes from the given node.
-            </summary>
-            <param name="oldNode">The old node.</param>
-            <returns>The created INode object.</returns>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.NodeType.subOrSameTypes">
-            <summary>
-            Array containing this type first and following all sub types
+            An array of all types in this type model.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.NodeType.directSubTypes">
+        <member name="T:de.unika.ipd.grGen.libGr.IObjectModel">
             <summary>
-            Array containing all direct sub types of this type.
+            A type model for objects (internal non graph-element values), i.e. classes.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.NodeType.superOrSameTypes">
+        <member name="P:de.unika.ipd.grGen.libGr.IObjectModel.RootType">
             <summary>
-            Array containing this type first and following all super types
+            The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.NodeType.directSuperTypes">
+        <member name="M:de.unika.ipd.grGen.libGr.IObjectModel.GetType(System.String)">
             <summary>
-            Array containing all direct super types of this type.
+            Returns the object type with the given type name or null, if no type with this name exists.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.NodeType.SubOrSameTypes">
+        <member name="P:de.unika.ipd.grGen.libGr.IObjectModel.Types">
             <summary>
-            Array containing this type first and following all sub types
+            An array of all types in this type model.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.NodeType.DirectSubTypes">
+        <member name="T:de.unika.ipd.grGen.libGr.ITransientObjectModel">
             <summary>
-            Array containing all direct sub types of this type.
+            A type model for transient objects (internal non graph-element values), i.e. classes.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.NodeType.SuperOrSameTypes">
+        <member name="P:de.unika.ipd.grGen.libGr.ITransientObjectModel.RootType">
             <summary>
-            Array containing this type first and following all super types
+            The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.NodeType.DirectSuperTypes">
+        <member name="M:de.unika.ipd.grGen.libGr.ITransientObjectModel.GetType(System.String)">
             <summary>
-            Array containing all direct super types of this type.
+            Returns the transient object type with the given type name or null, if no type with this name exists.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NodeType.IsMyType(System.Int32)">
+        <member name="P:de.unika.ipd.grGen.libGr.ITransientObjectModel.Types">
             <summary>
-            Tells whether the given type is the same or a subtype of this type
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NodeType.IsA(System.Int32)">
-            <summary>
-            Tells whether this type is the same or a subtype of the given type
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.NodeType.Annotations">
-            <summary>
-            The annotations of the node type
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.Directedness">
-            <summary>
-            Specifies the kind of directedness for an EdgeType
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.Directedness.Arbitrary">
-            <summary>Arbitrary directed. Only for abstract edge types.</summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.Directedness.Directed">
-            <summary>Directed.</summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.Directedness.Undirected">
-            <summary>Undirected.</summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.EdgeType">
-            <summary>
-            A representation of a GrGen edge type.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.#ctor(System.Int32)">
-            <summary>
-            Constructs an EdgeType instance with the given type ID.
-            </summary>
-            <param name="typeID">The unique type ID.</param>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.IsNodeType">
-            <summary>
-            Always returns false.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.EdgeInterfaceName">
-            <summary>
-            This EdgeType describes edges whose real .NET interface type is named as returned (fully qualified).
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.EdgeClassName">
-            <summary>
-            This EdgeType describes edges whose real .NET class type is named as returned (fully qualified).
-            It might be null in case this type IsAbstract.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.Directedness">
-            <summary>
-            Specifies the directedness of this edge type.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.CreateEdge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
-            <summary>
-            Creates an IEdge object according to this type.
-            </summary>
-            <param name="source">The source of the edge.</param>
-            <param name="target">The target of the edge.</param>
-            <returns>The created IEdge object.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.CreateEdge">
-            <summary>
-            Creates an IEdge object according to this type.
-            ATTENTION: You must call SetSourceAndTarget() before adding an edge created this way to a graph.
-            This is an unsafe function that allows to first set the attributes of an edge, as needed in efficient .grs importing.
-            </summary>
-            <returns>The created IEdge object.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.SetSourceAndTarget(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
-            <summary>
-            Sets the source and target nodes of the edge after creation without.
-            Must be called before an edge created with CreateEdge() is added to the graph.
-            </summary>
-            <param name="edge">The edge to set the source and target for.</param>
-            <param name="source">The source of the edge.</param>
-            <param name="target">The target of the edge.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.CreateEdgeWithCopyCommons(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IEdge)">
-            <summary>
-            Creates an IEdge object according to this type and copies all
-            common attributes from the given edge.
-            </summary>
-            <param name="source">The source of the edge.</param>
-            <param name="target">The target of the edge.</param>
-            <param name="oldEdge">The old edge.</param>
-            <returns>The created IEdge object.</returns>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.EdgeType.subOrSameTypes">
-            <summary>
-            Array containing this type first and following all sub types
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.EdgeType.directSubTypes">
-            <summary>
-            Array containing all direct sub types of this type.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.EdgeType.superOrSameTypes">
-            <summary>
-            Array containing this type first and following all super types
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.EdgeType.directSuperTypes">
-            <summary>
-            Array containing all direct super types of this type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.SubOrSameTypes">
-            <summary>
-            Array containing this type first and following all sub types
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.DirectSubTypes">
-            <summary>
-            Array containing all direct sub types of this type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.SuperOrSameTypes">
-            <summary>
-            Array containing this type first and following all super types
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.DirectSuperTypes">
-            <summary>
-            Array containing all direct super types of this type.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.IsMyType(System.Int32)">
-            <summary>
-            Tells whether the given type is the same or a subtype of this type
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.IsA(System.Int32)">
-            <summary>
-            Tells whether this type is the same or a subtype of the given type
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.Annotations">
-            <summary>
-            The annotations of the edge type
+            An array of all types in this type model.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.GrGenType">
             <summary>
-            A representation of a GrGen graph element type.
+            A representation of a GrGen type.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GrGenType.#ctor(System.Int32)">
@@ -5459,167 +6309,6 @@
             the name of the type prefixed by the name of the package otherwise.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.GrGenType.subOrSameGrGenTypes">
-            <summary>
-            Array containing this type first and following all sub types.
-            </summary>
-            <remarks>
-            Must be assigned the same array as SubOrSameTypes of NodeType/EdgeType.
-            It is ugly, but one of the few ways to override a property of
-            an abstract class with another return type.
-            Not meant to be used by users, but public because of assignments from
-            generated code.
-            </remarks>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.GrGenType.directSubGrGenTypes">
-            <summary>
-            Array containing all direct sub types of this type.
-            </summary>
-            <remarks>
-            Must be assigned the same array as DirectSubTypes of NodeType/EdgeType.
-            It is ugly, but one of the few ways to override a property of
-            an abstract class with another return type.
-            Not meant to be used by users, but public because of assignments from
-            generated code.
-            </remarks>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.GrGenType.superOrSameGrGenTypes">
-            <summary>
-            Array containing this type first and following all super types.
-            </summary>
-            <remarks>
-            Must be assigned the same array as SubOrSameTypes of NodeType/EdgeType.
-            It is ugly, but one of the few ways to override a property of
-            an abstract class with another return type.
-            Not meant to be used by users, but public because of assignments from
-            generated code.
-            </remarks>
-        </member>
-        <member name="F:de.unika.ipd.grGen.libGr.GrGenType.directSuperGrGenTypes">
-            <summary>
-            Array containing all direct super types of this type.
-            </summary>
-            <remarks>
-            Must be assigned the same array as DirectSuperTypes of NodeType/EdgeType.
-            It is ugly, but one of the few ways to override a property of
-            an abstract class with another return type.
-            Not meant to be used by users, but public because of assignments from
-            generated code.
-            </remarks>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.SubOrSameTypes">
-            <summary>
-            Array containing this type first and following all sub types.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.DirectSubTypes">
-            <summary>
-            Array containing all direct sub types of this type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.SuperOrSameTypes">
-            <summary>
-            Array containing this type first and following all super types.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.DirectSuperTypes">
-            <summary>
-            Array containing all direct super types of this type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.SubTypes">
-            <summary>
-            Enumerates over all real subtypes of this type
-            Warning: You should not use this property, but SubOrSameTypes starting from index 1,
-                     because Enumerators in .NET are quite slow!
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.SuperTypes">
-            <summary>
-            Enumerates over all real supertypes of this type
-            Warning: You should not use this property, but SuperOrSameTypes starting from index 1,
-                     because Enumerators in .NET are quite slow!
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.HasSuperTypes">
-            <summary>
-            True, if this type has any super types, i.e. if it is not the node/edge root type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.HasSubTypes">
-            <summary>
-            True, if this type has any sub types.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.IsNodeType">
-            <summary>
-            True, if this type is a node type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.IsAbstract">
-            <summary>
-            True, if this type is an abstract element type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.IsConst">
-            <summary>
-            True, if this type is a const element type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.NumAttributes">
-            <summary>
-            The number of attributes of this type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.AttributeTypes">
-            <summary>
-            Enumerates all attribute types of this type.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GrGenType.GetAttributeType(System.String)">
-            <summary>
-            Returns an AttributeType object for the given attribute name.
-            If this type does not have an attribute with this name, null is returned.
-            </summary>
-            <param name="name">Name of the attribute</param>
-            <returns>The AttributeType matching the name, or null if there is no such</returns>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.NumFunctionMethods">
-            <summary>
-            The number of function methods of this type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.FunctionMethods">
-            <summary>
-            Enumerates all function methods of this type.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GrGenType.GetFunctionMethod(System.String)">
-            <summary>
-            Returns a function definition object for the given function method name.
-            If this type does not have a function method with this name, null is returned.
-            </summary>
-            <param name="name">Name of the function method</param>
-            <returns>The function definition of the function method matching the name, or null if there is no such</returns>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.NumProcedureMethods">
-            <summary>
-            The number of procedure methods of this type.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.ProcedureMethods">
-            <summary>
-            Enumerates all procedure methods of this type.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GrGenType.GetProcedureMethod(System.String)">
-            <summary>
-            Returns a procedure definition object for the given procedure method name.
-            If this type does not have a procedure method with this name, null is returned.
-            </summary>
-            <param name="name">Name of the procedure method</param>
-            <returns>The procedure definition of the procedure method matching the name, or null if there is no such</returns>
-        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GrGenType.IsA(de.unika.ipd.grGen.libGr.GrGenType)">
             <summary>
             Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
@@ -5627,38 +6316,6 @@
             </summary>
             <param name="other">The type to be compared to.</param>
             <returns>True, if this type is compatible to the given type.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GrGenType.op_LessThanOrEqual(de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.GrGenType)">
-            <summary>
-            Checks, whether the first type is a super type of the second type or the types are the same.
-            </summary>
-            <param name="type">The first type.</param>
-            <param name="otherType">The second type.</param>
-            <returns>True, if otherType is compatible to type.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GrGenType.op_GreaterThanOrEqual(de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.GrGenType)">
-            <summary>
-            Checks, whether the first type is a sub type of the second type or the types are the same.
-            </summary>
-            <param name="type">The first type.</param>
-            <param name="otherType">The second type.</param>
-            <returns>True, if type is compatible to otherType.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GrGenType.op_LessThan(de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.GrGenType)">
-            <summary>
-            Checks, whether the first type is a super type of the second type.
-            </summary>
-            <param name="type">The first type.</param>
-            <param name="otherType">The second type.</param>
-            <returns>True, if type is a super type of otherType.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GrGenType.op_GreaterThan(de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.GrGenType)">
-            <summary>
-            Checks, whether the first type is a sub type of the second type.
-            </summary>
-            <param name="type">The first type.</param>
-            <param name="otherType">The second type.</param>
-            <returns>True, if type is a sub type of otherType.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GrGenType.ToString">
             <summary>
@@ -5673,7 +6330,7 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphElement.Type">
             <summary>
-            The GrGenType of the graph element
+            The GraphElementType of the graph element
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphElement.Valid">
@@ -5687,11 +6344,6 @@
             or null, if this element has not been replaced or is still a valid member of a graph.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.InstanceOf(de.unika.ipd.grGen.libGr.GrGenType)">
-            <summary>
-            Returns true, if the graph element is compatible to the given type
-            </summary>
-        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.GetUniqueId">
             <summary>
             Gets the unique id of the graph element.
@@ -5699,59 +6351,6 @@
             (or implicitely switched on by parallelization or the declaration of some index).
             </summary>
             <returns>The unique id of the graph element (an arbitrary number in case uniqueness was not requested).</returns>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IGraphElement.Item(System.String)">
-            <summary>
-            Indexer that gives access to the attributes of the graph element.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.GetAttribute(System.String)">
-            <summary>
-            Returns the graph element attribute with the given attribute name.
-            If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.SetAttribute(System.String,System.Object)">
-            <summary>
-            Sets the graph element attribute with the given attribute name to the given value.
-            If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
-            </summary>
-            <param name="attrName">The name of the attribute.</param>
-            <param name="value">The new value for the attribute. It must have the correct type.
-            Otherwise a TargetException is thrown.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.ResetAllAttributes">
-            <summary>
-            Resets all graph element attributes to their initial values.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.AreAttributesEqual(de.unika.ipd.grGen.libGr.IGraphElement)">
-            <summary>
-            Returns whether the attributes of this element and that are equal.
-            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
-            <summary>
-            Executes the function method given by its name.
-            Throws an exception if the method does not exists or the parameters are of wrong types.
-            </summary>
-            <param name="actionEnv">The current action execution environment.</param>
-            <param name="graph">The current graph.</param>
-            <param name="name">The name of the function method to apply.</param>
-            <param name="arguments">An array with the arguments to the method.</param>
-            <returns>The return value of function application.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.ApplyProcedureMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
-            <summary>
-            Executes the procedure method given by its name.
-            Throws an exception if the method does not exists or the parameters are of wrong types.
-            </summary>
-            <param name="actionEnv">The current action execution environment.</param>
-            <param name="graph">The current graph.</param>
-            <param name="name">The name of the procedure method to apply.</param>
-            <param name="arguments">An array with the arguments to the method.</param>
-            <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.INode">
             <summary>
@@ -5816,11 +6415,22 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.INode.Clone">
             <summary>
-            Creates a copy of this node.
+            Creates a shallow clone of this node.
             All attributes will be transfered to the new node.
             The node will not be associated to a graph, yet.
             So it will not have any incident edges nor any assigned variables.
             </summary>
+            <returns>A copy of this node.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.INode.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+            <summary>
+            Creates a deep copy of this node (i.e. internal (transient) class objects will be replicated).
+            All attributes will be transfered to the new node.
+            The node will not be associated to a graph, yet.
+            So it will not have any incident edges nor any assigned variables.
+            </summary>
+            <param name="graph">The graph to fetch the names of the new objects from.</param>
+            <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
             <returns>A copy of this node.</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IEdge">
@@ -5859,13 +6469,26 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IEdge.Clone(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
             <summary>
-            Creates a copy of this edge.
+            Creates a shallow clone of this edge.
             All attributes will be transfered to the new edge.
             The edge will not be associated to a graph, yet.
             So it will not have any assigned variables.
             </summary>
             <param name="newSource">The new source node for the new edge.</param>
             <param name="newTarget">The new target node for the new edge.</param>
+            <returns>A copy of this edge.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IEdge.Copy(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+            <summary>
+            Creates a deep copy of this edge (i.e. internal (transient) class objects will be replicated).
+            All attributes will be transfered to the new edge.
+            The edge will not be associated to a graph, yet.
+            So it will not have any assigned variables.
+            </summary>
+            <param name="newSource">The new source node for the new edge.</param>
+            <param name="newTarget">The new target node for the new edge.</param>
+            <param name="graph">The graph to fetch the names of the new objects from.</param>
+            <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
             <returns>A copy of this edge.</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IDEdge">
@@ -5890,12 +6513,22 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.NodeModel">
             <summary>
-            The model of the nodes.
+            The model of the nodes (node classes).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.EdgeModel">
             <summary>
-            The model of the edges.
+            The model of the edges (edge classes).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.ObjectModel">
+            <summary>
+            The model of the objects (internal classes).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.TransientObjectModel">
+            <summary>
+            The model of the objects (internal transient classes).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.Packages">
@@ -6004,9 +6637,9 @@
             This way you can graphically inspect your own data types which are opaque to GrGen with its debugger.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.ExternalTypes">
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.ExternalObjectTypes">
             <summary>
-            The external types known to this model, it contains always and at least the object type,
+            The external object types known to this model, it contains always and at least the object type,
             the bottom type of the external attribute types hierarchy.
             </summary>
         </member>
@@ -6692,7 +7325,7 @@
             Used as priorities for GroupNodeType objects.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.SetElemTypeLabel(de.unika.ipd.grGen.libGr.GrGenType,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.SetElemTypeLabel(de.unika.ipd.grGen.libGr.GraphElementType,System.String)">
             <summary>
             Sets the labels of the given element type.
             null is the default case, which is "&lt;elemname&gt;:&lt;type&gt;".
@@ -6700,7 +7333,7 @@
             <param name="type">The element type.</param>
             <param name="label">The label or null for the default case.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.GetElemTypeLabel(de.unika.ipd.grGen.libGr.GrGenType)">
+        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.GetElemTypeLabel(de.unika.ipd.grGen.libGr.GraphElementType)">
             <summary>
             Returns the label of the given element type or null for the default case.
             </summary>
@@ -6730,21 +7363,21 @@
             <param name="nodeType">The given node type.</param>
             <returns>The GroupNodeType of the given node type or null, if it is not a group node type.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.GetTypeInfoTags(de.unika.ipd.grGen.libGr.GrGenType)">
+        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.GetTypeInfoTags(de.unika.ipd.grGen.libGr.GraphElementType)">
             <summary>
-            Returns a list of InfoTag objects for the given GrGenType or null.
+            Returns a list of InfoTag objects for the given type or null.
             </summary>
-            <param name="type">The GrGenType to be examined.</param>
+            <param name="type">The element type to be examined.</param>
             <returns>A list of associated InfoTag objects or null.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.AddTypeInfoTag(de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.InfoTag)">
+        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.AddTypeInfoTag(de.unika.ipd.grGen.libGr.GraphElementType,de.unika.ipd.grGen.libGr.InfoTag)">
             <summary>
             Associates an InfoTag to a GrGenType.
             </summary>
-            <param name="type">The GrGenType to given an InfoTag</param>
+            <param name="type">The element type to given an InfoTag</param>
             <param name="infotag">The InfoTag</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.GetTypeInfoTag(de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeType)">
+        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.GetTypeInfoTag(de.unika.ipd.grGen.libGr.GraphElementType,de.unika.ipd.grGen.libGr.AttributeType)">
             <summary>
             Returns an info tag with the given AttributeType registered for the given element type or null.
             </summary>
@@ -7151,7 +7784,7 @@
             with exact information about the change to occur,
             to allow rollback of changes, in case a transaction is underway.
             </summary>
-            <param name="node">The node whose attribute is changed.</param>
+            <param name="node">The node whose attribute is to be changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
             <param name="changeType">The type of the change which will be made.</param>
             <param name="newValue">The new value of the attribute, if changeType==Assign.
@@ -7168,7 +7801,24 @@
             with exact information about the change to occur,
             to allow rollback of changes, in case a transaction is underway.
             </summary>
-            <param name="edge">The edge whose attribute is changed.</param>
+            <param name="edge">The edge whose attribute is to be changed.</param>
+            <param name="attrType">The type of the attribute to be changed.</param>
+            <param name="changeType">The type of the change which will be made.</param>
+            <param name="newValue">The new value of the attribute, if changeType==Assign.
+                                   Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+                                   Or the new map pair value to be inserted if changeType==PutElement on map.
+                                   Or the new value to be inserted/added if changeType==PutElement on array.
+                                   Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+            <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
+                                   The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ChangingObjectAttributeHandler">
+            <summary>
+            Represents a method called just before an object attribute is changed,
+            with exact information about the change to occur,
+            to allow rollback of changes, in case a transaction is underway.
+            </summary>
+            <param name="obj">The object whose attribute is to be changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
             <param name="changeType">The type of the change which will be made.</param>
             <param name="newValue">The new value of the attribute, if changeType==Assign.
@@ -7181,7 +7831,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ChangedNodeAttributeHandler">
             <summary>
-            Represents a method called after a node attribute was changed (for debugging, omitted in case nodebugevents).
+            Represents a method called after a node attribute was changed (for debugging, omitted in case of nodebugevents).
             </summary>
             <param name="node">The node whose attribute was changed.</param>
             <param name="attrType">The type of the attribute changed.</param>
@@ -7282,6 +7932,12 @@
             Returns a counter of the number of changes that occured since the graph was created.
             If it's different since last time you visited, the graph has changed (but it may be back again in the original state).
             Only graph structure changes are counted, attribute changes are not included.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.FetchObjectUniqueId">
+            <summary>
+            Fetches a unique id for an internal class object (non-transient).
+            May be called concurrently from multiple threads.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraph.NumNodes">
@@ -7419,6 +8075,7 @@
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.Clear">
             <summary>
             Removes all nodes and edges from the graph (so any variables pointing to them start dangling).
+            Also resets the class object unique id source.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.Retype(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.NodeType)">
@@ -7699,6 +8356,16 @@
             using ChangingEdgeAttributes.
             </summary>
         </member>
+        <member name="E:de.unika.ipd.grGen.libGr.IGraph.OnChangingObjectAttribute">
+            <summary>
+            Fired before an attribute of an object is changed.
+            Note for LGSPBackend:
+            Because objects (of the LGSPBackend) don't know their graph a call to
+            LGSPObject.SetAttribute will not fire this event. If you use this function
+            and want the event to be fired, you have to fire it yourself
+            using ChangingObjectAttributes.
+            </summary>
+        </member>
         <member name="E:de.unika.ipd.grGen.libGr.IGraph.OnChangedNodeAttribute">
             <summary>
             Fired after an attribute of a node is changed; for debugging purpose.
@@ -7771,7 +8438,7 @@
             with exact information about the change to occur,
             to allow rollback of changes, in case a transaction is underway.
             </summary>
-            <param name="node">The node whose attribute is changed.</param>
+            <param name="node">The node whose attribute is to be changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
             <param name="changeType">The type of the change which will be made.</param>
             <param name="newValue">The new value of the attribute, if changeType==Assign.
@@ -7789,7 +8456,25 @@
             with exact information about the change to occur,
             to allow rollback of changes, in case a transaction is underway.
             </summary>
-            <param name="edge">The edge whose attribute is changed.</param>
+            <param name="edge">The edge whose attribute is to be changed.</param>
+            <param name="attrType">The type of the attribute to be changed.</param>
+            <param name="changeType">The type of the change which will be made.</param>
+            <param name="newValue">The new value of the attribute, if changeType==Assign.
+                                   Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+                                   Or the new map pair value to be inserted if changeType==PutElement on map.
+                                   Or the new value to be inserted/added if changeType==PutElement on array/deque.
+                                   Or the new value to be assigned to the given position if changeType==AssignElement on array/deque.</param>
+            <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
+                                   The index to be removed/written to if changeType==RemoveElement/AssignElement on array/deque.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.ChangingObjectAttribute(de.unika.ipd.grGen.libGr.IObject,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object)">
+            <summary>
+            Fires an OnChangingObjectAttribute event.
+            To be called before changing an attribute of an internal object,
+            with exact information about the change to occur,
+            to allow rollback of changes, in case a transaction is underway.
+            </summary>
+            <param name="obj">The object whose attribute is to be changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
             <param name="changeType">The type of the change which will be made.</param>
             <param name="newValue">The new value of the attribute, if changeType==Assign.
@@ -7910,7 +8595,7 @@
             <summary>
             Sets the value of the given variable to the given value.
             If the variable name is null, this function does nothing.
-            If elem is null, the variable is unset.
+            If val is null, the variable is unset.
             </summary>
             <param name="varName">The name of the variable</param>
             <param name="val">The new value of the variable</param>
@@ -7926,6 +8611,40 @@
             </summary>
             <param name="name">The name of the variable to access</param>
             <returns>The value of the variable accessed (read on get, written on set)</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.GetSpecialVariableValue(System.String)">
+            <summary>
+            Retrieves the value of a special variable name.
+            Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
+            </summary>
+            <param name="name">The name of the special variable to read</param>
+            <returns>The according value</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.SetSpecialVariableValue(System.String,System.Object)">
+            <summary>
+            Sets the given special variable name to the given value.
+            Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
+            </summary>
+            <param name="name">The name of the special variable to write</param>
+            <param name="val">The new value of the special variable</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.DeleteSpecialVariable(System.String)">
+            <summary>
+            Deletes the given special variable name.
+            Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
+            </summary>
+            <param name="name">The name of the special variable to delete</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.GetUniqueId(de.unika.ipd.grGen.libGr.ITransientObject)">
+            <summary>
+            Assigns a unique id to the given transient object (for the same object, always the same id is returned).
+            Thereafter, the returned id can be used in GetTransientObject to obtain the corresponding object.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.GetTransientObject(System.Int64)">
+            <summary>
+            Returns the transient object belonging to the given id, or null if no transient object is bound to the id.
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.AddNode(de.unika.ipd.grGen.libGr.INode,System.String)">
             <summary>
@@ -8374,20 +9093,26 @@
             <param name="nonewgraph">If true, the new graph command is not emitted.</param>
             <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.MainGraphExportContext,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.MainGraphExportContext,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter,System.Text.StringBuilder)">
             <summary>
             Emits the node/edge attribute initialization code in graph exporting
             for an attribute of the given type with the given value into the stream writer.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttribute(de.unika.ipd.grGen.libGr.MainGraphExportContext,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.MainGraphExportContext,de.unika.ipd.grGen.libGr.IAttributeBearer,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter)">
+            <summary>
+            Emits the node/edge/internal class object attribute initialization code in graph exporting
+            for an attribute of internal class object type with the given value into the stream writer.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttribute(de.unika.ipd.grGen.libGr.MainGraphExportContext,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter,System.Text.StringBuilder)">
             <summary>
             Emits the attribute value as code
             for an attribute of the given type with the given value into the stream writer
             Main graph context is needed to get access to the graph -> env dictionary.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.ToString(de.unika.ipd.grGen.libGr.MainGraphExportContext,System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.INamedGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributeValue(de.unika.ipd.grGen.libGr.MainGraphExportContext,System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter,System.Text.StringBuilder)">
             <summary>
             Type needed for enum, otherwise null ok.
             Graph needed for node/edge, otherwise null ok.
@@ -9255,11 +9980,11 @@
             <param name="oldEdge">The edge to be retyped.</param>
             <param name="newEdge">The new edge with the common attributes, but without the correct connections, yet.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.ChangingAttribute(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object)">
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.ChangingAttribute(de.unika.ipd.grGen.libGr.IAttributeBearer,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object)">
             <summary>
-            Event handler for IGraph.OnChangingNodeAttribute and IGraph.OnChangingEdgeAttribute.
+            Event handler for IGraph.OnChangingNodeAttribute and IGraph.OnChangingEdgeAttribute and IGraph.OnChangingObjectAttribute.
             </summary>
-            <param name="element">The node or edge whose attribute is changed.</param>
+            <param name="owner">The node or edge or object whose attribute is changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
             <param name="changeType">The type of the change which will be made.</param>
             <param name="newValue">The new value of the attribute, if changeType==Assign.
@@ -9425,14 +10150,14 @@
             </summary>
             <returns>The innermost sequence currently executed, or null if there is no such</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Sequence.GetLocalVariables(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceExpressionContainerConstructor},de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.libGr.Sequence.GetLocalVariables(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceExpressionConstructor},de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             Walks the sequence tree from this on to the given target sequence (inclusive),
             collecting all variables found on the way into the variables dictionary,
-            and all container constructors used into the constructors array.
+            and all container and object type constructors used into the constructors array.
             </summary>
             <param name="variables">Contains the variables found</param>
-            <param name="containerConstructors">Contains the container constructors walked by</param>
+            <param name="constructors">Contains the constructors walked by</param>
             <param name="target">The target sequence up to which to walk</param>
             <returns>Returns whether the target was hit, so the parent can abort walking</returns>
         </member>
@@ -9900,7 +10625,7 @@
             <param name="seqExprFuncMethodCall">The function method call to check</param>
             <param name="targetExpr">The target of the procedure function call</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckProcedureCallBase(de.unika.ipd.grGen.libGr.SequenceComputationProcedureCall,de.unika.ipd.grGen.libGr.GrGenType)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckProcedureCallBase(de.unika.ipd.grGen.libGr.SequenceComputationProcedureCall,de.unika.ipd.grGen.libGr.InheritanceType)">
             <summary>
             Helper for checking procedure calls.
             Type checks the input, type checks the output.
@@ -9909,7 +10634,7 @@
             <param name="seqCompProcCall">The procedure call to check</param>
             <param name="ownerType">Gives the owner type of the procedure method call, in case this is a method call, otherwise null</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckFunctionCallBase(de.unika.ipd.grGen.libGr.SequenceExpressionFunctionCall,de.unika.ipd.grGen.libGr.GrGenType)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment.CheckFunctionCallBase(de.unika.ipd.grGen.libGr.SequenceExpressionFunctionCall,de.unika.ipd.grGen.libGr.InheritanceType)">
             <summary>
             Helper for checking function calls.
             Type checks the input.
@@ -9939,7 +10664,7 @@
             <summary>
             Helper which returns the type of 
             - the given member in the given match or match class type or
-            - the given attribute in the given node or edge type
+            - the given attribute in the given node or edge or internal object type
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceCheckingEnvironmentCompiled">
@@ -10025,10 +10750,10 @@
             <returns>The value resulting from computing this sequence computation, 
                      null if there is no result value</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.GetLocalVariables(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceExpressionContainerConstructor})">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.GetLocalVariables(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.SequenceExpressionConstructor})">
             <summary>
             Collects all variables of the sequence expression tree into the variables dictionary,
-            and all container constructors used into the constructors array.
+            and all container and internal object constructors used into the constructors array.
             </summary>
             <param name="variables">Contains the variables found</param>
         </member>
@@ -10286,6 +11011,11 @@
             The parameters of the given filter applied to the given rule don't fit to the declaration
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.FilterLambdaExpressionError">
+            <summary>
+            The type of the lambda expression variables doesn't fit to the (matches) array
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.SubgraphTypeError">
             <summary>
             The given subgraph is of wrong type
@@ -10540,7 +11270,7 @@
             Returns "-" in case of a type error and/or if no operator working on strings can be applied.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpressionTypeHelper.BalanceExternalType(System.String,System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpressionTypeHelper.BalanceExternalObjectType(System.String,System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
             Returns the types to which the operands must be casted to, 
             assuming an external type equality or ordering operator.

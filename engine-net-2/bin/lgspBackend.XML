@@ -296,7 +296,12 @@
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayRemoveIf">
             <summary>
-            Class representing an array map expression.
+            Class representing an array removeIf expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayMapStartWithAccumulateBy">
+            <summary>
+            Class representing an array map start with accumulate by expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayExtractIterated">
@@ -489,15 +494,30 @@
             Class representing a deque item.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.MatchClassConstructor">
+            <summary>
+            Class representing a match class constructor.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.InternalObjectConstructor">
+            <summary>
+            Class representing a match type constructor.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.AttributeInitialization">
+            <summary>
+            Class representing an attribute initialization.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ExpressionOrYielding">
             <summary>
             Base class of expressions and yieldings
             which allows to emit code and to iterate over the contained children
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.EmitArrayPerElementMethods(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+        <member name="M:de.unika.ipd.grGen.expression.ExpressionOrYielding.EmitLambdaExpressionImplementationMethods(de.unika.ipd.grGen.lgsp.SourceBuilder)">
             <summary>
-            pre-run for emitting array per element methods employing lambda expressions (that are then called in the expression/yielding)
+            pre-run for emitting array per element methods and filters employing lambda expressions (that are then called in the expression/yielding)
             default implementation: recursively walk the tree, real functionality is to be attached to the nodes that require it
             </summary>
         </member>
@@ -585,6 +605,26 @@
         <member name="T:de.unika.ipd.grGen.expression.NE">
             <summary>
             Class representing an inequality comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.OBJECT_CLASS_EQ">
+            <summary>
+            Class representing an equality comparison (of object classes).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.TRANSIENT_OBJECT_CLASS_EQ">
+            <summary>
+            Class representing an equality comparison (of transient object classes).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.OBJECT_CLASS_NE">
+            <summary>
+            Class representing an inequality comparison (of object classes).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.TRANSIENT_OBJECT_CLASS_NE">
+            <summary>
+            Class representing an inequality comparison (of transient object classes).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LT">
@@ -1714,6 +1754,253 @@
             <param name="path">The original path string potentially with wrong chars</param>
             <returns>The corrected path string</returns>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPObject">
+            <summary>
+            Class implementing objects in the libGr search plan backend (values of internal non-node/edge classes)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPObject.lgspType">
+            <summary>
+            The object type (class) of the object/value.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPObject.uniqueId">
+            <summary>
+            Contains a unique id (intended use: filled at creation, never changed)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.#ctor(de.unika.ipd.grGen.libGr.ObjectType,System.Int64)">
+            <summary>
+            Instantiates a LGSPObject object.
+            </summary>
+            <param name="objectType">The object type.</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPObject.Type">
+            <summary>
+            The ObjectType of the object.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPObject.de#unika#ipd#grGen#libGr#IBaseObject#Type">
+            <summary>
+            The BaseObjectType of the (base) object.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPObject.de#unika#ipd#grGen#libGr#IAttributeBearer#Type">
+            <summary>
+            The InheritanceType of the attribute bearer.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.InstanceOf(de.unika.ipd.grGen.libGr.GrGenType)">
+            <summary>
+            Returns true, if the class object is compatible to the given type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.GetUniqueId">
+            <summary>
+            Gets the unique id of the class object.
+            </summary>
+            <returns>The unique id of the class object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.SetUniqueId(System.Int64)">
+            <summary>
+            Sets the unique id of the class object.
+            You have to ensure consistency! (only meant for internal use.)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.GetObjectName">
+            <summary>
+            Gets the name of the class object.
+            </summary>
+            <returns>The name of the class object.</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPObject.Item(System.String)">
+            <summary>
+            Indexer that gives access to the attributes of the class object.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.GetAttribute(System.String)">
+            <summary>
+            Returns the attribute with the given attribute name.
+            If the class type doesn't have an attribute with this name, a NullReferenceException is thrown.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.SetAttribute(System.String,System.Object)">
+            <summary>
+            Sets the attribute with the given attribute name to the given value.
+            If the class type doesn't have an attribute with this name, a NullReferenceException is thrown.
+            </summary>
+            <param name="attrName">The name of the attribute.</param>
+            <param name="value">The new value for the attribute. It must have the correct type.
+            Otherwise a TargetException is thrown.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.ResetAllAttributes">
+            <summary>
+            Resets all class object attributes to their initial values.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.Clone(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Creates a shallow clone of this object.
+            All attributes will be transfered to the new object.
+            A new name will be fetched from the graph.
+            </summary>
+            <returns>A copy of this object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+            <summary>
+            Creates a deep copy of this object (i.e. internal (transient) class objects will be replicated).
+            All attributes will be transfered to the new object.
+            A new name will be fetched from the graph.
+            </summary>
+            <param name="graph">The graph to fetch the names of the new objects from.</param>
+            <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+            <returns>A copy of this object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.AreAttributesEqual(de.unika.ipd.grGen.libGr.IAttributeBearer)">
+            <summary>
+            Returns whether the attributes of this object and that object are equal.
+            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the function method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the function method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>The return value of function application.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.ApplyProcedureMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the procedure method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the procedure method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.ToString">
+            <summary>
+            Returns the name of the type of this class.
+            </summary>
+            <returns>The name of the type of this class.</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPTransientObject">
+            <summary>
+            Class implementing transient objects in the libGr search plan backend (values of internal non-node/edge classes)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPTransientObject.lgspType">
+            <summary>
+            The transient object type (class) of the object/value.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.#ctor(de.unika.ipd.grGen.libGr.TransientObjectType)">
+            <summary>
+            Instantiates an LGSPTransientObject object.
+            </summary>
+            <param name="transientObjectType">The transient object type.</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPTransientObject.Type">
+            <summary>
+            The TransientObjectType of the object.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPTransientObject.de#unika#ipd#grGen#libGr#IBaseObject#Type">
+            <summary>
+            The BaseObjectType of the base object.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPTransientObject.de#unika#ipd#grGen#libGr#IAttributeBearer#Type">
+            <summary>
+            The InheritanceType of the attribute bearer.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.InstanceOf(de.unika.ipd.grGen.libGr.GrGenType)">
+            <summary>
+            Returns true, if the transient class object is compatible to the given type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPTransientObject.Item(System.String)">
+            <summary>
+            Indexer that gives access to the attributes of the transient class object.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.GetAttribute(System.String)">
+            <summary>
+            Returns the attribute with the given attribute name.
+            If the transient class type doesn't have an attribute with this name, a NullReferenceException is thrown.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.SetAttribute(System.String,System.Object)">
+            <summary>
+            Sets the attribute with the given attribute name to the given value.
+            If the transient class type doesn't have an attribute with this name, a NullReferenceException is thrown.
+            </summary>
+            <param name="attrName">The name of the attribute.</param>
+            <param name="value">The new value for the attribute. It must have the correct type.
+            Otherwise a TargetException is thrown.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.ResetAllAttributes">
+            <summary>
+            Resets all transient class object attributes to their initial values.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.Clone">
+            <summary>
+            Creates a shallow clone of this transient object.
+            All attributes will be transferred to the new object.
+            </summary>
+            <returns>A copy of this object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+            <summary>
+            Creates a deep copy of this transient object.
+            All attributes will be transferred to the new object.
+            </summary>
+            <param name="graph">The graph to fetch the names of the new objects from.</param>
+            <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+            <returns>A copy of this object.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.AreAttributesEqual(de.unika.ipd.grGen.libGr.IAttributeBearer)">
+            <summary>
+            Returns whether the attributes of this transient object and that transient object are equal.
+            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the function method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the function method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>The return value of function application.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.ApplyProcedureMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
+            <summary>
+            Executes the procedure method given by its name.
+            Throws an exception if the method does not exists or the parameters are of wrong types.
+            </summary>
+            <param name="actionEnv">The current action execution environment.</param>
+            <param name="graph">The current graph.</param>
+            <param name="name">The name of the procedure method to apply.</param>
+            <param name="arguments">An array with the arguments to the method.</param>
+            <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.ToString">
+            <summary>
+            Returns the name of the type of this class.
+            </summary>
+            <returns>The name of the type of this class.</returns>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.FilterGenerator">
             <summary>
             The C#-part responsible for generating the post-matches filters.
@@ -2319,6 +2606,29 @@
             This function may only called on variables pointing to graph elements.
             </summary>
             <param name="var">Variable to detach.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.GetSpecialVariableValue(System.String)">
+            <summary>
+            Retrieves the value of a special variable name.
+            Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
+            </summary>
+            <param name="name">The name of the special variable to read</param>
+            <returns>The according value</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.SetSpecialVariableValue(System.String,System.Object)">
+            <summary>
+            Sets the given special variable name to the given value.
+            Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
+            </summary>
+            <param name="name">The name of the special variable to write</param>
+            <param name="val">The new value of the special variable</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.DeleteSpecialVariable(System.String)">
+            <summary>
+            Deletes the given special variable name.
+            Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
+            </summary>
+            <param name="name">The name of the special variable to delete</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphProcessingEnvironment.AddNode(de.unika.ipd.grGen.lgsp.LGSPNode,System.String)">
             <summary>
@@ -3652,7 +3962,12 @@
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPNode.de#unika#ipd#grGen#libGr#IGraphElement#Type">
             <summary>
-            The GrGenType of the node.
+            The GraphElementType of the graph element.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPNode.de#unika#ipd#grGen#libGr#IAttributeBearer#Type">
+            <summary>
+            The GrGenType of the attribute bearer.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.InstanceOf(de.unika.ipd.grGen.libGr.GrGenType)">
@@ -3695,14 +4010,25 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.Clone">
             <summary>
-            Creates a copy of this node.
+            Creates a shallow clone of this node.
             All attributes will be transfered to the new node.
             The node will not be associated to a graph, yet.
             So it will not have any incident edges nor any assigned variables.
             </summary>
             <returns>A copy of this node.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.AreAttributesEqual(de.unika.ipd.grGen.libGr.IGraphElement)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+            <summary>
+            Creates a deep copy of this node (i.e. internal (transient) class objects will be replicated).
+            All attributes will be transfered to the new node.
+            The node will not be associated to a graph, yet.
+            So it will not have any incident edges nor any assigned variables.
+            </summary>
+            <param name="graph">The graph to fetch the names of the new objects from.</param>
+            <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+            <returns>A copy of this node.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.AreAttributesEqual(de.unika.ipd.grGen.libGr.IAttributeBearer)">
             <summary>
             Returns whether the attributes of this element and that are equal.
             If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
@@ -3876,7 +4202,12 @@
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPEdge.de#unika#ipd#grGen#libGr#IGraphElement#Type">
             <summary>
-            The GrGenType of the edge.
+            The GraphElementType of the graph element.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPEdge.de#unika#ipd#grGen#libGr#IAttributeBearer#Type">
+            <summary>
+            The InheritanceType of the attribute bearer.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.InstanceOf(de.unika.ipd.grGen.libGr.GrGenType)">
@@ -3919,7 +4250,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.Clone(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
             <summary>
-            Creates a copy of this edge.
+            Creates a shallow clone of this edge.
             All attributes will be transfered to the new edge.
             The edge will not be associated to a graph, yet.
             So it will not have any assigned variables.
@@ -3928,7 +4259,20 @@
             <param name="newTarget">The new target node for the new edge.</param>
             <returns>A copy of this edge.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.AreAttributesEqual(de.unika.ipd.grGen.libGr.IGraphElement)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.Copy(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+            <summary>
+            Creates a deep copy of this edge (i.e. internal (transient) class objects will be replicated).
+            All attributes will be transfered to the new edge.
+            The edge will not be associated to a graph, yet.
+            So it will not have any assigned variables.
+            </summary>
+            <param name="newSource">The new source node for the new edge.</param>
+            <param name="newTarget">The new target node for the new edge.</param>
+            <param name="graph">The graph to fetch the names of the new objects from.</param>
+            <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
+            <returns>A copy of this edge.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.AreAttributesEqual(de.unika.ipd.grGen.libGr.IAttributeBearer)">
             <summary>
             Returns whether the attributes of this element and that are equal.
             If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
