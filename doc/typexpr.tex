@@ -398,9 +398,10 @@ The \texttt{nameof} function returns the name of the given graph element as \tex
 Besides nodes or edges, subgraphs may be given, then the name of the subgraph is returned.
 If no argument is given, the name of the graph (the current host graph) is returned.
 
-The \texttt{uniqueof} function returns the unique id of the given graph element as \texttt{int}
-(see Section~\ref{sec:uniqueness} for an explanation of the uniqueness constraint/index; you only receive a unique id in case uniqueness was declared in the model).
-Besides nodes or edges, subgraphs may be given, then the unique id of the subgraph is returned.
+The \texttt{uniqueof} function returns the unique id of the given graph element as \texttt{int};
+see Section~\ref{sec:uniqueness} for an explanation of the uniqueness constraint/index -- you only receive a unique id in case uniqueness was declared in the model.
+Besides nodes or edges, class objects may be given, the \texttt{uniqueof} function then returns the unique id of the given class object as \texttt{long} -- in contrast to the former types, no declaration in the model is needed.
+Furthermore, subgraphs may be given, then the unique id of the subgraph is returned (as \texttt{int}).
 If no argument is given, the unique id of the graph (the current host graph) is returned.
 
 The \texttt{random} function returns a double random value in between 0.0 and 1.0 if called without an argument,

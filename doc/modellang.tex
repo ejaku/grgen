@@ -133,7 +133,7 @@ In addition, other models may be used (esp. supplying base classes to extend); t
 \subsection{Node and Edge Types}\label{nodeandedgetypes}
 \begin{rail}
   ClassDeclaration: (() | 'abstract') (() | 'const') \\
-    (NodeClass | (() | ('arbitrary' | 'directed' | 'undirected')) EdgeClass);
+    (NodeClass | (() | ('arbitrary' | 'directed' | 'undirected')) EdgeClass | ObjectClass | TransientObjectClass);
 \end{rail}\ixkeyw{abstract}\ixkeyw{const}\ixnterm{ClassDeclaration}\ixkeyw{arbitrary}\ixkeyw{directed}\ixkeyw{undirected}
 Defines a new node type or edge type.
 The keyword \texttt{abstract} indicates that you cannot instantiate graph elements of this type.
@@ -149,9 +149,14 @@ abstract node class City {
 abstract node class AbandonedCity extends City;
 node class GhostTown extends AbandonedCity;
 \end{grgen}
-You will be able to create nodes of type \texttt{GhostTown}, but not of type \texttt{City} or \texttt{AbandonedCity}. However, nodes of type \texttt{GhostTown} are also of type \texttt{AbandonedCity} as well as of type \texttt{City} and they have the attribute \texttt{Size}, hence.
+You will be able to create nodes of type \texttt{GhostTown}, but not of type \texttt{City} or \texttt{AbandonedCity}.
+However, nodes of type \texttt{GhostTown} are also of type \texttt{AbandonedCity} as well as of type \texttt{City} and they have the attribute \texttt{Size}, hence.
 \end{example}
-The keyword \texttt{const} indicates that rules may not write to attributes (see also Section~\ref{sec:replacemodify}, \texttt{eval}). However, such attributes are still writable by \LibGr\indexmain{libGr} and \GrShell\indexmain{GrShell} directly. This property applies to attributes defined in the current class, only. It does not apply to inherited attributes. The \texttt{const} property will not be inherited by subclasses, either. If you want a subclass to have the \texttt{const} property, you have to set the \texttt{const} modifier explicitly.
+The keyword \texttt{const} indicates that rules may not write to attributes (see also Section~\ref{sec:replacemodify}, \texttt{eval}).
+However, such attributes are still writable by \LibGr\indexmain{libGr} and \GrShell\indexmain{GrShell} directly. This property applies to attributes defined in the current class, only.
+It does not apply to inherited attributes.
+The \texttt{const} property will not be inherited by subclasses, either.
+If you want a subclass to have the \texttt{const} property, you have to set the \texttt{const} modifier explicitly.
 
 The keywords \texttt{arbitrary}, \texttt{directed}, and \texttt{undirected} specify the direction ``attribute'' of an edge class and thus its inheritance.
 An \texttt{arbitrary} edge inherits from \texttt{AEdge}, it is always abstract and neither directed nor undirected.
@@ -164,7 +169,10 @@ See also Section~\ref{sct:basetypes}
   NodeClass: 'node' 'class' IdentDecl (() | 'extends' (NodeType+',')) \\
     (';' | lbrace AttributeDeclarations rbrace);
 \end{rail}\ixkeyw{node}\ixkeyw{class}\ixkeyw{extends}\ixnterm{NodeClass}
-Defines a new \indexed{node type}. Node types can inherit\indexmain{inheritance} from other node types defined within the same file. If the \texttt{extends} clause is omitted, \emph{NodeType} will inherit from the built-in type \texttt{\indexed{Node}}. Optionally nodes can possess attributes.
+Defines a new \indexed{node type}.
+Node types can inherit\indexmain{inheritance} from other node types defined within the same file.
+If the \texttt{extends} clause is omitted, \emph{NodeType} will inherit from the built-in type \texttt{\indexed{Node}}.
+Optionally, nodes can possess attributes.
 
 \begin{rail}
   EdgeClass: 'edge' 'class' IdentDecl (() | 'extends' (EdgeType+',')) \\
@@ -173,7 +181,7 @@ Defines a new \indexed{node type}. Node types can inherit\indexmain{inheritance}
 Defines a new \indexed{edge type}.
 Edge types can inherit\indexmain{inheritance} from other edge types defined within the same file.
 If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{\indexed{Edge}}.
-Optionally edges can possess attributes.
+Optionally, edges can possess attributes.
 A \newterm{connection assertion} specifies that certain edge types should only connect specific nodes a given number of times.
 (see Section~\ref{sct:basetypes})
 

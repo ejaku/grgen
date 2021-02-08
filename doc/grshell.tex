@@ -143,7 +143,7 @@ Otherwise the edge will be of the base edge class type \texttt{Edge} for \texttt
   DequeConstr: 'deque' '<' Type '>' ']' ( Expression*',' ) '[' ;
 \end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}\ixnterm{AttributeValue}\ixnterm{PrimitiveAttributeValue}\ixnterm{SetConstr}\ixnterm{MapConstr}\ixnterm{ArrayConstr}\ixnterm{DequeConstr}
 A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below).
-A comma separated list of \indexed{attribute} declarations is supplied to the constructor.
+A comma separated list of \indexed{attribute} initializations is supplied to the constructor.
 Available attribute names are specified by the graph model of the current working graph.
 All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type
 (\texttt{int} $\leftarrow$ \texttt{0}; \texttt{long} $\leftarrow$ \texttt{0L}; \texttt{byte} $\leftarrow$ \texttt{0Y}; \texttt{short} $\leftarrow$ \texttt{0S}; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float} $\leftarrow$ \texttt{0.0f}; \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}; \texttt{set<T>} $\leftarrow$ \texttt{set<T>\{\}}; \texttt{map<S,T>} $\leftarrow$ \texttt{map<S,T>\{\}}; \texttt{array<T>} $\leftarrow$ \texttt{array<T>[]}; \texttt{deque<T>} $\leftarrow$ \texttt{deque<T>][}; \texttt{enum} $\leftarrow$ unspecified;).\\
@@ -164,6 +164,22 @@ After execution this graph is the current subgraph.
 Switches graph processing to the given subgraph (denoted by its unique name).
 This command as well as the command above are supplied for importing grs files containing subgraph attributes resulting from a grs export or recording.
 Using them directly is discouraged; you would have to ensure unique names in order to use them, a task that is carried out by the exporter remembering the subgraphs already seen.
+
+\begin{rail}
+  'new' ObjectType ObjectConstructor
+\end{rail}\ixkeyw{new}
+Creates a new internal class object (non-transient).
+The new object will be of type \emph{ObjectType} and attributes can be initialized by an object constructor.
+
+\makeatletter
+\begin{rail}
+  ObjectConstructor : ('@')? '(' (() | (percent '=' Text (() | ',' Attributes) | Attributes)) ')';
+\end{rail}\indexmain{\texttt{\%}}\ixnterm{ObjectConstructor}
+\makeatother
+An \indexed{object constructor} is used to initialize a new internal class object.
+A comma separated list of \indexed{attribute} initializations is supplied to the constructor.
+The \texttt{\%} is a special attribute name: a unique identifier of the new object.
+This name can be specified by a constructor only (and is normally automatically assigned upon object construction -- this also occurs when it is left out here).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -352,9 +368,9 @@ Shows the profile for the action specified by its name, or for all rules and tes
 \section{Variables}
 
 \begin{rail}
-  Variable '=' ( GraphElement | Variable | Literal )
+  Variable '=' ( Variable | GraphElement | Object | Literal )
 \end{rail}
-Assigns the variable or persistent name \emph{GraphElement} or literal to \emph{Variable}.
+Assigns the variable or by persistent name \emph{GraphElement} or by unique-id based name \emph{Object} or literal to \emph{Variable}.
 If \emph{Variable} has not been defined yet, it will be defined implicitly.
 As usual for scripting languages, variables have neither static types nor declarations.
 The variables known to \GrShell\ are the graph global variables (see Chapter \ref{cha:xgrs} for the distinction between graph global and sequence local variables).
@@ -426,15 +442,26 @@ In order to describe the commands more precisely, the following (semantic) speci
   \item[Graph] Identifies a graph by its name.
   \item[Action] Identifies a rule by its name.
 \end{description}
+
 \makeatletter
 \begin{rail}
   GraphElement: Text | ('@' '(' Text ')')
 \end{rail}\indexmain{\texttt{"@}}\ixnterm{GraphElement}
 \makeatother
+
 \begin{description}
   \item[Node, Edge] The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively.
 \end{description}
 
+\makeatletter
+\begin{rail}
+  Object: Text | ('@@' '(' Text ')')
+\end{rail}\indexmain{\texttt{"@"@}}\ixnterm{Object}
+\makeatother
+
+\begin{description}
+  \item[Object] The \emph{Object} requires the corresponding object to be an internal class object, which is referenced by its unique id.
+\end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Attribute Assignment and Graph Manipulation}
@@ -448,24 +475,24 @@ On shell level they are available and mainly used as elementary instructions in 
 \begin{rail}
   GraphElement '.' AttributeName '=' AttributeValue ;
 \end{rail}
-Set the \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} to the value \emph{AttributeValue} (for the different possible attribute values see above).
+Set the \indexed{attribute} \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} to the value \emph{AttributeValue} (for the different possible attribute values see above).
 
 \begin{rail}
   GraphElement '.' AttributeName '[' Index ']' '=' AttributeValue ;
 \end{rail}
-Overwrite the value in the array or deque or map \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} at the integer position or key value \emph{Index} with the value \emph{AttributeValue}.
+Overwrite the value in the array or deque or map \indexed{attribute} \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} at the integer position or key value \emph{Index} with the value \emph{AttributeValue}.
 
 \begin{rail}
   GraphElement '.' AttributeName '.' 'add' '(' \\
   	PrimitiveAttributeValue (',' PrimitiveAttributeValue)? ')' ;
 \end{rail}
-Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement}.
-Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array/deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} at the index given by the second parameter in the two parameter case.
+Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement}.
+Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array/deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} at the index given by the second parameter in the two parameter case.
 
 \begin{rail}
   GraphElement '.' AttributeName '.' 'rem' '(' (PrimitiveAttributeValue)? ')' ;
 \end{rail}
-Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case or remove the first element from the deque valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case.
+Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} in the zero parameter case or remove the first element from the deque valued attribute \emph{AttributeName} of the graph element or internal class object\emph{GraphElement} in the zero parameter case.
 
 
 \begin{rail}

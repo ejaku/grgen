@@ -1,0 +1,9 @@
+class List {
+  value:int;
+  next:List;
+}
+
+transient class Tree {
+  value:string;
+  children:array<Tree>;
+}

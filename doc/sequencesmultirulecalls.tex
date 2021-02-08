@@ -121,7 +121,7 @@ the result of the sequence is the result of the chosen subsequence.
 	| GraphletEdge ';' 
 	| ('var'|'ref') IdentDecl ':' VarType
 	| DefVariableDecl;
-  MatchClassConstructor: 'match' '<' 'class' MatchClassIdent '>' '(' ')' ;
+  MatchClassConstructor: ('new')? 'match' '<' 'class' MatchClassIdent '>' '(' ')' ;
 \end{rail}\ixkeyw{match}\ixkeyw{class}\ixnterm{MatchClassDeclaration}\ixnterm{MatchClassConstructor}
 
 A match class allows to define a pattern interface that can be implemented by several actions (acting as a kind of view).

@@ -66,7 +66,7 @@ You can find out about the available \emph{Expression}s in chapter \ref{cha:type
 	;
 \end{rail}\ixnterm{LocalVariableDecl}
 
-Local variables can be defined with the syntax known for local def pattern variables, as already introduced in \ref{sec:localvarorderedevalyield}, i.e. \texttt{def var name:type} for elementary variables, or \texttt{def ref name:type} for container variables, or \texttt{def name:type} for nodes, or \texttt{def -name:type->} for edges.
+Local variables can be defined with the syntax known for local def pattern variables, as already introduced in \ref{sec:localvarorderedevalyield}, i.e. \texttt{def var name:type} for elementary variables, or \texttt{def ref name:type} for container variables or internal class object variables or internal transient class object variables, or \texttt{def name:type} for nodes, or \texttt{def -name:type->} for edges.
 At their definition, an initializing expression may be given.
 
 \begin{example}
@@ -130,6 +130,7 @@ Computations may be executed repeatedly by the \texttt{while} and \texttt{do-whi
 %\section{Container iteration}
 
 The containers introduced in chapter \ref{cha:container} may be iterated over with a for loop, one assigning the current value to a variable, the other assigning the current index and the current value to a variable.
+Note that you can only iterate directly over a container variable, not over a container typed attribute --- as of now, you have to assign a container typed attribute to a container variable in case you want to iterate over it.
 Furthermore, a for loop is available for iterating a range of integers, with the lower and the upper bounds specified.
 Moreover, a for loop is available for iterating the graph elements stored in an index, with the lower and upper bounds specified, see \ref{sub:indexusage} for more on this and the \emph{ForIndexAccessHeader}.
 \begin{rail}
@@ -306,14 +307,23 @@ The three functions above allow optional edge and node type constraints, too.\\
 \texttt{equalsAny(graph, set<graph>):boolean}\\
 \texttt{equalsAnyStructurally(graph, set<graph>):boolean}\\
 \texttt{copy(graph):graph}\\
+\texttt{clone(match<r>):match<r>}\\
+\texttt{clone(match<class mc>):match<class mc>}\\
+\texttt{clone(container):container}\\
 \texttt{copy(container):container}\\
-\texttt{copy(match<r>):match<r>}\\
+\texttt{clone(Object):Object}\\
+\texttt{copy(Object):Object}\\
+\texttt{clone(TransientObject):TransientObject}\\
+\texttt{copy(TransientObject):TransientObject}\\
 \hline
 \texttt{random():double}\\
 \texttt{random(int):int}\\
 \hline
-\texttt{nameof(Node/Edge/graph):string}\\
-\texttt{uniqueof(Node/Edge/graph):int}\\
+\texttt{nameof(Node/Edge):string}\\
+\texttt{nameof(graph):string}\\
+\texttt{uniqueof(Node/Edge):int}\\
+\texttt{uniqueof(graph):int}\\
+\texttt{uniqueof(Object):long}\\
 \texttt{nodeByName(string[,NodeType]):Node}\\
 \texttt{edgeByName(string[,EdgeType]):Edge}\\
 \texttt{nodeByUnique(int[,NodeType]):Node}\\
@@ -602,7 +612,7 @@ separated into pattern and rewrite part, and into expressions and statements.
 \texttt{n} & Reference to node \texttt{n} within a graphlet.\\
 \texttt{-e->} & Reference to edge \texttt{e} within a graphlet.\\
 \texttt{def var v:B}	& Defines a def-variable \texttt{v} of basic type \texttt{B}, to be yielded to.\\
-\texttt{def ref c:C}	& Defines a def-variable \texttt{c} of container type \texttt{C}, to be yielded to.\\
+\texttt{def ref c:C}	& Defines a def-variable \texttt{c} of container type \texttt{C} or of internal (transient) class object type \texttt{C}, to be yielded to.\\
 \hline
 \texttt{x:typeof(y)} & The element \texttt{x} to be matched must be of the same or a subtype as \texttt{y}.\\
 \texttt{x:T{\textbackslash}S} & The element \texttt{x} must be of type \texttt{T} but not of subtype \texttt{S}.\\
@@ -644,12 +654,13 @@ separated into pattern and rewrite part, and into expressions and statements.
 \texttt{n} & Reference to node \texttt{n} within a graphlet, ensures it is kept in \texttt{replace} mode.\\
 \texttt{-e->} & Reference to edge \texttt{e} within a graphlet, ensures it is kept in \texttt{replace} mode.\\
 \texttt{def var v:B}	& Defines a def-variable \texttt{v} of basic type \texttt{B}, to be yielded to.\\
-\texttt{def ref c:C}	& Defines a def-variable \texttt{c} of container type \texttt{C}, to be yielded to.\\
+\texttt{def ref c:C}	& Defines a def-variable \texttt{c} of container type \texttt{C} or of internal (transient) class object type \texttt{C}, to be yielded to.\\
 \texttt{delete(x)} & Deletes element \texttt{x} in \texttt{modify} mode.\\
 \hline
 \texttt{x:typeof(y)} & The element \texttt{x} is created with the same type as \texttt{y}.\\
 \texttt{x:T<y>} & The element \texttt{y} is casted to type \texttt{T}, accessible as \texttt{x} afterwards.\\
-\texttt{x:copy<y>} & The element \texttt{x} is created as exact copy of \texttt{y}.\\
+\texttt{x:copy<y>} & The element \texttt{x} is created as a copy of \texttt{y}.\\
+\texttt{x:clone<y>} & The element \texttt{x} is created as a clone of \texttt{y}.\\
 \texttt{x:typeof(y)<y,z>} & The nodes \texttt{y} and \texttt{z} are merged and casted to the original type of \texttt{y}, accessible as \texttt{x} afterwards.\\
 \texttt{x !-e->! y} & The edge \texttt{e} is redirected to source node \texttt{x} and target node \texttt{y}.\\
 \hline
@@ -712,7 +723,7 @@ separated into pattern and rewrite part, and into expressions and statements.
 \texttt{def n:N}	& Defines a variable \texttt{n} of node type \texttt{N}.\\
 \texttt{def -e:E->}	& Defines a variable \texttt{e} of edge type \texttt{E}.\\
 \texttt{def var v:B}	& Defines a variable \texttt{v} of basic type \texttt{B}.\\
-\texttt{def ref c:C}	& Defines a variable \texttt{c} of container type \texttt{C}.\\
+\texttt{def ref c:C}	& Defines a variable \texttt{c} of container type \texttt{C} or of internal (transient) class object type \texttt{C}.\\
 \hline
 \texttt{v = exp} & Assigns the value of \texttt{exp} to the variable \texttt{v}.\\
 \texttt{::v = exp} & Assigns the value of \texttt{exp} to the global variable \texttt{v}.\\

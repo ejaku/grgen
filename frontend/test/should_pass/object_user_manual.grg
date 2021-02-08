@@ -1,0 +1,50 @@
+#using "object_user_manual.gm"
+
+function createList(var i:int, var j:int, var k:int) : List
+{
+  return(new List@(value = i, next = new List@(value = j, next = new List@(value = k, next = null))));
+}
+
+function sumList(ref list:List) : int
+{
+  if(list.next != null) {
+    return(list.value + sumList(list.next));
+  } else {
+    return(list.value);
+  }
+}
+
+function createTree() : Tree
+{
+  return(new Tree@(value = "FooBar", children = new array<Tree>[new Tree@(value = "Furchtbar", children = new array<Tree>[])]));
+}
+
+function serializePreorder(ref tree:Tree) : string
+{
+  def var res:string = tree.value;
+  res = res + "(";
+  def ref children:array<Tree> = tree.children;
+  for(child:Tree in children)
+  {
+    res = res + serializePreorder(child);
+  }
+  res = res + ")";
+  return(res);
+}
+
+procedure cloneList(ref list:List) : (List)
+{
+  def ref listClone:List = new List(); // create new list...
+  listClone.value = list.value; // ...and assign member attributes
+  listClone.next = list.next; // not possible in function to ensure graph is not changed (would be ok for transient object)
+  return(listClone);
+}
+
+procedure copyList(ref list:List) : (List)
+{
+  (def ref listCopy:List) = cloneList(list); // clone list...
+  if(list.next != null) {
+    (listCopy.next) = copyList(list.next); // ...then copy object attributes deeply
+  } 
+  return(listCopy);
+}

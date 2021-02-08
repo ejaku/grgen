@@ -117,7 +117,7 @@ Finally, an expression (without side effects) can be evaluated, this allows to r
 Possible targets of assignments are the variables and def-variables to be yielded to, as in the simple assignments of the sequences. 
 A \texttt{yield} assignment writes the rhs variable value to the lhs variable which must be declared as a  def-to-be-yielded-to variable (\texttt{def}-prefix) in the pattern containing the \texttt{exec} statement.
 Yielding is only possible from compiled sequences, it always succeeds.
-Further on, the attributes of graph elements may be written to, the values at given positions of array or deque or map variables may be written to, and the visited status of graph elements may be changed.
+Further on, the attributes of graph elements or internal class objects or internal transient class objects may be written to, the values at given positions of array or deque or map variables may be written to, and the visited status of graph elements may be changed.
 
 \begin{example}
 The sequence computation \verb#{ x:int=42; y:N; (y)=proc(x); y.meth(x); y.a=x }# shows a variable declaration including an initialization (which falls out of scope at the closing brace), a variable declaration of node type without initialization, a call of a procedure with one input argument, assigning an output value, a call of a method of the node type, and the assignment of a graph element attribute.
@@ -345,7 +345,7 @@ The for loop could be replaced by employing the storage access in the rule const
 \begin{warning}
 The container over which the \texttt{for} loop iterates must stay untouched during iteration.
 
-Use the \texttt{copy(.:container):container} function to clone the container before the iteration if you need to iterate the container content \emph{and} change its values.
+Use the \texttt{clone(.:container):container} function to clone the container before the iteration if you need to iterate the container content \emph{and} change its values.
 \end{warning}
 
 %\begin{example}
@@ -467,7 +467,7 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \texttt{[?[q,r]\textbackslash mc.f\textbackslash<mc>]} & Multi rule query, returns every match produced by \texttt{q} and \texttt{r} that was left by the filter \texttt{f} of match class \texttt{mc}, in the order left behind by the match class filter, as \texttt{array<match<class mc>>}. \\
 \hline
 \texttt{v} & Variable. Assignment target or expression.\\
-\texttt{v.name} & Attribute of graph element. Assignment target or expression.\\
+\texttt{v.name} & Attribute of graph element or internal (transient) class object. Assignment target or expression.\\
 \texttt{@(name)} & Return graph element of given name.\\
 \texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \texttt{random(upperBound)} & Returns random number from [0;upper bound[, if upper bound is missing from [0.0;1.0[.\\

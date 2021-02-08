@@ -34,9 +34,11 @@ There are procedures to update the graph by adding or removing or retyping avail
 
 \begin{description}
 \item[\texttt{add(.)}] adds a new node of the given node type to the host graph, returns the added node.
-\item[\texttt{addCopy(.)}] adds a clone of the original node to the host graph, returns the added node.
+\item[\texttt{addCopy(.)}] adds a copy of the original node to the host graph, returns the added node.
+\item[\texttt{addClone(.)}] adds a clone of the original node to the host graph, returns the added node.
 \item[\texttt{add(.,.,.)}] adds a new edge of the given edge type to the host graph, in between the source node specified as second argument and the target node specified as third argument, returns the added edge.
-\item[\texttt{addCopy(.,.,.)}] adds a clone of the original edge to the host graph, in between the source node specified as second argument and the target node specified as third argument, returns the added edge.
+\item[\texttt{addCopy(.,.,.)}] adds a copy of the original edge to the host graph, in between the source node specified as second argument and the target node specified as third argument, returns the added edge.
+\item[\texttt{addClone(.,.,.)}] adds a clone of the original edge to the host graph, in between the source node specified as second argument and the target node specified as third argument, returns the added edge.
 \item[\texttt{rem(.)}] removes the node or edge given from the host graph (no expression, does not return anything).
 \item[\texttt{retype(.,.)}] retypes the node or edge given to the node type or edge type given as second argument, returns the retyped entity.
 \item[\texttt{clear()}] clears the host graph.
@@ -422,7 +424,7 @@ The global functions allow to compute (node-or-edge) induced subgraphs and clone
 \begin{description}
 \item[\texttt{inducedSubgraph(.)}] returns the induced subgraph (type: \texttt{graph}) of the host graph for the set of nodes given as argument value.
 \item[\texttt{definedSubgraph(.)}] returns the defined (edge-induced) subgraph (type: \texttt{graph}) of the host graph for the set of edges given as argument value.
-\item[\texttt{copy(.)}] returns a clone of the original subgraph given as argument.
+\item[\texttt{copy(.)}] returns a copy of the original subgraph given as argument.
 \end{description}
 
 You may furtheron check for subgraph equality against a set of subgraphs at once:
@@ -441,7 +443,7 @@ or to insert clones of induced subgraphs directly.
 
 \begin{description}
 \item[\texttt{insert(.)}] inserts a given subgraph to the current host graph (disjoint union of the nodes and edges); the original graph is destroyed by this (move semantics).
-\item[\texttt{insertCopy(.,.)}] inserts a clone of the given subgraph to the current host graph (disjoint union of the nodes and edges); the original subgraph stays untouched. Returns the copy of the node given as second argument from the host graph.
+\item[\texttt{insertCopy(.,.)}] inserts a copy of the given subgraph to the current host graph (disjoint union of the nodes and edges); the original subgraph stays untouched. Returns the copy of the node given as second argument from the host graph.
 \item[\texttt{insertInduced(.,.)}] adds a clone of the subgraph induced by the set of nodes given as first argument to the host graph, returns the clone of the anchor node given as second argument.
 \item[\texttt{insertDefined(.,.)}] adds a clone of the subgraph defined (edge-induced) by the set of edges given as first argument to the host graph, returns the clone of the anchor edge given as second argument.
 \end{description}

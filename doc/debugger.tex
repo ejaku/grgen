@@ -274,6 +274,12 @@ When post-match debugging is enabled, the matches of rules in embedded execs are
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence} in the debugger\indexmain{debugger}.
 The semantics is the same as for \texttt{exec SimpleRewriteSequence} already introduced in Chapter~\ref{chapgrshell}, but you can trace the execution step-by-step.
 
+\begin{rail}
+  GraphRewriteSequenceExpression: 'debug' ('eval') SequenceExpression ;
+\end{rail}\ixkeyw{debug}\ixkeyw{eval}\indexmain{graph rewrite sequence expression}
+This executes the graph rewrite sequence expression \emph{SequenceExpression} in the debugger\indexmain{debugger}.
+The semantics is the same as for \texttt{eval SequenceExpression} already introduced in Chapter~\ref{chapgrshell}, but you can watch the matches highlighted in the graph (one (multi) rule query after the other).
+
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -339,7 +345,10 @@ The breakpoint and choicepoint commands of the debugger allow to toggle them at 
 The user input commands \texttt{\$\%(type)} define choice points which cannot be switched off.
 
 Moreover, there are commands available that allow to print the variables at a given situation, or the sequence call stack, or a full state dump of the call stack and the variables.
+
 Further commands allow to dump the current graph, or highlight elements in the graph, defined by being contained in a (possibly container valued) variable, or being marked according to a visited flag.
+
+In addition, you may crawl the network of objects or transient objects, starting at a variable or object defined by its unique id.
 
 %\pagebreak
 
@@ -363,7 +372,7 @@ Further commands allow to dump the current graph, or highlight elements in the g
   (edit) \texttt{w}(atchpoints) & Allows to edit data breakpoints or the behaviour of programmed debug messages.\\
 \hline
   \texttt{v}(ariables) & Prints the global variables and the local variables of the sequence currently executed, which is the topmost sequence of the sequence call stack.
-    Plus the allocated visited flags. To be more precise regarding local variables: all variables which were defined (and have not fallen out of scope again) up to the sequence position focussed.\\
+    Plus the allocated visited flags. To be more precise: all local variables which were defined (and have not fallen out of scope again) up to the sequence position focussed.\\
   \texttt{t}(race) & Prints the stack trace of the current sequence call stack.
      The stack trace includes the body of each sequence called at its execution state.\\
   \texttt{f}(ull dump) & Prints the stack trace including the local variables of each stack frame plus the global variables.\\
@@ -375,6 +384,7 @@ Further commands allow to dump the current graph, or highlight elements in the g
     Alternatively, you may specify a graph value, which is then displayed directly.\\
   \texttt{h}(ighlight)\label{highlight} & Highlights the elements in the graph that are marked with the visited flag given, or are contained in the variable given (which might be a simple scalar variable containing one graph element, or a container variable potentially containing multiple ones). 
      Multiple variables or visited flags may be given separated by commas.\\
+  (show ob)\texttt{j}(ect)\label{showobject} & Shows the object defined by its unique id or a transient object by a just generated id. You may give a variable name as root element to start crawling at (in order to obtain a transient object id).\\
 \hline
   \end{tabularx}
   \caption{\GrShell\ debug commands}

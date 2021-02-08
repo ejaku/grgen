@@ -26,7 +26,7 @@ You can access the members of a match type value in form of the known \emph{Memb
 
 In Example~\ref{examplebasicpatternmatching}, the match type \texttt{match<r>} contains the nodes \texttt{n:N} and \texttt{m:Node}. The edge \texttt{\_edge0:Edge} only appears at API level, it stems from automatic naming of the anonymous edge in the pattern -- if you want to access a pattern element, assign it a name.
 
-Furthermore, you may execute a \indexed{\texttt{copy}} function to get a clone of a match; it is defined with the signature \texttt{copy(match<T>):match<T>}.\indexmain{copy}
+Furthermore, you may execute a \indexed{\texttt{clone}} function to get a clone of a match; it is defined with the signature \texttt{clone(match<T>):match<T>}.\indexmain{clone}
 Exceeding these already introduced match type operations, you can also apply a \emph{MatchClassConstructor} \texttt{match<class mc>()} in order to create a value of a match class type; the values of the action match types in contrast are always created by pattern matching.
 
 A rule query with test \texttt{t} specified by \texttt{[?t]} (cf. \ref{sec:patternbasedgraphquery}) yields an  \texttt{array<match<t>>}.
@@ -67,7 +67,7 @@ rule foo
 
 filter ff<foo>
 {
-	this.add(copy(this.peek())); // note the copy on match<foo>
+	this.add(clone(this.peek())); // note the clone on match<foo>
 	this[0] = null; // removes first entry in matches array, efficiently
 	this.rem();
 }
@@ -238,17 +238,34 @@ No declaration of the filter is needed, the lambda expression is to be given wit
 \begin{description}
 \item[\PVerb{\assign<member>{element:match<r> -> lambda-expr}}] assigns to the \texttt{member:T} of a match of a rule \texttt{r} the result of the sequence lambda expression fed by the \texttt{element:match<r>} of the matches (the name can be chosen freely), for each element in the matches yielded by the rule.
 \item[\PVerb{\removeIf{element:match<r> -> lambda-expr}}] removes the matches for which the predicate given by the sequence lambda expression (which must be of type \texttt{boolean}) fed by the \texttt{element:match<r>} of the matches (the name can be chosen freely) yields \texttt{true}.
+\item[\PVerb{\assign<member>StartWith{init-expr}AccumulateBy}]\\
+\PVerb{{accumulation-var:T, element:match<r> -> lambda-expr}} assigns to the \texttt{member:T} of a match of a rule \texttt{r} the result of the sequence lambda expression fed by the \texttt{element:match<r>} of the matches (the name can be chosen freely), and the previous result in \texttt{accumulation-var:T}, for each element in the matches yielded by the rule. For the first iteration, the previous result is initialized to \texttt{init-expr:T}.
 \end{description}
 
 \noindent According match class versions are available, to be called for a match class \texttt{mc} with\\
 \verb#\mc.assign<member>{element:match<class mc> -> lambda-expr}# and\\
-\verb#\mc.removeIf{element:match<class mc> -> lambda-expr}#.\\
+\verb#\mc.removeIf{element:match<class mc> -> lambda-expr}# and\\
+\verb#\mc.assign<member>StartWith{init-expr}AccumulateBy{accumulation-var:T,#\\
+\verb#element:match<r> -> lambda-expr}#.\\
 \noindent Also, according iterated versions are available, to be called for an iterated \texttt{it} of a rule \texttt{r} in the rule language (in that case, rule language expressions are employed) with\\
 \verb#\assign<member>{element:match<r.it> -> lambda-expr}# and\\
-\verb#\removeIf{element:match<r.it> -> lambda-expr}#.
+\verb#\removeIf{element:match<r.it> -> lambda-expr}# and\\
+\verb#\assign<member>StartWith{init-expr}AccumulateBy{accumulation-var:T,#\\
+\verb#element:match<r> -> lambda-expr}#.
 
-They all allow for an optional index: the variable \texttt{index:int} (the name can be chosen freely) iterates the matches-array indices [0,a.size()-1] of the corresponding elements in the array \texttt{a:array<match<r>>} in the\\ \verb#a.assign<member>{index:int -> element:match<r> -> lambda-expr}# and\\
-\verb#a.removeIf{index:int -> element:match<r> -> lambda-expr}# expressions.
+They all allow for an optional index: the variable \texttt{index:int} (the name can be chosen freely) iterates the matches-array indices [0,a.size()-1] of the corresponding elements in the array \texttt{a:array<match<r>>} in the\\
+\verb#a.assign<member>{index:int -> element:match<r> -> lambda-expr}# and\\
+\verb#a.removeIf{index:int -> element:match<r> -> lambda-expr}# and\\
+\verb#a.assign<member>StartWith{init-expr}AccumulateBy{accumulation-var:T,#\\
+\verb#index:int -> element:match<r> -> lambda-expr}# expressions.
+
+Even more, they all allow for an optional array access variable: \verb#this_:array<match<T>># given as first variable declaration in the lambda expression (the name can be chosen freely), separated by a semicolon, references the original input array, allowing to access it in order to obtain further information, in the\\
+\verb#a.assign<member>{this_:array<match<r>>; element:match<r> -> lambda-expr}# and\\
+\verb#a.removeIf{this_:array<match<r>>; element:match<r> -> lambda-expr}# and\\
+\verb#a.assign<member>StartWith{this_:array<match<r>>; init-expr}AccumulateBy#\\
+\verb#{this_:array<match<r>>; accumulation-var:T, index:int -> element:match<r> -> lambda-expr}# expressions.
+
+This allows to e.g. decide based on a comparison against the average of an attribute: \verb#[?r\removeIf{this_:array<match<r>>; m:match<r> -> m.a < this_.extract<a>().avg()}])#
 
 %\pagebreak
 
@@ -278,8 +295,10 @@ They all allow for an optional index: the variable \texttt{index:int} (the name 
 \texttt{removeFirstFraction(double)}\\
 \texttt{removeLastFraction(double)}\\
 \hline
-\verb#assign<entity>{[index:int->]elem:T->lambda-expr}#\\
-\verb#removeIf{[index:int->]elem:T->lambda-expr}#\\
+\verb#assign<entity>{[this_:array<match<T>>;][index:int->]elem:T->lambda-expr}#\\
+\verb#removeIf{[this_:array<match<T>>;][index:int->]elem:T->lambda-expr}#\\
+\verb#assign<entity>StartWith{[this_:array<match<T>>;]init-expr}AccumulateBy#\\
+\verb#{[this_:array<match<T>>;]accumulation-var:T,[index:int->]elem:T->lambda-expr}#\\
 \hline
 \end{tabular}
 \\

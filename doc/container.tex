@@ -60,7 +60,7 @@ Set expressions consist of the known mathematical set operations, plus some oper
   MethodCall: SetEntity MethodSelector ;
   Assignment: SetEntity '=' SetExpr ;
   CompoundAssignment: SetEntity SetOperator '=' Expr ChangeAssignment? ;
-  SetConstructor: 'set' '<' Type '>' \\ lbrace ( Expression*',' ) rbrace ;
+  SetConstructor: ('new')? 'set' '<' Type '>' \\ lbrace ( Expression*',' ) rbrace ;
   SetCopyConstructor: 'set' '<' Type '>' '(' SetExpr ')' ;
 \end{rail}\ixnterm{MethodCall}\ixnterm{SetExpr}\ixkeyw{in}\ixnterm{SetOperator}\ixnterm{CompoundAssignment}\ixnterm{SetConstructor}\ixnterm{SetCopyConstructor}
 
@@ -187,7 +187,7 @@ Map expressions consist of the known mathematical set operations extended to map
   Assignment: MapEntity '=' MapExpr ;
   IndexedAssignment: MapEntity '[' IndexExpr ']' '=' Expr ;
   CompoundAssignment: MapEntity MapOperator '=' Expr ChangeAssignment? ;
-  MapConstructor: 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
+  MapConstructor: ('new')? 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
   MapCopyConstructor: 'map' '<' Type ',' Type '>' '(' MapExpr ')' ;
 \end{rail}\ixnterm{MethodCall}\ixnterm{MapExpr}\ixkeyw{in}\ixnterm{MapOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{MapConstructor}\ixnterm{MapCopyConstructor}
 
@@ -312,7 +312,7 @@ Array expressions consist of array membership checking, array value lookup, and 
   Assignment: ArrayEntity '=' ArrayExpr ;
   IndexedAssignment: ArrayEntity '[' IndexExpr ']' '=' Expr ;
   CompoundAssignment: ArrayEntity ArrayOperator '=' Expr ChangeAssignment? ;
-  ArrayConstructor: 'array' '<' Type '>' \\ '[' ( Expression*',' ) ']' ;
+  ArrayConstructor: ('new')? 'array' '<' Type '>' \\ '[' ( Expression*',' ) ']' ;
   ArrayCopyConstructor: 'array' '<' Type '>' '(' ArrayExpr ')' ;
 \end{rail}\ixnterm{MethodCall}\ixnterm{ArrayExpr}\ixkeyw{in}\ixnterm{ArrayOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{ArrayConstructor}\ixnterm{ArrayCopyConstructor}
 
@@ -445,7 +445,7 @@ Deque expressions consist of deque membership checking, deque value lookup, and 
   Assignment: DequeEntity '=' DequeExpr ;
   IndexedAssignment: DequeEntity '[' IndexExpr ']' '=' Expr ;
   CompoundAssignment: DequeEntity DequeOperator '=' Expr ChangeAssignment? ;
-  DequeConstructor: 'deque' '<' Type '>' \\ '[' ( Expression*',' ) ']' ;
+  DequeConstructor: ('new')? 'deque' '<' Type '>' \\ '[' ( Expression*',' ) ']' ;
   DequeCopyConstructor: 'deque' '<' Type '>' '(' DequeExpr ')' ;
 \end{rail}\ixnterm{MethodCall}\ixnterm{DequeExpr}\ixkeyw{in}\ixnterm{DequeOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{DequeConstructor}\ixnterm{DequeCopyConstructor}
 
@@ -625,13 +625,13 @@ test neighbourneighbour(ref neighbours:map<City, City>) : City
 
 A container iterated over must stay unchanged during the iteration.
 But sometimes we want to change the iterated content, e.g. filter the container during iteration.
-As remedy the \texttt{copy} function may be used to clone the container before the iteration, so that the clone can be iterated over and the original container changed.
+As remedy the \texttt{clone} function may be used to clone the container before the iteration, so that the clone can be iterated over and the original container changed.
 
 \begin{description}
-\item[\texttt{copy(set<T>):set<T>}] returns a clone of the original set given as argument.
-\item[\texttt{copy(map<S,T>):map<S,T>}] returns a clone of the original map given as argument.
-\item[\texttt{copy(array<T>):array<T>}] returns a clone of the original array given as argument.
-\item[\texttt{copy(deque<T>):deque<T>}] returns a clone of the original deque given as argument.
+\item[\texttt{clone(set<T>):set<T>}] returns a clone of the original set given as argument.
+\item[\texttt{clone(map<S,T>):map<S,T>}] returns a clone of the original map given as argument.
+\item[\texttt{clone(array<T>):array<T>}] returns a clone of the original array given as argument.
+\item[\texttt{clone(deque<T>):deque<T>}] returns a clone of the original deque given as argument.
 \end{description}
 
 The container copy constructors could be used instead, but they are syntactically a bit less convenient as the type must be specified
@@ -657,9 +657,9 @@ rule foo(ref storage:set<Node>)
 \begin{example}
 The containers are passed as parameters by reference, so only a reference is copied, and changes inside are visible outside.
 The containers are assigned between variables in computations by reference, so only a reference is copied, and changes of one variable are visible in other variables referencing the same container.
-But when a container is assigned to a node or edge attribute, it is copied by value. 
+But when a container is assigned to a node or edge or internal class object attribute, it is copied by value. 
 So this is an O(n) operation instead of an O(1) operation, yielding clearly worse performance -- but the side effects of having references to a shared container would be mind-wrecking here.
-If you want to change a node or edge attribute of container type, you should use for performance reasons \texttt{add}, \texttt{rem}, and indexed assignments (this esp. holds if you are using transactions).
+If you want to change a node or edge or internal class object attribute of container type, you should use for performance reasons \texttt{add}, \texttt{rem}, and indexed assignments (this esp. holds if you are using transactions).
 	\begin{grgen}
 rule foo(ref storage:set<Node>) // parameter passed by-reference
 {

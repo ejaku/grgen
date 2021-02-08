@@ -137,10 +137,26 @@ A type may be given enclosed in angles to denote a mapping result type.
    created by mapping each \texttt{element:T} (the name can be chosen freely) of the original \texttt{array<T>} with the lambda expression (of type \texttt{S}) to its resulting counterpart.
 \item[\PVerb{.removeIf{element:T -> lambda-expr}}] returns a new \texttt{array<T>},
    created by removing each \texttt{element:T} (the name can be chosen freely) of the original \texttt{array<T>} for which the predicate given by the lambda expression (which must be of type \texttt{boolean}) yielded true.
+\item[\PVerb{.map<S>StartWith{init-expr}AccumulateBy}]
+\PVerb{{accumulation-var:T, element:T -> lambda-expr}} returns a new \texttt{array<S>},
+   created by mapping each \texttt{element:T} (the name can be chosen freely) of the original \texttt{array<T>} with the lambda expression (of type \texttt{S}) to its resulting counterpart.
+	The lambda expression is also fed the previous mapping result, for the first iteration initialized by \texttt{init-expr}.
 \end{description}
 
-Both methods allow for an optional index: the variable \texttt{index:int} (the name can be chosen freely) iterates the array indices [0,a.size()-1] of the corresponding elements in the array \texttt{a:array<T>} in the \verb#a.map<S>{index:int -> element:T -> lambda-expr}# and \\ \verb#a.removeIf{index:int -> element:T -> lambda-expr}# expressions.
+All methods allow for an optional index: the variable \texttt{index:int} (the name can be chosen freely) iterates the array indices [0,a.size()-1] of the corresponding elements in the array \texttt{a:array<T>} in the\\
+\verb#a.map<S>{index:int -> element:T -> lambda-expr}# and\\
+\verb#a.removeIf{index:int -> element:T -> lambda-expr}# and\\
+\verb#a.map<S>StartWith{init-expr}AccumulateBy#\\
+\verb#{accumulation-var:T, index:int -> element:T -> lambda-expr}#
+expressions.
 
+Even more, they all allow for an optional array access variable: \verb#this_:array<T># given as first variable declaration in the lambda expression (the name can be chosen freely), separated by a semicolon, references the original input array, allowing to access it in order to obtain further information, in the\\
+\verb#a.map<S>{this_:array<T>; element:T -> lambda-expr}# and\\
+\verb#a.removeIf{this_:array<T>; element:T -> lambda-expr}# and\\
+\verb#a.map<S>StartWith{this_:array<T>; init-expr}AccumulateBy#\\
+\verb#{this_:array<T>; accumulation-var:T, index:int -> element:T -> lambda-expr}# expressions.
+
+This allows to e.g. decide based on a comparison against the average of an attribute: \verb#[a.removeIf{this_:array<T>; element:T -> element.a < this_.extract<a>().avg()}])#
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Pattern Matching Based Queries}\label{sec:patternbasedgraphquery}

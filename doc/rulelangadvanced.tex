@@ -42,7 +42,7 @@ Followed by the advanced \emph{rewrite} constructs which are handled in the same
 they enable the specification of retyping (relabeling) and copying, as well as node merging and edge redirection.
 
 \begin{rail}
-AdvancedNodeTypeConstructs : ( NodeType (TypeConstraint | StorageAccess | Retyping | Merging) | CopyOperator);
+AdvancedNodeTypeConstructs : ( NodeType (TypeConstraint | StorageAccess | Retyping | Merging) | CopyOperator | CloneOperator);
 \end{rail}\ixnterm{AdvancedNodeTypeConstructs}
 
 Specifies a node of type \emph{NodeType},
@@ -50,19 +50,19 @@ constrained in type with a \emph{TypeConstraint}\indexmain{type constraint} (see
 or bound by a storage access (see \ref{sub:storageaccess}, \emph{StorageAccess}),
 or retyped with a \emph{Reytping}\indexmain{retype} (see Section~\ref{sec:retype}, \emph{Retyping}),
 or merged with a \emph{Merging}\indexmain{merge} (see Section~\ref{sec:merge}, \emph{Merging}).
-Alternatively it may define a node having the same type and bearing the same attributes as another matched node (see Section~\ref{sec:copy}, \emph{CopyOperator}).
+Alternatively it may define a node having the same type and bearing the same attributes as another matched node (see Section~\ref{sec:copy}, \emph{CopyOperator} and \emph{CloneOperator}).
 Type constraints are allowed in the pattern part only.
-The CopyOperator and the Merging clause are allowed in the replace/modify part only.
+The CopyOperator and the CloneOperator as well as the Merging clause are allowed in the replace/modify part only.
 The Retyping clause is a chimera which restricts the type of an already matched node when used on the LHS, and casts to the target type when used on the RHS, which is its primary use.
 
 \begin{rail}
-AdvancedEdgeTypeConstructs : ( EdgeType (TypeConstraint | StorageAccess | Retyping) | CopyOperator);
+AdvancedEdgeTypeConstructs : ( EdgeType (TypeConstraint | StorageAccess | Retyping) | CopyOperator | CloneOperator);
 \end{rail}\ixnterm{AdvancedEdgeTypeConstructs}
 
 The \emph{AdvancedEdgeTypeConstructs} specify an edge of type \emph{EdgeType} or a copy of an edge.
 Type constraints\indexmain{type constraint} are allowed in the pattern part only (see Section~\ref{sec:typeconstr}, \emph{TypeConstraint}); 
 the same holds for the storage access (see \ref{sub:storageaccess}, \emph{StorageAccess}).
-The CopyOperator and the Redirect clause are allowed in the replace/modify part only (see Section~\ref{sec:copy}, \emph{CopyOperator}, see Section~\ref{sec:redirect}, \emph{Redirect}).
+The CopyOperator and the CloneOperator as well as the Redirect clause are allowed in the replace/modify part only (see Section~\ref{sec:copy}, \emph{CopyOperator} and \emph{CloneOperator}, see Section~\ref{sec:redirect}, \emph{Redirect}).
 The Retyping clause is a chimera which restricts the type of an already matched edge when used on the LHS, and casts to the target type when used on the RHS (its primary use).
 Furthermore edges may be redirected, this is shown in Section~\ref{sec:redirect}, \emph{Redirection}.
 
@@ -223,7 +223,7 @@ or a typeof denoting the exact dynamic type of a matched graph element.
 The element declaration \texttt{el:typeof(x)} introduces a graph element of the type the host graph element \texttt{x} is actually bound to.
 It may appear in the pattern or in the rewrite part.
 If it is given in the pattern, the element to match must be of the same exact dynamic type as the element referenced in the \texttt{typeof}, otherwise matching will fail.
-If is is given in the rewrite part, the element to create is created with the same exact dynamic type as the element referenced in the \texttt{typeof}; have a look at the next section for the big brother of this language construct, the \texttt{copy} operator, which is only applicable in the rewrite part.
+If is is given in the rewrite part, the element to create is created with the same exact dynamic type as the element referenced in the \texttt{typeof}; have a look at the next section for the big brothers of this language construct, the \texttt{copy} and \texttt{clone} operators, which are only applicable in the rewrite part.
 
 \begin{example}
 The following rule will add a reverse edge to a one-way street.
@@ -317,15 +317,17 @@ Please have a look at example \ref{ex:retypelhs} for more on this.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Copy} \label{sec:copy}
+\section{Copy and Clone} \label{sec:copy}
 
-\indexmain{copy}The copy operator allows to create a node or edge of the type of another node/edge, bearing the same attributes as that other node.
-It can be seen as an extended version of the \texttt{typeof} construct not only copying the exact dynamic type but also the attributes of the matched graph element.
-Together with the \texttt{iterated} construct it allows to simulate node replacement grammars or to copy entire structures, see \ref{sub:mergesplit} and \ref{subsub:copystructure}.
+\indexmain{copy}\indexmain{clone}The copy and clone operators allows to create a node or edge of the type of another node/edge, bearing the same attributes like that other node/edge.
+They can be seen as an extended version of the \texttt{typeof} construct not only copying the exact dynamic type but also the attributes of the matched graph element.
+Together with the \texttt{iterated} construct they allow to simulate node replacement grammars or to copy entire structures, see \ref{sub:mergesplit} and \ref{subsub:copystructure}.
+The difference in between the two operators lies in the handling of attributes of object class type, the copy operator copies them deeply (/transitively), including all objects referenced, the clone operator just assigns the attribute to the same reference; for more on them cf. \ref{subsec:copynclonefunctions}. 
 
 \begin{rail}
   CopyOperator: 'copy' '<' Ident '>';
-\end{rail}\ixnterm{CopyOperator}
+  CloneOperator: 'clone' '<' Ident '>';
+\end{rail}\ixnterm{CopyOperator}\ixnterm{CloneOperator}
 
 \begin{example}
 The following rule will add a reverse edge to a one-way street, of the exact dynamic subtype of \texttt{street}, bearing the same attribute values as the original street.
