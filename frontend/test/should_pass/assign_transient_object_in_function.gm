@@ -1,0 +1,4 @@
+transient class Test
+{
+	i:int;
+}

@@ -1,0 +1,7 @@
+#using "assign_transient_object_in_function.gm"
+
+function assign(ref t:Test) : Test
+{
+	t.i = 42;
+	return(t);
+}

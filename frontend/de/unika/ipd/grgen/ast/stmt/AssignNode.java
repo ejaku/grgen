@@ -183,8 +183,9 @@ public class AssignNode extends EvalStatementNode
 	private boolean checkLhsQual()
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION
-				&& !lhsQual.isMatchAssignment()) {
-			reportError("assignment to an attribute of a graph element is not allowed in function or lhs context");
+				&& !lhsQual.isMatchAssignment()
+				&& !lhsQual.isTransientObjectAssignment()) {
+			reportError("assignment to an attribute of a node or edge or internal class object is not allowed in function or lhs context");
 			return false;
 		}
 

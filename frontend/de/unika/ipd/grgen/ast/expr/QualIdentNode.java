@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
 import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
 import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -156,6 +157,13 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		assert isResolved();
 
 		return !(member instanceof MemberDeclNode);
+	}
+
+	public boolean isTransientObjectAssignment()
+	{
+		assert isResolved();
+
+		return owner.getDeclType() instanceof InternalTransientObjectTypeNode;
 	}
 
 	public DeclNode getMember()
