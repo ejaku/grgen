@@ -1,4 +1,160 @@
-﻿v5.2 (2020-11-22)
+﻿v6.0beta (2021-02-08)
+ Carried out a massive data modelling improvement with the introduction of internal object types and internal transient object types;
+   they allow to group data and build linked data structures like lists and trees (without graph index overhead)
+
+ Introduced classes describing (internal) object types
+ - they are declared with a syntax similar to the one of node and edge classes, but without the node/edge prefix
+   example: class Foo extends Bar { val:int; }
+ - their values can be instantiated by a newly introduced new operator (in rule language and sequence expressions)
+   (they are not part of the graph directly, but may occur in attributes of nodes/edges)
+   example: new Foo()
+ - an attribute initializer may be given with the new operator:
+   example: new Foo@(a=42, b="Hallo Welt", c=x-1), for a class Foo { a:int, b:string, c:double }
+ - a unique id is assigned to them automatically
+   it can be accessed by a uniqueof(.:Object):long (in rule language and sequence expressions)
+   returning the uniqueId of the internal class object (as long value)
+ - all internal object types (classes) inherit from a predefined base class Object
+   (coming without attributes, and playing a similar rôle like the Node and Edge base classes)
+   (not to be mistaken for type object, which is a base type for all GrGen-types)
+ - they are reference types, i.e. variables are assigned a reference, and parameter passing occurs by-reference,
+   thus the ref modifier is used at their declarations, e.g. def ref o:Foo, and in action signatures, e.g. rule r(ref param:Foo)
+ - their attributes can be read and written with obj.attr syntax, like it is used for nodes and edges,
+   as well as with obj.attr[index] in case the attribute is a container (in rule language and sequences)
+ - an object type variable can be assigned a null value
+ - array by member and lambda expression methods can be employed on arrays of object types
+ 
+ Introduced classes describing (internal) transient object types
+ - they are declared with a syntax similar to the one of object classes, but with an additional transient prefix
+   example: transient class Foo extends Bar { val:int; }
+ - their values can be instantiated by a newly introduced new operator (in rule language and sequence expressions)
+   example: new Foo()
+ - an attribute initializer may be given with the new operator:
+   example: new Foo@(a=42, b="Hallo Welt", c=x-1), for a transient class Foo { a:int, b:string, c:double }
+ - all internal transient object types (classes) inherit from a predefined base class TransientObject
+   (coming without attributes, and playing a similar rôle like the Object base class)
+ - they are reference types, i.e. variables are assigned a reference, and parameter passing occurs by-reference,
+   thus the ref modifier is used at their declarations, e.g. def ref o:Foo, and in action signatures, e.g. rule r(ref param:Foo)
+ - their attributes can be read and written with obj.attr syntax, like it is used for non-transient objects,
+   as well as with obj.attr[index] in case the attribute is a container (in rule language and sequences)
+ - a transient object type variable can be assigned a null value
+ - array by member and lambda expression methods can be employed on arrays of transient object types
+ - a value of a transient class object cannot appear as an attribute in an object class / node class / edge class
+   (thus it cannot appear in the graph (and its serialization format) -- it is a data type only of importance to processing)
+
+ Introduced a clone operation in addition to the already existing copy operation, 
+  both support the newly introduced object types and transient object types (in rule language as well as in sequences)
+  and predominantly show a different behaviour regarding these types;
+  besides, only the clone function supports match (class) types (removed match (class) types from the admissible types of copy)
+  in contrast, only the copy function supports the (sub-)graph type 
+ - implemented a new_elem:clone<old_elem> rewrite pattern operator
+   it works like the new_elem:copy<old_elem> rewrite pattern operator,
+   with exception of the handling of internal class objects in attributes
+   clone just copies the surrounding graph element and assigns the object attributes by-reference (shallow clone) (thus they aliase),
+   the copy operator copies the objects deeply (replicating pointer structures)
+ - added an addClone procedure (to rule language and sequences, supplementing the already existing addCopy procedure)
+   (both are working like their according rewrite pattern operators, i.e. adding a clone of the graph element to the graph,
+   with internal class objects in attributes being taken over in case of the first and being copied in case of the second)
+ - added a clone(obj:T):T function (to rule language as well as sequences)
+   it works like the already existing copy(obj:T):T function, with exception of the handling of internal (transient) class objects
+     in attributes or container elements
+   clone only clones the attribute bearer or container and assigns the contained attributes or elements (shallow clone),
+   copy clones the attribute bearer or container and assigns copies of contained internal (transient) class objects
+     (deep copy replicating pointer structures)   
+   (attribute bearer = node/edge/class object/transient class object, container = array/deque/set/map)
+   (cloning as well as copying of an internal non-transient class object fetches and assigns a unique id to the clone/copy 
+     (but only copy does so deeply))
+   attributes of container type in non-transient object classes are always at least cloned (instead of only assigned)
+   attributes of container type in transient object classes are always only assigned by-reference
+     (in contrast to a top-level container which always gets at least cloned)
+
+ Internal class objects are supported by transaction manager rollback, graph change recording and replaying,
+   and graph exporting to .grs format and importing from .grs format, as well as GrShell inclusion
+   this is supported by the unique id acting as a "persistent name", it is written as e.g. a %="%0" entry 
+     at the begin of the attribute initializer list of a class object constructor -- example: new Foo@(%="%0", a=42)
+     it defines an entry "%0" in a temporary dictionary mapping to the just created object,
+     which is then used with a @@("%0") to obtain the object by name later on 
+  
+ Extended query support with an optional array access variable, and a lambda expression filter and array per-element method
+  that allows to accumulate the array values.
+ 
+ Implemented an optional array access variable for lambda expression methods and filters
+  given as first variable declaration in the lambda expression, separated by a semicolon,
+  it references the original input array, allowing to access it in order to obtain further information
+  Example: [?r\removeIf{this_:array<match<r>>; m:match<r> -> m.a < this_.extract<a>().avg()}]
+  
+ Added a lambda expression filter \assign<elem>StartWith{init-expr}AccumulateBy{accumulation-var:T, m:match<X> -> expr}
+  to rule, match class, and iterated filter calls in sequences and rule language 
+    (X=r, class mc, r.it; in case of a match class mc a mc. prefix is required before the filter name)
+  init-expr is an expression of type T,
+  accumulation-var:T a variable that carries forward the computation/accumulation result,
+  m:match<X> a variable that gives access to the match from the matches array currently iterated over,
+  and expr an expression of type T (with access to accumulation-var and m);
+  in each iteration step, m.elem is assigned the evaluation result of expr,
+  and accumulation-var the result of expr of the previous iteration / of the preceding m.elem,
+  or the evaluation result of init-expr in case of the first iteration / no preceding m.elem exists
+  init-expr as well as expr support an array access variable prefix separated by a semicolon
+
+ Added an array per-element lambda expression method .map<T>StartWith{init-expr}AccumulateBy{accumulation-var:T, elem:S -> expr}
+  in rule language and sequences, mapping an array<S> to an array<T>
+  init-expr is an expression of type T,
+  accumulation-var:T a variable that carries forward the computation/accumulation result,
+  elem:S a variable that gives access to the element from the array currently iterated over,
+  and expr an expression of type T (with access to accumulation-var and elem);
+  the resulting array is built stepwise from the evaluation results of expr;
+  the accumulation-var gives access to the outcome of the previous iteration step,
+  or the evaluation result of init-expr in case of the first iteration / element
+  init-expr as well as expr support an array access variable prefix separated by a semicolon
+
+ Container and match type extensions:
+ - containers and match classes can now be created with the new operator
+   (instead of the plain constructor; in rule language and sequences)
+ - allowed match class construction in the sequences (e.g. new MC() for match class MC;)
+ - extended match type support in sequence container types (from only arrays to sets, deques, and map ranges)
+ - allowed comparison against null for match types in rule language
+ - added support for null as value of a container type variable or attribute
+
+ Sequence generalizations:
+ - allowed visited flag access without brackets also in sequences (defaulting to visited flag 0 as in rule language)
+ - grammar workaround/fix for m:match<r>=expr parsing in sequences (so >= is accepted / user is not forced to separate the > from the =)
+ - allowed () after a filter call with members
+
+ Set encoding to utf-8 for .grs files (they are written including the BOM)
+
+ Added a Debugger command "show class ob(j)ect" to inspect an object by unique-id/name / crawl the network of objects
+  starting at root variables or non-transient objects defined by their unique-id
+  it is also available for transient objects, then a unique-id is generated on-the-fly 
+  
+ API changes/extensions: 
+ - runtime objects follow now the inheritance hierarchy:
+     IAttributeBearer <-- IGraphElement <-- INode and IEdge
+                      <-- IBaseObject <-- IObject and ITransientObject
+ - runtime types (reflection/meta information) follow now the inheritance hierarchy:
+     InheritanceType <-- GraphElementType <-- NodeType and EdgeType
+	                 <-- BaseObjectType <-- ObjectType and TransientObjectType
+ - type models follow now the inheritance hierarchy:
+     ITypeModel <-- IGraphElementTypeModel <-- INodeModel and IEdgeModel
+                <-- IBaseObjectTypeModel <-- IObjectModel and ITransientObjectModel
+ - added an OnChangingObjectAttribute event to the graph
+   (automatically fired by GrGen code when an attribute of internal class object type is assigned to)
+ - added a Copy method in addition to the already existing Clone method to the interfaces
+     of the nodes/edges/class objects/transient class objects (executing the according functionality)
+ - IObject offers a uniqueId field, it is/has to be filled upon creation by the uniqueId source located in the graph
+ - extended EmitHelper to:
+   - optionally collect the unique-ids defining a name of the visited internal class objects in a name to object dictionary
+   - optionally assign internal transient class objects temporary unique-ids (also used for emitting), 
+     via the graph processing environment storing/fetching them
+   - an internal (transient) class objects attribute emitting limit, to prevent emit information overload and endless recursions
+
+ Bugfixes:
+ - carried out some bugfixes related to variables and constructors of match (class) type, lambda expression methods/filters,
+   further minor fixes here and there (esp. in code generation), and error message improvements
+ - added type checks for lambda expression variables and the container access key expression
+
+ User manual adaptations, corrections, and improvements
+
+--------------------------------------------------------------------------------------------------------
+  
+v5.2 (2020-11-22)
  Introduced two per-element-by-lambda-expression-filters to the sequences
  - \assign<member>{element:match<r> -> lambda-expr:T} assigns to the member:T of a match of a rule r 
    the result of the sequence lambda expression fed by the element of the match, for each element in the matches yielded by the rule
