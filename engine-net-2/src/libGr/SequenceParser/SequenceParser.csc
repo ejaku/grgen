@@ -202,23 +202,23 @@ TOKEN: {
 
 TOKEN: {
     < NUMFLOAT:
-            ("-")? (["0"-"9"])+ ("." (["0"-"9"])+)? (<EXPONENT>)? ["f", "F"]
-        |    ("-")? "." (["0"-"9"])+ (<EXPONENT>)? ["f", "F"]
+            (["0"-"9"])+ ("." (["0"-"9"])+)? (<EXPONENT>)? ["f", "F"]
+        |    "." (["0"-"9"])+ (<EXPONENT>)? ["f", "F"]
     >
 |
     < NUMDOUBLE:
-            ("-")? (["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
-        |    ("-")? "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
-        |    ("-")? (["0"-"9"])+ <EXPONENT> (["d", "D"])?
-        |    ("-")? (["0"-"9"])+ ["d", "D"]
+            (["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
+        |    "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
+        |    (["0"-"9"])+ <EXPONENT> (["d", "D"])?
+        |    (["0"-"9"])+ ["d", "D"]
     >
 |
     < #EXPONENT: ["e", "E"] (["+", "-"])? (["0"-"9"])+ >
 |
-    < NUMBER: ("-")? (["0"-"9"])+ >
-|   < NUMBER_BYTE: ("-")? (["0"-"9"])+ ("y"|"Y") >
-|   < NUMBER_SHORT: ("-")? (["0"-"9"])+ ("s"|"S") >
-|   < NUMBER_LONG: ("-")? (["0"-"9"])+ ("l"|"L") >
+    < NUMBER: (["0"-"9"])+ >
+|   < NUMBER_BYTE: (["0"-"9"])+ ("y"|"Y") >
+|   < NUMBER_SHORT: (["0"-"9"])+ ("s"|"S") >
+|   < NUMBER_LONG: (["0"-"9"])+ ("l"|"L") >
 |
     < HEXNUMBER: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ >
 |   < HEXNUMBER_BYTE: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ ("y"|"Y") >
@@ -1857,6 +1857,11 @@ SequenceExpression ExpressionUnary():
     "-" seq=ExpressionBasic()
     {
         return new SequenceExpressionUnaryMinus(seq);
+    }
+|
+    "+" seq=ExpressionBasic()
+    {
+        return seq;
     }
 |
     seq=ExpressionBasic()

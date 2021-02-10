@@ -1,0 +1,8 @@
+rule r
+{
+	modify {
+		---
+		exec({::x = ::x-1});
+		exec({::y = -1});
+	}
+}

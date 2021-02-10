@@ -1,0 +1,20 @@
+new graph "exec3/binary_and_unary_minus_instead_of_negative_numbers_in_sequences"
+
+x = 42
+y = 42
+
+show var x
+show var y
+
+exec r
+
+show var x
+show var y
+
+exec {::x = ::x-1}
+exec {::y = -1}
+
+show var x
+show var y
+
+quit
