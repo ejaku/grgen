@@ -1,0 +1,64 @@
+#using "class.gm"
+
+rule aindexofby(ref a:array<Simple>) : (int)
+{
+	if{ a.indexOfBy<i>(1) == 1; }
+	
+	modify {
+		return(a.indexOfBy<i>(1));
+	}
+}
+
+rule aindexofbystart(ref a:array<Simple>) : (int)
+{
+	if{ a.indexOfBy<i>(1,2) == 3; }
+	
+	modify {
+		return(a.indexOfBy<i>(1,2));
+	}
+}
+
+rule alastindexofby(ref a:array<Simple>) : (int)
+{
+	if{ a.lastIndexOfBy<i>(1) == 3; }
+	
+	modify {
+		return(a.lastIndexOfBy<i>(1));
+	}
+}
+
+rule alastindexofbystart(ref a:array<Simple>) : (int)
+{
+	if{ a.lastIndexOfBy<i>(1,2) == 1; }
+	
+	modify {
+		return(a.lastIndexOfBy<i>(1,2));
+	}
+}
+
+rule aindexoforderedby(ref a:array<Simple>) : (int)
+{
+	if{ a.indexOfOrderedBy<i>(1) == 2; }
+	
+	modify {
+		return(a.indexOfOrderedBy<i>(1));
+	}
+}
+
+procedure emitSimpleArray(ref a:array<Simple>)
+{
+	emit("The value of variable \"a\" of type array<Simple> is: ");
+	emit("\"[");
+	def var first:boolean = true;
+	for(elem:Simple in a)
+	{
+		if(first) {
+			first = false;
+		} else {
+			emit(",");
+		}
+		emit("Simple{i:" + elem.i + ",j:" + elem.j + "}");
+	}
+	emit("]\"\n");
+	return;
+}

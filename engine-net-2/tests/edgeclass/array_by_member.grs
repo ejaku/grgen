@@ -1,0 +1,46 @@
+new graph "edgeclass/array_by_member.grg"
+
+new n:Node
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple, ::n, ::n); ::v.i = 0; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = -1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec (::o)=aindexofby(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple, ::n, ::n); ::v.i = 0; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = -1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec (::o)=aindexofbystart(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple, ::n, ::n); ::v.i = 0; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = -1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec (::o)=alastindexofby(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple, ::n, ::n); ::v.i = 0; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = -1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec (::o)=alastindexofbystart(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple, ::n, ::n); ::v.i = 0; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = -1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 2; ::a.add(::v) }
+exec { ::a = ::a.orderAscendingBy<i>() }
+
+exec { emitSimpleArray(::a) }
+
+exec (::o)=aindexoforderedby(::a)
+
+show var o
+
+quit
