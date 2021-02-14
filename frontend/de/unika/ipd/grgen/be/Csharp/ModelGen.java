@@ -3086,7 +3086,7 @@ commonLoop:
 
 	void genIndexOfByMethod(String typeName, String attributeName, String attributeTypeName)
 	{
-		sb.appendFront("public static int IndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry)\n");
+		sb.appendFront("public static int ArrayIndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("for(int i = 0; i < list.Count; ++i)\n");
@@ -3101,7 +3101,7 @@ commonLoop:
 
 	void genIndexOfByWithStartMethod(String typeName, String attributeName, String attributeTypeName)
 	{
-		sb.appendFront("public static int IndexOfBy(IList<" + typeName + "> list, "
+		sb.appendFront("public static int ArrayIndexOfBy(IList<" + typeName + "> list, "
 				+ attributeTypeName + " entry, int startIndex)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -3117,7 +3117,7 @@ commonLoop:
 
 	void genLastIndexOfByMethod(String typeName, String attributeName, String attributeTypeName)
 	{
-		sb.appendFront("public static int LastIndexOfBy(IList<" + typeName + "> list, "
+		sb.appendFront("public static int ArrayLastIndexOfBy(IList<" + typeName + "> list, "
 				+ attributeTypeName + " entry)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -3133,7 +3133,7 @@ commonLoop:
 
 	void genLastIndexOfByWithStartMethod(String typeName, String attributeName, String attributeTypeName)
 	{
-		sb.appendFront("public static int LastIndexOfBy(IList<" + typeName + "> list, "
+		sb.appendFront("public static int ArrayLastIndexOfBy(IList<" + typeName + "> list, "
 				+ attributeTypeName + " entry, int startIndex)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -3150,7 +3150,7 @@ commonLoop:
 	void genIndexOfOrderedByMethod(String typeName, String attributeName, String attributeTypeName,
 			String comparerClassName)
 	{
-		sb.appendFront("public static int IndexOfOrderedBy(List<" + typeName + "> list, "
+		sb.appendFront("public static int ArrayIndexOfOrderedBy(List<" + typeName + "> list, "
 				+ attributeTypeName + " entry)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -3646,7 +3646,7 @@ commonLoop:
 		sb.appendFront("public override System.Collections.IList ArrayOrderAscendingBy(System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		genArrayHelperDispatcher("ArrayOrderAscendingBy", true);
+		genArrayHelperDispatcher("ArrayOrderAscendingBy", true, false, false);
 		sb.unindent();
 		sb.appendFront("}\n");
 
@@ -3655,7 +3655,7 @@ commonLoop:
 		sb.appendFront("public override System.Collections.IList ArrayOrderDescendingBy(System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		genArrayHelperDispatcher("ArrayOrderDescendingBy", true);
+		genArrayHelperDispatcher("ArrayOrderDescendingBy", true, false, false);
 		sb.unindent();
 		sb.appendFront("}\n");
 
@@ -3664,7 +3664,7 @@ commonLoop:
 		sb.appendFront("public override System.Collections.IList ArrayGroupBy(System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		genArrayHelperDispatcher("ArrayGroupBy", false);
+		genArrayHelperDispatcher("ArrayGroupBy", false, false, false);
 		sb.unindent();
 		sb.appendFront("}\n");
 
@@ -3673,30 +3673,78 @@ commonLoop:
 		sb.appendFront("public override System.Collections.IList ArrayKeepOneForEach(System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		genArrayHelperDispatcher("ArrayKeepOneForEachBy", false);
+		genArrayHelperDispatcher("ArrayKeepOneForEachBy", false, false, false);
 		sb.unindent();
 		sb.appendFront("}\n");
+
+		sb.append("\n"); ///////////////////////////////////////////////////////////////////////
+
+		sb.appendFront("public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		genArrayHelperDispatcher("ArrayIndexOfBy", false, true, false);
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.append("\n");
+
+		sb.appendFront("public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		genArrayHelperDispatcher("ArrayIndexOfBy", false, true, true);
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.append("\n");
+
+		sb.appendFront("public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		genArrayHelperDispatcher("ArrayLastIndexOfBy", false, true, false);
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.append("\n");
+
+		sb.appendFront("public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		genArrayHelperDispatcher("ArrayLastIndexOfBy", false, true, true);
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.append("\n");
+
+		sb.appendFront("public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		genArrayHelperDispatcher("ArrayIndexOfOrderedBy", true, true, false);
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		sb.append("\n");
 	}
 
-	private void genArrayHelperDispatcher(String name, boolean requiresOrderable)
+	// count arguments is sufficient to determine name and type of the arguments
+	private void genArrayHelperDispatcher(String name, boolean requiresOrderable, boolean isIndexOfByMethod, boolean hasStartIndex)
 	{
 		sb.appendFront("if(array.Count == 0)\n");
-		sb.appendFrontIndented("return array;\n");
+		sb.appendFrontIndented("return " + (isIndexOfByMethod ? "-1" : "array") + ";\n");
 		sb.appendFront("if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))\n");
-		sb.appendFrontIndented("return null;\n");
+		sb.appendFrontIndented("return " + (isIndexOfByMethod ? "-1" : "null") + ";\n");
 		sb.appendFront("GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];\n");
 		sb.appendFront("switch(elem.Type.PackagePrefixedName)\n");
 		sb.appendFront("{\n");
 		for(InheritanceType type : model.getAllInheritanceTypes()) {
 			if(getNonAbstractTypeOrSubtype(type) == null)
 				continue;
-			genArrayHelperByTypeDispatcher(type, name, requiresOrderable);
+			genArrayHelperByTypeDispatcher(type, name, requiresOrderable, isIndexOfByMethod, hasStartIndex);
 		}
-		sb.appendFront("default: return null;\n");
+		sb.appendFront("default: return " + (isIndexOfByMethod ? "-1" : "null") + ";\n");
 		sb.appendFront("}\n");
 	}
 
-	private void genArrayHelperByTypeDispatcher(InheritanceType type, String name, boolean requiresOrderable)
+	private void genArrayHelperByTypeDispatcher(InheritanceType type, String name, boolean requiresOrderable, boolean isIndexOfByMethod, boolean hasStartIndex)
 	{
 		sb.appendFront("case \"" + getPackagePrefixDoubleColon(type) + formatIdentifiable(type) + "\":\n");
 		sb.indent();
@@ -3707,22 +3755,28 @@ commonLoop:
 				continue;
 			if(requiresOrderable && !entity.getType().isOrderableType())
 				continue;
-			genArrayHelperByMemberDispatcher(type, entity, name);
+			genArrayHelperByMemberDispatcher(type, entity, name, isIndexOfByMethod, hasStartIndex);
 		}
 		sb.appendFront("default:\n");
-		sb.appendFrontIndented("return null;\n");
+		sb.appendFrontIndented("return " + (isIndexOfByMethod ? "-1" : "null") + ";\n");
 		sb.appendFront("}\n");
 		sb.unindent();
 	}
 
-	private void genArrayHelperByMemberDispatcher(InheritanceType type, Entity entity, String functionName)
+	private void genArrayHelperByMemberDispatcher(InheritanceType type, Entity entity, String functionName, boolean isIndexOfByMethod, boolean hasStartIndex)
 	{
 		String typeName = formatType(type);
 		String attributeName = formatIdentifiable(entity);
+		String attributeType = formatAttributeType(entity);
 		String arrayHelperClassName = getPackagePrefixDot(type) + "ArrayHelper_" + type.getIdent().toString() + "_" + attributeName;
 		sb.appendFront("case \"" + attributeName + "\":\n");
 		sb.appendFrontIndented("return " + arrayHelperClassName
-				+ "." + functionName + "((List<" + typeName + ">)array);\n");
+				+ "." + functionName + "((List<" + typeName + ">)array");
+		if(isIndexOfByMethod)
+			sb.append(", (" + attributeType + ")value");
+		if(hasStartIndex)
+			sb.append(", startIndex");
+		sb.append(");\n");
 	}
 
 	private void genGraphModelBodyAccessToExternalParts()

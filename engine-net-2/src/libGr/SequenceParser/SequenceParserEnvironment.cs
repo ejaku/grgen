@@ -1154,7 +1154,25 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
                 return new SequenceExpressionArrayKeepOneForEachBy(targetExpr, memberOrAttributeName);
             }
-            throw new ParseException("Unknown array attribute access function method name: \"" + functionMethodName + "\"! (available are extract,orderAscendingBy,orderDescendingBy,groupBy,keepOneForEach)");
+            else if(functionMethodName == "indexOfBy")
+            {
+                if(argExprs.Count != 1 && argExprs.Count != 2)
+                    throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
+                return new SequenceExpressionArrayIndexOfBy(targetExpr, memberOrAttributeName, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
+            }
+            else if(functionMethodName == "lastIndexOfBy")
+            {
+                if(argExprs.Count != 1 && argExprs.Count != 2)
+                    throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
+                return new SequenceExpressionArrayLastIndexOfBy(targetExpr, memberOrAttributeName, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
+            }
+            else if(functionMethodName == "indexOfOrderedBy")
+            {
+                if(argExprs.Count != 1 && argExprs.Count != 2)
+                    throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
+                return new SequenceExpressionArrayIndexOfOrderedBy(targetExpr, memberOrAttributeName, argExprs[0]);
+            }
+            throw new ParseException("Unknown array attribute access function method name: \"" + functionMethodName + "\"! (available are extract,orderAscendingBy,orderDescendingBy,groupBy,keepOneForEach,indexOfBy,lastIndexOfBy,indexOfOrderedBy)");
         }
 
         public SequenceExpression CreateSequenceExpressionPerElementMethodCall(SequenceExpression targetExpr,

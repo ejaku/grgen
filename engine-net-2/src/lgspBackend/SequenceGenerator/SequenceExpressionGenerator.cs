@@ -339,6 +339,12 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayGroupBy((SequenceExpressionArrayGroupBy)expr, source);
             case SequenceExpressionType.ArrayKeepOneForEachBy:
                 return GetSequenceExpressionArrayKeepOneForEachBy((SequenceExpressionArrayKeepOneForEachBy)expr, source);
+            case SequenceExpressionType.ArrayIndexOfBy:
+                return GetSequenceExpressionArrayIndexOfBy((SequenceExpressionArrayIndexOfBy)expr, source);
+            case SequenceExpressionType.ArrayLastIndexOfBy:
+                return GetSequenceExpressionArrayLastIndexOfBy((SequenceExpressionArrayLastIndexOfBy)expr, source);
+            case SequenceExpressionType.ArrayIndexOfOrderedBy:
+                return GetSequenceExpressionArrayIndexOfOrderedBy((SequenceExpressionArrayIndexOfOrderedBy)expr, source);
             case SequenceExpressionType.MatchClassConstructor:
                 return GetSequenceExpressionMatchClassConstructor((SequenceExpressionMatchClassConstructor)expr, source);
 
@@ -2863,7 +2869,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(seqArrayByAttributeAccess.ContainerType(env) == "")
             {
-                return "GRGEN_LIBGR.ContainerHelper.Array" + methodNameUpperCase + "(" + array + ", \"" + seqArrayByAttributeAccess.memberOrAttributeName + "\", procEnv)";
+                return "GRGEN_LIBGR.ContainerHelper." + methodNameUpperCase + "(" + array + ", \"" + seqArrayByAttributeAccess.memberOrAttributeName + "\", procEnv)";
             }
             else //if(seqArrayOrderAscendingBy.ContainerType(env).StartsWith("array"))
             {
@@ -2894,9 +2900,79 @@ namespace de.unika.ipd.grGen.lgsp
                     string attribute = seqArrayByAttributeAccess.memberOrAttributeName;
                     string packageName;
                     string graphElementTypeName = TypesHelper.SeparatePackage(arrayValueType, out packageName);
+                    string graphElementTypeInterfaceName = "I" + graphElementTypeName;
                     string arrayHelperClass = NamesOfEntities.ArrayHelperClassName(graphElementTypeName, packageName, attribute);
-                    return "GRGEN_MODEL." + arrayHelperClass + ".Array" + methodNameUpperCase + "(" + array + ")";
+                    string packagePrefix = packageName != null ? packageName + "." : "";
+                    return "GRGEN_MODEL." + arrayHelperClass + ".Array" + methodNameUpperCase
+                        + "((List<GRGEN_MODEL." + packagePrefix + graphElementTypeInterfaceName + ">)" + array + ")";
                 }
+            }
+        }
+
+        private string GetSequenceExpressionArrayIndexOfBy(SequenceExpressionArrayIndexOfBy seqArrayIndexOfBy, SourceBuilder source)
+        {
+            return GetSequenceExpressionArrayByAttributeAccessIndexOf(seqArrayIndexOfBy, "indexOfBy", "IndexOfBy", seqArrayIndexOfBy.ValueToSearchForExpr, seqArrayIndexOfBy.StartPositionExpr, source);
+        }
+
+        private string GetSequenceExpressionArrayLastIndexOfBy(SequenceExpressionArrayLastIndexOfBy seqArrayLastIndexOfBy, SourceBuilder source)
+        {
+            return GetSequenceExpressionArrayByAttributeAccessIndexOf(seqArrayLastIndexOfBy, "lastIndexOfBy", "LastIndexOfBy", seqArrayLastIndexOfBy.ValueToSearchForExpr, seqArrayLastIndexOfBy.StartPositionExpr, source);
+        }
+
+        private string GetSequenceExpressionArrayIndexOfOrderedBy(SequenceExpressionArrayIndexOfOrderedBy seqArrayIndexOfOrderedBy, SourceBuilder source)
+        {
+            return GetSequenceExpressionArrayByAttributeAccessIndexOf(seqArrayIndexOfOrderedBy, "indexOfOrderedBy", "IndexOfOrderedBy", seqArrayIndexOfOrderedBy.ValueToSearchForExpr, null, source);
+        }
+
+        private string GetSequenceExpressionArrayByAttributeAccessIndexOf(SequenceExpressionArrayByAttributeAccessIndexOf seqArrayByAttributeAccess,
+            String methodName, String methodNameUpperCase, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr, SourceBuilder source)
+        {
+            string array = GetContainerValue(seqArrayByAttributeAccess, source);
+
+            if(seqArrayByAttributeAccess.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper." + methodNameUpperCase + "(" + array + ", \"" + seqArrayByAttributeAccess.memberOrAttributeName + "\", procEnv)";
+            }
+            else //if(seqArrayOrderAscendingBy.ContainerType(env).StartsWith("array"))
+            {
+                SourceBuilder sb = new SourceBuilder();
+                string arrayType = seqArrayByAttributeAccess.ContainerType(env);
+                string arrayValueType = TypesHelper.ExtractSrc(arrayType);
+                string typeOfMemberOrAttribute = env.TypeOfMemberOrAttribute(arrayValueType, seqArrayByAttributeAccess.memberOrAttributeName);
+                /*if(arrayValueType.StartsWith("match<class ")) // match class type
+                {
+                    string member = seqArrayByAttributeAccess.memberOrAttributeName;
+                    string packageName;
+                    string matchClassName = TypesHelper.SeparatePackage(TypesHelper.GetMatchClassName(arrayValueType), out packageName);
+                    string packagePrefix = packageName != null ? packageName + "." : "";
+                    sb.Append("GRGEN_ACTIONS." + packagePrefix + "ArrayHelper.Array_" + matchClassName + "_" + methodName + "_" + member
+                        + "((List<GRGEN_ACTIONS." + packagePrefix + "IMatch_" + matchClassName + ">)" + array);
+                }
+                else if(arrayValueType.StartsWith("match<")) //match type
+                {
+                    string member = seqArrayByAttributeAccess.memberOrAttributeName;
+                    string packageName;
+                    string ruleName = TypesHelper.SeparatePackage(TypesHelper.GetRuleName(arrayValueType), out packageName);
+                    string ruleClass = NamesOfEntities.RulePatternClassName(ruleName, packageName, false);
+                    string packagePrefix = packageName != null ? packageName + "." : "";
+                    sb.Append("GRGEN_ACTIONS." + packagePrefix + "ArrayHelper.Array_" + ruleName + "_" + methodName + "_" + member
+                        + "((List<GRGEN_ACTIONS." + packagePrefix + ruleClass + ".IMatch_" + ruleName + ">)" + array);
+                }
+                else // node/edge type */
+                string attribute = seqArrayByAttributeAccess.memberOrAttributeName;
+                string attributeType = TypesHelper.XgrsTypeToCSharpType(seqArrayByAttributeAccess.ValueToSearchForExpr.Type(env), model);
+                string packageName;
+                string graphElementTypeName = TypesHelper.SeparatePackage(arrayValueType, out packageName);
+                string graphElementTypeInterfaceName = "I" + graphElementTypeName;
+                string arrayHelperClass = NamesOfEntities.ArrayHelperClassName(graphElementTypeName, packageName, attribute);
+                string packagePrefix = packageName != null ? packageName + "." : "";
+                sb.Append("GRGEN_MODEL." + arrayHelperClass + ".Array" + methodNameUpperCase
+                    + "((List<GRGEN_MODEL." + packagePrefix + graphElementTypeInterfaceName + ">)" + array);
+                sb.Append(", (" + attributeType + ")" + GetSequenceExpression(valueToSearchForExpr, source));
+                if(startPositionExpr != null)
+                    sb.Append(", (int)" + GetSequenceExpression(startPositionExpr, source));
+                sb.Append(")");
+                return sb.ToString();
             }
         }
 

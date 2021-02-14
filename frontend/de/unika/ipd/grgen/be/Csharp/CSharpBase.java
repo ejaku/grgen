@@ -1289,7 +1289,7 @@ public abstract class CSharpBase
 			} else {
 				sb.append("GRGEN_MODEL.ArrayHelper_"
 						+ aib.getTargetType().getValueType().getIdent().toString() + "_"
-						+ formatIdentifiable(aib.getMember()) + ".IndexOfBy(");
+						+ formatIdentifiable(aib.getMember()) + ".ArrayIndexOfBy(");
 				genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, aib.getValueExpr(), modifyGenerationState);
@@ -1317,7 +1317,7 @@ public abstract class CSharpBase
 			} else {
 				sb.append("GRGEN_MODEL.ArrayHelper_"
 						+ aiob.getTargetType().getValueType().getIdent().toString() + "_"
-						+ formatIdentifiable(aiob.getMember()) + ".IndexOfOrderedBy(");
+						+ formatIdentifiable(aiob.getMember()) + ".ArrayIndexOfOrderedBy(");
 				genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, aiob.getValueExpr(), modifyGenerationState);
@@ -1345,7 +1345,7 @@ public abstract class CSharpBase
 			} else {
 				sb.append("GRGEN_MODEL.ArrayHelper_"
 						+ alib.getTargetType().getValueType().getIdent().toString() + "_"
-						+ formatIdentifiable(alib.getMember()) + ".LastIndexOfBy(");
+						+ formatIdentifiable(alib.getMember()) + ".ArrayLastIndexOfBy(");
 				genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, alib.getValueExpr(), modifyGenerationState);

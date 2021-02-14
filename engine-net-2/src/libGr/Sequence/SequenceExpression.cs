@@ -43,6 +43,7 @@ namespace de.unika.ipd.grGen.libGr
         ArraySubarray, DequeSubdeque,
         ArrayOrderAscending, ArrayOrderDescending, ArrayGroup, ArrayKeepOneForEach, ArrayReverse, ArrayShuffle,
         ArrayExtract, ArrayOrderAscendingBy, ArrayOrderDescendingBy, ArrayGroupBy, ArrayKeepOneForEachBy,
+        ArrayIndexOfBy, ArrayLastIndexOfBy, ArrayIndexOfOrderedBy,
         ArrayMap, ArrayRemoveIf, ArrayMapStartWithAccumulateBy,
         ElementFromGraph, NodeByName, EdgeByName, NodeByUnique, EdgeByUnique,
         Source, Target, Opposite,
@@ -5357,14 +5358,11 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionArrayExtract : SequenceExpressionContainer
+    public class SequenceExpressionArrayExtract : SequenceExpressionArrayByAttributeAccess
     {
-        public string memberOrAttributeName;
-
         public SequenceExpressionArrayExtract(SequenceExpression containerExpr, String memberOrAttributeName)
-            : base(SequenceExpressionType.ArrayExtract, containerExpr)
+            : base(SequenceExpressionType.ArrayExtract, containerExpr, memberOrAttributeName)
         {
-            this.memberOrAttributeName = memberOrAttributeName;
         }
 
         protected SequenceExpressionArrayExtract(SequenceExpressionArrayExtract that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -5375,24 +5373,6 @@ namespace de.unika.ipd.grGen.libGr
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceExpressionArrayExtract(this, originalToCopy, procEnv);
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            base.Check(env); // check children
-
-            string containerType = CheckAndReturnContainerType(env);
-
-            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
-                throw new SequenceParserException(Symbol, "array<T> type", containerType);
-
-            if(containerType == "")
-                return; // not possible to check array value type if type is not known statically
-
-            String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
-
-            // throws exceptions in case the match or graph element type does not exist, or it does not contain an element of the given name
-            String memberOrAttributeType = env.TypeOfMemberOrAttribute(arrayValueType, memberOrAttributeName);
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -6073,6 +6053,249 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return Name + ".keepOneForEach<" + memberOrAttributeName + ">()"; }
+        }
+    }
+
+    public abstract class SequenceExpressionArrayByAttributeAccessIndexOf : SequenceExpressionContainer
+    {
+        public string memberOrAttributeName;
+        public SequenceExpression ValueToSearchForExpr;
+
+        public SequenceExpressionArrayByAttributeAccessIndexOf(SequenceExpressionType type, SequenceExpression containerExpr,
+            String memberOrAttributeName, SequenceExpression valueToSearchForExpr)
+            : base(type, containerExpr)
+        {
+            this.memberOrAttributeName = memberOrAttributeName;
+            this.ValueToSearchForExpr = valueToSearchForExpr;
+        }
+
+        protected SequenceExpressionArrayByAttributeAccessIndexOf(SequenceExpressionArrayByAttributeAccessIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType == "")
+                return; // not possible to check array value type if type is not known statically
+
+            String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
+
+            // throws exceptions in case the match or graph element type does not exist, or it does not contain an element of the given name
+            String memberOrAttributeType = env.TypeOfMemberOrAttribute(arrayValueType, memberOrAttributeName);
+
+            if(ValueToSearchForExpr.Type(env) != "")
+            {
+                if(ValueToSearchForExpr.Type(env) != memberOrAttributeType)
+                    throw new SequenceParserException(Symbol, memberOrAttributeType, ValueToSearchForExpr.Type(env));
+            }
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, constructors);
+            ValueToSearchForExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+                yield return ValueToSearchForExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+    }
+
+    public class SequenceExpressionArrayIndexOfBy : SequenceExpressionArrayByAttributeAccessIndexOf
+    {
+        public SequenceExpression StartPositionExpr;
+
+        public SequenceExpressionArrayIndexOfBy(SequenceExpression containerExpr, String memberOrAttributeName,
+            SequenceExpression valueToSearchForExpr)
+            : base(SequenceExpressionType.ArrayIndexOfBy, containerExpr, memberOrAttributeName, valueToSearchForExpr)
+        {
+        }
+
+        public SequenceExpressionArrayIndexOfBy(SequenceExpression containerExpr, String memberOrAttributeName,
+            SequenceExpression valueToSearchForExpr, SequenceExpression startIndexExpr)
+            : base(SequenceExpressionType.ArrayIndexOfBy, containerExpr, memberOrAttributeName, valueToSearchForExpr)
+        {
+            this.StartPositionExpr = startIndexExpr;
+        }
+
+        protected SequenceExpressionArrayIndexOfBy(SequenceExpressionArrayIndexOfBy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+            if(StartPositionExpr != null)
+                StartPositionExpr = that.StartPositionExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayIndexOfBy(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+
+            if(StartPositionExpr != null && StartPositionExpr.Type(env) != "")
+            {
+                if(StartPositionExpr != null && StartPositionExpr.Type(env) != "int")
+                    throw new SequenceParserException(Symbol, "int", ValueToSearchForExpr.Type(env));
+            }
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(StartPositionExpr != null)
+                return ContainerHelper.IndexOfBy(ArrayValue(procEnv), memberOrAttributeName, ValueToSearchForExpr.Evaluate(procEnv), (int)StartPositionExpr.Evaluate(procEnv), procEnv);
+            else
+                return ContainerHelper.IndexOfBy(ArrayValue(procEnv), memberOrAttributeName, ValueToSearchForExpr.Evaluate(procEnv), procEnv);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, constructors);
+            ValueToSearchForExpr.GetLocalVariables(variables, constructors);
+            if(StartPositionExpr != null)
+                StartPositionExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+                yield return ValueToSearchForExpr;
+                if(StartPositionExpr != null)
+                    yield return StartPositionExpr;
+            }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".indexOfBy<" + memberOrAttributeName + ">(" + ValueToSearchForExpr.Symbol + (StartPositionExpr != null ? "," + StartPositionExpr.Symbol: "")+ ")"; }
+        }
+    }
+
+    public class SequenceExpressionArrayLastIndexOfBy : SequenceExpressionArrayByAttributeAccessIndexOf
+    {
+        public SequenceExpression StartPositionExpr;
+
+        public SequenceExpressionArrayLastIndexOfBy(SequenceExpression containerExpr, String memberOrAttributeName,
+            SequenceExpression valueToSearchForExpr)
+            : base(SequenceExpressionType.ArrayLastIndexOfBy, containerExpr, memberOrAttributeName, valueToSearchForExpr)
+        {
+        }
+
+        public SequenceExpressionArrayLastIndexOfBy(SequenceExpression containerExpr, String memberOrAttributeName,
+            SequenceExpression valueToSearchForExpr, SequenceExpression startIndexExpr)
+            : base(SequenceExpressionType.ArrayLastIndexOfBy, containerExpr, memberOrAttributeName, valueToSearchForExpr)
+        {
+            this.StartPositionExpr = startIndexExpr;
+        }
+
+        protected SequenceExpressionArrayLastIndexOfBy(SequenceExpressionArrayLastIndexOfBy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+            if(StartPositionExpr != null)
+                StartPositionExpr = that.StartPositionExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayLastIndexOfBy(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+
+            if(StartPositionExpr != null && StartPositionExpr.Type(env) != "")
+            {
+                if(StartPositionExpr != null && StartPositionExpr.Type(env) != "int")
+                    throw new SequenceParserException(Symbol, "int", ValueToSearchForExpr.Type(env));
+            }
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(StartPositionExpr != null)
+                return ContainerHelper.LastIndexOfBy(ArrayValue(procEnv), memberOrAttributeName, ValueToSearchForExpr.Evaluate(procEnv), (int)StartPositionExpr.Evaluate(procEnv), procEnv);
+            else
+                return ContainerHelper.LastIndexOfBy(ArrayValue(procEnv), memberOrAttributeName, ValueToSearchForExpr.Evaluate(procEnv), procEnv);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, constructors);
+            ValueToSearchForExpr.GetLocalVariables(variables, constructors);
+            if(StartPositionExpr != null)
+                StartPositionExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+                yield return ValueToSearchForExpr;
+                if(StartPositionExpr != null)
+                    yield return StartPositionExpr;
+            }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".lastIndexOfBy<" + memberOrAttributeName + ">(" + ValueToSearchForExpr.Symbol + (StartPositionExpr != null ? "," + StartPositionExpr.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionArrayIndexOfOrderedBy : SequenceExpressionArrayByAttributeAccessIndexOf
+    {
+        public SequenceExpressionArrayIndexOfOrderedBy(SequenceExpression containerExpr, String memberOrAttributeName,
+            SequenceExpression valueToSearchForExpr)
+            : base(SequenceExpressionType.ArrayIndexOfOrderedBy, containerExpr, memberOrAttributeName, valueToSearchForExpr)
+        {
+        }
+
+        protected SequenceExpressionArrayIndexOfOrderedBy(SequenceExpressionArrayIndexOfOrderedBy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayIndexOfOrderedBy(this, originalToCopy, procEnv);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ContainerHelper.IndexOfBy(ArrayValue(procEnv), memberOrAttributeName, ValueToSearchForExpr.Evaluate(procEnv), procEnv);
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".indexOfOrderedBy<" + memberOrAttributeName + ">(" + ValueToSearchForExpr.Symbol + ")"; }
         }
     }
 

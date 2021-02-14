@@ -537,6 +537,51 @@ namespace de.unika.ipd.grGen.libGr
             return procEnv.Graph.Model.ArrayKeepOneForEach(array, memberOrAttribute);
         }
 
+        public static int IndexOfBy(object container, string memberOrAttribute, object value, IGraphProcessingEnvironment procEnv)
+        {
+            IList array = (IList)container;
+            /*IList resultingArray = procEnv.Actions.ArrayIndexOfBy(array, memberOrAttribute, value);
+            if(resultingArray != null)
+                return resultingArray;*/
+            return procEnv.Graph.Model.ArrayIndexOfBy(array, memberOrAttribute, value);
+        }
+
+        public static int IndexOfBy(object container, string memberOrAttribute, object value, int startIndex, IGraphProcessingEnvironment procEnv)
+        {
+            IList array = (IList)container;
+            /*IList resultingArray = procEnv.Actions.ArrayIndexOfBy(array, memberOrAttribute, value, startIndex);
+            if(resultingArray != null)
+                return resultingArray;*/
+            return procEnv.Graph.Model.ArrayIndexOfBy(array, memberOrAttribute, value, startIndex);
+        }
+
+        public static int LastIndexOfBy(object container, string memberOrAttribute, object value, IGraphProcessingEnvironment procEnv)
+        {
+            IList array = (IList)container;
+            /*IList resultingArray = procEnv.Actions.ArrayLastIndexOfBy(array, memberOrAttribute, value);
+            if(resultingArray != null)
+                return resultingArray;*/
+            return procEnv.Graph.Model.ArrayLastIndexOfBy(array, memberOrAttribute, value);
+        }
+
+        public static int LastIndexOfBy(object container, string memberOrAttribute, object value, int startIndex, IGraphProcessingEnvironment procEnv)
+        {
+            IList array = (IList)container;
+            /*IList resultingArray = procEnv.Actions.ArrayLastIndexOfBy(array, memberOrAttribute, value, startIndex);
+            if(resultingArray != null)
+                return resultingArray;*/
+            return procEnv.Graph.Model.ArrayLastIndexOfBy(array, memberOrAttribute, value, startIndex);
+        }
+
+        public static int IndexOfOrderedBy(object container, string memberOrAttribute, object value, IGraphProcessingEnvironment procEnv)
+        {
+            IList array = (IList)container;
+            /*IList resultingArray = procEnv.Actions.ArrayIndexOfOrderedBy(array, memberOrAttribute, value);
+            if(resultingArray != null)
+                return resultingArray;*/
+            return procEnv.Graph.Model.ArrayIndexOfOrderedBy(array, memberOrAttribute, value);
+        }
+
         public static List<T> ConvertIfEmpty<T>(object array)
         {
             if(!(array is List<T>) && array is IList && ((IList)array).Count == 0)

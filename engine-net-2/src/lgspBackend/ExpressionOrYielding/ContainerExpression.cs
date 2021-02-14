@@ -1116,7 +1116,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("GRGEN_MODEL.ArrayHelper_{0}_{1}.IndexOfBy(", OwnerType, Member);
+            sourceCode.AppendFormat("GRGEN_MODEL.ArrayHelper_{0}_{1}.ArrayIndexOfBy(", OwnerType, Member);
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
@@ -1198,7 +1198,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("GRGEN_MODEL.ArrayHelper_{0}_{1}.IndexOfOrderedBy(", OwnerType, Member);
+            sourceCode.AppendFormat("GRGEN_MODEL.ArrayHelper_{0}_{1}.ArrayIndexOfOrderedBy(", OwnerType, Member);
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
@@ -1302,7 +1302,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("GRGEN_MODEL.ArrayHelper_{0}_{1}.LastIndexOfBy(", OwnerType, Member);
+            sourceCode.AppendFormat("GRGEN_MODEL.ArrayHelper_{0}_{1}.ArrayLastIndexOfBy(", OwnerType, Member);
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);

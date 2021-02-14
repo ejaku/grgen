@@ -1,0 +1,44 @@
+new graph "nodeclass/array_by_member.grg"
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple); ::v.i = 0; ::a.add(::v); (::v)=add(Simple); ::v.i = 1; ::a.add(::v); (::v)=add(Simple); ::v.i = -1; ::a.add(::v); (::v)=add(Simple); ::v.i = 1; ::a.add(::v); (::v)=add(Simple); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec (::o)=aindexofbyexec(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple); ::v.i = 0; ::a.add(::v); (::v)=add(Simple); ::v.i = 1; ::a.add(::v); (::v)=add(Simple); ::v.i = -1; ::a.add(::v); (::v)=add(Simple); ::v.i = 1; ::a.add(::v); (::v)=add(Simple); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec (::o)=aindexofbystartexec(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple); ::v.i = 0; ::a.add(::v); (::v)=add(Simple); ::v.i = 1; ::a.add(::v); (::v)=add(Simple); ::v.i = -1; ::a.add(::v); (::v)=add(Simple); ::v.i = 1; ::a.add(::v); (::v)=add(Simple); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec (::o)=alastindexofbyexec(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple); ::v.i = 0; ::a.add(::v); (::v)=add(Simple); ::v.i = 1; ::a.add(::v); (::v)=add(Simple); ::v.i = -1; ::a.add(::v); (::v)=add(Simple); ::v.i = 1; ::a.add(::v); (::v)=add(Simple); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec (::o)=alastindexofbystartexec(::a)
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple); ::v.i = 0; ::a.add(::v); (::v)=add(Simple); ::v.i = 1; ::a.add(::v); (::v)=add(Simple); ::v.i = -1; ::a.add(::v); (::v)=add(Simple); ::v.i = 1; ::a.add(::v); (::v)=add(Simple); ::v.i = 2; ::a.add(::v) }
+exec { ::a = ::a.orderAscendingBy<i>() }
+
+exec { emitSimpleArray(::a) }
+
+exec (::o)=aindexoforderedbyexec(::a)
+
+show var o
+
+quit

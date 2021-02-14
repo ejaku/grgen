@@ -1,0 +1,46 @@
+new graph "edgeclass/array_by_member.grg"
+
+new n:Node
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple, ::n, ::n); ::v.i = 0; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = -1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec { ::o=::a.indexOfBy<i>(1) }
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple, ::n, ::n); ::v.i = 0; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = -1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec { ::o=::a.indexOfBy<i>(1,2) }
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple, ::n, ::n); ::v.i = 0; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = -1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec { ::o=::a.lastIndexOfBy<i>(1) }
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple, ::n, ::n); ::v.i = 0; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = -1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 2; ::a.add(::v) }
+
+exec { emitSimpleArray(::a) }
+
+exec { ::o=::a.lastIndexOfBy<i>(1,2) }
+
+show var o
+
+exec { ::a = array<Simple>[]; (::v)=add(Simple, ::n, ::n); ::v.i = 0; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = -1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 1; ::a.add(::v); (::v)=add(Simple, ::n, ::n); ::v.i = 2; ::a.add(::v) }
+exec { ::a = ::a.orderAscendingBy<i>() }
+
+exec { emitSimpleArray(::a) }
+
+exec { ::o=::a.indexOfOrderedBy<i>(1) }
+
+show var o
+
+quit
