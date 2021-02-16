@@ -44,3 +44,54 @@ rule aindexoforderedby(ref a:array<Simple>) : (int)
 		return(a.indexOfOrderedBy<i>(1));
 	}
 }
+
+
+rule aindexofbyexec(ref a:array<Simple>) : (int)
+{
+	modify {
+		---
+		def var res:int = 42;
+		exec({yield res = a.indexOfBy<i>(1)});
+		return(res);
+	}
+}
+
+rule aindexofbystartexec(ref a:array<Simple>) : (int)
+{
+	modify {
+		---
+		def var res:int = 42;
+		exec({yield res = a.indexOfBy<i>(1,2)});
+		return(res);
+	}
+}
+
+rule alastindexofbyexec(ref a:array<Simple>) : (int)
+{
+	modify {
+		---
+		def var res:int = 42;
+		exec({yield res = a.lastIndexOfBy<i>(1)});
+		return(res);
+	}
+}
+
+rule alastindexofbystartexec(ref a:array<Simple>) : (int)
+{
+	modify {
+		---
+		def var res:int = 42;
+		exec({yield res = a.lastIndexOfBy<i>(1,2)});
+		return(res);
+	}
+}
+
+rule aindexoforderedbyexec(ref a:array<Simple>) : (int)
+{
+	modify {
+		---
+		def var res:int = 42;
+		exec({yield res = a.indexOfOrderedBy<i>(1)});
+		return(res);
+	}
+}
