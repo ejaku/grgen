@@ -2939,36 +2939,43 @@ namespace de.unika.ipd.grGen.lgsp
                 string arrayType = seqArrayByAttributeAccess.ContainerType(env);
                 string arrayValueType = TypesHelper.ExtractSrc(arrayType);
                 string typeOfMemberOrAttribute = env.TypeOfMemberOrAttribute(arrayValueType, seqArrayByAttributeAccess.memberOrAttributeName);
-                /*if(arrayValueType.StartsWith("match<class ")) // match class type
+                if(arrayValueType.StartsWith("match<class ")) // match class type
                 {
                     string member = seqArrayByAttributeAccess.memberOrAttributeName;
+                    string memberType = TypesHelper.XgrsTypeToCSharpType(seqArrayByAttributeAccess.ValueToSearchForExpr.Type(env), model);
                     string packageName;
                     string matchClassName = TypesHelper.SeparatePackage(TypesHelper.GetMatchClassName(arrayValueType), out packageName);
                     string packagePrefix = packageName != null ? packageName + "." : "";
                     sb.Append("GRGEN_ACTIONS." + packagePrefix + "ArrayHelper.Array_" + matchClassName + "_" + methodName + "_" + member
                         + "((List<GRGEN_ACTIONS." + packagePrefix + "IMatch_" + matchClassName + ">)" + array);
+                    sb.Append(", (" + memberType + ")");
                 }
                 else if(arrayValueType.StartsWith("match<")) //match type
                 {
                     string member = seqArrayByAttributeAccess.memberOrAttributeName;
+                    string memberType = TypesHelper.XgrsTypeToCSharpType(seqArrayByAttributeAccess.ValueToSearchForExpr.Type(env), model);
                     string packageName;
                     string ruleName = TypesHelper.SeparatePackage(TypesHelper.GetRuleName(arrayValueType), out packageName);
                     string ruleClass = NamesOfEntities.RulePatternClassName(ruleName, packageName, false);
                     string packagePrefix = packageName != null ? packageName + "." : "";
                     sb.Append("GRGEN_ACTIONS." + packagePrefix + "ArrayHelper.Array_" + ruleName + "_" + methodName + "_" + member
                         + "((List<GRGEN_ACTIONS." + packagePrefix + ruleClass + ".IMatch_" + ruleName + ">)" + array);
+                    sb.Append(", (" + memberType + ")");
                 }
-                else // node/edge type */
-                string attribute = seqArrayByAttributeAccess.memberOrAttributeName;
-                string attributeType = TypesHelper.XgrsTypeToCSharpType(seqArrayByAttributeAccess.ValueToSearchForExpr.Type(env), model);
-                string packageName;
-                string graphElementTypeName = TypesHelper.SeparatePackage(arrayValueType, out packageName);
-                string graphElementTypeInterfaceName = "I" + graphElementTypeName;
-                string arrayHelperClass = NamesOfEntities.ArrayHelperClassName(graphElementTypeName, packageName, attribute);
-                string packagePrefix = packageName != null ? packageName + "." : "";
-                sb.Append("GRGEN_MODEL." + arrayHelperClass + ".Array" + methodNameUpperCase
-                    + "((List<GRGEN_MODEL." + packagePrefix + graphElementTypeInterfaceName + ">)" + array);
-                sb.Append(", (" + attributeType + ")" + GetSequenceExpression(valueToSearchForExpr, source));
+                else // node/edge type
+                {
+                    string attribute = seqArrayByAttributeAccess.memberOrAttributeName;
+                    string attributeType = TypesHelper.XgrsTypeToCSharpType(seqArrayByAttributeAccess.ValueToSearchForExpr.Type(env), model);
+                    string packageName;
+                    string graphElementTypeName = TypesHelper.SeparatePackage(arrayValueType, out packageName);
+                    string graphElementTypeInterfaceName = "I" + graphElementTypeName;
+                    string arrayHelperClass = NamesOfEntities.ArrayHelperClassName(graphElementTypeName, packageName, attribute);
+                    string packagePrefix = packageName != null ? packageName + "." : "";
+                    sb.Append("GRGEN_MODEL." + arrayHelperClass + ".Array" + methodNameUpperCase
+                        + "((List<GRGEN_MODEL." + packagePrefix + graphElementTypeInterfaceName + ">)" + array);
+                    sb.Append(", (" + attributeType + ")");
+                }
+                sb.Append(GetSequenceExpression(valueToSearchForExpr, source));
                 if(startPositionExpr != null)
                     sb.Append(", (int)" + GetSequenceExpression(startPositionExpr, source));
                 sb.Append(")");

@@ -3034,16 +3034,7 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 
-		if(type instanceof EdgeType) {
-			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = "
-					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "(null, null);\n");
-		} else if (type instanceof InternalObjectType) {
-			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = "
-					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "(-1);\n");
-		} else {
-			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = "
-					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "();\n");
-		}
+		genInstanceBearingAttributeForSearch(sb, type, nonAbstractTypeOrSubtype);
 
 		genIndexOfByMethod(typeName, attributeName, attributeTypeName);
 		genIndexOfByWithStartMethod(typeName, attributeName, attributeTypeName);
@@ -3066,6 +3057,20 @@ commonLoop:
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
+	}
+
+	void genInstanceBearingAttributeForSearch(SourceBuilder sb, InheritanceType type, InheritanceType nonAbstractTypeOrSubtype)
+	{
+		if(type instanceof EdgeType) {
+			sb.appendFront("private static " + formatElementInterfaceRef(type) + " instanceBearingAttributeForSearch = "
+					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "(null, null);\n");
+		} else if (type instanceof InternalObjectType) {
+			sb.appendFront("private static " + formatElementInterfaceRef(type) + " instanceBearingAttributeForSearch = "
+					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "(-1);\n");
+		} else { // internal transient object type and node type
+			sb.appendFront("private static " + formatElementInterfaceRef(type) + " instanceBearingAttributeForSearch = "
+					+ "new " + formatInheritanceClassRef(nonAbstractTypeOrSubtype) + "();\n");
+		}
 	}
 
 	private static InheritanceType getNonAbstractTypeOrSubtype(InheritanceType type)
@@ -3154,8 +3159,8 @@ commonLoop:
 				+ attributeTypeName + " entry)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		sb.appendFront("nodeBearingAttributeForSearch.@" + attributeName + " = entry;\n");
-		sb.appendFront("return list.BinarySearch(nodeBearingAttributeForSearch, "
+		sb.appendFront("instanceBearingAttributeForSearch.@" + attributeName + " = entry;\n");
+		sb.appendFront("return list.BinarySearch(instanceBearingAttributeForSearch, "
 				+ comparerClassName + ".thisComparer);\n");
 		sb.unindent();
 		sb.appendFront("}\n");

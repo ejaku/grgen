@@ -1108,10 +1108,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            if(StartIndex != null)
-                return new ArrayIndexOfBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix), StartIndex.Copy(renameSuffix));
-            else
-                return new ArrayIndexOfBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix));
+            return new ArrayIndexOfBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix), StartIndex != null ? StartIndex.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -1139,6 +1136,192 @@ namespace de.unika.ipd.grGen.expression
         readonly Expression Target;
         readonly String OwnerType;
         readonly String Member;
+        readonly Expression Value;
+        readonly Expression StartIndex;
+    }
+
+    /// <summary>
+    /// Class representing an array of action matches index of by member expression.
+    /// </summary>
+    public class ArrayOfMatchTypeIndexOfBy : Expression
+    {
+        public ArrayOfMatchTypeIndexOfBy(Expression target, string patternName, string member, string rulePackage, Expression value)
+        {
+            Target = target;
+            PatternName = patternName;
+            Member = member;
+            RulePackage = rulePackage;
+            Value = value;
+        }
+
+        public ArrayOfMatchTypeIndexOfBy(Expression target, string patternName, string member, string rulePackage, Expression value, Expression startIndex)
+        {
+            Target = target;
+            PatternName = patternName;
+            Member = member;
+            RulePackage = rulePackage;
+            Value = value;
+            StartIndex = startIndex;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfMatchTypeIndexOfBy(Target.Copy(renameSuffix), PatternName, Member, RulePackage, Value.Copy(renameSuffix), StartIndex != null ? StartIndex.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
+                PatternName, "indexOfBy", Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            if(StartIndex != null)
+            {
+                sourceCode.Append(", ");
+                StartIndex.Emit(sourceCode);
+            }
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+            if(StartIndex != null)
+                yield return StartIndex;
+        }
+
+        readonly Expression Target;
+        readonly String PatternName;
+        readonly String Member;
+        readonly String RulePackage;
+        readonly Expression Value;
+        readonly Expression StartIndex;
+    }
+
+    /// <summary>
+    /// Class representing an array of iterated matches index of by member expression.
+    /// </summary>
+    public class ArrayOfIteratedMatchTypeIndexOfBy : Expression
+    {
+        public ArrayOfIteratedMatchTypeIndexOfBy(Expression target, string patternName, string iteratedName, string member, string rulePackage, Expression value)
+        {
+            Target = target;
+            PatternName = patternName;
+            IteratedName = iteratedName;
+            Member = member;
+            RulePackage = rulePackage;
+            Value = value;
+        }
+
+        public ArrayOfIteratedMatchTypeIndexOfBy(Expression target, string patternName, string iteratedName, string member, string rulePackage, Expression value, Expression startIndex)
+        {
+            Target = target;
+            PatternName = patternName;
+            IteratedName = iteratedName;
+            Member = member;
+            RulePackage = rulePackage;
+            Value = value;
+            StartIndex = startIndex;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfIteratedMatchTypeIndexOfBy(Target.Copy(renameSuffix), PatternName, IteratedName, Member, RulePackage, Value.Copy(renameSuffix), StartIndex != null ? StartIndex.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}_{4}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
+                PatternName, IteratedName, "indexOfBy", Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            if(StartIndex != null)
+            {
+                sourceCode.Append(", ");
+                StartIndex.Emit(sourceCode);
+            }
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+            if(StartIndex != null)
+                yield return StartIndex;
+        }
+
+        readonly Expression Target;
+        readonly String PatternName;
+        readonly String IteratedName;
+        readonly String Member;
+        readonly String RulePackage;
+        readonly Expression Value;
+        readonly Expression StartIndex;
+    }
+
+    /// <summary>
+    /// Class representing an array of match class matches index of by member expression.
+    /// </summary>
+    public class ArrayOfMatchClassTypeIndexOfBy : Expression
+    {
+        public ArrayOfMatchClassTypeIndexOfBy(Expression target, string matchClassName, string member, string matchClassPackage, Expression value)
+        {
+            Target = target;
+            MatchClassName = matchClassName;
+            Member = member;
+            MatchClassPackage = matchClassPackage;
+            Value = value;
+        }
+
+        public ArrayOfMatchClassTypeIndexOfBy(Expression target, string matchClassName, string member, string matchClassPackage, Expression value, Expression startIndex)
+        {
+            Target = target;
+            MatchClassName = matchClassName;
+            Member = member;
+            MatchClassPackage = matchClassPackage;
+            Value = value;
+            StartIndex = startIndex;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfMatchClassTypeIndexOfBy(Target.Copy(renameSuffix), MatchClassName, Member, MatchClassPackage, Value.Copy(renameSuffix), StartIndex != null ? StartIndex.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(MatchClassPackage),
+                MatchClassName, "indexOfBy", Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            if(StartIndex != null)
+            {
+                sourceCode.Append(", ");
+                StartIndex.Emit(sourceCode);
+            }
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+            if(StartIndex != null)
+                yield return StartIndex;
+        }
+
+        readonly Expression Target;
+        readonly String MatchClassName;
+        readonly String Member;
+        readonly String MatchClassPackage;
         readonly Expression Value;
         readonly Expression StartIndex;
     }
@@ -1214,6 +1397,137 @@ namespace de.unika.ipd.grGen.expression
         readonly Expression Target;
         readonly String OwnerType;
         readonly String Member;
+        readonly Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing an array of action matches index of ordered by member expression.
+    /// </summary>
+    public class ArrayOfMatchTypeIndexOfOrderedBy : Expression
+    {
+        public ArrayOfMatchTypeIndexOfOrderedBy(Expression target, string patternName, string member, string rulePackage, Expression value)
+        {
+            Target = target;
+            PatternName = patternName;
+            Member = member;
+            RulePackage = rulePackage;
+            Value = value;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfMatchTypeIndexOfOrderedBy(Target.Copy(renameSuffix), PatternName, Member, RulePackage, Value.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
+                PatternName, "indexOfOrderedBy", Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+        }
+
+        readonly Expression Target;
+        readonly String PatternName;
+        readonly String Member;
+        readonly String RulePackage;
+        readonly Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing an array of iterated matches index of ordered by member expression.
+    /// </summary>
+    public class ArrayOfIteratedMatchTypeIndexOfOrderedBy : Expression
+    {
+        public ArrayOfIteratedMatchTypeIndexOfOrderedBy(Expression target, string patternName, string iteratedName, string member, string rulePackage, Expression value)
+        {
+            Target = target;
+            PatternName = patternName;
+            IteratedName = iteratedName;
+            Member = member;
+            RulePackage = rulePackage;
+            Value = value;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfIteratedMatchTypeIndexOfOrderedBy(Target.Copy(renameSuffix), PatternName, IteratedName, Member, RulePackage, Value.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}_{4}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
+                PatternName, IteratedName, "indexOfOrderedBy", Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+        }
+
+        readonly Expression Target;
+        readonly String PatternName;
+        readonly String IteratedName;
+        readonly String Member;
+        readonly String RulePackage;
+        readonly Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing an array of match class matches index of ordered by member expression.
+    /// </summary>
+    public class ArrayOfMatchClassTypeIndexOfOrderedBy : Expression
+    {
+        public ArrayOfMatchClassTypeIndexOfOrderedBy(Expression target, string matchClassName, string member, string matchClassPackage, Expression value)
+        {
+            Target = target;
+            MatchClassName = matchClassName;
+            Member = member;
+            MatchClassPackage = matchClassPackage;
+            Value = value;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfMatchClassTypeIndexOfOrderedBy(Target.Copy(renameSuffix), MatchClassName, Member, MatchClassPackage, Value.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(MatchClassPackage),
+                MatchClassName, "indexOfOrderedBy", Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+        }
+
+        readonly Expression Target;
+        readonly String MatchClassName;
+        readonly String Member;
+        readonly String MatchClassPackage;
         readonly Expression Value;
     }
 
@@ -1294,10 +1608,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            if(StartIndex != null)
-                return new ArrayLastIndexOfBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix));
-            else
-                return new ArrayLastIndexOfBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix), StartIndex);
+            return new ArrayLastIndexOfBy(Target.Copy(renameSuffix), OwnerType, Member, Value.Copy(renameSuffix), StartIndex != null ? StartIndex.Copy(renameSuffix) : null);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -1325,6 +1636,192 @@ namespace de.unika.ipd.grGen.expression
         readonly Expression Target;
         readonly String OwnerType;
         readonly String Member;
+        readonly Expression Value;
+        readonly Expression StartIndex;
+    }
+
+    /// <summary>
+    /// Class representing an array of action matches last index of by member expression.
+    /// </summary>
+    public class ArrayOfMatchTypeLastIndexOfBy : Expression
+    {
+        public ArrayOfMatchTypeLastIndexOfBy(Expression target, string patternName, string member, string rulePackage, Expression value)
+        {
+            Target = target;
+            PatternName = patternName;
+            Member = member;
+            RulePackage = rulePackage;
+            Value = value;
+        }
+
+        public ArrayOfMatchTypeLastIndexOfBy(Expression target, string patternName, string member, string rulePackage, Expression value, Expression startIndex)
+        {
+            Target = target;
+            PatternName = patternName;
+            Member = member;
+            RulePackage = rulePackage;
+            Value = value;
+            StartIndex = startIndex;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfMatchTypeLastIndexOfBy(Target.Copy(renameSuffix), PatternName, Member, RulePackage, Value.Copy(renameSuffix), StartIndex != null ? StartIndex.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
+                PatternName, "lastIndexOfBy", Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            if(StartIndex != null)
+            {
+                sourceCode.Append(", ");
+                StartIndex.Emit(sourceCode);
+            }
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+            if(StartIndex != null)
+                yield return StartIndex;
+        }
+
+        readonly Expression Target;
+        readonly String PatternName;
+        readonly String Member;
+        readonly String RulePackage;
+        readonly Expression Value;
+        readonly Expression StartIndex;
+    }
+
+    /// <summary>
+    /// Class representing an array of iterated matches last index of by member expression.
+    /// </summary>
+    public class ArrayOfIteratedMatchTypeLastIndexOfBy : Expression
+    {
+        public ArrayOfIteratedMatchTypeLastIndexOfBy(Expression target, string patternName, string iteratedName, string member, string rulePackage, Expression value)
+        {
+            Target = target;
+            PatternName = patternName;
+            IteratedName = iteratedName;
+            Member = member;
+            RulePackage = rulePackage;
+            Value = value;
+        }
+
+        public ArrayOfIteratedMatchTypeLastIndexOfBy(Expression target, string patternName, string iteratedName, string member, string rulePackage, Expression value, Expression startIndex)
+        {
+            Target = target;
+            PatternName = patternName;
+            IteratedName = iteratedName;
+            Member = member;
+            RulePackage = rulePackage;
+            Value = value;
+            StartIndex = startIndex;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfIteratedMatchTypeLastIndexOfBy(Target.Copy(renameSuffix), PatternName, IteratedName, Member, RulePackage, Value.Copy(renameSuffix), StartIndex != null ? StartIndex.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}_{4}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
+                PatternName, IteratedName, "lastIndexOfBy", Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            if(StartIndex != null)
+            {
+                sourceCode.Append(", ");
+                StartIndex.Emit(sourceCode);
+            }
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+            if(StartIndex != null)
+                yield return StartIndex;
+        }
+
+        readonly Expression Target;
+        readonly String PatternName;
+        readonly String IteratedName;
+        readonly String Member;
+        readonly String RulePackage;
+        readonly Expression Value;
+        readonly Expression StartIndex;
+    }
+
+    /// <summary>
+    /// Class representing an array of match class matches last index of by member expression.
+    /// </summary>
+    public class ArrayOfMatchClassTypeLastIndexOfBy : Expression
+    {
+        public ArrayOfMatchClassTypeLastIndexOfBy(Expression target, string matchClassName, string member, string matchClassPackage, Expression value)
+        {
+            Target = target;
+            MatchClassName = matchClassName;
+            Member = member;
+            MatchClassPackage = matchClassPackage;
+            Value = value;
+        }
+
+        public ArrayOfMatchClassTypeLastIndexOfBy(Expression target, string matchClassName, string member, string matchClassPackage, Expression value, Expression startIndex)
+        {
+            Target = target;
+            MatchClassName = matchClassName;
+            Member = member;
+            MatchClassPackage = matchClassPackage;
+            Value = value;
+            StartIndex = startIndex;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfMatchClassTypeLastIndexOfBy(Target.Copy(renameSuffix), MatchClassName, Member, MatchClassPackage, Value.Copy(renameSuffix), StartIndex != null ? StartIndex.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}ArrayHelper.Array_{1}_{2}_{3}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(MatchClassPackage),
+                MatchClassName, "lastIndexOfBy", Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            if(StartIndex != null)
+            {
+                sourceCode.Append(", ");
+                StartIndex.Emit(sourceCode);
+            }
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+            if(StartIndex != null)
+                yield return StartIndex;
+        }
+
+        readonly Expression Target;
+        readonly String MatchClassName;
+        readonly String Member;
+        readonly String MatchClassPackage;
         readonly Expression Value;
         readonly Expression StartIndex;
     }

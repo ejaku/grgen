@@ -500,7 +500,12 @@ SequenceExpression InitContainerExprCont():
 }
 {
     LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "set" })
-    Word() "<" typeName=TypeNonGeneric() ">"
+    (
+        LOOKAHEAD(Word() "<" TypeNonGeneric() ">") Word() "<" typeName=TypeNonGeneric() ">"
+    |
+        LOOKAHEAD(Word() "<" MatchTypeInContainerType() (">" ">" | ">>"), { GetToken(3).kind == WORD && GetToken(3).image == "match" })
+        Word() "<" typeName=MatchTypeInContainerType() (">" ">" | ">>")
+    )
         { srcItems = new List<SequenceExpression>(); }
     (
         "{"
@@ -520,7 +525,12 @@ SequenceExpression InitContainerExprCont():
     )
 |
     LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "map" })
-    Word() "<" typeName=TypeNonGeneric() "," typeNameDst=TypeNonGeneric() ">"
+    (
+        LOOKAHEAD(Word() "<" TypeNonGeneric() "," TypeNonGeneric() ">") Word() "<" typeName=TypeNonGeneric() "," typeNameDst=TypeNonGeneric() ">"
+    |
+        LOOKAHEAD(Word() "<" Word() "," MatchTypeInContainerType() (">" ">" | ">>"), { GetToken(5).kind == WORD && GetToken(5).image == "match" }) 
+        Word() "<" typeName=Word() "," typeNameDst=MatchTypeInContainerType() (">" ">" | ">>")
+    )
         { srcItems = new List<SequenceExpression>(); dstItems = new List<SequenceExpression>(); }
     (
         "{"
@@ -540,7 +550,12 @@ SequenceExpression InitContainerExprCont():
     )
 |
     LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "array" })
-    Word() "<" typeName=TypeNonGeneric() ">"
+    (
+        LOOKAHEAD(Word() "<" TypeNonGeneric() ">") Word() "<" typeName=TypeNonGeneric() ">"
+    |
+        LOOKAHEAD(Word() "<" MatchTypeInContainerType() (">" ">" | ">>"), { GetToken(3).kind == WORD && GetToken(3).image == "match" })
+        Word() "<" typeName=MatchTypeInContainerType() (">" ">" | ">>")
+    )
         { srcItems = new List<SequenceExpression>(); }
     (
         "["
@@ -560,7 +575,12 @@ SequenceExpression InitContainerExprCont():
     )
 |
     LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "deque" })
-    Word() "<" typeName=TypeNonGeneric() ">"
+    (
+        LOOKAHEAD(Word() "<" TypeNonGeneric() ">") Word() "<" typeName=TypeNonGeneric() ">"
+    |
+        LOOKAHEAD(Word() "<" MatchTypeInContainerType() (">" ">" | ">>"), { GetToken(3).kind == WORD && GetToken(3).image == "match" })
+        Word() "<" typeName=MatchTypeInContainerType() (">" ">" | ">>")
+    )
         { srcItems = new List<SequenceExpression>(); }
     (
         "["

@@ -284,6 +284,12 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IList ArrayGroupBy(IList array, string member);
         public abstract IList ArrayKeepOneForEach(IList array, string member);
 
+        public abstract int ArrayIndexOfBy(IList array, string member, object value);
+        public abstract int ArrayIndexOfBy(IList array, string member, object value, int startIndex);
+        public abstract int ArrayLastIndexOfBy(IList array, string member, object value);
+        public abstract int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex);
+        public abstract int ArrayIndexOfOrderedBy(IList array, string member, object value);
+
         #endregion Array processing helpers
 
         public abstract bool LazyNIC { get; }

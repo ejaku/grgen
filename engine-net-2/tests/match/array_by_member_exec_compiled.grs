@@ -1,0 +1,44 @@
+new graph "match/array_by_member.grg"
+
+exec { ::a = array<match<Simple>>[]; ::v=[?Simple(0,0)]; ::a.add(::v[0]); ::v=[?Simple(1,0)]; ::a.add(::v[0]); ::v=[?Simple(-1,0)]; ::a.add(::v[0]); ::v=[?Simple(1,0)]; ::a.add(::v[0]); ::v=[?Simple(2,0)]; ::a.add(::v[0]) }
+
+show var a
+
+exec (::o)=aindexofbyexec(::a)
+
+show var o
+
+exec { ::a = array<match<Simple>>[]; ::v=[?Simple(0,0)]; ::a.add(::v[0]); ::v=[?Simple(1,0)]; ::a.add(::v[0]); ::v=[?Simple(-1,0)]; ::a.add(::v[0]); ::v=[?Simple(1,0)]; ::a.add(::v[0]); ::v=[?Simple(2,0)]; ::a.add(::v[0]) }
+
+show var a
+
+exec (::o)=aindexofbystartexec(::a)
+
+show var o
+
+exec { ::a = array<match<Simple>>[]; ::v=[?Simple(0,0)]; ::a.add(::v[0]); ::v=[?Simple(1,0)]; ::a.add(::v[0]); ::v=[?Simple(-1,0)]; ::a.add(::v[0]); ::v=[?Simple(1,0)]; ::a.add(::v[0]); ::v=[?Simple(2,0)]; ::a.add(::v[0]) }
+
+show var a
+
+exec (::o)=alastindexofbyexec(::a)
+
+show var o
+
+exec { ::a = array<match<Simple>>[]; ::v=[?Simple(0,0)]; ::a.add(::v[0]); ::v=[?Simple(1,0)]; ::a.add(::v[0]); ::v=[?Simple(-1,0)]; ::a.add(::v[0]); ::v=[?Simple(1,0)]; ::a.add(::v[0]); ::v=[?Simple(2,0)]; ::a.add(::v[0]) }
+
+show var a
+
+exec (::o)=alastindexofbystartexec(::a)
+
+show var o
+
+exec { ::a = array<match<Simple>>[]; ::v=[?Simple(0,0)]; ::a.add(::v[0]); ::v=[?Simple(1,0)]; ::a.add(::v[0]); ::v=[?Simple(-1,0)]; ::a.add(::v[0]); ::v=[?Simple(1,0)]; ::a.add(::v[0]); ::v=[?Simple(2,0)]; ::a.add(::v[0]) }
+exec { ::a = ::a.orderAscendingBy<i>() }
+
+show var a
+
+exec (::o)=aindexoforderedbyexec(::a)
+
+show var o
+
+quit

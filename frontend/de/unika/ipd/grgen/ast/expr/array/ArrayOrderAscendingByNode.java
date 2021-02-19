@@ -47,7 +47,7 @@ public class ArrayOrderAscendingByNode extends ArrayFunctionMethodInvocationBase
 		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)) {
-			reportError("orderAscendingBy can only be employed on an array of nodes or edges or an array of match types.");
+			reportError("orderAscendingBy can only be employed on an array of nodes or edges or class objects or transient class objects or match types or match class types.");
 			return false;
 		}
 

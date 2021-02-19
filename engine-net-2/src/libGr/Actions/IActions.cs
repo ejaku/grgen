@@ -181,6 +181,59 @@ namespace de.unika.ipd.grGen.libGr
         /// or the member was not known.</returns>
         IList ArrayKeepOneForEach(IList array, string member);
 
+        /// <summary>
+        /// Searches the array for the given value in the given member.
+        /// The array must be of match or match class type of this actions object.
+        /// </summary>
+        /// <param name="array">The array to search in</param>
+        /// <param name="member">The member to be searched for the value</param>
+        /// <param name="value">The value to search for</param>
+        /// <returns>The first index the value appears at, or -1.</returns>
+        int ArrayIndexOfBy(IList array, string member, object value);
+
+        /// <summary>
+        /// Searches the array for the given value in the given member.
+        /// The array must be of match or match class type of this actions object.
+        /// </summary>
+        /// <param name="array">The array to search in</param>
+        /// <param name="member">The member to be searched for the value</param>
+        /// <param name="value">The value to search for</param>
+        /// <param name="startIndex">The index to start the search at</param>
+        /// <returns>The first index starting at startIndex the value appears at, or -1.</returns>
+        int ArrayIndexOfBy(IList array, string member, object value, int startIndex);
+
+        /// <summary>
+        /// Searches the array for the given value in the given member from back to front.
+        /// The array must be of match or match class type of this actions object.
+        /// </summary>
+        /// <param name="array">The array to search in</param>
+        /// <param name="member">The member to be searched for the value</param>
+        /// <param name="value">The value to search for</param>
+        /// <returns>The last index the value appears at, or -1.</returns>
+        int ArrayLastIndexOfBy(IList array, string member, object value);
+
+        /// <summary>
+        /// Searches the array for the given value in the given member from back to front.
+        /// The array must be of match or match class type of this actions object.
+        /// </summary>
+        /// <param name="array">The array to search in</param>
+        /// <param name="member">The member to be searched for the value</param>
+        /// <param name="value">The value to search for</param>
+        /// <param name="startIndex">The index to start the search at</param>
+        /// <returns>The last index before or at startIndex the value appears at, or -1.</returns>
+        int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex);
+
+        /// <summary>
+        /// Searches the array for the given value in the given member.
+        /// The array must be of a match or match class type of this actions object.
+        /// The array must be ordered alongside the member.
+        /// </summary>
+        /// <param name="array">The array to search in</param>
+        /// <param name="member">The member to be searched for the value</param>
+        /// <param name="value">The value to search for</param>
+        /// <returns>The first index the value appears at, or -1.</returns>
+        int ArrayIndexOfOrderedBy(IList array, string member, object value);
+
         #endregion Array processing helpers
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////

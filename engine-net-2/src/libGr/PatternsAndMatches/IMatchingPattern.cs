@@ -74,6 +74,16 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns the implemented match class, if it is available, otherwise null
         /// </summary>
         IMatchClass GetImplementedMatchClass(string name);
+
+        /// <summary>
+        /// The name of the real .NET interface type of the match of the rule/action (fully qualified).
+        /// </summary>
+        string MatchInterfaceName { get; }
+
+        /// <summary>
+        /// The name of the real .NET class type of the match of the rule/action (fully qualified).
+        /// </summary>
+        string MatchClassName { get; }
     }
 }
 

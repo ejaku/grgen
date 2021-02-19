@@ -2144,7 +2144,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type valueType = TypesHelper.GetType(ValueType, procEnv.Graph.Model);
+            Type valueType = TypesHelper.GetType(ValueType, procEnv);
             IList array = ContainerHelper.NewList(valueType);
 
             foreach(SequenceExpression arrayItem in ContainerItems)
@@ -2194,7 +2194,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type valueType = TypesHelper.GetType(ValueType, procEnv.Graph.Model);
+            Type valueType = TypesHelper.GetType(ValueType, procEnv);
             IDeque deque = ContainerHelper.NewDeque(valueType);
 
             foreach(SequenceExpression dequeItem in ContainerItems)
@@ -2264,7 +2264,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type srcType = TypesHelper.GetType(ValueType, procEnv.Graph.Model);
+            Type srcType = TypesHelper.GetType(ValueType, procEnv);
             Type dstType = typeof(SetValueType);
             IDictionary set = ContainerHelper.NewDictionary(srcType, dstType);
             ContainerHelper.FillSet(set, ValueType, SetToCopy.Evaluate(procEnv), procEnv.Graph.Model);
@@ -2350,8 +2350,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type srcType = TypesHelper.GetType(KeyType, procEnv.Graph.Model);
-            Type dstType = TypesHelper.GetType(ValueType, procEnv.Graph.Model);
+            Type srcType = TypesHelper.GetType(KeyType, procEnv);
+            Type dstType = TypesHelper.GetType(ValueType, procEnv);
             IDictionary map = ContainerHelper.NewDictionary(srcType, dstType);
             ContainerHelper.FillMap(map, KeyType, ValueType, MapToCopy.Evaluate(procEnv), procEnv.Graph.Model);
             return map;

@@ -504,81 +504,90 @@ namespace de.unika.ipd.grGen.libGr
         public static IList OrderAscendingBy(object container, string memberOrAttribute, IGraphProcessingEnvironment procEnv)
         {
             IList array = (IList)container;
-            IList resultingArray = procEnv.Actions.ArrayOrderAscendingBy(array, memberOrAttribute);
-            if(resultingArray != null)
-                return resultingArray;
+            if(array.Count == 0)
+                return null;
+            if(array[0] is IMatch)
+                return procEnv.Actions.ArrayOrderAscendingBy(array, memberOrAttribute);
             return procEnv.Graph.Model.ArrayOrderAscendingBy(array, memberOrAttribute);
         }
 
         public static IList OrderDescendingBy(object container, string memberOrAttribute, IGraphProcessingEnvironment procEnv)
         {
             IList array = (IList)container;
-            IList resultingArray = procEnv.Actions.ArrayOrderDescendingBy(array, memberOrAttribute);
-            if(resultingArray != null)
-                return resultingArray;
+            if(array.Count == 0)
+                return null;
+            if(array[0] is IMatch)
+                return procEnv.Actions.ArrayOrderDescendingBy(array, memberOrAttribute);
             return procEnv.Graph.Model.ArrayOrderDescendingBy(array, memberOrAttribute);
         }
 
         public static IList GroupBy(object container, string memberOrAttribute, IGraphProcessingEnvironment procEnv)
         {
             IList array = (IList)container;
-            IList resultingArray = procEnv.Actions.ArrayGroupBy(array, memberOrAttribute);
-            if(resultingArray != null)
-                return resultingArray;
+            if(array.Count == 0)
+                return null;
+            if(array[0] is IMatch)
+                return procEnv.Actions.ArrayGroupBy(array, memberOrAttribute);
             return procEnv.Graph.Model.ArrayGroupBy(array, memberOrAttribute);
         }
 
         public static IList KeepOneForEach(object container, string memberOrAttribute, IGraphProcessingEnvironment procEnv)
         {
             IList array = (IList)container;
-            IList resultingArray = procEnv.Actions.ArrayKeepOneForEach(array, memberOrAttribute);
-            if(resultingArray != null)
-                return resultingArray;
+            if(array.Count == 0)
+                return null;
+            if(array[0] is IMatch)
+                return procEnv.Actions.ArrayKeepOneForEach(array, memberOrAttribute);
             return procEnv.Graph.Model.ArrayKeepOneForEach(array, memberOrAttribute);
         }
 
         public static int IndexOfBy(object container, string memberOrAttribute, object value, IGraphProcessingEnvironment procEnv)
         {
             IList array = (IList)container;
-            /*IList resultingArray = procEnv.Actions.ArrayIndexOfBy(array, memberOrAttribute, value);
-            if(resultingArray != null)
-                return resultingArray;*/
+            if(array.Count == 0)
+                return -1;
+            if(array[0] is IMatch)
+                return procEnv.Actions.ArrayIndexOfBy(array, memberOrAttribute, value);
             return procEnv.Graph.Model.ArrayIndexOfBy(array, memberOrAttribute, value);
         }
 
         public static int IndexOfBy(object container, string memberOrAttribute, object value, int startIndex, IGraphProcessingEnvironment procEnv)
         {
             IList array = (IList)container;
-            /*IList resultingArray = procEnv.Actions.ArrayIndexOfBy(array, memberOrAttribute, value, startIndex);
-            if(resultingArray != null)
-                return resultingArray;*/
+            if(array.Count == 0)
+                return -1;
+            if(array[0] is IMatch)
+                return procEnv.Actions.ArrayIndexOfBy(array, memberOrAttribute, value, startIndex);
             return procEnv.Graph.Model.ArrayIndexOfBy(array, memberOrAttribute, value, startIndex);
         }
 
         public static int LastIndexOfBy(object container, string memberOrAttribute, object value, IGraphProcessingEnvironment procEnv)
         {
             IList array = (IList)container;
-            /*IList resultingArray = procEnv.Actions.ArrayLastIndexOfBy(array, memberOrAttribute, value);
-            if(resultingArray != null)
-                return resultingArray;*/
+            if(array.Count == 0)
+                return -1;
+            if(array[0] is IMatch)
+                return procEnv.Actions.ArrayLastIndexOfBy(array, memberOrAttribute, value);
             return procEnv.Graph.Model.ArrayLastIndexOfBy(array, memberOrAttribute, value);
         }
 
         public static int LastIndexOfBy(object container, string memberOrAttribute, object value, int startIndex, IGraphProcessingEnvironment procEnv)
         {
             IList array = (IList)container;
-            /*IList resultingArray = procEnv.Actions.ArrayLastIndexOfBy(array, memberOrAttribute, value, startIndex);
-            if(resultingArray != null)
-                return resultingArray;*/
+            if(array.Count == 0)
+                return -1;
+            if(array[0] is IMatch)
+                return procEnv.Actions.ArrayLastIndexOfBy(array, memberOrAttribute, value, startIndex);
             return procEnv.Graph.Model.ArrayLastIndexOfBy(array, memberOrAttribute, value, startIndex);
         }
 
         public static int IndexOfOrderedBy(object container, string memberOrAttribute, object value, IGraphProcessingEnvironment procEnv)
         {
             IList array = (IList)container;
-            /*IList resultingArray = procEnv.Actions.ArrayIndexOfOrderedBy(array, memberOrAttribute, value);
-            if(resultingArray != null)
-                return resultingArray;*/
+            if(array.Count == 0)
+                return -1;
+            if(array[0] is IMatch)
+                return procEnv.Actions.ArrayIndexOfOrderedBy(array, memberOrAttribute, value);
             return procEnv.Graph.Model.ArrayIndexOfOrderedBy(array, memberOrAttribute, value);
         }
 

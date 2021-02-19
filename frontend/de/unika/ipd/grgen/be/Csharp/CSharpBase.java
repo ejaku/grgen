@@ -1284,20 +1284,69 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayIndexOfByExpr) {
 			ArrayIndexOfByExpr aib = (ArrayIndexOfByExpr)expr;
+			Type arrayValueType = aib.getTargetType().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aib));
 			} else {
-				sb.append("GRGEN_MODEL.ArrayHelper_"
-						+ aib.getTargetType().getValueType().getIdent().toString() + "_"
-						+ formatIdentifiable(aib.getMember()) + ".ArrayIndexOfBy(");
-				genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, aib.getValueExpr(), modifyGenerationState);
-				if(aib.getStartIndexExpr() != null) {
+				if(arrayValueType instanceof InheritanceType) {
+					sb.append("GRGEN_MODEL.ArrayHelper_"
+							+ aib.getTargetType().getValueType().getIdent().toString() + "_"
+							+ formatIdentifiable(aib.getMember()) + ".ArrayIndexOfBy(");
+					genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
 					sb.append(", ");
-					genExpression(sb, aib.getStartIndexExpr(), modifyGenerationState);
+					genExpression(sb, aib.getValueExpr(), modifyGenerationState);
+					if(aib.getStartIndexExpr() != null) {
+						sb.append(", ");
+						genExpression(sb, aib.getStartIndexExpr(), modifyGenerationState);
+					}
+					sb.append(")");
+				} else if(arrayValueType instanceof MatchTypeIterated) {
+					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String iteratedName = formatIdentifiable(matchType.getIterated());
+					String functionName = "indexOfBy_" + formatIdentifiable(aib.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, aib.getValueExpr(), modifyGenerationState);
+					if(aib.getStartIndexExpr() != null) {
+						sb.append(", ");
+						genExpression(sb, aib.getStartIndexExpr(), modifyGenerationState);
+					}
+					sb.append(")");
+				} else if(arrayValueType instanceof MatchType) {
+					MatchType matchType = (MatchType)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String functionName = "indexOfBy_" + formatIdentifiable(aib.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, aib.getValueExpr(), modifyGenerationState);
+					if(aib.getStartIndexExpr() != null) {
+						sb.append(", ");
+						genExpression(sb, aib.getStartIndexExpr(), modifyGenerationState);
+					}
+					sb.append(")");
+				} else if(arrayValueType instanceof DefinedMatchType) {
+					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
+					String matchClassPackage = getPackagePrefixDot(definedMatchType);
+					String matchClassName = formatIdentifiable(definedMatchType);
+					String functionName = "indexOfBy_" + formatIdentifiable(aib.getMember());
+					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
+					genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, aib.getValueExpr(), modifyGenerationState);
+					if(aib.getStartIndexExpr() != null) {
+						sb.append(", ");
+						genExpression(sb, aib.getStartIndexExpr(), modifyGenerationState);
+					}
+					sb.append(")");
 				}
-				sb.append(")");
 			}
 		} else if(expr instanceof ArrayIndexOfOrderedExpr) {
 			ArrayIndexOfOrderedExpr aio = (ArrayIndexOfOrderedExpr)expr;
@@ -1312,16 +1361,53 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayIndexOfOrderedByExpr) {
 			ArrayIndexOfOrderedByExpr aiob = (ArrayIndexOfOrderedByExpr)expr;
+			Type arrayValueType = aiob.getTargetType().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aiob));
 			} else {
-				sb.append("GRGEN_MODEL.ArrayHelper_"
-						+ aiob.getTargetType().getValueType().getIdent().toString() + "_"
-						+ formatIdentifiable(aiob.getMember()) + ".ArrayIndexOfOrderedBy(");
-				genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, aiob.getValueExpr(), modifyGenerationState);
-				sb.append(")");
+				if(arrayValueType instanceof InheritanceType) {
+					sb.append("GRGEN_MODEL.ArrayHelper_"
+							+ aiob.getTargetType().getValueType().getIdent().toString() + "_"
+							+ formatIdentifiable(aiob.getMember()) + ".ArrayIndexOfOrderedBy(");
+					genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, aiob.getValueExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(arrayValueType instanceof MatchTypeIterated) {
+					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String iteratedName = formatIdentifiable(matchType.getIterated());
+					String functionName = "indexOfOrderedBy_" + formatIdentifiable(aiob.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, aiob.getValueExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(arrayValueType instanceof MatchType) {
+					MatchType matchType = (MatchType)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String functionName = "indexOfOrderedBy_" + formatIdentifiable(aiob.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, aiob.getValueExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(arrayValueType instanceof DefinedMatchType) {
+					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
+					String matchClassPackage = getPackagePrefixDot(definedMatchType);
+					String matchClassName = formatIdentifiable(definedMatchType);
+					String functionName = "indexOfOrderedBy_" + formatIdentifiable(aiob.getMember());
+					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
+					genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, aiob.getValueExpr(), modifyGenerationState);
+					sb.append(")");
+				}
 			}
 		} else if(expr instanceof ArrayLastIndexOfExpr) {
 			ArrayLastIndexOfExpr ali = (ArrayLastIndexOfExpr)expr;
@@ -1340,20 +1426,69 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayLastIndexOfByExpr) {
 			ArrayLastIndexOfByExpr alib = (ArrayLastIndexOfByExpr)expr;
+			Type arrayValueType = alib.getTargetType().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(alib));
 			} else {
-				sb.append("GRGEN_MODEL.ArrayHelper_"
-						+ alib.getTargetType().getValueType().getIdent().toString() + "_"
-						+ formatIdentifiable(alib.getMember()) + ".ArrayLastIndexOfBy(");
-				genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, alib.getValueExpr(), modifyGenerationState);
-				if(alib.getStartIndexExpr() != null) {
+				if(arrayValueType instanceof InheritanceType) {
+					sb.append("GRGEN_MODEL.ArrayHelper_"
+							+ alib.getTargetType().getValueType().getIdent().toString() + "_"
+							+ formatIdentifiable(alib.getMember()) + ".ArrayLastIndexOfBy(");
+					genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
 					sb.append(", ");
-					genExpression(sb, alib.getStartIndexExpr(), modifyGenerationState);
+					genExpression(sb, alib.getValueExpr(), modifyGenerationState);
+					if(alib.getStartIndexExpr() != null) {
+						sb.append(", ");
+						genExpression(sb, alib.getStartIndexExpr(), modifyGenerationState);
+					}
+					sb.append(")");
+				} else if(arrayValueType instanceof MatchTypeIterated) {
+					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String iteratedName = formatIdentifiable(matchType.getIterated());
+					String functionName = "lastIndexOfBy_" + formatIdentifiable(alib.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, alib.getValueExpr(), modifyGenerationState);
+					if(alib.getStartIndexExpr() != null) {
+						sb.append(", ");
+						genExpression(sb, alib.getStartIndexExpr(), modifyGenerationState);
+					}
+					sb.append(")");
+				} else if(arrayValueType instanceof MatchType) {
+					MatchType matchType = (MatchType)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String functionName = "lastIndexOfBy_" + formatIdentifiable(alib.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, alib.getValueExpr(), modifyGenerationState);
+					if(alib.getStartIndexExpr() != null) {
+						sb.append(", ");
+						genExpression(sb, alib.getStartIndexExpr(), modifyGenerationState);
+					}
+					sb.append(")");
+				} else if(arrayValueType instanceof DefinedMatchType) {
+					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
+					String matchClassPackage = getPackagePrefixDot(definedMatchType);
+					String matchClassName = formatIdentifiable(definedMatchType);
+					String functionName = "lastIndexOfBy_" + formatIdentifiable(alib.getMember());
+					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
+					genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, alib.getValueExpr(), modifyGenerationState);
+					if(alib.getStartIndexExpr() != null) {
+						sb.append(", ");
+						genExpression(sb, alib.getStartIndexExpr(), modifyGenerationState);
+					}
+					sb.append(")");
 				}
-				sb.append(")");
 			}
 		} else if(expr instanceof ArraySubarrayExpr) {
 			ArraySubarrayExpr as = (ArraySubarrayExpr)expr;

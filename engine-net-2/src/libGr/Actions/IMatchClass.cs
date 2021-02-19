@@ -36,6 +36,16 @@ namespace de.unika.ipd.grGen.libGr
         new string PackagePrefixedName { get; }
 
         /// <summary>
+        /// The name of the real .NET interface type of the match of the match class (fully qualified).
+        /// </summary>
+        string MatchInterfaceName { get; }
+
+        /// <summary>
+        /// The name of the real .NET class type of the match of the match class (fully qualified).
+        /// </summary>
+        string MatchClassName { get; }
+
+        /// <summary>
         /// The annotations of the match class
         /// </summary>
         Annotations Annotations { get; }
@@ -84,12 +94,17 @@ namespace de.unika.ipd.grGen.libGr
     public abstract class MatchClassInfo : IMatchClass
     {
         public MatchClassInfo(String name, String package, String packagePrefixedName,
+            string matchInterfaceName, string matchClassName,
             IPatternNode[] nodes, IPatternEdge[] edges, IPatternVariable[] variables,
             IFilter[] filters)
         {
             this.name = name;
             this.package = package;
             this.packagePrefixedName = packagePrefixedName;
+
+            this.matchInterfaceName = matchInterfaceName;
+            this.matchClassName = matchClassName;
+
             this.nodes = nodes;
             this.edges = edges;
             this.variables = variables;
@@ -102,6 +117,10 @@ namespace de.unika.ipd.grGen.libGr
         public Annotations Annotations { get { return annotations; } }
         public string Package { get { return package; } }
         public string PackagePrefixedName { get { return packagePrefixedName; } }
+
+        public string MatchInterfaceName { get { return matchInterfaceName; } }
+        public string MatchClassName { get { return matchClassName; } }
+
         public IPatternNode[] Nodes { get { return nodes; } }
         public IPatternEdge[] Edges { get { return edges; } }
         public IPatternVariable[] Variables { get { return variables; } }
@@ -188,6 +207,9 @@ namespace de.unika.ipd.grGen.libGr
         /// the name of the type prefixed by the name of the package otherwise.
         /// </summary>
         public readonly string packagePrefixedName;
+
+        public readonly string matchInterfaceName;
+        public readonly string matchClassName;
 
         /// <summary>
         /// An array of all pattern nodes.

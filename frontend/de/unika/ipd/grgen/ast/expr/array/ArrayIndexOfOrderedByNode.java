@@ -15,15 +15,16 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedByExpr;
 import de.unika.ipd.grgen.ir.Entity;
@@ -37,7 +38,7 @@ public class ArrayIndexOfOrderedByNode extends ArrayFunctionMethodInvocationBase
 	}
 
 	IdentNode attribute;
-	private MemberDeclNode member;
+	private DeclNode member;
 	private ExprNode valueExpr;
 
 	public ArrayIndexOfOrderedByNode(Coords coords, ExprNode targetExpr, IdentNode attribute, ExprNode valueExpr)
@@ -65,28 +66,20 @@ public class ArrayIndexOfOrderedByNode extends ArrayFunctionMethodInvocationBase
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<MemberDeclNode> memberResolver =
-			new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
-
 	@Override
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
 		ArrayTypeNode arrayType = getTargetType();
-		if(!(arrayType.valueType instanceof InheritanceTypeNode)) {
-			reportError("indexOfOrderedBy can only be employed on an array of nodes or edges.");
+		if(!(arrayType.valueType instanceof InheritanceTypeNode)
+				&& !(arrayType.valueType instanceof MatchTypeNode)) {
+			reportError("indexOfOrderedBy can only be employed on an array of nodes or edges or class objects or transient class objects or match types or match class types.");
 			return false;
 		}
 
-		ScopeOwner o = (ScopeOwner)arrayType.valueType;
-		o.fixupDefinition(attribute);
-		member = memberResolver.resolve(attribute, this);
+		member = Resolver.resolveMember(arrayType.valueType, attribute);
 		if(member == null)
 			return false;
-
-		if(member.isConst()) {
-			reportError("indexOfOrderedBy cannot be used on const attributes.");
-		}
 
 		TypeNode memberType = member.getDeclType();
 		if(!(memberType.equals(BasicTypeNode.byteType))

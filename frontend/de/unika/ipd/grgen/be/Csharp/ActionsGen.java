@@ -1222,6 +1222,11 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("\"" + matchClassName + "\",\n");
 		sb.appendFront((packageName != null ? "\"" + packageName + "\"" : "null") + ", ");
 		sb.append("\"" + (packageName != null ? packageName + "::" + matchClassName : matchClassName) + "\",\n");
+		
+		String actionAssemblyPrefix = "de.unika.ipd.grGen.Action_" + be.unit.getUnitName();
+		sb.appendFront("\"" + actionAssemblyPrefix + ".IMatch_" + matchClassName + "\",\n");
+		sb.appendFront("\"" + actionAssemblyPrefix + ".Match_" + matchClassName + "\",\n");
+		
 		sb.appendFront("new GRGEN_LIBGR.IPatternNode[] ");
 		genEntitySet(sb, matchClass.getPatternGraph().getNodes(), "", "", true, pathPrefixForElements,
 				alreadyDefinedEntityToName);
@@ -1403,34 +1408,76 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 
+		genInstanceBearingAttributeForSearch(sb, actionRule, memberBearerType, iteratedRule);
+
 		for(Variable var : rule.getPattern().getVars()) {
 			if(var.getType().isOrderableType()) {
 				generateArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, true);
 				generateArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, false);
-				generateArrayGroupBy(sb, actionRule, memberBearerType, iteratedRule, var);
-				generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var);
+				generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var, true);
+				generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var, false);
+
+				genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, var, true, false);
+				genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, var, true, true);
+				genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, var, false, false);
+				genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, var, false, true);
+				genIndexOfOrderedByMethod(sb, actionRule, memberBearerType, iteratedRule, var);
 			}
 		}
 
 		for(Variable var : rule.getPattern().getVars()) {
 			if(var.getType().isFilterableType() && !var.getType().isOrderableType()) {
-				generateArrayGroupBy(sb, actionRule, memberBearerType, iteratedRule, var);
-				generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var);
+				generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var, true);
+				generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var, false);
+				
+				genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, var, true, false);
+				genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, var, true, true);
+				genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, var, false, false);
+				genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, var, false, true);
 			}
 		}
 
 		for(Node node : rule.getPattern().getNodes()) {
-			generateArrayGroupBy(sb, actionRule, memberBearerType, iteratedRule, node);
-			generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, node);
+			generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, node, true);
+			generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, node, false);
+			
+			genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, node, true, false);
+			genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, node, true, true);
+			genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, node, false, false);
+			genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, node, false, true);
 		}
 
 		for(Edge edge : rule.getPattern().getEdges()) {
-			generateArrayGroupBy(sb, actionRule, memberBearerType, iteratedRule, edge);
-			generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, edge);
+			generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, edge, true);
+			generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, edge, false);
+			
+			genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, edge, true, false);
+			genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, edge, true, true);
+			genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, edge, false, false);
+			genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, edge, false, true);
 		}
 
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
+
+	void genInstanceBearingAttributeForSearch(SourceBuilder sb, Identifiable memberBearer, MemberBearerType memberBearerType, Rule iteratedRule)
+	{
+		String name = formatIdentifiable(memberBearer);
+		String iteratedNameComponent = iteratedRule != null ? "_" + formatIdentifiable(iteratedRule) : "";
+		String memberBearerClass;
+		if(memberBearerType == MemberBearerType.Action)
+			memberBearerClass = "Rule_" + name + ".";
+		else if(memberBearerType == MemberBearerType.Subpattern)
+			memberBearerClass = "Pattern_" + name + ".";
+		else //if(memberBearerType == MemberBearerType.MatchClass)
+			memberBearerClass = "";
+		String matchInterfaceName = "GRGEN_ACTIONS." + getPackagePrefixDot(memberBearer)
+				+ memberBearerClass + "IMatch_" + name + iteratedNameComponent;
+		String matchClassName = "GRGEN_ACTIONS." + getPackagePrefixDot(memberBearer)
+				+ memberBearerClass + "Match_" + name + iteratedNameComponent;
+		sb.appendFront("private static " + matchInterfaceName + " instanceBearingAttributeForSearch_" + name + iteratedNameComponent + " = "
+				+ "new " + matchClassName + "();\n");
 	}
 
 	static void generateComparer(SourceBuilder sb, Identifiable memberBearer,
@@ -1455,6 +1502,9 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("class " + comparerName + " : Comparer<" + matchInterfaceName + ">\n");
 		sb.appendFront("{\n");
 		sb.indent();
+
+		sb.appendFront("public static " + comparerName + " thisComparer = "
+				+ "new " + comparerName + "();\n");
 
 		genCompareMethod(sb, matchInterfaceName, formatEntity(var), var.getType(), ascending);
 
@@ -1493,8 +1543,8 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("}\n");
 	}
 
-	void generateArrayGroupBy(SourceBuilder sb, Identifiable memberBearer,
-			MemberBearerType memberBearerType, Rule iteratedRule, Entity entity)
+	void generateArrayGroupByKeepOneForEach(SourceBuilder sb, Identifiable memberBearer,
+			MemberBearerType memberBearerType, Rule iteratedRule, Entity entity, boolean groupBy)
 	{
 		String name = formatIdentifiable(memberBearer);
 		String iteratedNameComponent = iteratedRule != null ? "_" + formatIdentifiable(iteratedRule) : "";
@@ -1507,14 +1557,69 @@ public class ActionsGen extends CSharpBase
 			memberBearerClass = "";
 		String matchInterfaceName = "GRGEN_ACTIONS." + getPackagePrefixDot(memberBearer)
 				+ memberBearerClass + "IMatch_" + name + iteratedNameComponent;
-		String functionName = "groupBy_" + formatIdentifiable(entity);
-		String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
 
-		generateArrayGroupBy(sb, arrayFunctionName, matchInterfaceName,
-				formatEntity(entity), formatType(entity.getType()));
+		if(groupBy) {
+			String functionName = "groupBy_" + formatIdentifiable(entity);
+			String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
+			generateArrayGroupBy(sb, arrayFunctionName, matchInterfaceName,
+					formatEntity(entity), formatType(entity.getType()));
+		} else {
+			String functionName = "keepOneForEachBy_" + formatIdentifiable(entity);
+			String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
+			generateArrayKeepOneForEach(sb, arrayFunctionName, matchInterfaceName,
+					formatEntity(entity), formatType(entity.getType()));
+		}
 	}
 
-	void generateArrayKeepOneForEach(SourceBuilder sb, Identifiable memberBearer,
+	void genIndexOfAndLastIndexOfByMethod(SourceBuilder sb, Identifiable memberBearer,
+			MemberBearerType memberBearerType, Rule iteratedRule, Entity entity,
+			boolean isIndexOf, boolean hasStartIndex)
+	{
+		String name = formatIdentifiable(memberBearer);
+		String iteratedNameComponent = iteratedRule != null ? "_" + formatIdentifiable(iteratedRule) : "";
+		String memberBearerClass;
+		if(memberBearerType == MemberBearerType.Action)
+			memberBearerClass = "Rule_" + name + ".";
+		else if(memberBearerType == MemberBearerType.Subpattern)
+			memberBearerClass = "Pattern_" + name + ".";
+		else //if(memberBearerType == MemberBearerType.MatchClass)
+			memberBearerClass = "";
+		String matchInterfaceName = "GRGEN_ACTIONS." + getPackagePrefixDot(memberBearer)
+				+ memberBearerClass + "IMatch_" + name + iteratedNameComponent;
+
+		if(isIndexOf)
+		{
+			String functionName = "indexOfBy_" + formatIdentifiable(entity);
+			String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
+			if(hasStartIndex)
+			{
+				genIndexOfByMethod(sb, arrayFunctionName, matchInterfaceName,
+						formatEntity(entity), formatType(entity.getType()));
+			}
+			else
+			{
+				genIndexOfByWithStartMethod(sb, arrayFunctionName, matchInterfaceName,
+						formatEntity(entity), formatType(entity.getType()));
+			}
+		}
+		else
+		{
+			String functionName = "lastIndexOfBy_" + formatIdentifiable(entity);
+			String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
+			if(hasStartIndex)
+			{
+				genLastIndexOfByMethod(sb, arrayFunctionName, matchInterfaceName,
+						formatEntity(entity), formatType(entity.getType()));
+			}
+			else
+			{
+				genLastIndexOfByWithStartMethod(sb, arrayFunctionName, matchInterfaceName,
+						formatEntity(entity), formatType(entity.getType()));
+			}
+		}
+	}
+
+	void genIndexOfOrderedByMethod(SourceBuilder sb, Identifiable memberBearer,
 			MemberBearerType memberBearerType, Rule iteratedRule, Entity entity)
 	{
 		String name = formatIdentifiable(memberBearer);
@@ -1528,11 +1633,91 @@ public class ActionsGen extends CSharpBase
 			memberBearerClass = "";
 		String matchInterfaceName = "GRGEN_ACTIONS." + getPackagePrefixDot(memberBearer)
 				+ memberBearerClass + "IMatch_" + name + iteratedNameComponent;
-		String functionName = "keepOneForEachBy_" + formatIdentifiable(entity);
-		String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
 
-		generateArrayKeepOneForEach(sb, arrayFunctionName, matchInterfaceName,
-				formatEntity(entity), formatType(entity.getType()));
+		String functionName = "indexOfOrderedBy_" + formatIdentifiable(entity);
+		String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
+		String comparerName = "Comparer_" + name + iteratedNameComponent + "_" + "orderAscendingBy_" + formatIdentifiable(entity);
+		genIndexOfOrderedByMethod(sb, arrayFunctionName, matchInterfaceName,
+				formatEntity(entity), formatType(entity.getType()), comparerName,
+				name, iteratedNameComponent);
+	}
+
+	void genIndexOfByMethod(SourceBuilder sb, String arrayFunctionName, String typeName, String attributeName, String attributeTypeName)
+	{
+		sb.appendFront("public static int " + arrayFunctionName + "(IList<" + typeName + "> list, " + attributeTypeName + " entry)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("for(int i = 0; i < list.Count; ++i)\n");
+		sb.indent();
+		sb.appendFront("if(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.appendFrontIndented("return i;\n");
+		sb.unindent();
+		sb.appendFront("return -1;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
+	void genIndexOfByWithStartMethod(SourceBuilder sb, String arrayFunctionName, String typeName, String attributeName, String attributeTypeName)
+	{
+		sb.appendFront("public static int " + arrayFunctionName + "(IList<" + typeName + "> list, "
+				+ attributeTypeName + " entry, int startIndex)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("for(int i = startIndex; i < list.Count; ++i)\n");
+		sb.indent();
+		sb.appendFront("if(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.appendFrontIndented("return i;\n");
+		sb.unindent();
+		sb.appendFront("return -1;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
+	void genLastIndexOfByMethod(SourceBuilder sb, String arrayFunctionName, String typeName, String attributeName, String attributeTypeName)
+	{
+		sb.appendFront("public static int " + arrayFunctionName + "(IList<" + typeName + "> list, "
+				+ attributeTypeName + " entry)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("for(int i = list.Count - 1; i >= 0; --i)\n");
+		sb.indent();
+		sb.appendFront("if(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.appendFrontIndented("return i;\n");
+		sb.unindent();
+		sb.appendFront("return -1;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
+	void genLastIndexOfByWithStartMethod(SourceBuilder sb, String arrayFunctionName, String typeName, String attributeName, String attributeTypeName)
+	{
+		sb.appendFront("public static int " + arrayFunctionName + "(IList<" + typeName + "> list, "
+				+ attributeTypeName + " entry, int startIndex)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("for(int i = startIndex; i >= 0; --i)\n");
+		sb.indent();
+		sb.appendFront("if(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.appendFrontIndented("return i;\n");
+		sb.unindent();
+		sb.appendFront("return -1;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
+	void genIndexOfOrderedByMethod(SourceBuilder sb, String arrayFunctionName, String typeName, String attributeName, String attributeTypeName,
+			String comparerClassName, String name, String iteratedNameComponent)
+	{
+		sb.appendFront("public static int " + arrayFunctionName + "(List<" + typeName + "> list, "
+				+ attributeTypeName + " entry)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		String instanceName = "instanceBearingAttributeForSearch_" + name + iteratedNameComponent;
+		sb.appendFront(instanceName + ".@" + attributeName + " = entry;\n");
+		sb.appendFront("return list.BinarySearch(" + instanceName + ", "
+				+ comparerClassName + ".thisComparer);\n");
+		sb.unindent();
+		sb.appendFront("}\n");
 	}
 
 	/**
@@ -1579,30 +1764,53 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 
+		genInstanceBearingAttributeForSearch(sb, matchClass, MemberBearerType.MatchClass, null);
+
 		for(Variable var : matchClass.getVars()) {
 			if(var.getType().isOrderableType()) {
 				generateArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, true);
 				generateArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, false);
-				generateArrayGroupBy(sb, matchClass, MemberBearerType.MatchClass, null, var);
-				generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var);
+				generateArrayGroupByKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var, true);
+				generateArrayGroupByKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var, false);
+				
+				genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, var, true, false);
+				genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, var, true, true);
+				genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, var, false, false);
+				genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, var, false, true);
+				genIndexOfOrderedByMethod(sb, matchClass, MemberBearerType.MatchClass, null, var);
 			}
 		}
 
 		for(Variable var : matchClass.getVars()) {
 			if(var.getType().isFilterableType() && !var.getType().isOrderableType()) {
-				generateArrayGroupBy(sb, matchClass, MemberBearerType.MatchClass, null, var);
-				generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var);
+				generateArrayGroupByKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var, true);
+				generateArrayGroupByKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var, false);
+
+				genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, var, true, false);
+				genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, var, true, true);
+				genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, var, false, false);
+				genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, var, false, true);
 			}
 		}
 
 		for(Node node : matchClass.getNodes()) {
-			generateArrayGroupBy(sb, matchClass, MemberBearerType.MatchClass, null, node);
-			generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, node);
+			generateArrayGroupByKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, node, true);
+			generateArrayGroupByKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, node, false);
+
+			genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, node, true, false);
+			genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, node, true, true);
+			genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, node, false, false);
+			genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, node, false, true);
 		}
 
 		for(Edge edge : matchClass.getEdges()) {
-			generateArrayGroupBy(sb, matchClass, MemberBearerType.MatchClass, null, edge);
-			generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, edge);
+			generateArrayGroupByKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, edge, true);
+			generateArrayGroupByKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, edge, false);
+
+			genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, edge, true, false);
+			genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, edge, true, true);
+			genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, edge, false, false);
+			genIndexOfAndLastIndexOfByMethod(sb, matchClass, MemberBearerType.MatchClass, null, edge, false, true);
 		}
 
 		sb.unindent();
@@ -1987,6 +2195,12 @@ public class ActionsGen extends CSharpBase
 			genRuleResult(sb, (Rule)action, packageName);
 			genRuleFilter(sb, (Rule)action, packageName);
 			genRuleMatchClassInfo(sb, (Rule)action, packageName); // no closing \n
+			String actionAssemblyPrefix = "de.unika.ipd.grGen.Action_" + be.unit.getUnitName();
+			String ruleName = "Rule_" + formatIdentifiable(action);
+			sb.append(",\n");
+			sb.appendFront("\"" + actionAssemblyPrefix + "." + ruleName + "+" + "IMatch_" + formatIdentifiable(action) + "\"");	
+			sb.append(",\n");
+			sb.appendFront("\"" + actionAssemblyPrefix + "." + ruleName + "+" + "Match_" + formatIdentifiable(action) + "\"");
 		}
 		sb.append("\n");
 		sb.unindent();

@@ -270,7 +270,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns type object for type name string
         /// </summary>
         /// <param name="typeName">Name of the type we want some type object for</param>
-        /// <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
+        /// <param name="model">Graph model to search the types in</param>
         /// <returns>The type object corresponding to the given string, null if type was not found</returns>
         public static Type GetType(String typeName, IGraphModel model)
         {
@@ -351,6 +351,55 @@ namespace de.unika.ipd.grGen.libGr
 
             if(typeName == "match<>")
                 return typeof(IMatch);
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns type object for type name string
+        /// </summary>
+        /// <param name="typeName">Name of the type we want some type object for</param>
+        /// <param name="procEnv">Graph processing environment to search the types in</param>
+        /// <returns>The type object corresponding to the given string, null if type was not found</returns>
+        public static Type GetType(String typeName, IGraphProcessingEnvironment procEnv)
+        {
+            if(typeName == null)
+                return null;
+
+            if(procEnv == null)
+                return null;
+
+            Type typeFromModel = GetType(typeName, procEnv.Graph.Model);
+            if(typeFromModel != null)
+                return typeFromModel;
+
+            IActions actions = procEnv.Actions;
+
+            Assembly assembly = Assembly.GetAssembly(actions.GetType());
+
+            typeName = typeName.Substring(6); // remove "match<"
+            typeName = typeName.Substring(0, typeName.Length - 1); // remove ">"
+            if(typeName.StartsWith("class "))
+                typeName = typeName.Substring(6); // remove "class "
+
+            foreach(IAction action in actions.Actions)
+            {
+                if(action.PackagePrefixedName == typeName)
+                {
+                    Type type = Type.GetType(action.RulePattern.MatchInterfaceName + "," + assembly.FullName); // search actions assembly
+                    return type;
+                }
+            }
+
+            foreach(MatchClassFilterer matchClassFilterer in actions.MatchClasses)
+            {
+                MatchClassInfo info = matchClassFilterer.info;
+                if(info.PackagePrefixedName == typeName)
+                {
+                    Type type = Type.GetType(info.matchInterfaceName + "," + assembly.FullName); // search actions assembly
+                    return type;
+                }
+            }
 
             return null;
         }

@@ -1,0 +1,105 @@
+match class Simple
+{
+	var i:int;
+	var j:int;
+}
+
+test simple(var i:int, var j:int) implements Simple
+{
+}
+
+rule aindexofby(ref a:array<match<class Simple>>) : (int)
+{
+	if{ a.indexOfBy<i>(1) == 1; }
+	
+	modify {
+		return(a.indexOfBy<i>(1));
+	}
+}
+
+rule aindexofbystart(ref a:array<match<class Simple>>) : (int)
+{
+	if{ a.indexOfBy<i>(1,2) == 3; }
+	
+	modify {
+		return(a.indexOfBy<i>(1,2));
+	}
+}
+
+rule alastindexofby(ref a:array<match<class Simple>>) : (int)
+{
+	if{ a.lastIndexOfBy<i>(1) == 3; }
+	
+	modify {
+		return(a.lastIndexOfBy<i>(1));
+	}
+}
+
+rule alastindexofbystart(ref a:array<match<class Simple>>) : (int)
+{
+	if{ a.lastIndexOfBy<i>(1,2) == 1; }
+	
+	modify {
+		return(a.lastIndexOfBy<i>(1,2));
+	}
+}
+
+rule aindexoforderedby(ref a:array<match<class Simple>>) : (int)
+{
+	if{ a.indexOfOrderedBy<i>(1) == 2; }
+	
+	modify {
+		return(a.indexOfOrderedBy<i>(1));
+	}
+}
+
+
+rule aindexofbyexec(ref a:array<match<class Simple>>) : (int)
+{
+	modify {
+		---
+		def var res:int = 42;
+		exec({yield res = a.indexOfBy<i>(1)});
+		return(res);
+	}
+}
+
+rule aindexofbystartexec(ref a:array<match<class Simple>>) : (int)
+{
+	modify {
+		---
+		def var res:int = 42;
+		exec({yield res = a.indexOfBy<i>(1,2)});
+		return(res);
+	}
+}
+
+rule alastindexofbyexec(ref a:array<match<class Simple>>) : (int)
+{
+	modify {
+		---
+		def var res:int = 42;
+		exec({yield res = a.lastIndexOfBy<i>(1)});
+		return(res);
+	}
+}
+
+rule alastindexofbystartexec(ref a:array<match<class Simple>>) : (int)
+{
+	modify {
+		---
+		def var res:int = 42;
+		exec({yield res = a.lastIndexOfBy<i>(1,2)});
+		return(res);
+	}
+}
+
+rule aindexoforderedbyexec(ref a:array<match<class Simple>>) : (int)
+{
+	modify {
+		---
+		def var res:int = 42;
+		exec({yield res = a.indexOfOrderedBy<i>(1)});
+		return(res);
+	}
+}

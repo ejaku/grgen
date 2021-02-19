@@ -1,0 +1,44 @@
+new graph "matchClass/array_by_member.grg"
+
+exec { ::a = array<match<class Simple>>[]; ::v=[?[simple(0,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(-1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(2,0)]\<class Simple>]; ::a.add(::v[0]) }
+
+show var a
+
+exec { ::o=::a.indexOfBy<i>(1) }
+
+show var o
+
+exec { ::a = array<match<class Simple>>[]; ::v=[?[simple(0,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(-1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(2,0)]\<class Simple>]; ::a.add(::v[0]) }
+
+show var a
+
+exec { ::o=::a.indexOfBy<i>(1,2) }
+
+show var o
+
+exec { ::a = array<match<class Simple>>[]; ::v=[?[simple(0,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(-1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(2,0)]\<class Simple>]; ::a.add(::v[0]) }
+
+show var a
+
+exec { ::o=::a.lastIndexOfBy<i>(1) }
+
+show var o
+
+exec { ::a = array<match<class Simple>>[]; ::v=[?[simple(0,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(-1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(2,0)]\<class Simple>]; ::a.add(::v[0]) }
+
+show var a
+
+exec { ::o=::a.lastIndexOfBy<i>(1,2) }
+
+show var o
+
+exec { ::a = array<match<class Simple>>[]; ::v=[?[simple(0,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(-1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(1,0)]\<class Simple>]; ::a.add(::v[0]); ::v=[?[simple(2,0)]\<class Simple>]; ::a.add(::v[0]) }
+exec { ::a = ::a.orderAscendingBy<i>() }
+
+show var a
+
+exec { ::o=::a.indexOfOrderedBy<i>(1) }
+
+show var o
+
+quit

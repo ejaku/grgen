@@ -1184,7 +1184,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("public override IList ArrayOrderAscendingBy(IList array, string member)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            GenerateArrayHelperDispatcher(sb, "orderAscendingBy", ruleAndMatchingPatterns, true);
+            GenerateArrayHelperDispatcher(sb, "orderAscendingBy", ruleAndMatchingPatterns, true, false, false);
             sb.Unindent();
             sb.AppendFront("}\n");
 
@@ -1193,7 +1193,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("public override IList ArrayOrderDescendingBy(IList array, string member)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            GenerateArrayHelperDispatcher(sb, "orderDescendingBy", ruleAndMatchingPatterns, true);
+            GenerateArrayHelperDispatcher(sb, "orderDescendingBy", ruleAndMatchingPatterns, true, false, false);
             sb.Unindent();
             sb.AppendFront("}\n");
 
@@ -1202,7 +1202,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("public override IList ArrayGroupBy(IList array, string member)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            GenerateArrayHelperDispatcher(sb, "groupBy", ruleAndMatchingPatterns, false);
+            GenerateArrayHelperDispatcher(sb, "groupBy", ruleAndMatchingPatterns, false, false, false);
             sb.Unindent();
             sb.AppendFront("}\n");
 
@@ -1211,22 +1211,67 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("public override IList ArrayKeepOneForEach(IList array, string member)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            GenerateArrayHelperDispatcher(sb, "keepOneForEachBy", ruleAndMatchingPatterns, false);
+            GenerateArrayHelperDispatcher(sb, "keepOneForEachBy", ruleAndMatchingPatterns, false, false, false);
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.Append("\n");
+
+            sb.AppendFront("public override int ArrayIndexOfBy(IList array, string member, object value)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            GenerateArrayHelperDispatcher(sb, "indexOfBy", ruleAndMatchingPatterns, false, true, false);
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.Append("\n");
+
+            sb.AppendFront("public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            GenerateArrayHelperDispatcher(sb, "indexOfBy", ruleAndMatchingPatterns, false, true, true);
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.Append("\n");
+
+            sb.AppendFront("public override int ArrayLastIndexOfBy(IList array, string member, object value)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            GenerateArrayHelperDispatcher(sb, "lastIndexOfBy", ruleAndMatchingPatterns, false, true, false);
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.Append("\n");
+
+            sb.AppendFront("public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            GenerateArrayHelperDispatcher(sb, "lastIndexOfBy", ruleAndMatchingPatterns, false, true, true);
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.Append("\n");
+
+            sb.AppendFront("public override int ArrayIndexOfOrderedBy(IList array, string member, object value)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            GenerateArrayHelperDispatcher(sb, "indexOfOrderedBy", ruleAndMatchingPatterns, true, true, false);
             sb.Unindent();
             sb.AppendFront("}\n");
         }
 
         private void GenerateArrayHelperDispatcher(SourceBuilder sb, String function,
-            LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, bool requiresOrderable)
+            LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns, bool requiresOrderable, bool isIndexOfByMethod, bool hasStartIndex)
         {
             sb.AppendFront("if(array.Count == 0)\n");
-            sb.AppendFrontIndented("return array;\n");
+            sb.AppendFrontIndentedFormat("return {0};\n", isIndexOfByMethod ? "-1" : "array");
             sb.AppendFront("string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());\n");
             sb.AppendFront("string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);\n");
             sb.AppendFront("if(!arrayValueType.StartsWith(\"match<\"))\n");
-            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFrontIndentedFormat("return {0};\n", isIndexOfByMethod ? "-1" : "null");
             sb.AppendFront("if(array[0] == null)\n");
-            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFrontIndentedFormat("return {0};\n", isIndexOfByMethod ? "-1" : "null");
             sb.AppendFront("if(arrayValueType == \"match<>\")\n");
             sb.AppendFrontIndented("arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());\n");
             sb.AppendFront("if(arrayValueType.StartsWith(\"match<class \"))\n");
@@ -1236,10 +1281,10 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             foreach(MatchClassInfo matchClass in ruleAndMatchingPatterns.MatchClasses)
             {
-                GenerateArrayHelperByTypeDispatcher(sb, function, matchClass, requiresOrderable);
+                GenerateArrayHelperByTypeDispatcher(sb, function, matchClass, requiresOrderable, isIndexOfByMethod, hasStartIndex);
             }
             sb.AppendFront("default:\n");
-            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFrontIndentedFormat("return {0};\n", isIndexOfByMethod ? "-1" : "null");
             sb.AppendFront("}\n");
             sb.Unindent();
             sb.AppendFront("}\n");
@@ -1250,21 +1295,21 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             foreach(LGSPRulePattern rule in ruleAndMatchingPatterns.Rules)
             {
-                GenerateArrayHelperByTypeDispatcher(sb, function, rule, null, requiresOrderable);
+                GenerateArrayHelperByTypeDispatcher(sb, function, rule, null, requiresOrderable, isIndexOfByMethod, hasStartIndex);
                 /*foreach(Iterated iterated in rule.patternGraph.iterateds)
                 {
                     GenerateArrayHelperByTypeDispatcher(sb, function, rule, iterated, requiresOrderable);
                 }*/
             }
             sb.AppendFront("default:\n");
-            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFrontIndentedFormat("return {0};\n", isIndexOfByMethod ? "-1" : "null");
             sb.AppendFront("}\n");
             sb.Unindent();
             sb.AppendFront("}\n");
         }
 
         private void GenerateArrayHelperByTypeDispatcher(SourceBuilder sb, String function,
-            MatchClassInfo matchClass, bool requiresOrderable)
+            MatchClassInfo matchClass, bool requiresOrderable, bool isIndexOfByMethod, bool hasStartIndex)
         {
             sb.AppendFrontFormat("case \"{0}\":\n", matchClass.PackagePrefixedName);
             sb.Indent();
@@ -1276,27 +1321,32 @@ namespace de.unika.ipd.grGen.lgsp
                     continue;
                 if(!isOfFilterableType(member))
                     continue;
-                GenerateArrayHelperByMemberDispatcher(sb, function, matchClass, member);
+                GenerateArrayHelperByMemberDispatcher(sb, function, matchClass, member, isIndexOfByMethod, hasStartIndex);
             }
             sb.AppendFront("default:\n");
-            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFrontIndentedFormat("return {0};\n", isIndexOfByMethod ? "-1" : "null");
             sb.AppendFront("}\n");
             sb.Unindent();
         }
 
         private void GenerateArrayHelperByMemberDispatcher(SourceBuilder sb, String function,
-            MatchClassInfo matchClass, IPatternElement member)
+            MatchClassInfo matchClass, IPatternElement member, bool isIndexOfByMethod, bool hasStartIndex)
         {
             sb.AppendFrontFormat("case \"{0}\":\n", member.UnprefixedName);
             String packagePrefix = matchClass.Package != null ? matchClass.Package + "." : "";
             String arrayHelperFunctionName = "Array_" + matchClass.Name + "_" + function + "_" + member.UnprefixedName;
-            sb.AppendFrontIndentedFormat("return {0}ArrayHelper.{1}({2}.ConvertAsNeeded(array));\n",
+            sb.AppendFrontIndentedFormat("return {0}ArrayHelper.{1}({2}.ConvertAsNeeded(array)",
                 packagePrefix, arrayHelperFunctionName,
                 TypesHelper.MatchClassInfoForMatchClassType("match<class " + matchClass.PackagePrefixedName + ">"));
+            if(isIndexOfByMethod)
+                sb.AppendFormat(", ({0})value", TypesHelper.TypeName(member.Type));
+            if(hasStartIndex)
+                sb.Append(", startIndex");
+            sb.Append(");\n");
         }
 
         private void GenerateArrayHelperByTypeDispatcher(SourceBuilder sb, String function,
-            LGSPRulePattern rule, Iterated iterated, bool requiresOrderable)
+            LGSPRulePattern rule, Iterated iterated, bool requiresOrderable, bool isIndexOfByMethod, bool hasStartIndex)
         {
             String iteratedPostfixDot = iterated != null ? "." + iterated.IteratedPattern.Name : "";
             sb.AppendFrontFormat("case \"{0}\":\n", rule.PatternGraph.PackagePrefixedName + iteratedPostfixDot);
@@ -1311,7 +1361,7 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
                     if(!isOfFilterableType(member))
                         continue;
-                    GenerateArrayHelperByMemberDispatcher(sb, function, rule, iterated, member);
+                    GenerateArrayHelperByMemberDispatcher(sb, function, rule, iterated, member, isIndexOfByMethod, hasStartIndex);
                 }
             }
             else
@@ -1322,17 +1372,17 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
                     if(!isOfFilterableType(member))
                         continue;
-                    GenerateArrayHelperByMemberDispatcher(sb, function, rule, null, member);
+                    GenerateArrayHelperByMemberDispatcher(sb, function, rule, null, member, isIndexOfByMethod, hasStartIndex);
                 }
             }
             sb.AppendFront("default:\n");
-            sb.AppendFrontIndented("return null;\n");
+            sb.AppendFrontIndentedFormat("return {0};\n", isIndexOfByMethod ? "-1" : "null");
             sb.AppendFront("}\n");
             sb.Unindent();
         }
 
         private void GenerateArrayHelperByMemberDispatcher(SourceBuilder sb, String function,
-            LGSPRulePattern rule, Iterated iterated, IPatternElement member)
+            LGSPRulePattern rule, Iterated iterated, IPatternElement member, bool isIndexOfByMethod, bool hasStartIndex)
         {
             String iteratedPostfixDot = iterated != null ? "." + iterated.IteratedPattern.Name : "";
             sb.AppendFrontFormat("case \"{0}\":\n", member.UnprefixedName);
@@ -1340,9 +1390,14 @@ namespace de.unika.ipd.grGen.lgsp
             String ruleClassName = "Rule_" + rule.PatternGraph.Name;
             String iteratedPostfix = iterated != null ? "_" + iterated.IteratedPattern.Name : "";
             String arrayHelperFunctionName = "Array_" + rule.PatternGraph.Name + iteratedPostfix + "_" + function + "_" + member.UnprefixedName;
-            sb.AppendFrontIndentedFormat("return {0}ArrayHelper.{1}({2}.ConvertAsNeeded(array));\n",
+            sb.AppendFrontIndentedFormat("return {0}ArrayHelper.{1}({2}.ConvertAsNeeded(array)",
                 packagePrefix, arrayHelperFunctionName,
                 TypesHelper.RuleClassForMatchType("match<" + rule.PatternGraph.PackagePrefixedName+ ">"));
+            if(isIndexOfByMethod)
+                sb.AppendFormat(", ({0})value", TypesHelper.TypeName(member.Type));
+            if(hasStartIndex)
+                sb.Append(", startIndex");
+            sb.Append(");\n");
         }
 
         private bool isOfOrderableType(IPatternElement member)

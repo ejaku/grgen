@@ -15,14 +15,15 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfByExpr;
 import de.unika.ipd.grgen.ir.Entity;
@@ -36,7 +37,7 @@ public class ArrayIndexOfByNode extends ArrayFunctionMethodInvocationBaseExprNod
 	}
 
 	private IdentNode attribute;
-	private MemberDeclNode member;
+	private DeclNode member;
 	private ExprNode valueExpr;
 	private ExprNode startIndexExpr;
 
@@ -78,28 +79,20 @@ public class ArrayIndexOfByNode extends ArrayFunctionMethodInvocationBaseExprNod
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<MemberDeclNode> memberResolver
-			= new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
-
 	@Override
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
 		ArrayTypeNode arrayType = getTargetType();
-		if(!(arrayType.valueType instanceof InheritanceTypeNode)) {
-			reportError("indexOfBy can only be employed on an array of nodes or edges.");
+		if(!(arrayType.valueType instanceof InheritanceTypeNode)
+				&& !(arrayType.valueType instanceof MatchTypeNode)) {
+			reportError("indexOfBy can only be employed on an array of nodes or edges or class objects or transient class objects or match types or match class types.");
 			return false;
 		}
 
-		ScopeOwner o = (ScopeOwner)arrayType.valueType;
-		o.fixupDefinition(attribute);
-		member = memberResolver.resolve(attribute, this);
+		member = Resolver.resolveMember(arrayType.valueType, attribute);
 		if(member == null)
 			return false;
-
-		if(member.isConst()) {
-			reportError("indexOfBy cannot be used on const attributes.");
-		}
 
 		TypeNode memberType = member.getDeclType();
 		TypeNode valueType = valueExpr.getType();
