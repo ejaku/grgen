@@ -1,0 +1,23 @@
+new graph string/string
+
+exec { ::str = "foo bar foo" }
+
+eval ::str.length()
+eval ::str.indexOf("foo")
+eval ::str.indexOf("foo", 1)
+eval ::str.lastIndexOf("foo")
+eval ::str.lastIndexOf("foo", 7)
+eval ::str.substring(4,3)
+eval ::str.substring(4)
+eval ::str.replace(4,3,"foo")
+eval ::str.startsWith("foo")
+eval ::str.endsWith("foo")
+#eval "bar" in ::str
+eval ::str.toLower()
+eval ::str.asArray(" ")
+
+exec { ::str = "FOO BAR FOO" }
+
+eval ::str.toUpper()
+
+quit

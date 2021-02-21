@@ -2066,6 +2066,10 @@ public abstract class CSharpBase
 				genExpression(sb, dli.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, dli.getValueExpr(), modifyGenerationState);
+				if(dli.getStartIndexExpr() != null) {
+					sb.append(", ");
+					genExpression(sb, dli.getStartIndexExpr(), modifyGenerationState);
+				}
 				sb.append(")");
 			}
 		} else if(expr instanceof DequeSubdequeExpr) {

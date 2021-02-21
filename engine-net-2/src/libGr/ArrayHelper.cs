@@ -281,17 +281,6 @@ namespace de.unika.ipd.grGen.libGr
             return -1;
         }
 
-        public static int LastIndexOf(IList a, object entry, int startIndex)
-        {
-            for(int i = startIndex; i >= 0; --i)
-            {
-                if(a[i].Equals(entry))
-                    return i;
-            }
-
-            return -1;
-        }
-
         public static int LastIndexOf<V>(List<V> a, V entry, int startIndex)
         {
             for(int i = startIndex; i >= 0; --i)

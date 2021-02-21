@@ -47,6 +47,7 @@ namespace de.unika.ipd.grGen.libGr
         int IndexOf(object item);
         int IndexOf(object item, int startIndex);
         int LastIndexOf(object item);
+        int LastIndexOf(object item, int startIndex);
         bool Contains(object item);
 
         // object Clone(); from IClonable
@@ -614,6 +615,52 @@ namespace de.unika.ipd.grGen.libGr
         int IDeque.LastIndexOf(object item)
         {
             return LastIndexOf((T)item);
+        }
+
+        public int LastIndexOf(T item, int startIndex)
+        {
+            if(begin <= end)
+            {
+                // 0 -- unfilled space ; begin..startIndex..end ; unfilled space -- buffer.size()
+                for(int pos = startIndex; pos >= begin; --pos)
+                {
+                    if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
+                        return pos - begin;
+                }
+            }
+            else
+            {
+                if(startIndex <= end - 1)
+                {
+                    // 0..startIndex..end ; unfilled space ; begin...buffer.size
+                    for(int pos = end - 1; pos >= 0; --pos)
+                    {
+                        if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
+                            return pos + buffer.Length - begin;
+                    }
+                    for(int pos = buffer.Length - 1; pos >= begin; --pos)
+                    {
+                        if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
+                            return pos - begin;
+                    }
+                }
+                else
+                {
+                    // 0..end ; unfilled space ; begin..startIndex..buffer.size
+                    for(int pos = startIndex; pos >= begin; --pos)
+                    {
+                        if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
+                            return pos - begin;
+                    }
+                }
+            }
+
+            return -1;
+        }
+
+        int IDeque.LastIndexOf(object item, int startIndex)
+        {
+            return LastIndexOf((T)item, startIndex);
         }
 
         public bool Contains(T item)

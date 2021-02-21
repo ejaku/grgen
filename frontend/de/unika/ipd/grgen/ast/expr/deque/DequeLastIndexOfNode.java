@@ -32,11 +32,19 @@ public class DequeLastIndexOfNode extends DequeFunctionMethodInvocationBaseExprN
 	}
 
 	private ExprNode valueExpr;
+	private ExprNode startIndexExpr;
 
 	public DequeLastIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
 	{
 		super(coords, targetExpr);
 		this.valueExpr = becomeParent(valueExpr);
+	}
+
+	public DequeLastIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr, ExprNode startIndexExpr)
+	{
+		super(coords, targetExpr);
+		this.valueExpr = becomeParent(valueExpr);
+		this.startIndexExpr = becomeParent(startIndexExpr);
 	}
 
 	@Override
@@ -45,6 +53,8 @@ public class DequeLastIndexOfNode extends DequeFunctionMethodInvocationBaseExprN
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(valueExpr);
+		if(startIndexExpr != null)
+			children.add(startIndexExpr);
 		return children;
 	}
 
@@ -54,6 +64,8 @@ public class DequeLastIndexOfNode extends DequeFunctionMethodInvocationBaseExprN
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("valueExpr");
+		if(startIndexExpr != null)
+			childrenNames.add("startIndex");
 		return childrenNames;
 	}
 
@@ -71,6 +83,10 @@ public class DequeLastIndexOfNode extends DequeFunctionMethodInvocationBaseExprN
 				return false;
 			}
 		}
+		if(startIndexExpr != null && !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
+			startIndexExpr.reportError("Argument (start index) to deque lastIndexOf expression must be of type int");
+			return false;
+		}
 		return true;
 	}
 
@@ -85,7 +101,13 @@ public class DequeLastIndexOfNode extends DequeFunctionMethodInvocationBaseExprN
 	{
 		targetExpr = targetExpr.evaluate();
 		valueExpr = valueExpr.evaluate();
-		return new DequeLastIndexOfExpr(targetExpr.checkIR(Expression.class),
-				valueExpr.checkIR(Expression.class));
+		if(startIndexExpr != null) {
+			startIndexExpr = startIndexExpr.evaluate();
+			return new DequeLastIndexOfExpr(targetExpr.checkIR(Expression.class),
+					valueExpr.checkIR(Expression.class), startIndexExpr.checkIR(Expression.class));
+		} else {
+			return new DequeLastIndexOfExpr(targetExpr.checkIR(Expression.class),
+					valueExpr.checkIR(Expression.class));
+		}
 	}
 }

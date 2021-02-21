@@ -1103,19 +1103,61 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             {
                 if(argExprs.Count != 1 && argExprs.Count != 2)
                     throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
-                return new SequenceExpressionArrayOrDequeIndexOf(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
+                return new SequenceExpressionArrayOrDequeOrStringIndexOf(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
             }
             else if(functionMethodName == "lastIndexOf")
             {
                 if(argExprs.Count != 1 && argExprs.Count != 2)
                     throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
-                return new SequenceExpressionArrayOrDequeLastIndexOf(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
+                return new SequenceExpressionArrayOrDequeOrStringLastIndexOf(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
             }
             else if(functionMethodName == "indexOfOrdered")
             {
                 if(argExprs.Count != 1)
                     throw new ParseException("\"" + functionMethodName + "\" expects 1 parameter)");
                 return new SequenceExpressionArrayIndexOfOrdered(targetExpr, argExprs[0]);
+            }
+            else if(functionMethodName == "length")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionStringLength(targetExpr);
+            }
+            else if(functionMethodName == "startsWith")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"" + functionMethodName + "\" expects 1 parameter)");
+                return new SequenceExpressionStringStartsWith(targetExpr, argExprs[0]);
+            }
+            else if(functionMethodName == "endsWith")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"" + functionMethodName + "\" expects 1 parameter)");
+                return new SequenceExpressionStringEndsWith(targetExpr, argExprs[0]);
+            }
+            else if(functionMethodName == "substring")
+            {
+                if(argExprs.Count != 1 && argExprs.Count != 2)
+                    throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
+                return new SequenceExpressionStringSubstring(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
+            }
+            else if(functionMethodName == "replace")
+            {
+                if(argExprs.Count != 3)
+                    throw new ParseException("\"" + functionMethodName + "\" expects three parameters)");
+                return new SequenceExpressionStringReplace(targetExpr, argExprs[0], argExprs[1], argExprs[2]);
+            }
+            else if(functionMethodName == "toLower")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionStringToLower(targetExpr);
+            }
+            else if(functionMethodName == "toUpper")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionStringToUpper(targetExpr);
             }
             else
                 return CreateSequenceExpressionFunctionMethodCallUserFunction(targetExpr, functionMethodName, argExprs);

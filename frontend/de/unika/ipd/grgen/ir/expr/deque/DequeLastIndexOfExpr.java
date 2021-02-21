@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ir.type.basic.IntType;
 public class DequeLastIndexOfExpr extends DequeFunctionMethodInvocationBaseExpr
 {
 	private Expression valueExpr;
+	private Expression startIndexExpr;
 
 	public DequeLastIndexOfExpr(Expression targetExpr, Expression valueExpr)
 	{
@@ -24,9 +25,21 @@ public class DequeLastIndexOfExpr extends DequeFunctionMethodInvocationBaseExpr
 		this.valueExpr = valueExpr;
 	}
 
+	public DequeLastIndexOfExpr(Expression targetExpr, Expression valueExpr, Expression startIndexExpr)
+	{
+		super("deque lastIndexOf expr", IntType.getType(), targetExpr);
+		this.valueExpr = valueExpr;
+		this.startIndexExpr = startIndexExpr;
+	}
+
 	public Expression getValueExpr()
 	{
 		return valueExpr;
+	}
+
+	public Expression getStartIndexExpr()
+	{
+		return startIndexExpr;
 	}
 
 	@Override
@@ -34,5 +47,7 @@ public class DequeLastIndexOfExpr extends DequeFunctionMethodInvocationBaseExpr
 	{
 		super.collectNeededEntities(needs);
 		valueExpr.collectNeededEntities(needs);
+		if(startIndexExpr != null)
+			startIndexExpr.collectNeededEntities(needs);
 	}
 }

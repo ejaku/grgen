@@ -1329,6 +1329,10 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			genExpressionTree(sb, dli.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, dli.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(dli.getStartIndexExpr() != null) {
+				sb.append(", ");
+				genExpressionTree(sb, dli.getStartIndexExpr(), className, pathPrefix, alreadyDefinedEntityToName);				
+			}
 			sb.append(")");
 		} else if(expr instanceof DequeSubdequeExpr) {
 			DequeSubdequeExpr dsd = (DequeSubdequeExpr)expr;

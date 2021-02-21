@@ -85,10 +85,15 @@ namespace de.unika.ipd.grGen.libGr
                 IList a = (IList)obj;
                 return a.IndexOf(entry);
             }
-            else
+            else if(obj is IDeque)
             {
                 IDeque a = (IDeque)obj;
                 return a.IndexOf(entry);
+            }
+            else
+            {
+                String a = (String)obj;
+                return a.IndexOf((string)entry, StringComparison.InvariantCulture);
             }
         }
 
@@ -102,14 +107,18 @@ namespace de.unika.ipd.grGen.libGr
                     if(a[i].Equals(entry))
                         return i;
                 }
+                return -1;
             }
-            else
+            else if(obj is IDeque)
             {
                 IDeque a = (IDeque)obj;
                 return a.IndexOf(entry, startIndex);
             }
-
-            return -1;
+            else
+            {
+                String a = (String)obj;
+                return a.IndexOf((string)entry, startIndex, StringComparison.InvariantCulture);
+            }
         }
 
         public static int LastIndexOf(object obj, object entry)
@@ -122,14 +131,42 @@ namespace de.unika.ipd.grGen.libGr
                     if(a[i].Equals(entry))
                         return i;
                 }
+                return -1;
             }
-            else
+            else if(obj is IDeque)
             {
                 IDeque a = (IDeque)obj;
                 return a.LastIndexOf(entry);
             }
+            else
+            {
+                String a = (String)obj;
+                return a.LastIndexOf((string)entry, StringComparison.InvariantCulture);
+            }
+        }
 
-            return -1;
+        public static int LastIndexOf(object obj, object entry, int startIndex)
+        {
+            if(obj is IList)
+            {
+                IList a = (IList)obj;
+                for(int i = startIndex; i >= 0; --i)
+                {
+                    if(a[i].Equals(entry))
+                        return i;
+                }
+                return -1;
+            }
+            else if(obj is IDeque)
+            {
+                IDeque a = (IDeque)obj;
+                return a.LastIndexOf(entry, startIndex);
+            }
+            else
+            {
+                String a = (String)obj;
+                return a.LastIndexOf((string)entry, startIndex, StringComparison.InvariantCulture);
+            }
         }
     }
 }

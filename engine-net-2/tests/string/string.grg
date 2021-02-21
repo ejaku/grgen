@@ -5,6 +5,7 @@ rule t(var str:string)
 		str.indexOf("foo")==0;
 		str.indexOf("foo", 1)==8;
 		str.lastIndexOf("foo")==8;
+		str.lastIndexOf("foo", 7)==0;
 		str.substring(4,3)=="bar";
 		str.substring(4)=="bar foo";
 		str.replace(4,3,"foo")=="foo foo foo";
@@ -21,6 +22,7 @@ rule t(var str:string)
         emit("1 value of attribute 5 6 " + (str.indexOf("foo")==0) + "\n");
         emit("1 value of attribute 5 6 " + (str.indexOf("foo", 1)==8) + "\n");
         emit("1 value of attribute 5 6 " + (str.lastIndexOf("foo")==8) + "\n");
+        emit("1 value of attribute 5 6 " + (str.lastIndexOf("foo", 7)==0) + "\n");
         emit("1 value of attribute 5 6 " + (str.substring(4,3)=="bar") + "\n");
         emit("1 value of attribute 5 6 " + (str.substring(4)=="bar foo") + "\n");
         emit("1 value of attribute 5 6 " + (str.replace(4,3,"foo")=="foo foo foo") + "\n");
@@ -30,4 +32,74 @@ rule t(var str:string)
         emit("1 value of attribute 5 6 " + ((str.toUpper()).toLower()==str) + "\n");
         emit("1 value of attribute 5 6 " + ((str.asArray(" ")).asString(" ")==str) + "\n");
 	}
+}
+
+sequence stringLength
+{
+	{ ::res = ::str.length(); }
+}
+
+sequence stringIndexOf
+{
+	{ ::res = ::str.indexOf("foo"); }
+}
+
+sequence stringIndexOfWithStart
+{
+	{ ::res = ::str.indexOf("foo", 1); }
+}
+
+sequence stringLastIndexOf
+{
+	{ ::res = ::str.lastIndexOf("foo"); }
+}
+
+sequence stringLastIndexOfWithStart
+{
+	{ ::res = ::str.lastIndexOf("foo", 7); }
+}
+
+sequence stringSubstringWithStart
+{
+	{ ::res = ::str.substring(4,3); }
+}
+
+sequence stringSubstring
+{
+	{ ::res = ::str.substring(4); }
+}
+
+sequence stringReplace
+{
+	{ ::res = ::str.replace(4,3,"foo"); }
+}
+
+sequence stringStartsWith
+{
+	{ ::res = ::str.startsWith("foo"); }
+}
+
+sequence stringEndsWith
+{
+	{ ::res = ::str.endsWith("foo"); }
+}
+
+/*sequence stringIn
+{
+	{ ::res = "bar" in ::str; }
+}*/
+
+sequence stringToLower
+{
+	{ ::res = ::str.toLower(); }
+}
+
+sequence stringToUpper
+{
+	{ ::res = ::str.toUpper(); }
+}
+
+sequence stringAsArray
+{
+	{ ::res = ::str.asArray(" "); }
 }

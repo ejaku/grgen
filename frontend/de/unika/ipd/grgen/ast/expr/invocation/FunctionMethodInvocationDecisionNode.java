@@ -640,11 +640,13 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 			else
 				return new DequeIndexOfNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 		case "lastIndexOf":
-			if(arguments.size() != 1) {
-				env.reportError("deque<T>.lastIndexOf(valueToSearchFor) takes one parameter.");
+			if(arguments.size() != 1 && arguments.size() != 2) {
+				env.reportError("deque<T>.lastIndexOf(valueToSearchFor) takes one parameter, or a second startIndex parameter.");
 				return null;
-			} else
+			} else if(arguments.size() == 1)
 				return new DequeLastIndexOfNode(env.getCoords(), targetExpr, arguments.get(0));
+			else
+				return new DequeLastIndexOfNode(env.getCoords(), targetExpr, arguments.get(0), arguments.get(1));
 		case "subdeque":
 			if(arguments.size() != 2) {
 				env.reportError("deque<T>.subdeque(startIndex, length) takes two parameters.");

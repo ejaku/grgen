@@ -31,13 +31,15 @@ namespace de.unika.ipd.grGen.libGr
         MatchClassConstructor,
         SetConstructor, MapConstructor, ArrayConstructor, DequeConstructor,
         SetCopyConstructor, MapCopyConstructor, ArrayCopyConstructor, DequeCopyConstructor,
-        ContainerAsArray, StringAsArray,
+        ContainerAsArray,
+        StringLength, StringStartsWith, StringEndsWith,
+        StringSubstring, StringReplace, StringToLower, StringToUpper, StringAsArray,
         MapDomain, MapRange,
         Random,
         Def,
         IsVisited,
         InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
-        ArrayOrDequeIndexOf, ArrayOrDequeLastIndexOf, ArrayIndexOfOrdered,
+        ArrayOrDequeOrStringIndexOf, ArrayOrDequeOrStringLastIndexOf, ArrayIndexOfOrdered,
         ArraySum, ArrayProd, ArrayMin, ArrayMax, ArrayAvg, ArrayMed, ArrayMedUnordered, ArrayVar, ArrayDev, ArrayAnd, ArrayOr,
         ArrayOrDequeAsSet, ArrayAsMap, ArrayAsDeque, ArrayAsString,
         ArraySubarray, DequeSubdeque,
@@ -2619,6 +2621,558 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceExpressionStringLength : SequenceExpression
+    {
+        public readonly SequenceExpression StringExpr;
+
+        public SequenceExpressionStringLength(SequenceExpression stringExpr)
+            : base(SequenceExpressionType.StringLength)
+        {
+            StringExpr = stringExpr;
+        }
+
+        protected SequenceExpressionStringLength(SequenceExpressionStringLength that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            StringExpr = that.StringExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionStringLength(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(StringExpr.Type(env) == "")
+                return; // we can't check type if the variable is untyped, only runtime-check possible
+
+            if(StringExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol, "string type", Type(env));
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ((string)StringExpr.Evaluate(procEnv)).Length;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            StringExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return StringExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return StringExpr.Symbol + ".length()"; }
+        }
+    }
+
+    public class SequenceExpressionStringStartsWith : SequenceExpression
+    {
+        public readonly SequenceExpression StringExpr;
+        public readonly SequenceExpression StringToSearchForExpr;
+
+        public SequenceExpressionStringStartsWith(SequenceExpression stringExpr, SequenceExpression stringToSearchForExpr)
+            : base(SequenceExpressionType.StringStartsWith)
+        {
+            StringExpr = stringExpr;
+            StringToSearchForExpr = stringToSearchForExpr;
+        }
+
+        protected SequenceExpressionStringStartsWith(SequenceExpressionStringStartsWith that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            StringExpr = that.StringExpr.CopyExpression(originalToCopy, procEnv);
+            StringToSearchForExpr = that.StringToSearchForExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionStringStartsWith(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(StringExpr.Type(env) == "")
+                return; // we can't check type if the variable is untyped, only runtime-check possible
+
+            if(StringExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol, "string type", Type(env));
+
+            if(StringToSearchForExpr.Type(env) == "")
+                return;
+
+            if(StringToSearchForExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol, "string type", Type(env));
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ((string)StringExpr.Evaluate(procEnv)).StartsWith((string)StringToSearchForExpr.Evaluate(procEnv), StringComparison.InvariantCulture);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            StringExpr.GetLocalVariables(variables, constructors);
+            StringToSearchForExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return StringExpr;
+                yield return StringToSearchForExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return StringExpr.Symbol + ".startsWith(" + StringToSearchForExpr.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionStringEndsWith : SequenceExpression
+    {
+        public readonly SequenceExpression StringExpr;
+        public readonly SequenceExpression StringToSearchForExpr;
+
+        public SequenceExpressionStringEndsWith(SequenceExpression stringExpr, SequenceExpression stringToSearchForExpr)
+            : base(SequenceExpressionType.StringEndsWith)
+        {
+            StringExpr = stringExpr;
+            StringToSearchForExpr = stringToSearchForExpr;
+        }
+
+        protected SequenceExpressionStringEndsWith(SequenceExpressionStringEndsWith that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            StringExpr = that.StringExpr.CopyExpression(originalToCopy, procEnv);
+            StringToSearchForExpr = that.StringToSearchForExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionStringEndsWith(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(StringExpr.Type(env) == "")
+                return; // we can't check type if the variable is untyped, only runtime-check possible
+
+            if(StringExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol, "string type", Type(env));
+
+            if(StringToSearchForExpr.Type(env) == "")
+                return;
+
+            if(StringToSearchForExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol, "string type", Type(env));
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ((string)StringExpr.Evaluate(procEnv)).EndsWith((string)StringToSearchForExpr.Evaluate(procEnv), StringComparison.InvariantCulture);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            StringExpr.GetLocalVariables(variables, constructors);
+            StringToSearchForExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return StringExpr;
+                yield return StringToSearchForExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return StringExpr.Symbol + ".endsWith(" + StringToSearchForExpr.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionStringSubstring : SequenceExpression
+    {
+        public readonly SequenceExpression StringExpr;
+        public readonly SequenceExpression StartIndexExpr;
+        public readonly SequenceExpression LengthExpr;
+
+        public SequenceExpressionStringSubstring(SequenceExpression stringExpr, SequenceExpression startIndexExpr, SequenceExpression lengthExpr)
+            : base(SequenceExpressionType.StringSubstring)
+        {
+            StringExpr = stringExpr;
+            StartIndexExpr = startIndexExpr;
+            LengthExpr = lengthExpr;
+        }
+
+        public SequenceExpressionStringSubstring(SequenceExpression stringExpr, SequenceExpression startIndexExpr)
+            : base(SequenceExpressionType.StringSubstring)
+        {
+            StringExpr = stringExpr;
+            StartIndexExpr = startIndexExpr;
+        }
+
+        protected SequenceExpressionStringSubstring(SequenceExpressionStringSubstring that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            StringExpr = that.StringExpr.CopyExpression(originalToCopy, procEnv);
+            StartIndexExpr = that.StartIndexExpr.CopyExpression(originalToCopy, procEnv);
+            if(LengthExpr != null)
+                LengthExpr = that.LengthExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionStringSubstring(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(StringExpr.Type(env) == "")
+                return; // we can't check type if the variable is untyped, only runtime-check possible
+
+            if(StringExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol, "string type", Type(env));
+
+            if(StartIndexExpr.Type(env) != "" && StartIndexExpr.Type(env) != "int")
+                throw new SequenceParserException(Symbol, "int type", Type(env));
+
+            if(LengthExpr != null)
+            {
+                if(LengthExpr.Type(env) != "" && LengthExpr.Type(env) != "int")
+                    throw new SequenceParserException(Symbol, "int type", Type(env));
+            }
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "string";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(LengthExpr != null)
+                return ((string)StringExpr.Evaluate(procEnv)).Substring((int)StartIndexExpr.Evaluate(procEnv), (int)LengthExpr.Evaluate(procEnv));
+            else
+                return ((string)StringExpr.Evaluate(procEnv)).Substring((int)StartIndexExpr.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            StringExpr.GetLocalVariables(variables, constructors);
+            StartIndexExpr.GetLocalVariables(variables, constructors);
+            if(LengthExpr != null)
+                LengthExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return StringExpr;
+                yield return StartIndexExpr;
+                if(LengthExpr != null)
+                    yield return LengthExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return StringExpr.Symbol + ".substring(" + StartIndexExpr.Symbol + (LengthExpr != null ? "," + LengthExpr.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionStringReplace : SequenceExpression
+    {
+        public readonly SequenceExpression StringExpr;
+        public readonly SequenceExpression StartIndexExpr;
+        public readonly SequenceExpression LengthExpr;
+        public readonly SequenceExpression ReplaceStringExpr;
+
+        public SequenceExpressionStringReplace(SequenceExpression stringExpr, SequenceExpression startIndexExpr,
+            SequenceExpression lengthExpr, SequenceExpression replaceStringExpr)
+            : base(SequenceExpressionType.StringReplace)
+        {
+            StringExpr = stringExpr;
+            StartIndexExpr = startIndexExpr;
+            LengthExpr = lengthExpr;
+            ReplaceStringExpr = replaceStringExpr;
+        }
+
+        protected SequenceExpressionStringReplace(SequenceExpressionStringReplace that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            StringExpr = that.StringExpr.CopyExpression(originalToCopy, procEnv);
+            StartIndexExpr = that.StartIndexExpr.CopyExpression(originalToCopy, procEnv);
+            LengthExpr = that.LengthExpr.CopyExpression(originalToCopy, procEnv);
+            ReplaceStringExpr = that.ReplaceStringExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionStringReplace(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(StringExpr.Type(env) == "")
+                return; // we can't check type if the variable is untyped, only runtime-check possible
+
+            if(StringExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol, "string type", Type(env));
+
+            if(StartIndexExpr.Type(env) != "" && StartIndexExpr.Type(env) != "int")
+                throw new SequenceParserException(Symbol, "int type", Type(env));
+
+            if(LengthExpr.Type(env) != "" && LengthExpr.Type(env) != "int")
+                throw new SequenceParserException(Symbol, "int type", Type(env));
+
+            if(ReplaceStringExpr.Type(env) != "" && ReplaceStringExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol, "string type", Type(env));
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "string";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            string target = (string)StringExpr.Evaluate(procEnv);
+            int startIndex = (int)StartIndexExpr.Evaluate(procEnv);
+            int length = (int)LengthExpr.Evaluate(procEnv);
+            string replacement = (string)ReplaceStringExpr.Evaluate(procEnv);
+            return target.Substring(0, startIndex) + replacement + target.Substring(startIndex + length);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            StringExpr.GetLocalVariables(variables, constructors);
+            StartIndexExpr.GetLocalVariables(variables, constructors);
+            LengthExpr.GetLocalVariables(variables, constructors);
+            ReplaceStringExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return StringExpr;
+                yield return StartIndexExpr;
+                yield return LengthExpr;
+                yield return ReplaceStringExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return StringExpr.Symbol + ".replace(" + StartIndexExpr.Symbol + "," + LengthExpr.Symbol + "," + ReplaceStringExpr.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionStringToLower : SequenceExpression
+    {
+        public readonly SequenceExpression StringExpr;
+
+        public SequenceExpressionStringToLower(SequenceExpression stringExpr)
+            : base(SequenceExpressionType.StringToLower)
+        {
+            StringExpr = stringExpr;
+        }
+
+        protected SequenceExpressionStringToLower(SequenceExpressionStringToLower that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            StringExpr = that.StringExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionStringToLower(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(StringExpr.Type(env) == "")
+                return; // we can't check type if the variable is untyped, only runtime-check possible
+
+            if(StringExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol, "string type", Type(env));
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "string";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ((string)StringExpr.Evaluate(procEnv)).ToLowerInvariant();
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            StringExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return StringExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return StringExpr.Symbol + ".toLower()"; }
+        }
+    }
+
+    public class SequenceExpressionStringToUpper : SequenceExpression
+    {
+        public readonly SequenceExpression StringExpr;
+
+        public SequenceExpressionStringToUpper(SequenceExpression stringExpr)
+            : base(SequenceExpressionType.StringToUpper)
+        {
+            StringExpr = stringExpr;
+        }
+
+        protected SequenceExpressionStringToUpper(SequenceExpressionStringToUpper that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            StringExpr = that.StringExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionStringToUpper(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(StringExpr.Type(env) == "")
+                return; // we can't check type if the variable is untyped, only runtime-check possible
+
+            if(StringExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol, "string type", Type(env));
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "string";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ((string)StringExpr.Evaluate(procEnv)).ToUpperInvariant();
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            StringExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return StringExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return StringExpr.Symbol + ".toUpper()"; }
+        }
+    }
+
     public class SequenceExpressionStringAsArray : SequenceExpression
     {
         public readonly SequenceExpression StringExpr;
@@ -2682,6 +3236,8 @@ namespace de.unika.ipd.grGen.libGr
             get
             {
                 yield return StringExpr;
+                if(SeparatorExpr != null)
+                    yield return SeparatorExpr;
             }
         }
 
@@ -3390,49 +3946,56 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionArrayOrDequeIndexOf : SequenceExpressionContainer
+    public class SequenceExpressionArrayOrDequeOrStringIndexOf : SequenceExpressionContainer
     {
         public readonly SequenceExpression ValueToSearchForExpr;
         public readonly SequenceExpression StartPositionExpr;
 
-        public SequenceExpressionArrayOrDequeIndexOf(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr)
-            : base(SequenceExpressionType.ArrayOrDequeIndexOf, containerExpr)
+        public SequenceExpressionArrayOrDequeOrStringIndexOf(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr)
+            : base(SequenceExpressionType.ArrayOrDequeOrStringIndexOf, containerExpr)
         {
             ValueToSearchForExpr = valueToSearchForExpr;
             StartPositionExpr = startPositionExpr;
         }
 
-        protected SequenceExpressionArrayOrDequeIndexOf(SequenceExpressionArrayOrDequeIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        protected SequenceExpressionArrayOrDequeOrStringIndexOf(SequenceExpressionArrayOrDequeOrStringIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that, originalToCopy, procEnv)
         {
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            return new SequenceExpressionArrayOrDequeIndexOf(this, originalToCopy, procEnv);
+            return new SequenceExpressionArrayOrDequeOrStringIndexOf(this, originalToCopy, procEnv);
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            string containerType = CheckAndReturnContainerType(env);
-
+            string containerType = ContainerExpr.Type(env);
             if(containerType == "")
-                return;
+                return; // we can't type check if the variable is untyped, only runtime-check possible
 
-            if(containerType.StartsWith("set<") || containerType.StartsWith("map<"))
-                throw new SequenceParserException(Symbol, "array<T> or deque<T> type", containerType);
+            if(!containerType.StartsWith("array<") && !containerType.StartsWith("deque<") && containerType != "string")
+                throw new SequenceParserException(Symbol, "array<T> or deque<T> or string type", containerType);
 
             if(ValueToSearchForExpr.Type(env) != "")
             {
-                if(ValueToSearchForExpr.Type(env) != TypesHelper.ExtractSrc(ContainerType(env)))
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), ValueToSearchForExpr.Type(env));
+                if(containerType.StartsWith("array<") || containerType.StartsWith("deque<"))
+                {
+                    if(ValueToSearchForExpr.Type(env) != TypesHelper.ExtractSrc(ContainerType(env)))
+                        throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), ValueToSearchForExpr.Type(env));
+                }
+                else
+                {
+                    if(ValueToSearchForExpr.Type(env) != "string")
+                        throw new SequenceParserException(Symbol, "string", ValueToSearchForExpr.Type(env));
+                }
             }
 
             if(StartPositionExpr != null && StartPositionExpr.Type(env) != "")
             {
-                if(StartPositionExpr != null && StartPositionExpr.Type(env) != "int")
+                if(StartPositionExpr.Type(env) != "int")
                     throw new SequenceParserException(Symbol, "int", ValueToSearchForExpr.Type(env));
             }
         }
@@ -3481,52 +4044,56 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionArrayOrDequeLastIndexOf : SequenceExpressionContainer
+    public class SequenceExpressionArrayOrDequeOrStringLastIndexOf : SequenceExpressionContainer
     {
         public readonly SequenceExpression ValueToSearchForExpr;
         public readonly SequenceExpression StartPositionExpr;
 
-        public SequenceExpressionArrayOrDequeLastIndexOf(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr)
-            : base(SequenceExpressionType.ArrayOrDequeLastIndexOf, containerExpr)
+        public SequenceExpressionArrayOrDequeOrStringLastIndexOf(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr)
+            : base(SequenceExpressionType.ArrayOrDequeOrStringLastIndexOf, containerExpr)
         {
             ValueToSearchForExpr = valueToSearchForExpr;
             StartPositionExpr = startPositionExpr;
         }
 
-        protected SequenceExpressionArrayOrDequeLastIndexOf(SequenceExpressionArrayOrDequeLastIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        protected SequenceExpressionArrayOrDequeOrStringLastIndexOf(SequenceExpressionArrayOrDequeOrStringLastIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that, originalToCopy, procEnv)
         {
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            return new SequenceExpressionArrayOrDequeLastIndexOf(this, originalToCopy, procEnv);
+            return new SequenceExpressionArrayOrDequeOrStringLastIndexOf(this, originalToCopy, procEnv);
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            string containerType = CheckAndReturnContainerType(env);
-
+            string containerType = ContainerExpr.Type(env);
             if(containerType == "")
-                return;
+                return; // we can't type check if the variable is untyped, only runtime-check possible
 
-            if(containerType.StartsWith("set<") || containerType.StartsWith("map<"))
-                throw new SequenceParserException(Symbol, "array<T> or deque<T> type", containerType);
+            if(!containerType.StartsWith("array<") && !containerType.StartsWith("deque<") && containerType != "string")
+                throw new SequenceParserException(Symbol, "array<T> or deque<T> or string type", containerType);
 
             if(ValueToSearchForExpr.Type(env) != "")
             {
-                if(ValueToSearchForExpr.Type(env) != TypesHelper.ExtractSrc(ContainerType(env)))
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), ValueToSearchForExpr.Type(env));
+                if(containerType.StartsWith("array<") || containerType.StartsWith("deque<"))
+                {
+                    if(ValueToSearchForExpr.Type(env) != TypesHelper.ExtractSrc(ContainerType(env)))
+                        throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), ValueToSearchForExpr.Type(env));
+                }
+                else
+                {
+                    if(ValueToSearchForExpr.Type(env) != "string")
+                        throw new SequenceParserException(Symbol, "string", ValueToSearchForExpr.Type(env));
+                }
             }
 
             if(StartPositionExpr != null && StartPositionExpr.Type(env) != "")
             {
-                if(containerType.StartsWith("deque<"))
-                    throw new SequenceParserException(Symbol, "array<T> type", containerType);
-
-                if(StartPositionExpr != null && StartPositionExpr.Type(env) != "int")
+                if(StartPositionExpr.Type(env) != "int")
                     throw new SequenceParserException(Symbol, "int", ValueToSearchForExpr.Type(env));
             }
         }
@@ -3539,7 +4106,7 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             if(StartPositionExpr != null)
-                return ContainerHelper.LastIndexOf(ArrayValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv), (int)StartPositionExpr.Evaluate(procEnv));
+                return ContainerHelper.LastIndexOf(ContainerValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv), (int)StartPositionExpr.Evaluate(procEnv));
             else
                 return ContainerHelper.LastIndexOf(ContainerValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv));
         }

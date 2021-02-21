@@ -3509,9 +3509,19 @@ namespace de.unika.ipd.grGen.expression
             Value = value;
         }
 
+        public DequeLastIndexOf(Expression target, Expression value, Expression startIndex)
+        {
+            Target = target;
+            Value = value;
+            StartIndex = startIndex;
+        }
+
         public override Expression Copy(string renameSuffix)
         {
-            return new DequeLastIndexOf(Target.Copy(renameSuffix), Value.Copy(renameSuffix));
+            if(StartIndex != null)
+                return new DequeLastIndexOf(Target.Copy(renameSuffix), Value.Copy(renameSuffix), StartIndex.Copy(renameSuffix));
+            else
+                return new DequeLastIndexOf(Target.Copy(renameSuffix), Value.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -3520,6 +3530,11 @@ namespace de.unika.ipd.grGen.expression
             Target.Emit(sourceCode);
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
+            if(StartIndex != null)
+            {
+                sourceCode.Append(", ");
+                StartIndex.Emit(sourceCode);
+            }
             sourceCode.Append(")");
         }
 
@@ -3527,10 +3542,13 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Target;
             yield return Value;
+            if(StartIndex != null)
+                yield return StartIndex;
         }
 
         readonly Expression Target;
         readonly Expression Value;
+        readonly Expression StartIndex;
     }
 
     /// <summary>

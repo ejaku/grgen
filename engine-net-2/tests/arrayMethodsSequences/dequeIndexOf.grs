@@ -18,4 +18,10 @@ show var x
 exec (::x)=lastIndexOfString(deque<string>["a1","a42","a2","a42","3"])
 show var x
 
+exec (::x)=lastIndexOfStart(deque<int>[1,42,2,42,3], 2)
+show var x
+
+exec (::x)=lastIndexOfStartString(deque<string>["a1","a42","a2","a42","3"], 2)
+show var x
+
 quit

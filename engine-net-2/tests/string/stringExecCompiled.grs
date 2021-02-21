@@ -1,0 +1,49 @@
+new graph string/string
+
+exec { ::str = "foo bar foo" }
+
+exec stringLength
+show var res
+
+exec stringIndexOf
+show var res
+
+exec stringIndexOfWithStart
+show var res
+
+exec stringLastIndexOf
+show var res
+
+exec stringLastIndexOfWithStart
+show var res
+
+exec stringSubstringWithStart
+show var res
+
+exec stringSubstring
+show var res
+
+exec stringReplace
+show var res
+
+exec stringStartsWith
+show var res
+
+exec stringEndsWith
+show var res
+
+#exec stringIn
+#show var res
+
+exec stringToUpper
+show var res
+
+exec stringAsArray
+show var res
+
+exec { ::str = "FOO BAR FOO" }
+
+exec stringToLower
+show var res
+
+quit
