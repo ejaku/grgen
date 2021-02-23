@@ -1,0 +1,374 @@
+rule minInt : (int)
+{
+	if{ Math::min(1,2)==1; }
+	
+	modify {
+		return( Math::min(1,2) );
+	}
+}
+
+rule min : (double)
+{
+	if{ Math::min(1.0,2.0)==1.0; }
+	
+	modify {
+		return( Math::min(1.0,2.0) );
+	}
+}
+
+rule maxInt : (int)
+{
+	if{ Math::max(1,2)==2; }
+	
+	modify {
+		return( Math::max(1,2) );
+	}
+}
+
+rule max : (double)
+{
+	if{ Math::max(1.0,2.0)==2.0; }
+	
+	modify {
+		return( Math::max(1.0,2.0) );
+	}
+}
+
+rule absInt : (int)
+{
+	if{ Math::abs(-1)==1; }
+	
+	modify {
+		return( Math::abs(-1) );
+	}
+}
+
+rule abs : (double)
+{
+	if{ Math::abs(-1.0)==1.0; }
+	
+	modify {
+		return( Math::abs(-1.0) );
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+rule ceil : (double)
+{
+	if{ Math::ceil(1.55)==2.0; }
+	
+	modify {
+		return( Math::ceil(1.55) );
+	}
+}
+
+rule ceilNeg : (double)
+{
+	if{ Math::ceil(-1.55)==-1.0; }
+	
+	modify {
+		return( Math::ceil(-1.55) );
+	}
+}
+
+rule floor : (double)
+{
+	if{ Math::floor(1.55)==1.0; }
+	
+	modify {
+		return( Math::floor(1.55) );
+	}
+}
+
+rule floorNeg : (double)
+{
+	if{ Math::floor(-1.55)==-2.0; }
+	
+	modify {
+		return( Math::floor(-1.55) );
+	}
+}
+
+rule round : (double)
+{
+	if{ Math::round(1.55)==2.0; }
+	
+	modify {
+		return( Math::round(1.55) );
+	}
+}
+
+rule roundNeg : (double)
+{
+	if{ Math::round(-1.55)==-2.0; }
+	
+	modify {
+		return( Math::round(-1.55) );
+	}
+}
+
+rule truncate : (double)
+{
+	if{ Math::truncate(1.0)==1.0; }
+	
+	modify {
+		return( Math::truncate(1.0) );
+	}
+}
+
+rule truncateNeg : (double)
+{
+	if{ Math::truncate(-1.0)==-1.0; }
+	
+	modify {
+		return( Math::truncate(-1.0) );
+	}
+}
+
+rule sqr : (double)
+{
+	if{ Math::sqr(2.0)==4.0; }
+	
+	modify {
+		return( Math::sqr(2.0) );
+	}
+}
+
+rule sqrt : (double)
+{
+	if{ Math::sqrt(4.0)==2.0; }
+	
+	modify {
+		return( Math::sqrt(4.0) );
+	}
+}
+
+rule powe : (double)
+{
+	if{ Math::pow(1.0)==Math::e(); }
+	
+	modify {
+		return( Math::pow(1.0) );
+	}
+}
+
+rule pow : (double)
+{
+	if{ Math::pow(2.0, 2.0)==4.0; }
+	
+	modify {
+		return( Math::pow(2.0, 2.0) );
+	}
+}
+
+rule loge : (double)
+{
+	if{ Math::log(Math::e())==1.0; }
+	
+	modify {
+		return( Math::log(Math::e()) );
+	}
+}
+
+rule log : (double)
+{
+	if{ Math::log(4.0, 2.0)==2.0; }
+	
+	modify {
+		return( Math::log(4.0, 2.0) );
+	}
+}
+
+rule sgn : (double)
+{
+	if{ Math::sgn(-2.0)==-1.0; }
+	
+	modify {
+		return( Math::sgn(-2.0) );
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+rule sin : (double)
+{
+	if{ Math::sin(Math::pi())>=-0.1 && Math::sin(Math::pi())<=0.1; }
+	
+	modify {
+		return( Math::sin(Math::pi()) );
+	}
+}
+
+rule cos : (double)
+{
+	if{ Math::cos(Math::pi())<=-0.9 && Math::cos(Math::pi())>=-1.1; }
+	
+	modify {
+		return( Math::cos(Math::pi()) );
+	}
+}
+
+rule tan : (double)
+{
+	if{ Math::tan(Math::pi())>=-0.1 && Math::tan(Math::pi())<=0.1; }
+	
+	modify {
+		return( Math::tan(Math::pi()) );
+	}
+}
+
+rule arcsin : (double)
+{
+	if{ Math::arcsin(0.0)==0.0; }
+	
+	modify {
+		return( Math::arcsin(0.0) );
+	}
+}
+
+rule arccos : (double)
+{
+	if{ Math::arccos(1.0)==0.0; }
+	
+	modify {
+		return( Math::arccos(1.0) );
+	}
+}
+
+rule arctan : (double)
+{
+	if{ Math::arctan(0.0)==0.0; }
+	
+	modify {
+		return( Math::arctan(0.0) );
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+rule pi : (double)
+{
+	if{ Math::pi()>3.0 && Math::pi()<4.0; }
+	
+	modify {
+		return( Math::pi() );
+	}
+}
+
+rule e : (double)
+{
+	if{ Math::e()>2.0 && Math::e()<3.0; }
+	
+	modify {
+		return( Math::e() );
+	}
+}
+
+rule byteMin : (byte)
+{
+	if{ Math::byteMin() < -1y; }
+	
+	modify {
+		return( Math::byteMin() );
+	}
+}
+
+rule byteMax : (byte)
+{
+	if{ Math::byteMax() > 1y; }
+	
+	modify {
+		return( Math::byteMax() );
+	}
+}
+
+rule shortMin : (short)
+{
+	if{ Math::shortMin() < -1s; }
+	
+	modify {
+		return( Math::shortMin() );
+	}
+}
+
+rule shortMax : (short)
+{
+	if{ Math::shortMax() > 1s; }
+	
+	modify {
+		return( Math::shortMax() );
+	}
+}
+
+rule intMin : (int)
+{
+	if{ Math::intMin() < -1; }
+	
+	modify {
+		return( Math::intMin() );
+	}
+}
+
+rule intMax : (int)
+{
+	if{ Math::intMax() > 1; }
+	
+	modify {
+		return( Math::intMax() );
+	}
+}
+
+rule longMin : (long)
+{
+	if{ Math::longMin() < -1l; }
+	
+	modify {
+		return( Math::longMin() );
+	}
+}
+
+rule longMax : (long)
+{
+	if{ Math::longMax() > 1l; }
+	
+	modify {
+		return( Math::longMax() );
+	}
+}
+
+rule floatMin : (float)
+{
+	if{ Math::floatMin() < -1.0f; }
+	
+	modify {
+		return( Math::floatMin() );
+	}
+}
+
+rule floatMax : (float)
+{
+	if{ Math::floatMax() > 1.0f; }
+	
+	modify {
+		return( Math::floatMax() );
+	}
+}
+
+rule doubleMin : (double)
+{
+	if{ Math::doubleMin() < -1.0; }
+	
+	modify {
+		return( Math::doubleMin() );
+	}
+}
+
+rule doubleMax : (double)
+{
+	if{ Math::doubleMax() > 1.0; }
+	
+	modify {
+		return( Math::doubleMax() );
+	}
+}

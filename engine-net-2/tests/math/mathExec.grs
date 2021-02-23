@@ -1,0 +1,85 @@
+new graph math/mathExec.grg
+
+eval Math::min(1,2)
+
+eval Math::min(1.0,2.0)
+
+eval Math::max(1,2)
+
+eval Math::max(1.0,2.0)
+
+eval Math::abs(-1)
+
+eval Math::abs(-1.0)
+
+eval Math::ceil(1.55)
+
+eval Math::ceil(-1.55)
+
+eval Math::floor(1.55)
+
+eval Math::floor(-1.55)
+
+eval Math::round(1.55)
+
+eval Math::round(-1.55)
+
+eval Math::truncate(1.0)
+
+eval Math::truncate(-1.0)
+
+eval Math::sqr(2.0)
+
+eval Math::sqrt(4.0)
+
+eval Math::pow(2.0, 2.0)
+
+eval Math::pow(1.0)
+
+eval Math::log(4.0, 2.0)
+
+eval Math::log(Math::e())
+
+eval Math::sgn(-2.0)
+
+eval Math::sin(Math::pi())
+
+eval Math::cos(Math::pi())
+
+eval Math::tan(Math::pi())
+
+eval Math::arcsin(0.0)
+
+eval Math::arccos(1.0)
+
+eval Math::arctan(0.0)
+
+eval Math::pi()
+
+eval Math::e()
+
+eval Math::byteMin()
+
+eval Math::byteMax()
+
+eval Math::shortMin()
+
+eval Math::shortMax()
+
+eval Math::intMin()
+
+eval Math::intMax()
+
+eval Math::longMin()
+
+eval Math::longMax()
+
+eval Math::floatMin()
+
+eval Math::floatMax()
+
+eval Math::doubleMin()
+
+eval Math::doubleMax()
+
+quit

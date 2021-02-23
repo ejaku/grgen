@@ -1,0 +1,333 @@
+rule minInt
+{
+	modify {
+	---
+		exec( { ::res = Math::min(1,2) } );
+	}
+}
+
+rule min
+{
+	modify {
+	---
+		exec( { ::res = Math::min(1.0,2.0) } );
+	}
+}
+
+rule maxInt
+{
+	modify {
+	---
+		exec( { ::res = Math::max(1,2) } );
+	}
+}
+
+rule max
+{
+	modify {
+	---
+		exec( { ::res = Math::max(1.0,2.0) } );
+	}
+}
+
+rule absInt
+{
+	modify {
+	---
+		exec( { ::res = Math::abs(-1) } );
+	}
+}
+
+rule abs
+{
+	modify {
+	---
+		exec( { ::res = Math::abs(-1.0) } );
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+rule ceil
+{
+	modify {
+	---
+		exec( { ::res = Math::ceil(1.55) } );
+	}
+}
+
+rule ceilNeg
+{
+	modify {
+	---
+		exec( { ::res = Math::ceil(-1.55) } );
+	}
+}
+
+rule floor
+{
+	modify {
+	---
+		exec( { ::res = Math::floor(1.55) } );
+	}
+}
+
+rule floorNeg
+{
+	modify {
+	---
+		exec( { ::res = Math::floor(-1.55) } );
+	}
+}
+
+rule round
+{
+	modify {
+	---
+		exec( { ::res = Math::round(1.55) } );
+	}
+}
+
+rule roundNeg
+{
+	modify {
+	---
+		exec( { ::res = Math::round(-1.55) } );
+	}
+}
+
+rule truncate
+{
+	modify {
+	---
+		exec( { ::res = Math::truncate(1.0) } );
+	}
+}
+
+rule truncateNeg
+{
+	modify {
+	---
+		exec( { ::res = Math::truncate(-1.0) } );
+	}
+}
+
+rule sqr
+{
+	modify {
+	---
+		exec( { ::res = Math::sqr(2.0) } );
+	}
+}
+
+rule sqrt
+{
+	modify {
+	---
+		exec( { ::res = Math::sqrt(4.0) } );
+	}
+}
+
+rule powe
+{
+	modify {
+	---
+		exec( { ::res = Math::pow(1.0) } );
+	}
+}
+
+rule pow
+{
+	modify {
+	---
+		exec( { ::res = Math::pow(2.0, 2.0) } );
+	}
+}
+
+rule loge
+{
+	modify {
+	---
+		exec( { ::res = Math::log(Math::e()) } );
+	}
+}
+
+rule log
+{
+	modify {
+	---
+		exec( { ::res = Math::log(4.0, 2.0) } );
+	}
+}
+
+rule sgn
+{
+	modify {
+	---
+		exec( { ::res = Math::sgn(-2.0) } );
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+rule sin
+{
+	modify {
+	---
+		exec( { ::res = Math::sin(Math::pi()) } );
+	}
+}
+
+rule cos
+{
+	modify {
+	---
+		exec( { ::res = Math::cos(Math::pi()) } );
+	}
+}
+
+rule tan
+{
+	modify {
+	---
+		exec( { ::res = Math::tan(Math::pi()) } );
+	}
+}
+
+rule arcsin
+{
+	modify {
+	---
+		exec( { ::res = Math::arcsin(0.0) } );
+	}
+}
+
+rule arccos
+{
+	modify {
+	---
+		exec( { ::res = Math::arccos(1.0) } );
+	}
+}
+
+rule arctan
+{
+	modify {
+	---
+		exec( { ::res = Math::arctan(0.0) } );
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+rule pi
+{
+	modify {
+	---
+		exec( { ::res = Math::pi() } );
+	}
+}
+
+rule e
+{
+	modify {
+	---
+		exec( { ::res = Math::e() } );
+	}
+}
+
+rule byteMin
+{
+	modify {
+	---
+		exec( { ::res = Math::byteMin() } );
+	}
+}
+
+rule byteMax
+{
+	modify {
+	---
+		exec( { ::res = Math::byteMax() } );
+	}
+}
+
+rule shortMin
+{
+	modify {
+	---
+		exec( { ::res = Math::shortMin() } );
+	}
+}
+
+rule shortMax
+{
+	modify {
+	---
+		exec( { ::res = Math::shortMax() } );
+	}
+}
+
+rule intMin
+{
+	modify {
+	---
+		exec( { ::res = Math::intMin() } );
+	}
+}
+
+rule intMax
+{
+	modify {
+	---
+		exec( { ::res = Math::intMax() } );
+	}
+}
+
+rule longMin
+{
+	modify {
+	---
+		exec( { ::res = Math::longMin() } );
+	}
+}
+
+rule longMax
+{
+	modify {
+	---
+		exec( { ::res = Math::longMax() } );
+	}
+}
+
+rule floatMin
+{
+	modify {
+	---
+		exec( { ::res = Math::floatMin() } );
+	}
+}
+
+rule floatMax
+{
+	modify {
+	---
+		exec( { ::res = Math::floatMax() } );
+	}
+}
+
+rule doubleMin
+{
+	modify {
+	---
+		exec( { ::res = Math::doubleMin() } );
+	}
+}
+
+rule doubleMax
+{
+	modify {
+	---
+		exec( { ::res = Math::doubleMax() } );
+	}
+}

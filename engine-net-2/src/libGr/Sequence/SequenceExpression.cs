@@ -53,6 +53,12 @@ namespace de.unika.ipd.grGen.libGr
         Nodes, Edges,
         CountNodes, CountEdges,
         Now,
+        MathMin, MathMax, MathAbs, MathCeil, MathFloor, MathRound, MathTruncate,
+        MathSqr, MathSqrt, MathPow, MathLog, MathSgn,
+        MathSin, MathCos, MathTan, MathArcSin, MathArcCos, MathArcTan,
+        MathPi, MathE,
+        MathByteMin, MathByteMax, MathShortMin, MathShortMax, MathIntMin, MathIntMax, MathLongMin, MathLongMax,
+        MathFloatMin, MathFloatMax, MathDoubleMin, MathDoubleMax,
         Empty, Size,
         AdjacentNodes, AdjacentNodesViaIncoming, AdjacentNodesViaOutgoing,
         IncidentEdges, IncomingEdges, OutgoingEdges,
@@ -10514,6 +10520,2077 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return (Deep ? "copy(" : "clone(") + ObjectToBeCopied.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathMin : SequenceExpression
+    {
+        public readonly SequenceExpression Left;
+        public readonly SequenceExpression Right;
+
+        public SequenceExpressionMathMin(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.MathMin)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        protected SequenceExpressionMathMin(SequenceExpressionMathMin that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Left = that.Left.CopyExpression(originalToCopy, procEnv);
+            Right = that.Right.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathMin(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return Left.Type(env);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Left.Type(env) != "")
+            {
+                if(!TypesHelper.IsNumericType(Left.Type(env)))
+                    throw new SequenceParserException(Symbol, "numeric type", Left.Type(env));
+            }
+
+            if(Right.Type(env) != "")
+            {
+                if(!TypesHelper.IsNumericType(Right.Type(env)))
+                    throw new SequenceParserException(Symbol, "numeric type", Right.Type(env));
+            }
+
+            if(Left.Type(env) != "" && Right.Type(env) != "")
+            {
+                if(Left.Type(env) != Right.Type(env))
+                    throw new SequenceParserException(Symbol, "left and right must be the same numeric type", Left.Type(env));
+            }
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return MathHelper.Min(Left.Evaluate(procEnv), Right.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Left.GetLocalVariables(variables, constructors);
+            Right.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Left;
+                yield return Right;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::min(" + Left.Symbol + "," + Right.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathMax : SequenceExpression
+    {
+        public readonly SequenceExpression Left;
+        public readonly SequenceExpression Right;
+
+        public SequenceExpressionMathMax(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.MathMax)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        protected SequenceExpressionMathMax(SequenceExpressionMathMax that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Left = that.Left.CopyExpression(originalToCopy, procEnv);
+            Right = that.Right.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathMax(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return Left.Type(env);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Left.Type(env) != "")
+            {
+                if(!TypesHelper.IsNumericType(Left.Type(env)))
+                    throw new SequenceParserException(Symbol, "numeric type", Left.Type(env));
+            }
+
+            if(Right.Type(env) != "")
+            {
+                if(!TypesHelper.IsNumericType(Right.Type(env)))
+                    throw new SequenceParserException(Symbol, "numeric type", Right.Type(env));
+            }
+
+            if(Left.Type(env) != "" && Right.Type(env) != "")
+            {
+                if(Left.Type(env) != Right.Type(env))
+                    throw new SequenceParserException(Symbol, "left and right must be the same numeric type", Left.Type(env));
+            }
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return MathHelper.Max(Left.Evaluate(procEnv), Right.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Left.GetLocalVariables(variables, constructors);
+            Right.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Left;
+                yield return Right;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::max(" + Left.Symbol + "," + Right.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathAbs : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathAbs(SequenceExpression argument)
+            : base(SequenceExpressionType.MathAbs)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathAbs(SequenceExpressionMathAbs that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathAbs(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return Argument.Type(env);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(!TypesHelper.IsNumericType(Argument.Type(env)))
+                throw new SequenceParserException(Symbol, "numeric type", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return MathHelper.Abs(Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::abs(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathCeil : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathCeil(SequenceExpression argument)
+            : base(SequenceExpressionType.MathCeil)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathCeil(SequenceExpressionMathCeil that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathCeil(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Ceiling((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::ceil(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathFloor : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathFloor(SequenceExpression argument)
+            : base(SequenceExpressionType.MathFloor)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathFloor(SequenceExpressionMathFloor that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathFloor(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Floor((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::floor(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathRound : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathRound(SequenceExpression argument)
+            : base(SequenceExpressionType.MathRound)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathRound(SequenceExpressionMathRound that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathRound(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Round((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::round(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathTruncate : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathTruncate(SequenceExpression argument)
+            : base(SequenceExpressionType.MathTruncate)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathTruncate(SequenceExpressionMathTruncate that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathTruncate(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Truncate((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::truncate(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathSqr : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathSqr(SequenceExpression argument)
+            : base(SequenceExpressionType.MathSqr)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathSqr(SequenceExpressionMathSqr that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathSqr(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return MathHelper.Sqr((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::sqr(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathSqrt : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathSqrt(SequenceExpression argument)
+            : base(SequenceExpressionType.MathSqrt)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathSqrt(SequenceExpressionMathSqrt that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathSqrt(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Sqrt((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::sqrt(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathPow : SequenceExpression
+    {
+        public readonly SequenceExpression Left;
+        public readonly SequenceExpression Right;
+
+        public SequenceExpressionMathPow(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.MathPow)
+        {
+            if(right == null)
+            {
+                Right = left;
+            }
+            else
+            {
+                Left = left;
+                Right = right;
+            }
+        }
+
+        protected SequenceExpressionMathPow(SequenceExpressionMathPow that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            if(Left != null)
+                Left = that.Left.CopyExpression(originalToCopy, procEnv);
+            Right = that.Right.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathPow(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Left != null)
+            {
+                if(Left.Type(env) != "")
+                {
+                    if(Left.Type(env) != "double")
+                        throw new SequenceParserException(Symbol, "double", Left.Type(env));
+                }
+            }
+
+            if(Right.Type(env) != "")
+            {
+                if(Right.Type(env) != "double")
+                    throw new SequenceParserException(Symbol, "double", Right.Type(env));
+            }
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(Left != null)
+                return Math.Pow((double)Left.Evaluate(procEnv), (double)Right.Evaluate(procEnv));
+            else
+                return Math.Exp((double)Right.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            if(Left != null)
+                Left.GetLocalVariables(variables, constructors);
+            Right.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                if(Left != null)
+                    yield return Left;
+                yield return Right;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::pow(" + (Left != null ? Left.Symbol + "," : "") + Right.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathLog : SequenceExpression
+    {
+        public readonly SequenceExpression Left;
+        public readonly SequenceExpression Right;
+
+        public SequenceExpressionMathLog(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.MathLog)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        protected SequenceExpressionMathLog(SequenceExpressionMathLog that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Left = that.Left.CopyExpression(originalToCopy, procEnv);
+            if(Right != null)
+                Right = that.Right.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathLog(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Left.Type(env) != "")
+            {
+                if(Left.Type(env) != "double")
+                    throw new SequenceParserException(Symbol, "double", Left.Type(env));
+            }
+
+            if(Right != null)
+            {
+                if(Right.Type(env) != "")
+                {
+                    if(Right.Type(env) != "double")
+                        throw new SequenceParserException(Symbol, "double", Right.Type(env));
+                }
+            }
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(Right != null)
+                return Math.Log((double)Left.Evaluate(procEnv), (double)Right.Evaluate(procEnv));
+            else
+                return Math.Log((double)Left.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Left.GetLocalVariables(variables, constructors);
+            if(Right != null)
+                Right.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Left;
+                if(Right != null)
+                    yield return Right;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::log(" + Left.Symbol + (Right != null ? "," + Right.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathSgn : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathSgn(SequenceExpression argument)
+            : base(SequenceExpressionType.MathSgn)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathSgn(SequenceExpressionMathSgn that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathSgn(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Sign((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::sgn(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathSin : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathSin(SequenceExpression argument)
+            : base(SequenceExpressionType.MathSin)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathSin(SequenceExpressionMathSin that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathSin(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Sin((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::sin(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathCos : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathCos(SequenceExpression argument)
+            : base(SequenceExpressionType.MathCos)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathCos(SequenceExpressionMathCos that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathCos(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Cos((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::cos(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathTan : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathTan(SequenceExpression argument)
+            : base(SequenceExpressionType.MathTan)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathTan(SequenceExpressionMathTan that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathTan(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Tan((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::tan(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathArcSin : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathArcSin(SequenceExpression argument)
+            : base(SequenceExpressionType.MathArcSin)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathArcSin(SequenceExpressionMathArcSin that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathArcSin(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Asin((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::arcsin(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathArcCos : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathArcCos(SequenceExpression argument)
+            : base(SequenceExpressionType.MathArcCos)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathArcCos(SequenceExpressionMathArcCos that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathArcCos(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Acos((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::arccos(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathArcTan : SequenceExpression
+    {
+        public readonly SequenceExpression Argument;
+
+        public SequenceExpressionMathArcTan(SequenceExpression argument)
+            : base(SequenceExpressionType.MathArcTan)
+        {
+            Argument = argument;
+        }
+
+        protected SequenceExpressionMathArcTan(SequenceExpressionMathArcTan that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            Argument = that.Argument.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathArcTan(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Argument.Type(env) == "")
+                return;
+
+            if(Argument.Type(env) != "double")
+                throw new SequenceParserException(Symbol, "double", Argument.Type(env));
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.Atan((double)Argument.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Argument.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Argument;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::arctan(" + Argument.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMathPi : SequenceExpression
+    {
+        public SequenceExpressionMathPi()
+            : base(SequenceExpressionType.MathPi)
+        {
+        }
+
+        protected SequenceExpressionMathPi(SequenceExpressionMathPi that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathPi(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.PI;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::pi()"; }
+        }
+    }
+
+    public class SequenceExpressionMathE : SequenceExpression
+    {
+        public SequenceExpressionMathE()
+            : base(SequenceExpressionType.MathE)
+        {
+        }
+
+        protected SequenceExpressionMathE(SequenceExpressionMathE that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathE(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Math.E;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::e()"; }
+        }
+    }
+
+    public class SequenceExpressionMathByteMin : SequenceExpression
+    {
+        public SequenceExpressionMathByteMin()
+            : base(SequenceExpressionType.MathByteMin)
+        {
+        }
+
+        protected SequenceExpressionMathByteMin(SequenceExpressionMathByteMin that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathByteMin(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "byte";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return SByte.MinValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::byteMin()"; }
+        }
+    }
+
+    public class SequenceExpressionMathByteMax : SequenceExpression
+    {
+        public SequenceExpressionMathByteMax()
+            : base(SequenceExpressionType.MathByteMax)
+        {
+        }
+
+        protected SequenceExpressionMathByteMax(SequenceExpressionMathByteMax that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathByteMax(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "byte";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return SByte.MaxValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::byteMax()"; }
+        }
+    }
+
+    public class SequenceExpressionMathShortMin : SequenceExpression
+    {
+        public SequenceExpressionMathShortMin()
+            : base(SequenceExpressionType.MathShortMin)
+        {
+        }
+
+        protected SequenceExpressionMathShortMin(SequenceExpressionMathShortMin that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathShortMin(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "short";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Int16.MinValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::shortMin()"; }
+        }
+    }
+
+    public class SequenceExpressionMathShortMax : SequenceExpression
+    {
+        public SequenceExpressionMathShortMax()
+            : base(SequenceExpressionType.MathShortMax)
+        {
+        }
+
+        protected SequenceExpressionMathShortMax(SequenceExpressionMathShortMax that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathShortMax(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "short";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Int16.MaxValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::shortMax()"; }
+        }
+    }
+
+    public class SequenceExpressionMathIntMin : SequenceExpression
+    {
+        public SequenceExpressionMathIntMin()
+            : base(SequenceExpressionType.MathIntMin)
+        {
+        }
+
+        protected SequenceExpressionMathIntMin(SequenceExpressionMathIntMin that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathIntMin(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Int32.MinValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::intMin()"; }
+        }
+    }
+
+    public class SequenceExpressionMathIntMax : SequenceExpression
+    {
+        public SequenceExpressionMathIntMax()
+            : base(SequenceExpressionType.MathIntMax)
+        {
+        }
+
+        protected SequenceExpressionMathIntMax(SequenceExpressionMathIntMax that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathIntMax(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Int32.MaxValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::intMax()"; }
+        }
+    }
+
+    public class SequenceExpressionMathLongMin : SequenceExpression
+    {
+        public SequenceExpressionMathLongMin()
+            : base(SequenceExpressionType.MathLongMin)
+        {
+        }
+
+        protected SequenceExpressionMathLongMin(SequenceExpressionMathLongMin that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathLongMin(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "long";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Int64.MinValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::longMin()"; }
+        }
+    }
+
+    public class SequenceExpressionMathLongMax : SequenceExpression
+    {
+        public SequenceExpressionMathLongMax()
+            : base(SequenceExpressionType.MathLongMax)
+        {
+        }
+
+        protected SequenceExpressionMathLongMax(SequenceExpressionMathLongMax that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathLongMax(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "long";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Int64.MaxValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::longMax()"; }
+        }
+    }
+
+    public class SequenceExpressionMathFloatMin : SequenceExpression
+    {
+        public SequenceExpressionMathFloatMin()
+            : base(SequenceExpressionType.MathFloatMin)
+        {
+        }
+
+        protected SequenceExpressionMathFloatMin(SequenceExpressionMathFloatMin that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathFloatMin(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "float";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Single.MinValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::floatMin()"; }
+        }
+    }
+
+    public class SequenceExpressionMathFloatMax : SequenceExpression
+    {
+        public SequenceExpressionMathFloatMax()
+            : base(SequenceExpressionType.MathFloatMax)
+        {
+        }
+
+        protected SequenceExpressionMathFloatMax(SequenceExpressionMathFloatMax that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathFloatMax(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "float";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Single.MaxValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::floatMax()"; }
+        }
+    }
+
+    public class SequenceExpressionMathDoubleMin : SequenceExpression
+    {
+        public SequenceExpressionMathDoubleMin()
+            : base(SequenceExpressionType.MathDoubleMin)
+        {
+        }
+
+        protected SequenceExpressionMathDoubleMin(SequenceExpressionMathDoubleMin that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathDoubleMin(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Double.MinValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::doubleMin()"; }
+        }
+    }
+
+    public class SequenceExpressionMathDoubleMax : SequenceExpression
+    {
+        public SequenceExpressionMathDoubleMax()
+            : base(SequenceExpressionType.MathDoubleMax)
+        {
+        }
+
+        protected SequenceExpressionMathDoubleMax(SequenceExpressionMathDoubleMax that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMathDoubleMax(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "double";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return Double.MaxValue;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield break;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Math::doubleMax()"; }
         }
     }
 

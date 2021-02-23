@@ -259,22 +259,6 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionDequeCopyConstructor((SequenceExpressionDequeCopyConstructor)expr, source);
             case SequenceExpressionType.ContainerAsArray:
                 return GetSequenceExpressionContainerAsArray((SequenceExpressionContainerAsArray)expr, source);
-            case SequenceExpressionType.StringLength:
-                return GetSequenceExpressionStringLength((SequenceExpressionStringLength)expr, source);
-            case SequenceExpressionType.StringStartsWith:
-                return GetSequenceExpressionStringStartsWith((SequenceExpressionStringStartsWith)expr, source);
-            case SequenceExpressionType.StringEndsWith:
-                return GetSequenceExpressionStringEndsWith((SequenceExpressionStringEndsWith)expr, source);
-            case SequenceExpressionType.StringSubstring:
-                return GetSequenceExpressionStringSubstring((SequenceExpressionStringSubstring)expr, source);
-            case SequenceExpressionType.StringReplace:
-                return GetSequenceExpressionStringReplace((SequenceExpressionStringReplace)expr, source);
-            case SequenceExpressionType.StringToLower:
-                return GetSequenceExpressionStringToLower((SequenceExpressionStringToLower)expr, source);
-            case SequenceExpressionType.StringToUpper:
-                return GetSequenceExpressionStringToUpper((SequenceExpressionStringToUpper)expr, source);
-            case SequenceExpressionType.StringAsArray:
-                return GetSequenceExpressionStringAsArray((SequenceExpressionStringAsArray)expr, source);
             case SequenceExpressionType.MapDomain:
                 return GetSequenceExpressionMapDomain((SequenceExpressionMapDomain)expr, source);
             case SequenceExpressionType.MapRange:
@@ -362,6 +346,89 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceExpressionType.MatchClassConstructor:
                 return GetSequenceExpressionMatchClassConstructor((SequenceExpressionMatchClassConstructor)expr, source);
 
+            // string expressions
+            case SequenceExpressionType.StringLength:
+                return GetSequenceExpressionStringLength((SequenceExpressionStringLength)expr, source);
+            case SequenceExpressionType.StringStartsWith:
+                return GetSequenceExpressionStringStartsWith((SequenceExpressionStringStartsWith)expr, source);
+            case SequenceExpressionType.StringEndsWith:
+                return GetSequenceExpressionStringEndsWith((SequenceExpressionStringEndsWith)expr, source);
+            case SequenceExpressionType.StringSubstring:
+                return GetSequenceExpressionStringSubstring((SequenceExpressionStringSubstring)expr, source);
+            case SequenceExpressionType.StringReplace:
+                return GetSequenceExpressionStringReplace((SequenceExpressionStringReplace)expr, source);
+            case SequenceExpressionType.StringToLower:
+                return GetSequenceExpressionStringToLower((SequenceExpressionStringToLower)expr, source);
+            case SequenceExpressionType.StringToUpper:
+                return GetSequenceExpressionStringToUpper((SequenceExpressionStringToUpper)expr, source);
+            case SequenceExpressionType.StringAsArray:
+                return GetSequenceExpressionStringAsArray((SequenceExpressionStringAsArray)expr, source);
+
+            // numeric expressions
+            case SequenceExpressionType.MathMin:
+                return GetSequenceExpressionMathMin((SequenceExpressionMathMin)expr, source);
+            case SequenceExpressionType.MathMax:
+                return GetSequenceExpressionMathMax((SequenceExpressionMathMax)expr, source);
+            case SequenceExpressionType.MathAbs:
+                return GetSequenceExpressionMathAbs((SequenceExpressionMathAbs)expr, source);
+            case SequenceExpressionType.MathCeil:
+                return GetSequenceExpressionMathCeil((SequenceExpressionMathCeil)expr, source);
+            case SequenceExpressionType.MathFloor:
+                return GetSequenceExpressionMathFloor((SequenceExpressionMathFloor)expr, source);
+            case SequenceExpressionType.MathRound:
+                return GetSequenceExpressionMathRound((SequenceExpressionMathRound)expr, source);
+            case SequenceExpressionType.MathTruncate:
+                return GetSequenceExpressionMathTruncate((SequenceExpressionMathTruncate)expr, source);
+            case SequenceExpressionType.MathSqr:
+                return GetSequenceExpressionMathSqr((SequenceExpressionMathSqr)expr, source);
+            case SequenceExpressionType.MathSqrt:
+                return GetSequenceExpressionMathSqrt((SequenceExpressionMathSqrt)expr, source);
+            case SequenceExpressionType.MathPow:
+                return GetSequenceExpressionMathPow((SequenceExpressionMathPow)expr, source);
+            case SequenceExpressionType.MathLog:
+                return GetSequenceExpressionMathLog((SequenceExpressionMathLog)expr, source);
+            case SequenceExpressionType.MathSgn:
+                return GetSequenceExpressionMathSgn((SequenceExpressionMathSgn)expr, source);
+            case SequenceExpressionType.MathSin:
+                return GetSequenceExpressionMathSin((SequenceExpressionMathSin)expr, source);
+            case SequenceExpressionType.MathCos:
+                return GetSequenceExpressionMathCos((SequenceExpressionMathCos)expr, source);
+            case SequenceExpressionType.MathTan:
+                return GetSequenceExpressionMathTan((SequenceExpressionMathTan)expr, source);
+            case SequenceExpressionType.MathArcSin:
+                return GetSequenceExpressionMathArcSin((SequenceExpressionMathArcSin)expr, source);
+            case SequenceExpressionType.MathArcCos:
+                return GetSequenceExpressionMathArcCos((SequenceExpressionMathArcCos)expr, source);
+            case SequenceExpressionType.MathArcTan:
+                return GetSequenceExpressionMathArcTan((SequenceExpressionMathArcTan)expr, source);
+            case SequenceExpressionType.MathPi:
+                return GetSequenceExpressionMathPi((SequenceExpressionMathPi)expr, source);
+            case SequenceExpressionType.MathE:
+                return GetSequenceExpressionMathE((SequenceExpressionMathE)expr, source);
+            case SequenceExpressionType.MathByteMin:
+                return GetSequenceExpressionMathByteMin((SequenceExpressionMathByteMin)expr, source);
+            case SequenceExpressionType.MathByteMax:
+                return GetSequenceExpressionMathByteMax((SequenceExpressionMathByteMax)expr, source);
+            case SequenceExpressionType.MathShortMin:
+                return GetSequenceExpressionMathShortMin((SequenceExpressionMathShortMin)expr, source);
+            case SequenceExpressionType.MathShortMax:
+                return GetSequenceExpressionMathShortMax((SequenceExpressionMathShortMax)expr, source);
+            case SequenceExpressionType.MathIntMin:
+                return GetSequenceExpressionMathIntMin((SequenceExpressionMathIntMin)expr, source);
+            case SequenceExpressionType.MathIntMax:
+                return GetSequenceExpressionMathIntMax((SequenceExpressionMathIntMax)expr, source);
+            case SequenceExpressionType.MathLongMin:
+                return GetSequenceExpressionMathLongMin((SequenceExpressionMathLongMin)expr, source);
+            case SequenceExpressionType.MathLongMax:
+                return GetSequenceExpressionMathLongMax((SequenceExpressionMathLongMax)expr, source);
+            case SequenceExpressionType.MathFloatMin:
+                return GetSequenceExpressionMathFloatMin((SequenceExpressionMathFloatMin)expr, source);
+            case SequenceExpressionType.MathFloatMax:
+                return GetSequenceExpressionMathFloatMax((SequenceExpressionMathFloatMax)expr, source);
+            case SequenceExpressionType.MathDoubleMin:
+                return GetSequenceExpressionMathDoubleMin((SequenceExpressionMathDoubleMin)expr, source);
+            case SequenceExpressionType.MathDoubleMax:
+                return GetSequenceExpressionMathDoubleMax((SequenceExpressionMathDoubleMax)expr, source);
             default:
                 throw new Exception("Unknown sequence expression type: " + expr.SequenceExpressionType);
             }
@@ -3085,6 +3152,211 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionMatchClassConstructor(SequenceExpressionMatchClassConstructor seqConstr, SourceBuilder source)
         {
             return "new " + "Match_" + seqConstr.ConstructedType + "()";
+        }
+
+        private string GetSequenceExpressionMathMin(SequenceExpressionMathMin seqMathMin, SourceBuilder source)
+        {
+            if(seqMathMin.Left.Type(env) == "byte")
+                return "Math.Min((SByte)" + GetSequenceExpression(seqMathMin.Left, source) + ", (SByte)" + GetSequenceExpression(seqMathMin.Right, source) + ")";
+            else if(seqMathMin.Left.Type(env) == "short")
+                return "Math.Min((Int16)" + GetSequenceExpression(seqMathMin.Left, source) + ", (Int16)" + GetSequenceExpression(seqMathMin.Right, source) + ")";
+            else if(seqMathMin.Left.Type(env) == "int")
+                return "Math.Min((Int32)" + GetSequenceExpression(seqMathMin.Left, source) + ", (Int32)" + GetSequenceExpression(seqMathMin.Right, source) + ")";
+            else if(seqMathMin.Left.Type(env) == "long")
+                return "Math.Min((Int64)" + GetSequenceExpression(seqMathMin.Left, source) + ", (Int64)" + GetSequenceExpression(seqMathMin.Right, source) + ")";
+            else if(seqMathMin.Left.Type(env) == "float")
+                return "Math.Min((Single)" + GetSequenceExpression(seqMathMin.Left, source) + ", (Single)" + GetSequenceExpression(seqMathMin.Right, source) + ")";
+            else if(seqMathMin.Left.Type(env) == "double")
+                return "Math.Min((Double)" + GetSequenceExpression(seqMathMin.Left, source) + ", (Double)" + GetSequenceExpression(seqMathMin.Right, source) + ")";
+            else //if(seqMathMin.Left.Type(env) == "")
+                return "GRGEN_LIBGR.MathHelper.Min(" + GetSequenceExpression(seqMathMin.Left, source) + ", " + GetSequenceExpression(seqMathMin.Right, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathMax(SequenceExpressionMathMax seqMathMax, SourceBuilder source)
+        {
+            if(seqMathMax.Left.Type(env) == "byte")
+                return "Math.Max((SByte)" + GetSequenceExpression(seqMathMax.Left, source) + ", (SByte)" + GetSequenceExpression(seqMathMax.Right, source) + ")";
+            else if(seqMathMax.Left.Type(env) == "short")
+                return "Math.Max((Int16)" + GetSequenceExpression(seqMathMax.Left, source) + ", (Int16)" + GetSequenceExpression(seqMathMax.Right, source) + ")";
+            else if(seqMathMax.Left.Type(env) == "int")
+                return "Math.Max((Int32)" + GetSequenceExpression(seqMathMax.Left, source) + ", (Int32)" + GetSequenceExpression(seqMathMax.Right, source) + ")";
+            else if(seqMathMax.Left.Type(env) == "long")
+                return "Math.Max((Int64)" + GetSequenceExpression(seqMathMax.Left, source) + ", (Int64)" + GetSequenceExpression(seqMathMax.Right, source) + ")";
+            else if(seqMathMax.Left.Type(env) == "float")
+                return "Math.Max((Single)" + GetSequenceExpression(seqMathMax.Left, source) + ", (Single)" + GetSequenceExpression(seqMathMax.Right, source) + ")";
+            else if(seqMathMax.Left.Type(env) == "double")
+                return "Math.Max((Double)" + GetSequenceExpression(seqMathMax.Left, source) + ", (Double)" + GetSequenceExpression(seqMathMax.Right, source) + ")";
+            else //if(seqMathMax.Left.Type(env) == "")
+                return "GRGEN_LIBGR.MathHelper.Max(" + GetSequenceExpression(seqMathMax.Left, source) + ", " + GetSequenceExpression(seqMathMax.Right, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathAbs(SequenceExpressionMathAbs seqMathAbs, SourceBuilder source)
+        {
+            if(seqMathAbs.Argument.Type(env) == "byte")
+                return "Math.Abs((SByte)" + GetSequenceExpression(seqMathAbs.Argument, source) + ")";
+            else if(seqMathAbs.Argument.Type(env) == "short")
+                return "Math.Abs((Int16)" + GetSequenceExpression(seqMathAbs.Argument, source) + ")";
+            else if(seqMathAbs.Argument.Type(env) == "int")
+                return "Math.Abs((Int32)" + GetSequenceExpression(seqMathAbs.Argument, source) + ")";
+            else if(seqMathAbs.Argument.Type(env) == "long")
+                return "Math.Abs((Int64)" + GetSequenceExpression(seqMathAbs.Argument, source) + ")";
+            else if(seqMathAbs.Argument.Type(env) == "float")
+                return "Math.Abs((Single)" + GetSequenceExpression(seqMathAbs.Argument, source) + ")";
+            else if(seqMathAbs.Argument.Type(env) == "double")
+                return "Math.Abs((Double)" + GetSequenceExpression(seqMathAbs.Argument, source) + ")";
+            else //if(seqMathAbs.Argument.Type(env) == "")
+                return "GRGEN_LIBGR.MathHelper.Abs(" + GetSequenceExpression(seqMathAbs.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathCeil(SequenceExpressionMathCeil seqMathCeil, SourceBuilder source)
+        {
+            return "Math.Ceiling((double)" + GetSequenceExpression(seqMathCeil.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathFloor(SequenceExpressionMathFloor seqMathFloor, SourceBuilder source)
+        {
+            return "Math.Floor((double)" + GetSequenceExpression(seqMathFloor.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathRound(SequenceExpressionMathRound seqMathRound, SourceBuilder source)
+        {
+            return "Math.Round((double)" + GetSequenceExpression(seqMathRound.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathTruncate(SequenceExpressionMathTruncate seqMathTruncate, SourceBuilder source)
+        {
+            return "Math.Truncate((double)" + GetSequenceExpression(seqMathTruncate.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathSqr(SequenceExpressionMathSqr seqMathSqr, SourceBuilder source)
+        {
+            return "GRGEN_LIBGR.MathHelper.Sqr((double)" + GetSequenceExpression(seqMathSqr.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathSqrt(SequenceExpressionMathSqrt seqMathSqrt, SourceBuilder source)
+        {
+            return "Math.Sqrt((double)" + GetSequenceExpression(seqMathSqrt.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathPow(SequenceExpressionMathPow seqMathPow, SourceBuilder source)
+        {
+            if(seqMathPow.Left != null)
+                return "Math.Pow((double)" + GetSequenceExpression(seqMathPow.Left, source) + ", (double)" + GetSequenceExpression(seqMathPow.Right, source) + ")";
+            else
+                return "Math.Exp((double)" + GetSequenceExpression(seqMathPow.Right, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathLog(SequenceExpressionMathLog seqMathLog, SourceBuilder source)
+        {
+            if(seqMathLog.Right != null)
+                return "Math.Log((double)" + GetSequenceExpression(seqMathLog.Left, source) + ", (double)" + GetSequenceExpression(seqMathLog.Right, source) + ")";
+            else
+                return "Math.Log((double)" + GetSequenceExpression(seqMathLog.Left, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathSgn(SequenceExpressionMathSgn seqMathSgn, SourceBuilder source)
+        {
+            return "Math.Sign((double)" + GetSequenceExpression(seqMathSgn.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathSin(SequenceExpressionMathSin seqMathSin, SourceBuilder source)
+        {
+            return "Math.Sin((double)" + GetSequenceExpression(seqMathSin.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathCos(SequenceExpressionMathCos seqMathCos, SourceBuilder source)
+        {
+            return "Math.Cos((double)" + GetSequenceExpression(seqMathCos.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathTan(SequenceExpressionMathTan seqMathTan, SourceBuilder source)
+        {
+            return "Math.Tan((double)" + GetSequenceExpression(seqMathTan.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathArcSin(SequenceExpressionMathArcSin seqMathArcSin, SourceBuilder source)
+        {
+            return "Math.Asin((double)" + GetSequenceExpression(seqMathArcSin.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathArcCos(SequenceExpressionMathArcCos seqMathArcCos, SourceBuilder source)
+        {
+            return "Math.Acos((double)" + GetSequenceExpression(seqMathArcCos.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathArcTan(SequenceExpressionMathArcTan seqMathArcTan, SourceBuilder source)
+        {
+            return "Math.Atan((double)" + GetSequenceExpression(seqMathArcTan.Argument, source) + ")";
+        }
+
+        private string GetSequenceExpressionMathPi(SequenceExpressionMathPi seqMathPi, SourceBuilder source)
+        {
+            return "Math.PI";
+        }
+
+        private string GetSequenceExpressionMathE(SequenceExpressionMathE seqMathE, SourceBuilder source)
+        {
+            return "Math.E";
+        }
+
+        private string GetSequenceExpressionMathByteMin(SequenceExpressionMathByteMin seqMathByteMin, SourceBuilder source)
+        {
+            return "SByte.MinValue";
+        }
+
+        private string GetSequenceExpressionMathByteMax(SequenceExpressionMathByteMax seqMathByteMax, SourceBuilder source)
+        {
+            return "SByte.MaxValue";
+        }
+
+        private string GetSequenceExpressionMathShortMin(SequenceExpressionMathShortMin seqMathShortMin, SourceBuilder source)
+        {
+            return "Int16.MinValue";
+        }
+
+        private string GetSequenceExpressionMathShortMax(SequenceExpressionMathShortMax seqMathShortMax, SourceBuilder source)
+        {
+            return "Int16.MaxValue";
+        }
+
+        private string GetSequenceExpressionMathIntMin(SequenceExpressionMathIntMin seqMathIntMin, SourceBuilder source)
+        {
+            return "Int32.MinValue";
+        }
+
+        private string GetSequenceExpressionMathIntMax(SequenceExpressionMathIntMax seqMathIntMax, SourceBuilder source)
+        {
+            return "Int32.MaxValue";
+        }
+
+        private string GetSequenceExpressionMathLongMin(SequenceExpressionMathLongMin seqMathLongMin, SourceBuilder source)
+        {
+            return "Int64.MinValue";
+        }
+
+        private string GetSequenceExpressionMathLongMax(SequenceExpressionMathLongMax seqMathLongMax, SourceBuilder source)
+        {
+            return "Int64.MaxValue";
+        }
+
+        private string GetSequenceExpressionMathFloatMin(SequenceExpressionMathFloatMin seqMathFloatMin, SourceBuilder source)
+        {
+            return "Single.MinValue";
+        }
+
+        private string GetSequenceExpressionMathFloatMax(SequenceExpressionMathFloatMax seqMathFloatMax, SourceBuilder source)
+        {
+            return "Single.MaxValue";
+        }
+
+        private string GetSequenceExpressionMathDoubleMin(SequenceExpressionMathDoubleMin seqMathDoubleMin, SourceBuilder source)
+        {
+            return "Double.MinValue";
+        }
+
+        private string GetSequenceExpressionMathDoubleMax(SequenceExpressionMathDoubleMax seqMathDoubleMax, SourceBuilder source)
+        {
+            return "Double.MaxValue";
         }
 
         #endregion Container expressions

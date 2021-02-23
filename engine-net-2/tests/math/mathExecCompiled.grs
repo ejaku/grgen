@@ -1,0 +1,138 @@
+new graph math/mathExecCompiled
+
+exec minInt
+show var res
+
+exec min
+show var res
+
+exec maxInt
+show var res
+
+exec max
+show var res
+
+exec absInt
+show var res
+
+exec abs
+show var res
+
+exec { emit("--------------------------------------------------\n") }
+
+# -----------------------------------------------------------
+
+exec ceil
+show var res
+
+exec ceilNeg
+show var res
+
+exec floor
+show var res
+
+exec floorNeg
+show var res
+
+exec round
+show var res
+
+exec roundNeg
+show var res
+
+exec truncate
+show var res
+
+exec truncateNeg
+show var res
+
+exec sqr
+show var res
+
+exec sqrt
+show var res
+
+exec pow
+show var res
+
+exec powe
+show var res
+
+exec log
+show var res
+
+exec loge
+show var res
+
+exec sgn
+show var res
+
+exec { emit("--------------------------------------------------\n") }
+
+# -----------------------------------------------------------
+
+exec sin
+show var res
+
+exec cos
+show var res
+
+exec tan
+show var res
+
+exec arcsin
+show var res
+
+exec arccos
+show var res
+
+exec arctan
+show var res
+
+exec { emit("--------------------------------------------------\n") }
+
+# -----------------------------------------------------------
+
+exec pi
+show var res
+
+exec e
+show var res
+
+exec byteMin
+show var res
+
+exec byteMax
+show var res
+
+exec shortMin
+show var res
+
+exec shortMax
+show var res
+
+exec intMin
+show var res
+
+exec intMax
+show var res
+
+exec longMin
+show var res
+
+exec longMax
+show var res
+
+exec floatMin
+show var res
+
+exec floatMax
+show var res
+
+exec doubleMin
+show var res
+
+exec doubleMax
+show var res
+
+quit

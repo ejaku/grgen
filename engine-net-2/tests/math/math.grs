@@ -1,0 +1,138 @@
+new graph math/math
+
+exec (::res)=minInt
+show var res
+
+exec (::res)=min
+show var res
+
+exec (::res)=maxInt
+show var res
+
+exec (::res)=max
+show var res
+
+exec (::res)=absInt
+show var res
+
+exec (::res)=abs
+show var res
+
+exec { emit("--------------------------------------------------\n") }
+
+# -----------------------------------------------------------
+
+exec (::res)=ceil
+show var res
+
+exec (::res)=ceilNeg
+show var res
+
+exec (::res)=floor
+show var res
+
+exec (::res)=floorNeg
+show var res
+
+exec (::res)=round
+show var res
+
+exec (::res)=roundNeg
+show var res
+
+exec (::res)=truncate
+show var res
+
+exec (::res)=truncateNeg
+show var res
+
+exec (::res)=sqr
+show var res
+
+exec (::res)=sqrt
+show var res
+
+exec (::res)=pow
+show var res
+
+exec (::res)=powe
+show var res
+
+exec (::res)=log
+show var res
+
+exec (::res)=loge
+show var res
+
+exec (::res)=sgn
+show var res
+
+exec { emit("--------------------------------------------------\n") }
+
+# -----------------------------------------------------------
+
+exec (::res)=sin
+show var res
+
+exec (::res)=cos
+show var res
+
+exec (::res)=tan
+show var res
+
+exec (::res)=arcsin
+show var res
+
+exec (::res)=arccos
+show var res
+
+exec (::res)=arctan
+show var res
+
+exec { emit("--------------------------------------------------\n") }
+
+# -----------------------------------------------------------
+
+exec (::res)=pi
+show var res
+
+exec (::res)=e
+show var res
+
+exec (::res)=byteMin
+show var res
+
+exec (::res)=byteMax
+show var res
+
+exec (::res)=shortMin
+show var res
+
+exec (::res)=shortMax
+show var res
+
+exec (::res)=intMin
+show var res
+
+exec (::res)=intMax
+show var res
+
+exec (::res)=longMin
+show var res
+
+exec (::res)=longMax
+show var res
+
+exec (::res)=floatMin
+show var res
+
+exec (::res)=floatMax
+show var res
+
+exec (::res)=doubleMin
+show var res
+
+exec (::res)=doubleMax
+show var res
+
+quit

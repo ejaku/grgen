@@ -905,6 +905,198 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"" + functionName + "\" expects 1 parameter (the unique if of the edge to retrieve) or 2 parameters (unique id of edge, type of edge)");
                 return new SequenceExpressionEdgeByUnique(getArgument(argExprs, 0), getArgument(argExprs, 1));
             }
+            else if(functionName == "min" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 2)
+                    throw new ParseException("\"Math::min\" expects 2 parameters");
+                return new SequenceExpressionMathMin(getArgument(argExprs, 0), getArgument(argExprs, 1));
+            }
+            else if(functionName == "max" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 2)
+                    throw new ParseException("\"Math::max\" expects 2 parameters");
+                return new SequenceExpressionMathMax(getArgument(argExprs, 0), getArgument(argExprs, 1));
+            }
+            else if(functionName == "abs" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::abs\" expects 1 parameter");
+                return new SequenceExpressionMathAbs(getArgument(argExprs, 0));
+            }
+            else if(functionName == "ceil" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::ceil\" expects 1 parameter");
+                return new SequenceExpressionMathCeil(getArgument(argExprs, 0));
+            }
+            else if(functionName == "floor" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::floor\" expects 1 parameter");
+                return new SequenceExpressionMathFloor(getArgument(argExprs, 0));
+            }
+            else if(functionName == "round" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::round\" expects 1 parameter");
+                return new SequenceExpressionMathRound(getArgument(argExprs, 0));
+            }
+            else if(functionName == "truncate" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::truncate\" expects 1 parameter");
+                return new SequenceExpressionMathTruncate(getArgument(argExprs, 0));
+            }
+            else if(functionName == "sqr" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::sqr\" expects 1 parameter");
+                return new SequenceExpressionMathSqr(getArgument(argExprs, 0));
+            }
+            else if(functionName == "sqrt" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::sqrt\" expects 1 parameter");
+                return new SequenceExpressionMathSqrt(getArgument(argExprs, 0));
+            }
+            else if(functionName == "pow" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1 && argExprs.Count != 2)
+                    throw new ParseException("\"Math::pow\" expects 1 or 2 parameters (first to the power of the second, or e to the power of the first)");
+                return new SequenceExpressionMathPow(getArgument(argExprs, 0), getArgument(argExprs, 1));
+            }
+            else if(functionName == "log" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1 && argExprs.Count != 2)
+                    throw new ParseException("\"Math::log\" expects 1 or 2 parameters (logarithm of the first regarding the base of the second, or regarding the base of e)");
+                return new SequenceExpressionMathLog(getArgument(argExprs, 0), getArgument(argExprs, 1));
+            }
+            else if(functionName == "sgn" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::sgn\" expects 1 parameter");
+                return new SequenceExpressionMathSgn(getArgument(argExprs, 0));
+            }
+            else if(functionName == "sin" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::sin\" expects 1 parameter");
+                return new SequenceExpressionMathSin(getArgument(argExprs, 0));
+            }
+            else if(functionName == "cos" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::cos\" expects 1 parameter");
+                return new SequenceExpressionMathCos(getArgument(argExprs, 0));
+            }
+            else if(functionName == "tan" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::tan\" expects 1 parameter");
+                return new SequenceExpressionMathTan(getArgument(argExprs, 0));
+            }
+            else if(functionName == "arcsin" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::arcsin\" expects 1 parameter");
+                return new SequenceExpressionMathArcSin(getArgument(argExprs, 0));
+            }
+            else if(functionName == "arccos" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::arccos\" expects 1 parameter");
+                return new SequenceExpressionMathArcCos(getArgument(argExprs, 0));
+            }
+            else if(functionName == "arctan" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Math::arctan\" expects 1 parameter");
+                return new SequenceExpressionMathArcTan(getArgument(argExprs, 0));
+            }
+            else if(functionName == "pi" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::pi\" expects no parameter");
+                return new SequenceExpressionMathPi();
+            }
+            else if(functionName == "e" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::e\" expects no parameter");
+                return new SequenceExpressionMathE();
+            }
+            else if(functionName == "byteMin" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::byteMin\" expects no parameter");
+                return new SequenceExpressionMathByteMin();
+            }
+            else if(functionName == "byteMax" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::byteMax\" expects no parameter");
+                return new SequenceExpressionMathByteMax();
+            }
+            else if(functionName == "shortMin" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::shortMin\" expects no parameter");
+                return new SequenceExpressionMathShortMin();
+            }
+            else if(functionName == "shortMax" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::shortMax\" expects no parameter");
+                return new SequenceExpressionMathShortMax();
+            }
+            else if(functionName == "intMin" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::intMin\" expects no parameter");
+                return new SequenceExpressionMathIntMin();
+            }
+            else if(functionName == "intMax" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::intMax\" expects no parameter");
+                return new SequenceExpressionMathIntMax();
+            }
+            else if(functionName == "longMin" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::longMin\" expects no parameter");
+                return new SequenceExpressionMathLongMin();
+            }
+            else if(functionName == "longMax" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::longMax\" expects no parameter");
+                return new SequenceExpressionMathLongMax();
+            }
+            else if(functionName == "floatMin" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::floatMin\" expects no parameter");
+                return new SequenceExpressionMathFloatMin();
+            }
+            else if(functionName == "floatMax" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::floatMax\" expects no parameter");
+                return new SequenceExpressionMathFloatMax();
+            }
+            else if(functionName == "doubleMin" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::doubleMin\" expects no parameter");
+                return new SequenceExpressionMathDoubleMin();
+            }
+            else if(functionName == "doubleMax" && package != null && package == "Math")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"Math::doubleMax\" expects no parameter");
+                return new SequenceExpressionMathDoubleMax();
+            }
             else
             {
                 if(IsFunctionName(functionName, package))

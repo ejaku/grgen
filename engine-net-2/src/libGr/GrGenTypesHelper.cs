@@ -423,6 +423,20 @@ namespace de.unika.ipd.grGen.libGr
             return storage.Type.GetGenericArguments()[1].FullName;
         }
 
+        public static bool IsNumericType(String typeName)
+        {
+            switch(typeName)
+            {
+            case "byte": return true;
+            case "short": return true;
+            case "int": return true;
+            case "long": return true;
+            case "float": return true;
+            case "double": return true;
+            default: return false;
+            }
+        }
+
         public static bool IsEnumType(string typename, IGraphModel model)
         {
             foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
