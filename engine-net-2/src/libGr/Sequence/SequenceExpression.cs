@@ -24,8 +24,9 @@ namespace de.unika.ipd.grGen.libGr
     {
         Conditional,
         Except, LazyOr, LazyAnd, StrictOr, StrictXor, StrictAnd,
-        Not, UnaryMinus, Cast,
+        Not, UnaryPlus, UnaryMinus, BitwiseComplement, Cast,
         Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual, StructuralEqual,
+        ShiftLeft, ShiftRight, ShiftRightUnsigned,
         Plus, Minus, Mul, Div, Mod, // nice-to-have addition: all the other operators and functions/methods from the rule language expressions
         Constant, Variable, This, New,
         MatchClassConstructor,
@@ -38,7 +39,7 @@ namespace de.unika.ipd.grGen.libGr
         Random,
         Def,
         IsVisited,
-        InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
+        InContainerOrString, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
         ArrayOrDequeOrStringIndexOf, ArrayOrDequeOrStringLastIndexOf, ArrayIndexOfOrdered,
         ArraySum, ArrayProd, ArrayMin, ArrayMax, ArrayAvg, ArrayMed, ArrayMedUnordered, ArrayVar, ArrayDev, ArrayAnd, ArrayOr,
         ArrayOrDequeAsSet, ArrayAsMap, ArrayAsDeque, ArrayAsString,
@@ -670,9 +671,31 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionStrictXor(this, originalToCopy, procEnv);
         }
 
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            return (bool)Left.Evaluate(procEnv) ^ (bool)Right.Evaluate(procEnv);
+            object leftValue = Left.Evaluate(procEnv);
+            object rightValue = Right.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
+
+            try
+            {
+                return SequenceExpressionExecutionHelper.XorObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
+            }
         }
 
         public override int Precedence
@@ -789,6 +812,102 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceExpressionUnaryPlus : SequenceExpression
+    {
+        public readonly SequenceExpression Operand;
+
+        // statically known types of the unary expression
+        public string OperandTypeStatic;
+        public string BalancedTypeStatic; // the type of the operator
+
+        public SequenceExpressionUnaryPlus(SequenceExpression operand)
+            : base(SequenceExpressionType.UnaryPlus)
+        {
+            this.Operand = operand;
+        }
+
+        protected SequenceExpressionUnaryPlus(SequenceExpressionUnaryPlus that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            Operand = that.Operand.CopyExpression(originalToCopy, procEnv);
+            OperandTypeStatic = that.OperandTypeStatic;
+            BalancedTypeStatic = that.BalancedTypeStatic;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionUnaryPlus(this, originalToCopy, procEnv);
+        }
+
+        protected void BalanceIfStaticallyUnknown(IGraphProcessingEnvironment procEnv,
+            object operandValue, ref string balancedType, ref string operandType)
+        {
+            if(balancedType != "")
+                return;
+
+            operandType = TypesHelper.XgrsTypeOfConstant(operandValue, procEnv.Graph.Model);
+            balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, operandType, procEnv.Graph.Model);
+
+            if(balancedType == "-")
+                throw new SequenceParserException("+", operandType, operandType, Symbol);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            OperandTypeStatic = Operand.Type(env);
+            BalancedTypeStatic = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, OperandTypeStatic, env.Model);
+            if(BalancedTypeStatic == "-")
+                throw new SequenceParserException("+", OperandTypeStatic, OperandTypeStatic, Symbol);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            string OperandTypeStatic = Operand.Type(env);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, OperandTypeStatic, env.Model);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object operandValue = Operand.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string operandType = OperandTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, operandValue, ref balancedType, ref operandType);
+
+            try
+            {
+                return SequenceExpressionExecutionHelper.UnaryPlusObjects(operandValue, balancedType, operandType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException("+", TypesHelper.XgrsTypeOfConstant(operandValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(operandValue, procEnv.Graph.Model), Symbol);
+            }
+        }
+
+        public override sealed void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Operand.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield return Operand; }
+        }
+
+        public override int Precedence
+        {
+            get { return 7; }
+        }
+
+        public override string Symbol
+        {
+            get { return "+" + Operand.Symbol; }
+        }
+    }
+
     public class SequenceExpressionUnaryMinus : SequenceExpression
     {
         public readonly SequenceExpression Operand;
@@ -882,6 +1001,102 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return "-" + Operand.Symbol; }
+        }
+    }
+
+    public class SequenceExpressionBitwiseComplement : SequenceExpression
+    {
+        public readonly SequenceExpression Operand;
+
+        // statically known types of the unary expression
+        public string OperandTypeStatic;
+        public string BalancedTypeStatic; // the type of the operator
+
+        public SequenceExpressionBitwiseComplement(SequenceExpression operand)
+            : base(SequenceExpressionType.BitwiseComplement)
+        {
+            this.Operand = operand;
+        }
+
+        protected SequenceExpressionBitwiseComplement(SequenceExpressionBitwiseComplement that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            Operand = that.Operand.CopyExpression(originalToCopy, procEnv);
+            OperandTypeStatic = that.OperandTypeStatic;
+            BalancedTypeStatic = that.BalancedTypeStatic;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionBitwiseComplement(this, originalToCopy, procEnv);
+        }
+
+        protected void BalanceIfStaticallyUnknown(IGraphProcessingEnvironment procEnv,
+            object operandValue, ref string balancedType, ref string operandType)
+        {
+            if(balancedType != "")
+                return;
+
+            operandType = TypesHelper.XgrsTypeOfConstant(operandValue, procEnv.Graph.Model);
+            balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, operandType, procEnv.Graph.Model);
+
+            if(balancedType == "-")
+                throw new SequenceParserException("~", operandType, operandType, Symbol);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            OperandTypeStatic = Operand.Type(env);
+            BalancedTypeStatic = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, OperandTypeStatic, env.Model);
+            if(BalancedTypeStatic == "-")
+                throw new SequenceParserException("~", OperandTypeStatic, OperandTypeStatic, Symbol);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            string OperandTypeStatic = Operand.Type(env);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, OperandTypeStatic, env.Model);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object operandValue = Operand.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string operandType = OperandTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, operandValue, ref balancedType, ref operandType);
+
+            try
+            {
+                return SequenceExpressionExecutionHelper.UnaryComplement(operandValue, balancedType, operandType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException("~", TypesHelper.XgrsTypeOfConstant(operandValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(operandValue, procEnv.Graph.Model), Symbol);
+            }
+        }
+
+        public override sealed void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Operand.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield return Operand; }
+        }
+
+        public override int Precedence
+        {
+            get { return 7; }
+        }
+
+        public override string Symbol
+        {
+            get { return "~" + Operand.Symbol; }
         }
     }
 
@@ -1274,6 +1489,172 @@ namespace de.unika.ipd.grGen.libGr
         public override string Operator
         {
             get { return " >= "; }
+        }
+    }
+
+
+    public class SequenceExpressionShiftLeft : SequenceBinaryExpression
+    {
+        public SequenceExpressionShiftLeft(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.ShiftLeft, left, right)
+        {
+        }
+
+        protected SequenceExpressionShiftLeft(SequenceExpressionShiftLeft that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionShiftLeft(this, originalToCopy, procEnv);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object leftValue = Left.Evaluate(procEnv);
+            object rightValue = Right.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
+
+            try
+            {
+                return SequenceExpressionExecutionHelper.ShiftLeft(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return -1; }
+        }
+
+        public override string Operator
+        {
+            get { return " << "; }
+        }
+    }
+
+    public class SequenceExpressionShiftRight : SequenceBinaryExpression
+    {
+        public SequenceExpressionShiftRight(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.ShiftRight, left, right)
+        {
+        }
+
+        protected SequenceExpressionShiftRight(SequenceExpressionShiftRight that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionShiftRight(this, originalToCopy, procEnv);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object leftValue = Left.Evaluate(procEnv);
+            object rightValue = Right.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
+
+            try
+            {
+                return SequenceExpressionExecutionHelper.ShiftRight(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return -1; }
+        }
+
+        public override string Operator
+        {
+            get { return " >> "; }
+        }
+    }
+
+    public class SequenceExpressionShiftRightUnsigned : SequenceBinaryExpression
+    {
+        public SequenceExpressionShiftRightUnsigned(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.ShiftRightUnsigned, left, right)
+        {
+        }
+
+        protected SequenceExpressionShiftRightUnsigned(SequenceExpressionShiftRightUnsigned that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionShiftRightUnsigned(this, originalToCopy, procEnv);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object leftValue = Left.Evaluate(procEnv);
+            object rightValue = Right.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
+
+            try
+            {
+                return SequenceExpressionExecutionHelper.ShiftRightUnsigned(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return -1; }
+        }
+
+        public override string Operator
+        {
+            get { return " >>> "; }
         }
     }
 
@@ -3494,78 +3875,75 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionInContainer : SequenceExpression
+    public class SequenceExpressionInContainerOrString : SequenceExpression
     {
         public readonly SequenceExpression Expr;
-        public readonly SequenceExpression ContainerExpr;
+        public readonly SequenceExpression ContainerOrStringExpr;
 
-        public SequenceExpressionInContainer(SequenceExpression expr, SequenceExpression container)
-            : base(SequenceExpressionType.InContainer)
+        public SequenceExpressionInContainerOrString(SequenceExpression expr, SequenceExpression containerOrString)
+            : base(SequenceExpressionType.InContainerOrString)
         {
             Expr = expr;
-            ContainerExpr = container;
+            ContainerOrStringExpr = containerOrString;
         }
 
-        protected SequenceExpressionInContainer(SequenceExpressionInContainer that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        protected SequenceExpressionInContainerOrString(SequenceExpressionInContainerOrString that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that)
         {
             Expr = that.Expr.CopyExpression(originalToCopy, procEnv);
-            ContainerExpr = that.ContainerExpr.CopyExpression(originalToCopy, procEnv);
+            ContainerOrStringExpr = that.ContainerOrStringExpr.CopyExpression(originalToCopy, procEnv);
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            return new SequenceExpressionInContainer(this, originalToCopy, procEnv);
+            return new SequenceExpressionInContainerOrString(this, originalToCopy, procEnv);
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
 
-            string ContainerType = CheckAndReturnContainerType(env);
+            string ContainerType = ContainerOrStringExpr.Type(env);
             if(ContainerType == "")
-                return; // we can't check further types if the container is untyped, only runtime-check possible
+                return; // we can't check container type if the variable is untyped, only runtime-check possible
+
+            if(ContainerType != "string" && (TypesHelper.ExtractSrc(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == null))
+                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType);
 
             if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
                 throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
         }
 
-        public string CheckAndReturnContainerType(SequenceCheckingEnvironment env)
+        public object ContainerOrStringValue(IGraphProcessingEnvironment procEnv)
         {
-            string ContainerType;
-            ContainerType = ContainerExpr.Type(env);
-            if(ContainerType == "")
-                return ""; // we can't check container type if the variable is untyped, only runtime-check possible
-            if(TypesHelper.ExtractSrc(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == null)
-                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType);
-            return ContainerType;
-        }
-
-        public object ContainerValue(IGraphProcessingEnvironment procEnv)
-        {
-            if(ContainerExpr is SequenceExpressionAttributeAccess)
-                return ((SequenceExpressionAttributeAccess)ContainerExpr).ExecuteNoImplicitContainerCopy(procEnv);
+            if(ContainerOrStringExpr is SequenceExpressionAttributeAccess)
+                return ((SequenceExpressionAttributeAccess)ContainerOrStringExpr).ExecuteNoImplicitContainerCopy(procEnv);
             else
-                return ContainerExpr.Evaluate(procEnv);
+                return ContainerOrStringExpr.Evaluate(procEnv);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object container = ContainerValue(procEnv);
+            object containerOrString = ContainerOrStringValue(procEnv);
             
-            if(container is IList)
+            if(containerOrString is string)
             {
-                IList array = (IList)container;
+                String str = (string)containerOrString;
+                return str.Contains((string)Expr.Evaluate(procEnv));
+            }
+            if(containerOrString is IList)
+            {
+                IList array = (IList)containerOrString;
                 return array.Contains(Expr.Evaluate(procEnv));
             }
-            else if(container is IDeque)
+            else if(containerOrString is IDeque)
             {
-                IDeque deque = (IDeque)container;
+                IDeque deque = (IDeque)containerOrString;
                 return deque.Contains(Expr.Evaluate(procEnv));
             }
             else
             {
-                IDictionary setmap = (IDictionary)container;
+                IDictionary setmap = (IDictionary)containerOrString;
                 return setmap.Contains(Expr.Evaluate(procEnv));
             }
         }
@@ -3573,7 +3951,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionConstructor> constructors)
         {
-            ContainerExpr.GetLocalVariables(variables, constructors);
+            ContainerOrStringExpr.GetLocalVariables(variables, constructors);
             Expr.GetLocalVariables(variables, constructors);
         }
 
@@ -3589,7 +3967,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return Expr.Symbol + " in " + ContainerExpr.Symbol; }
+            get { return Expr.Symbol + " in " + ContainerOrStringExpr.Symbol; }
         }
     }
 

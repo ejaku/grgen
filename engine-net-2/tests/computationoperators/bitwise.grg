@@ -1,0 +1,101 @@
+using mod;
+
+rule bitwiseshiftleft
+{
+	modify {
+	---
+		exec({emit("The value of variable foo of type int is: ")} && {emit(::left << 1)} && {emit("\n")});
+	}
+}
+
+rule bitwiseshiftright
+{
+	modify {
+	---
+		exec({emit("The value of variable foo of type int is: ")} && {emit(::left >> 1)} && {emit("\n")});
+	}
+}
+
+rule bitwiseshiftrightunsigned
+{
+	modify {
+	---
+		exec({emit("The value of variable foo of type int is: ")} && {emit(::left >>> 1)} && {emit("\n")});
+	}
+}
+
+rule bitwiseshiftrightunsignedplusone
+{
+	modify {
+	---
+		exec({emit("The value of variable foo of type int is: ")} && {emit((::left >>> 1) + 1)} && {emit("\n")});
+	}
+}
+
+rule bitwiseshiftrightunsignedplusoneLong
+{
+	modify {
+	---
+		exec({emit("The value of variable foo of type int is: ")} && {emit((::left >>> 1) + 1L)} && {emit("\n")});
+	}
+}
+
+rule lazyand
+{
+	modify {
+	---
+		exec({emit("The value of variable foo of type int is: ")} && {emit(::left & ::right)} && {emit("\n")});
+	}
+}
+
+rule lazyxor
+{
+	modify {
+	---
+		exec({emit("The value of variable foo of type int is: ")} && {emit(::left ^ ::right)} && {emit("\n")});
+	}
+}
+
+rule lazyor
+{
+	modify {
+	---
+		exec({emit("The value of variable foo of type int is: ")} && {emit(::left | ::right)} && {emit("\n")});
+	}
+}
+
+rule unaryplus
+{
+	modify {
+	---
+		def var argument:int = 1;
+		exec({emit("The value of variable foo of type int is: ")} && {emit(+argument)} && {emit("\n")});
+	}
+}
+
+rule unaryminus
+{
+	modify {
+	---
+		def var argument:int = 1;
+		exec({emit("The value of variable foo of type int is: ")} && {emit(-argument)} && {emit("\n")});
+	}
+}
+
+rule bitwisecomplement
+{
+	modify {
+	---
+		def var argument:int = 3;
+		exec({emit("The value of variable foo of type int is: ")} && {emit(~argument)} && {emit("\n")});
+	}
+}
+
+rule doublebitwisecomplement
+{
+	modify {
+	---
+		def var argument:int = 3;
+		exec({emit("The value of variable foo of type int is: ")} && {emit(~(~argument))} && {emit("\n")});
+	}
+}

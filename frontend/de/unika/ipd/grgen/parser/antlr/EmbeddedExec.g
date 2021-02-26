@@ -358,8 +358,21 @@ seqRelOs [ ExecNode xg ] returns [ Token t = null ]
 	;
 
 seqExprRelation [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
-	: expOrLeft=seqExprAdd[xg] { res = expOrLeft; } 
+	: expOrLeft=seqExprShift[xg] { res = expOrLeft; } 
 		( op=seqRelOp[xg] right=seqExprRelation[xg]
+			{ res = makeBinOp(op, res, right); }
+		)?
+	;
+
+seqShiftOp [ ExecNode xg ] returns [ Token t = null ]
+	: sl=SL { xg.append(" << "); t = sl; }
+	| sr=SR { xg.append(" >> "); t = sr; }
+	| bsr=BSR { xg.append(" >>> "); t = bsr; }
+	;
+
+seqExprShift [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: expOrLeft=seqExprAdd[xg] { res = expOrLeft; } 
+		( op=seqShiftOp[xg] right=seqExprShift[xg]
 			{ res = makeBinOp(op, res, right); }
 		)?
 	;
@@ -408,6 +421,14 @@ seqExprUnary [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 			OperatorNode neg = new ArithmeticOperatorNode(getCoords(m), OperatorDeclNode.Operator.NEG);
 			neg.addChild(exp);
 			res = neg;
+		}
+	| p=PLUS { xg.append("+"); } exp=seqExprBasic[xg]
+		{
+			res = exp;
+		}
+	| ti=TILDE { xg.append("~"); } exp=seqExprBasic[xg]
+		{
+			res = exp;
 		}
 	;
 

@@ -32,8 +32,11 @@ show var res
 exec stringEndsWith
 show var res
 
-#exec stringIn
-#show var res
+exec stringIn
+show var res
+
+exec stringConcatenate
+show var res
 
 exec stringToUpper
 show var res

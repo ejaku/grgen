@@ -1,0 +1,22 @@
+new graph computationoperators/bitwise
+
+::left = 3s
+show var left
+::right = 5s
+show var right
+
+eval ~::left
+eval ~(~::left)
+eval ::left & ::right
+eval ::left | ::right
+eval ::left ^ ::right
+eval ::left << 1
+eval ::left >> 1
+eval ::left >>> 1
+
+::left = -1s
+eval ::left >> 1
+eval ::left >>> 1
+eval (::left >>> 1) + 1
+
+quit

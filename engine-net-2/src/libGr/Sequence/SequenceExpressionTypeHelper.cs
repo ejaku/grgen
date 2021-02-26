@@ -91,6 +91,12 @@ namespace de.unika.ipd.grGen.libGr
                 case SequenceExpressionType.StructuralEqual:
                     return "graph";
 
+                case SequenceExpressionType.ShiftLeft:
+                case SequenceExpressionType.ShiftRight:
+                case SequenceExpressionType.ShiftRightUnsigned:
+                    result = BalanceShift(left, right, model);
+                    return result;
+
                 case SequenceExpressionType.Plus:
                     result = BalanceArithmetic(left, right, model);
                     if(result == "") return "";
@@ -135,6 +141,19 @@ namespace de.unika.ipd.grGen.libGr
                         return left;
                     if(left == right && left.StartsWith("map<"))
                         return left;
+                    if(left == "byte" || left == "short" || left == "int" || left == "long"
+                        || right == "byte" || right == "short" || right == "int" || right == "long")
+                        return BalanceBitwise(left, right, model);
+                    return "-";
+
+                case SequenceExpressionType.StrictXor:
+                    if(left == "" || right == "")
+                        return "";
+                    if(left == right && left == "boolean")
+                        return left;
+                    if(left == "byte" || left == "short" || left == "int" || left == "long"
+                        || right == "byte" || right == "short" || right == "int" || right == "long")
+                        return BalanceBitwise(left, right, model);
                     return "-";
 
                 default:
@@ -148,12 +167,77 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(op)
             {
+            case SequenceExpressionType.UnaryPlus:
+                result = BalanceArithmetic(operand, model);
+                return result;
+
             case SequenceExpressionType.UnaryMinus:
                 result = BalanceArithmetic(operand, model);
                 return result;
 
+            case SequenceExpressionType.BitwiseComplement:
+                result = BalanceBitwise(operand, model);
+                return result;
+
             default:
                 return "";
+            }
+        }
+
+        /// <summary>
+        /// Returns the types to which the operands must be casted to, 
+        /// assuming an arithmetic operator.
+        /// Returns "" if the type can only be determined at runtime.
+        /// Returns "-" in case of a type error and/or if no operator working on numbers can be applied.
+        /// </summary>
+        private static string BalanceShift(string left, string right, IGraphModel model)
+        {
+            switch(left)
+            {
+            case "byte":
+            case "short":
+            case "int":
+                switch(right)
+                {
+                case "byte":
+                case "short":
+                case "int":
+                case "long":
+                    return "int";
+                case "": return "";
+                default:
+                    if(TypesHelper.IsEnumType(right, model)) return "int";
+                    else return "-";
+                }
+            case "long":
+                switch(right)
+                {
+                case "byte":
+                case "short":
+                case "int":
+                case "long":
+                    return "long";
+                case "": return "";
+                default:
+                    if(TypesHelper.IsEnumType(right, model)) return "long";
+                    else return "-";
+                }
+            case "":
+                switch(right)
+                {
+                case "byte":
+                case "short":
+                case "int":
+                case "long":
+                    return "";
+                case "": return "";
+                default:
+                    if(TypesHelper.IsEnumType(right, model)) return "";
+                    else return "-";
+                }
+            default:
+                if(TypesHelper.IsEnumType(left, model) && TypesHelper.IsEnumType(right, model)) return "int";
+                else return "-";
             }
         }
 
@@ -245,6 +329,60 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        /// <summary>
+        /// Returns the types to which the operands must be casted to, 
+        /// assuming a bitwise operator.
+        /// Returns "" if the type can only be determined at runtime.
+        /// Returns "-" in case of a type error and/or if no operator working on integers bitwisely can be applied.
+        /// </summary>
+        private static string BalanceBitwise(string left, string right, IGraphModel model)
+        {
+            switch(left)
+            {
+            case "byte":
+            case "short":
+            case "int":
+                switch(right)
+                {
+                    case "byte": return "int";
+                    case "short": return "int";
+                    case "int": return "int";
+                    case "long": return "long";
+                    case "": return "";
+                    default:
+                        if(TypesHelper.IsEnumType(right, model)) return "int";
+                        else return "-";
+                }
+            case "long":
+                switch(right)
+                {
+                    case "byte": return "long";
+                    case "short": return "long";
+                    case "int": return "long";
+                    case "long": return "long";
+                    case "": return "";
+                    default:
+                        if(TypesHelper.IsEnumType(right, model)) return "long";
+                        else return "-";
+                }
+            case "":
+                switch(right)
+                {
+                    case "byte": return "";
+                    case "short": return "";
+                    case "int": return "";
+                    case "long": return "";
+                    case "": return "";
+                    default:
+                        if(TypesHelper.IsEnumType(right, model)) return "";
+                        else return "-";
+                }
+            default:
+                if(TypesHelper.IsEnumType(left, model) && TypesHelper.IsEnumType(right, model)) return "int";
+                else return "-";
+            }
+        }
+
         private static string BalanceArithmetic(string operand, IGraphModel model)
         {
             switch(operand)
@@ -259,6 +397,24 @@ namespace de.unika.ipd.grGen.libGr
                 return "float";
             case "double":
                 return "double";
+            case "":
+                return "";
+            default:
+                if(TypesHelper.IsEnumType(operand, model)) return "int";
+                else return "-";
+            }
+        }
+
+        private static string BalanceBitwise(string operand, IGraphModel model)
+        {
+            switch(operand)
+            {
+            case "byte":
+            case "short":
+            case "int":
+                return "int";
+            case "long":
+                return "long";
             case "":
                 return "";
             default:

@@ -12,6 +12,7 @@ rule t(var str:string)
 		str.startsWith("foo");
 		str.endsWith("foo");
 		"bar" in str;
+		str + " bar"=="foo bar foo bar";
 		(str.toUpper()).toLower()==str;
 		(str.asArray(" ")).asString(" ")==str;
 	}
@@ -29,6 +30,7 @@ rule t(var str:string)
         emit("1 value of attribute 5 6 " + (str.startsWith("foo")) + "\n");
         emit("1 value of attribute 5 6 " + (str.endsWith("foo")) + "\n");
         emit("1 value of attribute 5 6 " + ("bar" in str) + "\n");
+        emit("1 value of attribute 5 6 " + (str + " bar"=="foo bar foo bar") + "\n");
         emit("1 value of attribute 5 6 " + ((str.toUpper()).toLower()==str) + "\n");
         emit("1 value of attribute 5 6 " + ((str.asArray(" ")).asString(" ")==str) + "\n");
 	}
@@ -84,10 +86,15 @@ sequence stringEndsWith
 	{ ::res = ::str.endsWith("foo"); }
 }
 
-/*sequence stringIn
+sequence stringIn
 {
 	{ ::res = "bar" in ::str; }
-}*/
+}
+
+sequence stringConcatenate
+{
+	{ ::res = ::str + " bar"; }
+}
 
 sequence stringToLower
 {

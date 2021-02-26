@@ -156,6 +156,7 @@ TOKEN: {
 |   < LOWEREQUAL: "<=" >
 |   < GREATEREQUAL: ">=" >
 |   < STRUCTURALEQUAL: "~~" >
+|   < BITWISECOMPLEMENT: "~" >
 |   < STAR: "*" >
 |   < PLUS: "+" >
 |   < DIV: "/" >
@@ -1788,16 +1789,14 @@ SequenceExpression ExpressionEquality():
 SequenceExpression ExpressionRelation():
 {
     SequenceExpression exprOrLeft, right;
-    SequenceVariable fromVar;
-    String attrName;
 }
 {
-    exprOrLeft=ExpressionAdd()
-        ( "<" right=ExpressionAdd() { exprOrLeft = new SequenceExpressionLower(exprOrLeft, right); }
-        | ">" right=ExpressionAdd() { exprOrLeft = new SequenceExpressionGreater(exprOrLeft, right); }
-        | "<=" right=ExpressionAdd() { exprOrLeft = new SequenceExpressionLowerEqual(exprOrLeft, right); }
-        | ">=" right=ExpressionAdd() { exprOrLeft = new SequenceExpressionGreaterEqual(exprOrLeft, right); }
-        | "in" right=ExpressionAdd() { exprOrLeft = new SequenceExpressionInContainer(exprOrLeft, right); }
+    exprOrLeft=ExpressionShift()
+        ( "<" right=ExpressionShift() { exprOrLeft = new SequenceExpressionLower(exprOrLeft, right); }
+        | ">" right=ExpressionShift() { exprOrLeft = new SequenceExpressionGreater(exprOrLeft, right); }
+        | "<=" right=ExpressionShift() { exprOrLeft = new SequenceExpressionLowerEqual(exprOrLeft, right); }
+        | ">=" right=ExpressionShift() { exprOrLeft = new SequenceExpressionGreaterEqual(exprOrLeft, right); }
+        | "in" right=ExpressionShift() { exprOrLeft = new SequenceExpressionInContainerOrString(exprOrLeft, right); }
         )* 
     {
         return exprOrLeft;
@@ -1826,6 +1825,21 @@ RelOpDirection RelationOp():
     ">="
     {
         return RelOpDirection.GreaterEqual;
+    }
+}
+
+SequenceExpression ExpressionShift():
+{
+    SequenceExpression exprOrLeft, right;
+}
+{
+    exprOrLeft=ExpressionAdd()
+        ( "<<" right=ExpressionAdd() { exprOrLeft = new SequenceExpressionShiftLeft(exprOrLeft, right); }
+        | ">>" right=ExpressionAdd() { exprOrLeft = new SequenceExpressionShiftRight(exprOrLeft, right); }
+        | ">>>" right=ExpressionAdd() { exprOrLeft = new SequenceExpressionShiftRightUnsigned(exprOrLeft, right); }
+        )* 
+    {
+        return exprOrLeft;
     }
 }
 
@@ -1881,7 +1895,12 @@ SequenceExpression ExpressionUnary():
 |
     "+" seq=ExpressionBasic()
     {
-        return seq;
+        return new SequenceExpressionUnaryPlus(seq);
+    }
+|
+    "~" seq=ExpressionBasic()
+    {
+        return new SequenceExpressionBitwiseComplement(seq);
     }
 |
     seq=ExpressionBasic()

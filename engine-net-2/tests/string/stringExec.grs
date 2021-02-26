@@ -12,7 +12,8 @@ eval ::str.substring(4)
 eval ::str.replace(4,3,"foo")
 eval ::str.startsWith("foo")
 eval ::str.endsWith("foo")
-#eval "bar" in ::str
+eval "bar" in ::str
+eval ::str + " bar"
 eval ::str.toLower()
 eval ::str.asArray(" ")
 

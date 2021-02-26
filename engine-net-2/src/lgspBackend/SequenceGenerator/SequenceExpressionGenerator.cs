@@ -71,6 +71,12 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionLowerEqual((SequenceExpressionLowerEqual)expr, source);
             case SequenceExpressionType.GreaterEqual:
                 return GetSequenceExpressionGreaterEqual((SequenceExpressionGreaterEqual)expr, source);
+            case SequenceExpressionType.ShiftLeft:
+                return GetSequenceExpressionShiftLeft((SequenceExpressionShiftLeft)expr, source);
+            case SequenceExpressionType.ShiftRight:
+                return GetSequenceExpressionShiftRight((SequenceExpressionShiftRight)expr, source);
+            case SequenceExpressionType.ShiftRightUnsigned:
+                return GetSequenceExpressionShiftRightUnsigned((SequenceExpressionShiftRightUnsigned)expr, source);
             case SequenceExpressionType.Plus:
                 return GetSequenceExpressionPlus((SequenceExpressionPlus)expr, source);
             case SequenceExpressionType.Minus:
@@ -83,8 +89,12 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionMod((SequenceExpressionMod)expr, source);
             case SequenceExpressionType.Not:
                 return GetSequenceExpressionNot((SequenceExpressionNot)expr, source);
+            case SequenceExpressionType.UnaryPlus:
+                return GetSequenceExpressionUnaryPlus((SequenceExpressionUnaryPlus)expr, source);
             case SequenceExpressionType.UnaryMinus:
                 return GetSequenceExpressionUnaryMinus((SequenceExpressionUnaryMinus)expr, source);
+            case SequenceExpressionType.BitwiseComplement:
+                return GetSequenceExpressionBitwiseComplement((SequenceExpressionBitwiseComplement)expr, source);
             case SequenceExpressionType.Cast:
                 return GetSequenceExpressionCast((SequenceExpressionCast)expr, source);
             case SequenceExpressionType.Def:
@@ -239,8 +249,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionDefinedSubgraph((SequenceExpressionDefinedSubgraph)expr, source);
 
             // container expressions
-            case SequenceExpressionType.InContainer:
-                return GetSequenceExpressionInContainer((SequenceExpressionInContainer)expr, source);
+            case SequenceExpressionType.InContainerOrString:
+                return GetSequenceExpressionInContainerOrString((SequenceExpressionInContainerOrString)expr, source);
             case SequenceExpressionType.ContainerSize:
                 return GetSequenceExpressionContainerSize((SequenceExpressionContainerSize)expr, source);
             case SequenceExpressionType.ContainerEmpty:
@@ -503,7 +513,19 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionStrictXor(SequenceExpressionStrictXor seq, SourceBuilder source)
         {
-            return "((bool)" + GetSequenceExpression(seq.Left, source) + " ^ (bool)" + GetSequenceExpression(seq.Right, source) + ")";
+            string leftExpr = GetSequenceExpression(seq.Left, source);
+            string rightExpr = GetSequenceExpression(seq.Right, source);
+            string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
+            string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
+            if(seq.BalancedTypeStatic != "")
+                return SequenceExpressionGeneratorHelper.XorStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+            else
+            {
+                return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.XorObjects("
+                    + leftExpr + ", " + rightExpr + ", "
+                    + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Equal, " + leftType + ", " + rightType + ", graph.Model), "
+                    + leftType + ", " + rightType + ", graph)";
+            }
         }
 
         private string GetSequenceExpressionStrictAnd(SequenceExpressionStrictAnd seq, SourceBuilder source)
@@ -625,6 +647,57 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        private string GetSequenceExpressionShiftLeft(SequenceExpressionShiftLeft seq, SourceBuilder source)
+        {
+            string leftExpr = GetSequenceExpression(seq.Left, source);
+            string rightExpr = GetSequenceExpression(seq.Right, source);
+            string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
+            string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
+            if(seq.BalancedTypeStatic != "")
+                return SequenceExpressionGeneratorHelper.ShiftLeftStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+            else
+            {
+                return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.ShiftLeft("
+                    + leftExpr + ", " + rightExpr + ", "
+                    + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.ShiftLeft, " + leftType + ", " + rightType + ", graph.Model),"
+                    + leftType + ", " + rightType + ", graph)";
+            }
+        }
+
+        private string GetSequenceExpressionShiftRight(SequenceExpressionShiftRight seq, SourceBuilder source)
+        {
+            string leftExpr = GetSequenceExpression(seq.Left, source);
+            string rightExpr = GetSequenceExpression(seq.Right, source);
+            string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
+            string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
+            if(seq.BalancedTypeStatic != "")
+                return SequenceExpressionGeneratorHelper.ShiftRightStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+            else
+            {
+                return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.ShiftRight("
+                    + leftExpr + ", " + rightExpr + ", "
+                    + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.ShiftRight, " + leftType + ", " + rightType + ", graph.Model),"
+                    + leftType + ", " + rightType + ", graph)";
+            }
+        }
+
+        private string GetSequenceExpressionShiftRightUnsigned(SequenceExpressionShiftRightUnsigned seq, SourceBuilder source)
+        {
+            string leftExpr = GetSequenceExpression(seq.Left, source);
+            string rightExpr = GetSequenceExpression(seq.Right, source);
+            string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
+            string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
+            if(seq.BalancedTypeStatic != "")
+                return SequenceExpressionGeneratorHelper.ShiftRightUnsignedStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+            else
+            {
+                return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.ShiftRightUnsigned("
+                    + leftExpr + ", " + rightExpr + ", "
+                    + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.ShiftRightUnsigned, " + leftType + ", " + rightType + ", graph.Model),"
+                    + leftType + ", " + rightType + ", graph)";
+            }
+        }
+
         private string GetSequenceExpressionPlus(SequenceExpressionPlus seq, SourceBuilder source)
         {
             string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -715,6 +788,21 @@ namespace de.unika.ipd.grGen.lgsp
             return "!" + "((bool)" + GetSequenceExpression(seqNot.Operand, source) + ")";
         }
 
+        private string GetSequenceExpressionUnaryPlus(SequenceExpressionUnaryPlus seqUnaryPlus, SourceBuilder source)
+        {
+            string operandExpr = GetSequenceExpression(seqUnaryPlus.Operand, source);
+            string operandType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + operandExpr + ", graph.Model)";
+            if(seqUnaryPlus.BalancedTypeStatic != "")
+                return SequenceExpressionGeneratorHelper.UnaryPlusStatic(operandExpr, seqUnaryPlus.BalancedTypeStatic, seqUnaryPlus.OperandTypeStatic, model);
+            else
+            {
+                return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.UnaryPlusObjects("
+                    + operandExpr + ", "
+                    + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.UnaryPlus, " + operandType + ", graph.Model),"
+                    + operandType + ", graph)";
+            }
+        }
+
         private string GetSequenceExpressionUnaryMinus(SequenceExpressionUnaryMinus seqUnaryMinus, SourceBuilder source)
         {
             string operandExpr = GetSequenceExpression(seqUnaryMinus.Operand, source);
@@ -726,6 +814,21 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.UnaryMinusObjects("
                     + operandExpr + ", " 
                     + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.UnaryMinus, " + operandType + ", graph.Model),"
+                    + operandType + ", graph)";
+            }
+        }
+
+        private string GetSequenceExpressionBitwiseComplement(SequenceExpressionBitwiseComplement seqBitwiseComplement, SourceBuilder source)
+        {
+            string operandExpr = GetSequenceExpression(seqBitwiseComplement.Operand, source);
+            string operandType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + operandExpr + ", graph.Model)";
+            if(seqBitwiseComplement.BalancedTypeStatic != "")
+                return SequenceExpressionGeneratorHelper.BitwiseComplementStatic(operandExpr, seqBitwiseComplement.BalancedTypeStatic, seqBitwiseComplement.OperandTypeStatic, model);
+            else
+            {
+                return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.UnaryComplement("
+                    + operandExpr + ", "
+                    + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.BitwiseComplement, " + operandType + ", graph.Model),"
                     + operandType + ", graph)";
             }
         }
@@ -1687,47 +1790,53 @@ namespace de.unika.ipd.grGen.lgsp
 
         #region Container expressions
 
-        private string GetSequenceExpressionInContainer(SequenceExpressionInContainer seqIn, SourceBuilder source)
+        private string GetSequenceExpressionInContainerOrString(SequenceExpressionInContainerOrString seqIn, SourceBuilder source)
         {
-            string container;
-            string ContainerType;
-            if(seqIn.ContainerExpr is SequenceExpressionAttributeAccess)
+            string containerOrString;
+            string type;
+            if(seqIn.ContainerOrStringExpr is SequenceExpressionAttributeAccess)
             {
-                SequenceExpressionAttributeAccess seqInAttribute = (SequenceExpressionAttributeAccess)(seqIn.ContainerExpr);
+                SequenceExpressionAttributeAccess seqInAttribute = (SequenceExpressionAttributeAccess)(seqIn.ContainerOrStringExpr);
                 string element = "((GRGEN_LIBGR.IGraphElement)" + GetSequenceExpression(seqInAttribute.Source, source) + ")";
-                container = element + ".GetAttribute(\"" + seqInAttribute.AttributeName + "\")";
-                ContainerType = seqInAttribute.Type(env);
+                containerOrString = element + ".GetAttribute(\"" + seqInAttribute.AttributeName + "\")";
+                type = seqInAttribute.Type(env);
             }
             else
             {
-                container = GetSequenceExpression(seqIn.ContainerExpr, source);
-                ContainerType = seqIn.ContainerExpr.Type(env);
+                containerOrString = GetSequenceExpression(seqIn.ContainerOrStringExpr, source);
+                type = seqIn.ContainerOrStringExpr.Type(env);
             }
 
-            if(ContainerType == "")
+            if(type == "")
             {
                 string valueExpr = GetSequenceExpression(seqIn.Expr, source);
-                string containerExpr = GetSequenceExpression(seqIn.ContainerExpr, source);
-                return "GRGEN_LIBGR.ContainerHelper.InContainer(procEnv, " + containerExpr + ", " + valueExpr + ")";
+                string containerExpr = GetSequenceExpression(seqIn.ContainerOrStringExpr, source);
+                return "GRGEN_LIBGR.ContainerHelper.InContainerOrString(procEnv, " + containerExpr + ", " + valueExpr + ")";
             }
-            else if(ContainerType.StartsWith("array"))
+            else if(type == "string")
             {
-                string array = container;
-                string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(ContainerType), model);
+                string str = containerOrString;
+                string sourceExpr = "((string)" + GetSequenceExpression(seqIn.Expr, source) + ")";
+                return str + ".Contains(" + sourceExpr + ")";
+            }
+            else if(type.StartsWith("array"))
+            {
+                string array = containerOrString;
+                string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(type), model);
                 string sourceExpr = "((" + arrayValueType + ")" + GetSequenceExpression(seqIn.Expr, source) + ")";
                 return array + ".Contains(" + sourceExpr + ")";
             }
-            else if(ContainerType.StartsWith("deque"))
+            else if(type.StartsWith("deque"))
             {
-                string deque = container;
-                string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(ContainerType), model);
+                string deque = containerOrString;
+                string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(type), model);
                 string sourceExpr = "((" + dequeValueType + ")" + GetSequenceExpression(seqIn.Expr, source) + ")";
                 return deque + ".Contains(" + sourceExpr + ")";
             }
             else
             {
-                string dictionary = container;
-                string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(ContainerType), model);
+                string dictionary = containerOrString;
+                string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(type), model);
                 string sourceExpr = "((" + dictSrcType + ")" + GetSequenceExpression(seqIn.Expr, source) + ")";
                 return dictionary + ".ContainsKey(" + sourceExpr + ")";
             }

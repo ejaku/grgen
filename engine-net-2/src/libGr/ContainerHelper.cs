@@ -154,21 +154,26 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public static object InContainer(IGraphProcessingEnvironment procEnv, object container, object value)
+        public static object InContainerOrString(IGraphProcessingEnvironment procEnv, object containerOrString, object value)
         {
-            if(container is IList)
+            if(containerOrString is String)
             {
-                IList array = (IList)container;
+                String str = (String)containerOrString;
+                return str.Contains((string)value);
+            }
+            else if(containerOrString is IList)
+            {
+                IList array = (IList)containerOrString;
                 return array.Contains(value);
             }
-            else if(container is IDeque)
+            else if(containerOrString is IDeque)
             {
-                IDeque deque = (IDeque)container;
+                IDeque deque = (IDeque)containerOrString;
                 return deque.Contains(value);
             }
             else
             {
-                IDictionary setmap = (IDictionary)container;
+                IDictionary setmap = (IDictionary)containerOrString;
                 return setmap.Contains(value);
             }
         }

@@ -29,7 +29,7 @@ exec (gr:Graph)=init ;> << insertRed(gr) ; / (gr2:Graph)=copyAndLinkRed(gr) / ;>
 				for{insertGreen(gr4); / (gr5:Graph)=copyAndLinkGreen(gr4) / ;> false},\
 				for{insertBlue(gr4); / (gr5:Graph)=copyAndLinkBlue(gr4) / ;> false} ]]>>\
 		} ]]>>\
-	>>\
+	>> \
 >>
 
 #show graph ycomp

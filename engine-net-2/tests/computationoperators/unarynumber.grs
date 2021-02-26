@@ -1,0 +1,13 @@
+new graph computationoperators/bitwise
+
+argument = 1
+
+eval +::argument
+eval -::argument
+#eval ++::argument
+#eval --::argument
+
+exec unaryplus
+exec unaryminus
+
+quit

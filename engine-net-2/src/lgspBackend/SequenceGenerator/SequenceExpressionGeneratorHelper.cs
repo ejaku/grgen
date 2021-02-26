@@ -210,6 +210,45 @@ namespace de.unika.ipd.grGen.lgsp
             return "((GRGEN_LIBGR.IGraph)" + leftValue + ").HasSameStructure((GRGEN_LIBGR.IGraph)" + rightValue + ")";
         }
 
+        public static string ShiftLeftStatic(string leftValue, string rightValue,
+            string balancedType, string leftType, string rightType, IGraphModel model)
+        {
+            // byte and short are only used for storing, no computations are done with them
+            // enums are handled via int
+            if(balancedType == "int")
+                return "((int)" + leftValue + " << " + "(int)" + rightValue + ")";
+            else if(balancedType == "long")
+                return "((long)" + leftValue + " << " + "(int)" + rightValue + ")";
+
+            return null;
+        }
+
+        public static string ShiftRightStatic(string leftValue, string rightValue,
+            string balancedType, string leftType, string rightType, IGraphModel model)
+        {
+            // byte and short are only used for storing, no computations are done with them
+            // enums are handled via int
+            if(balancedType == "int")
+                return "((int)" + leftValue + " >> " + "(int)" + rightValue + ")";
+            else if(balancedType == "long")
+                return "((long)" + leftValue + " >> " + "(int)" + rightValue + ")";
+
+            return null;
+        }
+
+        public static string ShiftRightUnsignedStatic(string leftValue, string rightValue,
+            string balancedType, string leftType, string rightType, IGraphModel model)
+        {
+            // byte and short are only used for storing, no computations are done with them
+            // enums are handled via int
+            if(balancedType == "int")
+                return "(int)((uint)" + leftValue + " >> " + "(int)" + rightValue + ")";
+            else if(balancedType == "long")
+                return "(long)((ulong)" + leftValue + " >> " + "(int)" + rightValue + ")";
+
+            return null;
+        }
+
         public static string PlusStatic(string leftValue, string rightValue,
             string balancedType, string leftType, string rightType, IGraphModel model)
         {
@@ -264,6 +303,22 @@ namespace de.unika.ipd.grGen.lgsp
             return null;
         }
 
+        public static string UnaryPlusStatic(string operandValue, string balancedType, string operandType, IGraphModel model)
+        {
+            // byte and short are only used for storing, no computations are done with them
+            // enums are handled via int
+            if(balancedType == "int")
+                return "( + " + "(int)" + operandValue + ")";
+            else if(balancedType == "long")
+                return "( + " + "(long)" + operandValue + ")";
+            else if(balancedType == "float")
+                return "( + " + "(float)" + operandValue + ")";
+            else if(balancedType == "double")
+                return "( + " + "(double)" + operandValue + ")";
+
+            return null;
+        }
+
         public static string UnaryMinusStatic(string operandValue, string balancedType, string operandType, IGraphModel model)
         {
             // byte and short are only used for storing, no computations are done with them
@@ -275,7 +330,19 @@ namespace de.unika.ipd.grGen.lgsp
             else if(balancedType == "float")
                 return "( - " + "(float)" + operandValue + ")";
             else if(balancedType == "double")
-                return "(- " + "(double)" + operandValue + ")";
+                return "( - " + "(double)" + operandValue + ")";
+
+            return null;
+        }
+
+        public static string BitwiseComplementStatic(string operandValue, string balancedType, string operandType, IGraphModel model)
+        {
+            // byte and short are only used for storing, no computations are done with them
+            // enums are handled via int
+            if(balancedType == "int")
+                return "( ~ " + "(int)" + operandValue + ")";
+            else if(balancedType == "long")
+                return "( ~ " + "(long)" + operandValue + ")";
 
             return null;
         }
@@ -362,8 +429,25 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(balancedType == "boolean")
                 return "((bool)" + leftValue + " | " + "(bool)" + rightValue + ")";
+            else if(balancedType == "int")
+                return "((int)" + leftValue + " | " + "(int)" + rightValue + ")";
+            else if(balancedType == "long")
+                return "((long)" + leftValue + " | " + "(long)" + rightValue + ")";
             else if(balancedType.StartsWith("set<") || balancedType.StartsWith("map<"))
                 return "GRGEN_LIBGR.ContainerHelper.Union((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ")";
+
+            return null;
+        }
+
+        public static string XorStatic(string leftValue, string rightValue,
+            string balancedType, string leftType, string rightType, IGraphModel model)
+        {
+            if(balancedType == "boolean")
+                return "((bool)" + leftValue + " ^ " + "(bool)" + rightValue + ")";
+            else if(balancedType == "int")
+                return "((int)" + leftValue + " ^ " + "(int)" + rightValue + ")";
+            else if(balancedType == "long")
+                return "((long)" + leftValue + " ^ " + "(long)" + rightValue + ")";
 
             return null;
         }
@@ -373,6 +457,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(balancedType == "boolean")
                 return "((bool)" + leftValue + " & " + "(bool)" + rightValue + ")";
+            else if(balancedType == "int")
+                return "((int)" + leftValue + " & " + "(int)" + rightValue + ")";
+            else if(balancedType == "long")
+                return "((long)" + leftValue + " & " + "(long)" + rightValue + ")";
             else if(balancedType.StartsWith("set<") || balancedType.StartsWith("map<"))
                 return "GRGEN_LIBGR.ContainerHelper.Intersect((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ")";
 

@@ -1,0 +1,22 @@
+new graph computationoperators/bitwise
+
+::left = 3y
+show var left
+::right = 5y
+show var right
+
+exec bitwisecomplement
+exec doublebitwisecomplement
+exec lazyand
+exec lazyor
+exec lazyxor
+exec bitwiseshiftleft
+exec bitwiseshiftright
+exec bitwiseshiftrightunsigned
+
+::left = -1y
+exec bitwiseshiftright
+exec bitwiseshiftrightunsigned
+exec bitwiseshiftrightunsignedplusone
+
+quit
