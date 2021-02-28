@@ -1,4 +1,26 @@
-﻿v6.0beta (2021-02-08)
+﻿v6.0 (2021-0?)
+ Brought sequence computations to the level of the rule language (with exception of change assignments):
+ - completed sequence operators: added support for <<, >>, >>>, ~ and unary + (on numeric types),
+   as well as &,^,| on numeric types and in on string type
+ - implemented package Math in sequences (i.e. the functions of package math like min,abs,sqrt,...)
+ - added support for all string methods (e.g. .length(), .indexOf(), .replace())
+ - added support for indexOfBy, lastIndexOfBy, and indexOfOrderedBy array by member methods in sequences
+ - extended match type support in sequences with container constructors for containers of match value type
+ Fixed sequence grammar: x-1 works now, not requiring a whitespace before the number as before (x- 1)
+
+ Extended indexOfBy, lastIndexOfBy, and indexOfOrderedBy array by member methods by support for match and match class types
+  (in rule language and sequences)
+
+ Extended deque<T> .lastIndexOf() method by an optional startIndex parameter (in rule language and sequences)
+
+ API changes/extensions: 
+ - added ArrayIndexOfBy, ArrayLastIndexOfBy, ArrayIndexOfOrderedBy to the array processing helpers section in the graph model,
+   and in the actions, as well as MatchInterfaceName and MatchClassName members in IRulePattern and IMatchClass
+
+ Bugfix for previously available array by member methods in sequences getting applied to untyped variables
+ Error message corrections
+
+v6.0beta (2021-02-08)
  Carried out a massive data modelling improvement with the introduction of internal object types and internal transient object types;
    they allow to group data and build linked data structures like lists and trees (without graph index overhead)
 

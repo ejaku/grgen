@@ -122,8 +122,8 @@ Figure~\ref{fig:basetypes} shows the edge \indexed{type hierarchy}.
   									 | ModelUsage);
 \end{rail}\ixnterm{GraphModel}
 The \indexed{graph model} consists of zero or multiple type declarations.
-\emph{ClassDeclaration} defines a node type or an edge type.
-\emph{EnumDeclaration} defines an enum type to be used as a type for attributes of nodes or edges.
+A \emph{ClassDeclaration} defines a node type or an edge type.
+An \emph{EnumDeclaration} defines an enum type to be used as a type for attributes of nodes or edges.
 Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used (but of course must be declared somewhere).
 The \emph{AdvancedModelDeclarations} are differentiated in Chapter \ref{cha:modeladvanced}.
 In addition, other models may be used (esp. supplying base classes to extend); this happens in the same way as models are used from the rules, see section \ref{ruledecls} and the \verb/#using/ directive for more on this.
@@ -135,7 +135,7 @@ In addition, other models may be used (esp. supplying base classes to extend); t
   ClassDeclaration: (() | 'abstract') (() | 'const') \\
     (NodeClass | (() | ('arbitrary' | 'directed' | 'undirected')) EdgeClass | ObjectClass | TransientObjectClass);
 \end{rail}\ixkeyw{abstract}\ixkeyw{const}\ixnterm{ClassDeclaration}\ixkeyw{arbitrary}\ixkeyw{directed}\ixkeyw{undirected}
-Defines a new node type or edge type.
+A \emph{ClassDeclaration} defines a new node type or edge type.
 The keyword \texttt{abstract} indicates that you cannot instantiate graph elements of this type.
 Instead non-abstract types must be derived from the type in order to create graph elements.
 The abstract-property will not be inherited by subclasses.
@@ -169,8 +169,8 @@ See also Section~\ref{sct:basetypes}
   NodeClass: 'node' 'class' IdentDecl (() | 'extends' (NodeType+',')) \\
     (';' | lbrace AttributeDeclarations rbrace);
 \end{rail}\ixkeyw{node}\ixkeyw{class}\ixkeyw{extends}\ixnterm{NodeClass}
-Defines a new \indexed{node type}.
-Node types can inherit\indexmain{inheritance} from other node types defined within the same file.
+A \emph{NodeClass} defines a new \indexed{node type}.
+Node types can inherit\indexmain{inheritance} from other node types (defined within the same file).
 If the \texttt{extends} clause is omitted, \emph{NodeType} will inherit from the built-in type \texttt{\indexed{Node}}.
 Optionally, nodes can possess attributes.
 
@@ -178,8 +178,8 @@ Optionally, nodes can possess attributes.
   EdgeClass: 'edge' 'class' IdentDecl (() | 'extends' (EdgeType+',')) \\
     (() + ConnectionAssertions) (';' | lbrace AttributeDeclarations rbrace);
 \end{rail}\ixkeyw{edge}\ixkeyw{class}\ixkeyw{extends}\ixnterm{EdgeClass}
-Defines a new \indexed{edge type}.
-Edge types can inherit\indexmain{inheritance} from other edge types defined within the same file.
+An \emph{EdgeClass} defines a new \indexed{edge type}.
+Edge types can inherit\indexmain{inheritance} from other edge types (defined within the same file).
 If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{\indexed{Edge}}.
 Optionally, edges can possess attributes.
 A \newterm{connection assertion} specifies that certain edge types should only connect specific nodes a given number of times.

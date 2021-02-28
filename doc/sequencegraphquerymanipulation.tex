@@ -6,7 +6,7 @@ In this chapter we take a look at pattern queries -- the most powerful and flexi
 They are more powerful than the simple global functions returning elementary data (described in Section~\ref{sec:queryupdate}),
 and more flexible than the returning of pre-selected values from rules or tests (described in Chapter~\ref{chaprulelang}).
 
-Pattern queries employing tests or rules as tests in order to obtain some result value define the second way of pattern usage besides the already known one employing rules to carry out host graph state changes.
+Pattern queries employing tests or rules as tests in order to obtain some result value define the second way of pattern usage beside the already known one employing rules to carry out host graph state changes.
 %Here we take a look at the secondary usage of patterns besides the already known transformation workflow where they are employed with rules to carry out host graph state changes.
 %for the the query workflow, the directly following array accumulation methods are of importance. 
 
@@ -31,7 +31,7 @@ Both start the same way, the pattern is matched, yielding an \emph{array} of \em
 		\node (ar)     at (0   ,4) {\texttt{a.size() > 0}};
 		\node (rb)     at (0   ,2) {\texttt{r:boolean}};
 		\node (aa)     at (9   ,6) {\texttt{array(-accumulation)-methods}};
-		\node (r)     at (9   ,4) {\texttt{r:array<T> or r:set<T> or r:S}};
+		\node (r)     at (9   ,4) {\texttt{r:array<T> or r:set<T> or r:T}};
 	\end{scope}
 	\draw[thick,-open triangle 45]  (pm) -> (ma)  ;
 	\draw[thick,-open triangle 45]  (ma) -> (fo)  ;
@@ -94,7 +94,17 @@ Several by-member access (or array query) methods are available on
 	\item arrays of match class types having match class member entities
 \end{itemize}
 
-They inspect the value of the attribute or member of the graph element or match stored in the array, instead of the value contained in the array directly.
+They inspect the value of the attribute \texttt{attr} or member of the graph element or internal class object or match stored in the array, instead of the value contained in the array directly.
+
+\begin{description}
+\item[\texttt{.indexOfBy<attr>(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found.
+\item[\texttt{.indexOfBy<attr>(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found.
+\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found.
+\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found.
+\item[\texttt{.indexOfOrderedBy<attr>(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitrary one is returned.
+\end{description}
+
+\noindent The search methods just introduced return the index of a found element, the following ordering or grouping methods return an array.
 
 \begin{description}
 \item[\texttt{.extract<attr>()}] returns for an \texttt{array<T>} an \texttt{array<S>}, where \texttt{S} is the type of the attribute or member \texttt{attr} to be extracted (or projected out).
@@ -104,19 +114,6 @@ They inspect the value of the attribute or member of the graph element or match 
 \item[\texttt{.keepOneForEach<attr>()}] returns an array with the content of the input array freed from duplicates; available for an attribute or member \texttt{attr} of basic type or a node or edge type.
 \end{description}\label{arraybymemberaccessmethod}
 %And again: the \verb#X_by<attr>#-versions inspect the value of the attribute of the graph element stored in the array.
-
-\noindent Even more by-member access or query methods are available, but only on arrays of node or edge types.
-They inspect the value of the attribute \texttt{attr} of the graph element stored in the array, instead of the value contained in the array directly.
-They are neither available for arrays of match type, nor in the sequence expressions, so only of limited use towards the querying purpose.
- %debatable whether better located in array chapter/section then, but fits here structurally, acceptable with the explanation
-
-\begin{description}
-\item[\texttt{.indexOfBy<attr>(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found.
-\item[\texttt{.indexOfBy<attr>(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found.
-\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found.
-\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found.
-\item[\texttt{.indexOfOrderedBy<attr>(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitrary one is returned.
-\end{description}
 
 The ordering or access-alongside-order methods utilize the ordering relation, so they support only members or attributes of numeric type (\texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double},) or \texttt{string} or \texttt{enum} type -- also \texttt{boolean} is supported, even if not of much use).
 The other query methods utilize equality comparisons, so they support additionally members or attributes of node or edge type.

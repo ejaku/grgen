@@ -8,13 +8,13 @@
 In addition to the node and edge classes (the key features of the \emph{graph models}\indexmain{graph model} of \GrG\ as already introduced in Chapter~\ref{chapmodellang}),
 you can define \emph{object classes} and \emph{transient object classes}.
 They allow to group attributes that are commonly used together into an own entity.
-By means of them, list and tree-like (sub-)data structures can be used within a graph (in a storage efficient way, circumventing the built-in graph indices of the nodes/edges, cf. \ref{sec:performancememory}).
+By means of them, list and tree-like (sub-)data structures can be used within a graph (in a storage efficient way, without the built-in graph indices of the nodes/edges, cf. \ref{sec:performancememory}).
 
-The exact data layout can be even abstracted from with \emph{methods} (i.e. you access by method instead of the attribute directly); or, in general, arbitrary behavior can be implemented by them.
+The exact data layout can be even abstracted from with \emph{methods} (i.e. you access by method instead of the attribute directly); or, in general, arbitrary object-specific behavior can be implemented by them.
 You may specify methods not only in object and transient object classes, but also in the node or edge classes.
 Methods are functions or procedures that are declared inside class scope.
-In contrast to attributes that do not support overwriting -- each attribute of a type is added to all subtypes, with multiple declarations being forbidden -- methods support overwriting.
-Independent of the statically known type of the variable, the method gets executed that was defined nearest to the exact dynamic type of the value, in case a method is called.
+Methods support overwriting, in contrast to attributes (each attribute of a type is added to all subtypes, with multiple declarations being forbidden).
+In case a method is called on an object, the method that was defined nearest to the exact dynamic type of the object gets executed, in contrast to the statically known type of the variable storing the object.
 
 This \emph{dynamic dispatch} is the defining feature of object-oriented programming.
 For graph-oriented programming, the defining feature is \emph{pattern-matching}.
@@ -55,15 +55,15 @@ The \emph{FunctionParallelization} and \emph{EqualsAnyParallelization} are expla
   ObjectClass: 'class' IdentDecl (() | 'extends' (ObjectType+',')) \\
     (';' | lbrace AttributeDeclarations rbrace);
 \end{rail}\ixkeyw{class}\ixkeyw{extends}\ixnterm{ObjectClass}\ixnterm{TransientObjectClass}
-Defines a new \indexed{object type}.
-Object types can inherit\indexmain{inheritance} from other object types defined within the same file.
-If the \texttt{extends} clause is omitted, \emph{ObjectType} will inherit from the built-in type \texttt{\indexed{Object}}, the root type of internal class objects.
+An \emph{ObjectClass} definition defines a new \indexed{object type}.
+Object types can inherit\indexmain{inheritance} from other object types (defined within the same file).
+If the \texttt{extends} clause is omitted, \emph{ObjectType} will inherit from the built-in type \texttt{\indexed{Object}}, the root type of all internal class objects.
 Note that \texttt{Object} is not the same as \texttt{object}, the root type of all types, which does not have much semantic meaning but acts as a mere placeholder, also including \texttt{external} class types.
 Optionally objects can possess attributes.
-The keywords \texttt{abstract} and \texttt{const} have the same meaning as for node and edge types, cf. \ref{nodeandedgetypes}.
+The keywords \texttt{abstract} and \texttt{const} have the same meaning as for node and edge types, i.e. non-instantiable values and unmodifiable attributes, cf. \ref{nodeandedgetypes}.
 
-Objects of object classes are automatically assigned a unique id upon creation.
-This id is used in serialization and parsing of values of object types, it is displayed in the debugger, and can be queryied with the \texttt{uniqueof} function (which has the signature \texttt{uniqueof(.:ObjectType):long}).
+Objects of object classes are automatically assigned a unique id upon creation (of type \texttt{long}).
+This id is used in serialization and parsing of values of object types, it is displayed in the debugger, and can be queryied with the \texttt{uniqueof} function (which has the signature \texttt{uniqueof(.:ObjectType):long}, note the \texttt{long} compared to the \texttt{int} of the graph elements).
 
 \begin{example}
 \begin{grgen}
@@ -87,16 +87,16 @@ node class N
   TransientObjectClass: 'transient' 'class' IdentDecl (() | 'extends' (TransientObjectType+',')) \\
     (';' | lbrace AttributeDeclarations rbrace);
 \end{rail}\ixkeyw{class}\ixkeyw{extends}\ixnterm{ObjectClass}\ixnterm{TransientObjectClass}
-Defines a new \indexed{transient object type}.
-Transient object types can inherit\indexmain{inheritance} from other transient object types defined within the same file.
-If the \texttt{extends} clause is omitted, \emph{TransientObjectType} will inherit from the built-in type \texttt{\indexed{TransientObject}}, the root type of internal transient class objects.
+An \emph{TransientObjectClass} definition defines a new \indexed{transient object type}.
+Transient object types can inherit\indexmain{inheritance} from other transient object types (defined within the same file).
+If the \texttt{extends} clause is omitted, \emph{TransientObjectType} will inherit from the built-in type \texttt{\indexed{TransientObject}}, the root type of all internal transient class objects.
 Optionally transient objects can possess attributes.
 The keywords \texttt{abstract} and \texttt{const} have the same meaning as for node and edge types, cf. \ref{nodeandedgetypes}.
 
-In contrast to object types, transient object types cannot be stored in the graph, i.e. they are not allowed as attributes.
+In contrast to class objects, transient class objects cannot be stored in the graph, i.e. attributes of transient class type are forbidden.
 They are meant for processing purpose only (their semantics are geared towards that use case).
 Neither are transient classes assigned a unique id.
-Transient objects can store non-transient objects, though.
+Transient objects can reference non-transient objects, though.
 
 Figure~\ref{fig:alltypes} shows the \indexed{type hierarchy} of \GrG.
 \begin{figure}[htbp]
@@ -169,14 +169,14 @@ It exists in two versions, a plain one just instantiating the (transient) object
 \end{rail}\ixnterm{NewOperator}\ixkeyw{new}
 
 
-\indexmain{object attribute initialization}At a new operator application to a transient or non-transient object class (causing creation of the object), you can give an object attribute initialization list (similar to the attribute initialization list that can be applied to graph elements, cf. \ref{sec:attribinitrule}.
+\indexmain{object attribute initialization}At a new operator application to a transient or non-transient object class (causing creation of the object), you can give an object attribute initialization list (similar to the attribute initialization list that can be applied to graph elements, cf. \ref{sec:attribinitrule}).
 
 \begin{rail}
 ObjectAttributeInitializationList : railat '(' ((ObjectAttributeInitialization)+(',')) ')';
 ObjectAttributeInitialization : AttributeIdent '=' Expression;
 \end{rail}\ixnterm{ObjectAttributeInitializationList}\ixnterm{ObjectAttributeInitialization}
 
-The object initialization list is appended to the declaration with an at-Symbol, the attributes of the type are simply given by their name (i.e. \emph{Ident}ifier).
+The object initialization list is appended to the declaration following an at-Symbol, the attributes of the type are simply given by their name (i.e. \emph{Ident}ifier).
 The expression must be of the type of the attribute.  
 %Please take into account that the names must be unique if you intend to set them from the rules. -- maybe todo: percent sign for unique-id / initialization like the name of graph elements with the dollar
 
@@ -189,10 +189,10 @@ new FooBar@(i=42, s="Hallo Welt");
 \end{grgen}
 \end{example}
 
-The new operator can be also used as a prefix to the container constructors, to have a syntax that is closer to the one of the common programming languages (a container is created and a reference returned).
+The new operator can be also used as a prefix to the container constructors, to have a syntax that is closer to the one known from the common programming languages (a container is created and a reference returned).
 
 \begin{example}
-The following example creates a new container and initializes it with the string \texttt{"Furchtbar"}.
+The following example creates a new array and initializes it with the string \texttt{"Furchtbar"}.
 \begin{grgen}
 function createArray : array<string>
 {
@@ -206,7 +206,7 @@ function createArray : array<string>
 
 \subsubsection{Structure examples}
 
-Let us take a look at more meaningful sample code than the synthetic examples from the previous sections just introducing the new constructs.
+Let us take a look at some more meaningful examples than the synthetic ones from the previous sections just introducing the new constructs.
 For one on an invasive linked list -- it shows how to build linked object structures with recursively contained objects.
 
 \begin{example}
@@ -230,7 +230,7 @@ function sumList(ref list:List) : int
 \end{grgen}
 \end{example}
 
-And for the other on a tree -- it shows how to build linked object structures with objects recursively contained within a container.
+And for the other one on a tree -- it shows how to build linked object structures with objects recursively contained within a container.
 
 \begin{example}
 \begin{grgen}
@@ -258,7 +258,7 @@ function serializePreorder(ref tree:Tree) : string
 \end{example}
 
 You could introduce shortcuts or cycles by inserting the same object multiple times into the \texttt{Tree}, yielding a graph (without the pattern matching abilities offered by \GrG).
-Then you'd have to introduce a set storing already visited objects so that you don't run into an endless recursion upon visiting an already visited object again (meaning there is path from the object to itself) in case you intend to process such an object structure.
+In case you intend to process such an object structure, you'd have to introduce a set storing already visited objects to the algorithm so that you don't run into an endless recursion upon visiting an already visited object again (meaning there is path from the object to itself).
 Or even a map of old, already visited objects to new ones, in case you are in need of a copy algorithm that replicates such an object structure.
 But before you tackle the task of implementing it: such an algorithm is already offered natively and generically in the form of a pre-implemented copy function.
 
@@ -277,8 +277,8 @@ For the same functionality being applied to graph elements, see \ref{sec:copy}.
 \end{description}
 
 The copy and clone functions are also available for objects of transient classes.
-They differ from the functions available for the non-transient classes in their handling of attributes of container types.
-For transient objects, the container reference is taken over, while for non-transient objects (like for graph elements), a clone of the container is created (and in case of the copy function, the contained objects of transient or non-transient classes are copied).
+The clone function on transient class objects differs in its handling of attributes of container types.
+For transient objects, only the container reference is taken over, while for non-transient objects (like for graph elements), always a clone of the container is created (in case of the copy function, always a clone of the container is created, even for transient objects, and the contained objects of transient or non-transient classes are copied).
 
 \begin{description}
 \item[\texttt{clone(TransientObject):TransientObject}] returns a shallow clone of the original internal transient class object given as argument.
@@ -321,20 +321,19 @@ copy(list) // == copyList(list);
 
 Classes do not only allow to structure data, but also to attach functionality.
 This occurs by means of method definitions.
-
-Methods allow to factor out computations that are occurring frequently on attributes of node classes or edge classes or object classes or transient object classes and to reuse them. 
-Such compound computations can be built and abstracted into reusable entities in two different forms, \emph{function methods} usable(/callable) from expression context, and \emph{procedure methods} usable(/callable) from statement context.
+Methods define a reusable entity that comes in two different flavors, \emph{function methods} usable(/callable) from expression context, and \emph{procedure methods} usable(/callable) from statement context.
+They allow to factor out computations that are occurring frequently on attributes of classes (node, edge, object, transient object), bundling them with the class, saving code duplications. 
 
 Besides, you could hide the exact data members behind an interface defined by the methods, giving a means of data abstraction.
 
-Furthermore, some built-in function methods and procedure methods on container types are available in rule language computations and sequence computations, cf. \ref{cha:container};
-in addition to the methods defined in \ref{cha:typeexpr} that are only available in the rule language.
+Furthermore, some built-in function methods and procedure methods on container types are available in rule language computations and sequence computations, cf. Chapter~\ref{cha:container};
+in addition to the methods defined in Chapter~\ref{cha:typeexpr}.
 %(Furthermore, external functions methods and computation methods may be declared, callable with the same syntax, too.)
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Function Method Definition and Call}\label{sub:functionmethods}\label{sec:funcmethcall} 
 
-Function methods are defined in exactly the same way as a function is defined, just inside the hosting class.
+Function methods are defined in exactly the same way as functions are defined, just inside the hosting class.
 They have the same requirements, 
 i.e. exactly one output value must be returned, 
 and they must be side-effect free, which especially means that they are not allowed to change the attributes of their hosting type.
@@ -347,8 +346,8 @@ and they must be side-effect free, which especially means that they are not allo
   FunctionMethodCall: MethodTarget '.' FunctionIdent '(' (Expression * ',') ')' ;
 \end{rail}\ixnterm{FunctionMethodCall}
 
-A such defined function method may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations where an expression is required.
-In contrast to a regular function call with a method target prefix separated by a dot (defining the \texttt{this} value, obtained from a variable or an attribute, or in case of the function methods also a full expression).
+A such defined function method may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations (where an expression is required).
+In contrast to a regular function call with a method call target prefix added, separated by a dot (defining the value of the \texttt{this} reference; the call target prefix may be a variable or an attribute of an object/element, or a full expression).
 The built-in function methods listed in \ref{funcmethstab} are called with the same syntax.
 
 Inside the function methods, the special entity \texttt{this} is available.
@@ -387,7 +386,7 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 \texttt{deque<T>.empty():boolean}\\
 \texttt{deque<T>.peek([int]):T}\\
 \texttt{deque<T>.indexOf(T[,int]):int}\\
-\texttt{deque<T>.lastIndexOf(T):int}\\
+\texttt{deque<T>.lastIndexOf(T[,int]):int}\\
 \texttt{deque<T>.subdeque(int, int):deque<T>}\\
 \texttt{deque<T>.asArray():array<T>}\\
 \texttt{deque<T>.asSet():set<T>}\\
@@ -452,9 +451,9 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 %-----------------------------------------------------------------------------------------------
 \subsection{Procedure Method Definition And Call}\label{sub:proceduremethods}\label{sec:procmethcall} 
 
-Procedure methods are defined in exactly the same way as a procedure is defined, just inside the hosting class.
+Procedure methods are defined in exactly the same way as procedures are defined, just inside the hosting class.
 They may return an arbitrary number of return values, and are thus only callable as a statement.
-They are allowed to manipulate the graph and esp. the element they are contained in as needed, while being executed;
+They are allowed to manipulate the graph and esp. the object/element they are contained in as needed, while being executed;
 so you are free to call other procedures -- but in contrast to global procedures, you cannot include exec statements.
 
 \begin{rail} 
@@ -467,8 +466,8 @@ so you are free to call other procedures -- but in contrast to global procedures
   MethodTarget: (Variable | Variable '.' Attribute) ;
 \end{rail}\ixnterm{ProcedureMethodCall}\ixnterm{MethodTarget}
 
-A such defined procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation (/computation) is required; or even from the sequence computations where a statement is required.
-In contrast to a regular procedure call with a method target prefix separated by a dot (defining the \texttt{this} value, obtained from a variable or an attribute).
+A such defined procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation statement (/computation) is required; or even from the sequence computations (where a statement is required).
+In contrast to a regular procedure call with a method target prefix added, separated by a dot (defining the \texttt{this} value; the call target prefix may be a variable or an attribute of an object/element).
 The built-in procedure methods listed in \ref{procmethstab} are called with the same syntax.
 
 Inside the procedure method, the special entity \texttt{this} is available.

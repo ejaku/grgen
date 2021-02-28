@@ -18,10 +18,9 @@ enclosed a level deeper in braces.
 As long as the set is still filled, the final expression, thus the computation, returns \texttt{true}, continuing with the loop -- when it gets empty, the expression yields \texttt{false}, henceforth terminating the loop and the wavefront algorithm.
 \end{example}
 
-Sequences are existing to control rules and not to carry out the bulk of the computational work,
-so only a subset of the rule computations is available in the sequence computations.
-The sequence computations are embedded directly in the controlling sequence on the other hand, in contrast to the computations from the rule language that can only be used by calling their named abstractions.
-In particular, the subset that is needed in order to draw decisions (esp. comparison operators) and to assign variables (so for sequence variable initialization you need to employ a sequence computation) is available.
+Sequences are existing to control rules and not to carry out the bulk of the computational work (in spite of that, nearly all rule computations are available in the sequence computations).
+But the sequence computations are embedded directly in the controlling sequence, in contrast to the computations from the rule language that can only be used by calling their named abstractions.
+%In particular, the subset that is needed in order to draw decisions (esp. comparison operators) and to assign variables (so for sequence variable initialization you need to employ a sequence computation) is available.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Sequence Statements} \label{sec:seqcomp}
@@ -134,16 +133,19 @@ The example \verb#{ x:array<int>=array<int>[]; x.add(42); x[0]=1; {x.size()>0} }
     BooleanSequenceExpression |
     RelationalSequenceExpression |
     ArithmeticSequenceExpression |
+    BitwiseSequenceExpression |
+    StringSequenceExpression |
     ContainerSequenceExpression |
     PrimarySequenceExpression;
 \end{rail}\ixnterm{SequenceExpression}
 
-Sequence expressions are a subset of the expressions introduced in \ref{sub:expr}, containing 
+The sequence expressions support the same functionality like the expressions introduced in \ref{sub:expr}, containing 
 the boolean expressions,
 the relational (comparison) expressions,
-the arithmetic expressions, but not the bitwise expressions,
-and the string expressions.
-The container sequence expressions are a subset of the container expressions introduced in \ref{cha:container}, they will be explained in \ref{sec:storages}.
+the arithmetic expressions,
+the bitwise expressions,
+plus the string expressions.
+The container sequence expressions are the same as the container expressions introduced in \ref{cha:container}, they will be explained in \ref{sec:storages}.
 
 \begin{rail}
   ConditionalSequenceExpression: 
@@ -166,19 +168,36 @@ The boolean operators have the same semantics and same priority as in \ref{sub:e
 \end{rail}\ixnterm{RelationalSequenceExpression}
 
 The equality operators work for every type and return whether the values to compare are equal or unequal.
-The relational operators work as specified in \ref{sub:expr} for numerical types and \ref{cha:graph} for graph type.
+The relational operators work as specified in Section~\ref{sub:expr} for numerical types and string type, and Chapter~\ref{cha:graph} for graph type.
 
 \begin{rail}
   ArithmeticSequenceExpression:
     SequenceExpression ('+' | '-' | '*' | '/' | percent) SequenceExpression |
-		'-' SequenceExpression;
+		('-' | '+') SequenceExpression;
 \end{rail}\ixnterm{ArithmeticSequenceExpression}
 
 The arithmetic operator plus is used to denote addition of numerical values or string concatenation,
 the arithmetic operator minus is used to denote subtraction of numerical values.
 Furthermore, you can multiply and divide numbers, or compute the remainder of a division.
-Neither the arithmetic functions of package \texttt{Math}, nor the string methods are available in the sequence expressions.
-Use the entities from the rule language for real computational work, you can reuse them easily, just call the functions from the sequence expressions, the procedures from the sequence statements, and the rules/tests from the sequences.
+Also, the arithmetic functions of package \texttt{Math} are available.
+
+Even though everything is available in the sequence computations for carrying out computations, do we recommend to use the rule language for real computational work, you can employ the entities from the rule language easily, just call the functions from the sequence expressions, the procedures from the sequence statements, and the rules/tests from the sequences.
+
+\begin{rail}
+  BitwiseSequenceExpression: 
+    SequenceExpression (ampersand | xorhat | '|' | '<<' | '>>' | '>>>') SequenceExpression |
+    tilde SequenceExpression;
+\end{rail}\ixnterm{BitwiseSequenceExpression}
+
+The bitwise operators have the same semantics and same priority as in \ref{sub:expr}.
+
+\begin{rail}
+  StringSequenceExpression: 
+    SequenceExpression ('+' | 'in') SequenceExpression;
+\end{rail}\ixnterm{StringSequenceExpression}
+
+The string operators have the same semantics and same priority as in \ref{sub:expr}.
+In addition, the string methods are also available in the sequence expressions.
 
 \begin{rail}
   PrimarySequenceExpression:
@@ -232,7 +251,7 @@ They were introduced in chapter \ref{cha:graph}, and are summarized below in \re
 \end{rail}
 
 A method call executes a method on a variable, passing further arguments.
-The method may be one of the predefined container methods, or a user-defined method (cf. \ref{sec:objectoriented}).
+The method may be one of the predefined container methods (or a string method), or a user-defined method (cf. \ref{sec:objectoriented}).
 Method calls work as in the rule language, i.e. you can build chains of function method calls, like with the \emph{MethodSelector} from the rule language, cf. Chapter~\ref{cha:typeexpr} (in contrast to procedure method calls).
 
 A function call executes a user defined function from the rules file, cf. \ref{sub:compdef},
@@ -246,10 +265,10 @@ The function \texttt{nodeByUnique} allows to retrieve a node by its unique id, \
 You find more on them in Chapter~\ref{cha:performance}.
 
 The \texttt{typeof} function returns the type \emph{as string}, for an arbitrary \GrG-object fed as input.
-There is no type type supporting type comparisons as in the rule language existing, you are limited to string comparisons.
+There is no type type existing supporting type comparisons as in the rule language, you are limited to string comparisons.
 
 Also functions from packages may be called, the name \emph{FunctionIdent} is then prefixed by the \emph{Ident} of the package, separated by a double colon \texttt{::}.
-A user-defined function from a user-defined package may be called, or one of the built-in functions contained in the built-in package \texttt{File}, e.g. \texttt{import}, or \texttt{now} from the built-in package \texttt{Time}, cf. Chapter~\ref{cha:graph} (for more on packages see \ref{sub:packageaction}).
+A user-defined function from a user-defined package may be called, or one of the built-in functions contained in the built-in package \texttt{File}, e.g. \texttt{import}, or \texttt{now} from the built-in package \texttt{Time}, cf. Chapter~\ref{cha:graph} (or one of the functions from package \texttt{Math} --- for more on packages see \ref{sub:packageaction}).
 
 Regarding the rule queries, take a look at Chapter~\ref{cha:graphquery}.
 
@@ -273,7 +292,7 @@ Here we only give some refinements and explanations of the semantics.
 The update methods \texttt{add}, \texttt{rem}, and \texttt{clear} are available for all storages and allow to add elements to the container, remove elements from the container, or clear the container.
 Their return value is the changed container, thus they allow to chain method calls on the container.
 
-The query methods \texttt{size}, \texttt{empty}, \texttt{peek} in contrast return the size of the container, whether the container is empty, or a certain element from the container and thus can't be chained.
+The query methods \texttt{size}, \texttt{empty}, \texttt{peek} in contrast return the size of the container, whether the container is empty, or a certain element from the container, and thus can't be chained.
 
 The indexed query \texttt{v=m[k]} is available on map and array and deque types and returns the element at the specified index,
 the indexed assignment \texttt{a[i]=v} overwrites the element at the specified index.
@@ -291,21 +310,21 @@ All infix container operators are available in the sequence expressions, they ha
 \end{rail}\ixnterm{RelationalSequenceExpression}
 
 The relational (including equality) operators work as specified in Chapter~\ref{cha:container} for container types.
-Further available is the sequence expression operator \texttt{in} for membership query -- it is not supported on string type, though.
+Further available is the sequence expression operator \texttt{in} for membership query.
 
 All container constructors and copy constructors are supported, see Chapter~\ref{cha:container} for more on them.
-The change assignments known from rule language in contrast are \emph{not} available in the sequence computations.
+The change assignments known from rule language in contrast are \emph{not} available in the sequence computations (but this is the only exception).
 
-Further support is discussed in the following separated by type.
+Further support is discussed in the following separated by type (in a nutshell: everything that is available in the rule language is offered).
 
 \subsubsection*{Array Operations}
-All array methods are supported (the array of match is the central data structure in the sequence expressions to support pattern-based graph queries), see Section~\ref{sec:arrayexpr} and Section~\ref{sec:accumulation} for a list of them.
-From the array methods specifying and accessing a member of the array value type, the \texttt{extract<member>()} method is supported as well as the ordering methods \texttt{order\-Ascending\-By<member>()} and \texttt{order\-Descending\-By<member>()}, plus \texttt{group\-By<member>()} and \texttt{keep\-One\-For\-Each<member>()} (note that further means of ordering are available as filter calls).
+All array methods are supported (the array of match is the most important data structure in the sequence expressions, it is delivered by pattern-based graph queries), see Section~\ref{sec:arrayexpr} and Section~\ref{sec:accumulation} for a list of them.
+Also all array methods specifying and accessing an attribute/member of the objects stored in the array are supported (this esp. includes the ordering methods, note that further means of ordering are available as filter calls).
 
 All infix operators are supported, which are array concatenation, as well as the relational operators.
 
 \subsubsection*{Set Operations}
-All set methods are supported, this is in addition to the ones already mentioned in the section on the common parts of all container types: \texttt{asArray()} (cf. \ref{sec:setexpr}).
+All set methods are supported, this is in addition to the ones already mentioned in the section on the common parts of all container types the \texttt{asArray()} (cf. \ref{sec:setexpr}) method.
 
 All infix operators are supported, which are set union, intersection, and difference, as well as the relational operators.
 
@@ -315,7 +334,7 @@ All map methods are supported, these are in addition to the ones already mention
 All infix operators are supported, which are map union, intersection, and difference (including sets as right value), as well as the relational operators.
 
 \subsubsection*{Deque Operations}
-All deque methods are supported, these are in addition to the ones already mentioned in the section on the common parts of all container types: \texttt{subdeque()}, \texttt{asArray()}, \texttt{asSet()}, \texttt{indexOf(.), \texttt{indexOf(.,.)}}, \texttt{lastIndexOf(.)} (cf. \ref{sec:dequeexpr}).
+All deque methods are supported, these are in addition to the ones already mentioned in the section on the common parts of all container types: \texttt{subdeque()}, \texttt{asArray()}, \texttt{asSet()}, \texttt{indexOf(.), \texttt{indexOf(.,.)}}, \texttt{lastIndexOf(.)}, \texttt{lastIndexOf(.,.)} (cf. \ref{sec:dequeexpr}).
 
 All infix operators are supported, which are deque concatenation, as well as the relational operators.
 
@@ -459,9 +478,10 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \texttt{e op f} & For \texttt{op} being one of the boolean operators \texttt{||,|,\&,\&\&,\^\ } \\
 \texttt{e op f} & For \texttt{op} being one of comparison operators \texttt{==,!=,<,<=,>,>=,in} \\
 \texttt{e op f} & For \texttt{op} being one of arithmetic operators \texttt{+,-,*,/,\%} \\
+\texttt{e op f} & For \texttt{op} being one of the bitwise operators \texttt{\&,\^{},|,<<,>>,>>> } \\
 \texttt{e op f} & For \texttt{op} being one of the set or map operators \texttt{|,\&,\textbackslash} \\
 \texttt{e + f} & For array or deque or string concatenation. \\
-\texttt{op e} & For \texttt{op} being boolean \texttt{!} or arithmetic \texttt{-}\\
+\texttt{op e} & For \texttt{op} being boolean \texttt{!} or arithmetic \texttt{-,+} or bitwise \texttt{\~}\\
 \hline
 \texttt{[?r\textbackslash f]} & Rule query, returns every match produced by \texttt{r} that was left by the filter \texttt{f}, in the order left behind by the filter, as \texttt{array<match<r>>}. \\
 \texttt{[?[q,r]\textbackslash mc.f\textbackslash<mc>]} & Multi rule query, returns every match produced by \texttt{q} and \texttt{r} that was left by the filter \texttt{f} of match class \texttt{mc}, in the order left behind by the match class filter, as \texttt{array<match<class mc>>}. \\
@@ -476,13 +496,13 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \texttt{u=set<Node>\{\}} & Example for container constructor, creates storage set and assigns to \texttt{u}.\\
 \texttt{u[e]} & Target value of \texttt{e} in \texttt{u}. Fails if \texttt{!(e in u)}. Assignment target or expression.\\
 \hline
-\texttt{f(...)} & Calls one of the functions for graph querying defined in \ref{funcstab} and explained in \ref{cha:graph}. Or calls a user defined function. The numerical functions are \emph{not} available.\\
+\texttt{f(...)} & Calls one of the functions for graph querying defined in \ref{funcstab} and explained in \ref{cha:graph}. Or calls a user defined function. Also the mathematical functions may be called.\\
 \hline
 \texttt{(...)=p(...)} & Calls one of the procedures for graph manipulation defined in \ref{procstab} and explained in \ref{cha:graph}. Or calls a user defined procedure.\\
 \hline
-\texttt{v.fm(...)} & Calls one of the function methods \texttt{size,empty,peek} for container querying defined in \ref{funcmethstab} and explained in \ref{cha:container}. Or calls a user defined function. The string function methods and other container function methods as well as infix operators are \emph{not} available.\\
+\texttt{v.fm(...)} & Calls esp. one of the function methods \texttt{size,empty,peek} for container querying defined in \ref{funcmethstab} and explained in \ref{cha:container}. Or calls a user defined function. Also the other container function methods as well as the string function methods are available.\\
 \hline
-\texttt{(...)=v.pm(...)} & Calls one of the procedure methods \texttt{add,rem,clear} for container manipulation defined in \ref{procmethstab} and explained in \ref{cha:container}. Or calls a user defined procedure. The change assignments are \emph{not} available.\\
+\texttt{(...)=v.pm(...)} & Calls esp. one of the procedure methods \texttt{add,rem,clear} for container manipulation defined in \ref{procmethstab} and explained in \ref{cha:container}. Or calls a user defined procedure. The change assignments are \emph{not} available.\\
 \hline
 \end{tabularx}
 \end{minipage}\\
