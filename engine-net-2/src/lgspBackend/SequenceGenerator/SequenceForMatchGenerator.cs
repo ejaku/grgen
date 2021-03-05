@@ -94,6 +94,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
+            if(fireDebugEvents)
+                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+
             source.Unindent();
             source.AppendFront("}\n");
         }

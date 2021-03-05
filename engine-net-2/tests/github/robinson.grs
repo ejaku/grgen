@@ -1,0 +1,11 @@
+new graph github/robinson "bug"
+
+new :Node($=A)
+
+exec Run
+#exec Run
+
+exec ${<ruleA, ruleB>}
+#exec ${<ruleA, ruleB>}
+
+quit

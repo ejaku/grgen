@@ -1,0 +1,19 @@
+rule ruleA {
+    n:Node;
+
+    modify {
+        n-:Edge->:Node;
+    }
+}
+
+rule ruleB {
+    n:Node;
+
+    modify {
+        n-:Edge->n;
+    }
+}
+
+sequence Run {
+    ${<ruleA, ruleB>}
+}

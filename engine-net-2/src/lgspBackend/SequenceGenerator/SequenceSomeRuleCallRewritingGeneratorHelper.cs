@@ -75,6 +75,8 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(returnAssignments + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
             source.AppendFront(firstRewrite + " = false;\n");
+            if(fireDebugEvents)
+                source.AppendFront("procEnv.Finished(" + matchesName + ", " + ruleCallRewritingGenerator.specialStr + ");\n");
         }
 
         public void EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(SourceBuilder source, String firstRewrite, bool fireDebugEvents)
