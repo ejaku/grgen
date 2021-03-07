@@ -1627,7 +1627,7 @@ public class ModifyGen extends CSharpBase
 			} else if(node.getCopy() == CopyKind.Copy) { // node:copy<typeofElem>
 				sb2.appendFront("GRGEN_LGSP.LGSPNode " + formatEntity(node)
 				+ " = (GRGEN_LGSP.LGSPNode) "
-				+ formatEntity(typeofElem) + ".Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>());\n");
+				+ formatEntity(typeofElem) + ".Copy(graph, new Dictionary<object, object>());\n");
 			} else { // node:typeof(typeofElem)
 				nodesNeededAsTypes.add(typeofElem);
 				sb2.appendFront("GRGEN_LGSP.LGSPNode " + formatEntity(node)
@@ -1719,7 +1719,7 @@ public class ModifyGen extends CSharpBase
 				sb2.appendFront("GRGEN_LGSP.LGSPEdge " + formatEntity(edge)
 						+ " = (GRGEN_LGSP.LGSPEdge) "
 						+ formatEntity(typeofElem) + ".Copy("
-						+ formatEntity(src_node) + ", " + formatEntity(tgt_node) + ", graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>());\n");
+						+ formatEntity(src_node) + ", " + formatEntity(tgt_node) + ", graph, new Dictionary<object, object>());\n");
 			} else { // -edge:typeof(typeofElem)->
 				edgesNeededAsTypes.add(typeofElem);
 				sb2.appendFront("GRGEN_LGSP.LGSPEdge " + formatEntity(edge) + " = (GRGEN_LGSP.LGSPEdge) "

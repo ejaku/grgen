@@ -46,6 +46,7 @@ import de.unika.ipd.grgen.ir.type.basic.ShortType;
 import de.unika.ipd.grgen.ir.type.basic.StringType;
 import de.unika.ipd.grgen.ir.type.basic.VoidType;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
+import de.unika.ipd.grgen.ir.type.container.ContainerType;
 import de.unika.ipd.grgen.ir.type.container.DequeType;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.ir.type.container.SetType;
@@ -921,15 +922,24 @@ public abstract class CSharpBase
 				} else if(t instanceof InternalObjectType) {
 					sb.append("((" + formatType(t) + ")(");
 					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(").Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>()))");
+					sb.append(").Copy(graph, new Dictionary<object, object>()))");
 				} else if(t instanceof InternalTransientObjectType) {
 					sb.append("((" + formatType(t) + ")(");
 					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(").Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>()))");
-				} else { // container
+					sb.append(").Copy(graph, new Dictionary<object, object>()))");
+				} else if(t instanceof ContainerType) {
 					sb.append("GRGEN_LIBGR.ContainerHelper.Copy(");
 					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(", graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())");
+					sb.append(", graph, new Dictionary<object, object>())");
+				} else { // object/external object type
+					if(modifyGenerationState.model().isCopyClassDefined()) {
+						sb.append("((" + formatType(t) + ")(");
+						sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.Copy(");
+						genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+						sb.append(", graph, new Dictionary<object, object>())))");
+					} else {
+						sb.append("GRGEN_MODEL.ExternalObjectType_object.ThrowCopyClassMissingException()");
+					}
 				}
 			}
 			else
@@ -946,10 +956,19 @@ public abstract class CSharpBase
 					sb.append("((" + formatType(t) + ")(");
 					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 					sb.append(").Clone())");
-				} else { // container
+				} else if(t instanceof ContainerType) {
 					sb.append("new " + formatType(t) + "(");
 					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 					sb.append(")");
+				} else { // object/external object type
+					if(modifyGenerationState.model().isCopyClassDefined()) {
+						sb.append("((" + formatType(t) + ")(");
+						sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.Copy(");
+						genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+						sb.append(", graph, null)));\n");
+					} else {
+						sb.append("GRGEN_MODEL.ExternalObjectType_object.ThrowCopyClassMissingException()");
+					}
 				}
 			}
 		} else if(expr instanceof Count) {

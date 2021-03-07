@@ -18,11 +18,13 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.NullTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -106,6 +108,10 @@ public abstract class ExprNode extends BaseNode
 			if(t.isCompatibleTo(tgt) && t != BasicTypeNode.untypedType) {
 				return new CastNode(getCoords(), tgt, new CastNode(getCoords(), t, this, this), this);
 			}
+		}
+
+		if(src instanceof ExternalObjectTypeNode && tgt instanceof ObjectTypeNode) {
+			return new CastNode(getCoords(), tgt, this, this);
 		}
 
 		return ConstNode.getInvalid();

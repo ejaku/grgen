@@ -11,12 +11,14 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.GraphTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
 import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.CopyExpr;
@@ -77,16 +79,20 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 			if(!(type instanceof GraphTypeNode)
 					&& !(type instanceof ContainerTypeNode)
 					&& !(type instanceof InternalObjectTypeNode)
-					&& !(type instanceof InternalTransientObjectTypeNode)) {
-				sourceExpr.reportError("container or graph or class object or transient class object expected as argument to copy");
+					&& !(type instanceof InternalTransientObjectTypeNode)
+					&& !(type instanceof ExternalObjectTypeNode)
+					&& !(type instanceof ObjectTypeNode)) {
+				sourceExpr.reportError("container or graph or class object or transient class object or external object expected as argument to copy");
 				return false;
 			}
 		} else {
 			if(!(type instanceof MatchTypeNode)
 					&& !(type instanceof ContainerTypeNode)
 					&& !(type instanceof InternalObjectTypeNode)
-					&& !(type instanceof InternalTransientObjectTypeNode)) {
-				sourceExpr.reportError("container or match or class object or transient class object expected as argument to clone");
+					&& !(type instanceof InternalTransientObjectTypeNode)
+					&& !(type instanceof ExternalObjectTypeNode)
+					&& !(type instanceof ObjectTypeNode)) {
+				sourceExpr.reportError("container or match or class object or transient class object or external object expected as argument to clone");
 				return false;
 			}
 		}
@@ -106,7 +112,9 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 		if(sourceExpr.getType() instanceof MatchTypeNode
 				|| sourceExpr.getType() instanceof ContainerTypeNode
 				|| sourceExpr.getType() instanceof InternalObjectTypeNode
-				|| sourceExpr.getType() instanceof InternalTransientObjectTypeNode)
+				|| sourceExpr.getType() instanceof InternalTransientObjectTypeNode
+				|| sourceExpr.getType() instanceof ExternalObjectTypeNode
+				|| sourceExpr.getType() instanceof ObjectTypeNode)
 			return sourceExpr.getType();
 		else
 			return BasicTypeNode.graphType;

@@ -759,21 +759,21 @@ public class ModelGen extends CSharpBase
 	private static void genElementCopyMethod(InheritanceType type, SourceBuilder routedSB, String routedDeclName)
 	{
 		if(type instanceof NodeType) {
-			routedSB.appendFront("public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {\n");
+			routedSB.appendFront("public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {\n");
 			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, graph, oldToNewObjectMap);\n");
 			routedSB.appendFront("}\n");
 		} else if(type instanceof EdgeType) {
 			routedSB.appendFront("public override GRGEN_LIBGR.IEdge Copy("
-					+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {\n");
+					+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {\n");
 			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, "
 					+ "(GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);\n");
 			routedSB.appendFront("}\n");
 		} else if(type instanceof InternalTransientObjectType) {
-			routedSB.appendFront("public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {\n");
+			routedSB.appendFront("public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {\n");
 			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, graph, oldToNewObjectMap);\n");
 			routedSB.appendFront("}\n");
 		} else {
-			routedSB.appendFront("public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {\n");
+			routedSB.appendFront("public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {\n");
 			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, graph, oldToNewObjectMap);\n");
 			routedSB.appendFront("}\n");
 		}
@@ -819,18 +819,18 @@ public class ModelGen extends CSharpBase
 			SourceBuilder routedSB, String routedClassName, String routedDeclName)
 	{
 		if(type instanceof NodeType) {
-			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base("
+			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base("
 					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
 		} else if(type instanceof EdgeType) {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName
-					+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)\n");
+					+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)\n");
 			routedSB.appendFrontIndented(": base("
 					+ (extName == null ? typeref + ".typeVar, " : "") + "newSource, newTarget)\n");
 		} else if(type instanceof InternalObjectType) {
-			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base("
+			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base("
 					+ (extName == null ? typeref + ".typeVar, " : "") + "graph.FetchObjectUniqueId())\n");
 		} else {
-			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base("
+			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base("
 					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
 		}
 		routedSB.appendFront("{\n");
@@ -891,8 +891,14 @@ public class ModelGen extends CSharpBase
 			} else if(model.isCopyClassDefined()
 					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
+				routedSB.appendFront("if(oldToNewObjectMap != null) {\n");
+				routedSB.indent();
 				routedSB.appendFront("AttributeTypeObjectCopierComparer.Copy("
-						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
+						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", graph, oldToNewObjectMap);\n");
+				routedSB.unindent();
+				routedSB.appendFront("} else\n");
+				routedSB.appendFrontIndented(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = "
+						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
 			} else if(member.getType() instanceof BaseInternalObjectType) {
 				routedSB.appendFront("if(oldToNewObjectMap != null) {\n");
 				routedSB.appendFrontIndented(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = "
@@ -915,13 +921,13 @@ public class ModelGen extends CSharpBase
 
 	private static void genCopyHelper(SourceBuilder sb, String type)
 	{
-		sb.appendFront("private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)\n");
+		sb.appendFront("private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(oldObj == null)\n");
 		sb.appendFrontIndented("return null;\n");
 		sb.appendFront("if(oldToNewObjectMap.ContainsKey(oldObj))\n");
-		sb.appendFrontIndented("return oldToNewObjectMap[oldObj];\n");
+		sb.appendFrontIndented("return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];\n");
 		sb.appendFront("else {\n");
 		sb.indent();
 		sb.appendFront("if(oldObj is GRGEN_LIBGR.IObject) {\n");
@@ -2927,7 +2933,7 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.append("public static " + className + " Instance { get { if(instance==null) { "
+		sb.appendFront("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); } return instance; } }\n");
 		sb.append("\n");
 

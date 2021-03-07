@@ -1239,7 +1239,7 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        public static IList Copy(IList array, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        public static IList Copy(IList array, IGraph graph, IDictionary<object, object> oldToNewObjects)
         {
             IList copy = (IList)Activator.CreateInstance(array.GetType());
 
@@ -1264,7 +1264,7 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public static List<T> Copy<T>(List<T> array, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        public static List<T> Copy<T>(List<T> array, IGraph graph, IDictionary<object, object> oldToNewObjects)
         {
             List<T> copy = new List<T>();
 

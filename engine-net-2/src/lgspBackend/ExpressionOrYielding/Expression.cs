@@ -1304,7 +1304,7 @@ namespace de.unika.ipd.grGen.expression
 
     public enum CopyKind
     {
-        Container, Graph, ClassObject, TransientClassObject
+        Container, Graph, ClassObject, TransientClassObject, ExternalObject
     }
 
     /// <summary>
@@ -1312,17 +1312,18 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class CopyExpression : Expression
     {
-        public CopyExpression(Expression source, CopyKind copyKind, String type, bool deep)
+        public CopyExpression(Expression source, CopyKind copyKind, String type, bool deep, bool isObjectCopierExisting)
         {
             Source = source;
             CopyKind = copyKind;
             Type = type;
             Deep = deep;
+            IsObjectCopierExisting = isObjectCopierExisting;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new CopyExpression(Source.Copy(renameSuffix), CopyKind, Type, Deep);
+            return new CopyExpression(Source.Copy(renameSuffix), CopyKind, Type, Deep, IsObjectCopierExisting);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -1333,7 +1334,7 @@ namespace de.unika.ipd.grGen.expression
                 {
                     sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Copy(");
                     Source.Emit(sourceCode);
-                    sourceCode.Append(", graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())");
+                    sourceCode.Append(", graph, new Dictionary<object, object>())");
                 }
                 else if(CopyKind == CopyKind.Graph)
                 {
@@ -1345,13 +1346,24 @@ namespace de.unika.ipd.grGen.expression
                 {
                     sourceCode.Append("(");
                     Source.Emit(sourceCode);
-                    sourceCode.Append(").Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())");
+                    sourceCode.Append(").Copy(graph, new Dictionary<object, object>())");
                 }
-                else //if(CopyKind == CopyKind.TransientClassObject)
+                else if(CopyKind == CopyKind.TransientClassObject)
                 {
                     sourceCode.Append("(");
                     Source.Emit(sourceCode);
-                    sourceCode.Append(").Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())");
+                    sourceCode.Append(").Copy(graph, new Dictionary<object, object>())");
+                }
+                else if(CopyKind == CopyKind.ExternalObject)
+                {
+                    if(IsObjectCopierExisting)
+                    {
+                        sourceCode.Append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.Copy(");
+                        Source.Emit(sourceCode);
+                        sourceCode.Append(", graph, new Dictionary<object, object>())");
+                    }
+                    else
+                        sourceCode.Append("GRGEN_MODEL.ExternalObjectType_object.ThrowCopyClassMissingException()");
                 }
             }
             else
@@ -1374,11 +1386,22 @@ namespace de.unika.ipd.grGen.expression
                     Source.Emit(sourceCode);
                     sourceCode.Append(").Clone(graph)");
                 }
-                else //if(CopyKind == CopyKind.TransientClassObject)
+                else if(CopyKind == CopyKind.TransientClassObject)
                 {
                     sourceCode.Append("(");
                     Source.Emit(sourceCode);
                     sourceCode.Append(").Clone()");
+                }
+                else if(CopyKind == CopyKind.ExternalObject)
+                {
+                    if(IsObjectCopierExisting)
+                    {
+                        sourceCode.Append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.Copy(");
+                        Source.Emit(sourceCode);
+                        sourceCode.Append(", graph, null)");
+                    }
+                    else
+                        sourceCode.Append("GRGEN_MODEL.ExternalObjectType_object.ThrowCopyClassMissingException()");
                 }
             }
         }
@@ -1392,6 +1415,7 @@ namespace de.unika.ipd.grGen.expression
         readonly String Type; // if non-null, gives the container type to copy, if null it's a graph or class object
         readonly Expression Source;
         readonly bool Deep;
+        readonly bool IsObjectCopierExisting;
     }
 
     /// <summary>

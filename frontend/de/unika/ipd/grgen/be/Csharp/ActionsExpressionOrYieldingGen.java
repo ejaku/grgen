@@ -72,6 +72,7 @@ import de.unika.ipd.grgen.ir.type.basic.IntType;
 import de.unika.ipd.grgen.ir.type.basic.ObjectType;
 import de.unika.ipd.grgen.ir.type.basic.StringType;
 import de.unika.ipd.grgen.ir.type.container.ArrayType;
+import de.unika.ipd.grgen.ir.type.container.ContainerType;
 import de.unika.ipd.grgen.ir.type.container.DequeType;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.ir.type.container.SetType;
@@ -420,11 +421,15 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			} else if(t instanceof InternalTransientObjectType) {
 				sb.append(", GRGEN_EXPR.CopyKind.TransientClassObject");
 				sb.append(", null");
-			} else { // no match type possible here, can only occur in filter function (-> CSharpBase expression)
+			} else if(t instanceof ContainerType) {
 				sb.append(", GRGEN_EXPR.CopyKind.Container");
+				sb.append(", \"" + formatType(t) + "\"");
+			} else { // no match type possible here, can only occur in filter function (-> CSharpBase expression)
+				sb.append(", GRGEN_EXPR.CopyKind.ExternalObject");
 				sb.append(", \"" + formatType(t) + "\"");
 			}
 			sb.append(", " + ce.getDeep());
+			sb.append(", " + model.isCopyClassDefined());
 			sb.append(")");
 		} else if(expr instanceof Count) {
 			Count count = (Count)expr;

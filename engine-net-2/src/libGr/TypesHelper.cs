@@ -161,11 +161,11 @@ namespace de.unika.ipd.grGen.libGr
             else if(toBeCopied is IMatch)
                 return ((IMatch)toBeCopied).Clone();
             else if(toBeCopied is IObject)
-                return ((IObject)toBeCopied).Copy(graph, new Dictionary<IBaseObject, IBaseObject>());
+                return ((IObject)toBeCopied).Copy(graph, new Dictionary<object, object>());
             else if(toBeCopied is ITransientObject)
-                return ((ITransientObject)toBeCopied).Copy(graph, new Dictionary<IBaseObject, IBaseObject>());
+                return ((ITransientObject)toBeCopied).Copy(graph, new Dictionary<object, object>());
             else
-                return ContainerHelper.Copy(toBeCopied, graph, new Dictionary<IBaseObject, IBaseObject>());
+                return ContainerHelper.Copy(toBeCopied, graph, new Dictionary<object, object>());
         }
     }
 }

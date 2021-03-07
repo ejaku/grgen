@@ -586,7 +586,7 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        public static IDeque Copy(IDeque deque, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        public static IDeque Copy(IDeque deque, IGraph graph, IDictionary<object, object> oldToNewObjects)
         {
             IDeque copy = (IDeque)Activator.CreateInstance(deque.GetType());
 
@@ -611,7 +611,7 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public static Deque<T> Copy<T>(Deque<T> deque, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        public static Deque<T> Copy<T>(Deque<T> deque, IGraph graph, IDictionary<object, object> oldToNewObjects)
         {
             Deque<T> copy = new Deque<T>();
 

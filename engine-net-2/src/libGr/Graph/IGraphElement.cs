@@ -113,15 +113,15 @@ namespace de.unika.ipd.grGen.libGr
         INode Clone();
 
         /// <summary>
-        /// Creates a deep copy of this node (i.e. internal (transient) class objects will be replicated).
+        /// Creates a deep copy of this node (i.e. (transient) class objects will be replicated).
         /// All attributes will be transfered to the new node.
         /// The node will not be associated to a graph, yet.
         /// So it will not have any incident edges nor any assigned variables.
         /// </summary>
-        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
+        /// <param name="graph">The graph to fetch the names of the new (non-transient) objects from.</param>
         /// <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
         /// <returns>A copy of this node.</returns>
-        INode Copy(IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap);
+        INode Copy(IGraph graph, IDictionary<object, object> oldToNewObjectMap);
     }
 
     /// <summary>
@@ -170,17 +170,17 @@ namespace de.unika.ipd.grGen.libGr
         IEdge Clone(INode newSource, INode newTarget);
 
         /// <summary>
-        /// Creates a deep copy of this edge (i.e. internal (transient) class objects will be replicated).
+        /// Creates a deep copy of this edge (i.e. (transient) class objects will be replicated).
         /// All attributes will be transfered to the new edge.
         /// The edge will not be associated to a graph, yet.
         /// So it will not have any assigned variables.
         /// </summary>
         /// <param name="newSource">The new source node for the new edge.</param>
         /// <param name="newTarget">The new target node for the new edge.</param>
-        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
+        /// <param name="graph">The graph to fetch the names of the new (non-transient) objects from.</param>
         /// <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
         /// <returns>A copy of this edge.</returns>
-        IEdge Copy(INode newSource, INode newTarget, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap);
+        IEdge Copy(INode newSource, INode newTarget, IGraph graph, IDictionary<object, object> oldToNewObjectMap);
     }
 
     /// <summary>

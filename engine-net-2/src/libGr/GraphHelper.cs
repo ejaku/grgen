@@ -4990,7 +4990,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static INode AddCopyOfNode(object node, IGraph graph)
         {
-            IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap = new Dictionary<IBaseObject, IBaseObject>();
+            IDictionary<object, object> oldToNewObjectMap = new Dictionary<object, object>();
             INode copy = ((INode)node).Copy(graph, oldToNewObjectMap);
             graph.AddNode(copy);
             return copy;
@@ -5001,7 +5001,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static IEdge AddCopyOfEdge(object edge, INode src, INode tgt, IGraph graph)
         {
-            IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap = new Dictionary<IBaseObject, IBaseObject>();
+            IDictionary<object, object> oldToNewObjectMap = new Dictionary<object, object>();
             IEdge copy = ((IEdge)edge).Copy(src, tgt, graph, oldToNewObjectMap);
             graph.AddEdge(copy);
             return copy;

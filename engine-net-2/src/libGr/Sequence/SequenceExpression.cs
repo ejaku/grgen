@@ -10859,11 +10859,11 @@ namespace de.unika.ipd.grGen.libGr
                 if(toBeCopied is IGraph)
                     return GraphHelper.Copy((IGraph)toBeCopied);
                 else if(toBeCopied is IObject)
-                    return ((IObject)toBeCopied).Copy(procEnv.Graph, new Dictionary<IBaseObject, IBaseObject>());
+                    return ((IObject)toBeCopied).Copy(procEnv.Graph, new Dictionary<object, object>());
                 else if(toBeCopied is ITransientObject)
-                    return ((ITransientObject)toBeCopied).Copy(procEnv.Graph, new Dictionary<IBaseObject, IBaseObject>());
+                    return ((ITransientObject)toBeCopied).Copy(procEnv.Graph, new Dictionary<object, object>());
                 else
-                    return ContainerHelper.Copy(toBeCopied, procEnv.Graph, new Dictionary<IBaseObject, IBaseObject>());
+                    return ContainerHelper.Copy(toBeCopied, procEnv.Graph, new Dictionary<object, object>());
             }
             else
             {

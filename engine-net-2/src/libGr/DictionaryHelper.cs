@@ -887,7 +887,7 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        public static IDictionary Copy(IDictionary dictionary, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        public static IDictionary Copy(IDictionary dictionary, IGraph graph, IDictionary<object, object> oldToNewObjects)
         {
             Type keyType;
             Type valueType;
@@ -928,7 +928,7 @@ namespace de.unika.ipd.grGen.libGr
             return copy;
         }
 
-        public static Dictionary<K, V> Copy<K, V>(Dictionary<K, V> dictionary, IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        public static Dictionary<K, V> Copy<K, V>(Dictionary<K, V> dictionary, IGraph graph, IDictionary<object, object> oldToNewObjects)
         {
             Dictionary<K, V> copy = new Dictionary<K, V>();
 

@@ -1,0 +1,37 @@
+// we declare three external classes we want to use in our external attribute computations
+// signature only, external implmentation!
+external class Own;
+
+// we declare that we want to implement copying 
+// of objects of external types or of object type
+//external copy class;
+
+node class N
+{
+	o:object;
+	ow:Own; // attributes of type externally defined
+	internalObject:O;
+}
+
+edge class E
+{
+	o:object;
+	ow:Own; // attributes of type externally defined	
+	internalObject:O;
+}
+
+class O
+{
+	o:object;
+	ow:Own; // attributes of type externally defined	
+}
+
+transient class TO
+{
+	o:object;
+	ow:Own; // attributes of type externally defined
+	to:TO;
+}
+
+// "constructors" implemented as attribute functions, for filling attributes
+external function own() : Own;

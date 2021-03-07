@@ -412,6 +412,9 @@ public class ModelExternalGen extends CSharpBase
 		sb.appendFront("public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) "
 				+ "{ return null; }\n");
 
+		sb.append("\n");
+		sb.appendFront("public static object ThrowCopyClassMissingException() { throw new Exception(\"Cannot copy/clone external object, copy class specification is missing in the model.\"); }\n");
+
 		sb.unindent();
 		sb.appendFront("}\n");
 	}
@@ -597,11 +600,13 @@ public class ModelExternalGen extends CSharpBase
 				+ model.getIdent() + "ModelExternalFunctionsImpl.cs:\n");
 		sb.append("\n");
 		if(model.isCopyClassDefined()) {
-			sb.appendFront("// Called when a graph element is cloned/copied.\n");
-			sb.appendFront("// For attribute type object.\n");
-			sb.appendFront("// If \"copy class\" is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.\n");
-			sb.appendFront("// All other attribute types are copied by-value (so changing one later on has no effect on the other).\n");
-			sb.appendFront("//public static object Copy(object);\n");
+			sb.appendFront("// Called when a graph element or internal (transient) object bearing attributes of external object type is to be copied.\n");
+			sb.appendFront("// Also called when a top-level external object is to be cloned or copied.\n");
+			sb.appendFront("// If \"copy class\" is not specified, object attributes are copied by copying the reference, i.e. they are identical afterwards (top-level objects cannot be copied/cloned in this case).\n");
+			sb.appendFront("// If \"copy class\" is specified:\n");
+			sb.appendFront("// If the old to new element dictionary is null, objects are to be cloned, i.e. top-level object (of the very call) is to be cloned and others are just assigned by reference.\n");
+			sb.appendFront("// Otherwise, they are to be copied by-value (so changing one attribute later on has no effect on the other).\n");
+			sb.appendFront("//public static object Copy(object, IGraph, IDictionary<object, object>);\n");
 			sb.append("\n");
 		}
 		if(model.isEqualClassDefined()) {

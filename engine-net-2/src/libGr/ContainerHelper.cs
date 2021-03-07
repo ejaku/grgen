@@ -50,7 +50,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="oldContainer">The container to copy.</param>
         /// <returns>A deep copy of the container</returns>
-        public static object Copy(object oldContainer, IGraph graph, System.Collections.Generic.IDictionary<IBaseObject, IBaseObject> oldToNewObjects)
+        public static object Copy(object oldContainer, IGraph graph, System.Collections.Generic.IDictionary<object, object> oldToNewObjects)
         {
             if(oldContainer is IDictionary)
             {

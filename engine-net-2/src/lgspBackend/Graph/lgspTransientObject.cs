@@ -105,13 +105,13 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract ITransientObject Clone();
 
         /// <summary>
-        /// Creates a deep copy of this transient object.
+        /// Creates a deep copy of this transient object (i.e. (transient) class objects will be replicated).
         /// All attributes will be transferred to the new object.
         /// </summary>
-        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
+        /// <param name="graph">The graph to fetch the names of the new (non-transient) objects from.</param>
         /// <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
         /// <returns>A copy of this object.</returns>
-        public abstract ITransientObject Copy(IGraph graph, IDictionary<IBaseObject, IBaseObject> oldToNewObjectMap);
+        public abstract ITransientObject Copy(IGraph graph, IDictionary<object, object> oldToNewObjectMap);
 
         /// <summary>
         /// Returns whether the attributes of this transient object and that transient object are equal.

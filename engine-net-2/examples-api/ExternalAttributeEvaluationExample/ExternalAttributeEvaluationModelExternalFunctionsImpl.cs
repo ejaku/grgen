@@ -259,7 +259,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             return this_ == that; // equal if identical, default implementation
         }
 
-        public static object Copy(object that)
+        public static object Copy(object that, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
         {
             return that; // copy reference, default implementation
         }
@@ -270,7 +270,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
         }
 
         
-		public static Own Copy(Own that)
+		public static Own Copy(Own that, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
         {
             return that; // copy reference, default implementation
         }
@@ -286,7 +286,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
         }
 
         
-		public static OwnPown Copy(OwnPown that)
+		public static OwnPown Copy(OwnPown that, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
         {
             return new OwnPown(that);
         }
@@ -301,7 +301,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 
 		
-        public static OwnPownHome Copy(OwnPownHome that)
+        public static OwnPownHome Copy(OwnPownHome that, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
         {
             return new OwnPownHome(that);
         }

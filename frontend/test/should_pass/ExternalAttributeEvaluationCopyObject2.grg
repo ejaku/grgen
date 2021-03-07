@@ -1,0 +1,56 @@
+#using "ExternalAttributeEvaluationCopyObject2.gm"
+
+rule init
+{
+	replace {
+		n:N -:E-> n;
+
+		eval {
+			n.o = own();
+			n.ow = own();
+			n.internalObject = new O@(o=own(), ow=own());
+		}
+	}
+}
+
+rule r
+{
+	n:N -e:E-> n;
+	
+	if { copy(own())==own(); }
+	if { clone(own())==own(); }
+
+	modify {
+		m:N;
+
+		eval {
+			n.o = copy(n.o);
+			n.o = clone(n.o);
+			e.o = copy(e.o);
+			e.o = clone(e.o);
+			
+			n.ow = copy(n.ow);
+			n.ow = clone(n.ow);
+			e.ow = copy(e.ow);
+			e.ow = clone(e.ow);
+			
+			n.internalObject = copy(n.internalObject);
+			n.internalObject = clone(n.internalObject);
+			e.internalObject = copy(e.internalObject);
+			e.internalObject = clone(e.internalObject);
+		}
+	}
+}
+
+rule testCopy
+{
+	n:N -e:E-> n;
+	
+	modify {
+		nn:copy<n>;
+		nn -ee:copy<e>-> nn;
+
+		nc:clone<n>;
+		nc -ec:clone<e>-> nc;
+	}
+}

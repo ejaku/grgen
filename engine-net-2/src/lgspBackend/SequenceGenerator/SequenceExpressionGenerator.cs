@@ -912,33 +912,33 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 return "GRGEN_LIBGR.ContainerHelper.Copy((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
                     + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "), "
-                    + "graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())";
+                    + "graph, new Dictionary<object, object>())";
             }
             else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("map<"))
             {
                 return "GRGEN_LIBGR.ContainerHelper.Copy((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
                     + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "), "
-                    + "graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())";
+                    + "graph, new Dictionary<object, object>())";
             }
             else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("array<"))
             {
                 return "GRGEN_LIBGR.ContainerHelper.Copy((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
                     + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "), "
-                    + "graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())";
+                    + "graph, new Dictionary<object, object>())";
             }
             else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("deque<"))
             {
                 return "GRGEN_LIBGR.ContainerHelper.Copy((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
                     + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "), "
-                    + "graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>())";
+                    + "graph, new Dictionary<object, object>())";
             }
             else if(env.Model.ObjectModel.GetType(seqCopy.ObjectToBeCopied.Type(env)) != null)
             {
-                return "((GRGEN_LIBGR.IObject)(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>()))";
+                return "((GRGEN_LIBGR.IObject)(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Copy(graph, new Dictionary<object, object>()))";
             }
             else if(env.Model.TransientObjectModel.GetType(seqCopy.ObjectToBeCopied.Type(env)) != null)
             {
-                return "((GRGEN_LIBGR.ITransientObject)(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>()))";
+                return "((GRGEN_LIBGR.ITransientObject)(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Copy(graph, new Dictionary<object, object>()))";
             }
             else //if(seqCopy.ObjectToBeCopied.Type(env) == "")
                 return "GRGEN_LIBGR.TypesHelper.Copy(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ", graph)";

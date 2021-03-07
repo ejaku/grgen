@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Orders the array ascendingly alongside the values in the given member.
-        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// The array must be of node or edge type, i.e. of a graph element type of this model object.
         /// </summary>
         /// <param name="array">The array to order ascendingly</param>
         /// <param name="member">The member to order alongside</param>
@@ -207,7 +207,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Orders the array descendingly alongside the values in the given member.
-        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// The array must be of node or edge type, i.e. of a graph element type of this model object.
         /// </summary>
         /// <param name="array">The array to order descendingly</param>
         /// <param name="member">The member to order alongside</param>
@@ -217,7 +217,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Groups the array alongside the values in the given member.
-        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// The array must be of node or edge type, i.e. of a graph element type of this model object.
         /// </summary>
         /// <param name="array">The array to group</param>
         /// <param name="member">The member to group by</param>
@@ -227,7 +227,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Keeps the array members with distinct values in the given member / removes duplicates.
-        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// The array must be of node or edge type, i.e. of a graph element type of this model object.
         /// </summary>
         /// <param name="array">The array to remove duplicates from</param>
         /// <param name="member">The member to check for duplicates</param>
@@ -237,7 +237,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Searches the array for the given value in the given member.
-        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// The array must be of node or edge type, i.e. of a graph element type of this model object.
         /// </summary>
         /// <param name="array">The array to search in</param>
         /// <param name="member">The member to be searched for the value</param>
@@ -247,7 +247,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Searches the array for the given value in the given member.
-        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// The array must be of node or edge type, i.e. of a graph element type of this model object.
         /// </summary>
         /// <param name="array">The array to search in</param>
         /// <param name="member">The member to be searched for the value</param>
@@ -258,7 +258,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Searches the array for the given value in the given member from back to front.
-        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// The array must be of node or edge type, i.e. of a graph element type of this model object.
         /// </summary>
         /// <param name="array">The array to search in</param>
         /// <param name="member">The member to be searched for the value</param>
@@ -268,7 +268,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Searches the array for the given value in the given member from back to front.
-        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// The array must be of node or edge type, i.e. of a graph element type of this model object.
         /// </summary>
         /// <param name="array">The array to search in</param>
         /// <param name="member">The member to be searched for the value</param>
@@ -279,7 +279,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Searches the array for the given value in the given member.
-        /// The array must be of node or edge type, of a graph element type of this model object.
+        /// The array must be of node or edge type, i.e. of a graph element type of this model object.
         /// The array must be ordered alongside the member.
         /// </summary>
         /// <param name="array">The array to search in</param>
