@@ -197,11 +197,11 @@ seqSimpleSequence [ ExecNode xg ]
 	| LT { xg.append(" <"); } sequence[xg] GT { xg.append("> "); }
 	| l=SL { env.pushScope("backtrack/exec", getCoords(l)); } { xg.append(" <<"); } 
 		seqParallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); }
-		sequence[xg] { env.popScope(); } SR { xg.append(">> "); }
+		sequence[xg] { env.popScope(); } SR { xg.append(" >> "); }
 	| l=SL { env.pushScope("backtrack/exec", getCoords(l)); } { xg.append(" <<"); } 
 		seqMultiRuleAllCall[xg, returns, false] (DOUBLE_SEMI|SEMI) { xg.append(";;"); }
-		sequence[xg] { env.popScope(); } SR { xg.append(">> "); }
-	| SL { xg.append(" <<"); } seqMultiRulePrefixedSequence[xg, returns] SR { xg.append(">> "); }
+		sequence[xg] { env.popScope(); } SR { xg.append(" >> "); }
+	| SL { xg.append(" <<"); } seqMultiRulePrefixedSequence[xg, returns] SR { xg.append(" >> "); }
 	| DIV { xg.append(" /"); } sequence[xg] DIV { xg.append("/ "); }
 	| IF l=LBRACE { env.pushScope("if/exec", getCoords(l)); } { xg.append("if{"); } sequence[xg] s=SEMI 
 		{ env.pushScope("if/then-part", getCoords(s)); } { xg.append("; "); }
