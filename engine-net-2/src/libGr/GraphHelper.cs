@@ -6267,6 +6267,15 @@ namespace de.unika.ipd.grGen.libGr
             return this_.IsIsomorph(that);
         }
 
+        public static bool HasSameStructure(IGraph this_, IGraph that)
+        {
+            if(this_ == null && that == null)
+                return true;
+            if(this_ == null || that == null)
+                return false;
+            return this_.HasSameStructure(that);
+        }
+
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>

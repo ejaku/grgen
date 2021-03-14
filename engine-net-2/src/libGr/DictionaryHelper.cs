@@ -887,6 +887,51 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public static bool StructurallyEqual(IDictionary this_, IDictionary that, IDictionary<object, object> visitedObjects)
+        {
+            if(this_.Count != that.Count)
+                return false;
+            if(this_.Count == 0)
+                return true;
+            if(TypesHelper.DotNetTypeToXgrsType(this_.GetType()) != TypesHelper.DotNetTypeToXgrsType(that.GetType()))
+                return false;
+
+            if(TypesHelper.DotNetTypeToXgrsType(this_.GetType()).StartsWith("set<"))
+            {
+                IDictionaryEnumerator dictEnum = this_.GetEnumerator();
+                dictEnum.MoveNext();
+                if(((DictionaryEntry)dictEnum.Current).Key is IAttributeBearer)
+                {
+                    IDictionary<IAttributeBearer, object> matchedObjectsFromThis = new Dictionary<IAttributeBearer, object>();
+                    IDictionary<IAttributeBearer, object> matchedObjectsFromThat = new Dictionary<IAttributeBearer, object>();
+                    return StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
+                }
+                else
+                {
+                    IDictionary<object, object> matchedObjectsFromThis = new Dictionary<object, object>();
+                    IDictionary<object, object> matchedObjectsFromThat = new Dictionary<object, object>();
+                    return StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
+                }
+            }
+            else
+            {
+                IDictionaryEnumerator dictEnum = this_.GetEnumerator();
+                dictEnum.MoveNext();
+                if(((DictionaryEntry)dictEnum.Current).Key is IAttributeBearer)
+                {
+                    IDictionary<IAttributeBearer, object> matchedObjectsFromThis = new Dictionary<IAttributeBearer, object>();
+                    IDictionary<IAttributeBearer, object> matchedObjectsFromThat = new Dictionary<IAttributeBearer, object>();
+                    return StructurallyEqualMap(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
+                }
+                else
+                {
+                    IDictionary<object, object> matchedObjectsFromThis = new Dictionary<object, object>();
+                    IDictionary<object, object> matchedObjectsFromThat = new Dictionary<object, object>();
+                    return StructurallyEqualMap(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
+                }
+            }
+        }
+
         public static IDictionary Copy(IDictionary dictionary, IGraph graph, IDictionary<object, object> oldToNewObjects)
         {
             Type keyType;

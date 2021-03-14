@@ -226,6 +226,14 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static bool IsContainerType(String typeCandidate)
+        {
+            return typeCandidate.StartsWith("set<")
+                || typeCandidate.StartsWith("map<")
+                || typeCandidate.StartsWith("array<")
+                || typeCandidate.StartsWith("deque<");
+        }
+
         public static String ExtractSrc(String genericType)
         {
             if(genericType == null) return null;

@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -2219,9 +2220,18 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Invalid types for >=");
         }
 
-        public static bool StructuralEqualObjects(object leftValue, object rightValue)
+        public static bool StructuralEqualObjects(object leftValue, object rightValue,
+            string balancedType, string leftType, string rightType, IGraph graphs)
         {
-            return ((IGraph)leftValue).HasSameStructure((IGraph)rightValue);
+            if(leftValue is IGraph
+                || leftValue is IAttributeBearer
+                || leftValue is IDictionary
+                || leftValue is IList
+                || leftValue is IDeque)
+            {
+                return ContainerHelper.StructurallyEqual(leftValue, rightValue, new Dictionary<object, object>());
+            }
+            throw new Exception("Type not supported in comparison for structural equality (~~)");
         }
 
         public static object PlusObjects(object leftValue, object rightValue,

@@ -1,0 +1,51 @@
+new graph "compare/compareGraphElement"
+
+new n0:NC(i=0, c=new C@(i=0))
+new n1:NC(i=1, c=new C@(i=1))
+new n2:NC(i=2, c=new C@(i=2))
+
+new n3:NC(i=0, c=new C@(i=0))
+new n4:NC(i=1, c=new C@(i=1))
+new n5:NC(i=2, c=new C@(i=2))
+
+new n0 -:EC(s="a", c=new C@(i=0))-> n0
+new n1 -:EC(s="b", c=new C@(i=1))-> n1
+new n2 -:EC(s="c", c=new C@(i=2))-> n2
+
+new n3 -:EC(s="a", c=new C@(i=0))-> n3
+new n4 -:EC(s="b", c=new C@(i=1))-> n4
+new n5 -:EC(s="c", c=new C@(i=2))-> n5
+
+exec { ::thisSet = new set<NC>{ @("$0"), @("$1"), @("$2") } }
+exec { ::thatSet = new set<NC>{ @("$3"), @("$4"), @("$5") } }
+
+exec { ::thisMap = new map<NC,EC>{ @("$0") -> @("$6"), @("$1") -> @("$7"), @("$2") -> @("$8") } }
+exec { ::thatMap = new map<NC,EC>{ @("$3") -> @("$9"), @("$4") -> @("$A"), @("$5") -> @("$B") } }
+
+exec { ::thisArray = new array<NC>[ @("$0"), @("$1"), @("$2") ] }
+exec { ::thatArray = new array<NC>[ @("$3"), @("$4"), @("$5") ] }
+
+exec { ::thisDeque = new deque<NC>[ @("$0"), @("$1"), @("$2") ] }
+exec { ::thatDeque = new deque<NC>[ @("$3"), @("$4"), @("$5") ] }
+
+exec (::res)=equalSet(::thisSet, ::thatSet)
+show var res
+exec (::res)=structuralEqualSet(::thisSet, ::thatSet)
+show var res
+
+exec (::res)=equalMap(::thisMap, ::thatMap)
+show var res
+exec (::res)=structuralEqualMap(::thisMap, ::thatMap)
+show var res
+
+exec (::res)=equalArray(::thisArray, ::thatArray)
+show var res
+exec (::res)=structuralEqualArray(::thisArray, ::thatArray)
+show var res
+
+exec (::res)=equalDeque(::thisDeque, ::thatDeque)
+show var res
+exec (::res)=structuralEqualDeque(::thisDeque, ::thatDeque)
+show var res
+
+quit

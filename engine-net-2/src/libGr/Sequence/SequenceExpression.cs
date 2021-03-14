@@ -1231,9 +1231,14 @@ namespace de.unika.ipd.grGen.libGr
             object leftValue = Left.Evaluate(procEnv);
             object rightValue = Right.Evaluate(procEnv);
 
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
+
             try
             {
-                return SequenceExpressionExecutionHelper.StructuralEqualObjects(leftValue, rightValue);
+                return SequenceExpressionExecutionHelper.StructuralEqualObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
             }
             catch(Exception)
             {

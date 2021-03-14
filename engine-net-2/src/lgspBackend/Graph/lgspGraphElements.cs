@@ -535,10 +535,11 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract INode Copy(IGraph graph, IDictionary<object, object> oldToNewObjectMap);
 
         /// <summary>
-        /// Returns whether the attributes of this element and that are equal.
-        /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+        /// Returns whether this attribute bearer and that attribute bearer are structurally equal,
+        /// which means the scalar attributes are equal, the container attributes are memberwise structurally equal, and object attributes are deeply structurally equal.
+        /// (If types are unequal the result is false.)
         /// </summary>
-        public abstract bool AreAttributesEqual(IAttributeBearer that);
+        public abstract bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects);
 
         /// <summary>
         /// Executes the function method given by its name.
@@ -608,7 +609,7 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override bool AreAttributesEqual(IAttributeBearer that)
+        public override bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -896,10 +897,11 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IEdge Copy(INode newSource, INode newTarget, IGraph graph, IDictionary<object, object> oldToNewObjectMap);
 
         /// <summary>
-        /// Returns whether the attributes of this element and that are equal.
-        /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+        /// Returns whether this attribute bearer and that attribute bearer are structurally equal,
+        /// which means the scalar attributes are equal, the container attributes are memberwise structurally equal, and object attributes are deeply structurally equal.
+        /// (If types are unequal the result is false.)
         /// </summary>
-        public abstract bool AreAttributesEqual(IAttributeBearer that);
+        public abstract bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects);
 
         /// <summary>
         /// Executes the function method given by its name.
@@ -969,7 +971,7 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override bool AreAttributesEqual(IAttributeBearer that)
+        public override bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects)
         {
             throw new Exception("The method or operation is not implemented.");
         }

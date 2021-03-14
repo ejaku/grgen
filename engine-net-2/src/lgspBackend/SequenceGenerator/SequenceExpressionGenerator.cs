@@ -63,6 +63,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionEqual((SequenceExpressionEqual)expr, source);
             case SequenceExpressionType.NotEqual:
                 return GetSequenceExpressionNotEqual((SequenceExpressionNotEqual)expr, source);
+            case SequenceExpressionType.StructuralEqual:
+                return GetSequenceExpressionStructuralEqual((SequenceExpressionStructuralEqual)expr, source);
             case SequenceExpressionType.Lower:
                 return GetSequenceExpressionLower((SequenceExpressionLower)expr, source);
             case SequenceExpressionType.Greater:
@@ -136,8 +138,6 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionFunctionMethodCall((SequenceExpressionFunctionMethodCall)expr, source);
 
             // graph expressions
-            case SequenceExpressionType.StructuralEqual:
-                return GetSequenceExpressionStructuralEqual((SequenceExpressionStructuralEqual)expr, source);
             case SequenceExpressionType.EqualsAny:
                 return GetSequenceExpressionEqualsAny((SequenceExpressionEqualsAny)expr, source);
             case SequenceExpressionType.Canonize:
@@ -575,6 +575,23 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.NotEqualObjects("
                     + leftExpr + ", " + rightExpr + ", "
                     + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.NotEqual, " + leftType + ", " + rightType + ", graph.Model), "
+                    + leftType + ", " + rightType + ", graph)";
+            }
+        }
+
+        private string GetSequenceExpressionStructuralEqual(SequenceExpressionStructuralEqual seq, SourceBuilder source)
+        {
+            string leftExpr = GetSequenceExpression(seq.Left, source);
+            string rightExpr = GetSequenceExpression(seq.Right, source);
+            string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
+            string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
+            if(seq.BalancedTypeStatic != "")
+                return SequenceExpressionGeneratorHelper.StructuralEqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+            else
+            {
+                return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.StructuralEqualObjects("
+                    + leftExpr + ", " + rightExpr + ", "
+                    + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.StructuralEqual, " + leftType + ", " + rightType + ", graph.Model), "
                     + leftType + ", " + rightType + ", graph)";
             }
         }
@@ -1250,13 +1267,6 @@ namespace de.unika.ipd.grGen.lgsp
         //-------------------------------------------------------------------------------------------------------------------
 
         #region Graph expressions
-
-        private string GetSequenceExpressionStructuralEqual(SequenceExpressionStructuralEqual seq, SourceBuilder source)
-        {
-            string leftExpr = GetSequenceExpression(seq.Left, source);
-            string rightExpr = GetSequenceExpression(seq.Right, source);
-            return SequenceExpressionGeneratorHelper.StructuralEqualStatic(leftExpr, rightExpr);
-        }
 
         private string GetSequenceExpressionEqualsAny(SequenceExpressionEqualsAny seqEqualsAny, SourceBuilder source)
         {

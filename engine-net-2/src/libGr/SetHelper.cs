@@ -165,5 +165,130 @@ namespace de.unika.ipd.grGen.libGr
 
             return newList;
         }
+
+        public static bool StructurallyEqualSet<V>(Dictionary<V, SetValueType> this_, Dictionary<V, SetValueType> that,
+            IDictionary<object, object> visitedObjects,
+            IDictionary<object, object> matchedObjectsFromThis, IDictionary<object, object> matchedObjectsFromThat)
+        {
+            if(this_.Count == matchedObjectsFromThis.Count)
+                return true;
+
+            foreach(KeyValuePair<V, SetValueType> thisEntry in this_)
+            {
+                V thisElem = thisEntry.Key;
+                if(matchedObjectsFromThis.ContainsKey(thisElem))
+                    continue;
+                matchedObjectsFromThis.Add(thisElem, null);
+                foreach(KeyValuePair<V, SetValueType> thatEntry in that)
+                {
+                    V thatElem = thatEntry.Key;
+                    if(matchedObjectsFromThat.ContainsKey(thatElem))
+                        continue;
+                    if(EqualityComparer<V>.Default.Equals(thisElem, thatElem))
+                        continue;
+                    matchedObjectsFromThat.Add(thatElem, null);
+                    if(StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
+                        return true;
+                    matchedObjectsFromThat.Remove(thatElem);
+                }
+                matchedObjectsFromThis.Remove(thisElem);
+            }
+
+            return false;
+        }
+
+        public static bool StructurallyEqualSet(IDictionary this_, IDictionary that,
+            IDictionary<object, object> visitedObjects,
+            IDictionary<object, object> matchedObjectsFromThis, IDictionary<object, object> matchedObjectsFromThat)
+        {
+            if(this_.Count == matchedObjectsFromThis.Count)
+                return true;
+
+            foreach(DictionaryEntry thisEntry in this_)
+            {
+                object thisElem = thisEntry.Key;
+                if(matchedObjectsFromThis.ContainsKey(thisElem))
+                    continue;
+                matchedObjectsFromThis.Add(thisElem, null);
+                foreach(DictionaryEntry thatEntry in that)
+                {
+                    object thatElem = thatEntry.Key;
+                    if(matchedObjectsFromThat.ContainsKey(thatElem))
+                        continue;
+                    if(!Object.Equals(thisElem, thatElem))
+                        continue;
+                    matchedObjectsFromThat.Add(thatElem, null);
+                    if(StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
+                        return true;
+                    matchedObjectsFromThat.Remove(thatElem);
+                }
+                matchedObjectsFromThis.Remove(thisElem);
+            }
+
+            return false;
+        }
+
+        public static bool StructurallyEqualSet<V>(Dictionary<V, SetValueType> this_, Dictionary<V, SetValueType> that,
+            IDictionary<object, object> visitedObjects,
+            IDictionary<IAttributeBearer, object> matchedObjectsFromThis, IDictionary<IAttributeBearer, object> matchedObjectsFromThat)
+            where V : IAttributeBearer
+        {
+            if(this_.Count == matchedObjectsFromThis.Count)
+                return true;
+
+            foreach(KeyValuePair<V, SetValueType> thisEntry in this_)
+            {
+                IAttributeBearer thisElem = thisEntry.Key;
+                if(matchedObjectsFromThis.ContainsKey(thisElem))
+                    continue;
+                matchedObjectsFromThis.Add(thisElem, null);
+                foreach(KeyValuePair<V, SetValueType> thatEntry in that)
+                {
+                    IAttributeBearer thatElem = thatEntry.Key;
+                    if(matchedObjectsFromThat.ContainsKey(thatElem))
+                        continue;
+                    if(!StructurallyEqual(thisElem, thatElem, visitedObjects))
+                        continue;
+                    matchedObjectsFromThat.Add(thatElem, null);
+                    if(StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
+                        return true;
+                    matchedObjectsFromThat.Remove(thatElem);
+                }
+                matchedObjectsFromThis.Remove(thisElem);
+            }
+
+            return false;
+        }
+
+        public static bool StructurallyEqualSet(IDictionary this_, IDictionary that,
+            IDictionary<object, object> visitedObjects,
+            IDictionary<IAttributeBearer, object> matchedObjectsFromThis, IDictionary<IAttributeBearer, object> matchedObjectsFromThat)
+        {
+            if(this_.Count == matchedObjectsFromThis.Count)
+                return true;
+
+            foreach(DictionaryEntry thisEntry in this_)
+            {
+                IAttributeBearer thisElem = (IAttributeBearer)thisEntry.Key;
+                if(matchedObjectsFromThis.ContainsKey(thisElem))
+                    continue;
+                matchedObjectsFromThis.Add(thisElem, null);
+                foreach(DictionaryEntry thatEntry in that)
+                {
+                    IAttributeBearer thatElem = (IAttributeBearer)thatEntry.Key;
+                    if(matchedObjectsFromThat.ContainsKey(thatElem))
+                        continue;
+                    if(!StructurallyEqual(thisElem, thatElem, visitedObjects))
+                        continue;
+                    matchedObjectsFromThat.Add(thatElem, null);
+                    if(StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
+                        return true;
+                    matchedObjectsFromThat.Remove(thatElem);
+                }
+                matchedObjectsFromThis.Remove(thisElem);
+            }
+
+            return false;
+        }
     }
 }

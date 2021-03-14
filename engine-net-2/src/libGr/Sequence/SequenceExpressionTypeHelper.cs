@@ -69,7 +69,11 @@ namespace de.unika.ipd.grGen.libGr
                         }
                     }
                     return result;
-                
+
+                case SequenceExpressionType.StructuralEqual:
+                    result = BalanceStructuralEqual(left, right, model);
+                    return result;
+
                 case SequenceExpressionType.Lower:
                 case SequenceExpressionType.LowerEqual:
                 case SequenceExpressionType.Greater:
@@ -87,9 +91,6 @@ namespace de.unika.ipd.grGen.libGr
                         return result;
                     }
                     return result;
-
-                case SequenceExpressionType.StructuralEqual:
-                    return "graph";
 
                 case SequenceExpressionType.ShiftLeft:
                 case SequenceExpressionType.ShiftRight:
@@ -482,6 +483,58 @@ namespace de.unika.ipd.grGen.libGr
 
             if(TypesHelper.IsSameOrSubtype(right, left, model) && TypesHelper.IsExternalObjectTypeIncludingObjectType(left, model))
                 return left;
+
+            return "-";
+        }
+
+        /// <summary>
+        /// Returns the types to which the operands must be casted to, 
+        /// assuming a structural equality comparison operator.
+        /// Returns "" if the type can only be determined at runtime.
+        /// Returns "-" in case of a type error.
+        /// </summary>
+        private static string BalanceStructuralEqual(string left, string right, IGraphModel model)
+        {
+            if(left == "" || right == "")
+                return "";
+
+            if(model.NodeModel.GetType(left) != null && model.NodeModel.GetType(right) != null)
+            {
+                if(TypesHelper.IsSameOrSubtype(left, right, model))
+                    return right;
+                if(TypesHelper.IsSameOrSubtype(right, left, model))
+                    return left;
+            }
+            else if(model.EdgeModel.GetType(left) != null && model.EdgeModel.GetType(right) != null)
+            {
+                if(TypesHelper.IsSameOrSubtype(left, right, model))
+                    return right;
+                if(TypesHelper.IsSameOrSubtype(right, left, model))
+                    return left;
+            }
+            else if(model.ObjectModel.GetType(left) != null && model.ObjectModel.GetType(right) != null)
+            {
+                if(TypesHelper.IsSameOrSubtype(left, right, model))
+                    return right;
+                if(TypesHelper.IsSameOrSubtype(right, left, model))
+                    return left;
+            }
+            else if(model.TransientObjectModel.GetType(left) != null && model.TransientObjectModel.GetType(right) != null)
+            {
+                if(TypesHelper.IsSameOrSubtype(left, right, model))
+                    return right;
+                if(TypesHelper.IsSameOrSubtype(right, left, model))
+                    return left;
+            }
+
+            if(TypesHelper.IsContainerType(left) && TypesHelper.IsContainerType(right))
+            {
+                if(left == right)
+                    return left;
+            }
+
+            if(left == "graph" && right == "graph")
+                return "graph";
 
             return "-";
         }

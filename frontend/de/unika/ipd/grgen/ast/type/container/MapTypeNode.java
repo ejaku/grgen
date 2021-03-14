@@ -99,6 +99,9 @@ public class MapTypeNode extends ContainerTypeNode
 				this, this, OperatorEvaluator.mapEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.NE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.mapEvaluator);
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.SE, BasicTypeNode.booleanType,
+				this, this, OperatorEvaluator.mapEvaluator);
+
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GT, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.mapEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GE, BasicTypeNode.booleanType,
@@ -107,6 +110,7 @@ public class MapTypeNode extends ContainerTypeNode
 				this, this, OperatorEvaluator.mapEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.LE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.mapEvaluator);
+
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.BIT_OR, this,
 				this, this, OperatorEvaluator.mapEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.BIT_AND, this,

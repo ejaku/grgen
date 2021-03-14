@@ -151,10 +151,11 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IObject Copy(IGraph graph, IDictionary<object, object> oldToNewObjectMap);
 
         /// <summary>
-        /// Returns whether the attributes of this object and that object are equal.
-        /// If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+        /// Returns whether this attribute bearer and the other attribute bearer are structurally equal,
+        /// which means the scalar attributes are equal, the container attributes are memberwise structurally equal, and object attributes are deeply structurally equal.
+        /// (If types are unequal the result is false.)
         /// </summary>
-        public abstract bool AreAttributesEqual(IAttributeBearer that);
+        public abstract bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects);
 
         /// <summary>
         /// Executes the function method given by its name.

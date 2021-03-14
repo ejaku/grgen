@@ -1,0 +1,27 @@
+new graph "compare/compareNested"
+
+exec { ::thisSet = new set<Nested>{ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) } }
+exec { ::thatSet = new set<Nested>{ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) } }
+
+exec { ::thisMap = new map<Nested,object>{ new Nested@(i=0, n=new Nested@(i=0)) -> null, new Nested@(i=1, n=new Nested@(i=1)) -> null, new Nested@(i=2, n=new Nested@(i=2)) -> null } }
+exec { ::thatMap = new map<Nested,object>{ new Nested@(i=0, n=new Nested@(i=0)) -> null, new Nested@(i=1, n=new Nested@(i=1)) -> null, new Nested@(i=2, n=new Nested@(i=2)) -> null } }
+
+exec { ::thisArray = new array<Nested>[ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) ] }
+exec { ::thatArray = new array<Nested>[ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) ] }
+
+exec { ::thisDeque = new deque<Nested>[ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) ] }
+exec { ::thatDeque = new deque<Nested>[ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) ] }
+
+eval ::thisSet == ::thatSet
+eval ::thisSet ~~ ::thatSet
+
+eval ::thisMap == ::thatMap
+eval ::thisMap ~~ ::thatMap
+
+eval ::thisArray == ::thatArray
+eval ::thisArray ~~ ::thatArray
+
+eval ::thisDeque == ::thatDeque
+eval ::thisDeque ~~ ::thatDeque
+
+quit

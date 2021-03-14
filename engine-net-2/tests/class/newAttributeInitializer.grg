@@ -2,7 +2,7 @@
 
 rule r(ref b:Barfuss) : (Barfuss, Barfuss)
 {
-	if{ new Barfuss@(i=42,s="Hallo Welt",d=3.141592654) == b; }
+	if{ new Barfuss@(i=42,s="Hallo Welt",d=3.141592654) ~~ b; }
 
 	modify {
 	---

@@ -43,7 +43,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(balancedType.StartsWith("array<"))
                 return "GRGEN_LIBGR.ContainerHelper.EqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
-                return "GRGEN_LIBGR.ContainerHelper.EqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.EqualIDeque((GRGEN_LIBGR.IDeque)" + leftValue + ", (GRGEN_LIBGR.IDeque)" + rightValue + ")";
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
                 return "graph.Model.IsEqual((object)"+leftValue+", (object)"+rightValue+")";
             else if(model.ObjectModel.GetType(balancedType) != null)
@@ -80,7 +80,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(balancedType.StartsWith("array<"))
                 return "GRGEN_LIBGR.ContainerHelper.NotEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
-                return "GRGEN_LIBGR.ContainerHelper.NotEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.NotEqualIDeque((GRGEN_LIBGR.IDeque)" + leftValue + ", (GRGEN_LIBGR.IDeque)" + rightValue + ")";
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
                 return "!graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + ")";
             else if(model.ObjectModel.GetType(balancedType) != null)
@@ -89,6 +89,27 @@ namespace de.unika.ipd.grGen.lgsp
                 return "!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)" + leftValue + ", (GRGEN_LIBGR.ITransientObject)" + rightValue + ")";
             else
                 return "!object.Equals("+leftValue+", "+rightValue+")";
+        }
+
+        public static string StructuralEqualStatic(object leftValue, object rightValue,
+            string balancedType, string leftType, string rightType, IGraphModel model)
+        {
+            // byte and short are only used for storing, no computations are done with them
+            // enums are handled via int, node and edges are handled via reference equality
+            if(balancedType == "graph")
+                return "GRGEN_LIBGR.GraphHelper.HasSameStructure((GRGEN_LIBGR.IGraph)" + leftValue + ", (GRGEN_LIBGR.IGraph)" + rightValue + ")";
+            else if(balancedType.StartsWith("set<"))
+                return "GRGEN_LIBGR.ContainerHelper.StructurallyEqual((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ", new Dictionary<object, object>())";
+            else if(balancedType.StartsWith("map<"))
+                return "GRGEN_LIBGR.ContainerHelper.StructurallyEqual((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ", new Dictionary<object, object>())";
+            else if(balancedType.StartsWith("array<"))
+                return "GRGEN_LIBGR.ContainerHelper.StructurallyEqualArray((IList)" + leftValue + ", (IList)" + rightValue + ", new Dictionary<object, object>())";
+            else if(balancedType.StartsWith("deque<"))
+                return "GRGEN_LIBGR.ContainerHelper.StructurallyEqualDeque((GRGEN_LIBGR.IDeque)" + leftValue + ", (GRGEN_LIBGR.IDeque)" + rightValue + ", new Dictionary<object, object>())";
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
+                return "graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + ")";
+            else
+                return "GRGEN_LIBGR.ContainerHelper.StructurallyEqual((GRGEN_LIBGR.IAttributeBearer)" + leftValue + ", (GRGEN_LIBGR.IAttributeBearer)" + rightValue + ", new Dictionary<object, object>())";
         }
 
         public static string LowerStatic(string leftValue, string rightValue,
@@ -111,7 +132,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(balancedType.StartsWith("array<"))
                 return "GRGEN_LIBGR.ContainerHelper.LessThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
-                return "GRGEN_LIBGR.ContainerHelper.LessThanDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.LessThanIDeque((GRGEN_LIBGR.IDeque)" + leftValue + ", (GRGEN_LIBGR.IDeque)" + rightValue + ")";
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
                 return "graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")";
 
@@ -138,7 +159,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(balancedType.StartsWith("array<"))
                 return "GRGEN_LIBGR.ContainerHelper.GreaterThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
-                return "GRGEN_LIBGR.ContainerHelper.GreaterThanDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.GreaterThanIDeque((GRGEN_LIBGR.IDeque)" + leftValue + ", (GRGEN_LIBGR.IDeque)" + rightValue + ")";
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
             {
                 return "(!graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")"
@@ -168,7 +189,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(balancedType.StartsWith("array<"))
                 return "GRGEN_LIBGR.ContainerHelper.LessOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
-                return "GRGEN_LIBGR.ContainerHelper.LessOrEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.LessOrEqualIDeque((GRGEN_LIBGR.IDeque)" + leftValue + ", (GRGEN_LIBGR.IDeque)" + rightValue + ")";
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
             {
                 return "(graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")"
@@ -198,16 +219,11 @@ namespace de.unika.ipd.grGen.lgsp
             else if(balancedType.StartsWith("array<"))
                 return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
-                return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualIDeque((GRGEN_LIBGR.IDeque)" + leftValue + ", (GRGEN_LIBGR.IDeque)" + rightValue + ")";
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
                 return "!graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")";
 
             return null;
-        }
-
-        public static string StructuralEqualStatic(object leftValue, object rightValue)
-        {
-            return "((GRGEN_LIBGR.IGraph)" + leftValue + ").HasSameStructure((GRGEN_LIBGR.IGraph)" + rightValue + ")";
         }
 
         public static string ShiftLeftStatic(string leftValue, string rightValue,
@@ -298,7 +314,7 @@ namespace de.unika.ipd.grGen.lgsp
             else if(balancedType.StartsWith("array<"))
                 return "GRGEN_LIBGR.ContainerHelper.ConcatenateIList((IList)"+leftValue+", (IList)"+rightValue+")";
             else if(balancedType.StartsWith("deque<"))
-                return "GRGEN_LIBGR.ContainerHelper.ConcatenateDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
+                return "GRGEN_LIBGR.ContainerHelper.ConcatenateIDeque((GRGEN_LIBGR.IDeque)" + leftValue + ", (GRGEN_LIBGR.IDeque)" + rightValue + ")";
 
             return null;
         }

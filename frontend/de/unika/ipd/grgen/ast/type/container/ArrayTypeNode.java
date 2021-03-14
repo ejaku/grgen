@@ -79,13 +79,16 @@ public class ArrayTypeNode extends ContainerTypeNode
 
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
 			valueType, this, OperatorEvaluator.arrayEvaluator);
-
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.INDEX, valueType,
 				this, BasicTypeNode.intType, OperatorEvaluator.arrayEvaluator);
+
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.NE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
+		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.SE, BasicTypeNode.booleanType,
+				this, this, OperatorEvaluator.arrayEvaluator);
+
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GT, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GE, BasicTypeNode.booleanType,
@@ -94,6 +97,7 @@ public class ArrayTypeNode extends ContainerTypeNode
 				this, this, OperatorEvaluator.arrayEvaluator);
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.LE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.arrayEvaluator);
+
 		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.ADD, this, this, this,
 				OperatorEvaluator.arrayEvaluator);
 

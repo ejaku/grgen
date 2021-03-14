@@ -329,6 +329,17 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 					boolean isDictionary = op.getOperand(1).getType() instanceof SetType
 							|| op.getOperand(1).getType() instanceof MapType;
 					sb.append(isDictionary ? ", true" : ", false");
+				} else if(op.getOpCode() == Operator.OperatorCode.SE) {
+					if(op.getOperand(0).getType() instanceof ContainerType) {
+						if(op.getOperand(0).getType() instanceof SetType
+								|| op.getOperand(0).getType() instanceof MapType) {
+							boolean isSet = op.getOperand(0).getType() instanceof SetType;
+							sb.append(isSet ? ", true" : ", false");
+						}
+						boolean isAttributeBearer = ((ContainerType)op.getOperand(0).getType()).getElementType() instanceof InheritanceType
+								&& !(((ContainerType)op.getOperand(0).getType()).getElementType() instanceof ExternalObjectType);
+						sb.append(isAttributeBearer ? ", true" : ", false");
+					}
 				}
 				break;
 			case 3:

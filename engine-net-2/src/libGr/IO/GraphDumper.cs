@@ -276,7 +276,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new NotImplementedException("The method or operation is not implemented.");
         }
 
-        public bool AreAttributesEqual(IAttributeBearer that)
+        public bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects)
         {
             throw new NotImplementedException("The method or operation is not implemented.");
         }

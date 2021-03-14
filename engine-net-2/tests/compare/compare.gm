@@ -1,0 +1,27 @@
+class C
+{
+	i:int;
+}
+
+transient class TC
+{
+	s:string;
+}
+
+node class NC
+{
+	i:int;
+	c:C;
+}
+
+edge class EC
+{
+	s:string;
+	c:C;
+}
+
+class Nested
+{
+	i:int;
+	n:Nested;
+}

@@ -1,0 +1,181 @@
+#using "compare.gm"
+
+test equalSetIf(ref thisSet:set<C>, ref thatSet:set<C>)
+{
+	if{ thisSet == thatSet; }	
+}
+
+test structuralEqualSetIf(ref thisSet:set<C>, ref thatSet:set<C>)
+{
+	if{ thisSet ~~ thatSet; }	
+}
+
+test equalMapIf(ref thisMap:map<C,TC>, ref thatMap:map<C,TC>)
+{
+	if{ thisMap == thatMap; }	
+}
+
+test structuralEqualMapIf(ref thisMap:map<C,TC>, ref thatMap:map<C,TC>)
+{
+	if{ thisMap ~~ thatMap; }	
+}
+
+test equalArrayIf(ref thisArray:array<C>, ref thatArray:array<C>)
+{
+	if{ thisArray == thatArray; }	
+}
+
+test structuralEqualArrayIf(ref thisArray:array<C>, ref thatArray:array<C>)
+{
+	if{ thisArray ~~ thatArray; }
+}
+
+test equalDequeIf(ref thisDeque:deque<C>, ref thatDeque:deque<C>)
+{
+	if{ thisDeque == thatDeque; }
+}
+
+test structuralEqualDequeIf(ref thisDeque:deque<C>, ref thatDeque:deque<C>)
+{
+	if{ thisDeque ~~ thatDeque; }	
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+rule equalSet(ref thisSet:set<C>, ref thatSet:set<C>) : (boolean)
+{	
+	modify {
+		return(thisSet == thatSet);
+	}
+}
+
+rule structuralEqualSet(ref thisSet:set<C>, ref thatSet:set<C>) : (boolean)
+{
+	modify {
+		return(thisSet ~~ thatSet);
+	}
+}
+
+rule equalMap(ref thisMap:map<C,TC>, ref thatMap:map<C,TC>) : (boolean)
+{
+	modify {
+		return(thisMap == thatMap);
+	}
+}
+
+rule structuralEqualMap(ref thisMap:map<C,TC>, ref thatMap:map<C,TC>) : (boolean)
+{
+	modify {
+		return(thisMap ~~ thatMap);
+	}
+}
+
+rule equalArray(ref thisArray:array<C>, ref thatArray:array<C>) : (boolean)
+{
+	modify {
+		return(thisArray == thatArray);
+	}
+}
+
+rule structuralEqualArray(ref thisArray:array<C>, ref thatArray:array<C>) : (boolean)
+{
+	modify {
+		return(thisArray ~~ thatArray);
+	}
+}
+
+rule equalDeque(ref thisDeque:deque<C>, ref thatDeque:deque<C>) : (boolean)
+{
+	modify {
+		return(thisDeque == thatDeque);
+	}
+}
+
+rule structuralEqualDeque(ref thisDeque:deque<C>, ref thatDeque:deque<C>) : (boolean)
+{
+	modify {
+		return(thisDeque ~~ thatDeque);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+rule equalSetExec(ref thisSet:set<C>, ref thatSet:set<C>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisSet == thatSet });
+		return(res);
+	}
+}
+
+rule structuralEqualSetExec(ref thisSet:set<C>, ref thatSet:set<C>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisSet ~~ thatSet });
+		return(res);
+	}
+}
+
+rule equalMapExec(ref thisMap:map<C,TC>, ref thatMap:map<C,TC>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisMap == thatMap });
+		return(res);
+	}
+}
+
+rule structuralEqualMapExec(ref thisMap:map<C,TC>, ref thatMap:map<C,TC>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisMap ~~ thatMap });
+		return(res);
+	}
+}
+
+rule equalArrayExec(ref thisArray:array<C>, ref thatArray:array<C>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisArray == thatArray });
+		return(res);
+	}
+}
+
+rule structuralEqualArrayExec(ref thisArray:array<C>, ref thatArray:array<C>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisArray ~~ thatArray });
+		return(res);
+	}
+}
+
+rule equalDequeExec(ref thisDeque:deque<C>, ref thatDeque:deque<C>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisDeque == thatDeque });
+		return(res);
+	}
+}
+
+rule structuralEqualDequeExec(ref thisDeque:deque<C>, ref thatDeque:deque<C>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisDeque ~~ thatDeque });
+		return(res);
+	}
+}

@@ -368,6 +368,37 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a structural equality comparison (of object classes).
+    /// </summary>
+    public class OBJECT_CLASS_SE : BinFuncOperator
+    {
+        public OBJECT_CLASS_SE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new OBJECT_CLASS_SE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.StructurallyEqual(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(", new Dictionary<object, object>()");
+            sourceCode.Append(")");
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
     /// Class representing an equality comparison (of transient object classes).
     /// </summary>
     public class TRANSIENT_OBJECT_CLASS_EQ : BinFuncOperator
@@ -385,6 +416,37 @@ namespace de.unika.ipd.grGen.expression
         public override string GetFuncOperatorAndLParen()
         {
             return "GRGEN_LIBGR.ContainerHelper.IsEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing a structural equality comparison (of transient object classes).
+    /// </summary>
+    public class TRANSIENT_OBJECT_CLASS_SE : BinFuncOperator
+    {
+        public TRANSIENT_OBJECT_CLASS_SE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new TRANSIENT_OBJECT_CLASS_SE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.StructurallyEqual(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(", new Dictionary<object, object>()");
+            sourceCode.Append(")");
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -1,0 +1,31 @@
+new graph "compare/compare"
+
+exec { ::thisSet = new set<C>{ new C@(i=0), new C@(i=1), new C@(i=2) } }
+
+exec { ::thisMap = new map<C,TC>{ new C@(i=0) -> new TC@(s="a"), new C@(i=1) -> new TC@(s="b"), new C@(i=2) -> new TC@(s="c") } }
+
+exec { ::thisArray = new array<C>[ new C@(i=0), new C@(i=1), new C@(i=2) ] }
+
+exec { ::thisDeque = new deque<C>[ new C@(i=0), new C@(i=1), new C@(i=2) ] }
+
+exec (::res)=equalSet(::thisSet, ::thisSet)
+show var res
+exec (::res)=structuralEqualSet(::thisSet, ::thisSet)
+show var res
+
+exec (::res)=equalMap(::thisMap, ::thisMap)
+show var res
+exec (::res)=structuralEqualMap(::thisMap, ::thisMap)
+show var res
+
+exec (::res)=equalArray(::thisArray, ::thisArray)
+show var res
+exec (::res)=structuralEqualArray(::thisArray, ::thisArray)
+show var res
+
+exec (::res)=equalDeque(::thisDeque, ::thisDeque)
+show var res
+exec (::res)=structuralEqualDeque(::thisDeque, ::thisDeque)
+show var res
+
+quit

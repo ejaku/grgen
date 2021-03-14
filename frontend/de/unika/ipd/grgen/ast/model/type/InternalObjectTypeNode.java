@@ -84,8 +84,10 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 	protected boolean resolveLocal()
 	{
 		OperatorDeclNode.makeOp(Operator.COND, this, new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
+
 		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
 		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.SE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
 
 		boolean bodyOk = super.resolveLocal();
 		extend = extendResolver.resolve(extendUnresolved, this);

@@ -952,10 +952,12 @@ public class ModelGen extends CSharpBase
 	private void genElementAttributeComparisonMethod(InheritanceType type, SourceBuilder routedSB,
 			String routedClassName)
 	{
-		routedSB.appendFront("public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {\n");
+		routedSB.appendFront("public override bool IsStructurallyEqual(GRGEN_LIBGR.IAttributeBearer that, IDictionary<object, object> visitedObjects) {\n");
 		routedSB.indent();
+		routedSB.appendFront("if(this == that) return true;\n");
 		routedSB.appendFront("if(!(that is " + routedClassName + ")) return false;\n");
 		routedSB.appendFront(routedClassName + " that_ = (" + routedClassName + ")that;\n");
+
 		routedSB.appendFront("return true\n");
 		routedSB.indent();
 		for(Entity member : type.getAllMembers()) {
@@ -965,9 +967,9 @@ public class ModelGen extends CSharpBase
 			String attrName = formatIdentifiable(member);
 			if(member.getType() instanceof MapType || member.getType() instanceof SetType
 					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
-				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.Equal("
+				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.StructurallyEqual("
 								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
-								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", visitedObjects)\n");
 			} else if(model.isEqualClassDefined()
 					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
@@ -977,8 +979,13 @@ public class ModelGen extends CSharpBase
 			} else if(member.getType().classify() == TypeClass.IS_GRAPH) {
 				routedSB.appendFront("&& GRGEN_LIBGR.GraphHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
-			//} else if(member.getType().classify() == TypeClass.IS_INTERNAL_CLASS_OBJECT) {
-				// TODO - as of now case below, reference comparison/semantics
+			} else if(member.getType().classify() == TypeClass.IS_INTERNAL_CLASS_OBJECT
+					|| member.getType().classify() == TypeClass.IS_INTERNAL_TRANSIENT_CLASS_OBJECT
+					|| member.getType().classify() == TypeClass.IS_NODE
+					|| member.getType().classify() == TypeClass.IS_EDGE) {
+				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.StructurallyEqual("
+						+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
+						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", visitedObjects)\n");
 			} else {
 				routedSB.appendFront("&& " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " == "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");
@@ -986,6 +993,7 @@ public class ModelGen extends CSharpBase
 		}
 		routedSB.unindent();
 		routedSB.appendFront(";\n");
+
 		routedSB.unindent();
 		routedSB.appendFront("}\n");
 	}

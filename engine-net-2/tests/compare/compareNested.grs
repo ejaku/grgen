@@ -1,0 +1,35 @@
+new graph "compare/compareNested"
+
+exec { ::thisSet = new set<Nested>{ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) } }
+exec { ::thatSet = new set<Nested>{ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) } }
+
+exec { ::thisMap = new map<Nested,object>{ new Nested@(i=0, n=new Nested@(i=0)) -> null, new Nested@(i=1, n=new Nested@(i=1)) -> null, new Nested@(i=2, n=new Nested@(i=2)) -> null } }
+exec { ::thatMap = new map<Nested,object>{ new Nested@(i=0, n=new Nested@(i=0)) -> null, new Nested@(i=1, n=new Nested@(i=1)) -> null, new Nested@(i=2, n=new Nested@(i=2)) -> null } }
+
+exec { ::thisArray = new array<Nested>[ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) ] }
+exec { ::thatArray = new array<Nested>[ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) ] }
+
+exec { ::thisDeque = new deque<Nested>[ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) ] }
+exec { ::thatDeque = new deque<Nested>[ new Nested@(i=0, n=new Nested@(i=0)), new Nested@(i=1, n=new Nested@(i=1)), new Nested@(i=2, n=new Nested@(i=2)) ] }
+
+exec (::res)=equalSet(::thisSet, ::thatSet)
+show var res
+exec (::res)=structuralEqualSet(::thisSet, ::thatSet)
+show var res
+
+exec (::res)=equalMap(::thisMap, ::thatMap)
+show var res
+exec (::res)=structuralEqualMap(::thisMap, ::thatMap)
+show var res
+
+exec (::res)=equalArray(::thisArray, ::thatArray)
+show var res
+exec (::res)=structuralEqualArray(::thisArray, ::thatArray)
+show var res
+
+exec (::res)=equalDeque(::thisDeque, ::thatDeque)
+show var res
+exec (::res)=structuralEqualDeque(::thisDeque, ::thatDeque)
+show var res
+
+quit

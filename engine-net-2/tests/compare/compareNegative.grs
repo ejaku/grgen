@@ -1,0 +1,35 @@
+new graph "compare/compare"
+
+exec { ::thisSet = new set<C>{ new C@(i=0), new C@(i=1), new C@(i=2) } }
+exec { ::thatSet = new set<C>{ new C@(i=0), new C@(i=42), new C@(i=2) } }
+
+exec { ::thisMap = new map<C,TC>{ new C@(i=0) -> new TC@(s="a"), new C@(i=1) -> new TC@(s="b"), new C@(i=2) -> new TC@(s="c") } }
+exec { ::thatMap = new map<C,TC>{ new C@(i=0) -> new TC@(s="a"), new C@(i=1) -> new TC@(s="furchtbar"), new C@(i=2) -> new TC@(s="c") } }
+
+exec { ::thisArray = new array<C>[ new C@(i=0), new C@(i=1), new C@(i=2) ] }
+exec { ::thatArray = new array<C>[ new C@(i=0), new C@(i=42), new C@(i=2) ] }
+
+exec { ::thisDeque = new deque<C>[ new C@(i=0), new C@(i=1), new C@(i=2) ] }
+exec { ::thatDeque = new deque<C>[ new C@(i=0), new C@(i=42), new C@(i=2) ] }
+
+exec (::res)=equalSet(::thisSet, ::thatSet)
+show var res
+exec (::res)=structuralEqualSet(::thisSet, ::thatSet)
+show var res
+
+exec (::res)=equalMap(::thisMap, ::thatMap)
+show var res
+exec (::res)=structuralEqualMap(::thisMap, ::thatMap)
+show var res
+
+exec (::res)=equalArray(::thisArray, ::thatArray)
+show var res
+exec (::res)=structuralEqualArray(::thisArray, ::thatArray)
+show var res
+
+exec (::res)=equalDeque(::thisDeque, ::thatDeque)
+show var res
+exec (::res)=structuralEqualDeque(::thisDeque, ::thatDeque)
+show var res
+
+quit

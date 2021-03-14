@@ -3246,11 +3246,78 @@ public abstract class CSharpBase
 		}
 
 		case SE: {
-			sb.append("((GRGEN_LIBGR.IGraph)");
-			genExpression(sb, op.getOperand(0), modifyGenerationState);
-			sb.append(").HasSameStructure((GRGEN_LIBGR.IGraph)");
-			genExpression(sb, op.getOperand(1), modifyGenerationState);
-			sb.append(")");
+			Type opType = op.getOperand(0).getType();
+			if(opType instanceof SetType) {
+				SetType setType = (SetType)opType;
+				sb.append("GRGEN_LIBGR.ContainerHelper.StructurallyEqualSet(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append(", new Dictionary<object, object>()");
+				if(setType.getValueType() instanceof InheritanceType && !(setType.getValueType() instanceof ExternalObjectType)) {
+					sb.append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
+					sb.append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
+				} else {
+					sb.append(", new Dictionary<object, object>()");
+					sb.append(", new Dictionary<object, object>()");
+				}
+				sb.append(")");
+			} else if(opType instanceof MapType) {
+				MapType mapType = (MapType)opType;
+				sb.append("GRGEN_LIBGR.ContainerHelper.StructurallyEqualMap(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append(", new Dictionary<object, object>()");
+				if(mapType.getKeyType() instanceof InheritanceType && !(mapType.getKeyType() instanceof ExternalObjectType)) {
+					sb.append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
+					sb.append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
+				} else {
+					sb.append(", new Dictionary<object, object>()");
+					sb.append(", new Dictionary<object, object>()");
+				}
+				sb.append(")");
+			} else if(opType instanceof ArrayType) {
+				ArrayType arrayType = (ArrayType)opType;
+				String methodName = arrayType.getValueType() instanceof InheritanceType && !(arrayType.getValueType() instanceof ExternalObjectType) ?
+						"StructurallyEqualArrayAttributeBearer" : "StructurallyEqualArrayObject";
+				sb.append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append(", new Dictionary<object, object>()");
+				sb.append(")");
+			} else if(opType instanceof DequeType) {
+				DequeType dequeType = (DequeType)opType;
+				String methodName = dequeType.getValueType() instanceof InheritanceType && !(dequeType.getValueType() instanceof ExternalObjectType) ?
+						"StructurallyEqualDequeAttributeBearer" : "StructurallyEqualDequeObject";
+				sb.append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append(", new Dictionary<object, object>()");
+				sb.append(")");
+			} else if(opType instanceof InternalObjectType) {
+				sb.append("GRGEN_LIBGR.ContainerHelper.StructurallyEqual(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append(", new Dictionary<object, object>()");
+				sb.append(")");
+			} else if(opType instanceof InternalTransientObjectType) {
+				sb.append("GRGEN_LIBGR.ContainerHelper.StructurallyEqual(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append(", new Dictionary<object, object>()");
+				sb.append(")");
+			} else {
+				sb.append("((GRGEN_LIBGR.IGraph)");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append(").HasSameStructure((GRGEN_LIBGR.IGraph)");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append(")");
+			}
 			break;
 		}
 

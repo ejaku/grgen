@@ -1,0 +1,181 @@
+#using "compare.gm"
+
+test equalSetIf(ref thisSet:set<Nested>, ref thatSet:set<Nested>)
+{
+	if{ thisSet == thatSet; }	
+}
+
+test structuralEqualSetIf(ref thisSet:set<Nested>, ref thatSet:set<Nested>)
+{
+	if{ thisSet ~~ thatSet; }	
+}
+
+test equalMapIf(ref thisMap:map<Nested,object>, ref thatMap:map<Nested,object>)
+{
+	if{ thisMap == thatMap; }	
+}
+
+test structuralEqualMapIf(ref thisMap:map<Nested,object>, ref thatMap:map<Nested,object>)
+{
+	if{ thisMap ~~ thatMap; }	
+}
+
+test equalArrayIf(ref thisArray:array<Nested>, ref thatArray:array<Nested>)
+{
+	if{ thisArray == thatArray; }	
+}
+
+test structuralEqualArrayIf(ref thisArray:array<Nested>, ref thatArray:array<Nested>)
+{
+	if{ thisArray ~~ thatArray; }
+}
+
+test equalDequeIf(ref thisDeque:deque<Nested>, ref thatDeque:deque<Nested>)
+{
+	if{ thisDeque == thatDeque; }
+}
+
+test structuralEqualDequeIf(ref thisDeque:deque<Nested>, ref thatDeque:deque<Nested>)
+{
+	if{ thisDeque ~~ thatDeque; }	
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+rule equalSet(ref thisSet:set<Nested>, ref thatSet:set<Nested>) : (boolean)
+{	
+	modify {
+		return(thisSet == thatSet);
+	}
+}
+
+rule structuralEqualSet(ref thisSet:set<Nested>, ref thatSet:set<Nested>) : (boolean)
+{
+	modify {
+		return(thisSet ~~ thatSet);
+	}
+}
+
+rule equalMap(ref thisMap:map<Nested,object>, ref thatMap:map<Nested,object>) : (boolean)
+{
+	modify {
+		return(thisMap == thatMap);
+	}
+}
+
+rule structuralEqualMap(ref thisMap:map<Nested,object>, ref thatMap:map<Nested,object>) : (boolean)
+{
+	modify {
+		return(thisMap ~~ thatMap);
+	}
+}
+
+rule equalArray(ref thisArray:array<Nested>, ref thatArray:array<Nested>) : (boolean)
+{
+	modify {
+		return(thisArray == thatArray);
+	}
+}
+
+rule structuralEqualArray(ref thisArray:array<Nested>, ref thatArray:array<Nested>) : (boolean)
+{
+	modify {
+		return(thisArray ~~ thatArray);
+	}
+}
+
+rule equalDeque(ref thisDeque:deque<Nested>, ref thatDeque:deque<Nested>) : (boolean)
+{
+	modify {
+		return(thisDeque == thatDeque);
+	}
+}
+
+rule structuralEqualDeque(ref thisDeque:deque<Nested>, ref thatDeque:deque<Nested>) : (boolean)
+{
+	modify {
+		return(thisDeque ~~ thatDeque);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+rule equalSetExec(ref thisSet:set<Nested>, ref thatSet:set<Nested>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisSet == thatSet });
+		return(res);
+	}
+}
+
+rule structuralEqualSetExec(ref thisSet:set<Nested>, ref thatSet:set<Nested>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisSet ~~ thatSet });
+		return(res);
+	}
+}
+
+rule equalMapExec(ref thisMap:map<Nested,object>, ref thatMap:map<Nested,object>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisMap == thatMap });
+		return(res);
+	}
+}
+
+rule structuralEqualMapExec(ref thisMap:map<Nested,object>, ref thatMap:map<Nested,object>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisMap ~~ thatMap });
+		return(res);
+	}
+}
+
+rule equalArrayExec(ref thisArray:array<Nested>, ref thatArray:array<Nested>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisArray == thatArray });
+		return(res);
+	}
+}
+
+rule structuralEqualArrayExec(ref thisArray:array<Nested>, ref thatArray:array<Nested>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisArray ~~ thatArray });
+		return(res);
+	}
+}
+
+rule equalDequeExec(ref thisDeque:deque<Nested>, ref thatDeque:deque<Nested>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisDeque == thatDeque });
+		return(res);
+	}
+}
+
+rule structuralEqualDequeExec(ref thisDeque:deque<Nested>, ref thatDeque:deque<Nested>) : (boolean)
+{
+	modify {
+	---
+		def var res:boolean;
+		exec({ yield res = thisDeque ~~ thatDeque });
+		return(res);
+	}
+}

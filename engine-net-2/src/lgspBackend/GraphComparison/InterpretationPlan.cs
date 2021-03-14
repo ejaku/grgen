@@ -1229,9 +1229,9 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder builder, bool parallel)
         {
             if(nodeMatcher!=null)
-                builder.AppendFrontFormat("if(!includingAttributes || thisPattern.correspondingNodes[{1}].AreAttributesEqual(candidate{0}))\n", nodeMatcher.Id, indexOfCorrespondingElement);
+                builder.AppendFrontFormat("if(!includingAttributes || thisPattern.correspondingNodes[{1}].IsStructurallyEqual(candidate{0}, new Dictionary<object, object>()))\n", nodeMatcher.Id, indexOfCorrespondingElement);
             else
-                builder.AppendFrontFormat("if(!includingAttributes || thisPattern.correspondingEdges[{1}].AreAttributesEqual(candidate{0}))\n", edgeMatcher.Id, indexOfCorrespondingElement);
+                builder.AppendFrontFormat("if(!includingAttributes || thisPattern.correspondingEdges[{1}].IsStructurallyEqual(candidate{0}, new Dictionary<object, object>()))\n", edgeMatcher.Id, indexOfCorrespondingElement);
             builder.AppendFront("{\n");
             builder.Indent();
             next.Emit(builder, parallel);

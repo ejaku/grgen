@@ -18,6 +18,15 @@ rule rc(ref d1:Diamond, ref d2:Diamond) : (boolean, boolean)
 	}
 }
 
+rule rcse(ref d1:Diamond, ref d2:Diamond) : (boolean, boolean)
+{
+	if{ d1 ~~ copy(d1) && d2 ~~ copy(d2); }
+	
+	modify {
+		return(d1 ~~ d2 && d1 ~~ copy(d1), !(d1 ~~ d2) && d2 ~~ copy(d2));
+	}
+}
+
 rule dc(ref d:Diamond) : (Diamond)
 {
 	modify {
@@ -40,6 +49,17 @@ rule r1(ref d1:Diamond, ref d2:Diamond) : (boolean, boolean)
 		def var equals:boolean;
 		def var notequals:boolean;
 		exec({ yield equals = d1==d2; yield notequals = d1!=d2 });
+		return(equals, notequals);
+	}
+}
+
+rule r1se(ref d1:Diamond, ref d2:Diamond) : (boolean, boolean)
+{
+	modify {
+	---
+		def var equals:boolean;
+		def var notequals:boolean;
+		exec({ yield equals = d1~~d2; yield notequals = !(d1~~d2) });
 		return(equals, notequals);
 	}
 }

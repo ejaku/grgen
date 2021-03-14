@@ -579,7 +579,75 @@ namespace de.unika.ipd.grGen.libGr
 
             for(int i = 0; i < a.Count; ++i)
             {
-                if(!Equals(a[i], b[i]))
+                if(!Object.Equals(a[i], b[i]))
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool StructurallyEqualDequeObject<V>(Deque<V> this_, Deque<V> that, IDictionary<object, object> visitedObjects)
+        {
+            if(this_.Count != that.Count)
+                return false;
+
+            for(int i = 0; i < this_.Count; ++i)
+            {
+                V thisElem = this_[i];
+                V thatElem = that[i];
+                if(!EqualityComparer<V>.Default.Equals(thisElem, thatElem))
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool StructurallyEqualDequeAttributeBearer<V>(Deque<V> this_, Deque<V> that, IDictionary<object, object> visitedObjects) where V : IAttributeBearer
+        {
+            if(this_.Count != that.Count)
+                return false;
+
+            for(int i = 0; i < this_.Count; ++i)
+            {
+                IAttributeBearer thisElem = this_[i];
+                IAttributeBearer thatElem = that[i];
+                if(!StructurallyEqual(thisElem, thatElem, visitedObjects))
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool StructurallyEqualDeque(IDeque this_, IDeque that, IDictionary<object, object> visitedObjects)
+        {
+            if(this_.Count != that.Count)
+                return false;
+            if(this_.Count == 0)
+                return true;
+            if(this_[0] is IAttributeBearer)
+                return StructurallyEqualDequeAttributeBearer(this_, that, visitedObjects);
+            else
+                return StructurallyEqualDequeObject(this_, that, visitedObjects);
+        }
+
+        private static bool StructurallyEqualDequeObject(IDeque this_, IDeque that, IDictionary<object, object> visitedObjects)
+        {
+            for(int i = 0; i < this_.Count; ++i)
+            {
+                if(!Object.Equals(this_[i], that[i]))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static bool StructurallyEqualDequeAttributeBearer(IDeque this_, IDeque that, IDictionary<object, object> visitedObjects)
+        {
+            for(int i = 0; i < this_.Count; ++i)
+            {
+                IAttributeBearer thisElem = (IAttributeBearer)this_[i];
+                IAttributeBearer thatElem = (IAttributeBearer)that[i];
+                if(!StructurallyEqual(thisElem, thatElem, visitedObjects))
                     return false;
             }
 

@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -420,7 +421,7 @@ namespace de.unika.ipd.grGen.libGr
                 return IfAttributeOfElementIsContainerThenCloneContainer(
                     (IObject)attributeBearer, AttributeName, value, out attrType);
             else //if(attributeBearer is ITransientObject)
-                return value; 
+                return value;
         }
 
         /// <summary>
@@ -449,16 +450,53 @@ namespace de.unika.ipd.grGen.libGr
 
         public static bool IsEqual(IObject this_, IObject that)
         {
-            if(this_ == that)
-                return true;
-            return this_.AreAttributesEqual(that);
+            return this_ == that;
         }
 
         public static bool IsEqual(ITransientObject this_, ITransientObject that)
         {
-            if(this_ == that)
+            return this_ == that;
+        }
+
+        /// <summary>
+        /// Returns whether the input values are structurally equal, beside attribute bearers and graphs, this esp. includes containers,
+        /// then it returns whether this container and that container are memberwise structurally equal,
+        /// which means the scalar members are equal, and object attributes are deeply structurally equal.
+        /// (If types are unequal the result is false.)
+        /// </summary>
+        public static bool StructurallyEqual(object this_, object that, IDictionary<object, object> visitedObjects)
+        {
+            if(this_ is IAttributeBearer)
+            {
+                return StructurallyEqual((IAttributeBearer)this_, (IAttributeBearer)that, visitedObjects);
+            }
+            else if(this_ is IList)
+            {
+                return StructurallyEqualArray((IList)this_, (IList)that, visitedObjects);
+            }
+            else if(this_ is IDeque)
+            {
+                return StructurallyEqualDeque((IDeque)this_, (IDeque)that, visitedObjects);
+            }
+            else if(this_ is IDictionary)
+            {
+                return StructurallyEqual((IDictionary)this_, (IDictionary)that, visitedObjects);
+            }
+            else
+            {
+                return GraphHelper.HasSameStructure((IGraph)this_, (IGraph)that);
+            }
+        }
+
+        public static bool StructurallyEqual(IAttributeBearer this_, IAttributeBearer that, IDictionary<object, object> visitedObjects)
+        {
+            if(this_ == null && that == null)
                 return true;
-            return this_.AreAttributesEqual(that);
+
+            if(this_ == null || that == null)
+                return false;
+
+            return this_.IsStructurallyEqual(that, visitedObjects);
         }
     }
 }

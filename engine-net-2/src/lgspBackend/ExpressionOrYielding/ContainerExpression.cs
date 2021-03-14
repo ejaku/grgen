@@ -125,6 +125,50 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing set/map structural equality comparison.
+    /// </summary>
+    public class DICT_SE : BinFuncOperator
+    {
+        public DICT_SE(Expression left, Expression right, bool isSet, bool isAttributeBearer)
+            : base(left, right)
+        {
+            this.isSet = isSet;
+            this.isAttributeBearer = isAttributeBearer;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DICT_SE(Left.Copy(renameSuffix), Right.Copy(renameSuffix), isSet, isAttributeBearer);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String methodName = isSet ? "StructurallyEqualSet" : "StructurallyEqualMap";
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(", new Dictionary<object, object>()");
+            if(isAttributeBearer) {
+                sourceCode.Append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
+                sourceCode.Append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
+            } else {
+                sourceCode.Append(", new Dictionary<object, object>()");
+                sourceCode.Append(", new Dictionary<object, object>()");
+            }
+            sourceCode.Append(")");
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool isSet;
+        bool isAttributeBearer;
+    }
+
+    /// <summary>
     /// Class representing proper subset/map comparison.
     /// </summary>
     public class DICT_LT : BinFuncOperator
@@ -251,6 +295,41 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing array structural equality comparison.
+    /// </summary>
+    public class LIST_SE : BinFuncOperator
+    {
+        public LIST_SE(Expression left, Expression right, bool isAttributeBearer)
+            : base(left, right)
+        {
+            this.isAttributeBearer = isAttributeBearer;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new LIST_SE(Left.Copy(renameSuffix), Right.Copy(renameSuffix), isAttributeBearer);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String methodName = isAttributeBearer ? "StructurallyEqualArrayAttributeBearer" : "StructurallyEqualArrayObject";
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(", new Dictionary<object, object>()");
+            sourceCode.Append(")");
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool isAttributeBearer;
+    }
+
+    /// <summary>
     /// Class representing proper subarray comparison.
     /// </summary>
     public class LIST_LT : BinFuncOperator
@@ -374,6 +453,41 @@ namespace de.unika.ipd.grGen.expression
         {
             return "GRGEN_LIBGR.ContainerHelper.NotEqual(";
         }
+    }
+
+    /// <summary>
+    /// Class representing deque structural equality comparison.
+    /// </summary>
+    public class DEQUE_SE : BinFuncOperator
+    {
+        public DEQUE_SE(Expression left, Expression right, bool isAttributeBearer)
+            : base(left, right)
+        {
+            this.isAttributeBearer = isAttributeBearer;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new DEQUE_SE(Left.Copy(renameSuffix), Right.Copy(renameSuffix), isAttributeBearer);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String methodName = isAttributeBearer ? "StructurallyEqualDequeAttributeBearer" : "StructurallyEqualDequeObject";
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(", new Dictionary<object, object>()");
+            sourceCode.Append(")");
+        }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool isAttributeBearer;
     }
 
     /// <summary>
