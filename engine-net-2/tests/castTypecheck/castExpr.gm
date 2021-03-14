@@ -1,0 +1,15 @@
+node class N;
+node class NN extends N;
+node class NNN extends NN;
+
+edge class E;
+edge class EE extends E;
+edge class EEE extends EE;
+
+class O;
+class OO extends O;
+class OOO extends OO;
+
+transient class T;
+transient class TT extends T;
+transient class TTT extends TT;

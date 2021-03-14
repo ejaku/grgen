@@ -857,7 +857,11 @@ namespace de.unika.ipd.grGen.lgsp
                 targetType = ((NodeType)seqCast.TargetType).NodeInterfaceName;
             if(seqCast.TargetType is EdgeType)
                 targetType = ((EdgeType)seqCast.TargetType).EdgeInterfaceName;
-            // TODO: handle the non-node and non-edge-types, too
+            if(seqCast.TargetType is ObjectType)
+                targetType = ((ObjectType)seqCast.TargetType).ObjectInterfaceName;
+            if(seqCast.TargetType is TransientObjectType)
+                targetType = ((TransientObjectType)seqCast.TargetType).TransientObjectInterfaceName;
+            // TODO: handle the non-node/edge/object/transient-object-types, too
             return "((" + targetType + ")" + GetSequenceExpression(seqCast.Operand, source) + ")";
         }
 

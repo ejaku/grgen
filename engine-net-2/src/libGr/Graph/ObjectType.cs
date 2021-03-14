@@ -92,25 +92,6 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates an object according to this type and copies all
-        /// common attributes from the given object.
-        /// </summary>
-        /// <param name="oldValue">The old value.</param>
-        /// <returns>The created object.</returns>
-        public abstract IObject CreateObjectWithCopyCommons(IObject oldValue, IGraph graph);
-
-        /// <summary>
-        /// Creates an object according to this type and copies all
-        /// common attributes from the given (base) object.
-        /// </summary>
-        /// <param name="oldValue">The old value.</param>
-        /// <returns>The created object.</returns>
-        public override IBaseObject CreateBaseObjectWithCopyCommons(IBaseObject oldValue)
-        {
-            throw new Exception("Use ObjectType.CreateObjectWithCopyCommons");
-        }
-
-        /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
         public ObjectType[] subOrSameTypes;

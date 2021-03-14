@@ -1130,7 +1130,11 @@ namespace de.unika.ipd.grGen.libGr
                 return ((NodeType)TargetType).Name;
             if(TargetType is EdgeType)
                 return ((EdgeType)TargetType).Name;
-            return null; // TODO: handle the non-node and non-edge-types, too
+            if(TargetType is ObjectType)
+                return ((ObjectType)TargetType).Name;
+            if(TargetType is TransientObjectType)
+                return ((TransientObjectType)TargetType).Name;
+            return null; // TODO: handle the non-node/edge/object/transient-object-types, too
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -1156,7 +1160,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "(" + (TargetType is NodeType ? ((NodeType)TargetType).Name : ((EdgeType)TargetType).Name ) + ")" + Operand.Symbol; }
+            get { return "(" + ((InheritanceType)TargetType).Name + ")" + Operand.Symbol; }
         }
     }
 

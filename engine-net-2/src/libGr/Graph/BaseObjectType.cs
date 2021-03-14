@@ -44,14 +44,6 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IBaseObject CreateBaseObject();
 
         /// <summary>
-        /// Creates a transient object according to this type and copies all
-        /// common attributes from the given transient object.
-        /// </summary>
-        /// <param name="oldValue">The old value.</param>
-        /// <returns>The created object.</returns>
-        public abstract IBaseObject CreateBaseObjectWithCopyCommons(IBaseObject oldValue);
-
-        /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
         public new BaseObjectType[] SubOrSameTypes { get; }

@@ -1,0 +1,23 @@
+new graph "castTypecheck/castExpr"
+
+new nnn:NNN
+
+exec rN(::nnn)
+
+exec rNexec(::nnn)
+
+new nnn -eee:EEE-> nnn
+
+exec rE(::eee)
+
+exec rEexec(::eee)
+
+exec rO(new OOO())
+
+exec rOexec(new OOO())
+
+exec rT(new TTT())
+
+exec rTexec(new TTT())
+
+quit

@@ -2160,7 +2160,7 @@ deque_init_loop:
 				sb.appendFront("return new " + allocName + "();\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-		} else if (type instanceof EdgeType) {
+		} else if(type instanceof EdgeType) {
 			EdgeType edgeType = (EdgeType)type;
 			sb.appendFront("public override GRGEN_LIBGR.Directedness Directedness "
 					+ "{ get { return GRGEN_LIBGR.Directedness.");
@@ -2258,7 +2258,8 @@ deque_init_loop:
 		sb.appendFrontIndented("return (this == other) || isA[other.TypeID];\n");
 		sb.appendFront("}\n");
 
-		genCreateWithCopyCommons(type);
+		if(type instanceof NodeType || type instanceof EdgeType)
+			genCreateWithCopyCommons(type);
 		sb.unindent();
 		sb.appendFront("}\n");
 
@@ -2661,20 +2662,10 @@ deque_init_loop:
 					+ "GRGEN_LIBGR.INode oldINode)\n");
 			sb.appendFront("{\n");
 			sb.indent();
-		} else if(type instanceof EdgeType) {
+		} else {
 			sb.appendFront("public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons("
 					+ "GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, "
 					+ "GRGEN_LIBGR.IEdge oldIEdge)\n");
-			sb.appendFront("{\n");
-			sb.indent();
-		} else if(type instanceof InternalTransientObjectType) {
-			sb.appendFront("public override GRGEN_LIBGR.ITransientObject CreateTransientObjectWithCopyCommons("
-					+ "GRGEN_LIBGR.ITransientObject oldITransientObject)\n");
-			sb.appendFront("{\n");
-			sb.indent();
-		} else {
-			sb.appendFront("public override GRGEN_LIBGR.IObject CreateObjectWithCopyCommons("
-					+ "GRGEN_LIBGR.IObject oldIObject, GRGEN_LIBGR.IGraph graph)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 		}
@@ -2693,16 +2684,10 @@ deque_init_loop:
 			if(type instanceof NodeType) {
 				sb.appendFront("GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;\n");
 				sb.appendFront(elemref + " newNode = new " + allocName + "();\n");
-			} else if(type instanceof EdgeType) {
+			} else {
 				sb.appendFront("GRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;\n");
 				sb.appendFront(elemref + " newEdge = new " + allocName
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
-			} else if(type instanceof InternalTransientObjectType) {
-				sb.appendFront("GRGEN_LGSP.LGSPTransientClass oldTransientClass = (GRGEN_LGSP.LGSPTransientClass) oldITransientObject;\n");
-				sb.appendFront(elemref + " newTransientObject = new " + allocName + "();\n");
-			} else {
-				sb.appendFront("GRGEN_LGSP.LGSPClass oldClass = (GRGEN_LGSP.LGSPClass) oldIObject;\n");
-				sb.appendFront(elemref + " newObject = new " + allocName + "(graph.FetchObjectUniqueId());\n");
 			}
 			sb.appendFront("switch(old" + kindName + ".Type.TypeID)\n");
 			sb.appendFront("{\n");
@@ -2719,13 +2704,9 @@ deque_init_loop:
 		} else {
 			if(type instanceof NodeType) {
 				sb.appendFront("return new " + allocName + "();\n");
-			} else if(type instanceof EdgeType) {
+			} else {
 				sb.appendFront("return new " + allocName
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
-			} else if(type instanceof InternalTransientObjectType) {
-				sb.appendFront("return new " + allocName + "();\n");
-			} else {
-				sb.appendFront("return new " + allocName + "(graph.FetchObjectUniqueId());\n");
 			}
 			sb.unindent();
 			sb.appendFront("}\n");

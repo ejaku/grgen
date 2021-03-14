@@ -18,6 +18,9 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
@@ -142,20 +145,15 @@ public class CastNode extends ExprNode
 	private boolean typeCheckLocal()
 	{
 		TypeNode fromType = expr.getType();
-		if(fromType instanceof NodeTypeNode && type instanceof NodeTypeNode) {
-			// we support up- and down-casts, but no cross-casts of nodes
+		if(fromType instanceof NodeTypeNode && type instanceof NodeTypeNode
+				|| fromType instanceof EdgeTypeNode && type instanceof EdgeTypeNode
+				|| fromType instanceof InternalObjectTypeNode && type instanceof InternalObjectTypeNode
+				|| fromType instanceof InternalTransientObjectTypeNode && type instanceof InternalTransientObjectTypeNode) {
+			// we support up- and down-casts, but no cross-casts of nodes/edges/class objects/transient class objects
 			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
-			((NodeTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
+			((InheritanceTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
 			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
-			((NodeTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
-			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
-		}
-		if(fromType instanceof EdgeTypeNode && type instanceof EdgeTypeNode) {
-			// we support up- and down-casts, but no cross-casts of edges
-			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
-			((EdgeTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
-			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
-			((EdgeTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
+			((InheritanceTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
 			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
 		}
 		if(fromType instanceof ObjectTypeNode && !(type instanceof NodeTypeNode) && !(type instanceof EdgeTypeNode))

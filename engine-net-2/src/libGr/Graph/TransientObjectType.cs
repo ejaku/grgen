@@ -63,25 +63,6 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates a transient object according to this type and copies all
-        /// common attributes from the given transient object.
-        /// </summary>
-        /// <param name="oldValue">The old value.</param>
-        /// <returns>The created object.</returns>
-        public abstract ITransientObject CreateTransientObjectWithCopyCommons(ITransientObject oldValue);
-
-        /// <summary>
-        /// Creates a transient object according to this type and copies all
-        /// common attributes from the given transient object.
-        /// </summary>
-        /// <param name="oldValue">The old value.</param>
-        /// <returns>The created object.</returns>
-        public override IBaseObject CreateBaseObjectWithCopyCommons(IBaseObject oldValue)
-        {
-            return CreateTransientObjectWithCopyCommons((ITransientObject)oldValue);
-        }
-
-        /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
         public TransientObjectType[] subOrSameTypes;

@@ -1,0 +1,101 @@
+#using "castExpr.gm"
+
+rule rN(nn:NN)
+{
+	if{ ((NNN)nn)!=null && ((N)nn)!=null; }
+	
+	modify {
+		eval {
+			def var n:N = (N)nn;
+			def var nnn:NNN = (NNN)nn;
+		}
+	}
+}
+
+rule rNexec(nn:NN)
+{
+	modify {
+	---
+		def var n:N = null;
+		def var nnn:NNN = null;
+		exec( {
+			yield n = (N)nn;
+			yield nnn = (NNN)nn;
+		} );
+	}
+}
+
+rule rE(-ee:EE->)
+{
+	if{ ((EEE)ee)!=null && ((E)ee)!=null; }
+	
+	modify {
+		eval {
+			def var e:E = (E)ee;
+			def var eee:EEE = (EEE)ee;
+		}
+	}
+}
+
+rule rEexec(-ee:EE->)
+{
+	modify {
+	---
+		def var e:E = null;
+		def var eee:EEE = null;
+		exec( {
+			yield e = (E)ee;
+			yield eee = (EEE)ee;
+		} );
+	}
+}
+
+rule rO(ref oo:OO)
+{
+	if{ ((OOO)oo)!=null && ((O)oo)!=null; }
+	
+	modify {
+		eval {
+			def ref o:O = (O)oo;
+			def ref ooo:OOO = (OOO)oo;
+		}
+	}
+}
+
+rule rOexec(ref oo:OO)
+{
+	modify {
+	---
+		def ref o:O = null;
+		def ref ooo:OOO = null;
+		exec( {
+			yield o = (O)oo;
+			yield ooo = (OOO)oo;
+		} );
+	}
+}
+
+rule rT(ref tt:TT)
+{
+	if{ ((TTT)tt)!=null && ((T)tt)!=null; }
+	
+	modify {
+		eval {
+			def ref t:T = (T)tt;
+			def ref ttt:TTT = (TTT)tt;
+		}
+	}
+}
+
+rule rTexec(ref tt:TT)
+{
+	modify {
+	---
+		def ref t:T = null;
+		def ref ttt:TTT = null;
+		exec( {
+			yield t = (T)tt;
+			yield ttt = (TTT)tt;
+		} );
+	}
+}
