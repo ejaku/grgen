@@ -1,0 +1,23 @@
+new graph "scan/tryscanExec"
+
+new n:N(i=42, s="Foo")
+new m:N(i=43, s="Bar")
+new n -:E-> m
+
+exec (::i, ::s, ::d, ::enu, ::n, ::e, ::oo)=scalarExec
+show var i
+show var s
+show var d
+show var enu
+show var n
+show var e
+show var oo
+
+exec (::a, ::d, ::s, ::m, ::f)=containerExec
+show var a
+show var d
+show var s
+show var m
+show var f
+
+quit

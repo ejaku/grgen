@@ -2186,6 +2186,18 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append("new GRGEN_EXPR.IteratedQuery(");
 			sb.append("\"" + iq.getIteratedName().toString() + "\"");
 			sb.append(")");
+		} else if(expr instanceof ScanExpr) {
+			ScanExpr s = (ScanExpr)expr;
+			sb.append("new GRGEN_EXPR.Scan(");
+			genExpressionTree(sb, s.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", \"" + formatAttributeTypeObject(s.getType()) + "\"");
+			sb.append(")");
+		} else if(expr instanceof TryScanExpr) {
+			TryScanExpr ts = (TryScanExpr)expr;
+			sb.append("new GRGEN_EXPR.TryScan(");
+			genExpressionTree(sb, ts.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", \"" + formatAttributeTypeObject(ts.getTargetType()) + "\"");
+			sb.append(")");
 		} else
 			throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

@@ -199,6 +199,8 @@ TOKEN: {
 |   < COUNT: "count" >
 |   < THIS: "this" >
 |   < CLASS: "class" >
+|   < SCAN: "scan" >
+|   < TRYSCAN: "tryscan" >
 }
 
 TOKEN: {
@@ -1936,6 +1938,11 @@ SequenceExpression ExpressionBasic():
         return expr;
     }
 |
+    expr=ScanFunctionCall() expr=SelectorExpression(expr)
+    {
+        return expr;
+    }
+|
     LOOKAHEAD(2)
     constant=Constant()
     {
@@ -2180,6 +2187,58 @@ SequenceExpression FunctionCall():
     function=Word() "(" (Arguments(argExprs))? ")"
     {
         return env.CreateSequenceExpressionFunctionCall(function, package, argExprs);
+    }
+}
+
+SequenceExpression ScanFunctionCall():
+{
+    Token function;
+    String type = null;
+    List<SequenceExpression> argExprs = new List<SequenceExpression>();
+}
+{
+    (function="scan" | function="tryscan") ("<" type=TypeOrContainerTypeContinuation())? "(" Argument(argExprs) ")"
+    {
+        if(function.image == "scan")
+            return new SequenceExpressionScan(type, argExprs[0]);
+        else //function.image == "tryscan"
+            return new SequenceExpressionTryScan(type, argExprs[0]);
+    }
+}
+
+String TypeOrContainerTypeContinuation():
+{
+    String type;
+    String typeParam, typeParamDst;
+}
+{
+    LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "set" })
+    Word() "<" typeParam=TypeNonGeneric() (">" ">"| ">>") { type = "set<" + typeParam + ">"; }
+    {
+        return type;
+    }
+|
+    LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "map" })
+    Word() "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() (">" ">" | ">>") { type = "map<" + typeParam + "," + typeParamDst + ">"; }
+    {
+        return type;
+    }
+| 
+    LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "array" })
+    Word() "<" typeParam=TypeNonGeneric() (">" ">" | ">>") { type = "array<" + typeParam + ">"; }
+    {
+        return type;
+    }
+|
+    LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "deque" })
+    Word() "<" typeParam=TypeNonGeneric() (">" ">" | ">>") { type = "deque<" + typeParam + ">"; }
+    {
+        return type;
+    }
+|
+    type=TypeNonGeneric() ">"
+    {
+        return type;
     }
 }
 

@@ -1,0 +1,15 @@
+enum ENU
+{
+	Foo,
+	Bar
+}
+
+node class N
+{
+	i:int;
+	s:string;
+	d:double;
+	enu:ENU;
+}
+
+edge class E;

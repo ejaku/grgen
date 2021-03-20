@@ -443,6 +443,7 @@ seqExprBasic [ExecNode xg] returns [ ExprNode res = env.initExprNode() ]
 	: owner=seqVarUseInExpr[xg] sel=seqExprSelector[owner, xg] { res = sel; }
 	| {input.LT(1).getText().equals("this")}? i=IDENT { xg.append("this"); } sel=seqExprSelector[owner, xg] { res = sel; }
 	| fc=seqFunctionCall[xg] { res = fc; } sel=seqExprSelector[fc, xg] { res = sel; }
+	| fc=seqScanFunctionCall[xg] { res = fc; } sel=seqExprSelector[fc, xg] { res = sel; }
 	| DEF LPAREN { xg.append("def("); } seqVariableList[xg, returns] RPAREN { xg.append(")"); } 
 	| a=AT LPAREN { xg.append("@("); } 
 		(i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }
@@ -582,6 +583,39 @@ seqFunctionCall [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 seqFunctionCallParameters [ ExecNode xg ] returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
 	: (fromExpr=seqExpression[xg] { params.addChild(fromExpr); }
 		( COMMA { xg.append(","); } fromExpr2=seqExpression[xg] { params.addChild(fromExpr2); } )* )?
+	;
+
+seqScanFunctionCall [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	: ( s=SCAN { xg.append(s.getText()); } | s=TRYSCAN { xg.append(s.getText()); } ) (LT { xg.append("<"); } type=seqTypeOrContainerTypeContinuation[xg])? LPAREN { xg.append("("); }
+			params=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
+		{
+			if(params.getChildren().size() == 1) {
+				if(s.getText().equals("scan")) {
+					res = new ScanExprNode(getCoords(s), type, params.get(0));
+				} else {
+					res = new TryScanExprNode(getCoords(s), type, params.get(0));
+				}
+			} else {
+				reportError(getCoords(s), "function " + s.getText() + " expects 1 parameter (and a type parameter)");
+			}
+		}
+	;
+
+seqTypeOrContainerTypeContinuation [ ExecNode xg ] returns [ BaseNode res = null ]
+	: { input.LT(1).getText().equals("map") }?
+		i=IDENT LT { xg.append(i.getText() + "<"); } keyType=seqTypeIdentUse COMMA { xg.append(keyType + ","); } valueType=seqTypeIdentUse { xg.append(valueType); } (GT GT { xg.append("> >"); } | SR { xg.append(">>"); } )
+		{ res = new MapTypeNode(keyType, valueType); }
+	| { input.LT(1).getText().equals("set") }?
+		i=IDENT LT { xg.append(i.getText() + "<"); } valueType=seqTypeIdentUse { xg.append(valueType); } (GT GT { xg.append("> >"); } | SR { xg.append(">>"); })
+		{ res = new SetTypeNode(valueType); }
+	| { input.LT(1).getText().equals("array") }?
+		i=IDENT LT { xg.append(i.getText() + "<"); } valueType=seqTypeIdentUse { xg.append(valueType); } (GT GT { xg.append("> >"); } | SR { xg.append(">>"); })
+		{ res = new ArrayTypeNode(valueType); }
+	| { input.LT(1).getText().equals("deque") }?
+		i=IDENT { xg.append(i.getText() + "<"); } LT valueType=seqTypeIdentUse { xg.append(valueType); } (GT GT { xg.append("> >"); } | SR { xg.append(">>"); })
+		{ res = new DequeTypeNode(valueType); }
+	| typeIdent=seqTypeIdentUse GT
+		{ res = typeIdent; } { xg.append(typeIdent); } { xg.append(">"); }
 	;
 
 seqConstant [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]

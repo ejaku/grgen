@@ -87,6 +87,7 @@ namespace de.unika.ipd.grGen.libGr
         Copy,
         Canonize,
         RuleQuery, MultiRuleQuery,
+        Scan, TryScan,
         FunctionCall, FunctionMethodCall
     }
 
@@ -13194,6 +13195,194 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append("]");
                 return sb.ToString();
             }
+        }
+    }
+
+    public class SequenceExpressionScan : SequenceExpression
+    {
+        public readonly String ResultType;
+        public readonly SequenceExpression StringExpr;
+
+        public SequenceExpressionScan(String resultType, SequenceExpression stringExpr)
+            : base(SequenceExpressionType.Scan)
+        {
+            ResultType = resultType;
+            StringExpr = stringExpr;
+        }
+
+        protected SequenceExpressionScan(SequenceExpressionScan that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that)
+        {
+            ResultType = that.ResultType;
+            StringExpr = that.StringExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionScan(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(StringExpr.Type(env) != "" && StringExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol + " string parameter", "string type", StringExpr.Type(env));
+
+            if(ResultType == null)
+                return;
+
+            AttributeType attrType = TypesHelper.XgrsTypeToAttributeType(ResultType, env.Model);
+            if(attrType.Kind == AttributeKind.InternalClassObjectAttr)
+                throw new SequenceParserException(Symbol + " type parameter", "type not denoting an object type", ResultType);
+
+            if(attrType.Kind == AttributeKind.InternalClassTransientObjectAttr)
+                throw new SequenceParserException(Symbol + " type parameter", "type not denoting a transient object type", ResultType);
+
+            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr
+                || attrType.Kind == AttributeKind.ArrayAttr || attrType.Kind == AttributeKind.DequeAttr)
+            {
+                if(attrType.ValueType.Kind == AttributeKind.InternalClassObjectAttr)
+                    throw new SequenceParserException(Symbol + " type parameter", "type, not containing an object type", ResultType);
+                if(attrType.ValueType.Kind == AttributeKind.InternalClassTransientObjectAttr)
+                    throw new SequenceParserException(Symbol + " type parameter", "type, not containing a transient object type", ResultType);
+                if(attrType.Kind == AttributeKind.MapAttr)
+                {
+                    if(attrType.KeyType.Kind == AttributeKind.InternalClassObjectAttr)
+                        throw new SequenceParserException(Symbol + " type parameter", "type, not containing an object type", ResultType);
+                    if(attrType.KeyType.Kind == AttributeKind.InternalClassTransientObjectAttr)
+                        throw new SequenceParserException(Symbol + " type parameter", "type, not containing a transient object type", ResultType);
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return ResultType ?? "object";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            AttributeType attrType = TypesHelper.XgrsTypeToAttributeType(ResultType ?? "object", procEnv.Graph.Model);
+            return GRSImport.Scan(attrType, (string)StringExpr.Evaluate(procEnv), procEnv.Graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            StringExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return StringExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "scan" + (ResultType != null ? "<" + ResultType + ">": "") + "(" + StringExpr.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionTryScan : SequenceExpression
+    {
+        public readonly String ResultType;
+        public readonly SequenceExpression StringExpr;
+
+        public SequenceExpressionTryScan(String resultType, SequenceExpression stringExpr)
+            : base(SequenceExpressionType.TryScan)
+        {
+            ResultType = resultType;
+            StringExpr = stringExpr;
+        }
+
+        protected SequenceExpressionTryScan(SequenceExpressionTryScan that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that)
+        {
+            ResultType = that.ResultType;
+            StringExpr = that.StringExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionTryScan(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(StringExpr.Type(env) != "" && StringExpr.Type(env) != "string")
+                throw new SequenceParserException(Symbol + " string parameter", "string type", StringExpr.Type(env));
+
+            if(ResultType == null)
+                return;
+
+            AttributeType attrType = TypesHelper.XgrsTypeToAttributeType(ResultType, env.Model);
+            if(attrType.Kind == AttributeKind.InternalClassObjectAttr)
+                throw new SequenceParserException(Symbol + " type parameter", "type not denoting an object type", ResultType);
+
+            if(attrType.Kind == AttributeKind.InternalClassTransientObjectAttr)
+                throw new SequenceParserException(Symbol + " type parameter", "type not denoting a transient object type", ResultType);
+
+            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr
+                || attrType.Kind == AttributeKind.ArrayAttr || attrType.Kind == AttributeKind.DequeAttr)
+            {
+                if(attrType.ValueType.Kind == AttributeKind.InternalClassObjectAttr)
+                    throw new SequenceParserException(Symbol + " type parameter", "type, not containing an object type", ResultType);
+                if(attrType.ValueType.Kind == AttributeKind.InternalClassTransientObjectAttr)
+                    throw new SequenceParserException(Symbol + " type parameter", "type, not containing a transient object type", ResultType);
+                if(attrType.Kind == AttributeKind.MapAttr)
+                {
+                    if(attrType.KeyType.Kind == AttributeKind.InternalClassObjectAttr)
+                        throw new SequenceParserException(Symbol + " type parameter", "type, not containing an object type", ResultType);
+                    if(attrType.KeyType.Kind == AttributeKind.InternalClassTransientObjectAttr)
+                        throw new SequenceParserException(Symbol + " type parameter", "type, not containing a transient object type", ResultType);
+                }
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            AttributeType attrType = TypesHelper.XgrsTypeToAttributeType(ResultType ?? "object", procEnv.Graph.Model);
+            return GRSImport.TryScan(attrType, (string)StringExpr.Evaluate(procEnv), procEnv.Graph);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            StringExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return StringExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "tryscan" + (ResultType != null ? "<" + ResultType + ">" : "") + "(" + StringExpr.Symbol + ")"; }
         }
     }
 

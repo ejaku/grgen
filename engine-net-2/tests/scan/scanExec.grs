@@ -1,0 +1,24 @@
+new graph "scan/scan"
+
+new n:N(i=42, s="Foo")
+new m:N(i=43, s="Bar")
+new n -:E-> m
+
+exec { ::i = scan<int>("42"); ::s = scan<string>('"Foobar"'); ::d = scan<double>("3.141592654"); ::enu = scan<ENU>("ENU::Foo"); ::n = scan<N>("$0"); ::e = scan<E>("$2"); ::oo = scan("null") }
+
+show var i
+show var s
+show var d
+show var enu
+show var n
+show var e
+show var oo
+
+exec { ::a = scan<array<int>>("array<int>[0,1,2,3,42]"); ::d = scan<deque<ENU>>("deque<ENU>[ENU::Foo,ENU::Bar,ENU::Foo]"); ::s = scan<set<N>>("set<N>{$0,$1}"); ::m = scan<map<N,E>>("map<N,E>{$0->$2}") }
+
+show var a
+show var d
+show var s
+show var m
+
+quit

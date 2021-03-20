@@ -1,0 +1,47 @@
+#using "scan.gm"
+
+rule scalarExec : (int, string, double, ENU, N, E, object)
+{
+	modify {
+	---
+		def var i:int;
+		def var s:string;
+		def var d:double;
+		def var enu:ENU;
+		def n:N;
+		def -e:E->;
+		def var oo:object;
+
+		exec ( {
+			yield i = scan<int>("42");
+			yield s = scan<string>("'Foobar'");
+			yield d = scan<double>("3.141592654");
+			yield enu = scan<ENU>("ENU::Foo");
+			yield n = scan<N>("$0");
+			yield e = scan<E>("$2");
+			yield oo = scan("null")
+		} );
+		
+		return(i, s, d, enu, n, e, oo);
+	}
+}
+
+rule containerExec : (array<int>, deque<ENU>, set<N>, map<N,E>)
+{
+	modify {
+	---
+		def ref a:array<int>;
+		def ref d:deque<ENU>;
+		def ref s:set<N>;
+		def ref m:map<N,E>;
+
+		exec ( {
+			yield a = scan<array<int>>("array<int>[0,1,2,3,42]");
+			yield d = scan<deque<ENU>>("deque<ENU>[ENU::Foo,ENU::Bar,ENU::Foo]");
+			yield s = scan<set<N>>("set<N>{$0,$1}");
+			yield m = scan<map<N,E>>("map<N,E>{$0->$2}")
+		} );
+		
+		return(a, d, s, m);
+	}
+}

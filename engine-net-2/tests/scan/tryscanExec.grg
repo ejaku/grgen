@@ -1,0 +1,49 @@
+#using "scan.gm"
+
+rule scalarExec : (boolean, boolean, boolean, boolean, boolean, boolean, boolean)
+{
+	modify {
+	---
+		def var i:boolean;
+		def var s:boolean;
+		def var d:boolean;
+		def var enu:boolean;
+		def var n:boolean;
+		def var e:boolean;
+		def var oo:boolean;
+
+		exec ( {
+			yield i = tryscan<int>("42");
+			yield s = tryscan<string>("'Foobar'");
+			yield d = tryscan<double>("3.141592654");
+			yield enu = tryscan<ENU>("ENU::Foo");
+			yield n = tryscan<N>("$0");
+			yield e = tryscan<E>("$2");
+			yield oo = tryscan("null")
+		} );
+		
+		return(i, s, d, enu, n, e, oo);
+	}
+}
+
+rule containerExec : (boolean, boolean, boolean, boolean, boolean)
+{
+	modify {
+	---
+		def var a:boolean;
+		def var d:boolean;
+		def var s:boolean;
+		def var m:boolean;
+		def var f:boolean;
+
+		exec ( {
+			yield a = tryscan<array<int>>("array<int>[0,1,2,3,42]");
+			yield d = tryscan<deque<ENU>>("deque<ENU>[ENU::Foo,ENU::Bar,ENU::Foo]");
+			yield s = tryscan<set<N>>("set<N>{$0,$1}");
+			yield m = tryscan<map<N,E>>("map<N,E>{$0->$2}");
+			yield f = tryscan<int>("furchtbar!");
+		} );
+		
+		return(a, d, s, m, f);
+	}
+}

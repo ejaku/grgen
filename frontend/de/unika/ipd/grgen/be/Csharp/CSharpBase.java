@@ -3033,8 +3033,99 @@ public abstract class CSharpBase
 		} else if(expr instanceof IteratedQueryExpr) {
 			IteratedQueryExpr iq = (IteratedQueryExpr)expr;
 			sb.append("curMatch." + iq.getIteratedName().toString() + ".ToListExact()");
+		} else if(expr instanceof ScanExpr) {
+			ScanExpr s = (ScanExpr)expr;
+			sb.append("GRGEN_LIBGR.GRSImport.Scan(" + formatAttributeTypeObject(s.getType()) + ", ");
+			genExpression(sb, s.getStringExpr(), modifyGenerationState);
+			sb.append(", graph)");
+		} else if(expr instanceof TryScanExpr) {
+			TryScanExpr ts = (TryScanExpr)expr;
+			sb.append("GRGEN_LIBGR.GRSImport.TryScan(" + formatAttributeTypeObject(ts.getTargetType()) + ", ");
+			genExpression(sb, ts.getStringExpr(), modifyGenerationState);
+			sb.append(", graph)");
 		} else
 			throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
+	}
+
+	protected String formatAttributeTypeObject(Type t)
+	{
+		SourceBuilder sb = new SourceBuilder();
+		if(t instanceof MapType) {
+			MapType mt = (MapType)t;
+			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", null, ");
+			sb.append(formatAttributeTypeObject(mt.getValueType()) + ", ");
+			sb.append(formatAttributeTypeObject(mt.getKeyType()) + ", ");
+			sb.append("null, null, null, null)");
+		} else if(t instanceof SetType) {
+			SetType st = (SetType)t;
+			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", null, ");
+			sb.append(formatAttributeTypeObject(st.getValueType()) + ", null,");
+			sb.append("null, null, null, null)");
+		} else if(t instanceof ArrayType) {
+			ArrayType at = (ArrayType)t;
+			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", null, ");
+			sb.append(formatAttributeTypeObject(at.getValueType()) + ", null,");
+			sb.append("null, null, null, null)");
+		} else if(t instanceof DequeType) {
+			DequeType qt = (DequeType)t;
+			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", null, ");
+			sb.append(formatAttributeTypeObject(qt.getValueType()) + ", null,");
+			sb.append("null, null, null, null)");
+		} else if(t instanceof EnumType) {
+			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", ");
+			sb.append("GRGEN_MODEL." + getPackagePrefixDot(t) + "Enums.@" + formatIdentifiable(t) + ", ");
+			sb.append("null, null, ");
+			sb.append("null, null, null, null)");
+		} else { // maybe todo: distinguish node/edge/class object/transient class object
+			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", null, ");
+			sb.append("null, null, ");
+			sb.append("null, null, null, null)");
+		}
+		return sb.toString();
+	}
+
+	private static String getAttributeKind(Type t)
+	{
+		if(t instanceof ByteType)
+			return "GRGEN_LIBGR.AttributeKind.ByteAttr";
+		else if(t instanceof ShortType)
+			return "GRGEN_LIBGR.AttributeKind.ShortAttr";
+		else if(t instanceof IntType)
+			return "GRGEN_LIBGR.AttributeKind.IntegerAttr";
+		else if(t instanceof LongType)
+			return "GRGEN_LIBGR.AttributeKind.LongAttr";
+		else if(t instanceof FloatType)
+			return "GRGEN_LIBGR.AttributeKind.FloatAttr";
+		else if(t instanceof DoubleType)
+			return "GRGEN_LIBGR.AttributeKind.DoubleAttr";
+		else if(t instanceof BooleanType)
+			return "GRGEN_LIBGR.AttributeKind.BooleanAttr";
+		else if(t instanceof StringType)
+			return "GRGEN_LIBGR.AttributeKind.StringAttr";
+		else if(t instanceof EnumType)
+			return "GRGEN_LIBGR.AttributeKind.EnumAttr";
+		else if(t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalObjectType)
+			return "GRGEN_LIBGR.AttributeKind.ObjectAttr";
+		else if(t instanceof MapType)
+			return "GRGEN_LIBGR.AttributeKind.MapAttr";
+		else if(t instanceof SetType)
+			return "GRGEN_LIBGR.AttributeKind.SetAttr";
+		else if(t instanceof ArrayType)
+			return "GRGEN_LIBGR.AttributeKind.ArrayAttr";
+		else if(t instanceof DequeType)
+			return "GRGEN_LIBGR.AttributeKind.DequeAttr";
+		else if(t instanceof NodeType)
+			return "GRGEN_LIBGR.AttributeKind.NodeAttr";
+		else if(t instanceof EdgeType)
+			return "GRGEN_LIBGR.AttributeKind.EdgeAttr";
+		else if(t instanceof GraphType)
+			return "GRGEN_LIBGR.AttributeKind.GraphAttr";
+		else if(t instanceof InternalObjectType)
+			return "GRGEN_LIBGR.AttributeKind.InternalClassObjectAttr";
+		else if(t instanceof InternalTransientObjectType)
+			return "GRGEN_LIBGR.AttributeKind.InternalClassTransientObjectAttr";
+		else
+			throw new IllegalArgumentException("Unknown Type: " + t);
 	}
 
 	public void genOperator(SourceBuilder sb, Operator op,

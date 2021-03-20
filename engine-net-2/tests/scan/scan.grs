@@ -1,0 +1,22 @@
+new graph "scan/scan"
+
+new n:N(i=42, s="Foo")
+new m:N(i=43, s="Bar")
+new n -:E-> m
+
+exec (::i, ::s, ::d, ::enu, ::n, ::e, ::oo)=scalar
+show var i
+show var s
+show var d
+show var enu
+show var n
+show var e
+show var oo
+
+exec (::a, ::d, ::s, ::m)=container
+show var a
+show var d
+show var s
+show var m
+
+quit

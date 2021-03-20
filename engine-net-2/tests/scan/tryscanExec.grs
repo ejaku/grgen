@@ -1,0 +1,25 @@
+new graph "scan/tryscan"
+
+new n:N(i=42, s="Foo")
+new m:N(i=43, s="Bar")
+new n -:E-> m
+
+exec { ::i = tryscan<int>("42"); ::s = tryscan<string>('"Foobar"'); ::d = tryscan<double>("3.141592654"); ::enu = tryscan<ENU>("ENU::Foo"); ::n = tryscan<N>("$0"); ::e = tryscan<E>("$2"); ::oo = tryscan("null") }
+
+show var i
+show var s
+show var d
+show var enu
+show var n
+show var e
+show var oo
+
+exec { ::a = tryscan<array<int>>("array<int>[0,1,2,3,42]"); ::d = tryscan<deque<ENU>>("deque<ENU>[ENU::Foo,ENU::Bar,ENU::Foo]"); ::s = tryscan<set<N>>("set<N>{$0,$1}"); ::m = tryscan<map<N,E>>("map<N,E>{$0->$2}"); ::f = tryscan<int>("furchtbar!") }
+
+show var a
+show var d
+show var s
+show var m
+show var f
+
+quit

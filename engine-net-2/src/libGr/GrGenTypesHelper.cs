@@ -650,5 +650,93 @@ namespace de.unika.ipd.grGen.libGr
 
             return null;
         }
+
+        public static AttributeType XgrsTypeToAttributeType(String typeName, IGraphModel model)
+        {
+            AttributeKind kind = XgrsTypeToAttributeKind(typeName, model);
+            if(typeName.StartsWith("set<"))
+            {
+                String valueTypeName = ExtractSrc(typeName);
+                AttributeType valueType = XgrsTypeToAttributeType(valueTypeName, model);
+                return new AttributeType("dummy", null, kind, null, valueType, null, null, null, null, null);
+            }
+            else if(typeName.StartsWith("map<"))
+            {
+                String keyTypeName = ExtractSrc(typeName);
+                AttributeType keyType = XgrsTypeToAttributeType(keyTypeName, model);
+                String valueTypeName = ExtractDst(typeName);
+                AttributeType valueType = XgrsTypeToAttributeType(valueTypeName, model);
+                return new AttributeType("dummy", null, kind, null, valueType, keyType, null, null, null, null);
+            }
+            else if(typeName.StartsWith("array<"))
+            {
+                String valueTypeName = ExtractSrc(typeName);
+                AttributeType valueType = XgrsTypeToAttributeType(valueTypeName, model);
+                return new AttributeType("dummy", null, kind, null, valueType, null, null, null, null, null);
+            }
+            else if(typeName.StartsWith("deque<"))
+            {
+                String valueTypeName = ExtractSrc(typeName);
+                AttributeType valueType = XgrsTypeToAttributeType(valueTypeName, model);
+                return new AttributeType("dummy", null, kind, null, valueType, null, null, null, null, null);
+            }
+            else
+            {
+                if(GetEnumAttributeType(typeName, model) != null)
+        			return new AttributeType("dummy", null, kind, GetEnumAttributeType(typeName, model), null, null, null, null, null, null);
+                else
+    			    return new AttributeType("dummy", null, kind, null, null, null, null, null, null, null);
+            }
+        }
+
+        public static AttributeKind XgrsTypeToAttributeKind(String typeName, IGraphModel model)
+        {
+            if(typeName.StartsWith("set<"))
+                return AttributeKind.SetAttr;
+            else if(typeName.StartsWith("map<"))
+                return AttributeKind.MapAttr;
+            else if(typeName.StartsWith("array<"))
+                return AttributeKind.ArrayAttr;
+            else if(typeName.StartsWith("deque<"))
+                return AttributeKind.DequeAttr;
+
+            switch(typeName)
+            {
+            case "byte":
+                return AttributeKind.ByteAttr;
+            case "short":
+                return AttributeKind.ShortAttr;
+            case "int":
+                return AttributeKind.IntegerAttr;
+            case "long":
+                return AttributeKind.LongAttr;
+            case "boolean":
+                return AttributeKind.BooleanAttr;
+            case "string":
+                return AttributeKind.StringAttr;
+            case "float":
+                return AttributeKind.FloatAttr;
+            case "double":
+                return AttributeKind.DoubleAttr;
+            case "object":
+                return AttributeKind.ObjectAttr;
+            case "graph":
+                return AttributeKind.GraphAttr;
+            }
+
+            if(GetEnumAttributeType(typeName, model) != null)
+                return AttributeKind.EnumAttr;
+
+            if(GetNodeType(typeName, model) != null)
+                return AttributeKind.NodeAttr;
+            if(GetEdgeType(typeName, model) != null)
+                return AttributeKind.EdgeAttr;
+            if(GetObjectType(typeName, model) != null)
+                return AttributeKind.InternalClassObjectAttr;
+            if(GetTransientObjectType(typeName, model) != null)
+                return AttributeKind.InternalClassTransientObjectAttr;
+
+            return AttributeKind.ObjectAttr;
+        }
     }
 }

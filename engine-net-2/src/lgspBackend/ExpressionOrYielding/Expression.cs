@@ -3275,4 +3275,58 @@ namespace de.unika.ipd.grGen.expression
         public readonly Expression Left;
         public readonly Expression Right;
     }
+
+    /// <summary>
+    /// Class representing the scan function
+    /// </summary>
+    public class Scan : Expression
+    {
+        public Scan(Expression stringExpr, String attributeType)
+        {
+            StringExpr = stringExpr;
+            AttributeType = attributeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Scan(StringExpr, AttributeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GRSImport.Scan(" + AttributeType + ", ");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(", graph)");
+        }
+
+        readonly Expression StringExpr;
+        readonly String AttributeType;
+    }
+
+    /// <summary>
+    /// Class representing the tryscan function
+    /// </summary>
+    public class TryScan : Expression
+    {
+        public TryScan(Expression stringExpr, String attributeType)
+        {
+            StringExpr = stringExpr;
+            AttributeType = attributeType;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new TryScan(StringExpr, AttributeType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GRSImport.TryScan(" + AttributeType + ", ");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(", graph)");
+        }
+
+        readonly Expression StringExpr;
+        readonly String AttributeType;
+    }
 }

@@ -132,6 +132,10 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionRuleQuery((SequenceExpressionRuleQuery)expr, source);
             case SequenceExpressionType.MultiRuleQuery:
                 return GetSequenceExpressionMultiRuleQuery((SequenceExpressionMultiRuleQuery)expr, source);
+            case SequenceExpressionType.Scan:
+                return GetSequenceExpressionScan((SequenceExpressionScan)expr, source);
+            case SequenceExpressionType.TryScan:
+                return GetSequenceExpressionTryScan((SequenceExpressionTryScan)expr, source);
             case SequenceExpressionType.FunctionCall:
                 return GetSequenceExpressionFunctionCall((SequenceExpressionFunctionCall)expr, source);
             case SequenceExpressionType.FunctionMethodCall:
@@ -1097,6 +1101,37 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Append(")");
                 return sb.ToString();
             }
+        }
+
+        private string GetSequenceExpressionScan(SequenceExpressionScan seqScan, SourceBuilder source)
+        {
+            StringBuilder sb = new StringBuilder();
+            if(seqScan.ResultType != null)
+                sb.Append("(" + TypesHelper.XgrsTypeToCSharpType(seqScan.ResultType, env.Model) + ")");
+            sb.Append("(GRGEN_LIBGR.GRSImport.Scan(GRGEN_LIBGR.TypesHelper.XgrsTypeToAttributeType(");
+            if(seqScan.ResultType != null)
+                sb.Append("\"" + seqScan.ResultType + "\"");
+            else
+                sb.Append("\"object\"");
+            sb.Append(", procEnv.Graph.Model), ");
+            sb.Append("(string)" + GetSequenceExpression(seqScan.StringExpr, source) + ", procEnv.Graph)");
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+        private string GetSequenceExpressionTryScan(SequenceExpressionTryScan seqTryScan, SourceBuilder source)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("(bool)");
+            sb.Append("(GRGEN_LIBGR.GRSImport.TryScan(GRGEN_LIBGR.TypesHelper.XgrsTypeToAttributeType(");
+            if(seqTryScan.ResultType != null)
+                sb.Append("\"" + seqTryScan.ResultType + "\"");
+            else
+                sb.Append("\"object\"");
+            sb.Append(", procEnv.Graph.Model), ");
+            sb.Append("(string)" + GetSequenceExpression(seqTryScan.StringExpr, source) + ", procEnv.Graph)");
+            sb.Append(")");
+            return sb.ToString();
         }
 
         private string GetSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqRuleQuery, SourceBuilder source)

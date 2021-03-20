@@ -4175,6 +4175,7 @@ primaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] retur
 	| e=typeOf { res = e; }
 	| e=newInitExpr[namer, context] { res = e; }
 	| e=externalFunctionInvocationExpr[namer, context, inEnumInit] { res = e; }
+	| e=scanFunctionInvocationExpr[namer, context, inEnumInit] { res = e; }
 	| LPAREN e=expr[namer, context, inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
 	| q=MINUSMINUS { reportError(getCoords(q), "decrement operator \"--\" not supported"); }
@@ -4392,6 +4393,34 @@ externalFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean
 				res = new FunctionOrExternalFunctionInvocationExprNode(funcIdent, params);
 			}
 		}
+	;
+
+scanFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: (i=SCAN | i=TRYSCAN) (LT type=typeOrContainerTypeContinuation[namer, context])? LPAREN e=expr[namer, context, inEnumInit] RPAREN
+		{
+			if(i.getText().equals("scan")) {
+				res = new ScanExprNode(getCoords(i), type, e);
+			} else {
+				res = new TryScanExprNode(getCoords(i), type, e);
+			}
+		}
+	;
+
+typeOrContainerTypeContinuation [ AnonymousScopeNamer namer, int context ] returns [ BaseNode res = null ]
+	: { input.LT(1).getText().equals("map") }?
+		i=IDENT LT keyType=typeIdentUse COMMA valueType=typeIdentUse (GT GT | SR) 
+		{ res = new MapTypeNode(keyType, valueType); }
+	| { input.LT(1).getText().equals("set") }?
+		i=IDENT LT valueType=typeIdentUse (GT GT | SR)
+		{ res = new SetTypeNode(valueType); }
+	| { input.LT(1).getText().equals("array") }?
+		i=IDENT LT valueType=typeIdentUse (GT GT | SR)
+		{ res = new ArrayTypeNode(valueType); }
+	| { input.LT(1).getText().equals("deque") }?
+		i=IDENT LT valueType=typeIdentUse (GT GT | SR)
+		{ res = new DequeTypeNode(valueType); }
+	| typeIdent=typeIdentUse GT
+		{ res = typeIdent; }
 	;
 
 selectorExpr [ AnonymousScopeNamer namer, int context, ExprNode target, boolean inEnumInit ]
@@ -4769,11 +4798,13 @@ PROCEDURE : 'procedure';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';
+SCAN : 'scan';
 SEQUENCE : 'sequence';
 SWITCH : 'switch';
 TEST : 'test';
 TRANSIENT : 'transient';
 TRUE : 'true';
+TRYSCAN : 'tryscan';
 TYPEOF : 'typeof';
 UNDIRECTED : 'undirected';
 USING : 'using';

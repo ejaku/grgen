@@ -203,7 +203,48 @@ namespace de.unika.ipd.grGen.libGr
             this.tokenKind = TokenKind.UNKNOWN;
             this.tokenContent = new StringBuilder();
         }
-        
+
+        public static object Scan(AttributeType attrType, String input, IGraph graph)
+        {
+            GRSImport importer = new GRSImport(new StringReader(input), input.Length);
+            importer.graph = (INamedGraph)graph;
+            if(!IsScannable(attrType)
+                || attrType.ValueType != null && !IsScannable(attrType.ValueType)
+                || attrType.KeyType != null && !IsScannable(attrType.KeyType))
+            {
+                throw new Exception("Unsupported type to scan");
+            }
+            return importer.JustParseAttributeValue(attrType);
+        }
+
+        private static bool IsScannable(AttributeType attrType)
+        {
+            return attrType.Kind != AttributeKind.GraphAttr
+                && attrType.Kind != AttributeKind.InternalClassObjectAttr
+                && attrType.Kind != AttributeKind.InternalClassTransientObjectAttr;
+        }
+
+        public static bool TryScan(AttributeType attrType, String input, IGraph graph)
+        {
+            try
+            {
+                GRSImport importer = new GRSImport(new StringReader(input), input.Length);
+                importer.graph = (INamedGraph)graph;
+                if(!IsScannable(attrType)
+                    || attrType.ValueType != null && !IsScannable(attrType.ValueType)
+                    || attrType.KeyType != null && !IsScannable(attrType.KeyType))
+                {
+                    throw new Exception("Unsupported type to tryscan");
+                }
+                importer.JustParseAttributeValue(attrType);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
         private void ParseGraphBuildingScript()
         {
             ParseNewGraphCommand();
@@ -1180,6 +1221,12 @@ namespace de.unika.ipd.grGen.libGr
                 nodeName = ParseText();
                 Match(TokenKind.RPARENTHESIS);
             }
+            else if(LookaheadToken() == TokenKind.DOLLAR)
+            {
+                Match(TokenKind.DOLLAR);
+                TokenizeHexNumber();
+                nodeName = "$" + EatAndReturnToken();
+            }
             else
                 nodeName = ParseText();
             return GetNodeByName(nodeName);
@@ -1194,6 +1241,12 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.LPARENTHESIS);
                 edgeName = ParseText();
                 Match(TokenKind.RPARENTHESIS);
+            }
+            else if(LookaheadToken() == TokenKind.DOLLAR)
+            {
+                Match(TokenKind.DOLLAR);
+                TokenizeHexNumber();
+                edgeName = "$" + EatAndReturnToken();
             }
             else
                 edgeName = ParseText();
