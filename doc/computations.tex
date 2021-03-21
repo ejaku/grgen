@@ -316,9 +316,6 @@ The three functions above allow optional edge and node type constraints, too.\\
 \texttt{clone(TransientObject):TransientObject}\\
 \texttt{copy(TransientObject):TransientObject}\\
 \hline
-\texttt{random():double}\\
-\texttt{random(int):int}\\
-\hline
 \texttt{nameof(Node/Edge):string}\\
 \texttt{nameof(graph):string}\\
 \texttt{uniqueof(Node/Edge):int}\\
@@ -338,6 +335,12 @@ The three functions above allow optional edge and node type constraints, too.\\
 \begin{table}[htbp]
 \centering
 \begin{tabular}{|l|}
+\hline
+\texttt{scan<T>(string):T}\\
+\texttt{tryscan<T>(string):boolean}\\
+\hline
+\texttt{random():double}\\
+\texttt{random(int):int}\\
 \hline
 \texttt{countNodes([NodeType]):int}\\
 \texttt{countEdges([EdgeType]):int}\\

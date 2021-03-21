@@ -196,6 +196,7 @@ the rule to remember is: types grow larger with extension/refinement. An example
 The main use of the \texttt{in} operator is for checking membership in a container type, see Chapter \ref{cha:container}.
 
 The \texttt{\textasciitilde\textasciitilde} operator allows to compare graphs, supplementing \texttt{==} and \texttt{!=} in this role, see Chapter \ref{cha:graph}.
+Furthermore, it also allows to compare class objects and transient class objects for structural equality (deep attribute value equality) instead of only reference identity, see Subsection \ref{subsec:objectequality}, and is available as an extension in this rôle for graph element and container types.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Arithmetic and Bitwise Expressions}
@@ -340,6 +341,7 @@ After we've seen all the ways to combine expressions, finally we'll have a look 
 		| '::' GlobalVarIdent
 		| MemberAccess
 		| FunctionCall
+		| ScanTryscanCall
 		| IteratedQuery
 		| CastExpr
 		| '(' Expression ')';

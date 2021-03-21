@@ -106,13 +106,16 @@ Some set \texttt{A} is a subset of \texttt{B} iff all elements in \texttt{A} are
 
 \begin{table}[htbp]
   \centering
-  \begin{tabularx}{\linewidth}{|l|X|} \hline
+  \begin{tabularx}{\linewidth}{|l|X|}
+    \hline
     \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
+    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are structurally equal.\\
     \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
     \texttt{A <\ \ B} & True, iff $A$ is a subset of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A >\ \ B} & True, iff $A$ is a superset of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A <= B} & True, iff $A$ is a subset of $B$ or $A$ and $B$ are identical. \\
-    \texttt{A >= B} & True, iff $A$ is a superset of $B$ or $A$ and $B$ are identical. \\ \hline
+    \texttt{A >= B} & True, iff $A$ is a superset of $B$ or $A$ and $B$ are identical. \\
+    \hline
   \end{tabularx}
   \caption{Binary set operators for comparison}
   \label{compset}
@@ -237,13 +240,16 @@ A map \texttt{A} is a submap of \texttt{B} iff all key-value pairs of \texttt{A}
 
 \begin{table}[htbp]
   \centering
-  \begin{tabularx}{\linewidth}{|l|X|} \hline
+  \begin{tabularx}{\linewidth}{|l|X|}
+    \hline
     \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
+    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are structurally equal.\\
     \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
     \texttt{A <\ \ B} & True, iff $A$ is a submap of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A >\ \ B} & True, iff $A$ is a supermap of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A <= B} & True, iff $A$ is a submap of $B$ or $A$ and $B$ are identical. \\
-    \texttt{A >= B} & True, iff $A$ is a supermap of $B$ or $A$ and $B$ are identical. \\ \hline
+    \texttt{A >= B} & True, iff $A$ is a supermap of $B$ or $A$ and $B$ are identical. \\
+    \hline
   \end{tabularx}
   \caption{Binary map operators for comparison}
   \label{compmap}
@@ -381,13 +387,16 @@ An array \texttt{A} is a subarray of \texttt{B} iff it is smaller or equal in si
 
 \begin{table}[htbp]
   \centering
-  \begin{tabularx}{\linewidth}{|l|X|} \hline
+  \begin{tabularx}{\linewidth}{|l|X|}
+    \hline
     \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
+    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are structurally equal.\\
     \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
     \texttt{A <\ \ B} & True, iff $A$ is a subarray of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A >\ \ B} & True, iff $A$ is a superarray of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A <= B} & True, iff $A$ is a subarray of $B$ or $A$ and $B$ are identical. \\
-    \texttt{A >= B} & True, iff $A$ is a superarray of $B$ or $A$ and $B$ are identical. \\ \hline
+    \texttt{A >= B} & True, iff $A$ is a superarray of $B$ or $A$ and $B$ are identical. \\
+    \hline
   \end{tabularx}
   \caption{Binary array operators for comparison}
   \label{comparray}
@@ -500,13 +509,16 @@ A deque \texttt{A} is a subdeque of \texttt{B} iff it is smaller or equal in siz
 
 \begin{table}[htbp]
   \centering
-  \begin{tabularx}{\linewidth}{|l|X|} \hline
+  \begin{tabularx}{\linewidth}{|l|X|}
+    \hline
     \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
+    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are structurally equal.\\
     \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
     \texttt{A <\ \ B} & True, iff $A$ is a subdeque of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A >\ \ B} & True, iff $A$ is a superdeque of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A <= B} & True, iff $A$ is a subdeque of $B$ or $A$ and $B$ are identical. \\
-    \texttt{A >= B} & True, iff $A$ is a superdeque of $B$ or $A$ and $B$ are identical. \\ \hline
+    \texttt{A >= B} & True, iff $A$ is a superdeque of $B$ or $A$ and $B$ are identical. \\
+    \hline
   \end{tabularx}
   \caption{Binary deque operators for comparison}
   \label{compdeque}

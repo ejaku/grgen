@@ -8,17 +8,40 @@
  - extended match type support in sequences with container constructors for containers of match value type
  Fixed sequence grammar: x-1 works now, not requiring a whitespace before the number as before (x- 1)
 
+ Implemented structural equality comparison operator ~~ for node/edge/object/transient object types (attribute bearing types) 
+   and container types
+ - it compares the attributes of attribute bearing types ignoring identity (deep by-value comparison),
+   the equality comparison operator == in contrast is now checking reference identity only
+ - it checks the members of containers memberwise for structural equality,
+   the equality comparison operator in contrast is checking memberwise for identity (only for value types by value)
+
+ Implemented string to object mapping/de-serialization with scan and tryscan:
+ - added a scan<T>(string):T function returning a value from a string representation
+   (for container types, basic types, enum types, and node/edge types) (to rule language and sequences)
+ - added a tryscan<T>(string):boolean function returning whether the given string can be mapped to an object of the specified type
+   (to rule language and sequences)
+
+ Allowed (up/down-)casts of object/transient object types
+
  Extended indexOfBy, lastIndexOfBy, and indexOfOrderedBy array by member methods by support for match and match class types
   (in rule language and sequences)
 
  Extended deque<T> .lastIndexOf() method by an optional startIndex parameter (in rule language and sequences)
+ 
+ Extended the copy and clone functions by support for external object types
 
- API changes/extensions: 
+ API changes/extensions:
  - added ArrayIndexOfBy, ArrayLastIndexOfBy, ArrayIndexOfOrderedBy to the array processing helpers section in the graph model,
    and in the actions, as well as MatchInterfaceName and MatchClassName members in IRulePattern and IMatchClass
+ - the Copy method whose skeleton gets generated when external copy class is specified now receives the old-to-new mapping 
+   (null in case of clone) plus the graph as parameter, so that it can supply the deep copy/shallow clone functionality
 
- Bugfix for previously available array by member methods in sequences getting applied to untyped variables
- Error message corrections
+ Bugfixes:
+ - external object types are now adjusted to type object as required
+ - fixed deque comparison in compiled sequences
+ - fix for array by member methods in sequences getting applied to untyped variables
+ - error message corrections
+
 
 v6.0beta (2021-02-08)
  Carried out a massive data modelling improvement with the introduction of internal object types and internal transient object types;

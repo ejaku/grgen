@@ -2,7 +2,7 @@
 \label{cha:imperativeandstate}
 \indexmain{imperative statements}\label{sct:imperative}
 
-In this chapter we'll have a look at language constructs which allow you to emit text from rules, and which allow you to execute a graph rewrite sequence at the end of a rule invocation (with direct access to the elements of the left and right patterns).
+In this chapter we'll have a look at language constructs which allow you to emit text from rules (and a light version of an inverse of it, the scan/tryscan functions), and which allow you to execute a graph rewrite sequence at the end of a rule invocation (with direct access to the elements of the left and right patterns).
 Similar constructs are available for nested and subpatterns.
 
 \begin{figure}[htbp]
@@ -174,3 +174,17 @@ Note: all changes from such dynamically nested sequences are rolled back if a tr
 \end{warning}
 
 
+%-----------------------------------------------------------------------------------------------
+\section{Scan and Tryscan}\label{sec:scantryscan}
+The \texttt{scan} and \texttt{tryscan} functions can be seen as a form of text-to-model transformation.
+They are a kind of inverse of emit (also available as procedure, see \ref{procstab}), to transform from/to strings that are intended for user consumption (this stands in contrast to machine consumption, and the full serialization/deserialization offered by the \texttt{export} procedure and the \texttt{import} function, cf. \ref{sec:fileop}).
+
+\begin{rail}
+  ScanTryscanCall:
+    ('scan' | 'tryscan') '<' Type '>' '(' StringExpr ')'
+  ;
+\end{rail}\ixkeyw{scan}\ixkeyw{tryscan}
+
+The \texttt{scan} function expects a target type that specifies the type of the object to be computed from the string, and an expression specifying the string that is to be transformed.
+It returns the obtained object (scalar values and containers are created, graph elements specified by their persistent name in contrast are fetched from the graph, object classes are not supported), or diverges (i.e. crashes).
+The \texttt{tryscan} functions expects the same parameters, it returns whether the given string can be transformed into an object of the requested type.

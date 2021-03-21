@@ -330,7 +330,7 @@ For every external type defined, another function showing that type in the input
 // For attribute type object.
 // If "copy class" is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.
 // All other attribute types are copied by-value (so changing one later on has no effect on the other).
-public static object Copy(object);
+public static object Copy(object, graph, IDictionary<object, object>);
 
 // Called during comparison of graph elements from graph isomorphy comparison, or attribute comparison.
 // For attribute type object.
@@ -344,7 +344,7 @@ public static bool IsEqual(object, object);
 public static bool IsLower(object, object);
 \end{csharplet}
 
-The \texttt{Copy} function is called when one of the copy operations offered in the rule language or the computation statements is executed, on a node or edge that bears attributes of object or a user-defined external type.
+The \texttt{Copy} function is called when one of the copy operations offered in the rule language or the computation statements is executed, on an attribute bearing type (node class or edge class or object class or transient object class) that bears attributes of object or a user-defined external type. The dictionary \texttt{oldToNewObjectMap} is \texttt{null} in case of a \texttt{clone} operation, it contains a mapping of old to new elements in case of a \texttt{copy} operation (which is used to assign the same element upon multiple appearances, and prevent endless recursions in case of cyclical structures).
 
 The \texttt{IsEqual} function is called when values (attributes) of object or a user-defined external type are compared with one of the equality operators,
 or when two graphs are compared for isomorphy and the graph elements contain attributes of object or a user-defined external type.
