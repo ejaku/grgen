@@ -712,6 +712,7 @@ public class ModelGen extends CSharpBase
 			sb.unindent();
 			sb.appendFront("}\n");
 		} else if(type instanceof InternalObjectType) {
+			sb.appendFront("//create object by CreateObject of the type class, not this internal-use constructor\n");
 			sb.appendFront("public " + elemname + "(long uniqueId) : base(" + typeref + ".typeVar, uniqueId)\n");
 			sb.appendFront("{\n");
 			sb.indent();
@@ -719,6 +720,7 @@ public class ModelGen extends CSharpBase
 			sb.unindent();
 			sb.appendFront("}\n");
 		} else {
+			sb.appendFront("//create object by CreateTransientObject of the type class, not this internal-use constructor\n");
 			sb.appendFront("public " + elemname + "() : base(" + typeref + ".typeVar)\n");
 			sb.appendFront("{\n");
 			sb.indent();
@@ -751,7 +753,11 @@ public class ModelGen extends CSharpBase
 			routedSB.appendFront("}\n");
 		} else {
 			routedSB.appendFront("public override GRGEN_LIBGR.IObject Clone(GRGEN_LIBGR.IGraph graph) {\n");
-			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, graph, null);\n");
+			routedSB.indent();
+			routedSB.appendFront(routedDeclName + " newObject = new " + routedDeclName + "(this, graph, null);\n");
+			routedSB.appendFront("((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);\n");
+			routedSB.appendFront("return newObject;\n");
+			routedSB.unindent();
 			routedSB.appendFront("}\n");
 		}
 	}
@@ -774,7 +780,11 @@ public class ModelGen extends CSharpBase
 			routedSB.appendFront("}\n");
 		} else {
 			routedSB.appendFront("public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {\n");
-			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, graph, oldToNewObjectMap);\n");
+			routedSB.indent();
+			routedSB.appendFront(routedDeclName + " newObject = new " + routedDeclName + "(this, graph, oldToNewObjectMap);\n");
+			routedSB.appendFront("((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);\n");
+			routedSB.appendFront("return newObject;\n");
+			routedSB.unindent();
 			routedSB.appendFront("}\n");
 		}
 	}
@@ -2222,10 +2232,19 @@ deque_init_loop:
 				sb.appendFront("throw new Exception(\"The abstract object class type "
 						+ typeident + " cannot be instantiated!\");\n");
 			} else {
-				sb.appendFront("if(uniqueId != -1)\n");
-				sb.appendFrontIndented("return new " + allocName + "(graph.FetchObjectUniqueId(uniqueId));\n");
-				sb.appendFront("else\n");
-				sb.appendFrontIndented("return new " + allocName + "(graph.FetchObjectUniqueId());\n");
+				sb.appendFront("if(uniqueId != -1) {\n");
+				sb.indent();
+				sb.appendFront(allocName + " newObject = new " + allocName + "(graph.FetchObjectUniqueId(uniqueId));\n");
+				sb.appendFront("((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);\n");
+				sb.appendFront("return newObject;\n");
+				sb.unindent();
+				sb.appendFront("} else {\n");
+				sb.indent();
+				sb.appendFront(allocName + " newObject = new " + allocName + "(graph.FetchObjectUniqueId());\n");
+				sb.appendFront("((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);\n");
+				sb.appendFront("return newObject;\n");
+				sb.unindent();
+				sb.appendFront("}\n");
 			}
 			sb.unindent();
 			sb.appendFront("}\n");

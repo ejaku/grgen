@@ -64,6 +64,12 @@ namespace de.unika.ipd.grGen.libGr
     public delegate void EdgeAddedHandler(IEdge edge);
 
     /// <summary>
+    /// Represents a method called, when an object has been created.
+    /// </summary>
+    /// <param name="value">The created object.</param>
+    public delegate void ObjectCreatedHandler(IObject value);
+
+    /// <summary>
     /// Represents a method called before a node is removed.
     /// </summary>
     /// <param name="node">The node to be removed.</param>
@@ -200,6 +206,17 @@ namespace de.unika.ipd.grGen.libGr
     public delegate void SettingVisitedHandler(IGraphElement elem, int visitorID, bool newValue);
 
     #endregion GraphDelegates
+
+
+    // the graph implements an abstract concept IAttributeBearerContainer:
+    // it contains attribute bearers, and fires change events for them (realizes a change event space)
+    // concrete attribute bearers are nodes, edges, class objects, their remove as well as add behavior differs
+    // abstract methods/events of the abstract concept
+    // IEnumerator containedAttributeBearers; // allows to iterate the contained attribute bearer objects
+    // add(AttributeBearer value); // adds an attribute bearer value
+    // event AttributeBearerAddedHandler OnAdded; fired when an attribute bearer is added, with parameter attribute bearer
+    // event ChangingAttributeHandler OnChangingAttribute; fired when an attribute of an attribute bearer is assigned to/changed
+    //     with parameters attribute bearer, attribute, value / change type
 
 
     /// <summary>
@@ -656,6 +673,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired after an edge has been added
         /// </summary>
         event EdgeAddedHandler OnEdgeAdded;
+
+        /// <summary>
+        /// Fired after an object has been created (there is no event when it gets destroyed)
+        /// </summary>
+        event ObjectCreatedHandler OnObjectCreated;
 
         /// <summary>
         /// Fired before a node is deleted

@@ -154,6 +154,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public event NodeAddedHandler OnNodeAdded;
         public event EdgeAddedHandler OnEdgeAdded;
+        public event ObjectCreatedHandler OnObjectCreated;
 
         public event RemovingNodeHandler OnRemovingNode;
         public event RemovingEdgeHandler OnRemovingEdge;
@@ -197,6 +198,16 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(OnEdgeAdded != null)
                 OnEdgeAdded(edge);
+        }
+
+        /// <summary>
+        /// Fires an OnObjectCreated event.
+        /// </summary>
+        /// <param name="value">The created object value.</param>
+        public void ObjectCreated(IObject value)
+        {
+            if(OnObjectCreated != null)
+                OnObjectCreated(value);
         }
 
         /// <summary>
