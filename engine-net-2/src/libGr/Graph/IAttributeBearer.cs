@@ -13,20 +13,67 @@ using System.Collections.Generic;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// An interface to IBaseObject (thus IObject, ITransientObject) and IGraphElement (thus INode and IEdge) types, all bearing attributes
+    /// An interface to be implemented by classes whose objects are InheritanceType-typed
     /// </summary>
-    public interface IAttributeBearer
+    public interface ITyped
     {
         /// <summary>
-        /// The InheritanceType of the attribute bearer
+        /// The InheritanceType of the typed object
         /// </summary>
         InheritanceType Type { get; }
 
         /// <summary>
-        /// Returns true, if the attribute bearer is compatible to the given type
+        /// Returns true, if the typed object is compatible to the given type
         /// </summary>
         bool InstanceOf(GrGenType type);
+    }
 
+    /// <summary>
+    /// An interface to be implemented by classes whose objects can be compared for structural equality
+    /// </summary>
+    public interface IStructuralEqualityComparer
+    {
+        /// <summary>
+        /// Returns whether this and that are structurally equal,
+        /// which means the scalar attributes are equal, the container attributes are memberwise structurally equal, and object attributes are deeply structurally equal.
+        /// (If types are unequal the result is false.)
+        /// </summary>
+        bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects);
+    }
+
+    /// <summary>
+    /// An interface to be implemented by classes that offer callable stateless functions / stateful procedures
+    /// </summary>
+    public interface ICallable
+    {
+        /// <summary>
+        /// Executes the function method given by its name.
+        /// Throws an exception if the method does not exists or the parameters are of wrong types.
+        /// </summary>
+        /// <param name="actionEnv">The current action execution environment.</param>
+        /// <param name="graph">The current graph.</param>
+        /// <param name="name">The name of the function method to apply.</param>
+        /// <param name="arguments">An array with the arguments to the method.</param>
+        /// <returns>The return value of function application.</returns>
+        object ApplyFunctionMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments);
+
+        /// <summary>
+        /// Executes the procedure method given by its name.
+        /// Throws an exception if the method does not exists or the parameters are of wrong types.
+        /// </summary>
+        /// <param name="actionEnv">The current action execution environment.</param>
+        /// <param name="graph">The current graph.</param>
+        /// <param name="name">The name of the procedure method to apply.</param>
+        /// <param name="arguments">An array with the arguments to the method.</param>
+        /// <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
+        object[] ApplyProcedureMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments);
+    }
+
+    /// <summary>
+    /// An interface to IBaseObject (thus IObject, ITransientObject) and IGraphElement (thus INode and IEdge) types, all bearing attributes
+    /// </summary>
+    public interface IAttributeBearer : ITyped, IStructuralEqualityComparer, ICallable
+    {
         /// <summary>
         /// Indexer that gives access to the attributes of the attribute bearer.
         /// </summary>
@@ -51,34 +98,5 @@ namespace de.unika.ipd.grGen.libGr
         /// Resets all attribute bearer attributes to their initial values.
         /// </summary>
         void ResetAllAttributes();
-
-        /// <summary>
-        /// Returns whether this attribute bearer and that attribute bearer are structurally equal,
-        /// which means the scalar attributes are equal, the container attributes are memberwise structurally equal, and object attributes are deeply structurally equal.
-        /// (If types are unequal the result is false.)
-        /// </summary>
-        bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects);
-
-        /// <summary>
-        /// Executes the function method given by its name.
-        /// Throws an exception if the method does not exists or the parameters are of wrong types.
-        /// </summary>
-        /// <param name="actionEnv">The current action execution environment.</param>
-        /// <param name="graph">The current graph.</param>
-        /// <param name="name">The name of the function method to apply.</param>
-        /// <param name="arguments">An array with the arguments to the method.</param>
-        /// <returns>The return value of function application.</returns>
-        object ApplyFunctionMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments);
-
-        /// <summary>
-        /// Executes the procedure method given by its name.
-        /// Throws an exception if the method does not exists or the parameters are of wrong types.
-        /// </summary>
-        /// <param name="actionEnv">The current action execution environment.</param>
-        /// <param name="graph">The current graph.</param>
-        /// <param name="name">The name of the procedure method to apply.</param>
-        /// <param name="arguments">An array with the arguments to the method.</param>
-        /// <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
-        object[] ApplyProcedureMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments);
     }
 }

@@ -962,7 +962,7 @@ public class ModelGen extends CSharpBase
 	private void genElementAttributeComparisonMethod(InheritanceType type, SourceBuilder routedSB,
 			String routedClassName)
 	{
-		routedSB.appendFront("public override bool IsStructurallyEqual(GRGEN_LIBGR.IAttributeBearer that, IDictionary<object, object> visitedObjects) {\n");
+		routedSB.appendFront("public override bool IsStructurallyEqual(GRGEN_LIBGR.IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects) {\n");
 		routedSB.indent();
 		routedSB.appendFront("if(this == that) return true;\n");
 		routedSB.appendFront("if(!(that is " + routedClassName + ")) return false;\n");

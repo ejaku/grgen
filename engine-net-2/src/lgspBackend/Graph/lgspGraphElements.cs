@@ -458,16 +458,16 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// The GrGenType of the attribute bearer.
+        /// The InheritanceType of the typed object.
         /// </summary>
-        InheritanceType IAttributeBearer.Type
+        InheritanceType ITyped.Type
         {
             [DebuggerStepThrough]
             get { return lgspType; }
         }
 
         /// <summary>
-        /// Returns true, if the graph element is compatible to the given type.
+        /// Returns true, if the typed object is compatible to the given type.
         /// </summary>
         public bool InstanceOf(GrGenType otherType)
         {
@@ -535,11 +535,11 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract INode Copy(IGraph graph, IDictionary<object, object> oldToNewObjectMap);
 
         /// <summary>
-        /// Returns whether this attribute bearer and that attribute bearer are structurally equal,
+        /// Returns whether this and that are structurally equal,
         /// which means the scalar attributes are equal, the container attributes are memberwise structurally equal, and object attributes are deeply structurally equal.
         /// (If types are unequal the result is false.)
         /// </summary>
-        public abstract bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects);
+        public abstract bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects);
 
         /// <summary>
         /// Executes the function method given by its name.
@@ -609,7 +609,7 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects)
+        public override bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -816,16 +816,16 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// The InheritanceType of the attribute bearer.
+        /// The InheritanceType of the typed object.
         /// </summary>
-        InheritanceType IAttributeBearer.Type
+        InheritanceType ITyped.Type
         {
             [DebuggerStepThrough]
             get { return lgspType; }
         }
 
         /// <summary>
-        /// Returns true, if the graph element is compatible to the given type
+        /// Returns true, if the typed object is compatible to the given type.
         /// </summary>
         public bool InstanceOf(GrGenType otherType)
         {
@@ -897,11 +897,11 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IEdge Copy(INode newSource, INode newTarget, IGraph graph, IDictionary<object, object> oldToNewObjectMap);
 
         /// <summary>
-        /// Returns whether this attribute bearer and that attribute bearer are structurally equal,
+        /// Returns whether this and that are structurally equal,
         /// which means the scalar attributes are equal, the container attributes are memberwise structurally equal, and object attributes are deeply structurally equal.
         /// (If types are unequal the result is false.)
         /// </summary>
-        public abstract bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects);
+        public abstract bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects);
 
         /// <summary>
         /// Executes the function method given by its name.
@@ -971,7 +971,7 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects)
+        public override bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects)
         {
             throw new Exception("The method or operation is not implemented.");
         }

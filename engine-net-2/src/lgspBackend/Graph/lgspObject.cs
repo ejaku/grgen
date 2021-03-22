@@ -60,16 +60,16 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// The InheritanceType of the attribute bearer.
+        /// The InheritanceType of the typed object.
         /// </summary>
-        InheritanceType IAttributeBearer.Type
+        InheritanceType ITyped.Type
         {
             [DebuggerStepThrough]
             get { return lgspType; }
         }
 
         /// <summary>
-        /// Returns true, if the class object is compatible to the given type.
+        /// Returns true, if the typed object is compatible to the given type.
         /// </summary>
         public bool InstanceOf(GrGenType otherType)
         {
@@ -151,11 +151,11 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IObject Copy(IGraph graph, IDictionary<object, object> oldToNewObjectMap);
 
         /// <summary>
-        /// Returns whether this attribute bearer and the other attribute bearer are structurally equal,
+        /// Returns whether this and that are structurally equal,
         /// which means the scalar attributes are equal, the container attributes are memberwise structurally equal, and object attributes are deeply structurally equal.
         /// (If types are unequal the result is false.)
         /// </summary>
-        public abstract bool IsStructurallyEqual(IAttributeBearer that, IDictionary<object, object> visitedObjects);
+        public abstract bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects);
 
         /// <summary>
         /// Executes the function method given by its name.
