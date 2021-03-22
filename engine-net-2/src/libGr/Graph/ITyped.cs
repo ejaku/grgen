@@ -10,13 +10,18 @@
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A GrGen base object (base for values of internal, non-node/edge classes)
+    /// An interface to be implemented by classes whose objects are InheritanceType-typed
     /// </summary>
-    public interface IBaseObject : IAttributeBearer
+    public interface ITyped
     {
         /// <summary>
-        /// The BaseObjectType (class) of the object
+        /// The InheritanceType of the typed object
         /// </summary>
-        new BaseObjectType Type { get; }
+        InheritanceType Type { get; }
+
+        /// <summary>
+        /// Returns true, if the typed object is compatible to the given type
+        /// </summary>
+        bool InstanceOf(GrGenType type);
     }
 }

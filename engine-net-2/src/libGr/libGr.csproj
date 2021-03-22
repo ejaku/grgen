@@ -86,6 +86,13 @@
     <Compile Include="Graph\BaseObjectType.cs" />
     <Compile Include="Graph\IAttributeBearer.cs" />
     <Compile Include="Graph\IBaseObject.cs" />
+    <Compile Include="Graph\ICallable.cs" />
+    <Compile Include="Graph\IEdge.cs" />
+    <Compile Include="Graph\INode.cs" />
+    <Compile Include="Graph\IObject.cs" />
+    <Compile Include="Graph\IStructuralEqualityComparer.cs" />
+    <Compile Include="Graph\ITransientObject.cs" />
+    <Compile Include="Graph\ITyped.cs" />
     <Compile Include="Graph\ObjectType.cs" />
     <Compile Include="Graph\InheritanceType.cs" />
     <Compile Include="Graph\EdgeType.cs" />
