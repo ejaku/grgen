@@ -1,0 +1,20 @@
+#using "scan.gm"
+
+rule scalarExec : (boolean, string)
+{
+	if{ scan<string>("\"Foobar\"")=="Foobar"; }
+	if{ tryscan<string>("\"Foobar\""); }
+		
+	modify {
+	---
+		def var s:string;
+		def var b:boolean;
+
+		exec ( {
+			yield s = scan<string>("\"Foobar\"");
+			yield b = tryscan<string>("\"Foobar\"");
+		} );
+		
+		return(b, s);
+	}
+}

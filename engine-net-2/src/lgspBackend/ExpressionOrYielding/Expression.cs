@@ -3281,26 +3281,29 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Scan : Expression
     {
-        public Scan(Expression stringExpr, String attributeType)
+        public Scan(Expression stringExpr, String attributeType, String type)
         {
             StringExpr = stringExpr;
             AttributeType = attributeType;
+            Type = type;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new Scan(StringExpr, AttributeType);
+            return new Scan(StringExpr, AttributeType, Type);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            sourceCode.Append("((" + Type + ")");
             sourceCode.Append("GRGEN_LIBGR.GRSImport.Scan(" + AttributeType + ", ");
             StringExpr.Emit(sourceCode);
-            sourceCode.Append(", graph)");
+            sourceCode.Append(", graph))");
         }
 
         readonly Expression StringExpr;
         readonly String AttributeType;
+        readonly String Type;
     }
 
     /// <summary>

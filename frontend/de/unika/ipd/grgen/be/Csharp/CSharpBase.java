@@ -3035,9 +3035,10 @@ public abstract class CSharpBase
 			sb.append("curMatch." + iq.getIteratedName().toString() + ".ToListExact()");
 		} else if(expr instanceof ScanExpr) {
 			ScanExpr s = (ScanExpr)expr;
+			sb.append("((" + formatType(s.getType()) + ")");
 			sb.append("GRGEN_LIBGR.GRSImport.Scan(" + formatAttributeTypeObject(s.getType()) + ", ");
 			genExpression(sb, s.getStringExpr(), modifyGenerationState);
-			sb.append(", graph)");
+			sb.append(", graph))");
 		} else if(expr instanceof TryScanExpr) {
 			TryScanExpr ts = (TryScanExpr)expr;
 			sb.append("GRGEN_LIBGR.GRSImport.TryScan(" + formatAttributeTypeObject(ts.getTargetType()) + ", ");

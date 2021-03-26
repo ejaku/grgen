@@ -1,0 +1,11 @@
+new graph "scan/tryscanExecEscaped"
+
+new n:N(i=42, s="Foo")
+new m:N(i=43, s="Bar")
+new n -:E-> m
+
+exec (::b, ::s)=scalarExec
+show var s
+show var b
+
+quit

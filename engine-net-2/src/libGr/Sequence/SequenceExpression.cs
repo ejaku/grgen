@@ -13264,7 +13264,8 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             AttributeType attrType = TypesHelper.XgrsTypeToAttributeType(ResultType ?? "object", procEnv.Graph.Model);
-            return GRSImport.Scan(attrType, (string)StringExpr.Evaluate(procEnv), procEnv.Graph);
+            String unescaped = Unescape((string)StringExpr.Evaluate(procEnv));
+            return GRSImport.Scan(attrType, unescaped, procEnv.Graph);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -13358,7 +13359,8 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             AttributeType attrType = TypesHelper.XgrsTypeToAttributeType(ResultType ?? "object", procEnv.Graph.Model);
-            return GRSImport.TryScan(attrType, (string)StringExpr.Evaluate(procEnv), procEnv.Graph);
+            String unescaped = Unescape((string)StringExpr.Evaluate(procEnv));
+            return GRSImport.TryScan(attrType, unescaped, procEnv.Graph);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
