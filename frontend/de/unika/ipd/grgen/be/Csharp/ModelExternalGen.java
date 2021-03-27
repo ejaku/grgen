@@ -610,24 +610,24 @@ public class ModelExternalGen extends CSharpBase
 			sb.append("\n");
 		}
 		if(model.isEqualClassDefined()) {
-			sb.appendFront("// Called during comparison of graph elements from graph isomorphy comparison, or attribute comparison.\n");
+			sb.appendFront("// Called during comparison of graph elements from graph isomorphy comparison, or structurally equal attribute comparison.\n");
 			sb.appendFront("// For attribute type object.\n");
-			sb.appendFront("// If \"== class\" is not specified, objects are equal if they are identical,\n");
-			sb.appendFront("// i.e. by-reference-equality (same pointer); all other attribute types are compared by-value.\n");
-			sb.appendFront("//public static bool IsEqual(object, object);\n");
+			sb.appendFront("// If \"~~ class\" is not specified, objects are equal if their references are identical.\n");
+			sb.appendFront("// The visited objects dictionary contains the already visited objects, insert your object here to prevent endless recursions upon cycles (or multiple comparisons upon multiple appearances).\n");
+			sb.appendFront("//public static bool IsEqual(object, object, IDictionary<object, object>);\n");
 			sb.append("\n");
 		}
 		if(model.isLowerClassDefined()) {
 			sb.appendFront("// Called during attribute comparison.\n");
 			sb.appendFront("// For attribute type object.\n");
 			sb.appendFront("// If \"< class\" is not specified, objects can't be compared for ordering, only for equality.\n");
-			sb.appendFront("//public static bool IsLower(object, object);\n");
+			sb.appendFront("//public static bool IsLower(object, object, IDictionary<object, object>);\n");
 			sb.append("\n");
 		}
 		if(model.getExternalObjectTypes().size() > 0) {
 			sb.append("\n");
 			sb.appendFront("// The same functions, just for each user defined type.\n");
-			sb.appendFront("// Those are normally treated as object (if no \"copy class or == class or < class\" is specified),\n");
+			sb.appendFront("// Those are normally treated as object (if no \"copy class or ~~ class or < class\" is specified),\n");
 			sb.appendFront("// i.e. equal if identical references, no ordered comparisons available, and copy just copies the reference (making them identical).\n");
 			sb.appendFront("// Here you can overwrite the default reference semantics with value semantics, fitting better to the other attribute types.\n");
 			for(ExternalObjectType et : model.getExternalObjectTypes()) {
@@ -636,9 +636,9 @@ public class ModelExternalGen extends CSharpBase
 				if(model.isCopyClassDefined())
 					sb.appendFront("//public static " + typeName + " Copy(" + typeName + ");\n");
 				if(model.isEqualClassDefined())
-					sb.appendFront("//public static bool IsEqual(" + typeName + ", " + typeName + ");\n");
+					sb.appendFront("//public static bool IsEqual(" + typeName + ", " + typeName + ", IDictionary<object, object>);\n");
 				if(model.isLowerClassDefined())
-					sb.appendFront("//public static bool IsLower(" + typeName + ", " + typeName + ");\n");
+					sb.appendFront("//public static bool IsLower(" + typeName + ", " + typeName + ", IDictionary<object, object>);\n");
 			}
 		}
 		sb.unindent();

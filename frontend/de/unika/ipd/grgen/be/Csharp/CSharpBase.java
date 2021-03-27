@@ -3261,13 +3261,6 @@ public abstract class CSharpBase
 				sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
-			} else if(modifyGenerationState.model().isEqualClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
-				sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(",");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
 			} else if(opType instanceof InternalObjectType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
@@ -3310,13 +3303,6 @@ public abstract class CSharpBase
 				sb.append("!((GRGEN_LIBGR.IGraph)");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(modifyGenerationState.model().isEqualClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
-				sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
 			} else if(opType instanceof InternalObjectType) {
@@ -3403,6 +3389,13 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", new Dictionary<object, object>()");
 				sb.append(")");
+			} else if(modifyGenerationState.model().isEqualClassDefined()
+					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
+				sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append(",");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append(", new Dictionary<object, object>())");
 			} else {
 				sb.append("((GRGEN_LIBGR.IGraph)");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
@@ -3445,12 +3438,12 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
+				sb.append(", new Dictionary<object, object>())");
 				sb.append("&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append("))");
+				sb.append(", new Dictionary<object, object>()))");
 			} else {
 				genBinOpDefault(sb, op, modifyGenerationState);
 			}
@@ -3489,7 +3482,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
+				sb.append(", new Dictionary<object, object>())");
 			} else {
 				genBinOpDefault(sb, op, modifyGenerationState);
 			}
@@ -3528,7 +3521,7 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
+				sb.append(", new Dictionary<object, object>())");
 			} else {
 				genBinOpDefault(sb, op, modifyGenerationState);
 			}
@@ -3567,12 +3560,12 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
+				sb.append(", new Dictionary<object, object>())");
 				sb.append("|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(",");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append("))");
+				sb.append(", new Dictionary<object, object>()))");
 			} else {
 				genBinOpDefault(sb, op, modifyGenerationState);
 			}
@@ -4097,9 +4090,9 @@ public abstract class CSharpBase
 		if(attributeOrMemberType.classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 				|| attributeOrMemberType.classify() == TypeClass.IS_OBJECT) {
 			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsEqual(a.@" + attributeOrMemberName + ", b.@"
-					+ attributeOrMemberName + ")) return 0;\n");
+					+ attributeOrMemberName + ", new Dictionary<object, object>())) return 0;\n");
 			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsLower(a.@" + attributeOrMemberName + ", b.@"
-					+ attributeOrMemberName + ")) return -1;\n");
+					+ attributeOrMemberName + ", new Dictionary<object, object>())) return -1;\n");
 			sb.appendFront("return 1;\n");
 		} else if(attributeOrMemberType instanceof StringType)
 			sb.appendFront("return StringComparer.InvariantCulture.Compare(a.@" + attributeOrMemberName + ", b.@"

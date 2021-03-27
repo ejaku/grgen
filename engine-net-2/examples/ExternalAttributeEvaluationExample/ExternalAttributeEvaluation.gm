@@ -29,7 +29,7 @@ external copy class;
 
 // we declare that we want to implement comparison 
 // of objects of external types or of object type
-external == class;
+external ~~ class;
 external < class;
 
 enum Enu

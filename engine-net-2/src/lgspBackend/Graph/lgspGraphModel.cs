@@ -85,12 +85,12 @@ namespace de.unika.ipd.grGen.lgsp
             get { return false; }
         }
 
-        public virtual bool IsEqual(object this_, object that)
+        public virtual bool IsEqual(object this_, object that, IDictionary<object, object> visitedObjects)
         {
             return this_ == that; // reference comparison
         }
 
-        public virtual bool IsLower(object this_, object that)
+        public virtual bool IsLower(object this_, object that, IDictionary<object, object> visitedObjects)
         {
             return this_ == that; // dummy implementation
         }

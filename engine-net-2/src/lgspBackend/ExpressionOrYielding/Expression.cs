@@ -725,10 +725,9 @@ namespace de.unika.ipd.grGen.expression
     /// <summary>
     /// Class representing an equality comparison.
     /// </summary>
-    public class EXTERNAL_EQ : BinFuncOperator
+    public class EXTERNAL_EQ : BinInfixOperator
     {
-        public EXTERNAL_EQ(Expression left, Expression right)
-            : base(left, right)
+        public EXTERNAL_EQ(Expression left, Expression right) : base(left, right)
         {
         }
 
@@ -737,19 +736,18 @@ namespace de.unika.ipd.grGen.expression
             return new EXTERNAL_EQ(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
-        public override string GetFuncOperatorAndLParen()
+        public override String GetInfixOperator()
         {
-            return "GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(";
+            return "==";
         }
     }
 
     /// <summary>
     /// Class representing an inequality comparison.
     /// </summary>
-    public class EXTERNAL_NE : BinFuncOperator
+    public class EXTERNAL_NE : BinInfixOperator
     {
-        public EXTERNAL_NE(Expression left, Expression right)
-            : base(left, right)
+        public EXTERNAL_NE(Expression left, Expression right) : base(left, right)
         {
         }
 
@@ -758,20 +756,56 @@ namespace de.unika.ipd.grGen.expression
             return new EXTERNAL_NE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
-        public override string GetFuncOperatorAndLParen()
+        public override String GetInfixOperator()
         {
-            return "!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(";
+            return "!=";
         }
+    }
+
+    /// <summary>
+    /// Class representing a structural equality comparison.
+    /// </summary>
+    public class EXTERNAL_SE : Operator
+    {
+        public EXTERNAL_SE(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new EXTERNAL_SE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(", new Dictionary<object, object>())");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
     /// Class representing a less than comparison.
     /// </summary>
-    public class EXTERNAL_LT : BinFuncOperator
+    public class EXTERNAL_LT : Operator
     {
         public EXTERNAL_LT(Expression left, Expression right)
-            : base(left, right)
         {
+            Left = left;
+            Right = right;
         }
 
         public override Expression Copy(string renameSuffix)
@@ -779,10 +813,23 @@ namespace de.unika.ipd.grGen.expression
             return new EXTERNAL_LT(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
-        public override string GetFuncOperatorAndLParen()
+        public override void Emit(SourceBuilder sourceCode)
         {
-            return "GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(";
+            sourceCode.Append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(", new Dictionary<object, object>())");
         }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -807,12 +854,12 @@ namespace de.unika.ipd.grGen.expression
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append(", new Dictionary<object, object>())");
             sourceCode.Append("|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
-            sourceCode.Append("))");
+            sourceCode.Append(", new Dictionary<object, object>()))");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -847,12 +894,12 @@ namespace de.unika.ipd.grGen.expression
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append(", new Dictionary<object, object>())");
             sourceCode.Append("&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
-            sourceCode.Append("))");
+            sourceCode.Append(", new Dictionary<object, object>()))");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -868,11 +915,12 @@ namespace de.unika.ipd.grGen.expression
     /// <summary>
     /// Class representing a greater than or equal comparison.
     /// </summary>
-    public class EXTERNAL_GE : BinFuncOperator
+    public class EXTERNAL_GE : Operator
     {
         public EXTERNAL_GE(Expression left, Expression right)
-            : base(left, right)
         {
+            Left = left;
+            Right = right;
         }
 
         public override Expression Copy(string renameSuffix)
@@ -880,10 +928,23 @@ namespace de.unika.ipd.grGen.expression
             return new EXTERNAL_GE(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
         }
 
-        public override string GetFuncOperatorAndLParen()
+        public override void Emit(SourceBuilder sourceCode)
         {
-            return "!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(";
+            sourceCode.Append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(", new Dictionary<object, object>())");
         }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     // TODO: a lot of the functions for the containers are mapping to the same code, 

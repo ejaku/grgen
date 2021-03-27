@@ -979,13 +979,15 @@ public class ModelGen extends CSharpBase
 					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
 				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.StructurallyEqual("
 								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
-								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", visitedObjects)\n");
+								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX
+								+ ", visitedObjects)\n");
 			} else if(model.isEqualClassDefined()
 					&& (member.getType().classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
 							|| member.getType().classify() == TypeClass.IS_OBJECT)) {
 				routedSB.appendFront("&& AttributeTypeObjectCopierComparer.IsEqual("
 								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
-								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX
+								+ ", visitedObjects)\n");
 			} else if(member.getType().classify() == TypeClass.IS_GRAPH) {
 				routedSB.appendFront("&& GRGEN_LIBGR.GraphHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
@@ -995,7 +997,8 @@ public class ModelGen extends CSharpBase
 					|| member.getType().classify() == TypeClass.IS_EDGE) {
 				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.StructurallyEqual("
 						+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
-						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", visitedObjects)\n");
+						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX
+						+ ", visitedObjects)\n");
 			} else {
 				routedSB.appendFront("&& " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " == "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");
@@ -3854,20 +3857,20 @@ commonLoop:
 			sb.append("\n");
 			sb.appendFront("public override bool IsEqualClassDefined { get { return true; } }\n");
 			sb.appendFront("public override bool IsLowerClassDefined { get { return true; } }\n");
-			sb.appendFront("public override bool IsEqual(object this_, object that)\n");
+			sb.appendFront("public override bool IsEqual(object this_, object that, IDictionary<object, object> visitedObjects)\n");
 			sb.appendFront("{\n");
-			sb.appendFrontIndented("return AttributeTypeObjectCopierComparer.IsEqual(this_, that);\n");
+			sb.appendFrontIndented("return AttributeTypeObjectCopierComparer.IsEqual(this_, that, visitedObjects);\n");
 			sb.appendFront("}\n");
-			sb.appendFront("public override bool IsLower(object this_, object that)\n");
+			sb.appendFront("public override bool IsLower(object this_, object that, IDictionary<object, object> visitedObjects)\n");
 			sb.appendFront("{\n");
-			sb.appendFrontIndented("return AttributeTypeObjectCopierComparer.IsLower(this_, that);\n");
+			sb.appendFrontIndented("return AttributeTypeObjectCopierComparer.IsLower(this_, that, visitedObjects);\n");
 			sb.appendFront("}\n");
 		} else if(model.isEqualClassDefined()) {
 			sb.append("\n");
 			sb.appendFront("public override bool IsEqualClassDefined { get { return true; } }\n");
-			sb.appendFront("public override bool IsEqual(object this_, object that)\n");
+			sb.appendFront("public override bool IsEqual(object this_, object that, IDictionary<object, object> visitedObjects)\n");
 			sb.appendFront("{\n");
-			sb.appendFrontIndented("return AttributeTypeObjectCopierComparer.IsEqual(this_, that);\n");
+			sb.appendFrontIndented("return AttributeTypeObjectCopierComparer.IsEqual(this_, that, visitedObjects);\n");
 			sb.appendFront("}\n");
 		}
 	}

@@ -2472,7 +2472,9 @@ typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode
 	  |
 		EXTERNAL COPY c=CLASS SEMI { $isCopyClassDefined = true; }
 	  |
-		EXTERNAL EQUAL c=CLASS SEMI { $isEqualClassDefined = true; }
+		EXTERNAL e=EQUAL c=CLASS SEMI { reportWarning(getCoords(e), "external == class; declaration is deprecated, use external ~~ class; instead. Beware: == and != compare objects by reference identity now, use ~~ (and !(a~~b)) for structural equality/value comparison."); }
+	  |
+		EXTERNAL STRUCTURAL_EQUAL c=CLASS SEMI { $isEqualClassDefined = true; }
 	  |
 		EXTERNAL LT c=CLASS SEMI { $isLowerClassDefined = true; }
 	  |

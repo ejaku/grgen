@@ -455,7 +455,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(variableType.Equals(VarType.GetVarType(typeof(string))))
                     source.AppendFrontFormat("if(StringComparer.InvariantCulture.Compare(left.{0}, right.{0})==0)", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
                 else if(variableType.Equals(VarType.GetVarType(typeof(object))))
-                    source.AppendFrontFormat("if(AttributeTypeObjectCopierComparer.IsEqual(left.{0}, right.{0}))", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                    source.AppendFrontFormat("if(AttributeTypeObjectCopierComparer.IsEqual(left.{0}, right.{0}, new Dictionary<object, object>()))", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
                 else
                     source.AppendFrontFormat("if(left.{0}.CompareTo(right.{0})==0)", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
                 source.Indent();
@@ -471,7 +471,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(variableType.Equals(VarType.GetVarType(typeof(string))))
                     source.AppendFrontFormat("return StringComparer.InvariantCulture.Compare(left.{0}, right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
                 else if(variableType.Equals(VarType.GetVarType(typeof(object))))
-                    source.AppendFrontFormat("return AttributeTypeObjectCopierComparer.IsEqual(left.{0}, right.{0}) ? 0 : (AttributeTypeObjectCopierComparer.IsLower(left.{0}, right.{0}) ? -1 : 1);\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                    source.AppendFrontFormat("return AttributeTypeObjectCopierComparer.IsEqual(left.{0}, right.{0}, new Dictionary<object, object>()) ? 0 : (AttributeTypeObjectCopierComparer.IsLower(left.{0}, right.{0}, new Dictionary<object, object>()) ? -1 : 1);\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
                 else
                     source.AppendFrontFormat("return left.{0}.CompareTo(right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
             }

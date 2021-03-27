@@ -178,17 +178,17 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Calls the AttributeTypeObjectCopierComparer.IsEqual function for object type arguments,
-        /// when an attribute of object or external type is compared for equality in the interpreted sequences;
+        /// when an attribute of object or external type is compared for structural equality in the interpreted sequences;
         /// you may dispatch from there to the type exact comparisons, which are called directly from the compiled sequences.
         /// </summary>
-        bool IsEqual(object this_, object that);
+        bool IsEqual(object this_, object that, IDictionary<object, object> visitedObjects);
 
         /// <summary>
         /// Calls the AttributeTypeObjectCopierComparer.IsLower function for object type arguments,
         /// when an attribute of object or external type is compared for ordering in the interpreted sequences;
         /// you may dispatch from there to the type exact comparisons, which are called directly from the compiled sequences.
         /// </summary>
-        bool IsLower(object this_, object that);
+        bool IsLower(object this_, object that, IDictionary<object, object> visitedObjects);
 
         #endregion Comparison of attributes of object or user defined type, external types in general
 

@@ -536,7 +536,7 @@ namespace de.unika.ipd.grGen.libGr
             if(left == "graph" && right == "graph")
                 return "graph";
 
-            return "-";
+            return BalanceExternalObjectType(left, right, model);
         }
     }
 }

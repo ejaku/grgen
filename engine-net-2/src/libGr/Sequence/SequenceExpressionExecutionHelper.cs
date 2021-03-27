@@ -387,7 +387,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
-                return graph.Model.IsEqual((object)leftValue, (object)rightValue);
+                return leftValue == rightValue;
             }
             else if(leftValue is IObject)
             {
@@ -768,7 +768,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
-                return !graph.Model.IsEqual((object)leftValue, (object)rightValue);
+                return leftValue != rightValue;
             }
             else if(leftValue is IObject)
             {
@@ -1137,7 +1137,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
-                return graph.Model.IsLower((object)leftValue, (object)rightValue);
+                return graph.Model.IsLower((object)leftValue, (object)rightValue, new Dictionary<object, object>());
             }
 
             throw new Exception("Invalid types for <");
@@ -1496,7 +1496,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
-                return !graph.Model.IsLower((object)leftValue, (object)rightValue) && !graph.Model.IsEqual((object)leftValue, (object)rightValue);
+                return !graph.Model.IsLower((object)leftValue, (object)rightValue, new Dictionary<object, object>())
+                    && !graph.Model.IsEqual((object)leftValue, (object)rightValue, new Dictionary<object, object>());
             }
 
             throw new Exception("Invalid types for >");
@@ -1855,7 +1856,8 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
-                return graph.Model.IsLower((object)leftValue, (object)rightValue) || graph.Model.IsEqual((object)leftValue, (object)rightValue);
+                return graph.Model.IsLower((object)leftValue, (object)rightValue, new Dictionary<object, object>())
+                    || graph.Model.IsEqual((object)leftValue, (object)rightValue, new Dictionary<object, object>());
             }
 
             throw new Exception("Invalid types for <=");
@@ -2214,14 +2216,14 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
             {
-                return !graph.Model.IsLower((object)leftValue, (object)rightValue);
+                return !graph.Model.IsLower((object)leftValue, (object)rightValue, new Dictionary<object, object>());
             }
 
             throw new Exception("Invalid types for >=");
         }
 
         public static bool StructuralEqualObjects(object leftValue, object rightValue,
-            string balancedType, string leftType, string rightType, IGraph graphs)
+            string balancedType, string leftType, string rightType, IGraph graph)
         {
             if(leftValue is IGraph
                 || leftValue is IAttributeBearer
@@ -2230,6 +2232,10 @@ namespace de.unika.ipd.grGen.libGr
                 || leftValue is IDeque)
             {
                 return ContainerHelper.StructurallyEqual(leftValue, rightValue, new Dictionary<object, object>());
+            }
+            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
+            {
+                return graph.Model.IsEqual((object)leftValue, (object)rightValue, new Dictionary<object, object>());
             }
             throw new Exception("Type not supported in comparison for structural equality (~~)");
         }

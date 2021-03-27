@@ -254,7 +254,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 
     public partial class AttributeTypeObjectCopierComparer
     {
-        public static bool IsEqual(object this_, object that)
+        public static bool IsEqual(object this_, object that, IDictionary<object, object> visitedObjects)
         {
             return this_ == that; // equal if identical, default implementation
         }
@@ -264,7 +264,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             return that; // copy reference, default implementation
         }
 
-		public static bool IsLower(object this_, object that)
+		public static bool IsLower(object this_, object that, IDictionary<object, object> visitedObjects)
         {
             throw new Exception("not implemented");
         }
@@ -275,12 +275,12 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             return that; // copy reference, default implementation
         }
 
-        public static bool IsEqual(Own this_, Own that)
+        public static bool IsEqual(Own this_, Own that, IDictionary<object, object> visitedObjects)
         {
             return this_ == that; // equal if identical, default implementation
         }
 		
-		public static bool IsLower(Own this_, Own that)
+		public static bool IsLower(Own this_, Own that, IDictionary<object, object> visitedObjects)
         {
             throw new Exception("not implemented");
         }
@@ -290,12 +290,12 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
         {
             return new OwnPown(that);
         }
-        public static bool IsEqual(OwnPown this_, OwnPown that)
+        public static bool IsEqual(OwnPown this_, OwnPown that, IDictionary<object, object> visitedObjects)
         {
             return this_.ehe == that.ehe;
         }
 
-		public static bool IsLower(OwnPown this_, OwnPown that)
+		public static bool IsLower(OwnPown this_, OwnPown that, IDictionary<object, object> visitedObjects)
 		{
 			return this_.ehe.Length < that.ehe.Length;
 		}
@@ -306,12 +306,12 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             return new OwnPownHome(that);
         }
 
-        public static bool IsEqual(OwnPownHome this_, OwnPownHome that)
+        public static bool IsEqual(OwnPownHome this_, OwnPownHome that, IDictionary<object, object> visitedObjects)
         {
             return this_.ehe == that.ehe && this_.aha == that.aha;
         }
 
-		public static bool IsLower(OwnPownHome this_, OwnPownHome that)
+		public static bool IsLower(OwnPownHome this_, OwnPownHome that, IDictionary<object, object> visitedObjects)
 		{
 			return this_.intval < that.intval;
 		}
