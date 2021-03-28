@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Fri Feb 05 19:33:15 CET 2021
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Mar 28 10:10:40 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -10150,7 +10150,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_createChain+IMatch_createChain",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_createChain+Match_createChain"
 			)
 		{
 		}
@@ -10414,6 +10416,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createChain.IMatch_createChain instanceBearingAttributeForSearch_createChain = new GRGEN_ACTIONS.Rule_createChain.Match_createChain();
 	}
 
 	public class Rule_chainFromTo : GRGEN_LGSP.LGSPRulePattern
@@ -10454,7 +10457,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromTo+IMatch_chainFromTo",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromTo+Match_chainFromTo"
 			)
 		{
 		}
@@ -10764,6 +10769,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo instanceBearingAttributeForSearch_chainFromTo = new GRGEN_ACTIONS.Rule_chainFromTo.Match_chainFromTo();
 		public static List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> Array_chainFromTo_groupBy_beg(List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>>();
@@ -10797,6 +10803,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			}
 			return newList;
 		}
+		public static int Array_chainFromTo_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromTo_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromTo_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromTo_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> Array_chainFromTo_groupBy_end(List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo>>();
@@ -10829,6 +10863,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_chainFromTo_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromTo_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromTo_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromTo_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromTo.IMatch_chainFromTo> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -10868,7 +10930,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFrom+IMatch_chainFrom",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFrom+Match_chainFrom"
 			)
 		{
 		}
@@ -11157,6 +11221,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom instanceBearingAttributeForSearch_chainFrom = new GRGEN_ACTIONS.Rule_chainFrom.Match_chainFrom();
 		public static List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom> Array_chainFrom_groupBy_beg(List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom>>();
@@ -11189,6 +11254,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_chainFrom_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFrom_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFrom_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFrom_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFrom.IMatch_chainFrom> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -11228,7 +11321,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromComplete+IMatch_chainFromComplete",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromComplete+Match_chainFromComplete"
 			)
 		{
 		}
@@ -11517,6 +11612,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete instanceBearingAttributeForSearch_chainFromComplete = new GRGEN_ACTIONS.Rule_chainFromComplete.Match_chainFromComplete();
 		public static List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete> Array_chainFromComplete_groupBy_beg(List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete>>();
@@ -11549,6 +11645,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_chainFromComplete_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromComplete_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromComplete_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromComplete_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromComplete.IMatch_chainFromComplete> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -11588,7 +11712,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromCompleteArbitraryPatternpathLocked+IMatch_chainFromCompleteArbitraryPatternpathLocked",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromCompleteArbitraryPatternpathLocked+Match_chainFromCompleteArbitraryPatternpathLocked"
 			)
 		{
 		}
@@ -11877,6 +12003,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked instanceBearingAttributeForSearch_chainFromCompleteArbitraryPatternpathLocked = new GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.Match_chainFromCompleteArbitraryPatternpathLocked();
 		public static List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> Array_chainFromCompleteArbitraryPatternpathLocked_groupBy_beg(List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>>();
@@ -11909,6 +12036,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_chainFromCompleteArbitraryPatternpathLocked_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromCompleteArbitraryPatternpathLocked_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromCompleteArbitraryPatternpathLocked_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromCompleteArbitraryPatternpathLocked_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -11948,7 +12103,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards+IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards+Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards"
 			)
 		{
 		}
@@ -12237,6 +12394,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards instanceBearingAttributeForSearch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = new GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards();
 		public static List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> Array_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_groupBy_beg(List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>>();
@@ -12269,6 +12427,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -12308,7 +12494,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_createBlowball+IMatch_createBlowball",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_createBlowball+Match_createBlowball"
 			)
 		{
 		}
@@ -12573,6 +12761,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createBlowball.IMatch_createBlowball instanceBearingAttributeForSearch_createBlowball = new GRGEN_ACTIONS.Rule_createBlowball.Match_createBlowball();
 	}
 
 	public class Rule_blowball : GRGEN_LGSP.LGSPRulePattern
@@ -12611,7 +12800,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_blowball+IMatch_blowball",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_blowball+Match_blowball"
 			)
 		{
 		}
@@ -12900,6 +13091,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_blowball.IMatch_blowball instanceBearingAttributeForSearch_blowball = new GRGEN_ACTIONS.Rule_blowball.Match_blowball();
 		public static List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball> Array_blowball_groupBy_head(List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball>>();
@@ -12932,6 +13124,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_blowball_indexOfBy_head(IList<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_head.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blowball_indexOfBy_head(IList<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_head.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blowball_lastIndexOfBy_head(IList<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_head.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blowball_lastIndexOfBy_head(IList<GRGEN_ACTIONS.Rule_blowball.IMatch_blowball> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_head.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -12973,7 +13193,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_reverseChainFromTo+IMatch_reverseChainFromTo",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_reverseChainFromTo+Match_reverseChainFromTo"
 			)
 		{
 		}
@@ -13283,6 +13505,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo instanceBearingAttributeForSearch_reverseChainFromTo = new GRGEN_ACTIONS.Rule_reverseChainFromTo.Match_reverseChainFromTo();
 		public static List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> Array_reverseChainFromTo_groupBy_beg(List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>>();
@@ -13316,6 +13539,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			}
 			return newList;
 		}
+		public static int Array_reverseChainFromTo_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromTo_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromTo_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromTo_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> Array_reverseChainFromTo_groupBy_end(List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo>>();
@@ -13348,6 +13599,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_reverseChainFromTo_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromTo_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromTo_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromTo_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_reverseChainFromTo.IMatch_reverseChainFromTo> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -13387,7 +13666,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_createReverseChain+IMatch_createReverseChain",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_createReverseChain+Match_createReverseChain"
 			)
 		{
 		}
@@ -13651,6 +13932,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createReverseChain.IMatch_createReverseChain instanceBearingAttributeForSearch_createReverseChain = new GRGEN_ACTIONS.Rule_createReverseChain.Match_createReverseChain();
 	}
 
 	public class Rule_chainFromToReverse : GRGEN_LGSP.LGSPRulePattern
@@ -13693,7 +13975,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromToReverse+IMatch_chainFromToReverse",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromToReverse+Match_chainFromToReverse"
 			)
 		{
 		}
@@ -14008,6 +14292,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse instanceBearingAttributeForSearch_chainFromToReverse = new GRGEN_ACTIONS.Rule_chainFromToReverse.Match_chainFromToReverse();
 		public static List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> Array_chainFromToReverse_groupBy_beg(List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>>();
@@ -14041,6 +14326,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			}
 			return newList;
 		}
+		public static int Array_chainFromToReverse_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverse_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverse_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverse_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> Array_chainFromToReverse_groupBy_end(List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse>>();
@@ -14073,6 +14386,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_chainFromToReverse_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverse_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverse_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverse_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromToReverse.IMatch_chainFromToReverse> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -14116,7 +14457,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromToReverseToCommon+IMatch_chainFromToReverseToCommon",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_chainFromToReverseToCommon+Match_chainFromToReverseToCommon"
 			)
 		{
 		}
@@ -14433,6 +14776,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon instanceBearingAttributeForSearch_chainFromToReverseToCommon = new GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.Match_chainFromToReverseToCommon();
 		public static List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> Array_chainFromToReverseToCommon_groupBy_beg(List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>>();
@@ -14466,6 +14810,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			}
 			return newList;
 		}
+		public static int Array_chainFromToReverseToCommon_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverseToCommon_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverseToCommon_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverseToCommon_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> Array_chainFromToReverseToCommon_groupBy_end(List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>>();
@@ -14498,6 +14870,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_chainFromToReverseToCommon_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverseToCommon_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverseToCommon_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_chainFromToReverseToCommon_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -14541,7 +14941,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Recursive.Rule_reverseChainFromToToCommon+IMatch_reverseChainFromToToCommon",
+				"de.unika.ipd.grGen.Action_Recursive.Rule_reverseChainFromToToCommon+Match_reverseChainFromToToCommon"
 			)
 		{
 		}
@@ -14872,6 +15274,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon instanceBearingAttributeForSearch_reverseChainFromToToCommon = new GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.Match_reverseChainFromToToCommon();
 		public static List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> Array_reverseChainFromToToCommon_groupBy_beg(List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>>();
@@ -14904,6 +15307,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_reverseChainFromToToCommon_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromToToCommon_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromToToCommon_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromToToCommon_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> Array_reverseChainFromToToCommon_groupBy_end(List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list)
 		{
@@ -14938,6 +15369,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			}
 			return newList;
 		}
+		public static int Array_reverseChainFromToToCommon_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromToToCommon_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromToToCommon_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromToToCommon_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> Array_reverseChainFromToToCommon_groupBy_common(List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>>();
@@ -14970,6 +15429,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				}
 			}
 			return newList;
+		}
+		public static int Array_reverseChainFromToToCommon_indexOfBy_common(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_common.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromToToCommon_indexOfBy_common(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_common.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromToToCommon_lastIndexOfBy_common(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_common.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_reverseChainFromToToCommon_lastIndexOfBy_common(IList<GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_common.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -26891,6 +27378,674 @@ label23: ;
                     }
                 default:
                     return null;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromTo":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromTo_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_chainFromTo_indexOfBy_end(GRGEN_ACTIONS.Rule_chainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "chainFrom":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFrom_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFrom.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "chainFromComplete":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromComplete_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromComplete.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "chainFromCompleteArbitraryPatternpathLocked":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromCompleteArbitraryPatternpathLocked_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "createBlowball":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "blowball":
+                    switch(member)
+                    {
+                    case "head":
+                        return ArrayHelper.Array_blowball_indexOfBy_head(GRGEN_ACTIONS.Rule_blowball.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "reverseChainFromTo":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_reverseChainFromTo_indexOfBy_beg(GRGEN_ACTIONS.Rule_reverseChainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_reverseChainFromTo_indexOfBy_end(GRGEN_ACTIONS.Rule_reverseChainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "createReverseChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromToReverse":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromToReverse_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromToReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_chainFromToReverse_indexOfBy_end(GRGEN_ACTIONS.Rule_chainFromToReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "chainFromToReverseToCommon":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromToReverseToCommon_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_chainFromToReverseToCommon_indexOfBy_end(GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "reverseChainFromToToCommon":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_indexOfBy_beg(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_indexOfBy_end(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "common":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_indexOfBy_common(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromTo":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromTo_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_chainFromTo_indexOfBy_end(GRGEN_ACTIONS.Rule_chainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "chainFrom":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFrom_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFrom.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "chainFromComplete":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromComplete_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromComplete.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "chainFromCompleteArbitraryPatternpathLocked":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromCompleteArbitraryPatternpathLocked_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createBlowball":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "blowball":
+                    switch(member)
+                    {
+                    case "head":
+                        return ArrayHelper.Array_blowball_indexOfBy_head(GRGEN_ACTIONS.Rule_blowball.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "reverseChainFromTo":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_reverseChainFromTo_indexOfBy_beg(GRGEN_ACTIONS.Rule_reverseChainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_reverseChainFromTo_indexOfBy_end(GRGEN_ACTIONS.Rule_reverseChainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createReverseChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromToReverse":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromToReverse_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromToReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_chainFromToReverse_indexOfBy_end(GRGEN_ACTIONS.Rule_chainFromToReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "chainFromToReverseToCommon":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromToReverseToCommon_indexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_chainFromToReverseToCommon_indexOfBy_end(GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "reverseChainFromToToCommon":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_indexOfBy_beg(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_indexOfBy_end(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "common":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_indexOfBy_common(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromTo":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromTo_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_chainFromTo_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_chainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "chainFrom":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFrom_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFrom.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "chainFromComplete":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromComplete_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromComplete.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "chainFromCompleteArbitraryPatternpathLocked":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromCompleteArbitraryPatternpathLocked_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "createBlowball":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "blowball":
+                    switch(member)
+                    {
+                    case "head":
+                        return ArrayHelper.Array_blowball_lastIndexOfBy_head(GRGEN_ACTIONS.Rule_blowball.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "reverseChainFromTo":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_reverseChainFromTo_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_reverseChainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_reverseChainFromTo_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_reverseChainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "createReverseChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromToReverse":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromToReverse_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromToReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_chainFromToReverse_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_chainFromToReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "chainFromToReverseToCommon":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromToReverseToCommon_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_chainFromToReverseToCommon_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "reverseChainFromToToCommon":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "common":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_lastIndexOfBy_common(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromTo":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromTo_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_chainFromTo_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_chainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "chainFrom":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFrom_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFrom.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "chainFromComplete":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromComplete_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromComplete.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "chainFromCompleteArbitraryPatternpathLocked":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromCompleteArbitraryPatternpathLocked_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryPatternpathLocked.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createBlowball":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "blowball":
+                    switch(member)
+                    {
+                    case "head":
+                        return ArrayHelper.Array_blowball_lastIndexOfBy_head(GRGEN_ACTIONS.Rule_blowball.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "reverseChainFromTo":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_reverseChainFromTo_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_reverseChainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_reverseChainFromTo_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_reverseChainFromTo.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createReverseChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromToReverse":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromToReverse_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromToReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_chainFromToReverse_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_chainFromToReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "chainFromToReverseToCommon":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_chainFromToReverseToCommon_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_chainFromToReverseToCommon_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_chainFromToReverseToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "reverseChainFromToToCommon":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "common":
+                        return ArrayHelper.Array_reverseChainFromToToCommon_lastIndexOfBy_common(GRGEN_ACTIONS.Rule_reverseChainFromToToCommon.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfOrderedBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromTo":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFrom":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromComplete":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromCompleteArbitraryPatternpathLocked":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createBlowball":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "blowball":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "reverseChainFromTo":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createReverseChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromToReverse":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "chainFromToReverseToCommon":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "reverseChainFromToToCommon":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
                 }
             }
         }

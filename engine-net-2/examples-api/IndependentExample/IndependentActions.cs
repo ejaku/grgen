@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Fri Feb 05 19:32:32 CET 2021
+// Generated from "..\..\tests\independent\Independent.grg" on Sun Mar 28 10:09:42 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -1856,7 +1856,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Independent.Rule_create+IMatch_create",
+				"de.unika.ipd.grGen.Action_Independent.Rule_create+Match_create"
 			)
 		{
 		}
@@ -2120,6 +2122,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_create.IMatch_create instanceBearingAttributeForSearch_create = new GRGEN_ACTIONS.Rule_create.Match_create();
 	}
 
 	public class Rule_find : GRGEN_LGSP.LGSPRulePattern
@@ -2172,7 +2175,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Independent.Rule_find+IMatch_find",
+				"de.unika.ipd.grGen.Action_Independent.Rule_find+Match_find"
 			)
 		{
 		}
@@ -2587,6 +2592,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_find.IMatch_find instanceBearingAttributeForSearch_find = new GRGEN_ACTIONS.Rule_find.Match_find();
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy_beg(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
@@ -2619,6 +2625,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_find_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__node0(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
@@ -2653,6 +2687,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static int Array_find_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy_end(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
@@ -2685,6 +2747,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_find_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__node1(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
@@ -2719,6 +2809,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static int Array_find_indexOfBy__node1(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_indexOfBy__node1(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__node1(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__node1(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__edge0(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
@@ -2751,6 +2869,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_find_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__edge1(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
@@ -2785,6 +2931,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static int Array_find_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__edge2(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
@@ -2818,6 +2992,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static int Array_find_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_find.IMatch_find> Array_find_groupBy__edge3(List<GRGEN_ACTIONS.Rule_find.IMatch_find> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_find.IMatch_find>>();
@@ -2850,6 +3052,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_find_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_find_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_find.IMatch_find> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -2913,7 +3143,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Independent.Rule_findIndependent+IMatch_findIndependent",
+				"de.unika.ipd.grGen.Action_Independent.Rule_findIndependent+Match_findIndependent"
 			)
 		{
 		}
@@ -3550,6 +3782,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent instanceBearingAttributeForSearch_findIndependent = new GRGEN_ACTIONS.Rule_findIndependent.Match_findIndependent();
 		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_groupBy_beg(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>>();
@@ -3582,6 +3815,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_findIndependent_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_groupBy__node0(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
 		{
@@ -3616,6 +3877,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static int Array_findIndependent_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_groupBy_end(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>>();
@@ -3648,6 +3937,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_findIndependent_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_groupBy__edge0(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
 		{
@@ -3682,6 +3999,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static int Array_findIndependent_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> Array_findIndependent_groupBy__edge1(List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent>>();
@@ -3714,6 +4059,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_findIndependent_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findIndependent_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_findIndependent.IMatch_findIndependent> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -3825,7 +4198,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Independent.Rule_findMultiNested+IMatch_findMultiNested",
+				"de.unika.ipd.grGen.Action_Independent.Rule_findMultiNested+Match_findMultiNested"
 			)
 		{
 		}
@@ -5311,6 +5686,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested instanceBearingAttributeForSearch_findMultiNested = new GRGEN_ACTIONS.Rule_findMultiNested.Match_findMultiNested();
 		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_groupBy_beg(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>>();
@@ -5343,6 +5719,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_findMultiNested_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_groupBy__node0(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
 		{
@@ -5377,6 +5781,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static int Array_findMultiNested_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_groupBy_end(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>>();
@@ -5409,6 +5841,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_findMultiNested_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_groupBy__edge0(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
 		{
@@ -5443,6 +5903,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static int Array_findMultiNested_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> Array_findMultiNested_groupBy__edge1(List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested>>();
@@ -5475,6 +5963,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_findMultiNested_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findMultiNested_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_findMultiNested.IMatch_findMultiNested> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -5514,7 +6030,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Independent.Rule_createIterated+IMatch_createIterated",
+				"de.unika.ipd.grGen.Action_Independent.Rule_createIterated+Match_createIterated"
 			)
 		{
 		}
@@ -5785,6 +6303,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createIterated.IMatch_createIterated instanceBearingAttributeForSearch_createIterated = new GRGEN_ACTIONS.Rule_createIterated.Match_createIterated();
 	}
 
 	public class Rule_findChainPlusChainToInt : GRGEN_LGSP.LGSPRulePattern
@@ -5825,7 +6344,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Independent.Rule_findChainPlusChainToInt+IMatch_findChainPlusChainToInt",
+				"de.unika.ipd.grGen.Action_Independent.Rule_findChainPlusChainToInt+Match_findChainPlusChainToInt"
 			)
 		{
 		}
@@ -6151,6 +6672,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt instanceBearingAttributeForSearch_findChainPlusChainToInt = new GRGEN_ACTIONS.Rule_findChainPlusChainToInt.Match_findChainPlusChainToInt();
 		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> Array_findChainPlusChainToInt_groupBy_beg(List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>>();
@@ -6184,6 +6706,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static int Array_findChainPlusChainToInt_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToInt_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToInt_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToInt_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> Array_findChainPlusChainToInt_groupBy_end(List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>>();
@@ -6216,6 +6766,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_findChainPlusChainToInt_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToInt_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToInt_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToInt_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -6267,7 +6845,9 @@ namespace de.unika.ipd.grGen.Action_Independent
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Independent.Rule_findChainPlusChainToIntIndependent+IMatch_findChainPlusChainToIntIndependent",
+				"de.unika.ipd.grGen.Action_Independent.Rule_findChainPlusChainToIntIndependent+Match_findChainPlusChainToIntIndependent"
 			)
 		{
 		}
@@ -6823,6 +7403,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent instanceBearingAttributeForSearch_findChainPlusChainToIntIndependent = new GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.Match_findChainPlusChainToIntIndependent();
 		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> Array_findChainPlusChainToIntIndependent_groupBy_beg(List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>>();
@@ -6856,6 +7437,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 			}
 			return newList;
 		}
+		public static int Array_findChainPlusChainToIntIndependent_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToIntIndependent_indexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToIntIndependent_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToIntIndependent_lastIndexOfBy_beg(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_beg.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> Array_findChainPlusChainToIntIndependent_groupBy_end(List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>>();
@@ -6888,6 +7497,34 @@ namespace de.unika.ipd.grGen.Action_Independent
 				}
 			}
 			return newList;
+		}
+		public static int Array_findChainPlusChainToIntIndependent_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToIntIndependent_indexOfBy_end(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToIntIndependent_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_findChainPlusChainToIntIndependent_lastIndexOfBy_end(IList<GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_end.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -12166,6 +12803,542 @@ label15: ;
                     }
                 default:
                     return null;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "create":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "find":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_find_indexOfBy_beg(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_node0":
+                        return ArrayHelper.Array_find_indexOfBy__node0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_find_indexOfBy_end(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_node1":
+                        return ArrayHelper.Array_find_indexOfBy__node1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_find_indexOfBy__edge0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_find_indexOfBy__edge1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_find_indexOfBy__edge2(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_find_indexOfBy__edge3(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "findIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findIndependent_indexOfBy_beg(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_node0":
+                        return ArrayHelper.Array_findIndependent_indexOfBy__node0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_findIndependent_indexOfBy_end(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_findIndependent_indexOfBy__edge0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_findIndependent_indexOfBy__edge1(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "findMultiNested":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findMultiNested_indexOfBy_beg(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_node0":
+                        return ArrayHelper.Array_findMultiNested_indexOfBy__node0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_findMultiNested_indexOfBy_end(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_findMultiNested_indexOfBy__edge0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_findMultiNested_indexOfBy__edge1(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "createIterated":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "findChainPlusChainToInt":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToInt_indexOfBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToInt_indexOfBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "findChainPlusChainToIntIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_indexOfBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_indexOfBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "create":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "find":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_find_indexOfBy_beg(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_find_indexOfBy__node0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_find_indexOfBy_end(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_node1":
+                        return ArrayHelper.Array_find_indexOfBy__node1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_find_indexOfBy__edge0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_find_indexOfBy__edge1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_find_indexOfBy__edge2(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_find_indexOfBy__edge3(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "findIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findIndependent_indexOfBy_beg(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_findIndependent_indexOfBy__node0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_findIndependent_indexOfBy_end(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_findIndependent_indexOfBy__edge0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_findIndependent_indexOfBy__edge1(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "findMultiNested":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findMultiNested_indexOfBy_beg(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_findMultiNested_indexOfBy__node0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_findMultiNested_indexOfBy_end(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_findMultiNested_indexOfBy__edge0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_findMultiNested_indexOfBy__edge1(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createIterated":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "findChainPlusChainToInt":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToInt_indexOfBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToInt_indexOfBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "findChainPlusChainToIntIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_indexOfBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_indexOfBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "create":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "find":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_find_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_node0":
+                        return ArrayHelper.Array_find_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_find_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_node1":
+                        return ArrayHelper.Array_find_lastIndexOfBy__node1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_find_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_find_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_find_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_find_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "findIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findIndependent_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_node0":
+                        return ArrayHelper.Array_findIndependent_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_findIndependent_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_findIndependent_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_findIndependent_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "findMultiNested":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findMultiNested_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_node0":
+                        return ArrayHelper.Array_findMultiNested_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_findMultiNested_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_findMultiNested_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_findMultiNested_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "createIterated":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "findChainPlusChainToInt":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToInt_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToInt_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "findChainPlusChainToIntIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "create":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "find":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_find_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_find_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_find_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_node1":
+                        return ArrayHelper.Array_find_lastIndexOfBy__node1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_find_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_find_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_find_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_find_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_find.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "findIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findIndependent_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_findIndependent_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_findIndependent_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_findIndependent_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_findIndependent_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_findIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "findMultiNested":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findMultiNested_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_findMultiNested_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_findMultiNested_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_findMultiNested_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_findMultiNested_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_findMultiNested.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createIterated":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "findChainPlusChainToInt":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToInt_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToInt_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToInt.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "findChainPlusChainToIntIndependent":
+                    switch(member)
+                    {
+                    case "beg":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_lastIndexOfBy_beg(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    case "end":
+                        return ArrayHelper.Array_findChainPlusChainToIntIndependent_lastIndexOfBy_end(GRGEN_ACTIONS.Rule_findChainPlusChainToIntIndependent.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfOrderedBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "create":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "find":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "findIndependent":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "findMultiNested":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createIterated":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "findChainPlusChainToInt":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "findChainPlusChainToIntIndependent":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
                 }
             }
         }

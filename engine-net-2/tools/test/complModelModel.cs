@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Fri Feb 05 19:31:51 CET 2021
+// Generated from "test.grg" on Sun Mar 28 10:08:54 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -51,20 +51,20 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@Node(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Node(this, graph, oldToNewObjectMap);
 		}
 
-		private @Node(GRGEN_MODEL.@Node oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Node.typeVar)
+		private @Node(GRGEN_MODEL.@Node oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -76,11 +76,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Node)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Node))
+				return false;
 			@Node that_ = (@Node)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -226,21 +237,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@A1(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@A1(this, graph, oldToNewObjectMap);
 		}
 
-		private @A1(GRGEN_MODEL.@A1 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A1.typeVar)
+		private @A1(GRGEN_MODEL.@A1 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A1.typeVar)
 		{
 			a1_M0no_suXx_h4rD = oldElem.a1_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -252,12 +263,23 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @A1)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @A1))
+				return false;
 			@A1 that_ = (@A1)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a1_M0no_suXx_h4rD == that_.a1_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@A1 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -443,39 +465,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_A1_a1
 	{
-		private static GRGEN_MODEL.IA1 nodeBearingAttributeForSearch = new GRGEN_MODEL.@A1();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IA1> list, int entry)
+		private static GRGEN_MODEL.IA1 instanceBearingAttributeForSearch = new GRGEN_MODEL.@A1();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IA1> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a1.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IA1> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IA1> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a1.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IA1> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IA1> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a1.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IA1> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IA1> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a1.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IA1> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IA1> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a1 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_A1_a1.thisComparer);
+			instanceBearingAttributeForSearch.@a1 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_A1_a1.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IA1> ArrayOrderAscendingBy(List<GRGEN_MODEL.IA1> list)
 		{
@@ -561,21 +583,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@A2(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@A2(this, graph, oldToNewObjectMap);
 		}
 
-		private @A2(GRGEN_MODEL.@A2 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A2.typeVar)
+		private @A2(GRGEN_MODEL.@A2 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A2.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -587,12 +609,23 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @A2)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @A2))
+				return false;
 			@A2 that_ = (@A2)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@A2 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -785,39 +818,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_A2_a2
 	{
-		private static GRGEN_MODEL.IA2 nodeBearingAttributeForSearch = new GRGEN_MODEL.@A2();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IA2> list, int entry)
+		private static GRGEN_MODEL.IA2 instanceBearingAttributeForSearch = new GRGEN_MODEL.@A2();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IA2> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IA2> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IA2> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IA2> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IA2> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IA2> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IA2> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IA2> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IA2> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a2 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_A2_a2.thisComparer);
+			instanceBearingAttributeForSearch.@a2 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_A2_a2.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IA2> ArrayOrderAscendingBy(List<GRGEN_MODEL.IA2> list)
 		{
@@ -903,21 +936,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@A3(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@A3(this, graph, oldToNewObjectMap);
 		}
 
-		private @A3(GRGEN_MODEL.@A3 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A3.typeVar)
+		private @A3(GRGEN_MODEL.@A3 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A3.typeVar)
 		{
 			a3_M0no_suXx_h4rD = oldElem.a3_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -929,12 +962,23 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @A3)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @A3))
+				return false;
 			@A3 that_ = (@A3)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a3_M0no_suXx_h4rD == that_.a3_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@A3 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -1120,39 +1164,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_A3_a3
 	{
-		private static GRGEN_MODEL.IA3 nodeBearingAttributeForSearch = new GRGEN_MODEL.@A3();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IA3> list, int entry)
+		private static GRGEN_MODEL.IA3 instanceBearingAttributeForSearch = new GRGEN_MODEL.@A3();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IA3> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a3.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IA3> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IA3> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a3.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IA3> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IA3> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a3.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IA3> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IA3> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a3.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IA3> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IA3> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a3 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_A3_a3.thisComparer);
+			instanceBearingAttributeForSearch.@a3 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_A3_a3.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IA3> ArrayOrderAscendingBy(List<GRGEN_MODEL.IA3> list)
 		{
@@ -1238,21 +1282,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@A4(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@A4(this, graph, oldToNewObjectMap);
 		}
 
-		private @A4(GRGEN_MODEL.@A4 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A4.typeVar)
+		private @A4(GRGEN_MODEL.@A4 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A4.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1264,12 +1308,23 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @A4)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @A4))
+				return false;
 			@A4 that_ = (@A4)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@A4 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -1463,39 +1518,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_A4_a4
 	{
-		private static GRGEN_MODEL.IA4 nodeBearingAttributeForSearch = new GRGEN_MODEL.@A4();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IA4> list, int entry)
+		private static GRGEN_MODEL.IA4 instanceBearingAttributeForSearch = new GRGEN_MODEL.@A4();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IA4> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IA4> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IA4> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IA4> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IA4> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IA4> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IA4> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IA4> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IA4> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a4 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_A4_a4.thisComparer);
+			instanceBearingAttributeForSearch.@a4 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_A4_a4.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IA4> ArrayOrderAscendingBy(List<GRGEN_MODEL.IA4> list)
 		{
@@ -1581,21 +1636,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@A5(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@A5(this, graph, oldToNewObjectMap);
 		}
 
-		private @A5(GRGEN_MODEL.@A5 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A5.typeVar)
+		private @A5(GRGEN_MODEL.@A5 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_A5.typeVar)
 		{
 			a5_M0no_suXx_h4rD = oldElem.a5_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1607,12 +1662,23 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @A5)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @A5))
+				return false;
 			@A5 that_ = (@A5)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a5_M0no_suXx_h4rD == that_.a5_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@A5 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -1799,39 +1865,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_A5_a5
 	{
-		private static GRGEN_MODEL.IA5 nodeBearingAttributeForSearch = new GRGEN_MODEL.@A5();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IA5> list, int entry)
+		private static GRGEN_MODEL.IA5 instanceBearingAttributeForSearch = new GRGEN_MODEL.@A5();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IA5> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a5.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IA5> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IA5> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a5.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IA5> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IA5> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a5.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IA5> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IA5> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a5.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IA5> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IA5> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a5 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_A5_a5.thisComparer);
+			instanceBearingAttributeForSearch.@a5 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_A5_a5.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IA5> ArrayOrderAscendingBy(List<GRGEN_MODEL.IA5> list)
 		{
@@ -1920,22 +1986,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@B21(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@B21(this, graph, oldToNewObjectMap);
 		}
 
-		private @B21(GRGEN_MODEL.@B21 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B21.typeVar)
+		private @B21(GRGEN_MODEL.@B21 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B21.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b21_M0no_suXx_h4rD = oldElem.b21_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1947,13 +2013,24 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @B21)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @B21))
+				return false;
 			@B21 that_ = (@B21)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
 				&& b21_M0no_suXx_h4rD == that_.b21_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@B21 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -2170,39 +2247,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B21_a2
 	{
-		private static GRGEN_MODEL.IB21 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B21();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry)
+		private static GRGEN_MODEL.IB21 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B21();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB21> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB21> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a2 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B21_a2.thisComparer);
+			instanceBearingAttributeForSearch.@a2 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B21_a2.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB21> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB21> list)
 		{
@@ -2279,39 +2356,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B21_b21
 	{
-		private static GRGEN_MODEL.IB21 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B21();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry)
+		private static GRGEN_MODEL.IB21 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B21();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b21.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b21.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b21.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB21> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b21.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB21> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB21> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b21 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B21_b21.thisComparer);
+			instanceBearingAttributeForSearch.@b21 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B21_b21.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB21> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB21> list)
 		{
@@ -2400,22 +2477,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@B22(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@B22(this, graph, oldToNewObjectMap);
 		}
 
-		private @B22(GRGEN_MODEL.@B22 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B22.typeVar)
+		private @B22(GRGEN_MODEL.@B22 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B22.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -2427,13 +2504,24 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @B22)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @B22))
+				return false;
 			@B22 that_ = (@B22)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
 				&& b22_M0no_suXx_h4rD == that_.b22_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@B22 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -2650,39 +2738,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B22_a2
 	{
-		private static GRGEN_MODEL.IB22 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B22();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry)
+		private static GRGEN_MODEL.IB22 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B22();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB22> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB22> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a2 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B22_a2.thisComparer);
+			instanceBearingAttributeForSearch.@a2 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B22_a2.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB22> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB22> list)
 		{
@@ -2759,39 +2847,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B22_b22
 	{
-		private static GRGEN_MODEL.IB22 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B22();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry)
+		private static GRGEN_MODEL.IB22 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B22();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB22> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB22> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB22> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b22 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B22_b22.thisComparer);
+			instanceBearingAttributeForSearch.@b22 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B22_b22.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB22> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB22> list)
 		{
@@ -2880,22 +2968,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@B23(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@B23(this, graph, oldToNewObjectMap);
 		}
 
-		private @B23(GRGEN_MODEL.@B23 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B23.typeVar)
+		private @B23(GRGEN_MODEL.@B23 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B23.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b23_M0no_suXx_h4rD = oldElem.b23_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -2907,13 +2995,24 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @B23)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @B23))
+				return false;
 			@B23 that_ = (@B23)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
 				&& b23_M0no_suXx_h4rD == that_.b23_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@B23 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -3130,39 +3229,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B23_a2
 	{
-		private static GRGEN_MODEL.IB23 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B23();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry)
+		private static GRGEN_MODEL.IB23 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B23();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB23> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB23> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a2 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B23_a2.thisComparer);
+			instanceBearingAttributeForSearch.@a2 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B23_a2.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB23> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB23> list)
 		{
@@ -3239,39 +3338,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B23_b23
 	{
-		private static GRGEN_MODEL.IB23 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B23();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry)
+		private static GRGEN_MODEL.IB23 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B23();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b23.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b23.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b23.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB23> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b23.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB23> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB23> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b23 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B23_b23.thisComparer);
+			instanceBearingAttributeForSearch.@b23 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B23_b23.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB23> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB23> list)
 		{
@@ -3360,22 +3459,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@B41(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@B41(this, graph, oldToNewObjectMap);
 		}
 
-		private @B41(GRGEN_MODEL.@B41 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B41.typeVar)
+		private @B41(GRGEN_MODEL.@B41 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B41.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -3387,13 +3486,24 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @B41)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @B41))
+				return false;
 			@B41 that_ = (@B41)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
 				&& b41_M0no_suXx_h4rD == that_.b41_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@B41 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -3611,39 +3721,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B41_a4
 	{
-		private static GRGEN_MODEL.IB41 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B41();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry)
+		private static GRGEN_MODEL.IB41 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B41();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB41> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB41> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a4 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B41_a4.thisComparer);
+			instanceBearingAttributeForSearch.@a4 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B41_a4.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB41> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB41> list)
 		{
@@ -3720,39 +3830,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B41_b41
 	{
-		private static GRGEN_MODEL.IB41 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B41();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry)
+		private static GRGEN_MODEL.IB41 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B41();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB41> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB41> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB41> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b41 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B41_b41.thisComparer);
+			instanceBearingAttributeForSearch.@b41 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B41_b41.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB41> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB41> list)
 		{
@@ -3841,22 +3951,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@B42(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@B42(this, graph, oldToNewObjectMap);
 		}
 
-		private @B42(GRGEN_MODEL.@B42 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B42.typeVar)
+		private @B42(GRGEN_MODEL.@B42 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B42.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -3868,13 +3978,24 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @B42)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @B42))
+				return false;
 			@B42 that_ = (@B42)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
 				&& b42_M0no_suXx_h4rD == that_.b42_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@B42 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -4092,39 +4213,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B42_a4
 	{
-		private static GRGEN_MODEL.IB42 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B42();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry)
+		private static GRGEN_MODEL.IB42 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B42();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB42> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB42> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a4 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B42_a4.thisComparer);
+			instanceBearingAttributeForSearch.@a4 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B42_a4.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB42> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB42> list)
 		{
@@ -4201,39 +4322,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B42_b42
 	{
-		private static GRGEN_MODEL.IB42 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B42();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry)
+		private static GRGEN_MODEL.IB42 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B42();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB42> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB42> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB42> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b42 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B42_b42.thisComparer);
+			instanceBearingAttributeForSearch.@b42 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B42_b42.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB42> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB42> list)
 		{
@@ -4321,21 +4442,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@B43(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@B43(this, graph, oldToNewObjectMap);
 		}
 
-		private @B43(GRGEN_MODEL.@B43 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B43.typeVar)
+		private @B43(GRGEN_MODEL.@B43 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_B43.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -4347,12 +4468,23 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @B43)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @B43))
+				return false;
 			@B43 that_ = (@B43)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@B43 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -4553,39 +4685,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_B43_a4
 	{
-		private static GRGEN_MODEL.IB43 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B43();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB43> list, int entry)
+		private static GRGEN_MODEL.IB43 instanceBearingAttributeForSearch = new GRGEN_MODEL.@B43();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB43> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IB43> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IB43> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB43> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB43> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IB43> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IB43> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IB43> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IB43> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a4 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_B43_a4.thisComparer);
+			instanceBearingAttributeForSearch.@a4 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_B43_a4.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IB43> ArrayOrderAscendingBy(List<GRGEN_MODEL.IB43> list)
 		{
@@ -4677,23 +4809,23 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@C221(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@C221(this, graph, oldToNewObjectMap);
 		}
 
-		private @C221(GRGEN_MODEL.@C221 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C221.typeVar)
+		private @C221(GRGEN_MODEL.@C221 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C221.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
 			c221_M0no_suXx_h4rD = oldElem.c221_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -4705,14 +4837,25 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @C221)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @C221))
+				return false;
 			@C221 that_ = (@C221)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
 				&& b22_M0no_suXx_h4rD == that_.b22_M0no_suXx_h4rD
 				&& c221_M0no_suXx_h4rD == that_.c221_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@C221 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -4954,39 +5097,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C221_a2
 	{
-		private static GRGEN_MODEL.IC221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C221();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
+		private static GRGEN_MODEL.IC221 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C221();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC221> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC221> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a2 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C221_a2.thisComparer);
+			instanceBearingAttributeForSearch.@a2 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C221_a2.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC221> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC221> list)
 		{
@@ -5063,39 +5206,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C221_b22
 	{
-		private static GRGEN_MODEL.IC221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C221();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
+		private static GRGEN_MODEL.IC221 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C221();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC221> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC221> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b22 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C221_b22.thisComparer);
+			instanceBearingAttributeForSearch.@b22 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C221_b22.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC221> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC221> list)
 		{
@@ -5172,39 +5315,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C221_c221
 	{
-		private static GRGEN_MODEL.IC221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C221();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
+		private static GRGEN_MODEL.IC221 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C221();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@c221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@c221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@c221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@c221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC221> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC221> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@c221 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C221_c221.thisComparer);
+			instanceBearingAttributeForSearch.@c221 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C221_c221.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC221> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC221> list)
 		{
@@ -5302,11 +5445,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@C222_411(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@C222_411(this, graph, oldToNewObjectMap);
 		}
 
-		private @C222_411(GRGEN_MODEL.@C222_411 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C222_411.typeVar)
+		private @C222_411(GRGEN_MODEL.@C222_411 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C222_411.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
@@ -5315,12 +5458,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 			c222_411_M0no_suXx_h4rD = oldElem.c222_411_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -5332,16 +5475,27 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @C222_411)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @C222_411))
+				return false;
 			@C222_411 that_ = (@C222_411)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
 				&& b22_M0no_suXx_h4rD == that_.b22_M0no_suXx_h4rD
 				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
 				&& b41_M0no_suXx_h4rD == that_.b41_M0no_suXx_h4rD
 				&& c222_411_M0no_suXx_h4rD == that_.c222_411_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@C222_411 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -5650,39 +5804,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C222_411_a2
 	{
-		private static GRGEN_MODEL.IC222_411 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
+		private static GRGEN_MODEL.IC222_411 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC222_411> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC222_411> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a2 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C222_411_a2.thisComparer);
+			instanceBearingAttributeForSearch.@a2 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C222_411_a2.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC222_411> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC222_411> list)
 		{
@@ -5759,39 +5913,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C222_411_b22
 	{
-		private static GRGEN_MODEL.IC222_411 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
+		private static GRGEN_MODEL.IC222_411 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC222_411> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC222_411> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b22 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C222_411_b22.thisComparer);
+			instanceBearingAttributeForSearch.@b22 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C222_411_b22.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC222_411> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC222_411> list)
 		{
@@ -5868,39 +6022,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C222_411_a4
 	{
-		private static GRGEN_MODEL.IC222_411 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
+		private static GRGEN_MODEL.IC222_411 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC222_411> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC222_411> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a4 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C222_411_a4.thisComparer);
+			instanceBearingAttributeForSearch.@a4 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C222_411_a4.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC222_411> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC222_411> list)
 		{
@@ -5977,39 +6131,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C222_411_b41
 	{
-		private static GRGEN_MODEL.IC222_411 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
+		private static GRGEN_MODEL.IC222_411 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC222_411> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC222_411> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b41 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C222_411_b41.thisComparer);
+			instanceBearingAttributeForSearch.@b41 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C222_411_b41.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC222_411> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC222_411> list)
 		{
@@ -6086,39 +6240,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C222_411_c222_411
 	{
-		private static GRGEN_MODEL.IC222_411 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
+		private static GRGEN_MODEL.IC222_411 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC222_411> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC222_411> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC222_411> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@c222_411 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C222_411_c222_411.thisComparer);
+			instanceBearingAttributeForSearch.@c222_411 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C222_411_c222_411.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC222_411> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC222_411> list)
 		{
@@ -6218,11 +6372,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@C412_421_431_51(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@C412_421_431_51(this, graph, oldToNewObjectMap);
 		}
 
-		private @C412_421_431_51(GRGEN_MODEL.@C412_421_431_51 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C412_421_431_51.typeVar)
+		private @C412_421_431_51(GRGEN_MODEL.@C412_421_431_51 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C412_421_431_51.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
@@ -6230,12 +6384,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 			a5_M0no_suXx_h4rD = oldElem.a5_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -6247,15 +6401,26 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @C412_421_431_51)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @C412_421_431_51))
+				return false;
 			@C412_421_431_51 that_ = (@C412_421_431_51)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
 				&& b41_M0no_suXx_h4rD == that_.b41_M0no_suXx_h4rD
 				&& b42_M0no_suXx_h4rD == that_.b42_M0no_suXx_h4rD
 				&& a5_M0no_suXx_h4rD == that_.a5_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@C412_421_431_51 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -6549,39 +6714,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C412_421_431_51_a4
 	{
-		private static GRGEN_MODEL.IC412_421_431_51 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C412_421_431_51();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		private static GRGEN_MODEL.IC412_421_431_51 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C412_421_431_51();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a4 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C412_421_431_51_a4.thisComparer);
+			instanceBearingAttributeForSearch.@a4 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C412_421_431_51_a4.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC412_421_431_51> list)
 		{
@@ -6658,39 +6823,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C412_421_431_51_b41
 	{
-		private static GRGEN_MODEL.IC412_421_431_51 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C412_421_431_51();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		private static GRGEN_MODEL.IC412_421_431_51 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C412_421_431_51();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b41 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C412_421_431_51_b41.thisComparer);
+			instanceBearingAttributeForSearch.@b41 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C412_421_431_51_b41.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC412_421_431_51> list)
 		{
@@ -6767,39 +6932,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C412_421_431_51_b42
 	{
-		private static GRGEN_MODEL.IC412_421_431_51 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C412_421_431_51();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		private static GRGEN_MODEL.IC412_421_431_51 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C412_421_431_51();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b42 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C412_421_431_51_b42.thisComparer);
+			instanceBearingAttributeForSearch.@b42 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C412_421_431_51_b42.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC412_421_431_51> list)
 		{
@@ -6876,39 +7041,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C412_421_431_51_a5
 	{
-		private static GRGEN_MODEL.IC412_421_431_51 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C412_421_431_51();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		private static GRGEN_MODEL.IC412_421_431_51 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C412_421_431_51();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a5.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a5.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a5.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC412_421_431_51> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a5.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC412_421_431_51> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC412_421_431_51> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a5 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C412_421_431_51_a5.thisComparer);
+			instanceBearingAttributeForSearch.@a5 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C412_421_431_51_a5.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC412_421_431_51> list)
 		{
@@ -7003,23 +7168,23 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@C432_422(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@C432_422(this, graph, oldToNewObjectMap);
 		}
 
-		private @C432_422(GRGEN_MODEL.@C432_422 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C432_422.typeVar)
+		private @C432_422(GRGEN_MODEL.@C432_422 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_C432_422.typeVar)
 		{
 			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
 			c432_422_M0no_suXx_h4rD = oldElem.c432_422_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -7031,14 +7196,25 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @C432_422)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @C432_422))
+				return false;
 			@C432_422 that_ = (@C432_422)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
 				&& b42_M0no_suXx_h4rD == that_.b42_M0no_suXx_h4rD
 				&& c432_422_M0no_suXx_h4rD == that_.c432_422_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@C432_422 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -7299,39 +7475,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C432_422_a4
 	{
-		private static GRGEN_MODEL.IC432_422 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C432_422();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
+		private static GRGEN_MODEL.IC432_422 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C432_422();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC432_422> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC432_422> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a4 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C432_422_a4.thisComparer);
+			instanceBearingAttributeForSearch.@a4 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C432_422_a4.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC432_422> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC432_422> list)
 		{
@@ -7408,39 +7584,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C432_422_b42
 	{
-		private static GRGEN_MODEL.IC432_422 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C432_422();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
+		private static GRGEN_MODEL.IC432_422 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C432_422();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b42.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC432_422> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC432_422> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b42 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C432_422_b42.thisComparer);
+			instanceBearingAttributeForSearch.@b42 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C432_422_b42.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC432_422> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC432_422> list)
 		{
@@ -7517,39 +7693,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_C432_422_c432_422
 	{
-		private static GRGEN_MODEL.IC432_422 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C432_422();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
+		private static GRGEN_MODEL.IC432_422 instanceBearingAttributeForSearch = new GRGEN_MODEL.@C432_422();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@c432_422.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@c432_422.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@c432_422.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IC432_422> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@c432_422.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IC432_422> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IC432_422> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@c432_422 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_C432_422_c432_422.thisComparer);
+			instanceBearingAttributeForSearch.@c432_422 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_C432_422_c432_422.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IC432_422> ArrayOrderAscendingBy(List<GRGEN_MODEL.IC432_422> list)
 		{
@@ -7653,11 +7829,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@D11_2221(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@D11_2221(this, graph, oldToNewObjectMap);
 		}
 
-		private @D11_2221(GRGEN_MODEL.@D11_2221 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_D11_2221.typeVar)
+		private @D11_2221(GRGEN_MODEL.@D11_2221 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_D11_2221.typeVar)
 		{
 			a1_M0no_suXx_h4rD = oldElem.a1_M0no_suXx_h4rD;
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
@@ -7668,12 +7844,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 			d11_2221_M0no_suXx_h4rD = oldElem.d11_2221_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -7685,10 +7861,18 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @D11_2221)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @D11_2221))
+				return false;
 			@D11_2221 that_ = (@D11_2221)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a1_M0no_suXx_h4rD == that_.a1_M0no_suXx_h4rD
 				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
 				&& b22_M0no_suXx_h4rD == that_.b22_M0no_suXx_h4rD
@@ -7696,7 +7880,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 				&& b41_M0no_suXx_h4rD == that_.b41_M0no_suXx_h4rD
 				&& c222_411_M0no_suXx_h4rD == that_.c222_411_M0no_suXx_h4rD
 				&& d11_2221_M0no_suXx_h4rD == that_.d11_2221_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@D11_2221 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -8058,39 +8245,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D11_2221_a1
 	{
-		private static GRGEN_MODEL.ID11_2221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		private static GRGEN_MODEL.ID11_2221 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a1.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a1.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a1.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a1.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a1 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D11_2221_a1.thisComparer);
+			instanceBearingAttributeForSearch.@a1 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D11_2221_a1.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID11_2221> list)
 		{
@@ -8167,39 +8354,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D11_2221_a2
 	{
-		private static GRGEN_MODEL.ID11_2221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		private static GRGEN_MODEL.ID11_2221 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a2 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D11_2221_a2.thisComparer);
+			instanceBearingAttributeForSearch.@a2 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D11_2221_a2.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID11_2221> list)
 		{
@@ -8276,39 +8463,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D11_2221_b22
 	{
-		private static GRGEN_MODEL.ID11_2221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		private static GRGEN_MODEL.ID11_2221 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b22 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D11_2221_b22.thisComparer);
+			instanceBearingAttributeForSearch.@b22 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D11_2221_b22.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID11_2221> list)
 		{
@@ -8385,39 +8572,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D11_2221_a4
 	{
-		private static GRGEN_MODEL.ID11_2221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		private static GRGEN_MODEL.ID11_2221 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a4 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D11_2221_a4.thisComparer);
+			instanceBearingAttributeForSearch.@a4 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D11_2221_a4.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID11_2221> list)
 		{
@@ -8494,39 +8681,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D11_2221_b41
 	{
-		private static GRGEN_MODEL.ID11_2221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		private static GRGEN_MODEL.ID11_2221 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b41 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D11_2221_b41.thisComparer);
+			instanceBearingAttributeForSearch.@b41 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D11_2221_b41.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID11_2221> list)
 		{
@@ -8603,39 +8790,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D11_2221_c222_411
 	{
-		private static GRGEN_MODEL.ID11_2221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		private static GRGEN_MODEL.ID11_2221 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@c222_411 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D11_2221_c222_411.thisComparer);
+			instanceBearingAttributeForSearch.@c222_411 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D11_2221_c222_411.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID11_2221> list)
 		{
@@ -8712,39 +8899,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D11_2221_d11_2221
 	{
-		private static GRGEN_MODEL.ID11_2221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		private static GRGEN_MODEL.ID11_2221 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@d11_2221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@d11_2221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@d11_2221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID11_2221> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@d11_2221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID11_2221> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@d11_2221 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D11_2221_d11_2221.thisComparer);
+			instanceBearingAttributeForSearch.@d11_2221 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D11_2221_d11_2221.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID11_2221> list)
 		{
@@ -8851,11 +9038,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@D2211_2222_31(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@D2211_2222_31(this, graph, oldToNewObjectMap);
 		}
 
-		private @D2211_2222_31(GRGEN_MODEL.@D2211_2222_31 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_D2211_2222_31.typeVar)
+		private @D2211_2222_31(GRGEN_MODEL.@D2211_2222_31 oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_D2211_2222_31.typeVar)
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
@@ -8867,12 +9054,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 			d2211_2222_31_M0no_suXx_h4rD = oldElem.d2211_2222_31_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -8884,10 +9071,18 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @D2211_2222_31)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @D2211_2222_31))
+				return false;
 			@D2211_2222_31 that_ = (@D2211_2222_31)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
 				&& b22_M0no_suXx_h4rD == that_.b22_M0no_suXx_h4rD
 				&& c221_M0no_suXx_h4rD == that_.c221_M0no_suXx_h4rD
@@ -8896,7 +9091,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 				&& c222_411_M0no_suXx_h4rD == that_.c222_411_M0no_suXx_h4rD
 				&& a3_M0no_suXx_h4rD == that_.a3_M0no_suXx_h4rD
 				&& d2211_2222_31_M0no_suXx_h4rD == that_.d2211_2222_31_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@D2211_2222_31 CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -9284,39 +9482,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D2211_2222_31_a2
 	{
-		private static GRGEN_MODEL.ID2211_2222_31 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		private static GRGEN_MODEL.ID2211_2222_31 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a2.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a2 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D2211_2222_31_a2.thisComparer);
+			instanceBearingAttributeForSearch.@a2 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D2211_2222_31_a2.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
 		{
@@ -9393,39 +9591,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D2211_2222_31_b22
 	{
-		private static GRGEN_MODEL.ID2211_2222_31 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		private static GRGEN_MODEL.ID2211_2222_31 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b22.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b22 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D2211_2222_31_b22.thisComparer);
+			instanceBearingAttributeForSearch.@b22 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D2211_2222_31_b22.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
 		{
@@ -9502,39 +9700,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D2211_2222_31_c221
 	{
-		private static GRGEN_MODEL.ID2211_2222_31 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		private static GRGEN_MODEL.ID2211_2222_31 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@c221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@c221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@c221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@c221.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@c221 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D2211_2222_31_c221.thisComparer);
+			instanceBearingAttributeForSearch.@c221 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D2211_2222_31_c221.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
 		{
@@ -9611,39 +9809,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D2211_2222_31_a4
 	{
-		private static GRGEN_MODEL.ID2211_2222_31 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		private static GRGEN_MODEL.ID2211_2222_31 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a4.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a4 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D2211_2222_31_a4.thisComparer);
+			instanceBearingAttributeForSearch.@a4 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D2211_2222_31_a4.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
 		{
@@ -9720,39 +9918,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D2211_2222_31_b41
 	{
-		private static GRGEN_MODEL.ID2211_2222_31 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		private static GRGEN_MODEL.ID2211_2222_31 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@b41.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@b41 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D2211_2222_31_b41.thisComparer);
+			instanceBearingAttributeForSearch.@b41 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D2211_2222_31_b41.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
 		{
@@ -9829,39 +10027,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D2211_2222_31_c222_411
 	{
-		private static GRGEN_MODEL.ID2211_2222_31 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		private static GRGEN_MODEL.ID2211_2222_31 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@c222_411.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@c222_411 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D2211_2222_31_c222_411.thisComparer);
+			instanceBearingAttributeForSearch.@c222_411 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D2211_2222_31_c222_411.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
 		{
@@ -9938,39 +10136,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D2211_2222_31_a3
 	{
-		private static GRGEN_MODEL.ID2211_2222_31 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		private static GRGEN_MODEL.ID2211_2222_31 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@a3.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@a3.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@a3.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@a3.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@a3 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D2211_2222_31_a3.thisComparer);
+			instanceBearingAttributeForSearch.@a3 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D2211_2222_31_a3.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
 		{
@@ -10047,39 +10245,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public class ArrayHelper_D2211_2222_31_d2211_2222_31
 	{
-		private static GRGEN_MODEL.ID2211_2222_31 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		private static GRGEN_MODEL.ID2211_2222_31 instanceBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@d2211_2222_31.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@d2211_2222_31.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@d2211_2222_31.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ID2211_2222_31> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@d2211_2222_31.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ID2211_2222_31> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@d2211_2222_31 = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_D2211_2222_31_d2211_2222_31.thisComparer);
+			instanceBearingAttributeForSearch.@d2211_2222_31 = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_D2211_2222_31_d2211_2222_31.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderAscendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
 		{
@@ -10590,21 +10788,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -10616,11 +10814,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Edge)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Edge))
+				return false;
 			@Edge that_ = (@Edge)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -10767,21 +10976,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -10793,11 +11002,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @UEdge)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @UEdge))
+				return false;
 			@UEdge that_ = (@UEdge)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -10936,6 +11156,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @Object() {
 		}
 
+		//create object by CreateObject of the type class, not this internal-use constructor
 		public @Object(long uniqueId) : base(GRGEN_MODEL.ObjectType_Object.typeVar, uniqueId)
 		{
 			// implicit initialization, container creation of Object
@@ -10944,25 +11165,29 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public static GRGEN_MODEL.ObjectType_Object TypeInstance { get { return GRGEN_MODEL.ObjectType_Object.typeVar; } }
 
 		public override GRGEN_LIBGR.IObject Clone(GRGEN_LIBGR.IGraph graph) {
-			return new GRGEN_MODEL.@Object(this, graph, null);
+			GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(this, graph, null);
+			((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+			return newObject;
 		}
 
-		public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
-			return new GRGEN_MODEL.@Object(this, graph, oldToNewObjectMap);
+		public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
+			GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(this, graph, oldToNewObjectMap);
+			((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+			return newObject;
 		}
 
-		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -10974,11 +11199,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Object)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Object))
+				return false;
 			@Object that_ = (@Object)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public override object GetAttribute(string attrName)
@@ -11029,10 +11265,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override string ObjectClassName { get { return "de.unika.ipd.grGen.Model_complModel.@Object"; } }
 		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
 		{
-			if(uniqueId != -1)
-				return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
-			else
-				return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+			if(uniqueId != -1) {
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
+				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+				return newObject;
+			} else {
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+				return newObject;
+			}
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -11051,11 +11292,6 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override GRGEN_LIBGR.IObject CreateObjectWithCopyCommons(GRGEN_LIBGR.IObject oldIObject, GRGEN_LIBGR.IGraph graph)
-		{
-			return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
-		}
-
 	}
 
 	//
@@ -11073,6 +11309,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @TransientObject() {
 		}
 
+		//create object by CreateTransientObject of the type class, not this internal-use constructor
 		public @TransientObject() : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
 		{
 			// implicit initialization, container creation of TransientObject
@@ -11084,22 +11321,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@TransientObject(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@TransientObject(this, graph, oldToNewObjectMap);
 		}
 
-		private @TransientObject(GRGEN_MODEL.@TransientObject oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
+		private @TransientObject(GRGEN_MODEL.@TransientObject oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -11111,11 +11348,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @TransientObject)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @TransientObject))
+				return false;
 			@TransientObject that_ = (@TransientObject)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public override object GetAttribute(string attrName)
@@ -11185,11 +11433,6 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override GRGEN_LIBGR.ITransientObject CreateTransientObjectWithCopyCommons(GRGEN_LIBGR.ITransientObject oldITransientObject)
-		{
-			return new GRGEN_MODEL.@TransientObject();
-		}
-
 	}
 
 	public sealed class ExternalObjectType_object : GRGEN_LIBGR.ExternalObjectType
@@ -11204,6 +11447,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override int NumProcedureMethods { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
 		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
+
+		public static object ThrowCopyClassMissingException() { throw new Exception("Cannot copy/clone external object, copy class specification is missing in the model."); }
 	}
 
 	//
@@ -12936,6 +13181,1222 @@ namespace de.unika.ipd.grGen.Model_complModel
 			default: return null;
 			}
 		}
+
+		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "A1":
+				switch(member)
+				{
+				case "a1":
+					return ArrayHelper_A1_a1.ArrayIndexOfBy((List<GRGEN_MODEL.IA1>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A2":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_A2_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IA2>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A3":
+				switch(member)
+				{
+				case "a3":
+					return ArrayHelper_A3_a3.ArrayIndexOfBy((List<GRGEN_MODEL.IA3>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A4":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_A4_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IA4>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A5":
+				switch(member)
+				{
+				case "a5":
+					return ArrayHelper_A5_a5.ArrayIndexOfBy((List<GRGEN_MODEL.IA5>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B21":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B21_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IB21>)array, (int)value);
+				case "b21":
+					return ArrayHelper_B21_b21.ArrayIndexOfBy((List<GRGEN_MODEL.IB21>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B22":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B22_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IB22>)array, (int)value);
+				case "b22":
+					return ArrayHelper_B22_b22.ArrayIndexOfBy((List<GRGEN_MODEL.IB22>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B23":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B23_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IB23>)array, (int)value);
+				case "b23":
+					return ArrayHelper_B23_b23.ArrayIndexOfBy((List<GRGEN_MODEL.IB23>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B41":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B41_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IB41>)array, (int)value);
+				case "b41":
+					return ArrayHelper_B41_b41.ArrayIndexOfBy((List<GRGEN_MODEL.IB41>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B42":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B42_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IB42>)array, (int)value);
+				case "b42":
+					return ArrayHelper_B42_b42.ArrayIndexOfBy((List<GRGEN_MODEL.IB42>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B43":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B43_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IB43>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C221":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_C221_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value);
+				case "b22":
+					return ArrayHelper_C221_b22.ArrayIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value);
+				case "c221":
+					return ArrayHelper_C221_c221.ArrayIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C222_411":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_C222_411_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "b22":
+					return ArrayHelper_C222_411_b22.ArrayIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "a4":
+					return ArrayHelper_C222_411_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "b41":
+					return ArrayHelper_C222_411_b41.ArrayIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "c222_411":
+					return ArrayHelper_C222_411_c222_411.ArrayIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C412_421_431_51":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_C412_421_431_51_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				case "b41":
+					return ArrayHelper_C412_421_431_51_b41.ArrayIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				case "b42":
+					return ArrayHelper_C412_421_431_51_b42.ArrayIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				case "a5":
+					return ArrayHelper_C412_421_431_51_a5.ArrayIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C432_422":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_C432_422_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value);
+				case "b42":
+					return ArrayHelper_C432_422_b42.ArrayIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value);
+				case "c432_422":
+					return ArrayHelper_C432_422_c432_422.ArrayIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "D11_2221":
+				switch(member)
+				{
+				case "a1":
+					return ArrayHelper_D11_2221_a1.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "a2":
+					return ArrayHelper_D11_2221_a2.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "b22":
+					return ArrayHelper_D11_2221_b22.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "a4":
+					return ArrayHelper_D11_2221_a4.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "b41":
+					return ArrayHelper_D11_2221_b41.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "c222_411":
+					return ArrayHelper_D11_2221_c222_411.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "d11_2221":
+					return ArrayHelper_D11_2221_d11_2221.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "D2211_2222_31":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_D2211_2222_31_a2.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "b22":
+					return ArrayHelper_D2211_2222_31_b22.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "c221":
+					return ArrayHelper_D2211_2222_31_c221.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "a4":
+					return ArrayHelper_D2211_2222_31_a4.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "b41":
+					return ArrayHelper_D2211_2222_31_b41.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "c222_411":
+					return ArrayHelper_D2211_2222_31_c222_411.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "a3":
+					return ArrayHelper_D2211_2222_31_a3.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "d2211_2222_31":
+					return ArrayHelper_D2211_2222_31_d2211_2222_31.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "A1":
+				switch(member)
+				{
+				case "a1":
+					return ArrayHelper_A1_a1.ArrayIndexOfBy((List<GRGEN_MODEL.IA1>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "A2":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_A2_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IA2>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "A3":
+				switch(member)
+				{
+				case "a3":
+					return ArrayHelper_A3_a3.ArrayIndexOfBy((List<GRGEN_MODEL.IA3>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "A4":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_A4_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IA4>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "A5":
+				switch(member)
+				{
+				case "a5":
+					return ArrayHelper_A5_a5.ArrayIndexOfBy((List<GRGEN_MODEL.IA5>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B21":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B21_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IB21>)array, (int)value, startIndex);
+				case "b21":
+					return ArrayHelper_B21_b21.ArrayIndexOfBy((List<GRGEN_MODEL.IB21>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B22":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B22_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IB22>)array, (int)value, startIndex);
+				case "b22":
+					return ArrayHelper_B22_b22.ArrayIndexOfBy((List<GRGEN_MODEL.IB22>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B23":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B23_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IB23>)array, (int)value, startIndex);
+				case "b23":
+					return ArrayHelper_B23_b23.ArrayIndexOfBy((List<GRGEN_MODEL.IB23>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B41":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B41_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IB41>)array, (int)value, startIndex);
+				case "b41":
+					return ArrayHelper_B41_b41.ArrayIndexOfBy((List<GRGEN_MODEL.IB41>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B42":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B42_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IB42>)array, (int)value, startIndex);
+				case "b42":
+					return ArrayHelper_B42_b42.ArrayIndexOfBy((List<GRGEN_MODEL.IB42>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B43":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B43_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IB43>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "C221":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_C221_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value, startIndex);
+				case "b22":
+					return ArrayHelper_C221_b22.ArrayIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value, startIndex);
+				case "c221":
+					return ArrayHelper_C221_c221.ArrayIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "C222_411":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_C222_411_a2.ArrayIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value, startIndex);
+				case "b22":
+					return ArrayHelper_C222_411_b22.ArrayIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value, startIndex);
+				case "a4":
+					return ArrayHelper_C222_411_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value, startIndex);
+				case "b41":
+					return ArrayHelper_C222_411_b41.ArrayIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value, startIndex);
+				case "c222_411":
+					return ArrayHelper_C222_411_c222_411.ArrayIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "C412_421_431_51":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_C412_421_431_51_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value, startIndex);
+				case "b41":
+					return ArrayHelper_C412_421_431_51_b41.ArrayIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value, startIndex);
+				case "b42":
+					return ArrayHelper_C412_421_431_51_b42.ArrayIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value, startIndex);
+				case "a5":
+					return ArrayHelper_C412_421_431_51_a5.ArrayIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "C432_422":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_C432_422_a4.ArrayIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value, startIndex);
+				case "b42":
+					return ArrayHelper_C432_422_b42.ArrayIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value, startIndex);
+				case "c432_422":
+					return ArrayHelper_C432_422_c432_422.ArrayIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "D11_2221":
+				switch(member)
+				{
+				case "a1":
+					return ArrayHelper_D11_2221_a1.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "a2":
+					return ArrayHelper_D11_2221_a2.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "b22":
+					return ArrayHelper_D11_2221_b22.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "a4":
+					return ArrayHelper_D11_2221_a4.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "b41":
+					return ArrayHelper_D11_2221_b41.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "c222_411":
+					return ArrayHelper_D11_2221_c222_411.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "d11_2221":
+					return ArrayHelper_D11_2221_d11_2221.ArrayIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "D2211_2222_31":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_D2211_2222_31_a2.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "b22":
+					return ArrayHelper_D2211_2222_31_b22.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "c221":
+					return ArrayHelper_D2211_2222_31_c221.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "a4":
+					return ArrayHelper_D2211_2222_31_a4.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "b41":
+					return ArrayHelper_D2211_2222_31_b41.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "c222_411":
+					return ArrayHelper_D2211_2222_31_c222_411.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "a3":
+					return ArrayHelper_D2211_2222_31_a3.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "d2211_2222_31":
+					return ArrayHelper_D2211_2222_31_d2211_2222_31.ArrayIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "A1":
+				switch(member)
+				{
+				case "a1":
+					return ArrayHelper_A1_a1.ArrayLastIndexOfBy((List<GRGEN_MODEL.IA1>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A2":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_A2_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IA2>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A3":
+				switch(member)
+				{
+				case "a3":
+					return ArrayHelper_A3_a3.ArrayLastIndexOfBy((List<GRGEN_MODEL.IA3>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A4":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_A4_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IA4>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A5":
+				switch(member)
+				{
+				case "a5":
+					return ArrayHelper_A5_a5.ArrayLastIndexOfBy((List<GRGEN_MODEL.IA5>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B21":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B21_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB21>)array, (int)value);
+				case "b21":
+					return ArrayHelper_B21_b21.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB21>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B22":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B22_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB22>)array, (int)value);
+				case "b22":
+					return ArrayHelper_B22_b22.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB22>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B23":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B23_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB23>)array, (int)value);
+				case "b23":
+					return ArrayHelper_B23_b23.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB23>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B41":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B41_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB41>)array, (int)value);
+				case "b41":
+					return ArrayHelper_B41_b41.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB41>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B42":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B42_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB42>)array, (int)value);
+				case "b42":
+					return ArrayHelper_B42_b42.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB42>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B43":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B43_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB43>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C221":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_C221_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value);
+				case "b22":
+					return ArrayHelper_C221_b22.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value);
+				case "c221":
+					return ArrayHelper_C221_c221.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C222_411":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_C222_411_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "b22":
+					return ArrayHelper_C222_411_b22.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "a4":
+					return ArrayHelper_C222_411_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "b41":
+					return ArrayHelper_C222_411_b41.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "c222_411":
+					return ArrayHelper_C222_411_c222_411.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C412_421_431_51":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_C412_421_431_51_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				case "b41":
+					return ArrayHelper_C412_421_431_51_b41.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				case "b42":
+					return ArrayHelper_C412_421_431_51_b42.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				case "a5":
+					return ArrayHelper_C412_421_431_51_a5.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C432_422":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_C432_422_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value);
+				case "b42":
+					return ArrayHelper_C432_422_b42.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value);
+				case "c432_422":
+					return ArrayHelper_C432_422_c432_422.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "D11_2221":
+				switch(member)
+				{
+				case "a1":
+					return ArrayHelper_D11_2221_a1.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "a2":
+					return ArrayHelper_D11_2221_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "b22":
+					return ArrayHelper_D11_2221_b22.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "a4":
+					return ArrayHelper_D11_2221_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "b41":
+					return ArrayHelper_D11_2221_b41.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "c222_411":
+					return ArrayHelper_D11_2221_c222_411.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "d11_2221":
+					return ArrayHelper_D11_2221_d11_2221.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "D2211_2222_31":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_D2211_2222_31_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "b22":
+					return ArrayHelper_D2211_2222_31_b22.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "c221":
+					return ArrayHelper_D2211_2222_31_c221.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "a4":
+					return ArrayHelper_D2211_2222_31_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "b41":
+					return ArrayHelper_D2211_2222_31_b41.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "c222_411":
+					return ArrayHelper_D2211_2222_31_c222_411.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "a3":
+					return ArrayHelper_D2211_2222_31_a3.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "d2211_2222_31":
+					return ArrayHelper_D2211_2222_31_d2211_2222_31.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "A1":
+				switch(member)
+				{
+				case "a1":
+					return ArrayHelper_A1_a1.ArrayLastIndexOfBy((List<GRGEN_MODEL.IA1>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "A2":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_A2_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IA2>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "A3":
+				switch(member)
+				{
+				case "a3":
+					return ArrayHelper_A3_a3.ArrayLastIndexOfBy((List<GRGEN_MODEL.IA3>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "A4":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_A4_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IA4>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "A5":
+				switch(member)
+				{
+				case "a5":
+					return ArrayHelper_A5_a5.ArrayLastIndexOfBy((List<GRGEN_MODEL.IA5>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B21":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B21_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB21>)array, (int)value, startIndex);
+				case "b21":
+					return ArrayHelper_B21_b21.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB21>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B22":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B22_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB22>)array, (int)value, startIndex);
+				case "b22":
+					return ArrayHelper_B22_b22.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB22>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B23":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B23_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB23>)array, (int)value, startIndex);
+				case "b23":
+					return ArrayHelper_B23_b23.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB23>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B41":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B41_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB41>)array, (int)value, startIndex);
+				case "b41":
+					return ArrayHelper_B41_b41.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB41>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B42":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B42_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB42>)array, (int)value, startIndex);
+				case "b42":
+					return ArrayHelper_B42_b42.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB42>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "B43":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B43_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IB43>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "C221":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_C221_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value, startIndex);
+				case "b22":
+					return ArrayHelper_C221_b22.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value, startIndex);
+				case "c221":
+					return ArrayHelper_C221_c221.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC221>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "C222_411":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_C222_411_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value, startIndex);
+				case "b22":
+					return ArrayHelper_C222_411_b22.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value, startIndex);
+				case "a4":
+					return ArrayHelper_C222_411_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value, startIndex);
+				case "b41":
+					return ArrayHelper_C222_411_b41.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value, startIndex);
+				case "c222_411":
+					return ArrayHelper_C222_411_c222_411.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC222_411>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "C412_421_431_51":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_C412_421_431_51_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value, startIndex);
+				case "b41":
+					return ArrayHelper_C412_421_431_51_b41.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value, startIndex);
+				case "b42":
+					return ArrayHelper_C412_421_431_51_b42.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value, startIndex);
+				case "a5":
+					return ArrayHelper_C412_421_431_51_a5.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "C432_422":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_C432_422_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value, startIndex);
+				case "b42":
+					return ArrayHelper_C432_422_b42.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value, startIndex);
+				case "c432_422":
+					return ArrayHelper_C432_422_c432_422.ArrayLastIndexOfBy((List<GRGEN_MODEL.IC432_422>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "D11_2221":
+				switch(member)
+				{
+				case "a1":
+					return ArrayHelper_D11_2221_a1.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "a2":
+					return ArrayHelper_D11_2221_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "b22":
+					return ArrayHelper_D11_2221_b22.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "a4":
+					return ArrayHelper_D11_2221_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "b41":
+					return ArrayHelper_D11_2221_b41.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "c222_411":
+					return ArrayHelper_D11_2221_c222_411.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				case "d11_2221":
+					return ArrayHelper_D11_2221_d11_2221.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "D2211_2222_31":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_D2211_2222_31_a2.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "b22":
+					return ArrayHelper_D2211_2222_31_b22.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "c221":
+					return ArrayHelper_D2211_2222_31_c221.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "a4":
+					return ArrayHelper_D2211_2222_31_a4.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "b41":
+					return ArrayHelper_D2211_2222_31_b41.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "c222_411":
+					return ArrayHelper_D2211_2222_31_c222_411.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "a3":
+					return ArrayHelper_D2211_2222_31_a3.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				case "d2211_2222_31":
+					return ArrayHelper_D2211_2222_31_d2211_2222_31.ArrayLastIndexOfBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "A1":
+				switch(member)
+				{
+				case "a1":
+					return ArrayHelper_A1_a1.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IA1>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A2":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_A2_a2.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IA2>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A3":
+				switch(member)
+				{
+				case "a3":
+					return ArrayHelper_A3_a3.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IA3>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A4":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_A4_a4.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IA4>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "A5":
+				switch(member)
+				{
+				case "a5":
+					return ArrayHelper_A5_a5.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IA5>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B21":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B21_a2.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB21>)array, (int)value);
+				case "b21":
+					return ArrayHelper_B21_b21.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB21>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B22":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B22_a2.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB22>)array, (int)value);
+				case "b22":
+					return ArrayHelper_B22_b22.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB22>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B23":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_B23_a2.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB23>)array, (int)value);
+				case "b23":
+					return ArrayHelper_B23_b23.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB23>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B41":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B41_a4.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB41>)array, (int)value);
+				case "b41":
+					return ArrayHelper_B41_b41.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB41>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B42":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B42_a4.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB42>)array, (int)value);
+				case "b42":
+					return ArrayHelper_B42_b42.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB42>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "B43":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_B43_a4.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IB43>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C221":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_C221_a2.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC221>)array, (int)value);
+				case "b22":
+					return ArrayHelper_C221_b22.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC221>)array, (int)value);
+				case "c221":
+					return ArrayHelper_C221_c221.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC221>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C222_411":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_C222_411_a2.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "b22":
+					return ArrayHelper_C222_411_b22.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "a4":
+					return ArrayHelper_C222_411_a4.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "b41":
+					return ArrayHelper_C222_411_b41.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				case "c222_411":
+					return ArrayHelper_C222_411_c222_411.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC222_411>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C412_421_431_51":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_C412_421_431_51_a4.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				case "b41":
+					return ArrayHelper_C412_421_431_51_b41.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				case "b42":
+					return ArrayHelper_C412_421_431_51_b42.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				case "a5":
+					return ArrayHelper_C412_421_431_51_a5.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC412_421_431_51>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "C432_422":
+				switch(member)
+				{
+				case "a4":
+					return ArrayHelper_C432_422_a4.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC432_422>)array, (int)value);
+				case "b42":
+					return ArrayHelper_C432_422_b42.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC432_422>)array, (int)value);
+				case "c432_422":
+					return ArrayHelper_C432_422_c432_422.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IC432_422>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "D11_2221":
+				switch(member)
+				{
+				case "a1":
+					return ArrayHelper_D11_2221_a1.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "a2":
+					return ArrayHelper_D11_2221_a2.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "b22":
+					return ArrayHelper_D11_2221_b22.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "a4":
+					return ArrayHelper_D11_2221_a4.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "b41":
+					return ArrayHelper_D11_2221_b41.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "c222_411":
+					return ArrayHelper_D11_2221_c222_411.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				case "d11_2221":
+					return ArrayHelper_D11_2221_d11_2221.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID11_2221>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "D2211_2222_31":
+				switch(member)
+				{
+				case "a2":
+					return ArrayHelper_D2211_2222_31_a2.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "b22":
+					return ArrayHelper_D2211_2222_31_b22.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "c221":
+					return ArrayHelper_D2211_2222_31_c221.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "a4":
+					return ArrayHelper_D2211_2222_31_a4.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "b41":
+					return ArrayHelper_D2211_2222_31_b41.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "c222_411":
+					return ArrayHelper_D2211_2222_31_c222_411.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "a3":
+					return ArrayHelper_D2211_2222_31_a3.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				case "d2211_2222_31":
+					return ArrayHelper_D2211_2222_31_d2211_2222_31.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ID2211_2222_31>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
 
 		public override void FailAssertion() { Debug.Assert(false); }
 		public override string MD5Hash { get { return "363c3af47059e8ddde9b24be11c17a1a"; } }

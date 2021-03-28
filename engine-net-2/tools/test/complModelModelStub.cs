@@ -1,7 +1,7 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
 // Rename this file or use a copy!
-// Generated from "test.grg" on Fri Feb 05 19:31:51 CET 2021
+// Generated from "test.grg" on Sun Mar 28 10:08:54 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -19,11 +19,11 @@ namespace test
 			return new D231_4121_Impl(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new D231_4121_Impl(this, graph, oldToNewObjectMap);
 		}
 
-		private D231_4121_Impl(D231_4121_Impl oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base()
+		private D231_4121_Impl(D231_4121_Impl oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base()
 		{
 			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 			b23_M0no_suXx_h4rD = oldElem.b23_M0no_suXx_h4rD;
@@ -34,12 +34,12 @@ namespace test
 			d231_4121_M0no_suXx_h4rD = oldElem.d231_4121_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -51,10 +51,18 @@ namespace test
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is D231_4121_Impl)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is D231_4121_Impl))
+				return false;
 			D231_4121_Impl that_ = (D231_4121_Impl)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& a2_M0no_suXx_h4rD == that_.a2_M0no_suXx_h4rD
 				&& b23_M0no_suXx_h4rD == that_.b23_M0no_suXx_h4rD
 				&& a4_M0no_suXx_h4rD == that_.a4_M0no_suXx_h4rD
@@ -62,7 +70,10 @@ namespace test
 				&& b42_M0no_suXx_h4rD == that_.b42_M0no_suXx_h4rD
 				&& a5_M0no_suXx_h4rD == that_.a5_M0no_suXx_h4rD
 				&& d231_4121_M0no_suXx_h4rD == that_.d231_4121_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 

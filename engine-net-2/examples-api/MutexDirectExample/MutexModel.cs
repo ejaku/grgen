@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Fri Feb 05 19:32:59 CET 2021
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Mar 28 10:10:14 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -51,20 +51,20 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@Node(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Node(this, graph, oldToNewObjectMap);
 		}
 
-		private @Node(GRGEN_MODEL.@Node oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Node.typeVar)
+		private @Node(GRGEN_MODEL.@Node oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -76,11 +76,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Node)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Node))
+				return false;
 			@Node that_ = (@Node)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -225,20 +236,20 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@Process(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Process(this, graph, oldToNewObjectMap);
 		}
 
-		private @Process(GRGEN_MODEL.@Process oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Process.typeVar)
+		private @Process(GRGEN_MODEL.@Process oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Process.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -250,11 +261,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Process)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Process))
+				return false;
 			@Process that_ = (@Process)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Process CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -402,20 +424,20 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@Resource(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Resource(this, graph, oldToNewObjectMap);
 		}
 
-		private @Resource(GRGEN_MODEL.@Resource oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Resource.typeVar)
+		private @Resource(GRGEN_MODEL.@Resource oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Resource.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -427,11 +449,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Resource)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Resource))
+				return false;
 			@Resource that_ = (@Resource)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Resource CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -579,20 +612,20 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@AnnotationTestNode(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@AnnotationTestNode(this, graph, oldToNewObjectMap);
 		}
 
-		private @AnnotationTestNode(GRGEN_MODEL.@AnnotationTestNode oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar)
+		private @AnnotationTestNode(GRGEN_MODEL.@AnnotationTestNode oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -604,11 +637,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @AnnotationTestNode)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @AnnotationTestNode))
+				return false;
 			@AnnotationTestNode that_ = (@AnnotationTestNode)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@AnnotationTestNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -810,21 +854,21 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -836,11 +880,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Edge)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Edge))
+				return false;
 			@Edge that_ = (@Edge)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -987,21 +1042,21 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1013,11 +1068,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @UEdge)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @UEdge))
+				return false;
 			@UEdge that_ = (@UEdge)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1170,21 +1236,21 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@next(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@next(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @next(GRGEN_MODEL.@next oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @next(GRGEN_MODEL.@next oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_next.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1196,11 +1262,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @next)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @next))
+				return false;
 			@next that_ = (@next)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@next CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1356,21 +1433,21 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@blocked(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@blocked(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @blocked(GRGEN_MODEL.@blocked oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @blocked(GRGEN_MODEL.@blocked oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_blocked.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1382,11 +1459,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @blocked)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @blocked))
+				return false;
 			@blocked that_ = (@blocked)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@blocked CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1542,21 +1630,21 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@held_by(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@held_by(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @held_by(GRGEN_MODEL.@held_by oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @held_by(GRGEN_MODEL.@held_by oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_held_by.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1568,11 +1656,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @held_by)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @held_by))
+				return false;
 			@held_by that_ = (@held_by)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@held_by CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1728,21 +1827,21 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@token(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@token(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @token(GRGEN_MODEL.@token oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @token(GRGEN_MODEL.@token oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_token.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1754,11 +1853,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @token)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @token))
+				return false;
 			@token that_ = (@token)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@token CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1914,21 +2024,21 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@release(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@release(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @release(GRGEN_MODEL.@release oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @release(GRGEN_MODEL.@release oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_release.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1940,11 +2050,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @release)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @release))
+				return false;
 			@release that_ = (@release)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@release CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2100,21 +2221,21 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@request(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@request(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @request(GRGEN_MODEL.@request oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @request(GRGEN_MODEL.@request oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_request.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -2126,11 +2247,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @request)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @request))
+				return false;
 			@request that_ = (@request)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@request CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2288,22 +2420,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@annotationTestEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@annotationTestEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @annotationTestEdge(GRGEN_MODEL.@annotationTestEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @annotationTestEdge(GRGEN_MODEL.@annotationTestEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar, newSource, newTarget)
 		{
 			attrib_M0no_suXx_h4rD = oldElem.attrib_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -2315,12 +2447,23 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @annotationTestEdge)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @annotationTestEdge))
+				return false;
 			@annotationTestEdge that_ = (@annotationTestEdge)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& attrib_M0no_suXx_h4rD == that_.attrib_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@annotationTestEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2516,39 +2659,39 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public class ArrayHelper_annotationTestEdge_attrib
 	{
-		private static GRGEN_MODEL.IannotationTestEdge nodeBearingAttributeForSearch = new GRGEN_MODEL.@annotationTestEdge(null, null);
-		public static int IndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry)
+		private static GRGEN_MODEL.IannotationTestEdge instanceBearingAttributeForSearch = new GRGEN_MODEL.@annotationTestEdge(null, null);
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@attrib.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@attrib.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@attrib.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IannotationTestEdge> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@attrib.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IannotationTestEdge> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IannotationTestEdge> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@attrib = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_annotationTestEdge_attrib.thisComparer);
+			instanceBearingAttributeForSearch.@attrib = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_annotationTestEdge_attrib.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IannotationTestEdge> ArrayOrderAscendingBy(List<GRGEN_MODEL.IannotationTestEdge> list)
 		{
@@ -2620,6 +2763,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		static @Object() {
 		}
 
+		//create object by CreateObject of the type class, not this internal-use constructor
 		public @Object(long uniqueId) : base(GRGEN_MODEL.ObjectType_Object.typeVar, uniqueId)
 		{
 			// implicit initialization, container creation of Object
@@ -2628,25 +2772,29 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public static GRGEN_MODEL.ObjectType_Object TypeInstance { get { return GRGEN_MODEL.ObjectType_Object.typeVar; } }
 
 		public override GRGEN_LIBGR.IObject Clone(GRGEN_LIBGR.IGraph graph) {
-			return new GRGEN_MODEL.@Object(this, graph, null);
+			GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(this, graph, null);
+			((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+			return newObject;
 		}
 
-		public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
-			return new GRGEN_MODEL.@Object(this, graph, oldToNewObjectMap);
+		public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
+			GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(this, graph, oldToNewObjectMap);
+			((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+			return newObject;
 		}
 
-		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -2658,11 +2806,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Object)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Object))
+				return false;
 			@Object that_ = (@Object)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public override object GetAttribute(string attrName)
@@ -2713,10 +2872,15 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override string ObjectClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Object"; } }
 		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
 		{
-			if(uniqueId != -1)
-				return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
-			else
-				return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+			if(uniqueId != -1) {
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
+				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+				return newObject;
+			} else {
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+				return newObject;
+			}
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -2735,11 +2899,6 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override GRGEN_LIBGR.IObject CreateObjectWithCopyCommons(GRGEN_LIBGR.IObject oldIObject, GRGEN_LIBGR.IGraph graph)
-		{
-			return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
-		}
-
 	}
 
 	//
@@ -2757,6 +2916,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		static @TransientObject() {
 		}
 
+		//create object by CreateTransientObject of the type class, not this internal-use constructor
 		public @TransientObject() : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
 		{
 			// implicit initialization, container creation of TransientObject
@@ -2768,22 +2928,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@TransientObject(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@TransientObject(this, graph, oldToNewObjectMap);
 		}
 
-		private @TransientObject(GRGEN_MODEL.@TransientObject oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
+		private @TransientObject(GRGEN_MODEL.@TransientObject oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -2795,11 +2955,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @TransientObject)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @TransientObject))
+				return false;
 			@TransientObject that_ = (@TransientObject)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public override object GetAttribute(string attrName)
@@ -2869,11 +3040,6 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override GRGEN_LIBGR.ITransientObject CreateTransientObjectWithCopyCommons(GRGEN_LIBGR.ITransientObject oldITransientObject)
-		{
-			return new GRGEN_MODEL.@TransientObject();
-		}
-
 	}
 
 	public sealed class ExternalObjectType_object : GRGEN_LIBGR.ExternalObjectType
@@ -2888,6 +3054,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override int NumProcedureMethods { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
 		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
+
+		public static object ThrowCopyClassMissingException() { throw new Exception("Cannot copy/clone external object, copy class specification is missing in the model."); }
 	}
 
 	//
@@ -3861,6 +4029,562 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			default: return null;
 			}
 		}
+
+		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Process":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Resource":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AnnotationTestNode":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "next":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "blocked":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "held_by":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "token":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "release":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "request":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "annotationTestEdge":
+				switch(member)
+				{
+				case "attrib":
+					return ArrayHelper_annotationTestEdge_attrib.ArrayIndexOfBy((List<GRGEN_MODEL.IannotationTestEdge>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Process":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Resource":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AnnotationTestNode":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "next":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "blocked":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "held_by":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "token":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "release":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "request":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "annotationTestEdge":
+				switch(member)
+				{
+				case "attrib":
+					return ArrayHelper_annotationTestEdge_attrib.ArrayIndexOfBy((List<GRGEN_MODEL.IannotationTestEdge>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Process":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Resource":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AnnotationTestNode":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "next":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "blocked":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "held_by":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "token":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "release":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "request":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "annotationTestEdge":
+				switch(member)
+				{
+				case "attrib":
+					return ArrayHelper_annotationTestEdge_attrib.ArrayLastIndexOfBy((List<GRGEN_MODEL.IannotationTestEdge>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Process":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Resource":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AnnotationTestNode":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "next":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "blocked":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "held_by":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "token":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "release":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "request":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "annotationTestEdge":
+				switch(member)
+				{
+				case "attrib":
+					return ArrayHelper_annotationTestEdge_attrib.ArrayLastIndexOfBy((List<GRGEN_MODEL.IannotationTestEdge>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Process":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Resource":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AnnotationTestNode":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "next":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "blocked":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "held_by":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "token":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "release":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "request":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "annotationTestEdge":
+				switch(member)
+				{
+				case "attrib":
+					return ArrayHelper_annotationTestEdge_attrib.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IannotationTestEdge>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
 
 		public override void FailAssertion() { Debug.Assert(false); }
 		public override string MD5Hash { get { return "3709956e21aa338330de705c56128fe8"; } }

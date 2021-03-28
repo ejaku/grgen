@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Fri Feb 05 19:32:41 CET 2021
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Mar 28 10:09:55 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -51,20 +51,20 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Node(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Node(this, graph, oldToNewObjectMap);
 		}
 
-		private @Node(GRGEN_MODEL.@Node oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Node.typeVar)
+		private @Node(GRGEN_MODEL.@Node oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -76,11 +76,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Node)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Node))
+				return false;
 			@Node that_ = (@Node)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -226,21 +237,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Package(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Package(this, graph, oldToNewObjectMap);
 		}
 
-		private @Package(GRGEN_MODEL.@Package oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Package.typeVar)
+		private @Package(GRGEN_MODEL.@Package oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Package.typeVar)
 		{
 			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -252,12 +263,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Package)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Package))
+				return false;
 			@Package that_ = (@Package)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Package CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -442,39 +464,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Package_name
 	{
-		private static GRGEN_MODEL.IPackage nodeBearingAttributeForSearch = new GRGEN_MODEL.@Package();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IPackage> list, string entry)
+		private static GRGEN_MODEL.IPackage instanceBearingAttributeForSearch = new GRGEN_MODEL.@Package();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IPackage> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IPackage> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IPackage> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IPackage> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IPackage> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IPackage> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IPackage> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IPackage> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IPackage> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@name = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Package_name.thisComparer);
+			instanceBearingAttributeForSearch.@name = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Package_name.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IPackage> ArrayOrderAscendingBy(List<GRGEN_MODEL.IPackage> list)
 		{
@@ -562,23 +584,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Classifier(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Classifier(this, graph, oldToNewObjectMap);
 		}
 
-		private @Classifier(GRGEN_MODEL.@Classifier oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Classifier.typeVar)
+		private @Classifier(GRGEN_MODEL.@Classifier oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Classifier.typeVar)
 		{
 			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
 			isAbstract_M0no_suXx_h4rD = oldElem.isAbstract_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -590,14 +612,25 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Classifier)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Classifier))
+				return false;
 			@Classifier that_ = (@Classifier)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
 				&& visibility_M0no_suXx_h4rD == that_.visibility_M0no_suXx_h4rD
 				&& isAbstract_M0no_suXx_h4rD == that_.isAbstract_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Classifier CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -818,39 +851,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Classifier_name
 	{
-		private static GRGEN_MODEL.IClassifier nodeBearingAttributeForSearch = new GRGEN_MODEL.@Classifier();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry)
+		private static GRGEN_MODEL.IClassifier instanceBearingAttributeForSearch = new GRGEN_MODEL.@Classifier();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IClassifier> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IClassifier> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@name = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Classifier_name.thisComparer);
+			instanceBearingAttributeForSearch.@name = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Classifier_name.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IClassifier> ArrayOrderAscendingBy(List<GRGEN_MODEL.IClassifier> list)
 		{
@@ -927,39 +960,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Classifier_visibility
 	{
-		private static GRGEN_MODEL.IClassifier nodeBearingAttributeForSearch = new GRGEN_MODEL.@Classifier();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry)
+		private static GRGEN_MODEL.IClassifier instanceBearingAttributeForSearch = new GRGEN_MODEL.@Classifier();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IClassifier> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IClassifier> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@visibility = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Classifier_visibility.thisComparer);
+			instanceBearingAttributeForSearch.@visibility = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Classifier_visibility.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IClassifier> ArrayOrderAscendingBy(List<GRGEN_MODEL.IClassifier> list)
 		{
@@ -1036,39 +1069,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Classifier_isAbstract
 	{
-		private static GRGEN_MODEL.IClassifier nodeBearingAttributeForSearch = new GRGEN_MODEL.@Classifier();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClassifier> list, bool entry)
+		private static GRGEN_MODEL.IClassifier instanceBearingAttributeForSearch = new GRGEN_MODEL.@Classifier();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClassifier> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClassifier> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IClassifier> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IClassifier> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@isAbstract = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Classifier_isAbstract.thisComparer);
+			instanceBearingAttributeForSearch.@isAbstract = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Classifier_isAbstract.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IClassifier> ArrayOrderAscendingBy(List<GRGEN_MODEL.IClassifier> list)
 		{
@@ -1157,11 +1190,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Class(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Class(this, graph, oldToNewObjectMap);
 		}
 
-		private @Class(GRGEN_MODEL.@Class oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Class.typeVar)
+		private @Class(GRGEN_MODEL.@Class oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Class.typeVar)
 		{
 			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
@@ -1169,12 +1202,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			isFinal_M0no_suXx_h4rD = oldElem.isFinal_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1186,15 +1219,26 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Class)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Class))
+				return false;
 			@Class that_ = (@Class)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
 				&& visibility_M0no_suXx_h4rD == that_.visibility_M0no_suXx_h4rD
 				&& isAbstract_M0no_suXx_h4rD == that_.isAbstract_M0no_suXx_h4rD
 				&& isFinal_M0no_suXx_h4rD == that_.isFinal_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Class CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -1437,39 +1481,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Class_name
 	{
-		private static GRGEN_MODEL.IClass nodeBearingAttributeForSearch = new GRGEN_MODEL.@Class();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry)
+		private static GRGEN_MODEL.IClass instanceBearingAttributeForSearch = new GRGEN_MODEL.@Class();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IClass> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IClass> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@name = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Class_name.thisComparer);
+			instanceBearingAttributeForSearch.@name = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Class_name.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IClass> ArrayOrderAscendingBy(List<GRGEN_MODEL.IClass> list)
 		{
@@ -1546,39 +1590,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Class_visibility
 	{
-		private static GRGEN_MODEL.IClass nodeBearingAttributeForSearch = new GRGEN_MODEL.@Class();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry)
+		private static GRGEN_MODEL.IClass instanceBearingAttributeForSearch = new GRGEN_MODEL.@Class();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClass> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IClass> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IClass> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@visibility = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Class_visibility.thisComparer);
+			instanceBearingAttributeForSearch.@visibility = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Class_visibility.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IClass> ArrayOrderAscendingBy(List<GRGEN_MODEL.IClass> list)
 		{
@@ -1655,39 +1699,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Class_isAbstract
 	{
-		private static GRGEN_MODEL.IClass nodeBearingAttributeForSearch = new GRGEN_MODEL.@Class();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry)
+		private static GRGEN_MODEL.IClass instanceBearingAttributeForSearch = new GRGEN_MODEL.@Class();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IClass> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IClass> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@isAbstract = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Class_isAbstract.thisComparer);
+			instanceBearingAttributeForSearch.@isAbstract = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Class_isAbstract.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IClass> ArrayOrderAscendingBy(List<GRGEN_MODEL.IClass> list)
 		{
@@ -1764,39 +1808,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Class_isFinal
 	{
-		private static GRGEN_MODEL.IClass nodeBearingAttributeForSearch = new GRGEN_MODEL.@Class();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry)
+		private static GRGEN_MODEL.IClass instanceBearingAttributeForSearch = new GRGEN_MODEL.@Class();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IClass> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IClass> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IClass> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@isFinal = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Class_isFinal.thisComparer);
+			instanceBearingAttributeForSearch.@isFinal = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Class_isFinal.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IClass> ArrayOrderAscendingBy(List<GRGEN_MODEL.IClass> list)
 		{
@@ -1884,23 +1928,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Interface(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Interface(this, graph, oldToNewObjectMap);
 		}
 
-		private @Interface(GRGEN_MODEL.@Interface oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Interface.typeVar)
+		private @Interface(GRGEN_MODEL.@Interface oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Interface.typeVar)
 		{
 			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
 			isAbstract_M0no_suXx_h4rD = oldElem.isAbstract_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1912,14 +1956,25 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Interface)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Interface))
+				return false;
 			@Interface that_ = (@Interface)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
 				&& visibility_M0no_suXx_h4rD == that_.visibility_M0no_suXx_h4rD
 				&& isAbstract_M0no_suXx_h4rD == that_.isAbstract_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Interface CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -2145,39 +2200,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Interface_name
 	{
-		private static GRGEN_MODEL.IInterface nodeBearingAttributeForSearch = new GRGEN_MODEL.@Interface();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry)
+		private static GRGEN_MODEL.IInterface instanceBearingAttributeForSearch = new GRGEN_MODEL.@Interface();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IInterface> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IInterface> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@name = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Interface_name.thisComparer);
+			instanceBearingAttributeForSearch.@name = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Interface_name.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IInterface> ArrayOrderAscendingBy(List<GRGEN_MODEL.IInterface> list)
 		{
@@ -2254,39 +2309,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Interface_visibility
 	{
-		private static GRGEN_MODEL.IInterface nodeBearingAttributeForSearch = new GRGEN_MODEL.@Interface();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry)
+		private static GRGEN_MODEL.IInterface instanceBearingAttributeForSearch = new GRGEN_MODEL.@Interface();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IInterface> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IInterface> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@visibility = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Interface_visibility.thisComparer);
+			instanceBearingAttributeForSearch.@visibility = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Interface_visibility.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IInterface> ArrayOrderAscendingBy(List<GRGEN_MODEL.IInterface> list)
 		{
@@ -2363,39 +2418,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Interface_isAbstract
 	{
-		private static GRGEN_MODEL.IInterface nodeBearingAttributeForSearch = new GRGEN_MODEL.@Interface();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IInterface> list, bool entry)
+		private static GRGEN_MODEL.IInterface instanceBearingAttributeForSearch = new GRGEN_MODEL.@Interface();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IInterface> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IInterface> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IInterface> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IInterface> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IInterface> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IInterface> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@isAbstract = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Interface_isAbstract.thisComparer);
+			instanceBearingAttributeForSearch.@isAbstract = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Interface_isAbstract.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IInterface> ArrayOrderAscendingBy(List<GRGEN_MODEL.IInterface> list)
 		{
@@ -2484,11 +2539,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Variable(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Variable(this, graph, oldToNewObjectMap);
 		}
 
-		private @Variable(GRGEN_MODEL.@Variable oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Variable.typeVar)
+		private @Variable(GRGEN_MODEL.@Variable oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Variable.typeVar)
 		{
 			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
@@ -2496,12 +2551,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			isFinal_M0no_suXx_h4rD = oldElem.isFinal_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -2513,15 +2568,26 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Variable)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Variable))
+				return false;
 			@Variable that_ = (@Variable)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
 				&& visibility_M0no_suXx_h4rD == that_.visibility_M0no_suXx_h4rD
 				&& isStatic_M0no_suXx_h4rD == that_.isStatic_M0no_suXx_h4rD
 				&& isFinal_M0no_suXx_h4rD == that_.isFinal_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Variable CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -2757,39 +2823,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Variable_name
 	{
-		private static GRGEN_MODEL.IVariable nodeBearingAttributeForSearch = new GRGEN_MODEL.@Variable();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry)
+		private static GRGEN_MODEL.IVariable instanceBearingAttributeForSearch = new GRGEN_MODEL.@Variable();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IVariable> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IVariable> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@name = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Variable_name.thisComparer);
+			instanceBearingAttributeForSearch.@name = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Variable_name.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IVariable> ArrayOrderAscendingBy(List<GRGEN_MODEL.IVariable> list)
 		{
@@ -2866,39 +2932,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Variable_visibility
 	{
-		private static GRGEN_MODEL.IVariable nodeBearingAttributeForSearch = new GRGEN_MODEL.@Variable();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry)
+		private static GRGEN_MODEL.IVariable instanceBearingAttributeForSearch = new GRGEN_MODEL.@Variable();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IVariable> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IVariable> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@visibility = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Variable_visibility.thisComparer);
+			instanceBearingAttributeForSearch.@visibility = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Variable_visibility.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IVariable> ArrayOrderAscendingBy(List<GRGEN_MODEL.IVariable> list)
 		{
@@ -2975,39 +3041,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Variable_isStatic
 	{
-		private static GRGEN_MODEL.IVariable nodeBearingAttributeForSearch = new GRGEN_MODEL.@Variable();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry)
+		private static GRGEN_MODEL.IVariable instanceBearingAttributeForSearch = new GRGEN_MODEL.@Variable();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@isStatic.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@isStatic.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@isStatic.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@isStatic.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IVariable> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IVariable> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@isStatic = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Variable_isStatic.thisComparer);
+			instanceBearingAttributeForSearch.@isStatic = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Variable_isStatic.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IVariable> ArrayOrderAscendingBy(List<GRGEN_MODEL.IVariable> list)
 		{
@@ -3084,39 +3150,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Variable_isFinal
 	{
-		private static GRGEN_MODEL.IVariable nodeBearingAttributeForSearch = new GRGEN_MODEL.@Variable();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry)
+		private static GRGEN_MODEL.IVariable instanceBearingAttributeForSearch = new GRGEN_MODEL.@Variable();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IVariable> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IVariable> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IVariable> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@isFinal = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Variable_isFinal.thisComparer);
+			instanceBearingAttributeForSearch.@isFinal = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Variable_isFinal.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IVariable> ArrayOrderAscendingBy(List<GRGEN_MODEL.IVariable> list)
 		{
@@ -3206,11 +3272,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Operation(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Operation(this, graph, oldToNewObjectMap);
 		}
 
-		private @Operation(GRGEN_MODEL.@Operation oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Operation.typeVar)
+		private @Operation(GRGEN_MODEL.@Operation oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Operation.typeVar)
 		{
 			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
@@ -3219,12 +3285,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			isFinal_M0no_suXx_h4rD = oldElem.isFinal_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -3236,16 +3302,27 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Operation)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Operation))
+				return false;
 			@Operation that_ = (@Operation)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
 				&& visibility_M0no_suXx_h4rD == that_.visibility_M0no_suXx_h4rD
 				&& isAbstract_M0no_suXx_h4rD == that_.isAbstract_M0no_suXx_h4rD
 				&& isStatic_M0no_suXx_h4rD == that_.isStatic_M0no_suXx_h4rD
 				&& isFinal_M0no_suXx_h4rD == that_.isFinal_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Operation CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -3498,39 +3575,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Operation_name
 	{
-		private static GRGEN_MODEL.IOperation nodeBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry)
+		private static GRGEN_MODEL.IOperation instanceBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IOperation> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IOperation> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@name = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Operation_name.thisComparer);
+			instanceBearingAttributeForSearch.@name = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Operation_name.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IOperation> ArrayOrderAscendingBy(List<GRGEN_MODEL.IOperation> list)
 		{
@@ -3607,39 +3684,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Operation_visibility
 	{
-		private static GRGEN_MODEL.IOperation nodeBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry)
+		private static GRGEN_MODEL.IOperation instanceBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@visibility.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IOperation> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IOperation> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@visibility = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Operation_visibility.thisComparer);
+			instanceBearingAttributeForSearch.@visibility = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Operation_visibility.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IOperation> ArrayOrderAscendingBy(List<GRGEN_MODEL.IOperation> list)
 		{
@@ -3716,39 +3793,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Operation_isAbstract
 	{
-		private static GRGEN_MODEL.IOperation nodeBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
+		private static GRGEN_MODEL.IOperation instanceBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@isAbstract.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IOperation> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IOperation> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@isAbstract = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Operation_isAbstract.thisComparer);
+			instanceBearingAttributeForSearch.@isAbstract = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Operation_isAbstract.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IOperation> ArrayOrderAscendingBy(List<GRGEN_MODEL.IOperation> list)
 		{
@@ -3825,39 +3902,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Operation_isStatic
 	{
-		private static GRGEN_MODEL.IOperation nodeBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
+		private static GRGEN_MODEL.IOperation instanceBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@isStatic.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@isStatic.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@isStatic.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@isStatic.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IOperation> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IOperation> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@isStatic = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Operation_isStatic.thisComparer);
+			instanceBearingAttributeForSearch.@isStatic = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Operation_isStatic.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IOperation> ArrayOrderAscendingBy(List<GRGEN_MODEL.IOperation> list)
 		{
@@ -3934,39 +4011,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Operation_isFinal
 	{
-		private static GRGEN_MODEL.IOperation nodeBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
+		private static GRGEN_MODEL.IOperation instanceBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperation> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@isFinal.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IOperation> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IOperation> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@isFinal = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Operation_isFinal.thisComparer);
+			instanceBearingAttributeForSearch.@isFinal = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Operation_isFinal.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IOperation> ArrayOrderAscendingBy(List<GRGEN_MODEL.IOperation> list)
 		{
@@ -4051,20 +4128,20 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@MethodBody(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@MethodBody(this, graph, oldToNewObjectMap);
 		}
 
-		private @MethodBody(GRGEN_MODEL.@MethodBody oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_MethodBody.typeVar)
+		private @MethodBody(GRGEN_MODEL.@MethodBody oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_MethodBody.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -4076,11 +4153,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @MethodBody)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @MethodBody))
+				return false;
 			@MethodBody that_ = (@MethodBody)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@MethodBody CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -4228,20 +4316,20 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Expression(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Expression(this, graph, oldToNewObjectMap);
 		}
 
-		private @Expression(GRGEN_MODEL.@Expression oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Expression.typeVar)
+		private @Expression(GRGEN_MODEL.@Expression oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Expression.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -4253,11 +4341,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Expression)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Expression))
+				return false;
 			@Expression that_ = (@Expression)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Expression CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -4409,21 +4508,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Access(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Access(this, graph, oldToNewObjectMap);
 		}
 
-		private @Access(GRGEN_MODEL.@Access oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Access.typeVar)
+		private @Access(GRGEN_MODEL.@Access oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Access.typeVar)
 		{
 			this__M0no_suXx_h4rD = oldElem.this__M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -4435,12 +4534,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Access)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Access))
+				return false;
 			@Access that_ = (@Access)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& this__M0no_suXx_h4rD == that_.this__M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Access CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -4628,39 +4738,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Access_this_
 	{
-		private static GRGEN_MODEL.IAccess nodeBearingAttributeForSearch = new GRGEN_MODEL.@Access();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IAccess> list, bool entry)
+		private static GRGEN_MODEL.IAccess instanceBearingAttributeForSearch = new GRGEN_MODEL.@Access();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IAccess> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IAccess> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IAccess> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IAccess> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IAccess> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IAccess> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IAccess> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IAccess> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IAccess> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@this_ = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Access_this_.thisComparer);
+			instanceBearingAttributeForSearch.@this_ = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Access_this_.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IAccess> ArrayOrderAscendingBy(List<GRGEN_MODEL.IAccess> list)
 		{
@@ -4749,21 +4859,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Update(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Update(this, graph, oldToNewObjectMap);
 		}
 
-		private @Update(GRGEN_MODEL.@Update oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Update.typeVar)
+		private @Update(GRGEN_MODEL.@Update oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Update.typeVar)
 		{
 			this__M0no_suXx_h4rD = oldElem.this__M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -4775,12 +4885,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Update)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Update))
+				return false;
 			@Update that_ = (@Update)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& this__M0no_suXx_h4rD == that_.this__M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Update CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -4968,39 +5089,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Update_this_
 	{
-		private static GRGEN_MODEL.IUpdate nodeBearingAttributeForSearch = new GRGEN_MODEL.@Update();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IUpdate> list, bool entry)
+		private static GRGEN_MODEL.IUpdate instanceBearingAttributeForSearch = new GRGEN_MODEL.@Update();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IUpdate> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IUpdate> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IUpdate> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IUpdate> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IUpdate> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IUpdate> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IUpdate> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IUpdate> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IUpdate> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@this_ = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Update_this_.thisComparer);
+			instanceBearingAttributeForSearch.@this_ = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Update_this_.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IUpdate> ArrayOrderAscendingBy(List<GRGEN_MODEL.IUpdate> list)
 		{
@@ -5090,22 +5211,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Call(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Call(this, graph, oldToNewObjectMap);
 		}
 
-		private @Call(GRGEN_MODEL.@Call oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Call.typeVar)
+		private @Call(GRGEN_MODEL.@Call oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Call.typeVar)
 		{
 			this__M0no_suXx_h4rD = oldElem.this__M0no_suXx_h4rD;
 			super_M0no_suXx_h4rD = oldElem.super_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -5117,13 +5238,24 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Call)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Call))
+				return false;
 			@Call that_ = (@Call)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& this__M0no_suXx_h4rD == that_.this__M0no_suXx_h4rD
 				&& super_M0no_suXx_h4rD == that_.super_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Call CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -5328,39 +5460,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Call_this_
 	{
-		private static GRGEN_MODEL.ICall nodeBearingAttributeForSearch = new GRGEN_MODEL.@Call();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry)
+		private static GRGEN_MODEL.ICall instanceBearingAttributeForSearch = new GRGEN_MODEL.@Call();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@this_.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ICall> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ICall> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@this_ = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Call_this_.thisComparer);
+			instanceBearingAttributeForSearch.@this_ = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Call_this_.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ICall> ArrayOrderAscendingBy(List<GRGEN_MODEL.ICall> list)
 		{
@@ -5437,39 +5569,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Call_super
 	{
-		private static GRGEN_MODEL.ICall nodeBearingAttributeForSearch = new GRGEN_MODEL.@Call();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry)
+		private static GRGEN_MODEL.ICall instanceBearingAttributeForSearch = new GRGEN_MODEL.@Call();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@super.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@super.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@super.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ICall> list, bool entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@super.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ICall> list, bool entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ICall> list, bool entry)
 		{
-			nodeBearingAttributeForSearch.@super = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Call_super.thisComparer);
+			instanceBearingAttributeForSearch.@super = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Call_super.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ICall> ArrayOrderAscendingBy(List<GRGEN_MODEL.ICall> list)
 		{
@@ -5557,20 +5689,20 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Instantiation(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Instantiation(this, graph, oldToNewObjectMap);
 		}
 
-		private @Instantiation(GRGEN_MODEL.@Instantiation oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Instantiation.typeVar)
+		private @Instantiation(GRGEN_MODEL.@Instantiation oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Instantiation.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -5582,11 +5714,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Instantiation)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Instantiation))
+				return false;
 			@Instantiation that_ = (@Instantiation)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Instantiation CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -5741,21 +5884,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Operator(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Operator(this, graph, oldToNewObjectMap);
 		}
 
-		private @Operator(GRGEN_MODEL.@Operator oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Operator.typeVar)
+		private @Operator(GRGEN_MODEL.@Operator oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Operator.typeVar)
 		{
 			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -5767,12 +5910,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Operator)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Operator))
+				return false;
 			@Operator that_ = (@Operator)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& name_M0no_suXx_h4rD == that_.name_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Operator CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -5960,39 +6114,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Operator_name
 	{
-		private static GRGEN_MODEL.IOperator nodeBearingAttributeForSearch = new GRGEN_MODEL.@Operator();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperator> list, string entry)
+		private static GRGEN_MODEL.IOperator instanceBearingAttributeForSearch = new GRGEN_MODEL.@Operator();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperator> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IOperator> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IOperator> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperator> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperator> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IOperator> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IOperator> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@name.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IOperator> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IOperator> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@name = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Operator_name.thisComparer);
+			instanceBearingAttributeForSearch.@name = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Operator_name.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IOperator> ArrayOrderAscendingBy(List<GRGEN_MODEL.IOperator> list)
 		{
@@ -6080,20 +6234,20 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Return(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Return(this, graph, oldToNewObjectMap);
 		}
 
-		private @Return(GRGEN_MODEL.@Return oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Return.typeVar)
+		private @Return(GRGEN_MODEL.@Return oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Return.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -6105,11 +6259,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Return)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Return))
+				return false;
 			@Return that_ = (@Return)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Return CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -6263,20 +6428,20 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Block(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Block(this, graph, oldToNewObjectMap);
 		}
 
-		private @Block(GRGEN_MODEL.@Block oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Block.typeVar)
+		private @Block(GRGEN_MODEL.@Block oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Block.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -6288,11 +6453,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Block)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Block))
+				return false;
 			@Block that_ = (@Block)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Block CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -6444,21 +6620,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Literal(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Literal(this, graph, oldToNewObjectMap);
 		}
 
-		private @Literal(GRGEN_MODEL.@Literal oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Literal.typeVar)
+		private @Literal(GRGEN_MODEL.@Literal oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Literal.typeVar)
 		{
 			value_M0no_suXx_h4rD = oldElem.value_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -6470,12 +6646,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Literal)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Literal))
+				return false;
 			@Literal that_ = (@Literal)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& value_M0no_suXx_h4rD == that_.value_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Literal CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -6660,39 +6847,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_Literal_value
 	{
-		private static GRGEN_MODEL.ILiteral nodeBearingAttributeForSearch = new GRGEN_MODEL.@Literal();
-		public static int IndexOfBy(IList<GRGEN_MODEL.ILiteral> list, string entry)
+		private static GRGEN_MODEL.ILiteral instanceBearingAttributeForSearch = new GRGEN_MODEL.@Literal();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ILiteral> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@value.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.ILiteral> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.ILiteral> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@value.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ILiteral> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ILiteral> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@value.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.ILiteral> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.ILiteral> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@value.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.ILiteral> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.ILiteral> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@value = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_Literal_value.thisComparer);
+			instanceBearingAttributeForSearch.@value = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_Literal_value.thisComparer);
 		}
 		public static List<GRGEN_MODEL.ILiteral> ArrayOrderAscendingBy(List<GRGEN_MODEL.ILiteral> list)
 		{
@@ -6777,20 +6964,20 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Parameter(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Parameter(this, graph, oldToNewObjectMap);
 		}
 
-		private @Parameter(GRGEN_MODEL.@Parameter oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Parameter.typeVar)
+		private @Parameter(GRGEN_MODEL.@Parameter oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Parameter.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -6802,11 +6989,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Parameter)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Parameter))
+				return false;
 			@Parameter that_ = (@Parameter)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Parameter CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -7007,21 +7205,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -7033,11 +7231,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Edge)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Edge))
+				return false;
 			@Edge that_ = (@Edge)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -7184,21 +7393,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -7210,11 +7419,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @UEdge)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @UEdge))
+				return false;
 			@UEdge that_ = (@UEdge)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -7367,21 +7587,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@belongsTo(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@belongsTo(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @belongsTo(GRGEN_MODEL.@belongsTo oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @belongsTo(GRGEN_MODEL.@belongsTo oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_belongsTo.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -7393,11 +7613,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @belongsTo)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @belongsTo))
+				return false;
 			@belongsTo that_ = (@belongsTo)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@belongsTo CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -7553,21 +7784,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@type_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@type_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @type_(GRGEN_MODEL.@type_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @type_(GRGEN_MODEL.@type_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_type_.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -7579,11 +7810,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @type_)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @type_))
+				return false;
 			@type_ that_ = (@type_)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@type_ CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -7739,21 +7981,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@extends_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@extends_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @extends_(GRGEN_MODEL.@extends_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @extends_(GRGEN_MODEL.@extends_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_extends_.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -7765,11 +8007,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @extends_)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @extends_))
+				return false;
 			@extends_ that_ = (@extends_)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@extends_ CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -7925,21 +8178,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@imports(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@imports(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @imports(GRGEN_MODEL.@imports oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @imports(GRGEN_MODEL.@imports oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_imports.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -7951,11 +8204,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @imports)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @imports))
+				return false;
 			@imports that_ = (@imports)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@imports CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -8111,21 +8375,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@implements_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@implements_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @implements_(GRGEN_MODEL.@implements_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @implements_(GRGEN_MODEL.@implements_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_implements_.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -8137,11 +8401,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @implements_)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @implements_))
+				return false;
 			@implements_ that_ = (@implements_)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@implements_ CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -8298,22 +8573,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@parameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@parameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @parameter(GRGEN_MODEL.@parameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @parameter(GRGEN_MODEL.@parameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_parameter.typeVar, newSource, newTarget)
 		{
 			order_M0no_suXx_h4rD = oldElem.order_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -8325,12 +8600,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @parameter)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @parameter))
+				return false;
 			@parameter that_ = (@parameter)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& order_M0no_suXx_h4rD == that_.order_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@parameter CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -8522,39 +8808,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_parameter_order
 	{
-		private static GRGEN_MODEL.Iparameter nodeBearingAttributeForSearch = new GRGEN_MODEL.@parameter(null, null);
-		public static int IndexOfBy(IList<GRGEN_MODEL.Iparameter> list, int entry)
+		private static GRGEN_MODEL.Iparameter instanceBearingAttributeForSearch = new GRGEN_MODEL.@parameter(null, null);
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.Iparameter> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@order.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.Iparameter> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.Iparameter> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@order.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.Iparameter> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.Iparameter> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@order.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.Iparameter> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.Iparameter> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@order.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.Iparameter> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.Iparameter> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@order = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_parameter_order.thisComparer);
+			instanceBearingAttributeForSearch.@order = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_parameter_order.thisComparer);
 		}
 		public static List<GRGEN_MODEL.Iparameter> ArrayOrderAscendingBy(List<GRGEN_MODEL.Iparameter> list)
 		{
@@ -8640,21 +8926,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@actualParameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@actualParameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @actualParameter(GRGEN_MODEL.@actualParameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @actualParameter(GRGEN_MODEL.@actualParameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_actualParameter.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -8666,11 +8952,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @actualParameter)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @actualParameter))
+				return false;
 			@actualParameter that_ = (@actualParameter)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@actualParameter CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -8826,21 +9123,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@binding(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@binding(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @binding(GRGEN_MODEL.@binding oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @binding(GRGEN_MODEL.@binding oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_binding.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -8852,11 +9149,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @binding)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @binding))
+				return false;
 			@binding that_ = (@binding)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@binding CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -9012,21 +9320,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@link(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@link(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @link(GRGEN_MODEL.@link oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @link(GRGEN_MODEL.@link oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_link.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -9038,11 +9346,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @link)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @link))
+				return false;
 			@link that_ = (@link)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@link CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -9199,22 +9518,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@expression(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@expression(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @expression(GRGEN_MODEL.@expression oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @expression(GRGEN_MODEL.@expression oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_expression.typeVar, newSource, newTarget)
 		{
 			order_M0no_suXx_h4rD = oldElem.order_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -9226,12 +9545,23 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @expression)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @expression))
+				return false;
 			@expression that_ = (@expression)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& order_M0no_suXx_h4rD == that_.order_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@expression CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -9423,39 +9753,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	public class ArrayHelper_expression_order
 	{
-		private static GRGEN_MODEL.Iexpression nodeBearingAttributeForSearch = new GRGEN_MODEL.@expression(null, null);
-		public static int IndexOfBy(IList<GRGEN_MODEL.Iexpression> list, int entry)
+		private static GRGEN_MODEL.Iexpression instanceBearingAttributeForSearch = new GRGEN_MODEL.@expression(null, null);
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.Iexpression> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@order.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.Iexpression> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.Iexpression> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@order.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.Iexpression> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.Iexpression> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@order.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.Iexpression> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.Iexpression> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@order.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.Iexpression> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.Iexpression> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@order = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_expression_order.thisComparer);
+			instanceBearingAttributeForSearch.@order = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_expression_order.thisComparer);
 		}
 		public static List<GRGEN_MODEL.Iexpression> ArrayOrderAscendingBy(List<GRGEN_MODEL.Iexpression> list)
 		{
@@ -9541,21 +9871,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@inBlock(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@inBlock(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @inBlock(GRGEN_MODEL.@inBlock oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @inBlock(GRGEN_MODEL.@inBlock oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_inBlock.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -9567,11 +9897,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @inBlock)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @inBlock))
+				return false;
 			@inBlock that_ = (@inBlock)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@inBlock CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -9727,21 +10068,21 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@inClass(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@inClass(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @inClass(GRGEN_MODEL.@inClass oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @inClass(GRGEN_MODEL.@inClass oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_inClass.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -9753,11 +10094,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @inClass)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @inClass))
+				return false;
 			@inClass that_ = (@inClass)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@inClass CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -9899,6 +10251,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		static @Object() {
 		}
 
+		//create object by CreateObject of the type class, not this internal-use constructor
 		public @Object(long uniqueId) : base(GRGEN_MODEL.ObjectType_Object.typeVar, uniqueId)
 		{
 			// implicit initialization, container creation of Object
@@ -9907,25 +10260,29 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public static GRGEN_MODEL.ObjectType_Object TypeInstance { get { return GRGEN_MODEL.ObjectType_Object.typeVar; } }
 
 		public override GRGEN_LIBGR.IObject Clone(GRGEN_LIBGR.IGraph graph) {
-			return new GRGEN_MODEL.@Object(this, graph, null);
+			GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(this, graph, null);
+			((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+			return newObject;
 		}
 
-		public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
-			return new GRGEN_MODEL.@Object(this, graph, oldToNewObjectMap);
+		public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
+			GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(this, graph, oldToNewObjectMap);
+			((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+			return newObject;
 		}
 
-		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -9937,11 +10294,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Object)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Object))
+				return false;
 			@Object that_ = (@Object)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public override object GetAttribute(string attrName)
@@ -9992,10 +10360,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override string ObjectClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Object"; } }
 		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
 		{
-			if(uniqueId != -1)
-				return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
-			else
-				return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+			if(uniqueId != -1) {
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
+				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+				return newObject;
+			} else {
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+				return newObject;
+			}
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -10014,11 +10387,6 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override GRGEN_LIBGR.IObject CreateObjectWithCopyCommons(GRGEN_LIBGR.IObject oldIObject, GRGEN_LIBGR.IGraph graph)
-		{
-			return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
-		}
-
 	}
 
 	//
@@ -10036,6 +10404,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		static @TransientObject() {
 		}
 
+		//create object by CreateTransientObject of the type class, not this internal-use constructor
 		public @TransientObject() : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
 		{
 			// implicit initialization, container creation of TransientObject
@@ -10047,22 +10416,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@TransientObject(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@TransientObject(this, graph, oldToNewObjectMap);
 		}
 
-		private @TransientObject(GRGEN_MODEL.@TransientObject oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
+		private @TransientObject(GRGEN_MODEL.@TransientObject oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -10074,11 +10443,22 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @TransientObject)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @TransientObject))
+				return false;
 			@TransientObject that_ = (@TransientObject)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public override object GetAttribute(string attrName)
@@ -10148,11 +10528,6 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override GRGEN_LIBGR.ITransientObject CreateTransientObjectWithCopyCommons(GRGEN_LIBGR.ITransientObject oldITransientObject)
-		{
-			return new GRGEN_MODEL.@TransientObject();
-		}
-
 	}
 
 	public sealed class ExternalObjectType_object : GRGEN_LIBGR.ExternalObjectType
@@ -10167,6 +10542,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override int NumProcedureMethods { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
 		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
+
+		public static object ThrowCopyClassMissingException() { throw new Exception("Cannot copy/clone external object, copy class specification is missing in the model."); }
 	}
 
 	//
@@ -12178,6 +12555,1402 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			default: return null;
 			}
 		}
+
+		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Package":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Package_name.ArrayIndexOfBy((List<GRGEN_MODEL.IPackage>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Classifier":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Classifier_name.ArrayIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Classifier_visibility.ArrayIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Classifier_isAbstract.ArrayIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Class":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Class_name.ArrayIndexOfBy((List<GRGEN_MODEL.IClass>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Class_visibility.ArrayIndexOfBy((List<GRGEN_MODEL.IClass>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Class_isAbstract.ArrayIndexOfBy((List<GRGEN_MODEL.IClass>)array, (bool)value);
+				case "isFinal":
+					return ArrayHelper_Class_isFinal.ArrayIndexOfBy((List<GRGEN_MODEL.IClass>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Interface":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Interface_name.ArrayIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Interface_visibility.ArrayIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Interface_isAbstract.ArrayIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Variable":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Variable_name.ArrayIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Variable_visibility.ArrayIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (string)value);
+				case "isStatic":
+					return ArrayHelper_Variable_isStatic.ArrayIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (bool)value);
+				case "isFinal":
+					return ArrayHelper_Variable_isFinal.ArrayIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Operation":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Operation_name.ArrayIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Operation_visibility.ArrayIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Operation_isAbstract.ArrayIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value);
+				case "isStatic":
+					return ArrayHelper_Operation_isStatic.ArrayIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value);
+				case "isFinal":
+					return ArrayHelper_Operation_isFinal.ArrayIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "MethodBody":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Expression":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Access":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Access_this_.ArrayIndexOfBy((List<GRGEN_MODEL.IAccess>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Update":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Update_this_.ArrayIndexOfBy((List<GRGEN_MODEL.IUpdate>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Call":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Call_this_.ArrayIndexOfBy((List<GRGEN_MODEL.ICall>)array, (bool)value);
+				case "super":
+					return ArrayHelper_Call_super.ArrayIndexOfBy((List<GRGEN_MODEL.ICall>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Instantiation":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Operator":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Operator_name.ArrayIndexOfBy((List<GRGEN_MODEL.IOperator>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Return":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Block":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Literal":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_Literal_value.ArrayIndexOfBy((List<GRGEN_MODEL.ILiteral>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Parameter":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "belongsTo":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "type_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "extends_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "imports":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "implements_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "parameter":
+				switch(member)
+				{
+				case "order":
+					return ArrayHelper_parameter_order.ArrayIndexOfBy((List<GRGEN_MODEL.Iparameter>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "actualParameter":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "binding":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "link":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "expression":
+				switch(member)
+				{
+				case "order":
+					return ArrayHelper_expression_order.ArrayIndexOfBy((List<GRGEN_MODEL.Iexpression>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "inBlock":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "inClass":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Package":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Package_name.ArrayIndexOfBy((List<GRGEN_MODEL.IPackage>)array, (string)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Classifier":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Classifier_name.ArrayIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (string)value, startIndex);
+				case "visibility":
+					return ArrayHelper_Classifier_visibility.ArrayIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (string)value, startIndex);
+				case "isAbstract":
+					return ArrayHelper_Classifier_isAbstract.ArrayIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Class":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Class_name.ArrayIndexOfBy((List<GRGEN_MODEL.IClass>)array, (string)value, startIndex);
+				case "visibility":
+					return ArrayHelper_Class_visibility.ArrayIndexOfBy((List<GRGEN_MODEL.IClass>)array, (string)value, startIndex);
+				case "isAbstract":
+					return ArrayHelper_Class_isAbstract.ArrayIndexOfBy((List<GRGEN_MODEL.IClass>)array, (bool)value, startIndex);
+				case "isFinal":
+					return ArrayHelper_Class_isFinal.ArrayIndexOfBy((List<GRGEN_MODEL.IClass>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Interface":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Interface_name.ArrayIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (string)value, startIndex);
+				case "visibility":
+					return ArrayHelper_Interface_visibility.ArrayIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (string)value, startIndex);
+				case "isAbstract":
+					return ArrayHelper_Interface_isAbstract.ArrayIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Variable":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Variable_name.ArrayIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (string)value, startIndex);
+				case "visibility":
+					return ArrayHelper_Variable_visibility.ArrayIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (string)value, startIndex);
+				case "isStatic":
+					return ArrayHelper_Variable_isStatic.ArrayIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (bool)value, startIndex);
+				case "isFinal":
+					return ArrayHelper_Variable_isFinal.ArrayIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Operation":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Operation_name.ArrayIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (string)value, startIndex);
+				case "visibility":
+					return ArrayHelper_Operation_visibility.ArrayIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (string)value, startIndex);
+				case "isAbstract":
+					return ArrayHelper_Operation_isAbstract.ArrayIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value, startIndex);
+				case "isStatic":
+					return ArrayHelper_Operation_isStatic.ArrayIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value, startIndex);
+				case "isFinal":
+					return ArrayHelper_Operation_isFinal.ArrayIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "MethodBody":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Expression":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Access":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Access_this_.ArrayIndexOfBy((List<GRGEN_MODEL.IAccess>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Update":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Update_this_.ArrayIndexOfBy((List<GRGEN_MODEL.IUpdate>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Call":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Call_this_.ArrayIndexOfBy((List<GRGEN_MODEL.ICall>)array, (bool)value, startIndex);
+				case "super":
+					return ArrayHelper_Call_super.ArrayIndexOfBy((List<GRGEN_MODEL.ICall>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Instantiation":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Operator":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Operator_name.ArrayIndexOfBy((List<GRGEN_MODEL.IOperator>)array, (string)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Return":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Block":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Literal":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_Literal_value.ArrayIndexOfBy((List<GRGEN_MODEL.ILiteral>)array, (string)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Parameter":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "belongsTo":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "type_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "extends_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "imports":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "implements_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "parameter":
+				switch(member)
+				{
+				case "order":
+					return ArrayHelper_parameter_order.ArrayIndexOfBy((List<GRGEN_MODEL.Iparameter>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "actualParameter":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "binding":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "link":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "expression":
+				switch(member)
+				{
+				case "order":
+					return ArrayHelper_expression_order.ArrayIndexOfBy((List<GRGEN_MODEL.Iexpression>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "inBlock":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "inClass":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Package":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Package_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IPackage>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Classifier":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Classifier_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Classifier_visibility.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Classifier_isAbstract.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Class":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Class_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClass>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Class_visibility.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClass>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Class_isAbstract.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClass>)array, (bool)value);
+				case "isFinal":
+					return ArrayHelper_Class_isFinal.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClass>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Interface":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Interface_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Interface_visibility.ArrayLastIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Interface_isAbstract.ArrayLastIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Variable":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Variable_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Variable_visibility.ArrayLastIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (string)value);
+				case "isStatic":
+					return ArrayHelper_Variable_isStatic.ArrayLastIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (bool)value);
+				case "isFinal":
+					return ArrayHelper_Variable_isFinal.ArrayLastIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Operation":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Operation_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Operation_visibility.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Operation_isAbstract.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value);
+				case "isStatic":
+					return ArrayHelper_Operation_isStatic.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value);
+				case "isFinal":
+					return ArrayHelper_Operation_isFinal.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "MethodBody":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Expression":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Access":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Access_this_.ArrayLastIndexOfBy((List<GRGEN_MODEL.IAccess>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Update":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Update_this_.ArrayLastIndexOfBy((List<GRGEN_MODEL.IUpdate>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Call":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Call_this_.ArrayLastIndexOfBy((List<GRGEN_MODEL.ICall>)array, (bool)value);
+				case "super":
+					return ArrayHelper_Call_super.ArrayLastIndexOfBy((List<GRGEN_MODEL.ICall>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Instantiation":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Operator":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Operator_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperator>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Return":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Block":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Literal":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_Literal_value.ArrayLastIndexOfBy((List<GRGEN_MODEL.ILiteral>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Parameter":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "belongsTo":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "type_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "extends_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "imports":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "implements_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "parameter":
+				switch(member)
+				{
+				case "order":
+					return ArrayHelper_parameter_order.ArrayLastIndexOfBy((List<GRGEN_MODEL.Iparameter>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "actualParameter":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "binding":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "link":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "expression":
+				switch(member)
+				{
+				case "order":
+					return ArrayHelper_expression_order.ArrayLastIndexOfBy((List<GRGEN_MODEL.Iexpression>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "inBlock":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "inClass":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Package":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Package_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IPackage>)array, (string)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Classifier":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Classifier_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (string)value, startIndex);
+				case "visibility":
+					return ArrayHelper_Classifier_visibility.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (string)value, startIndex);
+				case "isAbstract":
+					return ArrayHelper_Classifier_isAbstract.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClassifier>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Class":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Class_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClass>)array, (string)value, startIndex);
+				case "visibility":
+					return ArrayHelper_Class_visibility.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClass>)array, (string)value, startIndex);
+				case "isAbstract":
+					return ArrayHelper_Class_isAbstract.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClass>)array, (bool)value, startIndex);
+				case "isFinal":
+					return ArrayHelper_Class_isFinal.ArrayLastIndexOfBy((List<GRGEN_MODEL.IClass>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Interface":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Interface_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (string)value, startIndex);
+				case "visibility":
+					return ArrayHelper_Interface_visibility.ArrayLastIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (string)value, startIndex);
+				case "isAbstract":
+					return ArrayHelper_Interface_isAbstract.ArrayLastIndexOfBy((List<GRGEN_MODEL.IInterface>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Variable":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Variable_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (string)value, startIndex);
+				case "visibility":
+					return ArrayHelper_Variable_visibility.ArrayLastIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (string)value, startIndex);
+				case "isStatic":
+					return ArrayHelper_Variable_isStatic.ArrayLastIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (bool)value, startIndex);
+				case "isFinal":
+					return ArrayHelper_Variable_isFinal.ArrayLastIndexOfBy((List<GRGEN_MODEL.IVariable>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Operation":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Operation_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (string)value, startIndex);
+				case "visibility":
+					return ArrayHelper_Operation_visibility.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (string)value, startIndex);
+				case "isAbstract":
+					return ArrayHelper_Operation_isAbstract.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value, startIndex);
+				case "isStatic":
+					return ArrayHelper_Operation_isStatic.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value, startIndex);
+				case "isFinal":
+					return ArrayHelper_Operation_isFinal.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperation>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "MethodBody":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Expression":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Access":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Access_this_.ArrayLastIndexOfBy((List<GRGEN_MODEL.IAccess>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Update":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Update_this_.ArrayLastIndexOfBy((List<GRGEN_MODEL.IUpdate>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Call":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Call_this_.ArrayLastIndexOfBy((List<GRGEN_MODEL.ICall>)array, (bool)value, startIndex);
+				case "super":
+					return ArrayHelper_Call_super.ArrayLastIndexOfBy((List<GRGEN_MODEL.ICall>)array, (bool)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Instantiation":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Operator":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Operator_name.ArrayLastIndexOfBy((List<GRGEN_MODEL.IOperator>)array, (string)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Return":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Block":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Literal":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_Literal_value.ArrayLastIndexOfBy((List<GRGEN_MODEL.ILiteral>)array, (string)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Parameter":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "belongsTo":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "type_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "extends_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "imports":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "implements_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "parameter":
+				switch(member)
+				{
+				case "order":
+					return ArrayHelper_parameter_order.ArrayLastIndexOfBy((List<GRGEN_MODEL.Iparameter>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "actualParameter":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "binding":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "link":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "expression":
+				switch(member)
+				{
+				case "order":
+					return ArrayHelper_expression_order.ArrayLastIndexOfBy((List<GRGEN_MODEL.Iexpression>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "inBlock":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "inClass":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Package":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Package_name.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IPackage>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Classifier":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Classifier_name.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IClassifier>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Classifier_visibility.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IClassifier>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Classifier_isAbstract.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IClassifier>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Class":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Class_name.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IClass>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Class_visibility.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IClass>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Class_isAbstract.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IClass>)array, (bool)value);
+				case "isFinal":
+					return ArrayHelper_Class_isFinal.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IClass>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Interface":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Interface_name.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IInterface>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Interface_visibility.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IInterface>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Interface_isAbstract.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IInterface>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Variable":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Variable_name.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IVariable>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Variable_visibility.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IVariable>)array, (string)value);
+				case "isStatic":
+					return ArrayHelper_Variable_isStatic.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IVariable>)array, (bool)value);
+				case "isFinal":
+					return ArrayHelper_Variable_isFinal.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IVariable>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Operation":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Operation_name.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IOperation>)array, (string)value);
+				case "visibility":
+					return ArrayHelper_Operation_visibility.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IOperation>)array, (string)value);
+				case "isAbstract":
+					return ArrayHelper_Operation_isAbstract.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IOperation>)array, (bool)value);
+				case "isStatic":
+					return ArrayHelper_Operation_isStatic.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IOperation>)array, (bool)value);
+				case "isFinal":
+					return ArrayHelper_Operation_isFinal.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IOperation>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "MethodBody":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Expression":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Access":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Access_this_.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IAccess>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Update":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Update_this_.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IUpdate>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Call":
+				switch(member)
+				{
+				case "this_":
+					return ArrayHelper_Call_this_.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ICall>)array, (bool)value);
+				case "super":
+					return ArrayHelper_Call_super.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ICall>)array, (bool)value);
+				default:
+					return -1;
+				}
+			case "Instantiation":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Operator":
+				switch(member)
+				{
+				case "name":
+					return ArrayHelper_Operator_name.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IOperator>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Return":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Block":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Literal":
+				switch(member)
+				{
+				case "value":
+					return ArrayHelper_Literal_value.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.ILiteral>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Parameter":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "belongsTo":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "type_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "extends_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "imports":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "implements_":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "parameter":
+				switch(member)
+				{
+				case "order":
+					return ArrayHelper_parameter_order.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.Iparameter>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "actualParameter":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "binding":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "link":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "expression":
+				switch(member)
+				{
+				case "order":
+					return ArrayHelper_expression_order.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.Iexpression>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "inBlock":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "inClass":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
 
 		public override void FailAssertion() { Debug.Assert(false); }
 		public override string MD5Hash { get { return "60b8575918bf4f3c0264925fc836b793"; } }

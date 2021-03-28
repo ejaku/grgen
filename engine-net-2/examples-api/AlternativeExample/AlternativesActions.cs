@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Fri Feb 05 19:31:41 CET 2021
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Mar 28 10:08:44 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -899,7 +899,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createA+IMatch_createA",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createA+Match_createA"
 			)
 		{
 		}
@@ -1155,6 +1157,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createA.IMatch_createA instanceBearingAttributeForSearch_createA = new GRGEN_ACTIONS.Rule_createA.Match_createA();
 	}
 
 	public class Rule_createB : GRGEN_LGSP.LGSPRulePattern
@@ -1193,7 +1196,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createB+IMatch_createB",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createB+Match_createB"
 			)
 		{
 		}
@@ -1449,6 +1454,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createB.IMatch_createB instanceBearingAttributeForSearch_createB = new GRGEN_ACTIONS.Rule_createB.Match_createB();
 	}
 
 	public class Rule_createC : GRGEN_LGSP.LGSPRulePattern
@@ -1487,7 +1493,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createC+IMatch_createC",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createC+Match_createC"
 			)
 		{
 		}
@@ -1743,6 +1751,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createC.IMatch_createC instanceBearingAttributeForSearch_createC = new GRGEN_ACTIONS.Rule_createC.Match_createC();
 	}
 
 	public class Rule_createAtoB : GRGEN_LGSP.LGSPRulePattern
@@ -1781,7 +1790,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createAtoB+IMatch_createAtoB",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createAtoB+Match_createAtoB"
 			)
 		{
 		}
@@ -2039,6 +2050,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createAtoB.IMatch_createAtoB instanceBearingAttributeForSearch_createAtoB = new GRGEN_ACTIONS.Rule_createAtoB.Match_createAtoB();
 	}
 
 	public class Rule_leer : GRGEN_LGSP.LGSPRulePattern
@@ -2087,7 +2099,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_leer+IMatch_leer",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_leer+Match_leer"
 			)
 		{
 		}
@@ -2572,6 +2586,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_leer.IMatch_leer instanceBearingAttributeForSearch_leer = new GRGEN_ACTIONS.Rule_leer.Match_leer();
 	}
 
 	public class Rule_AorB : GRGEN_LGSP.LGSPRulePattern
@@ -2635,7 +2650,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_AorB+IMatch_AorB",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_AorB+Match_AorB"
 			)
 		{
 		}
@@ -3368,6 +3385,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_AorB.IMatch_AorB instanceBearingAttributeForSearch_AorB = new GRGEN_ACTIONS.Rule_AorB.Match_AorB();
 	}
 
 	public class Rule_AandnotCorB : GRGEN_LGSP.LGSPRulePattern
@@ -3443,7 +3461,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_AandnotCorB+IMatch_AandnotCorB",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_AandnotCorB+Match_AandnotCorB"
 			)
 		{
 		}
@@ -4403,6 +4423,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_AandnotCorB.IMatch_AandnotCorB instanceBearingAttributeForSearch_AandnotCorB = new GRGEN_ACTIONS.Rule_AandnotCorB.Match_AandnotCorB();
 	}
 
 	public class Rule_AorBorC : GRGEN_LGSP.LGSPRulePattern
@@ -4479,7 +4500,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_AorBorC+IMatch_AorBorC",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_AorBorC+Match_AorBorC"
 			)
 		{
 		}
@@ -5446,6 +5469,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_AorBorC.IMatch_AorBorC instanceBearingAttributeForSearch_AorBorC = new GRGEN_ACTIONS.Rule_AorBorC.Match_AorBorC();
 	}
 
 	public class Rule_AtoAorB : GRGEN_LGSP.LGSPRulePattern
@@ -5515,7 +5539,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_AtoAorB+IMatch_AtoAorB",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_AtoAorB+Match_AtoAorB"
 			)
 		{
 		}
@@ -6321,6 +6347,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB instanceBearingAttributeForSearch_AtoAorB = new GRGEN_ACTIONS.Rule_AtoAorB.Match_AtoAorB();
 		public static List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB> Array_AtoAorB_groupBy_a(List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB> list)
 		{
 			Dictionary<GRGEN_MODEL.IA, List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB>> seenValues = new Dictionary<GRGEN_MODEL.IA, List<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB>>();
@@ -6353,6 +6380,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 			return newList;
+		}
+		public static int Array_AtoAorB_indexOfBy_a(IList<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB> list, GRGEN_MODEL.IA entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_AtoAorB_indexOfBy_a(IList<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB> list, GRGEN_MODEL.IA entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_AtoAorB_lastIndexOfBy_a(IList<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB> list, GRGEN_MODEL.IA entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_AtoAorB_lastIndexOfBy_a(IList<GRGEN_ACTIONS.Rule_AtoAorB.IMatch_AtoAorB> list, GRGEN_MODEL.IA entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -6392,7 +6447,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createComplex+IMatch_createComplex",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createComplex+Match_createComplex"
 			)
 		{
 		}
@@ -6660,6 +6717,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createComplex.IMatch_createComplex instanceBearingAttributeForSearch_createComplex = new GRGEN_ACTIONS.Rule_createComplex.Match_createComplex();
 	}
 
 	public class Rule_Complex : GRGEN_LGSP.LGSPRulePattern
@@ -6784,7 +6842,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_Complex+IMatch_Complex",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_Complex+Match_Complex"
 			)
 		{
 		}
@@ -8167,6 +8227,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_Complex.IMatch_Complex instanceBearingAttributeForSearch_Complex = new GRGEN_ACTIONS.Rule_Complex.Match_Complex();
 		public static List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> Array_Complex_groupBy_a(List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list)
 		{
 			Dictionary<GRGEN_MODEL.IA, List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>> seenValues = new Dictionary<GRGEN_MODEL.IA, List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>>();
@@ -8199,6 +8260,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 			return newList;
+		}
+		public static int Array_Complex_indexOfBy_a(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_MODEL.IA entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_indexOfBy_a(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_MODEL.IA entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_lastIndexOfBy_a(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_MODEL.IA entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_lastIndexOfBy_a(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_MODEL.IA entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> Array_Complex_groupBy_b(List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list)
 		{
@@ -8233,6 +8322,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			}
 			return newList;
 		}
+		public static int Array_Complex_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_MODEL.IB entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_MODEL.IB entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_MODEL.IB entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_MODEL.IB entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> Array_Complex_groupBy__edge0(List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>>();
@@ -8266,6 +8383,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			}
 			return newList;
 		}
+		public static int Array_Complex_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> Array_Complex_groupBy__edge1(List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex>>();
@@ -8298,6 +8443,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 			return newList;
+		}
+		public static int Array_Complex_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Complex_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_Complex.IMatch_Complex> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -8437,7 +8610,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_ComplexMax+IMatch_ComplexMax",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_ComplexMax+Match_ComplexMax"
 			)
 		{
 		}
@@ -10073,6 +10248,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax instanceBearingAttributeForSearch_ComplexMax = new GRGEN_ACTIONS.Rule_ComplexMax.Match_ComplexMax();
 		public static List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> Array_ComplexMax_groupBy_a(List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list)
 		{
 			Dictionary<GRGEN_MODEL.IA, List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>> seenValues = new Dictionary<GRGEN_MODEL.IA, List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>>();
@@ -10105,6 +10281,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 			return newList;
+		}
+		public static int Array_ComplexMax_indexOfBy_a(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_MODEL.IA entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_indexOfBy_a(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_MODEL.IA entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_lastIndexOfBy_a(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_MODEL.IA entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_lastIndexOfBy_a(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_MODEL.IA entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> Array_ComplexMax_groupBy_b(List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list)
 		{
@@ -10139,6 +10343,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			}
 			return newList;
 		}
+		public static int Array_ComplexMax_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_MODEL.IB entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_MODEL.IB entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_MODEL.IB entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_MODEL.IB entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> Array_ComplexMax_groupBy__edge0(List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>>();
@@ -10172,6 +10404,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			}
 			return newList;
 		}
+		public static int Array_ComplexMax_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> Array_ComplexMax_groupBy__edge1(List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax>>();
@@ -10204,6 +10464,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 			return newList;
+		}
+		public static int Array_ComplexMax_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ComplexMax_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_ComplexMax.IMatch_ComplexMax> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -10243,7 +10531,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createABA+IMatch_createABA",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_createABA+Match_createABA"
 			)
 		{
 		}
@@ -10504,6 +10794,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createABA.IMatch_createABA instanceBearingAttributeForSearch_createABA = new GRGEN_ACTIONS.Rule_createABA.Match_createABA();
 	}
 
 	public class Rule_homm : GRGEN_LGSP.LGSPRulePattern
@@ -10583,7 +10874,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_homm+IMatch_homm",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_homm+Match_homm"
 			)
 		{
 		}
@@ -11490,6 +11783,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_homm.IMatch_homm instanceBearingAttributeForSearch_homm = new GRGEN_ACTIONS.Rule_homm.Match_homm();
 		public static List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> Array_homm_groupBy_a(List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list)
 		{
 			Dictionary<GRGEN_MODEL.IA, List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>> seenValues = new Dictionary<GRGEN_MODEL.IA, List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>>();
@@ -11522,6 +11816,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 			return newList;
+		}
+		public static int Array_homm_indexOfBy_a(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_MODEL.IA entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_indexOfBy_a(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_MODEL.IA entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_lastIndexOfBy_a(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_MODEL.IA entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_lastIndexOfBy_a(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_MODEL.IA entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> Array_homm_groupBy_b(List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list)
 		{
@@ -11556,6 +11878,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			}
 			return newList;
 		}
+		public static int Array_homm_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_MODEL.IB entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_MODEL.IB entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_MODEL.IB entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_MODEL.IB entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> Array_homm_groupBy__edge0(List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>>();
@@ -11589,6 +11939,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			}
 			return newList;
 		}
+		public static int Array_homm_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> Array_homm_groupBy__edge1(List<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_homm.IMatch_homm>>();
@@ -11621,6 +11999,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 			return newList;
+		}
+		public static int Array_homm_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_homm_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_homm.IMatch_homm> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -11660,7 +12066,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_XtoAorB+IMatch_XtoAorB",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_XtoAorB+Match_XtoAorB"
 			)
 		{
 		}
@@ -11949,6 +12357,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB instanceBearingAttributeForSearch_XtoAorB = new GRGEN_ACTIONS.Rule_XtoAorB.Match_XtoAorB();
 		public static List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB> Array_XtoAorB_groupBy_x(List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB>>();
@@ -11981,6 +12390,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 			return newList;
+		}
+		public static int Array_XtoAorB_indexOfBy_x(IList<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_x.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_XtoAorB_indexOfBy_x(IList<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_x.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_XtoAorB_lastIndexOfBy_x(IList<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_x.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_XtoAorB_lastIndexOfBy_x(IList<GRGEN_ACTIONS.Rule_XtoAorB.IMatch_XtoAorB> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_x.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -12061,7 +12498,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_alternative_in_negative+IMatch_alternative_in_negative",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_alternative_in_negative+Match_alternative_in_negative"
 			)
 		{
 		}
@@ -13026,6 +13465,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_alternative_in_negative.IMatch_alternative_in_negative instanceBearingAttributeForSearch_alternative_in_negative = new GRGEN_ACTIONS.Rule_alternative_in_negative.Match_alternative_in_negative();
 	}
 
 	public class Rule_alternative_in_iterated : GRGEN_LGSP.LGSPRulePattern
@@ -13114,7 +13554,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_alternative_in_iterated+IMatch_alternative_in_iterated",
+				"de.unika.ipd.grGen.Action_Alternatives.Rule_alternative_in_iterated+Match_alternative_in_iterated"
 			)
 		{
 		}
@@ -14186,10 +14628,12 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated instanceBearingAttributeForSearch_alternative_in_iterated = new GRGEN_ACTIONS.Rule_alternative_in_iterated.Match_alternative_in_iterated();
 	}
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0 instanceBearingAttributeForSearch_alternative_in_iterated_iter_0 = new GRGEN_ACTIONS.Rule_alternative_in_iterated.Match_alternative_in_iterated_iter_0();
 		public static List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0> Array_alternative_in_iterated_iter_0_groupBy__node0(List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0>>();
@@ -14222,6 +14666,34 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 			return newList;
+		}
+		public static int Array_alternative_in_iterated_iter_0_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_alternative_in_iterated_iter_0_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_alternative_in_iterated_iter_0_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_alternative_in_iterated_iter_0_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_alternative_in_iterated.IMatch_alternative_in_iterated_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -24026,6 +24498,778 @@ maxMatchesIterReached:
                     }
                 default:
                     return null;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createA":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createC":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createAtoB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "leer":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AandnotCorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AorBorC":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AtoAorB":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_AtoAorB_indexOfBy_a(GRGEN_ACTIONS.Rule_AtoAorB.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value);
+                    default:
+                        return -1;
+                    }
+                case "createComplex":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "Complex":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_Complex_indexOfBy_a(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value);
+                    case "b":
+                        return ArrayHelper.Array_Complex_indexOfBy_b(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_Complex_indexOfBy__edge0(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_Complex_indexOfBy__edge1(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "ComplexMax":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_ComplexMax_indexOfBy_a(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value);
+                    case "b":
+                        return ArrayHelper.Array_ComplexMax_indexOfBy_b(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_ComplexMax_indexOfBy__edge0(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_ComplexMax_indexOfBy__edge1(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "createABA":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "homm":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_homm_indexOfBy_a(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value);
+                    case "b":
+                        return ArrayHelper.Array_homm_indexOfBy_b(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_homm_indexOfBy__edge0(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_homm_indexOfBy__edge1(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "XtoAorB":
+                    switch(member)
+                    {
+                    case "x":
+                        return ArrayHelper.Array_XtoAorB_indexOfBy_x(GRGEN_ACTIONS.Rule_XtoAorB.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "alternative_in_negative":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "alternative_in_iterated":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createA":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createC":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createAtoB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "leer":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AandnotCorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AorBorC":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AtoAorB":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_AtoAorB_indexOfBy_a(GRGEN_ACTIONS.Rule_AtoAorB.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createComplex":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "Complex":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_Complex_indexOfBy_a(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_Complex_indexOfBy_b(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_Complex_indexOfBy__edge0(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_Complex_indexOfBy__edge1(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "ComplexMax":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_ComplexMax_indexOfBy_a(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_ComplexMax_indexOfBy_b(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_ComplexMax_indexOfBy__edge0(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_ComplexMax_indexOfBy__edge1(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createABA":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "homm":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_homm_indexOfBy_a(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_homm_indexOfBy_b(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_homm_indexOfBy__edge0(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_homm_indexOfBy__edge1(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "XtoAorB":
+                    switch(member)
+                    {
+                    case "x":
+                        return ArrayHelper.Array_XtoAorB_indexOfBy_x(GRGEN_ACTIONS.Rule_XtoAorB.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "alternative_in_negative":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "alternative_in_iterated":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createA":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createC":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createAtoB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "leer":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AandnotCorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AorBorC":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AtoAorB":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_AtoAorB_lastIndexOfBy_a(GRGEN_ACTIONS.Rule_AtoAorB.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value);
+                    default:
+                        return -1;
+                    }
+                case "createComplex":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "Complex":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_Complex_lastIndexOfBy_a(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value);
+                    case "b":
+                        return ArrayHelper.Array_Complex_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_Complex_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_Complex_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "ComplexMax":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_ComplexMax_lastIndexOfBy_a(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value);
+                    case "b":
+                        return ArrayHelper.Array_ComplexMax_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_ComplexMax_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_ComplexMax_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "createABA":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "homm":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_homm_lastIndexOfBy_a(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value);
+                    case "b":
+                        return ArrayHelper.Array_homm_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_homm_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_homm_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "XtoAorB":
+                    switch(member)
+                    {
+                    case "x":
+                        return ArrayHelper.Array_XtoAorB_lastIndexOfBy_x(GRGEN_ACTIONS.Rule_XtoAorB.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "alternative_in_negative":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "alternative_in_iterated":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createA":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createC":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createAtoB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "leer":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AandnotCorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AorBorC":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AtoAorB":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_AtoAorB_lastIndexOfBy_a(GRGEN_ACTIONS.Rule_AtoAorB.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createComplex":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "Complex":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_Complex_lastIndexOfBy_a(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_Complex_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_Complex_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_Complex_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_Complex.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "ComplexMax":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_ComplexMax_lastIndexOfBy_a(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_ComplexMax_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_ComplexMax_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_ComplexMax_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_ComplexMax.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createABA":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "homm":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_homm_lastIndexOfBy_a(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_MODEL.IA)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_homm_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_MODEL.IB)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_homm_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_homm_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_homm.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "XtoAorB":
+                    switch(member)
+                    {
+                    case "x":
+                        return ArrayHelper.Array_XtoAorB_lastIndexOfBy_x(GRGEN_ACTIONS.Rule_XtoAorB.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "alternative_in_negative":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "alternative_in_iterated":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfOrderedBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createA":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createC":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createAtoB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "leer":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AandnotCorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AorBorC":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "AtoAorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createComplex":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "Complex":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "ComplexMax":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createABA":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "homm":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "XtoAorB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "alternative_in_negative":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "alternative_in_iterated":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
                 }
             }
         }

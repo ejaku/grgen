@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Fri Feb 05 19:32:28 CET 2021
+// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Sun Mar 28 10:09:37 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -51,20 +51,20 @@ namespace de.unika.ipd.grGen.Model_FunctionsProceduresExample
 			return new GRGEN_MODEL.@Node(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Node(this, graph, oldToNewObjectMap);
 		}
 
-		private @Node(GRGEN_MODEL.@Node oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Node.typeVar)
+		private @Node(GRGEN_MODEL.@Node oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -76,11 +76,22 @@ namespace de.unika.ipd.grGen.Model_FunctionsProceduresExample
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Node)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Node))
+				return false;
 			@Node that_ = (@Node)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -228,21 +239,21 @@ namespace de.unika.ipd.grGen.Model_FunctionsProceduresExample
 			return new GRGEN_MODEL.@N(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@N(this, graph, oldToNewObjectMap);
 		}
 
-		private @N(GRGEN_MODEL.@N oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_N.typeVar)
+		private @N(GRGEN_MODEL.@N oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
 			i_M0no_suXx_h4rD = oldElem.i_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -254,12 +265,23 @@ namespace de.unika.ipd.grGen.Model_FunctionsProceduresExample
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @N)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @N))
+				return false;
 			@N that_ = (@N)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& i_M0no_suXx_h4rD == that_.i_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@N CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -503,7 +525,7 @@ namespace de.unika.ipd.grGen.Model_FunctionsProceduresExample
 	public class ProcedureMethodInfo_bar_N : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureMethodInfo_bar_N instance = null;
-public static ProcedureMethodInfo_bar_N Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bar_N(); } return instance; } }
+		public static ProcedureMethodInfo_bar_N Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bar_N(); } return instance; } }
 
 		private ProcedureMethodInfo_bar_N()
 			: base(
@@ -543,39 +565,39 @@ public static ProcedureMethodInfo_bar_N Instance { get { if(instance==null) { in
 
 	public class ArrayHelper_N_i
 	{
-		private static GRGEN_MODEL.IN nodeBearingAttributeForSearch = new GRGEN_MODEL.@N();
-		public static int IndexOfBy(IList<GRGEN_MODEL.IN> list, int entry)
+		private static GRGEN_MODEL.IN instanceBearingAttributeForSearch = new GRGEN_MODEL.@N();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IN> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IN> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IN> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IN> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IN> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IN> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IN> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IN> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IN> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@i = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_N_i.thisComparer);
+			instanceBearingAttributeForSearch.@i = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_N_i.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IN> ArrayOrderAscendingBy(List<GRGEN_MODEL.IN> list)
 		{
@@ -665,22 +687,22 @@ public static ProcedureMethodInfo_bar_N Instance { get { if(instance==null) { in
 			return new GRGEN_MODEL.@NN(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.INode Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@NN(this, graph, oldToNewObjectMap);
 		}
 
-		private @NN(GRGEN_MODEL.@NN oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_NN.typeVar)
+		private @NN(GRGEN_MODEL.@NN oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.NodeType_NN.typeVar)
 		{
 			i_M0no_suXx_h4rD = oldElem.i_M0no_suXx_h4rD;
 			s_M0no_suXx_h4rD = oldElem.s_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -692,13 +714,24 @@ public static ProcedureMethodInfo_bar_N Instance { get { if(instance==null) { in
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @NN)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @NN))
+				return false;
 			@NN that_ = (@NN)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& i_M0no_suXx_h4rD == that_.i_M0no_suXx_h4rD
 				&& s_M0no_suXx_h4rD == that_.s_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@NN CreateNode(GRGEN_LGSP.LGSPGraph graph)
@@ -991,7 +1024,7 @@ public static ProcedureMethodInfo_bar_N Instance { get { if(instance==null) { in
 	public class ProcedureMethodInfo_bar_NN : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureMethodInfo_bar_NN instance = null;
-public static ProcedureMethodInfo_bar_NN Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bar_NN(); } return instance; } }
+		public static ProcedureMethodInfo_bar_NN Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bar_NN(); } return instance; } }
 
 		private ProcedureMethodInfo_bar_NN()
 			: base(
@@ -1013,7 +1046,7 @@ public static ProcedureMethodInfo_bar_NN Instance { get { if(instance==null) { i
 	public class ProcedureMethodInfo_bla_NN : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureMethodInfo_bla_NN instance = null;
-public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bla_NN(); } return instance; } }
+		public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bla_NN(); } return instance; } }
 
 		private ProcedureMethodInfo_bla_NN()
 			: base(
@@ -1053,39 +1086,39 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 
 	public class ArrayHelper_NN_i
 	{
-		private static GRGEN_MODEL.INN nodeBearingAttributeForSearch = new GRGEN_MODEL.@NN();
-		public static int IndexOfBy(IList<GRGEN_MODEL.INN> list, int entry)
+		private static GRGEN_MODEL.INN instanceBearingAttributeForSearch = new GRGEN_MODEL.@NN();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.INN> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.INN> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.INN> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.INN> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.INN> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.INN> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.INN> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.INN> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.INN> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@i = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_NN_i.thisComparer);
+			instanceBearingAttributeForSearch.@i = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_NN_i.thisComparer);
 		}
 		public static List<GRGEN_MODEL.INN> ArrayOrderAscendingBy(List<GRGEN_MODEL.INN> list)
 		{
@@ -1162,39 +1195,39 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 
 	public class ArrayHelper_NN_s
 	{
-		private static GRGEN_MODEL.INN nodeBearingAttributeForSearch = new GRGEN_MODEL.@NN();
-		public static int IndexOfBy(IList<GRGEN_MODEL.INN> list, string entry)
+		private static GRGEN_MODEL.INN instanceBearingAttributeForSearch = new GRGEN_MODEL.@NN();
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.INN> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@s.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.INN> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.INN> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@s.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.INN> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.INN> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@s.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.INN> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.INN> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@s.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.INN> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.INN> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@s = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_NN_s.thisComparer);
+			instanceBearingAttributeForSearch.@s = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_NN_s.thisComparer);
 		}
 		public static List<GRGEN_MODEL.INN> ArrayOrderAscendingBy(List<GRGEN_MODEL.INN> list)
 		{
@@ -1332,21 +1365,21 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1358,11 +1391,22 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Edge)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Edge))
+				return false;
 			@Edge that_ = (@Edge)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1509,21 +1553,21 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1535,11 +1579,22 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @UEdge)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @UEdge))
+				return false;
 			@UEdge that_ = (@UEdge)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1695,22 +1750,22 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 			return new GRGEN_MODEL.@E(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@E(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @E(GRGEN_MODEL.@E oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @E(GRGEN_MODEL.@E oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_E.typeVar, newSource, newTarget)
 		{
 			i_M0no_suXx_h4rD = oldElem.i_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -1722,12 +1777,23 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @E)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @E))
+				return false;
 			@E that_ = (@E)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& i_M0no_suXx_h4rD == that_.i_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@E CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1978,7 +2044,7 @@ public static ProcedureMethodInfo_bla_NN Instance { get { if(instance==null) { i
 	public class ProcedureMethodInfo_bar_E : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureMethodInfo_bar_E instance = null;
-public static ProcedureMethodInfo_bar_E Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bar_E(); } return instance; } }
+		public static ProcedureMethodInfo_bar_E Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bar_E(); } return instance; } }
 
 		private ProcedureMethodInfo_bar_E()
 			: base(
@@ -2018,39 +2084,39 @@ public static ProcedureMethodInfo_bar_E Instance { get { if(instance==null) { in
 
 	public class ArrayHelper_E_i
 	{
-		private static GRGEN_MODEL.IE nodeBearingAttributeForSearch = new GRGEN_MODEL.@E(null, null);
-		public static int IndexOfBy(IList<GRGEN_MODEL.IE> list, int entry)
+		private static GRGEN_MODEL.IE instanceBearingAttributeForSearch = new GRGEN_MODEL.@E(null, null);
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IE> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IE> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IE> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IE> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IE> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IE> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IE> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IE> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IE> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@i = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_E_i.thisComparer);
+			instanceBearingAttributeForSearch.@i = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_E_i.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IE> ArrayOrderAscendingBy(List<GRGEN_MODEL.IE> list)
 		{
@@ -2141,23 +2207,23 @@ public static ProcedureMethodInfo_bar_E Instance { get { if(instance==null) { in
 			return new GRGEN_MODEL.@EE(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, null, null);
 		}
 
-		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.IEdge Copy(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@EE(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget, graph, oldToNewObjectMap);
 		}
 
-		private @EE(GRGEN_MODEL.@EE oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private @EE(GRGEN_MODEL.@EE oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 			: base(GRGEN_MODEL.EdgeType_EE.typeVar, newSource, newTarget)
 		{
 			i_M0no_suXx_h4rD = oldElem.i_M0no_suXx_h4rD;
 			s_M0no_suXx_h4rD = oldElem.s_M0no_suXx_h4rD;
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -2169,13 +2235,24 @@ public static ProcedureMethodInfo_bar_E Instance { get { if(instance==null) { in
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @EE)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @EE))
+				return false;
 			@EE that_ = (@EE)that;
-			return true
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
 				&& i_M0no_suXx_h4rD == that_.i_M0no_suXx_h4rD
 				&& s_M0no_suXx_h4rD == that_.s_M0no_suXx_h4rD
-			;
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public static GRGEN_MODEL.@EE CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -2475,7 +2552,7 @@ public static ProcedureMethodInfo_bar_E Instance { get { if(instance==null) { in
 	public class ProcedureMethodInfo_bar_EE : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureMethodInfo_bar_EE instance = null;
-public static ProcedureMethodInfo_bar_EE Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bar_EE(); } return instance; } }
+		public static ProcedureMethodInfo_bar_EE Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bar_EE(); } return instance; } }
 
 		private ProcedureMethodInfo_bar_EE()
 			: base(
@@ -2497,7 +2574,7 @@ public static ProcedureMethodInfo_bar_EE Instance { get { if(instance==null) { i
 	public class ProcedureMethodInfo_bla_EE : GRGEN_LIBGR.ProcedureInfo
 	{
 		private static ProcedureMethodInfo_bla_EE instance = null;
-public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bla_EE(); } return instance; } }
+		public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { instance = new ProcedureMethodInfo_bla_EE(); } return instance; } }
 
 		private ProcedureMethodInfo_bla_EE()
 			: base(
@@ -2537,39 +2614,39 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 
 	public class ArrayHelper_EE_i
 	{
-		private static GRGEN_MODEL.IEE nodeBearingAttributeForSearch = new GRGEN_MODEL.@EE(null, null);
-		public static int IndexOfBy(IList<GRGEN_MODEL.IEE> list, int entry)
+		private static GRGEN_MODEL.IEE instanceBearingAttributeForSearch = new GRGEN_MODEL.@EE(null, null);
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IEE> list, int entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IEE> list, int entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IEE> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IEE> list, int entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IEE> list, int entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IEE> list, int entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IEE> list, int entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@i.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IEE> list, int entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IEE> list, int entry)
 		{
-			nodeBearingAttributeForSearch.@i = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_EE_i.thisComparer);
+			instanceBearingAttributeForSearch.@i = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_EE_i.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IEE> ArrayOrderAscendingBy(List<GRGEN_MODEL.IEE> list)
 		{
@@ -2646,39 +2723,39 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 
 	public class ArrayHelper_EE_s
 	{
-		private static GRGEN_MODEL.IEE nodeBearingAttributeForSearch = new GRGEN_MODEL.@EE(null, null);
-		public static int IndexOfBy(IList<GRGEN_MODEL.IEE> list, string entry)
+		private static GRGEN_MODEL.IEE instanceBearingAttributeForSearch = new GRGEN_MODEL.@EE(null, null);
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IEE> list, string entry)
 		{
 			for(int i = 0; i < list.Count; ++i)
 				if(list[i].@s.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfBy(IList<GRGEN_MODEL.IEE> list, string entry, int startIndex)
+		public static int ArrayIndexOfBy(IList<GRGEN_MODEL.IEE> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i < list.Count; ++i)
 				if(list[i].@s.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IEE> list, string entry)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IEE> list, string entry)
 		{
 			for(int i = list.Count - 1; i >= 0; --i)
 				if(list[i].@s.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int LastIndexOfBy(IList<GRGEN_MODEL.IEE> list, string entry, int startIndex)
+		public static int ArrayLastIndexOfBy(IList<GRGEN_MODEL.IEE> list, string entry, int startIndex)
 		{
 			for(int i = startIndex; i >= 0; --i)
 				if(list[i].@s.Equals(entry))
 					return i;
 			return -1;
 		}
-		public static int IndexOfOrderedBy(List<GRGEN_MODEL.IEE> list, string entry)
+		public static int ArrayIndexOfOrderedBy(List<GRGEN_MODEL.IEE> list, string entry)
 		{
-			nodeBearingAttributeForSearch.@s = entry;
-			return list.BinarySearch(nodeBearingAttributeForSearch, Comparer_EE_s.thisComparer);
+			instanceBearingAttributeForSearch.@s = entry;
+			return list.BinarySearch(instanceBearingAttributeForSearch, Comparer_EE_s.thisComparer);
 		}
 		public static List<GRGEN_MODEL.IEE> ArrayOrderAscendingBy(List<GRGEN_MODEL.IEE> list)
 		{
@@ -2750,6 +2827,7 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		static @Object() {
 		}
 
+		//create object by CreateObject of the type class, not this internal-use constructor
 		public @Object(long uniqueId) : base(GRGEN_MODEL.ObjectType_Object.typeVar, uniqueId)
 		{
 			// implicit initialization, container creation of Object
@@ -2758,25 +2836,29 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		public static GRGEN_MODEL.ObjectType_Object TypeInstance { get { return GRGEN_MODEL.ObjectType_Object.typeVar; } }
 
 		public override GRGEN_LIBGR.IObject Clone(GRGEN_LIBGR.IGraph graph) {
-			return new GRGEN_MODEL.@Object(this, graph, null);
+			GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(this, graph, null);
+			((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+			return newObject;
 		}
 
-		public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
-			return new GRGEN_MODEL.@Object(this, graph, oldToNewObjectMap);
+		public override GRGEN_LIBGR.IObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
+			GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(this, graph, oldToNewObjectMap);
+			((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+			return newObject;
 		}
 
-		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -2788,11 +2870,22 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @Object)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @Object))
+				return false;
 			@Object that_ = (@Object)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public override object GetAttribute(string attrName)
@@ -2843,10 +2936,15 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		public override string ObjectClassName { get { return "de.unika.ipd.grGen.Model_FunctionsProceduresExample.@Object"; } }
 		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
 		{
-			if(uniqueId != -1)
-				return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
-			else
-				return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+			if(uniqueId != -1) {
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
+				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+				return newObject;
+			} else {
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
+				return newObject;
+			}
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -2865,11 +2963,6 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override GRGEN_LIBGR.IObject CreateObjectWithCopyCommons(GRGEN_LIBGR.IObject oldIObject, GRGEN_LIBGR.IGraph graph)
-		{
-			return new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
-		}
-
 	}
 
 	//
@@ -2887,6 +2980,7 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		static @TransientObject() {
 		}
 
+		//create object by CreateTransientObject of the type class, not this internal-use constructor
 		public @TransientObject() : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
 		{
 			// implicit initialization, container creation of TransientObject
@@ -2898,22 +2992,22 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 			return new GRGEN_MODEL.@TransientObject(this, null, null);
 		}
 
-		public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) {
+		public override GRGEN_LIBGR.ITransientObject Copy(GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) {
 			return new GRGEN_MODEL.@TransientObject(this, graph, oldToNewObjectMap);
 		}
 
-		private @TransientObject(GRGEN_MODEL.@TransientObject oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap) : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
+		private @TransientObject(GRGEN_MODEL.@TransientObject oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.TransientObjectType_TransientObject.typeVar)
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
 		}
 		
-		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject> oldToNewObjectMap)
+		private GRGEN_LIBGR.IBaseObject Copy(GRGEN_LIBGR.IBaseObject oldObj, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
 		{
 			if(oldObj == null)
 				return null;
 			if(oldToNewObjectMap.ContainsKey(oldObj))
-				return oldToNewObjectMap[oldObj];
+				return (GRGEN_LIBGR.IBaseObject)oldToNewObjectMap[oldObj];
 			else {
 				if(oldObj is GRGEN_LIBGR.IObject) {
 					GRGEN_LIBGR.IObject newObj = ((GRGEN_LIBGR.IObject)oldObj).Copy(graph, oldToNewObjectMap);
@@ -2925,11 +3019,22 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 			}
 		}
 
-		public override bool AreAttributesEqual(GRGEN_LIBGR.IAttributeBearer that) {
-			if(!(that is @TransientObject)) return false;
+		public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {
+			if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))
+				throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+			if(this == that)
+				return true;
+			if(!(that is @TransientObject))
+				return false;
 			@TransientObject that_ = (@TransientObject)that;
-			return true
-			;
+			visitedObjects.Add(this, null);
+			if(that != this)
+				visitedObjects.Add(that, null);
+			bool result = true
+				;
+			visitedObjects.Remove(this);
+			visitedObjects.Remove(that);
+			return result;
 		}
 
 		public override object GetAttribute(string attrName)
@@ -2999,11 +3104,6 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override GRGEN_LIBGR.ITransientObject CreateTransientObjectWithCopyCommons(GRGEN_LIBGR.ITransientObject oldITransientObject)
-		{
-			return new GRGEN_MODEL.@TransientObject();
-		}
-
 	}
 
 	public sealed class ExternalObjectType_object : GRGEN_LIBGR.ExternalObjectType
@@ -3018,6 +3118,8 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 		public override int NumProcedureMethods { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
 		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
+
+		public static object ThrowCopyClassMissingException() { throw new Exception("Cannot copy/clone external object, copy class specification is missing in the model."); }
 	}
 
 	//
@@ -3776,6 +3878,432 @@ public static ProcedureMethodInfo_bla_EE Instance { get { if(instance==null) { i
 			default: return null;
 			}
 		}
+
+		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayIndexOfBy((List<GRGEN_MODEL.IN>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "NN":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_NN_i.ArrayIndexOfBy((List<GRGEN_MODEL.INN>)array, (int)value);
+				case "s":
+					return ArrayHelper_NN_s.ArrayIndexOfBy((List<GRGEN_MODEL.INN>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "E":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_E_i.ArrayIndexOfBy((List<GRGEN_MODEL.IE>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "EE":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_EE_i.ArrayIndexOfBy((List<GRGEN_MODEL.IEE>)array, (int)value);
+				case "s":
+					return ArrayHelper_EE_s.ArrayIndexOfBy((List<GRGEN_MODEL.IEE>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayIndexOfBy((List<GRGEN_MODEL.IN>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "NN":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_NN_i.ArrayIndexOfBy((List<GRGEN_MODEL.INN>)array, (int)value, startIndex);
+				case "s":
+					return ArrayHelper_NN_s.ArrayIndexOfBy((List<GRGEN_MODEL.INN>)array, (string)value, startIndex);
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "E":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_E_i.ArrayIndexOfBy((List<GRGEN_MODEL.IE>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "EE":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_EE_i.ArrayIndexOfBy((List<GRGEN_MODEL.IEE>)array, (int)value, startIndex);
+				case "s":
+					return ArrayHelper_EE_s.ArrayIndexOfBy((List<GRGEN_MODEL.IEE>)array, (string)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayLastIndexOfBy((List<GRGEN_MODEL.IN>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "NN":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_NN_i.ArrayLastIndexOfBy((List<GRGEN_MODEL.INN>)array, (int)value);
+				case "s":
+					return ArrayHelper_NN_s.ArrayLastIndexOfBy((List<GRGEN_MODEL.INN>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "E":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_E_i.ArrayLastIndexOfBy((List<GRGEN_MODEL.IE>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "EE":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_EE_i.ArrayLastIndexOfBy((List<GRGEN_MODEL.IEE>)array, (int)value);
+				case "s":
+					return ArrayHelper_EE_s.ArrayLastIndexOfBy((List<GRGEN_MODEL.IEE>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayLastIndexOfBy((List<GRGEN_MODEL.IN>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "NN":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_NN_i.ArrayLastIndexOfBy((List<GRGEN_MODEL.INN>)array, (int)value, startIndex);
+				case "s":
+					return ArrayHelper_NN_s.ArrayLastIndexOfBy((List<GRGEN_MODEL.INN>)array, (string)value, startIndex);
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "E":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_E_i.ArrayLastIndexOfBy((List<GRGEN_MODEL.IE>)array, (int)value, startIndex);
+				default:
+					return -1;
+				}
+			case "EE":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_EE_i.ArrayLastIndexOfBy((List<GRGEN_MODEL.IEE>)array, (int)value, startIndex);
+				case "s":
+					return ArrayHelper_EE_s.ArrayLastIndexOfBy((List<GRGEN_MODEL.IEE>)array, (string)value, startIndex);
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
+		public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)
+		{
+			if(array.Count == 0)
+				return -1;
+			if(!(array[0] is GRGEN_LIBGR.IAttributeBearer))
+				return -1;
+			GRGEN_LIBGR.IAttributeBearer elem = (GRGEN_LIBGR.IAttributeBearer)array[0];
+			switch(elem.Type.PackagePrefixedName)
+			{
+			case "Node":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "N":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_N_i.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IN>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "NN":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_NN_i.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.INN>)array, (int)value);
+				case "s":
+					return ArrayHelper_NN_s.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.INN>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "AEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "Edge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "UEdge":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "E":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_E_i.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IE>)array, (int)value);
+				default:
+					return -1;
+				}
+			case "EE":
+				switch(member)
+				{
+				case "i":
+					return ArrayHelper_EE_i.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IEE>)array, (int)value);
+				case "s":
+					return ArrayHelper_EE_s.ArrayIndexOfOrderedBy((List<GRGEN_MODEL.IEE>)array, (string)value);
+				default:
+					return -1;
+				}
+			case "Object":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			case "TransientObject":
+				switch(member)
+				{
+				default:
+					return -1;
+				}
+			default: return -1;
+			}
+		}
+
 
 		public override void FailAssertion() { Debug.Assert(false); }
 		public override string MD5Hash { get { return "21a439e33bc45ddb4edd71c010646a97"; } }

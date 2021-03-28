@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Fri Feb 05 19:32:37 CET 2021
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Mar 28 10:09:49 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -677,6 +677,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0 instanceBearingAttributeForSearch_SpanningTree_iter_0 = new GRGEN_ACTIONS.Pattern_SpanningTree.Match_SpanningTree_iter_0();
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_groupBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>>();
@@ -709,6 +710,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_SpanningTree_iter_0_indexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTree_iter_0_indexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTree_iter_0_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTree_iter_0_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_groupBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
 		{
@@ -743,6 +772,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			}
 			return newList;
 		}
+		public static int Array_SpanningTree_iter_0_indexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTree_iter_0_indexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTree_iter_0_lastIndexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTree_iter_0_lastIndexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> Array_SpanningTree_iter_0_groupBy_e(List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list)
 		{
 			Dictionary<GRGEN_LIBGR.IUEdge, List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.IUEdge, List<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0>>();
@@ -775,6 +832,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_SpanningTree_iter_0_indexOfBy_e(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.IUEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTree_iter_0_indexOfBy_e(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.IUEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTree_iter_0_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.IUEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTree_iter_0_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Pattern_SpanningTree.IMatch_SpanningTree_iter_0> list, GRGEN_LIBGR.IUEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -1437,6 +1522,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0 instanceBearingAttributeForSearch_SpanningTreeReverse_iter_0 = new GRGEN_ACTIONS.Pattern_SpanningTreeReverse.Match_SpanningTreeReverse_iter_0();
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_groupBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>>();
@@ -1469,6 +1555,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_indexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_indexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_groupBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
 		{
@@ -1503,6 +1617,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			}
 			return newList;
 		}
+		public static int Array_SpanningTreeReverse_iter_0_indexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_indexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_lastIndexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_lastIndexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> Array_SpanningTreeReverse_iter_0_groupBy__edge0(List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0>>();
@@ -1535,6 +1677,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_indexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_indexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeReverse_iter_0_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeReverse.IMatch_SpanningTreeReverse_iter_0> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -2155,6 +2325,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0 instanceBearingAttributeForSearch_SpanningTreeOutgoing_iter_0 = new GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing_iter_0();
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_groupBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>>();
@@ -2187,6 +2358,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_indexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_indexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_groupBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
 		{
@@ -2221,6 +2420,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			}
 			return newList;
 		}
+		public static int Array_SpanningTreeOutgoing_iter_0_indexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_indexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_lastIndexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_lastIndexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> Array_SpanningTreeOutgoing_iter_0_groupBy__edge0(List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0>>();
@@ -2253,6 +2480,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_indexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_indexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeOutgoing_iter_0_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.IMatch_SpanningTreeOutgoing_iter_0> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -2873,6 +3128,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0 instanceBearingAttributeForSearch_SpanningTreeIncoming_iter_0 = new GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming_iter_0();
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_groupBy_next(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>>();
@@ -2905,6 +3161,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_indexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_indexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_lastIndexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_lastIndexOfBy_next(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_next.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_groupBy_root(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
 		{
@@ -2939,6 +3223,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			}
 			return newList;
 		}
+		public static int Array_SpanningTreeIncoming_iter_0_indexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_indexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> Array_SpanningTreeIncoming_iter_0_groupBy__edge0(List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0>>();
@@ -2971,6 +3283,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_indexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_indexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_SpanningTreeIncoming_iter_0_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.IMatch_SpanningTreeIncoming_iter_0> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -3010,7 +3350,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_initTree+IMatch_initTree",
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_initTree+Match_initTree"
 			)
 		{
 		}
@@ -3287,6 +3629,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_initTree.IMatch_initTree instanceBearingAttributeForSearch_initTree = new GRGEN_ACTIONS.Rule_initTree.Match_initTree();
 	}
 
 	public class Rule_initUndirected : GRGEN_LGSP.LGSPRulePattern
@@ -3325,7 +3668,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_initUndirected+IMatch_initUndirected",
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_initUndirected+Match_initUndirected"
 			)
 		{
 		}
@@ -3596,6 +3941,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_initUndirected.IMatch_initUndirected instanceBearingAttributeForSearch_initUndirected = new GRGEN_ACTIONS.Rule_initUndirected.Match_initUndirected();
 	}
 
 	public class Rule_initDirected : GRGEN_LGSP.LGSPRulePattern
@@ -3634,7 +3980,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_initDirected+IMatch_initDirected",
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_initDirected+Match_initDirected"
 			)
 		{
 		}
@@ -3905,6 +4253,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_initDirected.IMatch_initDirected instanceBearingAttributeForSearch_initDirected = new GRGEN_ACTIONS.Rule_initDirected.Match_initDirected();
 	}
 
 	public class Rule_spanningTree : GRGEN_LGSP.LGSPRulePattern
@@ -3946,7 +4295,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_spanningTree+IMatch_spanningTree",
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_spanningTree+Match_spanningTree"
 			)
 		{
 		}
@@ -4245,6 +4596,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree instanceBearingAttributeForSearch_spanningTree = new GRGEN_ACTIONS.Rule_spanningTree.Match_spanningTree();
 		public static List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> Array_spanningTree_groupBy_root(List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree>>();
@@ -4277,6 +4629,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_spanningTree_indexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTree_indexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTree_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTree_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTree.IMatch_spanningTree> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -4316,7 +4696,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_edgesVisited+IMatch_edgesVisited",
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_edgesVisited+Match_edgesVisited"
 			)
 		{
 		}
@@ -4592,6 +4974,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited instanceBearingAttributeForSearch_edgesVisited = new GRGEN_ACTIONS.Rule_edgesVisited.Match_edgesVisited();
 		public static List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> Array_edgesVisited_groupBy_e(List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> list)
 		{
 			Dictionary<GRGEN_LIBGR.IUEdge, List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>> seenValues = new Dictionary<GRGEN_LIBGR.IUEdge, List<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited>>();
@@ -4624,6 +5007,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_edgesVisited_indexOfBy_e(IList<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> list, GRGEN_LIBGR.IUEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_edgesVisited_indexOfBy_e(IList<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> list, GRGEN_LIBGR.IUEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_edgesVisited_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> list, GRGEN_LIBGR.IUEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_edgesVisited_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Rule_edgesVisited.IMatch_edgesVisited> list, GRGEN_LIBGR.IUEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -4663,7 +5074,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_nodesVisited+IMatch_nodesVisited",
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_nodesVisited+Match_nodesVisited"
 			)
 		{
 		}
@@ -4939,6 +5352,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited instanceBearingAttributeForSearch_nodesVisited = new GRGEN_ACTIONS.Rule_nodesVisited.Match_nodesVisited();
 		public static List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> Array_nodesVisited_groupBy_n(List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited>>();
@@ -4971,6 +5385,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_nodesVisited_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_nodesVisited_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_nodesVisited_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_nodesVisited_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_nodesVisited.IMatch_nodesVisited> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -5012,7 +5454,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_spanningTreeReverse+IMatch_spanningTreeReverse",
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_spanningTreeReverse+Match_spanningTreeReverse"
 			)
 		{
 		}
@@ -5307,6 +5751,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse instanceBearingAttributeForSearch_spanningTreeReverse = new GRGEN_ACTIONS.Rule_spanningTreeReverse.Match_spanningTreeReverse();
 		public static List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> Array_spanningTreeReverse_groupBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse>>();
@@ -5339,6 +5784,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_spanningTreeReverse_indexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTreeReverse_indexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTreeReverse_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTreeReverse_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeReverse.IMatch_spanningTreeReverse> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -5378,7 +5851,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_spanningTreeOutgoing+IMatch_spanningTreeOutgoing",
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_spanningTreeOutgoing+Match_spanningTreeOutgoing"
 			)
 		{
 		}
@@ -5667,6 +6142,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing instanceBearingAttributeForSearch_spanningTreeOutgoing = new GRGEN_ACTIONS.Rule_spanningTreeOutgoing.Match_spanningTreeOutgoing();
 		public static List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> Array_spanningTreeOutgoing_groupBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>>();
@@ -5699,6 +6175,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_spanningTreeOutgoing_indexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTreeOutgoing_indexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTreeOutgoing_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTreeOutgoing_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -5738,7 +6242,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_spanningTreeIncoming+IMatch_spanningTreeIncoming",
+				"de.unika.ipd.grGen.Action_spanningTree.Rule_spanningTreeIncoming+Match_spanningTreeIncoming"
 			)
 		{
 		}
@@ -6027,6 +6533,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming instanceBearingAttributeForSearch_spanningTreeIncoming = new GRGEN_ACTIONS.Rule_spanningTreeIncoming.Match_spanningTreeIncoming();
 		public static List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> Array_spanningTreeIncoming_groupBy_root(List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> list)
 		{
 			Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>> seenValues = new Dictionary<GRGEN_LIBGR.INode, List<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>>();
@@ -6059,6 +6566,34 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			return newList;
+		}
+		public static int Array_spanningTreeIncoming_indexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTreeIncoming_indexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTreeIncoming_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> list, GRGEN_LIBGR.INode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_spanningTreeIncoming_lastIndexOfBy_root(IList<GRGEN_ACTIONS.Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> list, GRGEN_LIBGR.INode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_root.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -11558,6 +12093,474 @@ maxMatchesIterReached:
                     }
                 default:
                     return null;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "initTree":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "initUndirected":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "initDirected":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "spanningTree":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTree_indexOfBy_root(GRGEN_ACTIONS.Rule_spanningTree.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "edgesVisited":
+                    switch(member)
+                    {
+                    case "e":
+                        return ArrayHelper.Array_edgesVisited_indexOfBy_e(GRGEN_ACTIONS.Rule_edgesVisited.ConvertAsNeeded(array), (GRGEN_LIBGR.IUEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "nodesVisited":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_nodesVisited_indexOfBy_n(GRGEN_ACTIONS.Rule_nodesVisited.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeReverse":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeReverse_indexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeOutgoing":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeOutgoing_indexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeOutgoing.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeIncoming":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeIncoming_indexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeIncoming.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "initTree":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "initUndirected":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "initDirected":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "spanningTree":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTree_indexOfBy_root(GRGEN_ACTIONS.Rule_spanningTree.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "edgesVisited":
+                    switch(member)
+                    {
+                    case "e":
+                        return ArrayHelper.Array_edgesVisited_indexOfBy_e(GRGEN_ACTIONS.Rule_edgesVisited.ConvertAsNeeded(array), (GRGEN_LIBGR.IUEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "nodesVisited":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_nodesVisited_indexOfBy_n(GRGEN_ACTIONS.Rule_nodesVisited.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeReverse":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeReverse_indexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeOutgoing":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeOutgoing_indexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeOutgoing.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeIncoming":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeIncoming_indexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeIncoming.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "initTree":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "initUndirected":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "initDirected":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "spanningTree":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTree_lastIndexOfBy_root(GRGEN_ACTIONS.Rule_spanningTree.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "edgesVisited":
+                    switch(member)
+                    {
+                    case "e":
+                        return ArrayHelper.Array_edgesVisited_lastIndexOfBy_e(GRGEN_ACTIONS.Rule_edgesVisited.ConvertAsNeeded(array), (GRGEN_LIBGR.IUEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "nodesVisited":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_nodesVisited_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_nodesVisited.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeReverse":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeReverse_lastIndexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeOutgoing":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeOutgoing_lastIndexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeOutgoing.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeIncoming":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeIncoming_lastIndexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeIncoming.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "initTree":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "initUndirected":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "initDirected":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "spanningTree":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTree_lastIndexOfBy_root(GRGEN_ACTIONS.Rule_spanningTree.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "edgesVisited":
+                    switch(member)
+                    {
+                    case "e":
+                        return ArrayHelper.Array_edgesVisited_lastIndexOfBy_e(GRGEN_ACTIONS.Rule_edgesVisited.ConvertAsNeeded(array), (GRGEN_LIBGR.IUEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "nodesVisited":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_nodesVisited_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_nodesVisited.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeReverse":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeReverse_lastIndexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeReverse.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeOutgoing":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeOutgoing_lastIndexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeOutgoing.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeIncoming":
+                    switch(member)
+                    {
+                    case "root":
+                        return ArrayHelper.Array_spanningTreeIncoming_lastIndexOfBy_root(GRGEN_ACTIONS.Rule_spanningTreeIncoming.ConvertAsNeeded(array), (GRGEN_LIBGR.INode)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfOrderedBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "initTree":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "initUndirected":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "initDirected":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "spanningTree":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "edgesVisited":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "nodesVisited":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeReverse":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeOutgoing":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "spanningTreeIncoming":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
                 }
             }
         }

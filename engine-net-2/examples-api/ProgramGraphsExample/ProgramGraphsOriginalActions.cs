@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Fri Feb 05 19:33:07 CET 2021
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Mar 28 10:10:28 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -633,6 +633,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0 instanceBearingAttributeForSearch_Subclasses_iter_0 = new GRGEN_ACTIONS.Pattern_Subclasses.Match_Subclasses_iter_0();
 		public static List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> Array_Subclasses_iter_0_groupBy_c(List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list)
 		{
 			Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0>> seenValues = new Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0>>();
@@ -665,6 +666,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_Subclasses_iter_0_indexOfBy_c(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Subclasses_iter_0_indexOfBy_c(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Subclasses_iter_0_lastIndexOfBy_c(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Subclasses_iter_0_lastIndexOfBy_c(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> Array_Subclasses_iter_0_groupBy_sub(List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list)
 		{
@@ -699,6 +728,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			}
 			return newList;
 		}
+		public static int Array_Subclasses_iter_0_indexOfBy_sub(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_sub.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Subclasses_iter_0_indexOfBy_sub(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_sub.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Subclasses_iter_0_lastIndexOfBy_sub(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_sub.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Subclasses_iter_0_lastIndexOfBy_sub(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_sub.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> Array_Subclasses_iter_0_groupBy__edge0(List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list)
 		{
 			Dictionary<GRGEN_MODEL.Icontains, List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0>> seenValues = new Dictionary<GRGEN_MODEL.Icontains, List<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0>>();
@@ -731,6 +788,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_Subclasses_iter_0_indexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Subclasses_iter_0_indexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Subclasses_iter_0_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Subclasses_iter_0_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Pattern_Subclasses.IMatch_Subclasses_iter_0> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -1631,6 +1716,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0 instanceBearingAttributeForSearch_Features_iter_0 = new GRGEN_ACTIONS.Pattern_Features.Match_Features_iter_0();
 		public static List<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0> Array_Features_iter_0_groupBy_c(List<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0> list)
 		{
 			Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0>> seenValues = new Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0>>();
@@ -1663,6 +1749,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_Features_iter_0_indexOfBy_c(IList<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Features_iter_0_indexOfBy_c(IList<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Features_iter_0_lastIndexOfBy_c(IList<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Features_iter_0_lastIndexOfBy_c(IList<GRGEN_ACTIONS.Pattern_Features.IMatch_Features_iter_0> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -3725,6 +3839,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0 instanceBearingAttributeForSearch_Parameters_iter_0 = new GRGEN_ACTIONS.Pattern_Parameters.Match_Parameters_iter_0();
 		public static List<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0> Array_Parameters_iter_0_groupBy_b(List<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0> list)
 		{
 			Dictionary<GRGEN_MODEL.IMethodBody, List<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0>> seenValues = new Dictionary<GRGEN_MODEL.IMethodBody, List<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0>>();
@@ -3757,6 +3872,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_Parameters_iter_0_indexOfBy_b(IList<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0> list, GRGEN_MODEL.IMethodBody entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Parameters_iter_0_indexOfBy_b(IList<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0> list, GRGEN_MODEL.IMethodBody entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Parameters_iter_0_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0> list, GRGEN_MODEL.IMethodBody entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Parameters_iter_0_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Pattern_Parameters.IMatch_Parameters_iter_0> list, GRGEN_MODEL.IMethodBody entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -5213,6 +5356,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0 instanceBearingAttributeForSearch_Statements_iter_0 = new GRGEN_ACTIONS.Pattern_Statements.Match_Statements_iter_0();
 		public static List<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0> Array_Statements_iter_0_groupBy_b(List<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0> list)
 		{
 			Dictionary<GRGEN_MODEL.IMethodBody, List<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0>> seenValues = new Dictionary<GRGEN_MODEL.IMethodBody, List<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0>>();
@@ -5245,6 +5389,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_Statements_iter_0_indexOfBy_b(IList<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0> list, GRGEN_MODEL.IMethodBody entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Statements_iter_0_indexOfBy_b(IList<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0> list, GRGEN_MODEL.IMethodBody entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Statements_iter_0_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0> list, GRGEN_MODEL.IMethodBody entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Statements_iter_0_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Pattern_Statements.IMatch_Statements_iter_0> list, GRGEN_MODEL.IMethodBody entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_b.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -7072,6 +7244,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0 instanceBearingAttributeForSearch_Expressions_iter_0 = new GRGEN_ACTIONS.Pattern_Expressions.Match_Expressions_iter_0();
 		public static List<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0> Array_Expressions_iter_0_groupBy_e(List<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0> list)
 		{
 			Dictionary<GRGEN_MODEL.IExpression, List<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0>> seenValues = new Dictionary<GRGEN_MODEL.IExpression, List<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0>>();
@@ -7104,6 +7277,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_Expressions_iter_0_indexOfBy_e(IList<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0> list, GRGEN_MODEL.IExpression entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Expressions_iter_0_indexOfBy_e(IList<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0> list, GRGEN_MODEL.IExpression entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Expressions_iter_0_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0> list, GRGEN_MODEL.IExpression entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Expressions_iter_0_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Pattern_Expressions.IMatch_Expressions_iter_0> list, GRGEN_MODEL.IExpression entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_e.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -8645,6 +8846,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0 instanceBearingAttributeForSearch_Bodies_iter_0 = new GRGEN_ACTIONS.Pattern_Bodies.Match_Bodies_iter_0();
 		public static List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> Array_Bodies_iter_0_groupBy_m5(List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list)
 		{
 			Dictionary<GRGEN_MODEL.IMethodSignature, List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0>> seenValues = new Dictionary<GRGEN_MODEL.IMethodSignature, List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0>>();
@@ -8678,6 +8880,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			}
 			return newList;
 		}
+		public static int Array_Bodies_iter_0_indexOfBy_m5(IList<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list, GRGEN_MODEL.IMethodSignature entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_m5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Bodies_iter_0_indexOfBy_m5(IList<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list, GRGEN_MODEL.IMethodSignature entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_m5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Bodies_iter_0_lastIndexOfBy_m5(IList<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list, GRGEN_MODEL.IMethodSignature entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_m5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Bodies_iter_0_lastIndexOfBy_m5(IList<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list, GRGEN_MODEL.IMethodSignature entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_m5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> Array_Bodies_iter_0_groupBy_c1(List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list)
 		{
 			Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0>> seenValues = new Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0>>();
@@ -8710,6 +8940,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_Bodies_iter_0_indexOfBy_c1(IList<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Bodies_iter_0_indexOfBy_c1(IList<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Bodies_iter_0_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Bodies_iter_0_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Pattern_Bodies.IMatch_Bodies_iter_0> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -9198,7 +9456,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_createProgramGraphExample+IMatch_createProgramGraphExample",
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_createProgramGraphExample+Match_createProgramGraphExample"
 			)
 		{
 		}
@@ -9515,6 +9775,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createProgramGraphExample.IMatch_createProgramGraphExample instanceBearingAttributeForSearch_createProgramGraphExample = new GRGEN_ACTIONS.Rule_createProgramGraphExample.Match_createProgramGraphExample();
 	}
 
 	public class Rule_createProgramGraphPullUp : GRGEN_LGSP.LGSPRulePattern
@@ -9553,7 +9814,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_createProgramGraphPullUp+IMatch_createProgramGraphPullUp",
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_createProgramGraphPullUp+Match_createProgramGraphPullUp"
 			)
 		{
 		}
@@ -9857,6 +10120,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp instanceBearingAttributeForSearch_createProgramGraphPullUp = new GRGEN_ACTIONS.Rule_createProgramGraphPullUp.Match_createProgramGraphPullUp();
 	}
 
 	public class Rule_pullUpMethod : GRGEN_LGSP.LGSPRulePattern
@@ -9909,7 +10173,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_pullUpMethod+IMatch_pullUpMethod",
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_pullUpMethod+Match_pullUpMethod"
 			)
 		{
 		}
@@ -10332,6 +10598,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod instanceBearingAttributeForSearch_pullUpMethod = new GRGEN_ACTIONS.Rule_pullUpMethod.Match_pullUpMethod();
 		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_groupBy_c1(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
 		{
 			Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>> seenValues = new Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>>();
@@ -10364,6 +10631,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_pullUpMethod_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_groupBy_c3(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
 		{
@@ -10398,6 +10693,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			}
 			return newList;
 		}
+		public static int Array_pullUpMethod_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_groupBy_b4(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
 		{
 			Dictionary<GRGEN_MODEL.IMethodBody, List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>> seenValues = new Dictionary<GRGEN_MODEL.IMethodBody, List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>>();
@@ -10430,6 +10753,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_pullUpMethod_indexOfBy_b4(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IMethodBody entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_b4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_indexOfBy_b4(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IMethodBody entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_b4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy_b4(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IMethodBody entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_b4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy_b4(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IMethodBody entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_b4.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_groupBy_m5(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
 		{
@@ -10464,6 +10815,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			}
 			return newList;
 		}
+		public static int Array_pullUpMethod_indexOfBy_m5(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IMethodSignature entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_m5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_indexOfBy_m5(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IMethodSignature entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_m5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy_m5(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IMethodSignature entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_m5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy_m5(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IMethodSignature entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_m5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_groupBy__edge0(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
 		{
 			Dictionary<GRGEN_MODEL.Icontains, List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>> seenValues = new Dictionary<GRGEN_MODEL.Icontains, List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>>();
@@ -10496,6 +10875,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_pullUpMethod_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_groupBy_m(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
 		{
@@ -10530,6 +10937,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			}
 			return newList;
 		}
+		public static int Array_pullUpMethod_indexOfBy_m(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_m.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_indexOfBy_m(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_m.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy_m(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_m.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy_m(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_m.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> Array_pullUpMethod_groupBy__edge1(List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list)
 		{
 			Dictionary<GRGEN_MODEL.IbindsTo, List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>> seenValues = new Dictionary<GRGEN_MODEL.IbindsTo, List<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod>>();
@@ -10562,6 +10997,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_pullUpMethod_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IbindsTo entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IbindsTo entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IbindsTo entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_pullUpMethod_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_pullUpMethod.IMatch_pullUpMethod> list, GRGEN_MODEL.IbindsTo entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -10601,7 +11064,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_matchAll+IMatch_matchAll",
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_matchAll+Match_matchAll"
 			)
 		{
 		}
@@ -10890,6 +11355,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll instanceBearingAttributeForSearch_matchAll = new GRGEN_ACTIONS.Rule_matchAll.Match_matchAll();
 		public static List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll> Array_matchAll_groupBy_c1(List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll> list)
 		{
 			Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll>> seenValues = new Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll>>();
@@ -10922,6 +11388,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_matchAll_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_matchAll_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_matchAll_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_matchAll_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_matchAll.IMatch_matchAll> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -10961,7 +11455,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_InsertHelperEdgesForNestedLayout+IMatch_InsertHelperEdgesForNestedLayout",
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_InsertHelperEdgesForNestedLayout+Match_InsertHelperEdgesForNestedLayout"
 			)
 		{
 		}
@@ -11344,6 +11840,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout instanceBearingAttributeForSearch_InsertHelperEdgesForNestedLayout = new GRGEN_ACTIONS.Rule_InsertHelperEdgesForNestedLayout.Match_InsertHelperEdgesForNestedLayout();
 	}
 
 	public class Rule_LinkMethodBodyToContainedEntity : GRGEN_LGSP.LGSPRulePattern
@@ -11400,7 +11897,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_LinkMethodBodyToContainedEntity+IMatch_LinkMethodBodyToContainedEntity",
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_LinkMethodBodyToContainedEntity+Match_LinkMethodBodyToContainedEntity"
 			)
 		{
 		}
@@ -11972,6 +12471,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity instanceBearingAttributeForSearch_LinkMethodBodyToContainedEntity = new GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.Match_LinkMethodBodyToContainedEntity();
 		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> Array_LinkMethodBodyToContainedEntity_groupBy_mb(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list)
 		{
 			Dictionary<GRGEN_MODEL.IMethodBody, List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>> seenValues = new Dictionary<GRGEN_MODEL.IMethodBody, List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>>();
@@ -12004,6 +12504,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_indexOfBy_mb(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.IMethodBody entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_mb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_indexOfBy_mb(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.IMethodBody entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_mb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_lastIndexOfBy_mb(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.IMethodBody entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_mb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_lastIndexOfBy_mb(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.IMethodBody entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_mb.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> Array_LinkMethodBodyToContainedEntity_groupBy_e(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list)
 		{
@@ -12038,6 +12566,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			}
 			return newList;
 		}
+		public static int Array_LinkMethodBodyToContainedEntity_indexOfBy_e(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.IEntity entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_indexOfBy_e(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.IEntity entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.IEntity entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.IEntity entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_e.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> Array_LinkMethodBodyToContainedEntity_groupBy__edge0(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list)
 		{
 			Dictionary<GRGEN_MODEL.Icontains, List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>> seenValues = new Dictionary<GRGEN_MODEL.Icontains, List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>>();
@@ -12070,6 +12626,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedEntity_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -12131,7 +12715,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_LinkMethodBodyToContainedExpressionTransitive+IMatch_LinkMethodBodyToContainedExpressionTransitive",
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_LinkMethodBodyToContainedExpressionTransitive+Match_LinkMethodBodyToContainedExpressionTransitive"
 			)
 		{
 		}
@@ -12745,6 +13331,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive instanceBearingAttributeForSearch_LinkMethodBodyToContainedExpressionTransitive = new GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.Match_LinkMethodBodyToContainedExpressionTransitive();
 		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> Array_LinkMethodBodyToContainedExpressionTransitive_groupBy_mb(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list)
 		{
 			Dictionary<GRGEN_MODEL.IMethodBody, List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>> seenValues = new Dictionary<GRGEN_MODEL.IMethodBody, List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>>();
@@ -12777,6 +13364,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_mb(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IMethodBody entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_mb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_mb(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IMethodBody entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_mb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_mb(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IMethodBody entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_mb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_mb(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IMethodBody entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_mb.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> Array_LinkMethodBodyToContainedExpressionTransitive_groupBy_e1(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list)
 		{
@@ -12811,6 +13426,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			}
 			return newList;
 		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_e1(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IExpression entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_e1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_e1(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IExpression entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_e1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_e1(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IExpression entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_e1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_e1(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IExpression entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_e1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> Array_LinkMethodBodyToContainedExpressionTransitive_groupBy_e2(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list)
 		{
 			Dictionary<GRGEN_MODEL.IExpression, List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>> seenValues = new Dictionary<GRGEN_MODEL.IExpression, List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>>();
@@ -12843,6 +13486,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_e2(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IExpression entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_e2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_e2(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IExpression entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_e2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_e2(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IExpression entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_e2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_e2(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.IExpression entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_e2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> Array_LinkMethodBodyToContainedExpressionTransitive_groupBy__edge0(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list)
 		{
@@ -12877,6 +13548,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			}
 			return newList;
 		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.ImethodBodyContains entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.ImethodBodyContains entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.ImethodBodyContains entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.ImethodBodyContains entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> Array_LinkMethodBodyToContainedExpressionTransitive_groupBy__edge1(List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list)
 		{
 			Dictionary<GRGEN_MODEL.Icontains, List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>> seenValues = new Dictionary<GRGEN_MODEL.Icontains, List<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>>();
@@ -12909,6 +13608,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -12954,7 +13681,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_RemoveMethodBodyContainsBetweenExpressions+IMatch_RemoveMethodBodyContainsBetweenExpressions",
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_RemoveMethodBodyContainsBetweenExpressions+Match_RemoveMethodBodyContainsBetweenExpressions"
 			)
 		{
 		}
@@ -13274,6 +14003,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions instanceBearingAttributeForSearch_RemoveMethodBodyContainsBetweenExpressions = new GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.Match_RemoveMethodBodyContainsBetweenExpressions();
 		public static List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> Array_RemoveMethodBodyContainsBetweenExpressions_groupBy_e1(List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list)
 		{
 			Dictionary<GRGEN_MODEL.IExpression, List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>> seenValues = new Dictionary<GRGEN_MODEL.IExpression, List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>>();
@@ -13306,6 +14036,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_e1(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.IExpression entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_e1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_e1(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.IExpression entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_e1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_e1(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.IExpression entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_e1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_e1(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.IExpression entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_e1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> Array_RemoveMethodBodyContainsBetweenExpressions_groupBy_e2(List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list)
 		{
@@ -13340,6 +14098,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			}
 			return newList;
 		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_e2(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.IExpression entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_e2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_e2(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.IExpression entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_e2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_e2(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.IExpression entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_e2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_e2(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.IExpression entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_e2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> Array_RemoveMethodBodyContainsBetweenExpressions_groupBy_mbc(List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list)
 		{
 			Dictionary<GRGEN_MODEL.ImethodBodyContains, List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>> seenValues = new Dictionary<GRGEN_MODEL.ImethodBodyContains, List<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>>();
@@ -13372,6 +14158,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_mbc(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.ImethodBodyContains entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_mbc.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_mbc(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.ImethodBodyContains entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_mbc.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_mbc(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.ImethodBodyContains entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_mbc.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_mbc(IList<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> list, GRGEN_MODEL.ImethodBodyContains entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_mbc.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -13417,7 +14231,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_RetypeClassContainment+IMatch_RetypeClassContainment",
+				"de.unika.ipd.grGen.Action_ProgramGraphsOriginal.Rule_RetypeClassContainment+Match_RetypeClassContainment"
 			)
 		{
 		}
@@ -13737,6 +14553,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment instanceBearingAttributeForSearch_RetypeClassContainment = new GRGEN_ACTIONS.Rule_RetypeClassContainment.Match_RetypeClassContainment();
 		public static List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> Array_RetypeClassContainment_groupBy_c1(List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list)
 		{
 			Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>> seenValues = new Dictionary<GRGEN_MODEL.IClass, List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>>();
@@ -13769,6 +14586,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_RetypeClassContainment_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RetypeClassContainment_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RetypeClassContainment_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RetypeClassContainment_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> Array_RetypeClassContainment_groupBy_c2(List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list)
 		{
@@ -13803,6 +14648,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			}
 			return newList;
 		}
+		public static int Array_RetypeClassContainment_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RetypeClassContainment_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RetypeClassContainment_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.IClass entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RetypeClassContainment_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.IClass entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> Array_RetypeClassContainment_groupBy_c(List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list)
 		{
 			Dictionary<GRGEN_MODEL.Icontains, List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>> seenValues = new Dictionary<GRGEN_MODEL.Icontains, List<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment>>();
@@ -13835,6 +14708,34 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				}
 			}
 			return newList;
+		}
+		public static int Array_RetypeClassContainment_indexOfBy_c(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RetypeClassContainment_indexOfBy_c(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RetypeClassContainment_lastIndexOfBy_c(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.Icontains entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_RetypeClassContainment_lastIndexOfBy_c(IList<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> list, GRGEN_MODEL.Icontains entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_c.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -23874,6 +24775,602 @@ label3: ;
                     }
                 default:
                     return null;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createProgramGraphExample":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createProgramGraphPullUp":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "pullUpMethod":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy_c1(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value);
+                    case "c3":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy_c3(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value);
+                    case "b4":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy_b4(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value);
+                    case "m5":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy_m5(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodSignature)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy__edge0(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value);
+                    case "m":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy_m(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy__edge1(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IbindsTo)value);
+                    default:
+                        return -1;
+                    }
+                case "matchAll":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_matchAll_indexOfBy_c1(GRGEN_ACTIONS.Rule_matchAll.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value);
+                    default:
+                        return -1;
+                    }
+                case "InsertHelperEdgesForNestedLayout":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "LinkMethodBodyToContainedEntity":
+                    switch(member)
+                    {
+                    case "mb":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_indexOfBy_mb(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value);
+                    case "e":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_indexOfBy_e(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.IEntity)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_indexOfBy__edge0(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value);
+                    default:
+                        return -1;
+                    }
+                case "LinkMethodBodyToContainedExpressionTransitive":
+                    switch(member)
+                    {
+                    case "mb":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_mb(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value);
+                    case "e1":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_e1(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value);
+                    case "e2":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_e2(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy__edge0(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.ImethodBodyContains)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy__edge1(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value);
+                    default:
+                        return -1;
+                    }
+                case "RemoveMethodBodyContainsBetweenExpressions":
+                    switch(member)
+                    {
+                    case "e1":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_e1(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value);
+                    case "e2":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_e2(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value);
+                    case "mbc":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_mbc(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.ImethodBodyContains)value);
+                    default:
+                        return -1;
+                    }
+                case "RetypeClassContainment":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_RetypeClassContainment_indexOfBy_c1(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value);
+                    case "c2":
+                        return ArrayHelper.Array_RetypeClassContainment_indexOfBy_c2(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value);
+                    case "c":
+                        return ArrayHelper.Array_RetypeClassContainment_indexOfBy_c(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createProgramGraphExample":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createProgramGraphPullUp":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "pullUpMethod":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy_c1(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy_c3(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value, startIndex);
+                    case "b4":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy_b4(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value, startIndex);
+                    case "m5":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy_m5(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodSignature)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy__edge0(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value, startIndex);
+                    case "m":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy_m(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_pullUpMethod_indexOfBy__edge1(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IbindsTo)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "matchAll":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_matchAll_indexOfBy_c1(GRGEN_ACTIONS.Rule_matchAll.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "InsertHelperEdgesForNestedLayout":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "LinkMethodBodyToContainedEntity":
+                    switch(member)
+                    {
+                    case "mb":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_indexOfBy_mb(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value, startIndex);
+                    case "e":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_indexOfBy_e(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.IEntity)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_indexOfBy__edge0(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "LinkMethodBodyToContainedExpressionTransitive":
+                    switch(member)
+                    {
+                    case "mb":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_mb(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value, startIndex);
+                    case "e1":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_e1(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value, startIndex);
+                    case "e2":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy_e2(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy__edge0(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.ImethodBodyContains)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_indexOfBy__edge1(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "RemoveMethodBodyContainsBetweenExpressions":
+                    switch(member)
+                    {
+                    case "e1":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_e1(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value, startIndex);
+                    case "e2":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_e2(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value, startIndex);
+                    case "mbc":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_indexOfBy_mbc(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.ImethodBodyContains)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "RetypeClassContainment":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_RetypeClassContainment_indexOfBy_c1(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_RetypeClassContainment_indexOfBy_c2(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value, startIndex);
+                    case "c":
+                        return ArrayHelper.Array_RetypeClassContainment_indexOfBy_c(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createProgramGraphExample":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createProgramGraphPullUp":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "pullUpMethod":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value);
+                    case "c3":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value);
+                    case "b4":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy_b4(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value);
+                    case "m5":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy_m5(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodSignature)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value);
+                    case "m":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy_m(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IbindsTo)value);
+                    default:
+                        return -1;
+                    }
+                case "matchAll":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_matchAll_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_matchAll.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value);
+                    default:
+                        return -1;
+                    }
+                case "InsertHelperEdgesForNestedLayout":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "LinkMethodBodyToContainedEntity":
+                    switch(member)
+                    {
+                    case "mb":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_lastIndexOfBy_mb(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value);
+                    case "e":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_lastIndexOfBy_e(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.IEntity)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value);
+                    default:
+                        return -1;
+                    }
+                case "LinkMethodBodyToContainedExpressionTransitive":
+                    switch(member)
+                    {
+                    case "mb":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_mb(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value);
+                    case "e1":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_e1(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value);
+                    case "e2":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_e2(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.ImethodBodyContains)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value);
+                    default:
+                        return -1;
+                    }
+                case "RemoveMethodBodyContainsBetweenExpressions":
+                    switch(member)
+                    {
+                    case "e1":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_e1(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value);
+                    case "e2":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_e2(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value);
+                    case "mbc":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_mbc(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.ImethodBodyContains)value);
+                    default:
+                        return -1;
+                    }
+                case "RetypeClassContainment":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_RetypeClassContainment_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value);
+                    case "c2":
+                        return ArrayHelper.Array_RetypeClassContainment_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value);
+                    case "c":
+                        return ArrayHelper.Array_RetypeClassContainment_lastIndexOfBy_c(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createProgramGraphExample":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createProgramGraphPullUp":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "pullUpMethod":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value, startIndex);
+                    case "b4":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy_b4(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value, startIndex);
+                    case "m5":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy_m5(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodSignature)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value, startIndex);
+                    case "m":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy_m(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_pullUpMethod_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_pullUpMethod.ConvertAsNeeded(array), (GRGEN_MODEL.IbindsTo)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "matchAll":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_matchAll_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_matchAll.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "InsertHelperEdgesForNestedLayout":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "LinkMethodBodyToContainedEntity":
+                    switch(member)
+                    {
+                    case "mb":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_lastIndexOfBy_mb(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value, startIndex);
+                    case "e":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_lastIndexOfBy_e(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.IEntity)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedEntity_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "LinkMethodBodyToContainedExpressionTransitive":
+                    switch(member)
+                    {
+                    case "mb":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_mb(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IMethodBody)value, startIndex);
+                    case "e1":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_e1(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value, startIndex);
+                    case "e2":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy_e2(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.ImethodBodyContains)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_LinkMethodBodyToContainedExpressionTransitive_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "RemoveMethodBodyContainsBetweenExpressions":
+                    switch(member)
+                    {
+                    case "e1":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_e1(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value, startIndex);
+                    case "e2":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_e2(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.IExpression)value, startIndex);
+                    case "mbc":
+                        return ArrayHelper.Array_RemoveMethodBodyContainsBetweenExpressions_lastIndexOfBy_mbc(GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.ConvertAsNeeded(array), (GRGEN_MODEL.ImethodBodyContains)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "RetypeClassContainment":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_RetypeClassContainment_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_RetypeClassContainment_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.IClass)value, startIndex);
+                    case "c":
+                        return ArrayHelper.Array_RetypeClassContainment_lastIndexOfBy_c(GRGEN_ACTIONS.Rule_RetypeClassContainment.ConvertAsNeeded(array), (GRGEN_MODEL.Icontains)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfOrderedBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "createProgramGraphExample":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createProgramGraphPullUp":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "pullUpMethod":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "matchAll":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "InsertHelperEdgesForNestedLayout":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "LinkMethodBodyToContainedEntity":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "LinkMethodBodyToContainedExpressionTransitive":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "RemoveMethodBodyContainsBetweenExpressions":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "RetypeClassContainment":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
                 }
             }
         }

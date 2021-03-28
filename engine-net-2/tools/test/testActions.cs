@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Fri Feb 05 19:31:52 CET 2021
+// Generated from "test.grg" on Sun Mar 28 10:08:54 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -63,7 +63,9 @@ namespace de.unika.ipd.grGen.Action_test
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_test.Rule_testRule+IMatch_testRule",
+				"de.unika.ipd.grGen.Action_test.Rule_testRule+Match_testRule"
 			)
 		{
 		}
@@ -444,6 +446,7 @@ namespace de.unika.ipd.grGen.Action_test
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_testRule.IMatch_testRule instanceBearingAttributeForSearch_testRule = new GRGEN_ACTIONS.Rule_testRule.Match_testRule();
 		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_groupBy_a(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
 		{
 			Dictionary<GRGEN_MODEL.ID231_4121, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>> seenValues = new Dictionary<GRGEN_MODEL.ID231_4121, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>>();
@@ -476,6 +479,34 @@ namespace de.unika.ipd.grGen.Action_test
 				}
 			}
 			return newList;
+		}
+		public static int Array_testRule_indexOfBy_a(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.ID231_4121 entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_indexOfBy_a(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.ID231_4121 entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_lastIndexOfBy_a(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.ID231_4121 entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_lastIndexOfBy_a(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.ID231_4121 entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_a.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_groupBy_f(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
 		{
@@ -510,6 +541,34 @@ namespace de.unika.ipd.grGen.Action_test
 			}
 			return newList;
 		}
+		public static int Array_testRule_indexOfBy_f(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.IB21 entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_f.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_indexOfBy_f(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.IB21 entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_f.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_lastIndexOfBy_f(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.IB21 entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_f.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_lastIndexOfBy_f(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.IB21 entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_f.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_groupBy_m(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
 		{
 			Dictionary<GRGEN_MODEL.ID2211_2222_31, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>> seenValues = new Dictionary<GRGEN_MODEL.ID2211_2222_31, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>>();
@@ -542,6 +601,34 @@ namespace de.unika.ipd.grGen.Action_test
 				}
 			}
 			return newList;
+		}
+		public static int Array_testRule_indexOfBy_m(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.ID2211_2222_31 entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_m.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_indexOfBy_m(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.ID2211_2222_31 entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_m.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_lastIndexOfBy_m(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.ID2211_2222_31 entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_m.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_lastIndexOfBy_m(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_MODEL.ID2211_2222_31 entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_m.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_groupBy__edge0(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
 		{
@@ -576,6 +663,34 @@ namespace de.unika.ipd.grGen.Action_test
 			}
 			return newList;
 		}
+		public static int Array_testRule_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> Array_testRule_groupBy__edge1(List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule>>();
@@ -608,6 +723,34 @@ namespace de.unika.ipd.grGen.Action_test
 				}
 			}
 			return newList;
+		}
+		public static int Array_testRule_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testRule_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_testRule.IMatch_testRule> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -1180,6 +1323,226 @@ namespace de.unika.ipd.grGen.Action_test
                     }
                 default:
                     return null;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "testRule":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_testRule_indexOfBy_a(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.ID231_4121)value);
+                    case "f":
+                        return ArrayHelper.Array_testRule_indexOfBy_f(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.IB21)value);
+                    case "m":
+                        return ArrayHelper.Array_testRule_indexOfBy_m(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.ID2211_2222_31)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_testRule_indexOfBy__edge0(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_testRule_indexOfBy__edge1(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "testRule":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_testRule_indexOfBy_a(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.ID231_4121)value, startIndex);
+                    case "f":
+                        return ArrayHelper.Array_testRule_indexOfBy_f(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.IB21)value, startIndex);
+                    case "m":
+                        return ArrayHelper.Array_testRule_indexOfBy_m(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.ID2211_2222_31)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_testRule_indexOfBy__edge0(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_testRule_indexOfBy__edge1(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "testRule":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_testRule_lastIndexOfBy_a(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.ID231_4121)value);
+                    case "f":
+                        return ArrayHelper.Array_testRule_lastIndexOfBy_f(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.IB21)value);
+                    case "m":
+                        return ArrayHelper.Array_testRule_lastIndexOfBy_m(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.ID2211_2222_31)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_testRule_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_testRule_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "testRule":
+                    switch(member)
+                    {
+                    case "a":
+                        return ArrayHelper.Array_testRule_lastIndexOfBy_a(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.ID231_4121)value, startIndex);
+                    case "f":
+                        return ArrayHelper.Array_testRule_lastIndexOfBy_f(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.IB21)value, startIndex);
+                    case "m":
+                        return ArrayHelper.Array_testRule_lastIndexOfBy_m(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_MODEL.ID2211_2222_31)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_testRule_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_testRule_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_testRule.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfOrderedBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "testRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
                 }
             }
         }

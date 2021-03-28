@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Fri Feb 05 19:33:23 CET 2021
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Mar 28 10:10:51 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -5170,7 +5170,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_BenzolRing+IMatch_BenzolRing",
+				"de.unika.ipd.grGen.Action_TNT.Rule_BenzolRing+Match_BenzolRing"
 			)
 		{
 		}
@@ -5436,6 +5438,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_BenzolRing.IMatch_BenzolRing instanceBearingAttributeForSearch_BenzolRing = new GRGEN_ACTIONS.Rule_BenzolRing.Match_BenzolRing();
 	}
 
 	public class Rule_TNTTotallyFolded : GRGEN_LGSP.LGSPRulePattern
@@ -5484,7 +5487,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNTTotallyFolded+IMatch_TNTTotallyFolded",
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNTTotallyFolded+Match_TNTTotallyFolded"
 			)
 		{
 		}
@@ -5974,6 +5979,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded instanceBearingAttributeForSearch_TNTTotallyFolded = new GRGEN_ACTIONS.Rule_TNTTotallyFolded.Match_TNTTotallyFolded();
 		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>>();
@@ -6006,6 +6012,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
 		{
@@ -6040,6 +6074,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>>();
@@ -6072,6 +6134,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
 		{
@@ -6106,6 +6196,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>>();
@@ -6139,6 +6257,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> Array_TNTTotallyFolded_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>>();
@@ -6171,6 +6317,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTTotallyFolded_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -6220,7 +6394,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNTChain+IMatch_TNTChain",
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNTChain+Match_TNTChain"
 			)
 		{
 		}
@@ -6635,6 +6811,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain instanceBearingAttributeForSearch_TNTChain = new GRGEN_ACTIONS.Rule_TNTChain.Match_TNTChain();
 		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>>();
@@ -6667,6 +6844,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTChain_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
 		{
@@ -6701,6 +6906,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTChain_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>>();
@@ -6733,6 +6966,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTChain_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
 		{
@@ -6767,6 +7028,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTChain_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>>();
@@ -6800,6 +7089,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTChain_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> Array_TNTChain_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain>>();
@@ -6832,6 +7149,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTChain_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTChain_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTChain.IMatch_TNTChain> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -6871,7 +7216,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_ToluolCore+IMatch_ToluolCore",
+				"de.unika.ipd.grGen.Action_TNT.Rule_ToluolCore+Match_ToluolCore"
 			)
 		{
 		}
@@ -7176,6 +7523,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore instanceBearingAttributeForSearch_ToluolCore = new GRGEN_ACTIONS.Rule_ToluolCore.Match_ToluolCore();
 		public static List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> Array_ToluolCore_groupBy_c1(List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore>>();
@@ -7208,6 +7556,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_ToluolCore_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ToluolCore_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ToluolCore_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ToluolCore_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_ToluolCore.IMatch_ToluolCore> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -7247,7 +7623,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_ToluolCoreNotC6Nitro+IMatch_ToluolCoreNotC6Nitro",
+				"de.unika.ipd.grGen.Action_TNT.Rule_ToluolCoreNotC6Nitro+Match_ToluolCoreNotC6Nitro"
 			)
 		{
 		}
@@ -7552,6 +7930,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro instanceBearingAttributeForSearch_ToluolCoreNotC6Nitro = new GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.Match_ToluolCoreNotC6Nitro();
 		public static List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> Array_ToluolCoreNotC6Nitro_groupBy_c1(List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>>();
@@ -7584,6 +7963,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_ToluolCoreNotC6Nitro_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ToluolCoreNotC6Nitro_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ToluolCoreNotC6Nitro_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ToluolCoreNotC6Nitro_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -7633,7 +8040,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_Toluol+IMatch_Toluol",
+				"de.unika.ipd.grGen.Action_TNT.Rule_Toluol+Match_Toluol"
 			)
 		{
 		}
@@ -8123,6 +8532,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol instanceBearingAttributeForSearch_Toluol = new GRGEN_ACTIONS.Rule_Toluol.Match_Toluol();
 		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c1(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>>();
@@ -8155,6 +8565,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_Toluol_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c2(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
 		{
@@ -8189,6 +8627,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_Toluol_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c3(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>>();
@@ -8221,6 +8687,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_Toluol_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c4(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
 		{
@@ -8255,6 +8749,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_Toluol_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c5(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>>();
@@ -8288,6 +8810,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_Toluol_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> Array_Toluol_groupBy_c6(List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol>>();
@@ -8320,6 +8870,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_Toluol_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_Toluol_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_Toluol.IMatch_Toluol> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -8387,7 +8965,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNT+IMatch_TNT",
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNT+Match_TNT"
 			)
 		{
 		}
@@ -9047,6 +9627,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_TNT.IMatch_TNT instanceBearingAttributeForSearch_TNT = new GRGEN_ACTIONS.Rule_TNT.Match_TNT();
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
@@ -9079,6 +9660,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNT_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
@@ -9113,6 +9722,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNT_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
@@ -9145,6 +9782,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNT_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
@@ -9179,6 +9844,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNT_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
@@ -9211,6 +9904,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNT_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
@@ -9245,6 +9966,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNT_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge0(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
@@ -9277,6 +10026,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNT_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge1(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
@@ -9311,6 +10088,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNT_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge2(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
@@ -9343,6 +10148,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNT_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge3(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
@@ -9377,6 +10210,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNT_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge4(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
@@ -9409,6 +10270,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNT_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge5(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
@@ -9443,6 +10332,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNT_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge6(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
@@ -9475,6 +10392,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNT_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge7(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
@@ -9509,6 +10454,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNT_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> Array_TNT_groupBy__edge8(List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT>>();
@@ -9541,6 +10514,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNT_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNT_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNT.IMatch_TNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -9668,7 +10669,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNTUnfolded+IMatch_TNTUnfolded",
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNTUnfolded+Match_TNTUnfolded"
 			)
 		{
 		}
@@ -10826,6 +11829,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded instanceBearingAttributeForSearch_TNTUnfolded = new GRGEN_ACTIONS.Rule_TNTUnfolded.Match_TNTUnfolded();
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -10858,6 +11862,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -10892,6 +11924,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -10924,6 +11984,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -10958,6 +12046,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -10990,6 +12106,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11024,6 +12168,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_c(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11056,6 +12228,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_c(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_c(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node0(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11090,6 +12290,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11122,6 +12350,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11156,6 +12412,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__node2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_n2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11188,6 +12472,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_n2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_n2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_n2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_n2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11222,6 +12534,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__node3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11254,6 +12594,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11288,6 +12656,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__node5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_n4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11320,6 +12716,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_n4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_n4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_n4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_n4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11354,6 +12778,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__node6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node7(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11386,6 +12838,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node7(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node7(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node7(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node7(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node8(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11420,6 +12900,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__node8(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node8(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node8(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node8(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy_n6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11452,6 +12960,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_n6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy_n6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_n6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy_n6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n6.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node9(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11486,6 +13022,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__node9(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node9(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node9(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node9(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node9.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__node10(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11518,6 +13082,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node10(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__node10(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node10(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__node10(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node10.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge0(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11552,6 +13144,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge1(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11584,6 +13204,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge2(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11618,6 +13266,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge3(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11650,6 +13326,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge4(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11684,6 +13388,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge5(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11716,6 +13448,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge6(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11750,6 +13510,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge7(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11782,6 +13570,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge8(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11816,6 +13632,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge9(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11848,6 +13692,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge10(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11882,6 +13754,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge11(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11914,6 +13814,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge12(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -11948,6 +13876,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge13(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -11980,6 +13936,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge14(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -12014,6 +13998,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge15(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -12046,6 +14058,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge16(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -12080,6 +14120,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge17(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -12112,6 +14180,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge18(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -12146,6 +14242,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge19(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -12178,6 +14302,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge20(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -12212,6 +14364,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge21(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -12244,6 +14424,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge21(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge21.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge21(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge21.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge21(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge21.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge21(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge21.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge22(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
@@ -12278,6 +14486,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNTUnfolded_indexOfBy__edge22(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge22.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge22(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge22.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge22(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge22.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge22(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge22.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> Array_TNTUnfolded_groupBy__edge23(List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded>>();
@@ -12310,6 +14546,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge23(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge23.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_indexOfBy__edge23(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge23.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge23(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge23.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNTUnfolded_lastIndexOfBy__edge23(IList<GRGEN_ACTIONS.Rule_TNTUnfolded.IMatch_TNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge23.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -12349,7 +14613,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_createTNT+IMatch_createTNT",
+				"de.unika.ipd.grGen.Action_TNT.Rule_createTNT+Match_createTNT"
 			)
 		{
 		}
@@ -12649,6 +14915,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createTNT.IMatch_createTNT instanceBearingAttributeForSearch_createTNT = new GRGEN_ACTIONS.Rule_createTNT.Match_createTNT();
 	}
 
 	public class Rule_DNT : GRGEN_LGSP.LGSPRulePattern
@@ -12715,7 +14982,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_DNT+IMatch_DNT",
+				"de.unika.ipd.grGen.Action_TNT.Rule_DNT+Match_DNT"
 			)
 		{
 		}
@@ -13375,6 +15644,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_DNT.IMatch_DNT instanceBearingAttributeForSearch_DNT = new GRGEN_ACTIONS.Rule_DNT.Match_DNT();
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c1(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
@@ -13407,6 +15677,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNT_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c2(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
@@ -13441,6 +15739,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNT_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c3(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
@@ -13473,6 +15799,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNT_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c4(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
@@ -13507,6 +15861,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNT_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c5(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
@@ -13539,6 +15921,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNT_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy_c6(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
@@ -13573,6 +15983,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNT_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge0(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
@@ -13605,6 +16043,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNT_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge1(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
@@ -13639,6 +16105,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNT_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge2(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
@@ -13671,6 +16165,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNT_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge3(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
@@ -13705,6 +16227,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNT_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge4(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
@@ -13737,6 +16287,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNT_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge5(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
@@ -13771,6 +16349,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNT_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge6(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
@@ -13803,6 +16409,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNT_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge7(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
@@ -13837,6 +16471,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNT_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> Array_DNT_groupBy__edge8(List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT>>();
@@ -13869,6 +16531,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNT_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNT_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_DNT.IMatch_DNT> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -13988,7 +16678,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_DNTUnfolded+IMatch_DNTUnfolded",
+				"de.unika.ipd.grGen.Action_TNT.Rule_DNTUnfolded+Match_DNTUnfolded"
 			)
 		{
 		}
@@ -15066,6 +17758,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded instanceBearingAttributeForSearch_DNTUnfolded = new GRGEN_ACTIONS.Rule_DNTUnfolded.Match_DNTUnfolded();
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15098,6 +17791,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15132,6 +17853,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15164,6 +17913,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15198,6 +17975,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15230,6 +18035,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c6(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15264,6 +18097,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_c(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15296,6 +18157,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_c(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_c(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node0(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15330,6 +18219,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15362,6 +18279,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15396,6 +18341,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__node2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_n2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15428,6 +18401,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_n2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_n2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_n2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_n2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15462,6 +18463,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__node3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15494,6 +18523,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15528,6 +18585,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__node5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy_n4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15560,6 +18645,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_n4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy_n4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_n4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy_n4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node6(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15594,6 +18707,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__node6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node7(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15626,6 +18767,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node7(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node7(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node7(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node7(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node8(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15660,6 +18829,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__node8(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node8(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node8(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node8(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__node9(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15692,6 +18889,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node9(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__node9(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node9(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__node9(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node9.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge0(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15726,6 +18951,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge1(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15758,6 +19011,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge2(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15792,6 +19073,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge3(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15824,6 +19133,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge4(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15858,6 +19195,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge5(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15890,6 +19255,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge6(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15924,6 +19317,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge7(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -15956,6 +19377,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge8(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -15990,6 +19439,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge9(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -16022,6 +19499,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge10(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -16056,6 +19561,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge11(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -16088,6 +19621,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge12(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -16122,6 +19683,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge13(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -16154,6 +19743,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge14(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -16188,6 +19805,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge15(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -16220,6 +19865,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge16(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -16254,6 +19927,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge17(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -16286,6 +19987,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge18(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -16320,6 +20049,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge19(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -16352,6 +20109,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge20(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
@@ -16386,6 +20171,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_DNTUnfolded_indexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> Array_DNTUnfolded_groupBy__edge21(List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded>>();
@@ -16418,6 +20231,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge21(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge21.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_indexOfBy__edge21(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge21.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge21(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge21.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_DNTUnfolded_lastIndexOfBy__edge21(IList<GRGEN_ACTIONS.Rule_DNTUnfolded.IMatch_DNTUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge21.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -16457,7 +20298,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_createDNT+IMatch_createDNT",
+				"de.unika.ipd.grGen.Action_TNT.Rule_createDNT+Match_createDNT"
 			)
 		{
 		}
@@ -16753,6 +20596,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createDNT.IMatch_createDNT instanceBearingAttributeForSearch_createDNT = new GRGEN_ACTIONS.Rule_createDNT.Match_createDNT();
 	}
 
 	public class Rule_TNB : GRGEN_LGSP.LGSPRulePattern
@@ -16819,7 +20663,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNB+IMatch_TNB",
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNB+Match_TNB"
 			)
 		{
 		}
@@ -17479,6 +21325,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_TNB.IMatch_TNB instanceBearingAttributeForSearch_TNB = new GRGEN_ACTIONS.Rule_TNB.Match_TNB();
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
@@ -17511,6 +21358,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNB_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
@@ -17545,6 +21420,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNB_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
@@ -17577,6 +21480,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNB_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
@@ -17611,6 +21542,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNB_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
@@ -17643,6 +21602,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNB_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
@@ -17677,6 +21664,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNB_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge0(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
@@ -17709,6 +21724,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNB_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge1(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
@@ -17743,6 +21786,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNB_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge2(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
@@ -17775,6 +21846,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNB_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge3(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
@@ -17809,6 +21908,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNB_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge4(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
@@ -17841,6 +21968,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNB_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge5(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
@@ -17875,6 +22030,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNB_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge6(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
@@ -17907,6 +22090,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNB_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge7(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
@@ -17941,6 +22152,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNB_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> Array_TNB_groupBy__edge8(List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB>>();
@@ -17973,6 +22212,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNB_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNB_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNB.IMatch_TNB> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -18088,7 +22355,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNBUnfolded+IMatch_TNBUnfolded",
+				"de.unika.ipd.grGen.Action_TNT.Rule_TNBUnfolded+Match_TNBUnfolded"
 			)
 		{
 		}
@@ -19126,6 +23395,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded instanceBearingAttributeForSearch_TNBUnfolded = new GRGEN_ACTIONS.Rule_TNBUnfolded.Match_TNBUnfolded();
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19158,6 +23428,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19192,6 +23490,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19224,6 +23550,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19258,6 +23612,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c5(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IC, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19290,6 +23672,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c5.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_c6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19324,6 +23734,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_c6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IC entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_c6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node0(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19356,6 +23794,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node0(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node0(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node0.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_n2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19390,6 +23856,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy_n2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_n2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_n2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_n2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19422,6 +23916,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19456,6 +23978,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__node2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19488,6 +24038,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node3.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_n4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19522,6 +24100,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy_n4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_n4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_n4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_n4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n4.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19554,6 +24160,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node4.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node5(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19588,6 +24222,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__node5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IH, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19620,6 +24282,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IH entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node6.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy_n6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19654,6 +24344,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy_n6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy_n6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_n6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy_n6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n6.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node7(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_MODEL.IO, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19686,6 +24404,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node7(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node7(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node7(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node7(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node7.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__node8(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19720,6 +24466,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__node8(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__node8(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node8(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__node8(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_MODEL.IO entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node__node8.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge0(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19752,6 +24526,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge1(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19786,6 +24588,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge1(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge2(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19818,6 +24648,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge2(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge3(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19852,6 +24710,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge3(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge3.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge4(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19884,6 +24770,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge4(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge4.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge5(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19918,6 +24832,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge5(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge5.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge6(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -19950,6 +24892,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge6(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge6.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge7(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -19984,6 +24954,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge7(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge7.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge8(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -20016,6 +25014,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge8(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge8.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge9(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -20050,6 +25076,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge9(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge9.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge10(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -20082,6 +25136,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge10(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge10.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge11(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -20116,6 +25198,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge11(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge11.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge12(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -20148,6 +25258,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge12(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge12.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge13(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -20182,6 +25320,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge13(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge13.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge14(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -20214,6 +25380,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge14(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge14.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge15(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -20248,6 +25442,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge15(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge15.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge16(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -20280,6 +25502,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge16(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge16.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge17(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -20314,6 +25564,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge17(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge17.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge18(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -20346,6 +25624,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge18(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge18.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge19(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
@@ -20380,6 +25686,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			return newList;
 		}
+		public static int Array_TNBUnfolded_indexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge19(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge19.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> Array_TNBUnfolded_groupBy__edge20(List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list)
 		{
 			Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>> seenValues = new Dictionary<GRGEN_LIBGR.IDEdge, List<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded>>();
@@ -20412,6 +25746,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 				}
 			}
 			return newList;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_indexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_TNBUnfolded_lastIndexOfBy__edge20(IList<GRGEN_ACTIONS.Rule_TNBUnfolded.IMatch_TNBUnfolded> list, GRGEN_LIBGR.IDEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge20.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -20451,7 +25813,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_createTNB+IMatch_createTNB",
+				"de.unika.ipd.grGen.Action_TNT.Rule_createTNB+Match_createTNB"
 			)
 		{
 		}
@@ -20745,6 +26109,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createTNB.IMatch_createTNB instanceBearingAttributeForSearch_createTNB = new GRGEN_ACTIONS.Rule_createTNB.Match_createTNB();
 	}
 
 	public class Rule_keepBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
@@ -20783,7 +26148,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_keepBenzolRingPattern+IMatch_keepBenzolRingPattern",
+				"de.unika.ipd.grGen.Action_TNT.Rule_keepBenzolRingPattern+Match_keepBenzolRingPattern"
 			)
 		{
 		}
@@ -21053,6 +26420,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern instanceBearingAttributeForSearch_keepBenzolRingPattern = new GRGEN_ACTIONS.Rule_keepBenzolRingPattern.Match_keepBenzolRingPattern();
 	}
 
 	public class Rule_createBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
@@ -21091,7 +26459,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_createBenzolRingPattern+IMatch_createBenzolRingPattern",
+				"de.unika.ipd.grGen.Action_TNT.Rule_createBenzolRingPattern+Match_createBenzolRingPattern"
 			)
 		{
 		}
@@ -21347,6 +26717,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern instanceBearingAttributeForSearch_createBenzolRingPattern = new GRGEN_ACTIONS.Rule_createBenzolRingPattern.Match_createBenzolRingPattern();
 	}
 
 	public class Rule_deleteBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
@@ -21385,7 +26756,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_deleteBenzolRingPattern+IMatch_deleteBenzolRingPattern",
+				"de.unika.ipd.grGen.Action_TNT.Rule_deleteBenzolRingPattern+Match_deleteBenzolRingPattern"
 			)
 		{
 		}
@@ -21656,6 +27029,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern instanceBearingAttributeForSearch_deleteBenzolRingPattern = new GRGEN_ACTIONS.Rule_deleteBenzolRingPattern.Match_deleteBenzolRingPattern();
 	}
 
 	public class Rule_deleteInModifyBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
@@ -21694,7 +27068,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_TNT.Rule_deleteInModifyBenzolRingPattern+IMatch_deleteInModifyBenzolRingPattern",
+				"de.unika.ipd.grGen.Action_TNT.Rule_deleteInModifyBenzolRingPattern+Match_deleteInModifyBenzolRingPattern"
 			)
 		{
 		}
@@ -21965,6 +27341,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern instanceBearingAttributeForSearch_deleteInModifyBenzolRingPattern = new GRGEN_ACTIONS.Rule_deleteInModifyBenzolRingPattern.Match_deleteInModifyBenzolRingPattern();
 	}
 
 	public class Functions
@@ -41571,6 +46948,2246 @@ label3: ;
                     }
                 default:
                     return null;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "BenzolRing":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNTTotallyFolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    default:
+                        return -1;
+                    }
+                case "TNTChain":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    default:
+                        return -1;
+                    }
+                case "ToluolCore":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCore_indexOfBy_c1(GRGEN_ACTIONS.Rule_ToluolCore.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    default:
+                        return -1;
+                    }
+                case "ToluolCoreNotC6Nitro":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCoreNotC6Nitro_indexOfBy_c1(GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    default:
+                        return -1;
+                    }
+                case "Toluol":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c1(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c2(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c3(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c4(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c5(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c6(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    default:
+                        return -1;
+                    }
+                case "TNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNT_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNT_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNT_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNT_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNT_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNT_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge0(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge7(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge8(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "TNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_node0":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_node1":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_node2":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n2":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_n2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node3":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node4":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node5":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n4":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_n4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node6":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node7":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node8":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n6":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_n6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node9":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node10":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge9":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge10":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge11":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge11(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge12":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge12(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge13":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge13(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge14":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge14(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge15":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge15(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge16":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge16(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge17":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge17(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge18":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge18(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge19":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge19(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge20":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge20(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge21":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge21(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge22":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge22(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge23":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge23(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "createTNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "DNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNT_indexOfBy_c1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_DNT_indexOfBy_c2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_DNT_indexOfBy_c3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_DNT_indexOfBy_c4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_DNT_indexOfBy_c5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_DNT_indexOfBy_c6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge0(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge7(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge8(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "DNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_node0":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_node1":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_node2":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n2":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_n2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node3":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node4":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node5":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n4":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_n4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node6":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node7":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node8":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_node9":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge9":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge10":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge10(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge11":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge11(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge12":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge12(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge13":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge13(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge14":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge14(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge15":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge15(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge16":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge16(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge17":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge17(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge18":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge18(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge19":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge19(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge20":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge20(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge21":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge21(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "createDNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNB":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNB_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNB_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNB_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNB_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNB_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNB_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge0(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge7(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge8(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "TNBUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_node0":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n2":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_n2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node1":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node2":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node3":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n4":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_n4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node4":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node5":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node6":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n6":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_n6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node7":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node8":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge9":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge9(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge10":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge10(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge11":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge11(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge12":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge12(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge13":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge13(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge14":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge14(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge15":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge15(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge16":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge16(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge17":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge17(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge18":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge18(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge19":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge19(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge20":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge20(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "createTNB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "keepBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "deleteBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "deleteInModifyBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "BenzolRing":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNTTotallyFolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNTTotallyFolded_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "TNTChain":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNTChain_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "ToluolCore":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCore_indexOfBy_c1(GRGEN_ACTIONS.Rule_ToluolCore.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "ToluolCoreNotC6Nitro":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCoreNotC6Nitro_indexOfBy_c1(GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "Toluol":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c1(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c2(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c3(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c4(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c5(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_Toluol_indexOfBy_c6(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "TNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNT_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNT_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNT_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNT_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNT_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNT_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge0(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge7(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNT_indexOfBy__edge8(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "TNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_c(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_node1":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_node2":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n2":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_n2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node3":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node4":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node5":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n4":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_n4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node6":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node7":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node8":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n6":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy_n6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node9":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node10":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__node10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge9":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge10":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge11":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge11(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge12":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge12(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge13":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge13(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge14":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge14(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge15":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge15(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge16":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge16(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge17":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge17(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge18":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge18(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge19":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge19(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge20":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge20(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge21":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge21(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge22":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge22(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge23":
+                        return ArrayHelper.Array_TNTUnfolded_indexOfBy__edge23(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createTNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "DNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNT_indexOfBy_c1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_DNT_indexOfBy_c2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_DNT_indexOfBy_c3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_DNT_indexOfBy_c4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_DNT_indexOfBy_c5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_DNT_indexOfBy_c6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge0(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge7(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_DNT_indexOfBy__edge8(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "DNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_c(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_node1":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_node2":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n2":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_n2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node3":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node4":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node5":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n4":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy_n4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node6":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node7":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node8":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_node9":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__node9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge9":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge10":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge10(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge11":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge11(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge12":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge12(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge13":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge13(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge14":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge14(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge15":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge15(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge16":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge16(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge17":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge17(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge18":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge18(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge19":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge19(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge20":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge20(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge21":
+                        return ArrayHelper.Array_DNTUnfolded_indexOfBy__edge21(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createDNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNB":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNB_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNB_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNB_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNB_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNB_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNB_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge0(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge7(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNB_indexOfBy__edge8(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "TNBUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_c6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n2":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_n2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node1":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node2":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node3":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n4":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_n4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node4":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node5":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node6":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n6":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy_n6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node7":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node8":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__node8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge9":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge9(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge10":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge10(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge11":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge11(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge12":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge12(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge13":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge13(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge14":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge14(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge15":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge15(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge16":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge16(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge17":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge17(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge18":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge18(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge19":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge19(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge20":
+                        return ArrayHelper.Array_TNBUnfolded_indexOfBy__edge20(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createTNB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "keepBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "deleteBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "deleteInModifyBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "BenzolRing":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNTTotallyFolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    default:
+                        return -1;
+                    }
+                case "TNTChain":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    default:
+                        return -1;
+                    }
+                case "ToluolCore":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCore_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_ToluolCore.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    default:
+                        return -1;
+                    }
+                case "ToluolCoreNotC6Nitro":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCoreNotC6Nitro_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    default:
+                        return -1;
+                    }
+                case "Toluol":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    default:
+                        return -1;
+                    }
+                case "TNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "TNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_node0":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_node1":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_node2":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n2":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_n2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node3":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node4":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node5":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n4":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_n4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node6":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node7":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node8":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n6":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_n6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node9":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node10":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge9":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge10":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge11":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge11(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge12":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge12(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge13":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge13(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge14":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge14(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge15":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge15(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge16":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge16(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge17":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge17(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge18":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge18(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge19":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge19(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge20":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge20(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge21":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge21(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge22":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge22(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge23":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge23(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "createTNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "DNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "DNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_node0":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_node1":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_node2":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n2":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_n2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node3":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node4":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node5":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n4":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_n4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node6":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node7":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node8":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_node9":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge9":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge10":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge10(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge11":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge11(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge12":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge12(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge13":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge13(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge14":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge14(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge15":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge15(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge16":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge16(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge17":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge17(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge18":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge18(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge19":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge19(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge20":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge20(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge21":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge21(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "createDNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNB":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "TNBUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c2":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c3":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c4":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c5":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "c6":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value);
+                    case "_node0":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n2":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_n2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node1":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node2":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node3":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n4":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_n4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node4":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node5":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node6":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value);
+                    case "n6":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_n6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "_node7":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_node8":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge9":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge9(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge10":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge10(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge11":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge11(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge12":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge12(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge13":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge13(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge14":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge14(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge15":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge15(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge16":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge16(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge17":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge17(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge18":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge18(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge19":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge19(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    case "_edge20":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge20(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value);
+                    default:
+                        return -1;
+                    }
+                case "createTNB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "keepBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "deleteBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "deleteInModifyBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "BenzolRing":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNTTotallyFolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNTTotallyFolded_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNTTotallyFolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "TNTChain":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNTChain_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNTChain.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "ToluolCore":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCore_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_ToluolCore.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "ToluolCoreNotC6Nitro":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_ToluolCoreNotC6Nitro_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_ToluolCoreNotC6Nitro.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "Toluol":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_Toluol_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_Toluol.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "TNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNT_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_TNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "TNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_c(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_node1":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_node2":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n2":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_n2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node3":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node4":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node5":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n4":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_n4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node6":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node7":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node8":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n6":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy_n6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node9":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node10":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__node10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge9":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge9(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge10":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge10(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge11":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge11(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge12":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge12(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge13":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge13(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge14":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge14(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge15":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge15(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge16":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge16(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge17":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge17(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge18":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge18(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge19":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge19(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge20":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge20(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge21":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge21(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge22":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge22(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge23":
+                        return ArrayHelper.Array_TNTUnfolded_lastIndexOfBy__edge23(GRGEN_ACTIONS.Rule_TNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createTNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "DNT":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_DNT_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_DNT.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "DNTUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_c(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_node1":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_node2":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n2":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_n2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node3":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node4":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node5":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n4":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy_n4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node6":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node7":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node8":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_node9":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__node9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge9":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge9(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge10":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge10(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge11":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge11(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge12":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge12(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge13":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge13(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge14":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge14(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge15":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge15(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge16":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge16(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge17":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge17(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge18":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge18(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge19":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge19(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge20":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge20(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge21":
+                        return ArrayHelper.Array_DNTUnfolded_lastIndexOfBy__edge21(GRGEN_ACTIONS.Rule_DNTUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createDNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNB":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNB_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_TNB.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "TNBUnfolded":
+                    switch(member)
+                    {
+                    case "c1":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c2":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c3":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c4":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c5":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "c6":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_c6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IC)value, startIndex);
+                    case "_node0":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n2":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_n2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node1":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node2":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node3":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n4":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_n4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node4":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node5":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node6":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IH)value, startIndex);
+                    case "n6":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy_n6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "_node7":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_node8":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__node8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_MODEL.IO)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge1":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge1(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge2":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge2(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge3":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge3(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge4":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge4(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge5":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge5(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge6":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge6(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge7":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge7(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge8":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge8(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge9":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge9(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge10":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge10(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge11":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge11(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge12":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge12(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge13":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge13(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge14":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge14(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge15":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge15(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge16":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge16(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge17":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge17(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge18":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge18(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge19":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge19(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    case "_edge20":
+                        return ArrayHelper.Array_TNBUnfolded_lastIndexOfBy__edge20(GRGEN_ACTIONS.Rule_TNBUnfolded.ConvertAsNeeded(array), (GRGEN_LIBGR.IDEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "createTNB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "keepBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "deleteBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "deleteInModifyBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfOrderedBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "BenzolRing":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNTTotallyFolded":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNTChain":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "ToluolCore":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "ToluolCoreNotC6Nitro":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "Toluol":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNTUnfolded":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createTNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "DNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "DNTUnfolded":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createDNT":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "TNBUnfolded":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createTNB":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "keepBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "createBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "deleteBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "deleteInModifyBenzolRingPattern":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
                 }
             }
         }

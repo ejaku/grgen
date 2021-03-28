@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Fri Feb 05 19:32:28 CET 2021
+// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Sun Mar 28 10:09:37 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -52,7 +52,9 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_FunctionsProceduresExample.Rule_init+IMatch_init",
+				"de.unika.ipd.grGen.Action_FunctionsProceduresExample.Rule_init+Match_init"
 			)
 		{
 		}
@@ -309,6 +311,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_init.IMatch_init instanceBearingAttributeForSearch_init = new GRGEN_ACTIONS.Rule_init.Match_init();
 	}
 
 	public class Rule_r : GRGEN_LGSP.LGSPRulePattern
@@ -352,7 +355,9 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_FunctionsProceduresExample.Rule_r+IMatch_r",
+				"de.unika.ipd.grGen.Action_FunctionsProceduresExample.Rule_r+Match_r"
 			)
 		{
 		}
@@ -662,6 +667,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_r.IMatch_r instanceBearingAttributeForSearch_r = new GRGEN_ACTIONS.Rule_r.Match_r();
 		public static List<GRGEN_ACTIONS.Rule_r.IMatch_r> Array_r_groupBy_nn(List<GRGEN_ACTIONS.Rule_r.IMatch_r> list)
 		{
 			Dictionary<GRGEN_MODEL.INN, List<GRGEN_ACTIONS.Rule_r.IMatch_r>> seenValues = new Dictionary<GRGEN_MODEL.INN, List<GRGEN_ACTIONS.Rule_r.IMatch_r>>();
@@ -695,6 +701,34 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 			}
 			return newList;
 		}
+		public static int Array_r_indexOfBy_nn(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.INN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_nn.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_indexOfBy_nn(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.INN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_nn.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_lastIndexOfBy_nn(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.INN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_nn.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_lastIndexOfBy_nn(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.INN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_nn.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_r.IMatch_r> Array_r_groupBy_ee(List<GRGEN_ACTIONS.Rule_r.IMatch_r> list)
 		{
 			Dictionary<GRGEN_MODEL.IEE, List<GRGEN_ACTIONS.Rule_r.IMatch_r>> seenValues = new Dictionary<GRGEN_MODEL.IEE, List<GRGEN_ACTIONS.Rule_r.IMatch_r>>();
@@ -727,6 +761,34 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 				}
 			}
 			return newList;
+		}
+		public static int Array_r_indexOfBy_ee(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IEE entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_ee.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_indexOfBy_ee(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IEE entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_ee.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_lastIndexOfBy_ee(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IEE entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_ee.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_lastIndexOfBy_ee(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IEE entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_ee.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -1708,6 +1770,232 @@ var_eo = (GRGEN_MODEL.IE)(tmpvar_1eo);
                     }
                 default:
                     return null;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "init":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "r":
+                    switch(member)
+                    {
+                    case "nn":
+                        return ArrayHelper.Array_r_indexOfBy_nn(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.INN)value);
+                    case "ee":
+                        return ArrayHelper.Array_r_indexOfBy_ee(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IEE)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "init":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "r":
+                    switch(member)
+                    {
+                    case "nn":
+                        return ArrayHelper.Array_r_indexOfBy_nn(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.INN)value, startIndex);
+                    case "ee":
+                        return ArrayHelper.Array_r_indexOfBy_ee(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IEE)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "init":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "r":
+                    switch(member)
+                    {
+                    case "nn":
+                        return ArrayHelper.Array_r_lastIndexOfBy_nn(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.INN)value);
+                    case "ee":
+                        return ArrayHelper.Array_r_lastIndexOfBy_ee(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IEE)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "init":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "r":
+                    switch(member)
+                    {
+                    case "nn":
+                        return ArrayHelper.Array_r_lastIndexOfBy_nn(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.INN)value, startIndex);
+                    case "ee":
+                        return ArrayHelper.Array_r_lastIndexOfBy_ee(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IEE)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfOrderedBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "init":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "r":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
                 }
             }
         }

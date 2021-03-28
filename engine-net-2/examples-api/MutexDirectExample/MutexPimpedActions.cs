@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Fri Feb 05 19:32:59 CET 2021
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Mar 28 10:10:15 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -58,7 +58,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_newRule+IMatch_newRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_newRule+Match_newRule"
 			)
 		{
 		}
@@ -384,6 +386,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_newRule.IMatch_newRule instanceBearingAttributeForSearch_newRule = new GRGEN_ACTIONS.Rule_newRule.Match_newRule();
 		public static List<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> Array_newRule_groupBy_p1(List<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule>>();
@@ -416,6 +419,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_newRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_newRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_newRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_newRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> Array_newRule_groupBy_p2(List<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list)
 		{
@@ -450,6 +481,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_newRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_newRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_newRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_newRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> Array_newRule_groupBy_n(List<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Inext, List<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule>> seenValues = new Dictionary<GRGEN_MODEL.Inext, List<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule>>();
@@ -482,6 +541,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_newRule_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_newRule_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_newRule_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_newRule_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_newRule.IMatch_newRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -531,7 +618,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_killRule+IMatch_killRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_killRule+Match_killRule"
 			)
 		{
 		}
@@ -899,6 +988,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_killRule.IMatch_killRule instanceBearingAttributeForSearch_killRule = new GRGEN_ACTIONS.Rule_killRule.Match_killRule();
 		public static List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> Array_killRule_groupBy_p1(List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule>>();
@@ -931,6 +1021,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_killRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> Array_killRule_groupBy_p(List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list)
 		{
@@ -965,6 +1083,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_killRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> Array_killRule_groupBy_p2(List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule>>();
@@ -997,6 +1143,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_killRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> Array_killRule_groupBy_n1(List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list)
 		{
@@ -1031,6 +1205,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_killRule_indexOfBy_n1(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_n1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_indexOfBy_n1(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_n1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_lastIndexOfBy_n1(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_n1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_lastIndexOfBy_n1(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_n1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> Array_killRule_groupBy_n2(List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Inext, List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule>> seenValues = new Dictionary<GRGEN_MODEL.Inext, List<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule>>();
@@ -1063,6 +1265,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_killRule_indexOfBy_n2(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_indexOfBy_n2(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_lastIndexOfBy_n2(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_n2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_killRule_lastIndexOfBy_n2(IList<GRGEN_ACTIONS.Rule_killRule.IMatch_killRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_n2.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -1104,7 +1334,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_mountRule+IMatch_mountRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_mountRule+Match_mountRule"
 			)
 		{
 		}
@@ -1383,6 +1615,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_mountRule.IMatch_mountRule instanceBearingAttributeForSearch_mountRule = new GRGEN_ACTIONS.Rule_mountRule.Match_mountRule();
 		public static List<GRGEN_ACTIONS.Rule_mountRule.IMatch_mountRule> Array_mountRule_groupBy_p(List<GRGEN_ACTIONS.Rule_mountRule.IMatch_mountRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_mountRule.IMatch_mountRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_mountRule.IMatch_mountRule>>();
@@ -1415,6 +1648,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_mountRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_mountRule.IMatch_mountRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_mountRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_mountRule.IMatch_mountRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_mountRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_mountRule.IMatch_mountRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_mountRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_mountRule.IMatch_mountRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -1460,7 +1721,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_unmountRule+IMatch_unmountRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_unmountRule+Match_unmountRule"
 			)
 		{
 		}
@@ -1784,6 +2047,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule instanceBearingAttributeForSearch_unmountRule = new GRGEN_ACTIONS.Rule_unmountRule.Match_unmountRule();
 		public static List<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> Array_unmountRule_groupBy_r(List<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule>>();
@@ -1816,6 +2080,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_unmountRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unmountRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unmountRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unmountRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> Array_unmountRule_groupBy_p(List<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list)
 		{
@@ -1850,6 +2142,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_unmountRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unmountRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unmountRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unmountRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> Array_unmountRule_groupBy_t(List<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Itoken, List<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule>> seenValues = new Dictionary<GRGEN_MODEL.Itoken, List<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule>>();
@@ -1882,6 +2202,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_unmountRule_indexOfBy_t(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.Itoken entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unmountRule_indexOfBy_t(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.Itoken entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unmountRule_lastIndexOfBy_t(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.Itoken entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unmountRule_lastIndexOfBy_t(IList<GRGEN_ACTIONS.Rule_unmountRule.IMatch_unmountRule> list, GRGEN_MODEL.Itoken entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -1943,7 +2291,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_passRule+IMatch_passRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_passRule+Match_passRule"
 			)
 		{
 		}
@@ -2558,6 +2908,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_passRule.IMatch_passRule instanceBearingAttributeForSearch_passRule = new GRGEN_ACTIONS.Rule_passRule.Match_passRule();
 		public static List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> Array_passRule_groupBy_r(List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule>>();
@@ -2590,6 +2941,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_passRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> Array_passRule_groupBy_p1(List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list)
 		{
@@ -2624,6 +3003,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_passRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> Array_passRule_groupBy_p2(List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule>>();
@@ -2656,6 +3063,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_passRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> Array_passRule_groupBy__edge0(List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list)
 		{
@@ -2690,6 +3125,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_passRule_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.Itoken entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_indexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.Itoken entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.Itoken entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_lastIndexOfBy__edge0(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.Itoken entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge__edge0.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> Array_passRule_groupBy_n(List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Inext, List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule>> seenValues = new Dictionary<GRGEN_MODEL.Inext, List<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule>>();
@@ -2722,6 +3185,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_passRule_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_passRule_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_passRule.IMatch_passRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -2791,7 +3282,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_requestRule+IMatch_requestRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_requestRule+Match_requestRule"
 			)
 		{
 		}
@@ -3594,6 +4087,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule instanceBearingAttributeForSearch_requestRule = new GRGEN_ACTIONS.Rule_requestRule.Match_requestRule();
 		public static List<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> Array_requestRule_groupBy_p(List<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule>>();
@@ -3627,6 +4121,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_requestRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> Array_requestRule_groupBy_r(List<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule>>();
@@ -3659,6 +4181,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_requestRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_requestRule.IMatch_requestRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -3706,7 +4256,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_takeRule+IMatch_takeRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_takeRule+Match_takeRule"
 			)
 		{
 		}
@@ -4053,6 +4605,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule instanceBearingAttributeForSearch_takeRule = new GRGEN_ACTIONS.Rule_takeRule.Match_takeRule();
 		public static List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> Array_takeRule_groupBy_r(List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule>>();
@@ -4085,6 +4638,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_takeRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> Array_takeRule_groupBy_p(List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list)
 		{
@@ -4119,6 +4700,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_takeRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> Array_takeRule_groupBy_t(List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Itoken, List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule>> seenValues = new Dictionary<GRGEN_MODEL.Itoken, List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule>>();
@@ -4152,6 +4761,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_takeRule_indexOfBy_t(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.Itoken entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_indexOfBy_t(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.Itoken entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_lastIndexOfBy_t(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.Itoken entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_lastIndexOfBy_t(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.Itoken entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> Array_takeRule_groupBy_req(List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Irequest, List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule>> seenValues = new Dictionary<GRGEN_MODEL.Irequest, List<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule>>();
@@ -4184,6 +4821,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_takeRule_indexOfBy_req(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.Irequest entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_indexOfBy_req(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.Irequest entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_lastIndexOfBy_req(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.Irequest entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_takeRule_lastIndexOfBy_req(IList<GRGEN_ACTIONS.Rule_takeRule.IMatch_takeRule> list, GRGEN_MODEL.Irequest entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -4243,7 +4908,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_releaseRule+IMatch_releaseRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_releaseRule+Match_releaseRule"
 			)
 		{
 		}
@@ -4820,6 +5487,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule instanceBearingAttributeForSearch_releaseRule = new GRGEN_ACTIONS.Rule_releaseRule.Match_releaseRule();
 		public static List<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> Array_releaseRule_groupBy_r(List<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule>>();
@@ -4852,6 +5520,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_releaseRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> Array_releaseRule_groupBy_p(List<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list)
 		{
@@ -4886,6 +5582,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_releaseRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> Array_releaseRule_groupBy_hb(List<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule>> seenValues = new Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule>>();
@@ -4918,6 +5642,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_releaseRule_indexOfBy_hb(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseRule_indexOfBy_hb(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseRule_lastIndexOfBy_hb(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseRule_lastIndexOfBy_hb(IList<GRGEN_ACTIONS.Rule_releaseRule.IMatch_releaseRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -4967,7 +5719,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_giveRule+IMatch_giveRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_giveRule+Match_giveRule"
 			)
 		{
 		}
@@ -5331,6 +6085,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule instanceBearingAttributeForSearch_giveRule = new GRGEN_ACTIONS.Rule_giveRule.Match_giveRule();
 		public static List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> Array_giveRule_groupBy_r(List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule>>();
@@ -5363,6 +6118,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_giveRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> Array_giveRule_groupBy_p1(List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list)
 		{
@@ -5397,6 +6180,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_giveRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> Array_giveRule_groupBy_p2(List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule>>();
@@ -5429,6 +6240,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_giveRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> Array_giveRule_groupBy_rel(List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list)
 		{
@@ -5463,6 +6302,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_giveRule_indexOfBy_rel(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.Irelease entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_rel.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_indexOfBy_rel(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.Irelease entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_rel.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_lastIndexOfBy_rel(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.Irelease entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_rel.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_lastIndexOfBy_rel(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.Irelease entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_rel.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> Array_giveRule_groupBy_n(List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Inext, List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule>> seenValues = new Dictionary<GRGEN_MODEL.Inext, List<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule>>();
@@ -5495,6 +6362,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_giveRule_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_giveRule_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_giveRule.IMatch_giveRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -5544,7 +6439,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_blockedRule+IMatch_blockedRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_blockedRule+Match_blockedRule"
 			)
 		{
 		}
@@ -5906,6 +6803,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule instanceBearingAttributeForSearch_blockedRule = new GRGEN_ACTIONS.Rule_blockedRule.Match_blockedRule();
 		public static List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> Array_blockedRule_groupBy_p1(List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule>>();
@@ -5938,6 +6836,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_blockedRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> Array_blockedRule_groupBy_r(List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list)
 		{
@@ -5972,6 +6898,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_blockedRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> Array_blockedRule_groupBy_p2(List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule>>();
@@ -6004,6 +6958,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_blockedRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> Array_blockedRule_groupBy_req(List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list)
 		{
@@ -6038,6 +7020,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_blockedRule_indexOfBy_req(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.Irequest entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_indexOfBy_req(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.Irequest entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_lastIndexOfBy_req(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.Irequest entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_lastIndexOfBy_req(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.Irequest entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> Array_blockedRule_groupBy_hb(List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule>> seenValues = new Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule>>();
@@ -6070,6 +7080,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_blockedRule_indexOfBy_hb(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_indexOfBy_hb(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_lastIndexOfBy_hb(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_blockedRule_lastIndexOfBy_hb(IList<GRGEN_ACTIONS.Rule_blockedRule.IMatch_blockedRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -6125,7 +7163,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_waitingRule+IMatch_waitingRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_waitingRule+Match_waitingRule"
 			)
 		{
 		}
@@ -6551,6 +7591,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule instanceBearingAttributeForSearch_waitingRule = new GRGEN_ACTIONS.Rule_waitingRule.Match_waitingRule();
 		public static List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> Array_waitingRule_groupBy_r2(List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule>>();
@@ -6583,6 +7624,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_waitingRule_indexOfBy_r2(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_indexOfBy_r2(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_r2(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_r2(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> Array_waitingRule_groupBy_p1(List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list)
 		{
@@ -6617,6 +7686,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_waitingRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> Array_waitingRule_groupBy_r1(List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule>>();
@@ -6649,6 +7746,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_waitingRule_indexOfBy_r1(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_indexOfBy_r1(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_r1(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_r1(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> Array_waitingRule_groupBy_p2(List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list)
 		{
@@ -6683,6 +7808,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_waitingRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> Array_waitingRule_groupBy_r(List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule>>();
@@ -6715,6 +7868,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_waitingRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> Array_waitingRule_groupBy_b(List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list)
 		{
@@ -6749,6 +7930,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_waitingRule_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Iblocked entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Iblocked entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Iblocked entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Iblocked entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> Array_waitingRule_groupBy_hb(List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule>> seenValues = new Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule>>();
@@ -6782,6 +7991,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_waitingRule_indexOfBy_hb(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_indexOfBy_hb(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_hb(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_hb(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> Array_waitingRule_groupBy_req(List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Irequest, List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule>> seenValues = new Dictionary<GRGEN_MODEL.Irequest, List<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule>>();
@@ -6814,6 +8051,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_waitingRule_indexOfBy_req(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Irequest entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_indexOfBy_req(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Irequest entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_req(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Irequest entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_waitingRule_lastIndexOfBy_req(IList<GRGEN_ACTIONS.Rule_waitingRule.IMatch_waitingRule> list, GRGEN_MODEL.Irequest entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_req.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -6873,7 +8138,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_ignoreRule+IMatch_ignoreRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_ignoreRule+Match_ignoreRule"
 			)
 		{
 		}
@@ -7447,6 +8714,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule instanceBearingAttributeForSearch_ignoreRule = new GRGEN_ACTIONS.Rule_ignoreRule.Match_ignoreRule();
 		public static List<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> Array_ignoreRule_groupBy_r(List<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule>>();
@@ -7479,6 +8747,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_ignoreRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ignoreRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ignoreRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ignoreRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> Array_ignoreRule_groupBy_p(List<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list)
 		{
@@ -7513,6 +8809,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_ignoreRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ignoreRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ignoreRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ignoreRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> Array_ignoreRule_groupBy_b(List<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Iblocked, List<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule>> seenValues = new Dictionary<GRGEN_MODEL.Iblocked, List<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule>>();
@@ -7545,6 +8869,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_ignoreRule_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.Iblocked entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ignoreRule_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.Iblocked entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ignoreRule_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.Iblocked entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_ignoreRule_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_ignoreRule.IMatch_ignoreRule> list, GRGEN_MODEL.Iblocked entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -7592,7 +8944,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_unlockRule+IMatch_unlockRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_unlockRule+Match_unlockRule"
 			)
 		{
 		}
@@ -7939,6 +9293,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule instanceBearingAttributeForSearch_unlockRule = new GRGEN_ACTIONS.Rule_unlockRule.Match_unlockRule();
 		public static List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> Array_unlockRule_groupBy_r(List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule>>();
@@ -7971,6 +9326,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_unlockRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> Array_unlockRule_groupBy_p(List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list)
 		{
@@ -8005,6 +9388,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_unlockRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> Array_unlockRule_groupBy_b(List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Iblocked, List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule>> seenValues = new Dictionary<GRGEN_MODEL.Iblocked, List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule>>();
@@ -8038,6 +9449,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_unlockRule_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.Iblocked entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_indexOfBy_b(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.Iblocked entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.Iblocked entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_lastIndexOfBy_b(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.Iblocked entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_b.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> Array_unlockRule_groupBy_hb(List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule>> seenValues = new Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule>>();
@@ -8070,6 +9509,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_unlockRule_indexOfBy_hb(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_indexOfBy_hb(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_lastIndexOfBy_hb(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_unlockRule_lastIndexOfBy_hb(IList<GRGEN_ACTIONS.Rule_unlockRule.IMatch_unlockRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_hb.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -8135,7 +9602,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_requestStarRule+IMatch_requestStarRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_requestStarRule+Match_requestStarRule"
 			)
 		{
 		}
@@ -8787,6 +10256,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule instanceBearingAttributeForSearch_requestStarRule = new GRGEN_ACTIONS.Rule_requestStarRule.Match_requestStarRule();
 		public static List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> Array_requestStarRule_groupBy_r1(List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule>>();
@@ -8819,6 +10289,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_requestStarRule_indexOfBy_r1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_indexOfBy_r1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_r1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_r1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> Array_requestStarRule_groupBy_p1(List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list)
 		{
@@ -8853,6 +10351,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_requestStarRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> Array_requestStarRule_groupBy_p2(List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule>>();
@@ -8885,6 +10411,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_requestStarRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> Array_requestStarRule_groupBy_r2(List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list)
 		{
@@ -8919,6 +10473,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_requestStarRule_indexOfBy_r2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_indexOfBy_r2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_r2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_r2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> Array_requestStarRule_groupBy_h1(List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule>> seenValues = new Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule>>();
@@ -8951,6 +10533,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_requestStarRule_indexOfBy_h1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_h1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_indexOfBy_h1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_h1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_h1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_h1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_h1(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_h1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> Array_requestStarRule_groupBy_n(List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list)
 		{
@@ -8985,6 +10595,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_requestStarRule_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Inext entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Inext entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_n.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> Array_requestStarRule_groupBy_h2(List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule>> seenValues = new Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule>>();
@@ -9017,6 +10655,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_requestStarRule_indexOfBy_h2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_h2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_indexOfBy_h2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_h2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_h2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_h2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestStarRule_lastIndexOfBy_h2(IList<GRGEN_ACTIONS.Rule_requestStarRule.IMatch_requestStarRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_h2.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -9070,7 +10736,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_releaseStarRule+IMatch_releaseStarRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_releaseStarRule+Match_releaseStarRule"
 			)
 		{
 		}
@@ -9473,6 +11141,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule instanceBearingAttributeForSearch_releaseStarRule = new GRGEN_ACTIONS.Rule_releaseStarRule.Match_releaseStarRule();
 		public static List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> Array_releaseStarRule_groupBy_p1(List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule>>();
@@ -9505,6 +11174,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_releaseStarRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_indexOfBy_p1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_p1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p1.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> Array_releaseStarRule_groupBy_r1(List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list)
 		{
@@ -9539,6 +11236,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_releaseStarRule_indexOfBy_r1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_indexOfBy_r1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_r1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_r1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> Array_releaseStarRule_groupBy_p2(List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule>>();
@@ -9571,6 +11296,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_releaseStarRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_indexOfBy_p2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_p2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p2.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> Array_releaseStarRule_groupBy_r2(List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list)
 		{
@@ -9605,6 +11358,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_releaseStarRule_indexOfBy_r2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_indexOfBy_r2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_r2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_r2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r2.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> Array_releaseStarRule_groupBy_rq(List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Irequest, List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule>> seenValues = new Dictionary<GRGEN_MODEL.Irequest, List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule>>();
@@ -9637,6 +11418,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_releaseStarRule_indexOfBy_rq(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Irequest entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_rq.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_indexOfBy_rq(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Irequest entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_rq.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_rq(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Irequest entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_rq.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_rq(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Irequest entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_rq.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> Array_releaseStarRule_groupBy_h1(List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list)
 		{
@@ -9671,6 +11480,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_releaseStarRule_indexOfBy_h1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_h1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_indexOfBy_h1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_h1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_h1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_h1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_h1(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_h1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> Array_releaseStarRule_groupBy_h2(List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule>> seenValues = new Dictionary<GRGEN_MODEL.Iheld_by, List<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule>>();
@@ -9703,6 +11540,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_releaseStarRule_indexOfBy_h2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_h2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_indexOfBy_h2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_h2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_h2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Iheld_by entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_h2.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_releaseStarRule_lastIndexOfBy_h2(IList<GRGEN_ACTIONS.Rule_releaseStarRule.IMatch_releaseStarRule> list, GRGEN_MODEL.Iheld_by entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_h2.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -9760,7 +11625,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_requestSimpleRule+IMatch_requestSimpleRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_requestSimpleRule+Match_requestSimpleRule"
 			)
 		{
 		}
@@ -10333,6 +12200,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule instanceBearingAttributeForSearch_requestSimpleRule = new GRGEN_ACTIONS.Rule_requestSimpleRule.Match_requestSimpleRule();
 		public static List<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> Array_requestSimpleRule_groupBy_r(List<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule>> seenValues = new Dictionary<GRGEN_MODEL.IResource, List<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule>>();
@@ -10365,6 +12233,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_requestSimpleRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestSimpleRule_indexOfBy_r(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestSimpleRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.IResource entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestSimpleRule_lastIndexOfBy_r(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.IResource entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_r.Equals(entry))
+					return i;
+			return -1;
 		}
 		public static List<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> Array_requestSimpleRule_groupBy_p(List<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list)
 		{
@@ -10399,6 +12295,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_requestSimpleRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestSimpleRule_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestSimpleRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestSimpleRule_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> Array_requestSimpleRule_groupBy_t(List<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list)
 		{
 			Dictionary<GRGEN_MODEL.Itoken, List<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule>> seenValues = new Dictionary<GRGEN_MODEL.Itoken, List<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule>>();
@@ -10431,6 +12355,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_requestSimpleRule_indexOfBy_t(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.Itoken entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestSimpleRule_indexOfBy_t(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.Itoken entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestSimpleRule_lastIndexOfBy_t(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.Itoken entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_requestSimpleRule_lastIndexOfBy_t(IList<GRGEN_ACTIONS.Rule_requestSimpleRule.IMatch_requestSimpleRule> list, GRGEN_MODEL.Itoken entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_t.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -10486,7 +12438,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_aux_attachResource+IMatch_aux_attachResource",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_aux_attachResource+Match_aux_attachResource"
 			)
 		{
 		}
@@ -11018,6 +12972,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_aux_attachResource.IMatch_aux_attachResource instanceBearingAttributeForSearch_aux_attachResource = new GRGEN_ACTIONS.Rule_aux_attachResource.Match_aux_attachResource();
 		public static List<GRGEN_ACTIONS.Rule_aux_attachResource.IMatch_aux_attachResource> Array_aux_attachResource_groupBy_p(List<GRGEN_ACTIONS.Rule_aux_attachResource.IMatch_aux_attachResource> list)
 		{
 			Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_aux_attachResource.IMatch_aux_attachResource>> seenValues = new Dictionary<GRGEN_MODEL.IProcess, List<GRGEN_ACTIONS.Rule_aux_attachResource.IMatch_aux_attachResource>>();
@@ -11050,6 +13005,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_aux_attachResource_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_aux_attachResource.IMatch_aux_attachResource> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_aux_attachResource_indexOfBy_p(IList<GRGEN_ACTIONS.Rule_aux_attachResource.IMatch_aux_attachResource> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_aux_attachResource_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_aux_attachResource.IMatch_aux_attachResource> list, GRGEN_MODEL.IProcess entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_aux_attachResource_lastIndexOfBy_p(IList<GRGEN_ACTIONS.Rule_aux_attachResource.IMatch_aux_attachResource> list, GRGEN_MODEL.IProcess entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_p.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -11093,7 +13076,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_annotationTestRule+IMatch_annotationTestRule",
+				"de.unika.ipd.grGen.Action_MutexPimped.Rule_annotationTestRule+Match_annotationTestRule"
 			)
 		{
 			annotations.annotations.Add("specialRule", "true");
@@ -11395,6 +13380,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule instanceBearingAttributeForSearch_annotationTestRule = new GRGEN_ACTIONS.Rule_annotationTestRule.Match_annotationTestRule();
 		public static List<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> Array_annotationTestRule_groupBy_n1(List<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IAnnotationTestNode, List<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule>> seenValues = new Dictionary<GRGEN_MODEL.IAnnotationTestNode, List<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule>>();
@@ -11428,6 +13414,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			}
 			return newList;
 		}
+		public static int Array_annotationTestRule_indexOfBy_n1(IList<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> list, GRGEN_MODEL.IAnnotationTestNode entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_annotationTestRule_indexOfBy_n1(IList<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> list, GRGEN_MODEL.IAnnotationTestNode entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_annotationTestRule_lastIndexOfBy_n1(IList<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> list, GRGEN_MODEL.IAnnotationTestNode entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_annotationTestRule_lastIndexOfBy_n1(IList<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> list, GRGEN_MODEL.IAnnotationTestNode entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n1.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> Array_annotationTestRule_groupBy_e1(List<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> list)
 		{
 			Dictionary<GRGEN_MODEL.IannotationTestEdge, List<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule>> seenValues = new Dictionary<GRGEN_MODEL.IannotationTestEdge, List<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule>>();
@@ -11460,6 +13474,34 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			return newList;
+		}
+		public static int Array_annotationTestRule_indexOfBy_e1(IList<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> list, GRGEN_MODEL.IannotationTestEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_e1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_annotationTestRule_indexOfBy_e1(IList<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> list, GRGEN_MODEL.IannotationTestEdge entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_e1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_annotationTestRule_lastIndexOfBy_e1(IList<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> list, GRGEN_MODEL.IannotationTestEdge entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_e1.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_annotationTestRule_lastIndexOfBy_e1(IList<GRGEN_ACTIONS.Rule_annotationTestRule.IMatch_annotationTestRule> list, GRGEN_MODEL.IannotationTestEdge entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_e1.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -17888,6 +19930,1264 @@ label7: ;
                     }
                 default:
                     return null;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "newRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_newRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p2":
+                        return ArrayHelper.Array_newRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "n":
+                        return ArrayHelper.Array_newRule_indexOfBy_n(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    default:
+                        return -1;
+                    }
+                case "killRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_killRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p":
+                        return ArrayHelper.Array_killRule_indexOfBy_p(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p2":
+                        return ArrayHelper.Array_killRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "n1":
+                        return ArrayHelper.Array_killRule_indexOfBy_n1(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    case "n2":
+                        return ArrayHelper.Array_killRule_indexOfBy_n2(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    default:
+                        return -1;
+                    }
+                case "mountRule":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_mountRule_indexOfBy_p(GRGEN_ACTIONS.Rule_mountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    default:
+                        return -1;
+                    }
+                case "unmountRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_unmountRule_indexOfBy_r(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_unmountRule_indexOfBy_p(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "t":
+                        return ArrayHelper.Array_unmountRule_indexOfBy_t(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value);
+                    default:
+                        return -1;
+                    }
+                case "passRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_passRule_indexOfBy_r(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p1":
+                        return ArrayHelper.Array_passRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p2":
+                        return ArrayHelper.Array_passRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_passRule_indexOfBy__edge0(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value);
+                    case "n":
+                        return ArrayHelper.Array_passRule_indexOfBy_n(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    default:
+                        return -1;
+                    }
+                case "requestRule":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_requestRule_indexOfBy_p(GRGEN_ACTIONS.Rule_requestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r":
+                        return ArrayHelper.Array_requestRule_indexOfBy_r(GRGEN_ACTIONS.Rule_requestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    default:
+                        return -1;
+                    }
+                case "takeRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_takeRule_indexOfBy_r(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_takeRule_indexOfBy_p(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "t":
+                        return ArrayHelper.Array_takeRule_indexOfBy_t(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value);
+                    case "req":
+                        return ArrayHelper.Array_takeRule_indexOfBy_req(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value);
+                    default:
+                        return -1;
+                    }
+                case "releaseRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_releaseRule_indexOfBy_r(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_releaseRule_indexOfBy_p(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "hb":
+                        return ArrayHelper.Array_releaseRule_indexOfBy_hb(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    default:
+                        return -1;
+                    }
+                case "giveRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_giveRule_indexOfBy_r(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p1":
+                        return ArrayHelper.Array_giveRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p2":
+                        return ArrayHelper.Array_giveRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "rel":
+                        return ArrayHelper.Array_giveRule_indexOfBy_rel(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irelease)value);
+                    case "n":
+                        return ArrayHelper.Array_giveRule_indexOfBy_n(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    default:
+                        return -1;
+                    }
+                case "blockedRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_blockedRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r":
+                        return ArrayHelper.Array_blockedRule_indexOfBy_r(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p2":
+                        return ArrayHelper.Array_blockedRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "req":
+                        return ArrayHelper.Array_blockedRule_indexOfBy_req(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value);
+                    case "hb":
+                        return ArrayHelper.Array_blockedRule_indexOfBy_hb(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    default:
+                        return -1;
+                    }
+                case "waitingRule":
+                    switch(member)
+                    {
+                    case "r2":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_r2(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p1":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r1":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_r1(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p2":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_r(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "b":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_b(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value);
+                    case "hb":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_hb(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    case "req":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_req(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value);
+                    default:
+                        return -1;
+                    }
+                case "ignoreRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_ignoreRule_indexOfBy_r(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_ignoreRule_indexOfBy_p(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "b":
+                        return ArrayHelper.Array_ignoreRule_indexOfBy_b(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value);
+                    default:
+                        return -1;
+                    }
+                case "unlockRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_unlockRule_indexOfBy_r(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_unlockRule_indexOfBy_p(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "b":
+                        return ArrayHelper.Array_unlockRule_indexOfBy_b(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value);
+                    case "hb":
+                        return ArrayHelper.Array_unlockRule_indexOfBy_hb(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    default:
+                        return -1;
+                    }
+                case "requestStarRule":
+                    switch(member)
+                    {
+                    case "r1":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_r1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p1":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p2":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r2":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_r2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "h1":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_h1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    case "n":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_n(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    case "h2":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_h2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    default:
+                        return -1;
+                    }
+                case "releaseStarRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r1":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_r1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p2":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r2":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_r2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "rq":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_rq(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value);
+                    case "h1":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_h1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    case "h2":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_h2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    default:
+                        return -1;
+                    }
+                case "requestSimpleRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_requestSimpleRule_indexOfBy_r(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_requestSimpleRule_indexOfBy_p(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "t":
+                        return ArrayHelper.Array_requestSimpleRule_indexOfBy_t(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value);
+                    default:
+                        return -1;
+                    }
+                case "aux_attachResource":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_aux_attachResource_indexOfBy_p(GRGEN_ACTIONS.Rule_aux_attachResource.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    default:
+                        return -1;
+                    }
+                case "annotationTestRule":
+                    switch(member)
+                    {
+                    case "n1":
+                        return ArrayHelper.Array_annotationTestRule_indexOfBy_n1(GRGEN_ACTIONS.Rule_annotationTestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IAnnotationTestNode)value);
+                    case "e1":
+                        return ArrayHelper.Array_annotationTestRule_indexOfBy_e1(GRGEN_ACTIONS.Rule_annotationTestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IannotationTestEdge)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "newRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_newRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_newRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "n":
+                        return ArrayHelper.Array_newRule_indexOfBy_n(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "killRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_killRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_killRule_indexOfBy_p(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_killRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "n1":
+                        return ArrayHelper.Array_killRule_indexOfBy_n1(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    case "n2":
+                        return ArrayHelper.Array_killRule_indexOfBy_n2(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "mountRule":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_mountRule_indexOfBy_p(GRGEN_ACTIONS.Rule_mountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "unmountRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_unmountRule_indexOfBy_r(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_unmountRule_indexOfBy_p(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "t":
+                        return ArrayHelper.Array_unmountRule_indexOfBy_t(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "passRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_passRule_indexOfBy_r(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p1":
+                        return ArrayHelper.Array_passRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_passRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_passRule_indexOfBy__edge0(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value, startIndex);
+                    case "n":
+                        return ArrayHelper.Array_passRule_indexOfBy_n(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "requestRule":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_requestRule_indexOfBy_p(GRGEN_ACTIONS.Rule_requestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r":
+                        return ArrayHelper.Array_requestRule_indexOfBy_r(GRGEN_ACTIONS.Rule_requestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "takeRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_takeRule_indexOfBy_r(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_takeRule_indexOfBy_p(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "t":
+                        return ArrayHelper.Array_takeRule_indexOfBy_t(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value, startIndex);
+                    case "req":
+                        return ArrayHelper.Array_takeRule_indexOfBy_req(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "releaseRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_releaseRule_indexOfBy_r(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_releaseRule_indexOfBy_p(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "hb":
+                        return ArrayHelper.Array_releaseRule_indexOfBy_hb(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "giveRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_giveRule_indexOfBy_r(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p1":
+                        return ArrayHelper.Array_giveRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_giveRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "rel":
+                        return ArrayHelper.Array_giveRule_indexOfBy_rel(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irelease)value, startIndex);
+                    case "n":
+                        return ArrayHelper.Array_giveRule_indexOfBy_n(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "blockedRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_blockedRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r":
+                        return ArrayHelper.Array_blockedRule_indexOfBy_r(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_blockedRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "req":
+                        return ArrayHelper.Array_blockedRule_indexOfBy_req(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value, startIndex);
+                    case "hb":
+                        return ArrayHelper.Array_blockedRule_indexOfBy_hb(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "waitingRule":
+                    switch(member)
+                    {
+                    case "r2":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_r2(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p1":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r1":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_r1(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_r(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_b(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value, startIndex);
+                    case "hb":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_hb(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    case "req":
+                        return ArrayHelper.Array_waitingRule_indexOfBy_req(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "ignoreRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_ignoreRule_indexOfBy_r(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_ignoreRule_indexOfBy_p(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_ignoreRule_indexOfBy_b(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "unlockRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_unlockRule_indexOfBy_r(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_unlockRule_indexOfBy_p(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_unlockRule_indexOfBy_b(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value, startIndex);
+                    case "hb":
+                        return ArrayHelper.Array_unlockRule_indexOfBy_hb(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "requestStarRule":
+                    switch(member)
+                    {
+                    case "r1":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_r1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p1":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r2":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_r2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "h1":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_h1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    case "n":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_n(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    case "h2":
+                        return ArrayHelper.Array_requestStarRule_indexOfBy_h2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "releaseStarRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_p1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r1":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_r1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_p2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r2":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_r2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "rq":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_rq(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value, startIndex);
+                    case "h1":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_h1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    case "h2":
+                        return ArrayHelper.Array_releaseStarRule_indexOfBy_h2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "requestSimpleRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_requestSimpleRule_indexOfBy_r(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_requestSimpleRule_indexOfBy_p(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "t":
+                        return ArrayHelper.Array_requestSimpleRule_indexOfBy_t(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "aux_attachResource":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_aux_attachResource_indexOfBy_p(GRGEN_ACTIONS.Rule_aux_attachResource.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "annotationTestRule":
+                    switch(member)
+                    {
+                    case "n1":
+                        return ArrayHelper.Array_annotationTestRule_indexOfBy_n1(GRGEN_ACTIONS.Rule_annotationTestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IAnnotationTestNode)value, startIndex);
+                    case "e1":
+                        return ArrayHelper.Array_annotationTestRule_indexOfBy_e1(GRGEN_ACTIONS.Rule_annotationTestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IannotationTestEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "newRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_newRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p2":
+                        return ArrayHelper.Array_newRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "n":
+                        return ArrayHelper.Array_newRule_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    default:
+                        return -1;
+                    }
+                case "killRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_killRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p":
+                        return ArrayHelper.Array_killRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p2":
+                        return ArrayHelper.Array_killRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "n1":
+                        return ArrayHelper.Array_killRule_lastIndexOfBy_n1(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    case "n2":
+                        return ArrayHelper.Array_killRule_lastIndexOfBy_n2(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    default:
+                        return -1;
+                    }
+                case "mountRule":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_mountRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_mountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    default:
+                        return -1;
+                    }
+                case "unmountRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_unmountRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_unmountRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "t":
+                        return ArrayHelper.Array_unmountRule_lastIndexOfBy_t(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value);
+                    default:
+                        return -1;
+                    }
+                case "passRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_passRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p1":
+                        return ArrayHelper.Array_passRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p2":
+                        return ArrayHelper.Array_passRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "_edge0":
+                        return ArrayHelper.Array_passRule_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value);
+                    case "n":
+                        return ArrayHelper.Array_passRule_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    default:
+                        return -1;
+                    }
+                case "requestRule":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_requestRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_requestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r":
+                        return ArrayHelper.Array_requestRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_requestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    default:
+                        return -1;
+                    }
+                case "takeRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_takeRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_takeRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "t":
+                        return ArrayHelper.Array_takeRule_lastIndexOfBy_t(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value);
+                    case "req":
+                        return ArrayHelper.Array_takeRule_lastIndexOfBy_req(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value);
+                    default:
+                        return -1;
+                    }
+                case "releaseRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_releaseRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_releaseRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "hb":
+                        return ArrayHelper.Array_releaseRule_lastIndexOfBy_hb(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    default:
+                        return -1;
+                    }
+                case "giveRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_giveRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p1":
+                        return ArrayHelper.Array_giveRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p2":
+                        return ArrayHelper.Array_giveRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "rel":
+                        return ArrayHelper.Array_giveRule_lastIndexOfBy_rel(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irelease)value);
+                    case "n":
+                        return ArrayHelper.Array_giveRule_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    default:
+                        return -1;
+                    }
+                case "blockedRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_blockedRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r":
+                        return ArrayHelper.Array_blockedRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p2":
+                        return ArrayHelper.Array_blockedRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "req":
+                        return ArrayHelper.Array_blockedRule_lastIndexOfBy_req(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value);
+                    case "hb":
+                        return ArrayHelper.Array_blockedRule_lastIndexOfBy_hb(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    default:
+                        return -1;
+                    }
+                case "waitingRule":
+                    switch(member)
+                    {
+                    case "r2":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_r2(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p1":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r1":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_r1(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p2":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "b":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value);
+                    case "hb":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_hb(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    case "req":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_req(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value);
+                    default:
+                        return -1;
+                    }
+                case "ignoreRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_ignoreRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_ignoreRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "b":
+                        return ArrayHelper.Array_ignoreRule_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value);
+                    default:
+                        return -1;
+                    }
+                case "unlockRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_unlockRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_unlockRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "b":
+                        return ArrayHelper.Array_unlockRule_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value);
+                    case "hb":
+                        return ArrayHelper.Array_unlockRule_lastIndexOfBy_hb(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    default:
+                        return -1;
+                    }
+                case "requestStarRule":
+                    switch(member)
+                    {
+                    case "r1":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_r1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p1":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "p2":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r2":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_r2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "h1":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_h1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    case "n":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value);
+                    case "h2":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_h2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    default:
+                        return -1;
+                    }
+                case "releaseStarRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r1":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_r1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p2":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "r2":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_r2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "rq":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_rq(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value);
+                    case "h1":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_h1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    case "h2":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_h2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value);
+                    default:
+                        return -1;
+                    }
+                case "requestSimpleRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_requestSimpleRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value);
+                    case "p":
+                        return ArrayHelper.Array_requestSimpleRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    case "t":
+                        return ArrayHelper.Array_requestSimpleRule_lastIndexOfBy_t(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value);
+                    default:
+                        return -1;
+                    }
+                case "aux_attachResource":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_aux_attachResource_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_aux_attachResource.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value);
+                    default:
+                        return -1;
+                    }
+                case "annotationTestRule":
+                    switch(member)
+                    {
+                    case "n1":
+                        return ArrayHelper.Array_annotationTestRule_lastIndexOfBy_n1(GRGEN_ACTIONS.Rule_annotationTestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IAnnotationTestNode)value);
+                    case "e1":
+                        return ArrayHelper.Array_annotationTestRule_lastIndexOfBy_e1(GRGEN_ACTIONS.Rule_annotationTestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IannotationTestEdge)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "newRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_newRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_newRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "n":
+                        return ArrayHelper.Array_newRule_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_newRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "killRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_killRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_killRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_killRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "n1":
+                        return ArrayHelper.Array_killRule_lastIndexOfBy_n1(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    case "n2":
+                        return ArrayHelper.Array_killRule_lastIndexOfBy_n2(GRGEN_ACTIONS.Rule_killRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "mountRule":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_mountRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_mountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "unmountRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_unmountRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_unmountRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "t":
+                        return ArrayHelper.Array_unmountRule_lastIndexOfBy_t(GRGEN_ACTIONS.Rule_unmountRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "passRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_passRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p1":
+                        return ArrayHelper.Array_passRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_passRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "_edge0":
+                        return ArrayHelper.Array_passRule_lastIndexOfBy__edge0(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value, startIndex);
+                    case "n":
+                        return ArrayHelper.Array_passRule_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_passRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "requestRule":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_requestRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_requestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r":
+                        return ArrayHelper.Array_requestRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_requestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "takeRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_takeRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_takeRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "t":
+                        return ArrayHelper.Array_takeRule_lastIndexOfBy_t(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value, startIndex);
+                    case "req":
+                        return ArrayHelper.Array_takeRule_lastIndexOfBy_req(GRGEN_ACTIONS.Rule_takeRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "releaseRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_releaseRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_releaseRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "hb":
+                        return ArrayHelper.Array_releaseRule_lastIndexOfBy_hb(GRGEN_ACTIONS.Rule_releaseRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "giveRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_giveRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p1":
+                        return ArrayHelper.Array_giveRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_giveRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "rel":
+                        return ArrayHelper.Array_giveRule_lastIndexOfBy_rel(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irelease)value, startIndex);
+                    case "n":
+                        return ArrayHelper.Array_giveRule_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_giveRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "blockedRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_blockedRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r":
+                        return ArrayHelper.Array_blockedRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_blockedRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "req":
+                        return ArrayHelper.Array_blockedRule_lastIndexOfBy_req(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value, startIndex);
+                    case "hb":
+                        return ArrayHelper.Array_blockedRule_lastIndexOfBy_hb(GRGEN_ACTIONS.Rule_blockedRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "waitingRule":
+                    switch(member)
+                    {
+                    case "r2":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_r2(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p1":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r1":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_r1(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value, startIndex);
+                    case "hb":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_hb(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    case "req":
+                        return ArrayHelper.Array_waitingRule_lastIndexOfBy_req(GRGEN_ACTIONS.Rule_waitingRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "ignoreRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_ignoreRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_ignoreRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_ignoreRule_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_ignoreRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "unlockRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_unlockRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_unlockRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "b":
+                        return ArrayHelper.Array_unlockRule_lastIndexOfBy_b(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iblocked)value, startIndex);
+                    case "hb":
+                        return ArrayHelper.Array_unlockRule_lastIndexOfBy_hb(GRGEN_ACTIONS.Rule_unlockRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "requestStarRule":
+                    switch(member)
+                    {
+                    case "r1":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_r1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p1":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r2":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_r2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "h1":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_h1(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    case "n":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Inext)value, startIndex);
+                    case "h2":
+                        return ArrayHelper.Array_requestStarRule_lastIndexOfBy_h2(GRGEN_ACTIONS.Rule_requestStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "releaseStarRule":
+                    switch(member)
+                    {
+                    case "p1":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_p1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r1":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_r1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p2":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_p2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "r2":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_r2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "rq":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_rq(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Irequest)value, startIndex);
+                    case "h1":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_h1(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    case "h2":
+                        return ArrayHelper.Array_releaseStarRule_lastIndexOfBy_h2(GRGEN_ACTIONS.Rule_releaseStarRule.ConvertAsNeeded(array), (GRGEN_MODEL.Iheld_by)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "requestSimpleRule":
+                    switch(member)
+                    {
+                    case "r":
+                        return ArrayHelper.Array_requestSimpleRule_lastIndexOfBy_r(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.IResource)value, startIndex);
+                    case "p":
+                        return ArrayHelper.Array_requestSimpleRule_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    case "t":
+                        return ArrayHelper.Array_requestSimpleRule_lastIndexOfBy_t(GRGEN_ACTIONS.Rule_requestSimpleRule.ConvertAsNeeded(array), (GRGEN_MODEL.Itoken)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "aux_attachResource":
+                    switch(member)
+                    {
+                    case "p":
+                        return ArrayHelper.Array_aux_attachResource_lastIndexOfBy_p(GRGEN_ACTIONS.Rule_aux_attachResource.ConvertAsNeeded(array), (GRGEN_MODEL.IProcess)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "annotationTestRule":
+                    switch(member)
+                    {
+                    case "n1":
+                        return ArrayHelper.Array_annotationTestRule_lastIndexOfBy_n1(GRGEN_ACTIONS.Rule_annotationTestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IAnnotationTestNode)value, startIndex);
+                    case "e1":
+                        return ArrayHelper.Array_annotationTestRule_lastIndexOfBy_e1(GRGEN_ACTIONS.Rule_annotationTestRule.ConvertAsNeeded(array), (GRGEN_MODEL.IannotationTestEdge)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfOrderedBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "newRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "killRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "mountRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "unmountRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "passRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "requestRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "takeRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "releaseRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "giveRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "blockedRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "waitingRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "ignoreRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "unlockRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "requestStarRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "releaseStarRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "requestSimpleRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "aux_attachResource":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "annotationTestRule":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
                 }
             }
         }

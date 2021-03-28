@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Fri Feb 05 19:32:11 CET 2021
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Mar 28 10:09:20 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -52,7 +52,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_init+IMatch_init",
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_init+Match_init"
 			)
 		{
 		}
@@ -309,6 +311,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_init.IMatch_init instanceBearingAttributeForSearch_init = new GRGEN_ACTIONS.Rule_init.Match_init();
 	}
 
 	public class Rule_init2 : GRGEN_LGSP.LGSPRulePattern
@@ -348,7 +351,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_init2+IMatch_init2",
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_init2+Match_init2"
 			)
 		{
 		}
@@ -636,6 +641,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_init2.IMatch_init2 instanceBearingAttributeForSearch_init2 = new GRGEN_ACTIONS.Rule_init2.Match_init2();
 	}
 
 	public class Rule_r : GRGEN_LGSP.LGSPRulePattern
@@ -679,7 +685,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_r+IMatch_r",
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_r+Match_r"
 			)
 		{
 		}
@@ -1016,6 +1024,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_r.IMatch_r instanceBearingAttributeForSearch_r = new GRGEN_ACTIONS.Rule_r.Match_r();
 		public static List<GRGEN_ACTIONS.Rule_r.IMatch_r> Array_r_groupBy_n(List<GRGEN_ACTIONS.Rule_r.IMatch_r> list)
 		{
 			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_r.IMatch_r>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_r.IMatch_r>>();
@@ -1049,6 +1058,34 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			}
 			return newList;
 		}
+		public static int Array_r_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_r.IMatch_r> Array_r_groupBy_e(List<GRGEN_ACTIONS.Rule_r.IMatch_r> list)
 		{
 			Dictionary<GRGEN_MODEL.IE, List<GRGEN_ACTIONS.Rule_r.IMatch_r>> seenValues = new Dictionary<GRGEN_MODEL.IE, List<GRGEN_ACTIONS.Rule_r.IMatch_r>>();
@@ -1081,6 +1118,34 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				}
 			}
 			return newList;
+		}
+		public static int Array_r_indexOfBy_e(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IE entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_indexOfBy_e(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IE entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IE entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_r_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Rule_r.IMatch_r> list, GRGEN_MODEL.IE entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -1125,7 +1190,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_rp+IMatch_rp",
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_rp+Match_rp"
 			)
 		{
 		}
@@ -1463,6 +1530,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_rp.IMatch_rp instanceBearingAttributeForSearch_rp = new GRGEN_ACTIONS.Rule_rp.Match_rp();
 		public static List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> Array_rp_groupBy_n(List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list)
 		{
 			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_rp.IMatch_rp>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_rp.IMatch_rp>>();
@@ -1496,6 +1564,34 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			}
 			return newList;
 		}
+		public static int Array_rp_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_rp_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_rp_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_rp_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> Array_rp_groupBy_e(List<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list)
 		{
 			Dictionary<GRGEN_MODEL.IE, List<GRGEN_ACTIONS.Rule_rp.IMatch_rp>> seenValues = new Dictionary<GRGEN_MODEL.IE, List<GRGEN_ACTIONS.Rule_rp.IMatch_rp>>();
@@ -1528,6 +1624,34 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				}
 			}
 			return newList;
+		}
+		public static int Array_rp_indexOfBy_e(IList<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list, GRGEN_MODEL.IE entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_rp_indexOfBy_e(IList<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list, GRGEN_MODEL.IE entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_rp_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list, GRGEN_MODEL.IE entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_rp_lastIndexOfBy_e(IList<GRGEN_ACTIONS.Rule_rp.IMatch_rp> list, GRGEN_MODEL.IE entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@edge_e.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -1569,7 +1693,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_testCopy+IMatch_testCopy",
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_testCopy+Match_testCopy"
 			)
 		{
 		}
@@ -1619,7 +1745,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			Match_testCopy curMatch = (Match_testCopy)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			graph.SettingAddedNodeNames( testCopy_addedNodeNames );
-			GRGEN_LGSP.LGSPNode node_nn = (GRGEN_LGSP.LGSPNode) node_n.Copy(graph, new Dictionary<GRGEN_LIBGR.IBaseObject, GRGEN_LIBGR.IBaseObject>());
+			GRGEN_LGSP.LGSPNode node_nn = (GRGEN_LGSP.LGSPNode) node_n.Copy(graph, new Dictionary<object, object>());
 			graph.AddNode(node_nn);
 			graph.SettingAddedEdgeNames( testCopy_addedEdgeNames );
 			return;
@@ -1848,6 +1974,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy instanceBearingAttributeForSearch_testCopy = new GRGEN_ACTIONS.Rule_testCopy.Match_testCopy();
 		public static List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy> Array_testCopy_groupBy_n(List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy> list)
 		{
 			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy>>();
@@ -1880,6 +2007,34 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				}
 			}
 			return newList;
+		}
+		public static int Array_testCopy_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testCopy_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testCopy_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testCopy_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_testCopy.IMatch_testCopy> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -1924,7 +2079,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeFirstFraction", null, "removeFirstFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 					new GRGEN_LGSP.LGSPFilterAutoSupplied("removeLastFraction", null, "removeLastFraction", null, new GRGEN_LIBGR.GrGenType[] {GRGEN_LIBGR.VarType.GetVarType(typeof(double)), }, new String[] {"param"}),
 				},
-				new GRGEN_LIBGR.MatchClassInfo[] { }
+				new GRGEN_LIBGR.MatchClassInfo[] { },
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_testComparison+IMatch_testComparison",
+				"de.unika.ipd.grGen.Action_ExternalAttributeEvaluation.Rule_testComparison+Match_testComparison"
 			)
 		{
 		}
@@ -2053,9 +2210,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			graph.SettingAddedNodeNames( testComparison_addedNodeNames );
 			graph.SettingAddedEdgeNames( testComparison_addedEdgeNames );
 			{ // eval_0
-				bool var_b = (bool)((((((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,inode_m.@ow) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,inode_m.@ow)) ^ GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,inode_m.@ow)) ^ (GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,inode_m.@ow)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,inode_m.@ow))) ^ (!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,inode_m.@ow)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,inode_m.@ow))) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,inode_m.@ow)));
-				var_b = (bool) ((((((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@op,inode_m.@op) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@op,inode_m.@op)) ^ GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op)) ^ (GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@op,inode_m.@op))) ^ (!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@op,inode_m.@op))) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op)));
-				var_b = (bool) ((((((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op)) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op))) ^ GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op))) ^ (GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op))|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op)))) ^ (!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op))&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op)))) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op))));
+				bool var_b = (bool)(((((((inode_n.@ow == inode_m.@ow) ^ (inode_n.@ow != inode_m.@ow)) ^ GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,inode_m.@ow, new Dictionary<object, object>())) ^ (GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,inode_m.@ow, new Dictionary<object, object>())|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,inode_m.@ow, new Dictionary<object, object>()))) ^ (!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,inode_m.@ow, new Dictionary<object, object>())&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,inode_m.@ow, new Dictionary<object, object>()))) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,inode_m.@ow, new Dictionary<object, object>())));
+				var_b = (bool) (((((((inode_n.@op == inode_m.@op) ^ (inode_n.@op != inode_m.@op)) ^ GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op, new Dictionary<object, object>())) ^ (GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op, new Dictionary<object, object>())|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@op,inode_m.@op, new Dictionary<object, object>()))) ^ (!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op, new Dictionary<object, object>())&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@op,inode_m.@op, new Dictionary<object, object>()))) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op, new Dictionary<object, object>())));
+				var_b = (bool) (((((((inode_n.@ow == ((GRGEN_MODEL.Own) inode_m.@op)) ^ (inode_n.@ow != ((GRGEN_MODEL.Own) inode_m.@op))) ^ GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>())) ^ (GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>())|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>()))) ^ (!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>())&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>()))) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>())));
 			}
 			return;
 		}
@@ -2298,6 +2455,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 	
 	public partial class ArrayHelper
 	{
+		private static GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison instanceBearingAttributeForSearch_testComparison = new GRGEN_ACTIONS.Rule_testComparison.Match_testComparison();
 		public static List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> Array_testComparison_groupBy_n(List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list)
 		{
 			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>>();
@@ -2331,6 +2489,34 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			}
 			return newList;
 		}
+		public static int Array_testComparison_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testComparison_indexOfBy_n(IList<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testComparison_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testComparison_lastIndexOfBy_n(IList<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_n.Equals(entry))
+					return i;
+			return -1;
+		}
 		public static List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> Array_testComparison_groupBy_m(List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list)
 		{
 			Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>> seenValues = new Dictionary<GRGEN_MODEL.IN, List<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison>>();
@@ -2363,6 +2549,34 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				}
 			}
 			return newList;
+		}
+		public static int Array_testComparison_indexOfBy_m(IList<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i < list.Count; ++i)
+				if(list[i].@node_m.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testComparison_indexOfBy_m(IList<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = 0; i < list.Count; ++i)
+				if(list[i].@node_m.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testComparison_lastIndexOfBy_m(IList<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list, GRGEN_MODEL.IN entry, int startIndex)
+		{
+			for(int i = startIndex; i >= 0; --i)
+				if(list[i].@node_m.Equals(entry))
+					return i;
+			return -1;
+		}
+		public static int Array_testComparison_lastIndexOfBy_m(IList<GRGEN_ACTIONS.Rule_testComparison.IMatch_testComparison> list, GRGEN_MODEL.IN entry)
+		{
+			for(int i = list.Count - 1; i >= 0; --i)
+				if(list[i].@node_m.Equals(entry))
+					return i;
+			return -1;
 		}
 	}
 
@@ -4242,75 +4456,75 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
                                 continue;
                             }
                             // Condition 
-                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>()))) {
                                 continue;
                             }
                             // Condition 
-                            if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
+                            if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>())&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>())))) {
                                 continue;
                             }
                             // Condition 
-                            if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
+                            if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>())|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>())))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>()))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                            if(!((((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow!=(GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, (GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                            if(!((((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow==(GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>()))) {
                                 continue;
                             }
                             // Condition 
-                            if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
+                            if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>())&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>())))) {
                                 continue;
                             }
                             // Condition 
-                            if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op)))) {
+                            if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>())|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>())))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op, new Dictionary<object, object>()))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                            if(!((((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op!=((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
+                            if(!((((GRGEN_MODEL.IN)candidate_testComparison_node_n).@op==((GRGEN_MODEL.IN)candidate_testComparison_node_m).@op))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
+                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow, new Dictionary<object, object>()))) {
                                 continue;
                             }
                             // Condition 
-                            if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)))) {
+                            if(!((!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow, new Dictionary<object, object>())&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow, new Dictionary<object, object>())))) {
                                 continue;
                             }
                             // Condition 
-                            if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow)))) {
+                            if(!((GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow, new Dictionary<object, object>())|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow, new Dictionary<object, object>())))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
+                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow, new Dictionary<object, object>()))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
+                            if(!((((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow!=((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
                                 continue;
                             }
                             // Condition 
-                            if(!(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow, ((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
+                            if(!((((GRGEN_MODEL.IN)candidate_testComparison_node_n).@ow==((GRGEN_MODEL.IN)candidate_testComparison_node_m).@ow))) {
                                 continue;
                             }
                             Rule_testComparison.Match_testComparison match = matches.GetNextUnfilledPosition();
@@ -4922,6 +5136,392 @@ GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironm
                     }
                 default:
                     return null;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "init":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "init2":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "r":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_r_indexOfBy_n(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "e":
+                        return ArrayHelper.Array_r_indexOfBy_e(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IE)value);
+                    default:
+                        return -1;
+                    }
+                case "rp":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_rp_indexOfBy_n(GRGEN_ACTIONS.Rule_rp.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "e":
+                        return ArrayHelper.Array_rp_indexOfBy_e(GRGEN_ACTIONS.Rule_rp.ConvertAsNeeded(array), (GRGEN_MODEL.IE)value);
+                    default:
+                        return -1;
+                    }
+                case "testCopy":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_testCopy_indexOfBy_n(GRGEN_ACTIONS.Rule_testCopy.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    default:
+                        return -1;
+                    }
+                case "testComparison":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_testComparison_indexOfBy_n(GRGEN_ACTIONS.Rule_testComparison.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "m":
+                        return ArrayHelper.Array_testComparison_indexOfBy_m(GRGEN_ACTIONS.Rule_testComparison.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "init":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "init2":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "r":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_r_indexOfBy_n(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "e":
+                        return ArrayHelper.Array_r_indexOfBy_e(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IE)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "rp":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_rp_indexOfBy_n(GRGEN_ACTIONS.Rule_rp.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "e":
+                        return ArrayHelper.Array_rp_indexOfBy_e(GRGEN_ACTIONS.Rule_rp.ConvertAsNeeded(array), (GRGEN_MODEL.IE)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "testCopy":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_testCopy_indexOfBy_n(GRGEN_ACTIONS.Rule_testCopy.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "testComparison":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_testComparison_indexOfBy_n(GRGEN_ACTIONS.Rule_testComparison.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "m":
+                        return ArrayHelper.Array_testComparison_indexOfBy_m(GRGEN_ACTIONS.Rule_testComparison.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "init":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "init2":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "r":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_r_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "e":
+                        return ArrayHelper.Array_r_lastIndexOfBy_e(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IE)value);
+                    default:
+                        return -1;
+                    }
+                case "rp":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_rp_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_rp.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "e":
+                        return ArrayHelper.Array_rp_lastIndexOfBy_e(GRGEN_ACTIONS.Rule_rp.ConvertAsNeeded(array), (GRGEN_MODEL.IE)value);
+                    default:
+                        return -1;
+                    }
+                case "testCopy":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_testCopy_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_testCopy.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    default:
+                        return -1;
+                    }
+                case "testComparison":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_testComparison_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_testComparison.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    case "m":
+                        return ArrayHelper.Array_testComparison_lastIndexOfBy_m(GRGEN_ACTIONS.Rule_testComparison.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayLastIndexOfBy(IList array, string member, object value, int startIndex)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "init":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "init2":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "r":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_r_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "e":
+                        return ArrayHelper.Array_r_lastIndexOfBy_e(GRGEN_ACTIONS.Rule_r.ConvertAsNeeded(array), (GRGEN_MODEL.IE)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "rp":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_rp_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_rp.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "e":
+                        return ArrayHelper.Array_rp_lastIndexOfBy_e(GRGEN_ACTIONS.Rule_rp.ConvertAsNeeded(array), (GRGEN_MODEL.IE)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "testCopy":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_testCopy_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_testCopy.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                case "testComparison":
+                    switch(member)
+                    {
+                    case "n":
+                        return ArrayHelper.Array_testComparison_lastIndexOfBy_n(GRGEN_ACTIONS.Rule_testComparison.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    case "m":
+                        return ArrayHelper.Array_testComparison_lastIndexOfBy_m(GRGEN_ACTIONS.Rule_testComparison.ConvertAsNeeded(array), (GRGEN_MODEL.IN)value, startIndex);
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
+                }
+            }
+        }
+
+        public override int ArrayIndexOfOrderedBy(IList array, string member, object value)
+        {
+            if(array.Count == 0)
+                return -1;
+            string arrayType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = GRGEN_LIBGR.TypesHelper.ExtractSrc(arrayType);
+            if(!arrayValueType.StartsWith("match<"))
+                return -1;
+            if(array[0] == null)
+                return -1;
+            if(arrayValueType == "match<>")
+                arrayValueType = GRGEN_LIBGR.TypesHelper.DotNetTypeToXgrsType(array[0].GetType());
+            if(arrayValueType.StartsWith("match<class "))
+            {
+                switch(arrayValueType.Substring(12, arrayValueType.Length - 12 - 1))
+                {
+                default:
+                    return -1;
+                }
+            }
+            else
+            {
+                switch(arrayValueType.Substring(6, arrayValueType.Length - 6 - 1))
+                {
+                case "init":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "init2":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "r":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "rp":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "testCopy":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                case "testComparison":
+                    switch(member)
+                    {
+                    default:
+                        return -1;
+                    }
+                default:
+                    return -1;
                 }
             }
         }
