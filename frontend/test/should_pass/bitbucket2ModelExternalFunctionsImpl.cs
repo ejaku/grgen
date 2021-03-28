@@ -14,7 +14,12 @@ namespace de.unika.ipd.grGen.expression
 			return 42;
 		}
 
-        public static int TestFunction2(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string in_0)
+		public static int TestFunction(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, int threadId)
+		{
+			return 42;
+		}
+
+		public static int TestFunction2(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string in_0)
         {
             return 42 + in_0.Length;
         }
