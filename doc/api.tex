@@ -319,37 +319,41 @@ It forwards the call to \texttt{AsGraphImpl}, which needs to be implemented by \
 
 \subsection*{External Copying and Comparing}\label{sub:apiextcopycompare}
 
-If \texttt{external copy class;} or \texttt{external == class;} or \texttt{external < class;} (see \ref{sub:extcopycompare}) are specified in the model file \texttt{Foo},
+If \texttt{external copy class;} or \texttt{external \textasciitilde\textasciitilde\ class;} or \texttt{external < class;} (see \ref{sub:extcopycompare}) are specified in the model file \texttt{Foo},
 \GrG~generates a file \texttt{Foo\-Model\-External\-Functions.cs} located beside the model and rule files,
 containing a \emph{partial} class \texttt{Attribute\-Type\-Object\-Copier\-Comparer}.
 You have to implement the \texttt{Copy} or the \texttt{IsEqual} or the \texttt{IsLower} functions in the same partial class in \texttt{Foo\-Model\-External\-Functions\-Impl.cs}.
 For every external type defined, another function showing that type in the input parameters is expected.
 
 \begin{csharplet}
-// Called when a graph element is cloned/copied.
-// For attribute type object.
-// If "copy class" is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.
-// All other attribute types are copied by-value (so changing one later on has no effect on the other).
-public static object Copy(object, graph, IDictionary<object, object>);
+// Called when a graph element or internal (transient) object bearing attributes of external object type is to be copied.
+// Also called when a top-level external object is to be cloned or copied.
+// If "copy class" is not specified, object attributes are copied by copying the reference, i.e. they are identical afterwards (top-level objects cannot be copied/cloned in this case).
+// If "copy class" is specified:
+// If the old to new element dictionary is null, objects are to be cloned, i.e. top-level object (of the very call) is to be cloned and others are just assigned by reference.
+// Otherwise, they are to be copied by-value (so changing one attribute later on has no effect on the other).
+public static object Copy(object, IGraph, IDictionary<object, object>);
 
-// Called during comparison of graph elements from graph isomorphy comparison, or attribute comparison.
+// Called during comparison of graph elements from graph isomorphy comparison, or during deeply equal attribute comparisons.
 // For attribute type object.
-// If "== class" is not specified, objects are equal if they are identical,
-// i.e. by-reference-equality (same pointer); all other attribute types are compared by-value.
-public static bool IsEqual(object, object);
+// If "~~ class" is not specified, objects are equal if their references are identical.
+// The visited objects dictionary contains the already visited objects, insert your object here to detect multiple appearances/cycles (and check against it).
+public static bool IsEqual(object, object, IDictionary<object, object>);
 
 // Called during attribute comparison.
 // For attribute type object.
 // If "< class" is not specified, objects can't be compared for ordering, only for equality.
-public static bool IsLower(object, object);
+public static bool IsLower(object, object, IDictionary<object, object>);
 \end{csharplet}
 
-The \texttt{Copy} function is called when one of the copy operations offered in the rule language or the computation statements is executed, on an attribute bearing type (node class or edge class or object class or transient object class) that bears attributes of object or a user-defined external type. The dictionary \texttt{oldToNewObjectMap} is \texttt{null} in case of a \texttt{clone} operation, it contains a mapping of old to new elements in case of a \texttt{copy} operation (which is used to assign the same element upon multiple appearances, and prevent endless recursions in case of cyclical structures).
+The \texttt{Copy} function is called when one of the copy operations offered in the rule language or the computation statements is executed, on an attribute bearing type (node class or edge class or object class or transient object class) that bears attributes of object or a user-defined external type. The dictionary \texttt{oldToNewObjectMap} is \texttt{null} in case of a \texttt{clone} operation, it contains a mapping of old to new elements in case of a \texttt{copy} operation (which is used to assign the same element upon multiple appearances, and prevent endless recursions in case of cyclical structures) -- pull from it and add to it as required.
 
-The \texttt{IsEqual} function is called when values (attributes) of object or a user-defined external type are compared with one of the equality operators,
+The \texttt{IsEqual} function is called when values (attributes) of object or a user-defined external type are compared with the structural (deep) equality operator \texttt{\textasciitilde\textasciitilde} (\texttt{==} only checks for reference identity),
 or when two graphs are compared for isomorphy and the graph elements contain attributes of object or a user-defined external type.
 The \texttt{IsLower} function is called when values (attributes) of object or a user-defined external type are compared with one of the relational operators.
-A comparison for \texttt{u<=v} is mapped to an expression \verb#IsLower(u,v) || IsEqual(u,v)#, for this reason a \verb#< class;# specification requires a preceding \verb#== class;# specification.
+A comparison for \texttt{u<=v} is mapped to an expression \verb#IsLower(u,v) || IsEqual(u,v)#, for this reason a \verb#< class;# specification requires a preceding \verb#~~ class;# specification.
+The dictionary \texttt{visitedObjectsMap} contains the already visited elements (as keys, the values are null), it is used to detect multiple appearances of objects (esp. due to cycles).
+You have to follow the same protocol, i.e. you have to check whether the currently compared objects are already contained (this has to cause a crash because of an unsupported shortcut/cycle), and you have to add them upon entry and have to remove them upon exit.
 
 Implementing these functions is \emph{your} task, in exchange you get a tight integration of your own datatypes into \GrG.
 You may have a look at \texttt{tests/External\-Attribute\-Evaluation} or \texttt{examples\-api/External\-Attribute\-Evaluation\-Example} for an example.
@@ -399,8 +403,6 @@ b = bla;
 \end{csharplet}
 \end{warning}
 
-\pagebreak
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{External Class, Function and Procedure Implementation}\label{sub:extclsfctimpl}\indexmain{external class implementation}\indexmain{external function implementation}\indexmain{external procedure implementation}
 
@@ -417,6 +419,8 @@ inheriting from each other as stated in the external class declarations.
 	\item within the \texttt{de.unika.ipd.grGen.expression} namespace a public partial class named \texttt{ExternalFunctions} with a body of comments giving the expected function prototypes.
 	\item within the \texttt{de.unika.ipd.grGen.expression} namespace a public partial class named \texttt{ExternalProcedures} with a body of comments giving the expected procedure prototypes.
 \end{itemize}
+
+\pagebreak
 
 \noindent The generated partial classes come without implementation, you must implement them in a file named \texttt{Foo\-Model\-External\-Functions\-Impl.cs}, located in the folder of the \texttt{Foo\-Model\-External\-Functions.cs} file, by replicating them, and fleshing them out:
 \begin{itemize}
@@ -512,6 +516,9 @@ event NodeAddedHandler OnNodeAdded;
 
 // Fired after an edge has been added
 event EdgeAddedHandler OnEdgeAdded;
+
+// Fired after an object has been created (there is no event when it gets destroyed)
+event ObjectCreatedHandler OnObjectCreated;
 
 // Fired before a node is deleted
 event RemovingNodeHandler OnRemovingNode;

@@ -1,5 +1,5 @@
-GrGen.NET v6.0beta (2021-02-08)
--------------------------------
+GrGen.NET v6.0 (2021-03-28)
+---------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
@@ -161,6 +161,7 @@ Robert C. Metzger
 Normen Müller
 Clemens Münzer
 Laura Perez
+J-S-Robinson
 Philipp Rosenberger
 Caroline von Totth
 
@@ -170,7 +171,7 @@ COPYING
 
 Copyright (C) 2003-2021 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 6.0beta
+This file is part of GrGen, Version GrGen.NET 6.0
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by

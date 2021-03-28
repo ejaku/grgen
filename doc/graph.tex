@@ -481,14 +481,14 @@ Here we extend the relational expressions already introduced in \ref{sec:relatio
   \begin{tabularx}{\linewidth}{|l|X|} \hline
     \texttt{A == B} & True, iff $A$ is isomorphic to $B$. \\
     \texttt{A != B} & True, iff $A$ is not isomorphic to $B$. \\
-    \texttt{A \textasciitilde\textasciitilde{ } B} & True, iff $A$ is structurally the same as $B$ but maybe different regarding the attributes. \\ \hline
+    \texttt{A \textasciitilde\textasciitilde{} B} & True, iff $A$ is structurally the same as $B$ but maybe different regarding the attributes. \\ \hline
   \end{tabularx}
   \caption{Compare operators on graph expressions}
   \label{compandgraph}
 \end{table}
 
-The \texttt{graph} type support the \texttt{==}, the \texttt{!=}, and the \texttt{\textasciitilde\textasciitilde} operators;
-on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}) or not, including the attributes, or whether the (sub)graphs are isomorphic disregarding the attributes.
+The \texttt{graph} type supports the \texttt{==} and the \texttt{!=} operators, as well as the \texttt{\textasciitilde\textasciitilde} operator;
+on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}) or not, including the attributes, or whether the (sub)graphs are isomorphic disregarding the attributes (i.e. structurally equal -- note that on object and container types \texttt{\textasciitilde\textasciitilde} denotes deep by-value comparison).
 
 These operators consist just of two characters, but don't underestimate their impact on performance:
 they do graph isomorphy checking, which is expensive.

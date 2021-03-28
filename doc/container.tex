@@ -108,9 +108,9 @@ Some set \texttt{A} is a subset of \texttt{B} iff all elements in \texttt{A} are
   \centering
   \begin{tabularx}{\linewidth}{|l|X|}
     \hline
-    \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
-    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are structurally equal.\\
-    \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
+    \texttt{A == B} & True, iff the content of $A$ and $B$ is identical. \\
+    \texttt{A != B} & True, iff the content of $A$ and $B$ is not identical. \\
+    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are by-value equal (deeply).\\
     \texttt{A <\ \ B} & True, iff $A$ is a subset of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A >\ \ B} & True, iff $A$ is a superset of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A <= B} & True, iff $A$ is a subset of $B$ or $A$ and $B$ are identical. \\
@@ -242,9 +242,9 @@ A map \texttt{A} is a submap of \texttt{B} iff all key-value pairs of \texttt{A}
   \centering
   \begin{tabularx}{\linewidth}{|l|X|}
     \hline
-    \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
-    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are structurally equal.\\
-    \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
+    \texttt{A == B} & True, iff the content of $A$ and $B$ is identical. \\
+    \texttt{A != B} & True, iff the content of $A$ and $B$ is not identical. \\
+    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are by-value equal (deeply).\\
     \texttt{A <\ \ B} & True, iff $A$ is a submap of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A >\ \ B} & True, iff $A$ is a supermap of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A <= B} & True, iff $A$ is a submap of $B$ or $A$ and $B$ are identical. \\
@@ -389,9 +389,9 @@ An array \texttt{A} is a subarray of \texttt{B} iff it is smaller or equal in si
   \centering
   \begin{tabularx}{\linewidth}{|l|X|}
     \hline
-    \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
-    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are structurally equal.\\
-    \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
+    \texttt{A == B} & True, iff the content of $A$ and $B$ is identical. \\
+    \texttt{A != B} & True, iff the content of $A$ and $B$ is not identical. \\
+    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are by-value equal (deeply).\\
     \texttt{A <\ \ B} & True, iff $A$ is a subarray of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A >\ \ B} & True, iff $A$ is a superarray of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A <= B} & True, iff $A$ is a subarray of $B$ or $A$ and $B$ are identical. \\
@@ -511,9 +511,9 @@ A deque \texttt{A} is a subdeque of \texttt{B} iff it is smaller or equal in siz
   \centering
   \begin{tabularx}{\linewidth}{|l|X|}
     \hline
-    \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
-    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are structurally equal.\\
-    \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
+    \texttt{A == B} & True, iff the content of $A$ and $B$ is identical. \\
+    \texttt{A != B} & True, iff the content of $A$ and $B$ is not identical. \\
+    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ and $B$ are by-value equal (deeply).\\
     \texttt{A <\ \ B} & True, iff $A$ is a subdeque of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A >\ \ B} & True, iff $A$ is a superdeque of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A <= B} & True, iff $A$ is a subdeque of $B$ or $A$ and $B$ are identical. \\

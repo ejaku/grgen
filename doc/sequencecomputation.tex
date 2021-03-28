@@ -168,7 +168,9 @@ The boolean operators have the same semantics and same priority as in \ref{sub:e
 \end{rail}\ixnterm{RelationalSequenceExpression}
 
 The equality operators work for every type and return whether the values to compare are equal or unequal.
-The relational operators work as specified in Section~\ref{sub:expr} for numerical types and string type, and Chapter~\ref{cha:graph} for graph type.
+The relational operators work as specified in Section~\ref{sub:expr} for numerical types and string type, 
+%Chapter~\ref{cha:container} for container types,
+Chapter~\ref{cha:modeladvanced} for object types (as well as graph element types), and Chapter~\ref{cha:graph} for graph type.
 
 \begin{rail}
   ArithmeticSequenceExpression:
@@ -481,7 +483,7 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \texttt{e op f} & For \texttt{op} being one of the bitwise operators \texttt{\&,\^{},|,<<,>>,>>> } \\
 \texttt{e op f} & For \texttt{op} being one of the set or map operators \texttt{|,\&,\textbackslash} \\
 \texttt{e + f} & For array or deque or string concatenation. \\
-\texttt{op e} & For \texttt{op} being boolean \texttt{!} or arithmetic \texttt{-,+} or bitwise \texttt{\~}\\
+\texttt{op e} & For \texttt{op} being boolean \texttt{!} or arithmetic \texttt{-,+} or bitwise \texttt{\textasciitilde}\\
 \hline
 \texttt{[?r\textbackslash f]} & Rule query, returns every match produced by \texttt{r} that was left by the filter \texttt{f}, in the order left behind by the filter, as \texttt{array<match<r>>}. \\
 \texttt{[?[q,r]\textbackslash mc.f\textbackslash<mc>]} & Multi rule query, returns every match produced by \texttt{q} and \texttt{r} that was left by the filter \texttt{f} of match class \texttt{mc}, in the order left behind by the match class filter, as \texttt{array<match<class mc>>}. \\

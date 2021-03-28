@@ -1,4 +1,4 @@
-﻿v6.0 (2021-0?)
+﻿v6.0 (2021-03-28)
  Brought sequence computations to the level of the rule language (with exception of change assignments):
  - completed sequence operators: added support for <<, >>, >>>, ~ and unary + (on numeric types),
    as well as &,^,| on numeric types and in on string type
@@ -8,11 +8,13 @@
  - extended match type support in sequences with container constructors for containers of match value type
  Fixed sequence grammar: x-1 works now, not requiring a whitespace before the number as before (x- 1)
 
- Implemented structural equality comparison operator ~~ for node/edge/object/transient object types (attribute bearing types) 
-   and container types
+ Implemented the structural comparison operator ~~ for node/edge/object/transient object types (i.e. attribute bearing types) 
+   and container types, with deep value equality semantics
  - it compares the attributes of attribute bearing types ignoring identity (deep by-value comparison),
    the equality comparison operator == in contrast is now checking reference identity only
- - it checks the members of containers memberwise for structural equality,
+   Note that an object must not appear multiple times (e.g. due to a cycle), only tree-like object structures are supported
+    (in contrast to the structural comparison supported on graphs/graph type).
+ - it checks the members of containers memberwise for deep value equality,
    the equality comparison operator in contrast is checking memberwise for identity (only for value types by value)
 
  Implemented string to object mapping/de-serialization with scan and tryscan:
@@ -29,12 +31,20 @@
  Extended deque<T> .lastIndexOf() method by an optional startIndex parameter (in rule language and sequences)
  
  Extended the copy and clone functions by support for external object types
+ Deprecated the "external == class;" declaration --- use "external ~~ class;" instead
+ The == and != operators check external object types now only for reference identity
+  ~~ has to be used for deep value equality
 
  API changes/extensions:
  - added ArrayIndexOfBy, ArrayLastIndexOfBy, ArrayIndexOfOrderedBy to the array processing helpers section in the graph model,
    and in the actions, as well as MatchInterfaceName and MatchClassName members in IRulePattern and IMatchClass
- - the Copy method whose skeleton gets generated when external copy class is specified now receives the old-to-new mapping 
+ - the Copy method whose skeleton gets generated when "external copy class;" is specified now receives the old-to-new mapping 
    (null in case of clone) plus the graph as parameter, so that it can supply the deep copy/shallow clone functionality
+ - extended the IsEqual and IsLower functions of the AttributeTypeObjectCopierComparer
+   (which are generated when "external ~~ class;" or "external < class;" are declared, respectively)
+   by support for deep comparisons with a visited (sub-)objects dictionary parameter
+   -- the real deep comparison (of the external objects) has to be implemented by the user
+ - introduced an OnObjectCreated event to the graph that gets fired when a class object was created
 
  Bugfixes:
  - external object types are now adjusted to type object as required

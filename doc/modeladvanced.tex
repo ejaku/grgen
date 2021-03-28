@@ -321,12 +321,12 @@ copy(list) // == copyList(list);
 
 \subsubsection{Equality comparison}\label{subsec:objectequality}
 
-Objects and transient objects can be compared by the \texttt{==}, \texttt{!=}, and \texttt{\textasciitilde\textasciitilde} operators.
-The \texttt{==} and \texttt{!=} operator check for reference identity.
-The \texttt{\textasciitilde\textasciitilde} operator in contrast compares for attribute equality (ignoring identity), deeply along the nesting structure (attributes of scalar type are equal if their values are equal).
+Objects and transient objects can be compared by the \texttt{==} and \texttt{!=} operators, as well as by the \texttt{\textasciitilde\textasciitilde} operator.
+The \texttt{==} and \texttt{!=} operators check for reference identity.
 
-It does so also for nodes and edges.
-It also supports containers, it checks for an array or deque whether the objects at the same position are structurally equal, and for a set and map whether they are memberwise structurally equal, i.e. they contain the same amount of members, that can be mapped by a bijection to each other, with each pair being structurally equal
+The \texttt{\textasciitilde\textasciitilde} operator in contrast compares for attribute equality (ignoring identity), deeply along the nesting structure (attributes of scalar type are equal if their values are equal).
+It does not support objects appearing multiple times (joins in the object graph) or cycles, though (it crashes upon visiting those; it only supports tree-like structures).
+It also supports containers, it checks for an array or deque whether the objects at the same position are deeply equal, and for a set and map whether they are memberwise deeply equal, i.e. they contain the same amount of members, that can be mapped by a bijection to each other, with each pair being deeply equal
 (beware: this is an expensive operation, requiring $O(n*n)$ comparisons, with the constant being potentially very expensive because it may be a deep structure comparison, containing even further container comparisons).
 
 \begin{table}[htbp]
@@ -334,13 +334,15 @@ It also supports containers, it checks for an array or deque whether the objects
   \begin{tabularx}{\linewidth}{|l|X|}
     \hline
     \texttt{A == B} & True, iff $A$ and $B$ are the same object. \\
-    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ is structurally equal to $B$. \\
     \texttt{A != B} & True, iff $A$ is a different object than $B$. \\
+    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ is deeply equal (by-value) to $B$. \\
     \hline
   \end{tabularx}
   \caption{Compare operators on objects and transient objects}
   \label{compandarithmetic}
 \end{table}
+
+The same operators with the same semantics are supported on nodes and edges.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
