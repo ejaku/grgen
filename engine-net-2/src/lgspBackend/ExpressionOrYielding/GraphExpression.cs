@@ -4565,7 +4565,7 @@ namespace de.unika.ipd.grGen.expression
 
         public bool Execute(IGraphElement that)
         {
-            return this_.IsStructurallyEqual(that, new Dictionary<object, object>());
+            return this_.IsDeeplyEqual(that, new Dictionary<object, object>());
         }
 
         public readonly IGraphElement this_;

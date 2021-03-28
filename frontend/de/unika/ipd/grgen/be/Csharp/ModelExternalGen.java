@@ -610,10 +610,10 @@ public class ModelExternalGen extends CSharpBase
 			sb.append("\n");
 		}
 		if(model.isEqualClassDefined()) {
-			sb.appendFront("// Called during comparison of graph elements from graph isomorphy comparison, or structurally equal attribute comparison.\n");
+			sb.appendFront("// Called during comparison of graph elements from graph isomorphy comparison, or during deeply equal attribute comparisons.\n");
 			sb.appendFront("// For attribute type object.\n");
 			sb.appendFront("// If \"~~ class\" is not specified, objects are equal if their references are identical.\n");
-			sb.appendFront("// The visited objects dictionary contains the already visited objects, insert your object here to prevent endless recursions upon cycles (or multiple comparisons upon multiple appearances).\n");
+			sb.appendFront("// The visited objects dictionary contains the already visited objects, insert your object here to detect multiple appearances/cycles (and check against it).\n");
 			sb.appendFront("//public static bool IsEqual(object, object, IDictionary<object, object>);\n");
 			sb.append("\n");
 		}

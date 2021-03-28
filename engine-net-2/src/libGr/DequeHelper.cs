@@ -586,7 +586,7 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        public static bool StructurallyEqualDequeObject<V>(Deque<V> this_, Deque<V> that, IDictionary<object, object> visitedObjects)
+        public static bool DeeplyEqualDequeObject<V>(Deque<V> this_, Deque<V> that, IDictionary<object, object> visitedObjects)
         {
             if(this_.Count != that.Count)
                 return false;
@@ -602,7 +602,7 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        public static bool StructurallyEqualDequeAttributeBearer<V>(Deque<V> this_, Deque<V> that, IDictionary<object, object> visitedObjects) where V : IAttributeBearer
+        public static bool DeeplyEqualDequeAttributeBearer<V>(Deque<V> this_, Deque<V> that, IDictionary<object, object> visitedObjects) where V : IAttributeBearer
         {
             if(this_.Count != that.Count)
                 return false;
@@ -611,26 +611,26 @@ namespace de.unika.ipd.grGen.libGr
             {
                 IAttributeBearer thisElem = this_[i];
                 IAttributeBearer thatElem = that[i];
-                if(!StructurallyEqual(thisElem, thatElem, visitedObjects))
+                if(!DeeplyEqual(thisElem, thatElem, visitedObjects))
                     return false;
             }
 
             return true;
         }
 
-        public static bool StructurallyEqualDeque(IDeque this_, IDeque that, IDictionary<object, object> visitedObjects)
+        public static bool DeeplyEqual(IDeque this_, IDeque that, IDictionary<object, object> visitedObjects)
         {
             if(this_.Count != that.Count)
                 return false;
             if(this_.Count == 0)
                 return true;
             if(this_[0] is IAttributeBearer)
-                return StructurallyEqualDequeAttributeBearer(this_, that, visitedObjects);
+                return DeeplyEqualDequeAttributeBearer(this_, that, visitedObjects);
             else
-                return StructurallyEqualDequeObject(this_, that, visitedObjects);
+                return DeeplyEqualDequeObject(this_, that, visitedObjects);
         }
 
-        private static bool StructurallyEqualDequeObject(IDeque this_, IDeque that, IDictionary<object, object> visitedObjects)
+        private static bool DeeplyEqualDequeObject(IDeque this_, IDeque that, IDictionary<object, object> visitedObjects)
         {
             for(int i = 0; i < this_.Count; ++i)
             {
@@ -641,13 +641,13 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        private static bool StructurallyEqualDequeAttributeBearer(IDeque this_, IDeque that, IDictionary<object, object> visitedObjects)
+        private static bool DeeplyEqualDequeAttributeBearer(IDeque this_, IDeque that, IDictionary<object, object> visitedObjects)
         {
             for(int i = 0; i < this_.Count; ++i)
             {
                 IAttributeBearer thisElem = (IAttributeBearer)this_[i];
                 IAttributeBearer thatElem = (IAttributeBearer)that[i];
-                if(!StructurallyEqual(thisElem, thatElem, visitedObjects))
+                if(!DeeplyEqual(thisElem, thatElem, visitedObjects))
                     return false;
             }
 

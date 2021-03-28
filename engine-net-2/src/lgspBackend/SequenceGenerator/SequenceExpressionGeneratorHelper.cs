@@ -99,17 +99,17 @@ namespace de.unika.ipd.grGen.lgsp
             if(balancedType == "graph")
                 return "GRGEN_LIBGR.GraphHelper.HasSameStructure((GRGEN_LIBGR.IGraph)" + leftValue + ", (GRGEN_LIBGR.IGraph)" + rightValue + ")";
             else if(balancedType.StartsWith("set<"))
-                return "GRGEN_LIBGR.ContainerHelper.StructurallyEqual((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ", new Dictionary<object, object>())";
+                return "GRGEN_LIBGR.ContainerHelper.DeeplyEqual((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ", new Dictionary<object, object>())";
             else if(balancedType.StartsWith("map<"))
-                return "GRGEN_LIBGR.ContainerHelper.StructurallyEqual((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ", new Dictionary<object, object>())";
+                return "GRGEN_LIBGR.ContainerHelper.DeeplyEqual((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ", new Dictionary<object, object>())";
             else if(balancedType.StartsWith("array<"))
-                return "GRGEN_LIBGR.ContainerHelper.StructurallyEqualArray((IList)" + leftValue + ", (IList)" + rightValue + ", new Dictionary<object, object>())";
+                return "GRGEN_LIBGR.ContainerHelper.DeeplyEqual((IList)" + leftValue + ", (IList)" + rightValue + ", new Dictionary<object, object>())";
             else if(balancedType.StartsWith("deque<"))
-                return "GRGEN_LIBGR.ContainerHelper.StructurallyEqualDeque((GRGEN_LIBGR.IDeque)" + leftValue + ", (GRGEN_LIBGR.IDeque)" + rightValue + ", new Dictionary<object, object>())";
+                return "GRGEN_LIBGR.ContainerHelper.DeeplyEqual((GRGEN_LIBGR.IDeque)" + leftValue + ", (GRGEN_LIBGR.IDeque)" + rightValue + ", new Dictionary<object, object>())";
             else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, model))
                 return "graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + ")";
             else
-                return "GRGEN_LIBGR.ContainerHelper.StructurallyEqual((GRGEN_LIBGR.IAttributeBearer)" + leftValue + ", (GRGEN_LIBGR.IAttributeBearer)" + rightValue + ", new Dictionary<object, object>())";
+                return "GRGEN_LIBGR.ContainerHelper.DeeplyEqual((GRGEN_LIBGR.IAttributeBearer)" + leftValue + ", (GRGEN_LIBGR.IAttributeBearer)" + rightValue + ", new Dictionary<object, object>())";
         }
 
         public static string LowerStatic(string leftValue, string rightValue,

@@ -3327,7 +3327,7 @@ public abstract class CSharpBase
 			Type opType = op.getOperand(0).getType();
 			if(opType instanceof SetType) {
 				SetType setType = (SetType)opType;
-				sb.append("GRGEN_LIBGR.ContainerHelper.StructurallyEqualSet(");
+				sb.append("GRGEN_LIBGR.ContainerHelper.DeeplyEqualSet(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
@@ -3342,7 +3342,7 @@ public abstract class CSharpBase
 				sb.append(")");
 			} else if(opType instanceof MapType) {
 				MapType mapType = (MapType)opType;
-				sb.append("GRGEN_LIBGR.ContainerHelper.StructurallyEqualMap(");
+				sb.append("GRGEN_LIBGR.ContainerHelper.DeeplyEqualMap(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
@@ -3358,7 +3358,7 @@ public abstract class CSharpBase
 			} else if(opType instanceof ArrayType) {
 				ArrayType arrayType = (ArrayType)opType;
 				String methodName = arrayType.getValueType() instanceof InheritanceType && !(arrayType.getValueType() instanceof ExternalObjectType) ?
-						"StructurallyEqualArrayAttributeBearer" : "StructurallyEqualArrayObject";
+						"DeeplyEqualArrayAttributeBearer" : "DeeplyEqualArrayObject";
 				sb.append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(", ");
@@ -3368,7 +3368,7 @@ public abstract class CSharpBase
 			} else if(opType instanceof DequeType) {
 				DequeType dequeType = (DequeType)opType;
 				String methodName = dequeType.getValueType() instanceof InheritanceType && !(dequeType.getValueType() instanceof ExternalObjectType) ?
-						"StructurallyEqualDequeAttributeBearer" : "StructurallyEqualDequeObject";
+						"DeeplyEqualDequeAttributeBearer" : "DeeplyEqualDequeObject";
 				sb.append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(", ");
@@ -3376,14 +3376,14 @@ public abstract class CSharpBase
 				sb.append(", new Dictionary<object, object>()");
 				sb.append(")");
 			} else if(opType instanceof InternalObjectType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.StructurallyEqual(");
+				sb.append("GRGEN_LIBGR.ContainerHelper.DeeplyEqual(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", new Dictionary<object, object>()");
 				sb.append(")");
 			} else if(opType instanceof InternalTransientObjectType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.StructurallyEqual(");
+				sb.append("GRGEN_LIBGR.ContainerHelper.DeeplyEqual(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);

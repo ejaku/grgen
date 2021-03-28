@@ -535,11 +535,12 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract INode Copy(IGraph graph, IDictionary<object, object> oldToNewObjectMap);
 
         /// <summary>
-        /// Returns whether this and that are structurally equal,
-        /// which means the scalar attributes are equal, the container attributes are memberwise structurally equal, and object attributes are deeply structurally equal.
+        /// Returns whether this and that are deeply equal,
+        /// which means the scalar attributes are equal, the container attributes are memberwise deeply equal, and object attributes are deeply equal.
         /// (If types are unequal the result is false.)
+        /// Visited objects are/have to be stored in the visited objects dictionary in order to detect shortcuts and cycles.
         /// </summary>
-        public abstract bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects);
+        public abstract bool IsDeeplyEqual(IDeepEqualityComparer that, IDictionary<object, object> visitedObjects);
 
         /// <summary>
         /// Executes the function method given by its name.
@@ -609,7 +610,7 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects)
+        public override bool IsDeeplyEqual(IDeepEqualityComparer that, IDictionary<object, object> visitedObjects)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -897,11 +898,12 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IEdge Copy(INode newSource, INode newTarget, IGraph graph, IDictionary<object, object> oldToNewObjectMap);
 
         /// <summary>
-        /// Returns whether this and that are structurally equal,
-        /// which means the scalar attributes are equal, the container attributes are memberwise structurally equal, and object attributes are deeply structurally equal.
+        /// Returns whether this and that are deeply equal,
+        /// which means the scalar attributes are equal, the container attributes are memberwise deeply equal, and object attributes are deeply equal.
         /// (If types are unequal the result is false.)
+        /// Visited objects are/have to be stored in the visited objects dictionary in order to detect shortcuts and cycles.
         /// </summary>
-        public abstract bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects);
+        public abstract bool IsDeeplyEqual(IDeepEqualityComparer that, IDictionary<object, object> visitedObjects);
 
         /// <summary>
         /// Executes the function method given by its name.
@@ -971,7 +973,7 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects)
+        public override bool IsDeeplyEqual(IDeepEqualityComparer that, IDictionary<object, object> visitedObjects)
         {
             throw new Exception("The method or operation is not implemented.");
         }

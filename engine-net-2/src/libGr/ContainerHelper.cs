@@ -459,36 +459,37 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns whether the input values are structurally equal, beside attribute bearers and graphs, this esp. includes containers,
-        /// then it returns whether this container and that container are memberwise structurally equal,
-        /// which means the scalar members are equal, and object attributes are deeply structurally equal.
-        /// (If types are unequal the result is false.)
+        /// Returns whether the input values are structurally equal according to the ~~ operator, beside attribute bearers and graphs, this esp. includes containers,
+        /// then it returns whether this container and that container are memberwise deeply equal,
+        /// which means the scalar members are equal, and object attributes are deeply equal.
+        /// (If types are unequal the result is false. For graphs, it returns whether they are structurally equal.)
         /// </summary>
         public static bool StructurallyEqual(object this_, object that, IDictionary<object, object> visitedObjects)
         {
             if(this_ is IAttributeBearer)
             {
-                return StructurallyEqual((IAttributeBearer)this_, (IAttributeBearer)that, visitedObjects);
+                return DeeplyEqual((IAttributeBearer)this_, (IAttributeBearer)that, visitedObjects);
             }
             else if(this_ is IList)
             {
-                return StructurallyEqualArray((IList)this_, (IList)that, visitedObjects);
+                return DeeplyEqual((IList)this_, (IList)that, visitedObjects);
             }
             else if(this_ is IDeque)
             {
-                return StructurallyEqualDeque((IDeque)this_, (IDeque)that, visitedObjects);
+                return DeeplyEqual((IDeque)this_, (IDeque)that, visitedObjects);
             }
             else if(this_ is IDictionary)
             {
-                return StructurallyEqual((IDictionary)this_, (IDictionary)that, visitedObjects);
+                return DeeplyEqual((IDictionary)this_, (IDictionary)that, visitedObjects);
             }
             else
             {
+                // TODO: ok if called as top level operator implementation, not ok if called on a graph attribute, there it should compare for isomorphy
                 return GraphHelper.HasSameStructure((IGraph)this_, (IGraph)that);
             }
         }
 
-        public static bool StructurallyEqual(IAttributeBearer this_, IAttributeBearer that, IDictionary<object, object> visitedObjects)
+        public static bool DeeplyEqual(IAttributeBearer this_, IAttributeBearer that, IDictionary<object, object> visitedObjects)
         {
             if(this_ == null && that == null)
                 return true;
@@ -496,7 +497,7 @@ namespace de.unika.ipd.grGen.libGr
             if(this_ == null || that == null)
                 return false;
 
-            return this_.IsStructurallyEqual(that, visitedObjects);
+            return this_.IsDeeplyEqual(that, visitedObjects);
         }
     }
 }

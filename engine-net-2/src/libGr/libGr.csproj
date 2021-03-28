@@ -90,7 +90,7 @@
     <Compile Include="Graph\IEdge.cs" />
     <Compile Include="Graph\INode.cs" />
     <Compile Include="Graph\IObject.cs" />
-    <Compile Include="Graph\IStructuralEqualityComparer.cs" />
+    <Compile Include="Graph\IDeepEqualityComparer.cs" />
     <Compile Include="Graph\ITransientObject.cs" />
     <Compile Include="Graph\ITyped.cs" />
     <Compile Include="Graph\ObjectType.cs" />

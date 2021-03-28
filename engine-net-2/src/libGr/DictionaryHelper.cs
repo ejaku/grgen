@@ -887,7 +887,7 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        public static bool StructurallyEqual(IDictionary this_, IDictionary that, IDictionary<object, object> visitedObjects)
+        public static bool DeeplyEqual(IDictionary this_, IDictionary that, IDictionary<object, object> visitedObjects)
         {
             if(this_.Count != that.Count)
                 return false;
@@ -904,13 +904,13 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     IDictionary<IAttributeBearer, object> matchedObjectsFromThis = new Dictionary<IAttributeBearer, object>();
                     IDictionary<IAttributeBearer, object> matchedObjectsFromThat = new Dictionary<IAttributeBearer, object>();
-                    return StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
+                    return DeeplyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
                 }
                 else
                 {
                     IDictionary<object, object> matchedObjectsFromThis = new Dictionary<object, object>();
                     IDictionary<object, object> matchedObjectsFromThat = new Dictionary<object, object>();
-                    return StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
+                    return DeeplyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
                 }
             }
             else
@@ -921,13 +921,13 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     IDictionary<IAttributeBearer, object> matchedObjectsFromThis = new Dictionary<IAttributeBearer, object>();
                     IDictionary<IAttributeBearer, object> matchedObjectsFromThat = new Dictionary<IAttributeBearer, object>();
-                    return StructurallyEqualMap(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
+                    return DeeplyEqualMap(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
                 }
                 else
                 {
                     IDictionary<object, object> matchedObjectsFromThis = new Dictionary<object, object>();
                     IDictionary<object, object> matchedObjectsFromThat = new Dictionary<object, object>();
-                    return StructurallyEqualMap(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
+                    return DeeplyEqualMap(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat);
                 }
             }
         }

@@ -276,7 +276,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new NotImplementedException("The method or operation is not implemented.");
         }
 
-        public bool IsStructurallyEqual(IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects)
+        public bool IsDeeplyEqual(IDeepEqualityComparer that, IDictionary<object, object> visitedObjects)
         {
             throw new NotImplementedException("The method or operation is not implemented.");
         }

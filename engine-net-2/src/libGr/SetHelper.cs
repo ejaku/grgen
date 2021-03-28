@@ -166,7 +166,7 @@ namespace de.unika.ipd.grGen.libGr
             return newList;
         }
 
-        public static bool StructurallyEqualSet<V>(Dictionary<V, SetValueType> this_, Dictionary<V, SetValueType> that,
+        public static bool DeeplyEqualSet<V>(Dictionary<V, SetValueType> this_, Dictionary<V, SetValueType> that,
             IDictionary<object, object> visitedObjects,
             IDictionary<object, object> matchedObjectsFromThis, IDictionary<object, object> matchedObjectsFromThat)
         {
@@ -187,7 +187,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(EqualityComparer<V>.Default.Equals(thisElem, thatElem))
                         continue;
                     matchedObjectsFromThat.Add(thatElem, null);
-                    if(StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
+                    if(DeeplyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
                         return true;
                     matchedObjectsFromThat.Remove(thatElem);
                 }
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.libGr
             return false;
         }
 
-        public static bool StructurallyEqualSet(IDictionary this_, IDictionary that,
+        public static bool DeeplyEqualSet(IDictionary this_, IDictionary that,
             IDictionary<object, object> visitedObjects,
             IDictionary<object, object> matchedObjectsFromThis, IDictionary<object, object> matchedObjectsFromThat)
         {
@@ -218,7 +218,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(!Object.Equals(thisElem, thatElem))
                         continue;
                     matchedObjectsFromThat.Add(thatElem, null);
-                    if(StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
+                    if(DeeplyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
                         return true;
                     matchedObjectsFromThat.Remove(thatElem);
                 }
@@ -228,7 +228,7 @@ namespace de.unika.ipd.grGen.libGr
             return false;
         }
 
-        public static bool StructurallyEqualSet<V>(Dictionary<V, SetValueType> this_, Dictionary<V, SetValueType> that,
+        public static bool DeeplyEqualSet<V>(Dictionary<V, SetValueType> this_, Dictionary<V, SetValueType> that,
             IDictionary<object, object> visitedObjects,
             IDictionary<IAttributeBearer, object> matchedObjectsFromThis, IDictionary<IAttributeBearer, object> matchedObjectsFromThat)
             where V : IAttributeBearer
@@ -247,10 +247,10 @@ namespace de.unika.ipd.grGen.libGr
                     IAttributeBearer thatElem = thatEntry.Key;
                     if(matchedObjectsFromThat.ContainsKey(thatElem))
                         continue;
-                    if(!StructurallyEqual(thisElem, thatElem, visitedObjects))
+                    if(!DeeplyEqual(thisElem, thatElem, visitedObjects))
                         continue;
                     matchedObjectsFromThat.Add(thatElem, null);
-                    if(StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
+                    if(DeeplyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
                         return true;
                     matchedObjectsFromThat.Remove(thatElem);
                 }
@@ -260,7 +260,7 @@ namespace de.unika.ipd.grGen.libGr
             return false;
         }
 
-        public static bool StructurallyEqualSet(IDictionary this_, IDictionary that,
+        public static bool DeeplyEqualSet(IDictionary this_, IDictionary that,
             IDictionary<object, object> visitedObjects,
             IDictionary<IAttributeBearer, object> matchedObjectsFromThis, IDictionary<IAttributeBearer, object> matchedObjectsFromThat)
         {
@@ -278,10 +278,10 @@ namespace de.unika.ipd.grGen.libGr
                     IAttributeBearer thatElem = (IAttributeBearer)thatEntry.Key;
                     if(matchedObjectsFromThat.ContainsKey(thatElem))
                         continue;
-                    if(!StructurallyEqual(thisElem, thatElem, visitedObjects))
+                    if(!DeeplyEqual(thisElem, thatElem, visitedObjects))
                         continue;
                     matchedObjectsFromThat.Add(thatElem, null);
-                    if(StructurallyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
+                    if(DeeplyEqualSet(this_, that, visitedObjects, matchedObjectsFromThis, matchedObjectsFromThat))
                         return true;
                     matchedObjectsFromThat.Remove(thatElem);
                 }

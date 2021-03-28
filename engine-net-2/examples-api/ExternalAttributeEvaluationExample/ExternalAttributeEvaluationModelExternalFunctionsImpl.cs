@@ -254,66 +254,125 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 
     public partial class AttributeTypeObjectCopierComparer
     {
-        public static bool IsEqual(object this_, object that, IDictionary<object, object> visitedObjects)
+        public static object Copy(object this_, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
         {
-            return this_ == that; // equal if identical, default implementation
+            if(oldToNewObjectMap.ContainsKey(this_))
+                return oldToNewObjectMap[this_];
+
+            //oldToNewObjectMap.Add(this_, copy-of-that);
+            return this_; // copy reference, default implementation
         }
 
-        public static object Copy(object that, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
+        public static bool IsEqual(object this_, object that, IDictionary<object, object> visitedObjects)
         {
-            return that; // copy reference, default implementation
+            if(visitedObjects.ContainsKey(this_) || visitedObjects.ContainsKey(that))
+                throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+            visitedObjects.Add(this_, null);
+            visitedObjects.Add(that, null);
+
+            return this_ == that; // equal if identical, default implementation
         }
 
 		public static bool IsLower(object this_, object that, IDictionary<object, object> visitedObjects)
         {
+            if(visitedObjects.ContainsKey(this_) || visitedObjects.ContainsKey(that))
+                throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+            visitedObjects.Add(this_, null);
+            visitedObjects.Add(that, null);
+
             throw new Exception("not implemented");
         }
 
         
-		public static Own Copy(Own that, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
+		public static Own Copy(Own this_, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
         {
-            return that; // copy reference, default implementation
+            if(oldToNewObjectMap.ContainsKey(this_))
+                return (Own)oldToNewObjectMap[this_];
+
+            //oldToNewObjectMap.Add(this_, copy-of-that);
+            return this_; // copy reference, default implementation
         }
 
         public static bool IsEqual(Own this_, Own that, IDictionary<object, object> visitedObjects)
         {
+            if(visitedObjects.ContainsKey(this_) || visitedObjects.ContainsKey(that))
+                throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+            visitedObjects.Add(this_, null);
+            visitedObjects.Add(that, null);
+
             return this_ == that; // equal if identical, default implementation
         }
 		
 		public static bool IsLower(Own this_, Own that, IDictionary<object, object> visitedObjects)
         {
+            if(visitedObjects.ContainsKey(this_) || visitedObjects.ContainsKey(that))
+                throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+            visitedObjects.Add(this_, null);
+            visitedObjects.Add(that, null);
+
             throw new Exception("not implemented");
         }
 
         
-		public static OwnPown Copy(OwnPown that, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
+		public static OwnPown Copy(OwnPown this_, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
         {
-            return new OwnPown(that);
+            if(oldToNewObjectMap.ContainsKey(this_))
+                return (OwnPown)oldToNewObjectMap[this_];
+
+            OwnPown clone = new OwnPown(this_);
+            oldToNewObjectMap.Add(this_, clone);
+            return clone;
         }
+
         public static bool IsEqual(OwnPown this_, OwnPown that, IDictionary<object, object> visitedObjects)
         {
+            if(visitedObjects.ContainsKey(this_) || visitedObjects.ContainsKey(that))
+                throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+            visitedObjects.Add(this_, null);
+            visitedObjects.Add(that, null);
+
             return this_.ehe == that.ehe;
         }
 
 		public static bool IsLower(OwnPown this_, OwnPown that, IDictionary<object, object> visitedObjects)
 		{
-			return this_.ehe.Length < that.ehe.Length;
+            if(visitedObjects.ContainsKey(this_) || visitedObjects.ContainsKey(that))
+                throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+            visitedObjects.Add(this_, null);
+            visitedObjects.Add(that, null);
+
+            return this_.ehe.Length < that.ehe.Length;
 		}
 
 		
-        public static OwnPownHome Copy(OwnPownHome that, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
+        public static OwnPownHome Copy(OwnPownHome this_, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap)
         {
-            return new OwnPownHome(that);
+            if(oldToNewObjectMap.ContainsKey(this_))
+                return (OwnPownHome)oldToNewObjectMap[this_];
+
+            OwnPownHome clone = new OwnPownHome(this_);
+            oldToNewObjectMap.Add(this_, clone);
+            return clone;
         }
 
         public static bool IsEqual(OwnPownHome this_, OwnPownHome that, IDictionary<object, object> visitedObjects)
         {
+            if(visitedObjects.ContainsKey(this_) || visitedObjects.ContainsKey(that))
+                throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+            visitedObjects.Add(this_, null);
+            visitedObjects.Add(that, null);
+
             return this_.ehe == that.ehe && this_.aha == that.aha;
         }
 
 		public static bool IsLower(OwnPownHome this_, OwnPownHome that, IDictionary<object, object> visitedObjects)
 		{
-			return this_.intval < that.intval;
+            if(visitedObjects.ContainsKey(this_) || visitedObjects.ContainsKey(that))
+                throw new Exception("Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!");
+            visitedObjects.Add(this_, null);
+            visitedObjects.Add(that, null);
+
+            return this_.intval < that.intval;
 		}
     }
 }

@@ -143,7 +143,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            String methodName = isSet ? "StructurallyEqualSet" : "StructurallyEqualMap";
+            String methodName = isSet ? "DeeplyEqualSet" : "DeeplyEqualMap";
             sourceCode.Append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
@@ -312,7 +312,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            String methodName = isAttributeBearer ? "StructurallyEqualArrayAttributeBearer" : "StructurallyEqualArrayObject";
+            String methodName = isAttributeBearer ? "DeeplyEqualArrayAttributeBearer" : "DeeplyEqualArrayObject";
             sourceCode.Append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
@@ -473,7 +473,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            String methodName = isAttributeBearer ? "StructurallyEqualDequeAttributeBearer" : "StructurallyEqualDequeObject";
+            String methodName = isAttributeBearer ? "DeeplyEqualDequeAttributeBearer" : "DeeplyEqualDequeObject";
             sourceCode.Append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
             Left.Emit(sourceCode);
             sourceCode.Append(", ");

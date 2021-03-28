@@ -20,7 +20,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// An interface to IBaseObject (thus IObject, ITransientObject) and IGraphElement (thus INode and IEdge) types, all bearing attributes
     /// </summary>
-    public interface IAttributeBearer : ITyped, IStructuralEqualityComparer, ICallable
+    public interface IAttributeBearer : ITyped, IDeepEqualityComparer, ICallable
     {
         /// <summary>
         /// Indexer that gives access to the attributes of the attribute bearer.

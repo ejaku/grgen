@@ -384,7 +384,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.StructurallyEqual(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.DeeplyEqual(");
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
@@ -436,7 +436,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.StructurallyEqual(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.DeeplyEqual(");
             Left.Emit(sourceCode);
             sourceCode.Append(", ");
             Right.Emit(sourceCode);

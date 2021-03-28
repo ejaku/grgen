@@ -962,13 +962,22 @@ public class ModelGen extends CSharpBase
 	private void genElementAttributeComparisonMethod(InheritanceType type, SourceBuilder routedSB,
 			String routedClassName)
 	{
-		routedSB.appendFront("public override bool IsStructurallyEqual(GRGEN_LIBGR.IStructuralEqualityComparer that, IDictionary<object, object> visitedObjects) {\n");
+		routedSB.appendFront("public override bool IsDeeplyEqual(GRGEN_LIBGR.IDeepEqualityComparer that, IDictionary<object, object> visitedObjects) {\n");
 		routedSB.indent();
-		routedSB.appendFront("if(this == that) return true;\n");
-		routedSB.appendFront("if(!(that is " + routedClassName + ")) return false;\n");
+		routedSB.appendFront("if(visitedObjects.ContainsKey(this) || visitedObjects.ContainsKey(that))\n");
+		routedSB.appendFrontIndented("throw new Exception(\"Multiple appearances (and cycles) forbidden in deep equality comparison (only tree-like structures are supported)!\");\n");
+
+		routedSB.appendFront("if(this == that)\n");
+		routedSB.appendFrontIndented("return true;\n");
+		routedSB.appendFront("if(!(that is " + routedClassName + "))\n");
+		routedSB.appendFrontIndented("return false;\n");
 		routedSB.appendFront(routedClassName + " that_ = (" + routedClassName + ")that;\n");
 
-		routedSB.appendFront("return true\n");
+		routedSB.appendFront("visitedObjects.Add(this, null);\n");
+		routedSB.appendFront("if(that != this)\n");
+		routedSB.appendFrontIndented("visitedObjects.Add(that, null);\n");
+
+		routedSB.appendFront("bool result = true\n");
 		routedSB.indent();
 		for(Entity member : type.getAllMembers()) {
 			if(member.isConst())
@@ -977,7 +986,7 @@ public class ModelGen extends CSharpBase
 			String attrName = formatIdentifiable(member);
 			if(member.getType() instanceof MapType || member.getType() instanceof SetType
 					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
-				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.StructurallyEqual("
+				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.DeeplyEqual("
 								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX
 								+ ", visitedObjects)\n");
@@ -995,7 +1004,7 @@ public class ModelGen extends CSharpBase
 					|| member.getType().classify() == TypeClass.IS_INTERNAL_TRANSIENT_CLASS_OBJECT
 					|| member.getType().classify() == TypeClass.IS_NODE
 					|| member.getType().classify() == TypeClass.IS_EDGE) {
-				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.StructurallyEqual("
+				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.DeeplyEqual("
 						+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX
 						+ ", visitedObjects)\n");
@@ -1004,8 +1013,13 @@ public class ModelGen extends CSharpBase
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");
 			}
 		}
-		routedSB.unindent();
 		routedSB.appendFront(";\n");
+		routedSB.unindent();
+
+		routedSB.appendFront("visitedObjects.Remove(this);\n");
+		routedSB.appendFront("visitedObjects.Remove(that);\n");
+
+		routedSB.appendFront("return result;\n");
 
 		routedSB.unindent();
 		routedSB.appendFront("}\n");
