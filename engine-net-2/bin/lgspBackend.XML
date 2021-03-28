@@ -29,6 +29,11 @@
             Class representing set/map inequality comparison.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.DICT_SE">
+            <summary>
+            Class representing set/map structural equality comparison.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.DICT_LT">
             <summary>
             Class representing proper subset/map comparison.
@@ -59,6 +64,11 @@
             Class representing array inequality comparison.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.LIST_SE">
+            <summary>
+            Class representing array structural equality comparison.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.LIST_LT">
             <summary>
             Class representing proper subarray comparison.
@@ -87,6 +97,11 @@
         <member name="T:de.unika.ipd.grGen.expression.DEQUE_NE">
             <summary>
             Class representing deque inequality comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DEQUE_SE">
+            <summary>
+            Class representing deque structural equality comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.DEQUE_LT">
@@ -209,6 +224,21 @@
             Class representing an array index of by attribute expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfMatchTypeIndexOfBy">
+            <summary>
+            Class representing an array of action matches index of by member expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfIteratedMatchTypeIndexOfBy">
+            <summary>
+            Class representing an array of iterated matches index of by member expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfMatchClassTypeIndexOfBy">
+            <summary>
+            Class representing an array of match class matches index of by member expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayIndexOfOrdered">
             <summary>
             Class representing an array index of ordered expression.
@@ -219,6 +249,21 @@
             Class representing an array index of ordered by attribute expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfMatchTypeIndexOfOrderedBy">
+            <summary>
+            Class representing an array of action matches index of ordered by member expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfIteratedMatchTypeIndexOfOrderedBy">
+            <summary>
+            Class representing an array of iterated matches index of ordered by member expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfMatchClassTypeIndexOfOrderedBy">
+            <summary>
+            Class representing an array of match class matches index of ordered by member expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayLastIndexOf">
             <summary>
             Class representing an array last index of expression.
@@ -227,6 +272,21 @@
         <member name="T:de.unika.ipd.grGen.expression.ArrayLastIndexOfBy">
             <summary>
             Class representing an array last index of by expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfMatchTypeLastIndexOfBy">
+            <summary>
+            Class representing an array of action matches last index of by member expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfIteratedMatchTypeLastIndexOfBy">
+            <summary>
+            Class representing an array of iterated matches last index of by member expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfMatchClassTypeLastIndexOfBy">
+            <summary>
+            Class representing an array of match class matches last index of by member expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ArraySubarray">
@@ -612,9 +672,19 @@
             Class representing an equality comparison (of object classes).
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.OBJECT_CLASS_SE">
+            <summary>
+            Class representing a structural equality comparison (of object classes).
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.TRANSIENT_OBJECT_CLASS_EQ">
             <summary>
             Class representing an equality comparison (of transient object classes).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.TRANSIENT_OBJECT_CLASS_SE">
+            <summary>
+            Class representing a structural equality comparison (of transient object classes).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.OBJECT_CLASS_NE">
@@ -675,6 +745,11 @@
         <member name="T:de.unika.ipd.grGen.expression.EXTERNAL_NE">
             <summary>
             Class representing an inequality comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EXTERNAL_SE">
+            <summary>
+            Class representing a structural equality comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.EXTERNAL_LT">
@@ -1071,6 +1146,16 @@
         <member name="T:de.unika.ipd.grGen.expression.Log">
             <summary>
             Class representing the logarithm function.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Scan">
+            <summary>
+            Class representing the scan function
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.TryScan">
+            <summary>
+            Class representing the tryscan function
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.GRAPH_EQ">
@@ -1785,14 +1870,14 @@
             The BaseObjectType of the (base) object.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPObject.de#unika#ipd#grGen#libGr#IAttributeBearer#Type">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPObject.de#unika#ipd#grGen#libGr#ITyped#Type">
             <summary>
-            The InheritanceType of the attribute bearer.
+            The InheritanceType of the typed object.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.InstanceOf(de.unika.ipd.grGen.libGr.GrGenType)">
             <summary>
-            Returns true, if the class object is compatible to the given type.
+            Returns true, if the typed object is compatible to the given type.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.GetUniqueId">
@@ -1846,9 +1931,9 @@
             </summary>
             <returns>A copy of this object.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{System.Object,System.Object})">
             <summary>
-            Creates a deep copy of this object (i.e. internal (transient) class objects will be replicated).
+            Creates a deep copy of this object (i.e. (transient) class objects will be replicated).
             All attributes will be transfered to the new object.
             A new name will be fetched from the graph.
             </summary>
@@ -1856,10 +1941,12 @@
             <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
             <returns>A copy of this object.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.AreAttributesEqual(de.unika.ipd.grGen.libGr.IAttributeBearer)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.IsDeeplyEqual(de.unika.ipd.grGen.libGr.IDeepEqualityComparer,System.Collections.Generic.IDictionary{System.Object,System.Object})">
             <summary>
-            Returns whether the attributes of this object and that object are equal.
-            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+            Returns whether this and that are deeply equal,
+            which means the scalar attributes are equal, the container attributes are memberwise deeply equal, and object attributes are deeply equal.
+            (If types are unequal the result is false.)
+            Visited objects are/have to be stored in the visited objects dictionary in order to detect shortcuts and cycles.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPObject.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
@@ -1916,14 +2003,14 @@
             The BaseObjectType of the base object.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPTransientObject.de#unika#ipd#grGen#libGr#IAttributeBearer#Type">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPTransientObject.de#unika#ipd#grGen#libGr#ITyped#Type">
             <summary>
-            The InheritanceType of the attribute bearer.
+            The InheritanceType of the typed object.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.InstanceOf(de.unika.ipd.grGen.libGr.GrGenType)">
             <summary>
-            Returns true, if the transient class object is compatible to the given type.
+            Returns true, if the typed object is compatible to the given type.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPTransientObject.Item(System.String)">
@@ -1958,19 +2045,21 @@
             </summary>
             <returns>A copy of this object.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{System.Object,System.Object})">
             <summary>
-            Creates a deep copy of this transient object.
+            Creates a deep copy of this transient object (i.e. (transient) class objects will be replicated).
             All attributes will be transferred to the new object.
             </summary>
-            <param name="graph">The graph to fetch the names of the new objects from.</param>
+            <param name="graph">The graph to fetch the names of the new (non-transient) objects from.</param>
             <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
             <returns>A copy of this object.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.AreAttributesEqual(de.unika.ipd.grGen.libGr.IAttributeBearer)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.IsDeeplyEqual(de.unika.ipd.grGen.libGr.IDeepEqualityComparer,System.Collections.Generic.IDictionary{System.Object,System.Object})">
             <summary>
-            Returns whether the attributes of this transient object and that transient object are equal.
-            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+            Returns whether this and that are deeply equal,
+            which means the scalar attributes are equal, the container attributes are memberwise deeply equal, and object attributes are deeply equal.
+            (If types are unequal the result is false.)
+            Visited objects are/have to be stored in the visited objects dictionary in order to detect shortcuts and cycles.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransientObject.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
@@ -3965,14 +4054,14 @@
             The GraphElementType of the graph element.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPNode.de#unika#ipd#grGen#libGr#IAttributeBearer#Type">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPNode.de#unika#ipd#grGen#libGr#ITyped#Type">
             <summary>
-            The GrGenType of the attribute bearer.
+            The InheritanceType of the typed object.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.InstanceOf(de.unika.ipd.grGen.libGr.GrGenType)">
             <summary>
-            Returns true, if the graph element is compatible to the given type.
+            Returns true, if the typed object is compatible to the given type.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.GetUniqueId">
@@ -4017,9 +4106,9 @@
             </summary>
             <returns>A copy of this node.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{System.Object,System.Object})">
             <summary>
-            Creates a deep copy of this node (i.e. internal (transient) class objects will be replicated).
+            Creates a deep copy of this node (i.e. (transient) class objects will be replicated).
             All attributes will be transfered to the new node.
             The node will not be associated to a graph, yet.
             So it will not have any incident edges nor any assigned variables.
@@ -4028,10 +4117,12 @@
             <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
             <returns>A copy of this node.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.AreAttributesEqual(de.unika.ipd.grGen.libGr.IAttributeBearer)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.IsDeeplyEqual(de.unika.ipd.grGen.libGr.IDeepEqualityComparer,System.Collections.Generic.IDictionary{System.Object,System.Object})">
             <summary>
-            Returns whether the attributes of this element and that are equal.
-            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+            Returns whether this and that are deeply equal,
+            which means the scalar attributes are equal, the container attributes are memberwise deeply equal, and object attributes are deeply equal.
+            (If types are unequal the result is false.)
+            Visited objects are/have to be stored in the visited objects dictionary in order to detect shortcuts and cycles.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
@@ -4205,14 +4296,14 @@
             The GraphElementType of the graph element.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPEdge.de#unika#ipd#grGen#libGr#IAttributeBearer#Type">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPEdge.de#unika#ipd#grGen#libGr#ITyped#Type">
             <summary>
-            The InheritanceType of the attribute bearer.
+            The InheritanceType of the typed object.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.InstanceOf(de.unika.ipd.grGen.libGr.GrGenType)">
             <summary>
-            Returns true, if the graph element is compatible to the given type
+            Returns true, if the typed object is compatible to the given type.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.GetUniqueId">
@@ -4259,9 +4350,9 @@
             <param name="newTarget">The new target node for the new edge.</param>
             <returns>A copy of this edge.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.Copy(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IBaseObject,de.unika.ipd.grGen.libGr.IBaseObject})">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.Copy(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{System.Object,System.Object})">
             <summary>
-            Creates a deep copy of this edge (i.e. internal (transient) class objects will be replicated).
+            Creates a deep copy of this edge (i.e. (transient) class objects will be replicated).
             All attributes will be transfered to the new edge.
             The edge will not be associated to a graph, yet.
             So it will not have any assigned variables.
@@ -4272,10 +4363,12 @@
             <param name="oldToNewObjectMap">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
             <returns>A copy of this edge.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.AreAttributesEqual(de.unika.ipd.grGen.libGr.IAttributeBearer)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.IsDeeplyEqual(de.unika.ipd.grGen.libGr.IDeepEqualityComparer,System.Collections.Generic.IDictionary{System.Object,System.Object})">
             <summary>
-            Returns whether the attributes of this element and that are equal.
-            If types are unequal the result is false, otherwise the conjunction of equality comparison of the attributes.
+            Returns whether this and that are deeply equal,
+            which means the scalar attributes are equal, the container attributes are memberwise deeply equal, and object attributes are deeply equal.
+            (If types are unequal the result is false.)
+            Visited objects are/have to be stored in the visited objects dictionary in order to detect shortcuts and cycles.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.ApplyFunctionMethod(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.String,System.Object[])">
@@ -5645,6 +5738,16 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPRulePattern.GetImplementedMatchClass(System.String)">
             <summary>
             Returns the implemented match class, if it is available, otherwise null
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPRulePattern.MatchInterfaceName">
+            <summary>
+            The name of the real .NET interface type of the match of the rule/action (fully qualified).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPRulePattern.MatchClassName">
+            <summary>
+            The name of the real .NET class type of the match of the rule/action (fully qualified).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPRulePattern.outputs">
