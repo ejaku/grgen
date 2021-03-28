@@ -38,6 +38,7 @@ OK     should_pass/array_removeIf.grg
 OK     should_pass/array_removeIf_exec.grg
 OK     should_pass/array_sort_reverse.grg
 OK     should_pass/assign_parameter.grg
+OK     should_pass/assign_transient_object_in_function.grg
 OK     should_pass/attrib_001.grg
 OK     should_pass/attrib_002.grg
 OK     should_pass/attrib_003.grg
@@ -387,6 +388,8 @@ OK     should_pass/exists_delete_file.grg
 OK     should_pass/explode_implode.grg
 OK     should_pass/external_001.grg
 OK     should_pass/ExternalAttributeEvaluation.grg
+OK     should_pass/ExternalAttributeEvaluationCopyObject1.grg
+OK     should_pass/ExternalAttributeEvaluationCopyObject2.grg
 OK     should_pass/ExternalFiltersAndSequences.grg
 OK     should_pass/FilterFunctions.grg
 OK     should_pass/FilterFunctionsParams.grg
@@ -530,6 +533,7 @@ OK     should_pass/now.grg
 OK     should_pass/numberTypeMinMax.grg
 OK     should_pass/object_001.grg
 OK     should_pass/object_002.grg
+OK     should_pass/object_user_manual.grg
 OK     should_pass/package.grg
 OK     should_pass/packageactions.grg
 OK     should_pass/packageactionsfiltercheck.grg
@@ -800,6 +804,7 @@ ERROR  should_fail/array_sum_exec.grg
 ERROR  should_fail/array_var.grg
 ERROR  should_fail/array_var_exec.grg
 ERROR  should_fail/assign_001.grg
+ERROR  should_fail/assign_object_in_function.grg
 ERROR  should_fail/attrib_001.grg
 ERROR  should_fail/attrib_002.grg
 ERROR  should_fail/attrib_003.grg
