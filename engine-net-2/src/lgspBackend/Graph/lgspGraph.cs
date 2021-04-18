@@ -1924,6 +1924,19 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Duplicates a graph.
+        /// The new graph will use the same model as the other.
+        /// Open transaction data will not be cloned.
+        /// </summary>
+        /// <param name="newName">Name of the new graph.</param>
+        /// <param name="oldToNewMap">A map of the old elements to the corresponding new elements after cloning.</param>
+        /// <returns>A new graph with the same structure as this graph.</returns>
+        public override IGraph Clone(String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
+        {
+            return new LGSPGraph(this, newName, out oldToNewMap);
+        }
+
+        /// <summary>
         /// Duplicates a graph, assigning names.
         /// The new graph will use the same model as the other
         /// Open transaction data will not be cloned.

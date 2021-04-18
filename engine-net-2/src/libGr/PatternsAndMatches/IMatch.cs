@@ -40,8 +40,14 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IMatch Clone();
 
+        /// <summary>
+        /// Clone the match, mapping the old graph elements to new graph elements according to the oldToNewMap
+        /// </summary>
+        /// <param name="oldToNewMap">A map of old to corresponding new graph elements.</param>
+        IMatch Clone(IDictionary<IGraphElement, IGraphElement> oldToNewMap);
+
         //////////////////////////////////////////////////////////////////////////
-                
+
         /// <summary>
         /// Writes a flag to the match, which is remembered; helper for symmetry checking
         /// </summary>

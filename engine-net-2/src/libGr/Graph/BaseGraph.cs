@@ -120,6 +120,7 @@ namespace de.unika.ipd.grGen.libGr
         public abstract void Custom(params object[] args);
 
         public abstract IGraph Clone(String newName);
+        public abstract IGraph Clone(String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap);
         public abstract INamedGraph CloneAndAssignNames();
         public abstract IGraph CreateEmptyEquivalent(String newName);
 

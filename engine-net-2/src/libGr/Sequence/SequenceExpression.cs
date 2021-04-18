@@ -87,6 +87,7 @@ namespace de.unika.ipd.grGen.libGr
         Copy,
         Canonize,
         RuleQuery, MultiRuleQuery,
+        MappingClause,
         Scan, TryScan,
         FunctionCall, FunctionMethodCall
     }
@@ -13194,6 +13195,189 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append("\\<class " + MatchClass + ">");
                 sb.Append("]");
                 return sb.ToString();
+            }
+        }
+    }
+
+    public class SequenceExpressionMappingClause : SequenceExpression
+    {
+        public readonly SequenceMultiRulePrefixedSequence MultiRulePrefixedSequence;
+
+        public SequenceExpressionMappingClause(SequenceMultiRulePrefixedSequence multiRulePrefixedSequence)
+            : base(SequenceExpressionType.MappingClause)
+        {
+            MultiRulePrefixedSequence = multiRulePrefixedSequence;
+        }
+
+        protected SequenceExpressionMappingClause(SequenceExpressionMappingClause that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            MultiRulePrefixedSequence = (SequenceMultiRulePrefixedSequence)that.MultiRulePrefixedSequence.Copy(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMappingClause(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+
+            MultiRulePrefixedSequence.Check(env);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "array<graph>";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            List<IGraph> graphs = new List<IGraph>();
+
+            // first get all matches of the rules
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("Matching mapping multi rule prefixed sequence " + GetRuleCallString(procEnv));
+#endif
+
+            IMatches[] MatchesArray;
+            List<IMatch> MatchList;
+            MultiRulePrefixedSequence.MatchAll(procEnv, out MatchesArray, out MatchList);
+
+            foreach(SequenceFilterCallBase filter in MultiRulePrefixedSequence.Filters)
+            {
+                SequenceFilterCallInterpreted filterInterpreted = (SequenceFilterCallInterpreted)filter;
+                filterInterpreted.Execute(procEnv, MatchList);
+            }
+
+            // TODO: execution state setting and sequence event firing commented out, 
+            // to be added when events are extended so sequence expressions can be debugged
+
+            int matchesCount = MatchList.Count;
+            if(matchesCount == 0)
+            {
+                //foreach(SequenceRulePrefixedSequence rulePrefixedSequence in MultiRulePrefixedSequence.RulePrefixedSequences)
+                //{
+                //    rulePrefixedSequence.executionState = SequenceExecutionState.Fail;
+                //}
+                //MultiRulePrefixedSequence.executionState = SequenceExecutionState.Fail;
+                return graphs;
+            }
+
+#if LOG_SEQUENCE_EXECUTION
+            for(int i = 0; i < matchesCount; ++i)
+            {
+                procEnv.Recorder.WriteLine("match " + i + ": " + MatchPrinter.ToString(MatchList[i], procEnv.Graph, ""));
+            }
+#endif
+
+            // cloning already occurred to allow multiple calls of the same rule
+
+            // apply the rule and its sequence for every match found
+            int matchesTried = 0;
+
+            Dictionary<string, int> ruleNameToComponentIndex = new Dictionary<string, int>();
+            for(int i = 0; i < MultiRulePrefixedSequence.RulePrefixedSequences.Count; ++i)
+            {
+                SequenceRuleCall rule = (SequenceRuleCall)MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule;
+                IMatches matches = MatchesArray[i];
+                ruleNameToComponentIndex.Add(rule.PackagePrefixedName, i);
+
+                if(matches.Count == 0)
+                    rule.executionState = SequenceExecutionState.Fail;
+            }
+
+            foreach(IMatch match in MatchList)
+            {
+                ++matchesTried;
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Applying match " + matchesTried + "/" + matchesCount + " of " + rule.GetRuleCallString(procEnv));
+                procEnv.Recorder.WriteLine("match: " + MatchPrinter.ToString(match, procEnv.Graph, ""));
+#endif
+
+                int index = ruleNameToComponentIndex[match.Pattern.PackagePrefixedName];
+                SequenceRuleCall rule = (SequenceRuleCall)MultiRulePrefixedSequence.RulePrefixedSequences[index].Rule;
+                Sequence seq = MultiRulePrefixedSequence.RulePrefixedSequences[index].Sequence;
+                IMatches matches = MatchesArray[index];
+
+                IDictionary<IGraphElement, IGraphElement> oldToNewMap;
+                IGraph graph = procEnv.Graph.Clone(procEnv.Graph.Name, out oldToNewMap);
+
+                procEnv.SwitchToSubgraph(graph);
+
+                IMatch mappedMatch = match.Clone(oldToNewMap);
+
+                //procEnv.EnteringSequence(rule);
+                //rule.executionState = SequenceExecutionState.Underway;
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
+#endif
+                procEnv.Matched(matches, mappedMatch, rule.Special); // only called on an existing match
+                rule.Rewrite(procEnv, matches, mappedMatch);
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
+#endif
+                //rule.executionState = SequenceExecutionState.Success;
+                //procEnv.ExitingSequence(rule);
+
+                // rule applied, now execute its sequence
+                bool result = seq.Apply(procEnv);
+
+                if(matchesTried < matchesCount)
+                {
+                    procEnv.EndOfIteration(true, MultiRulePrefixedSequence);
+                    rule.ResetExecutionState();
+                    seq.ResetExecutionState();
+                }
+                else
+                {
+#if LOG_SEQUENCE_EXECUTION
+                    procEnv.Recorder.WriteLine("Applying match exhausted " + rule.GetRuleCallString(procEnv));
+#endif
+                    procEnv.EndOfIteration(false, MultiRulePrefixedSequence);
+                }
+
+                procEnv.ReturnFromSubgraph();
+                if(result)
+                {
+                    graphs.Add(graph);
+                }
+            }
+
+            return graphs;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            MultiRulePrefixedSequence.GetLocalVariables(variables, constructors, null);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                foreach(SequenceRulePrefixedSequence rulePrefixedSequence in MultiRulePrefixedSequence.RulePrefixedSequences)
+                {
+                    foreach(SequenceExpression argument in rulePrefixedSequence.Rule.ArgumentExpressions)
+                    {
+                        yield return argument;
+                    }
+                }
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                return "[:" + MultiRulePrefixedSequence.Symbol + ":]"; // todo: [] of MultiRulePrefixedSequence is wrong, Sub-Symbol without it needed
             }
         }
     }

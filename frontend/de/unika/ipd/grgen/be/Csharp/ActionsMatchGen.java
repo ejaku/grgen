@@ -204,10 +204,12 @@ public class ActionsMatchGen extends CSharpBase
 		sb.appendFront("public override GRGEN_LIBGR.IPatternGraph Pattern { get { return null; } }\n");
 		sb.appendFront("public override GRGEN_LIBGR.IMatchClass MatchClass { get { return MatchClassInfo_" + name + ".Instance; } }\n");
 		sb.appendFront("public override GRGEN_LIBGR.IMatch Clone() { return new " + className + "(this); }\n");
+		sb.appendFront("public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new " + className + "(this, oldToNewMap); }\n");
 		sb.appendFront("public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) "
 				+ "{ _matchOfEnclosingPattern = matchOfEnclosingPattern; }\n");
 
-		genCopyConstructorAndContentAssignment(sb, pattern, name, pathPrefixForElements, className);
+		genCopyConstructorAndContentAssignment(sb, pattern, false, name, pathPrefixForElements, className);
+		genCopyConstructorAndContentAssignment(sb, pattern, true, name, pathPrefixForElements, className);
 
 		sb.appendFront("public " + className + "()\n");
 		sb.appendFront("{\n");
@@ -250,6 +252,7 @@ public class ActionsMatchGen extends CSharpBase
 			sb.appendFront("public bool _isNullMatch;\n");
 		}
 		sb.appendFront("public override GRGEN_LIBGR.IMatch Clone() { return new " + className + "(this); }\n");
+		sb.appendFront("public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new " + className + "(this, oldToNewMap); }\n");
 		sb.appendFront("public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) "
 				+ "{ _matchOfEnclosingPattern = matchOfEnclosingPattern; }\n");
 
@@ -260,7 +263,8 @@ public class ActionsMatchGen extends CSharpBase
 		if(parallelized)
 			sb.appendFront("public int duplicateMatchHash;\n");
 
-		genCopyConstructorAndContentAssignment(sb, pattern, name, pathPrefixForElements, className);
+		genCopyConstructorAndContentAssignment(sb, pattern, false, name, pathPrefixForElements, className);
+		genCopyConstructorAndContentAssignment(sb, pattern, true, name, pathPrefixForElements, className);
 
 		sb.appendFront("public " + className + "()\n");
 		sb.appendFront("{\n");
@@ -292,23 +296,26 @@ public class ActionsMatchGen extends CSharpBase
 		sb.append("\n");
 	}
 
-	private void genCopyConstructorAndContentAssignment(SourceBuilder sb, PatternGraphLhs pattern, String name, String pathPrefixForElements,
-			String className)
+	private void genCopyConstructorAndContentAssignment(SourceBuilder sb, PatternGraphLhs pattern, boolean mapping,
+			String name, String pathPrefixForElements, String className)
 	{
-		sb.appendFront("public void AssignContent(" + className + " that)\n");
+		String mappingParameter = mapping ? ", IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap" : "";
+		String mappingArgument = mapping ? ", oldToNewMap" : "";
+		
+		sb.appendFront("public void AssignContent(" + className + " that" + mappingParameter + ")\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		for(int i = MATCH_PART_NODES; i < MATCH_PART_END; ++i) {
-			genCopyMatchedEntities(sb, pattern, name, i, pathPrefixForElements);
+			genCopyMatchedEntities(sb, pattern, mapping, name, i, pathPrefixForElements);
 		}
 		sb.unindent();
 		sb.appendFront("}\n");
 
 		sb.append("\n");
 
-		sb.appendFront("public " + className + "(" + className + " that)\n");
+		sb.appendFront("public " + className + "(" + className + " that" + mappingParameter + ")\n");
 		sb.appendFront("{\n");
-		sb.appendFrontIndented("AssignContent(that);\n");
+		sb.appendFrontIndented("AssignContent(that" + mappingArgument + ");\n");
 		sb.appendFront("}\n");
 	}
 
@@ -477,20 +484,28 @@ public class ActionsMatchGen extends CSharpBase
 		}
 	}
 
-	private void genCopyMatchedEntities(SourceBuilder sb, PatternGraphLhs pattern,
+	private void genCopyMatchedEntities(SourceBuilder sb, PatternGraphLhs pattern, boolean mapping,
 			String name, int which, String pathPrefixForElements)
 	{
 		switch(which) {
 		case MATCH_PART_NODES:
 			for(Node node : pattern.getNodes()) {
 				String nodeName = formatEntity(node, "_");
-				sb.appendFront(nodeName + " = that." + nodeName + ";\n");
+				if(mapping) {
+					sb.appendFront(nodeName + " = (GRGEN_LGSP.LGSPNode)oldToNewMap[that." + nodeName + "];\n");
+				} else {
+					sb.appendFront(nodeName + " = that." + nodeName + ";\n");
+				}
 			}
 			break;
 		case MATCH_PART_EDGES:
 			for(Edge edge : pattern.getEdges()) {
 				String edgeName = formatEntity(edge, "_");
-				sb.appendFront(edgeName + " = that." + edgeName + ";\n");
+				if(mapping) {
+					sb.appendFront(edgeName + " = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that." + edgeName + "];\n");
+				} else {
+					sb.appendFront(edgeName + " = that." + edgeName + ";\n");
+				}
 			}
 			break;
 		case MATCH_PART_VARIABLES:

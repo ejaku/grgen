@@ -492,6 +492,7 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IMatchClass MatchClass { get; }
         public IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
         public abstract IMatch Clone();
+        public abstract IMatch Clone(IDictionary<IGraphElement, IGraphElement> oldToNewMap);
 
         public void Mark(bool flag) { _flag = flag; }
         public bool IsMarked() { return _flag; }

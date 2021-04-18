@@ -562,6 +562,11 @@ namespace de.unika.ipd.grGen.lgsp
             return CloneNamed(newName);
         }
 
+        public override IGraph Clone(String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
+        {
+            return CloneNamed(newName, out oldToNewMap);
+        }
+
         public override IGraph CreateEmptyEquivalent(String newName)
         {
             return new LGSPNamedGraph(this.model, newName, 0);
@@ -570,6 +575,11 @@ namespace de.unika.ipd.grGen.lgsp
         public INamedGraph CloneNamed(String newName)
         {
             IDictionary<IGraphElement, IGraphElement> oldToNewMap;
+            return new LGSPNamedGraph(this, newName, out oldToNewMap);
+        }
+
+        public INamedGraph CloneNamed(String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
+        {
             return new LGSPNamedGraph(this, newName, out oldToNewMap);
         }
 

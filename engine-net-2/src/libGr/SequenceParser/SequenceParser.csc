@@ -1927,7 +1927,13 @@ SequenceExpression ExpressionBasic():
         return expr;
     }
 |
+    LOOKAHEAD(3)
     expr=MultiRuleQuery() expr=SelectorExpression(expr)
+    {
+        return expr;
+    }
+|
+    expr=MappingClause() expr=SelectorExpression(expr)
     {
         return expr;
     }
@@ -2524,6 +2530,62 @@ SequenceRuleCall RuleForMultiRuleQuery():
         {
             return ruleCall;
         }
+}
+
+SequenceExpression MappingClause():
+{
+    SequenceRuleCall rule;
+    Sequence seq;
+    List<SequenceVariable> variableList = new List<SequenceVariable>();
+    List<SequenceRulePrefixedSequence> rulePrefixedSequences = new List<SequenceRulePrefixedSequence>();
+    SequenceMultiRulePrefixedSequence seqMultiRulePrefixedSequence;
+    SequenceFilterCallBase filter = null;
+}
+{
+    "[" ":"
+    (
+        "for" "{" { varDecls.PushScope(ScopeType.ForRulePrefixedSequence); } rule=RuleForMappingMultiRulePrefixedSequence() ";"
+            seq=RewriteSequence() { varDecls.PopScope(variableList); } { rulePrefixedSequences.Add(new SequenceRulePrefixedSequence(rule, seq, variableList)); } "}"
+            ( "," "for" "{" { varDecls.PushScope(ScopeType.ForRulePrefixedSequence); } rule=RuleForMappingMultiRulePrefixedSequence() ";"
+                seq=RewriteSequence() { varDecls.PopScope(variableList); } { rulePrefixedSequences.Add(new SequenceRulePrefixedSequence(rule, seq, variableList)); } "}" 
+            )*
+            { seqMultiRulePrefixedSequence = new SequenceMultiRulePrefixedSequence(rulePrefixedSequences); }
+            ( "\\" filter=Filter(null, true) { seqMultiRulePrefixedSequence.AddFilterCall(filter); } )*
+    )
+    ":" "]"
+    {
+        return new SequenceExpressionMappingClause(seqMultiRulePrefixedSequence);
+    }
+}
+
+SequenceRuleCall RuleForMappingMultiRulePrefixedSequence():
+{
+    bool special = false;
+    String str, package = null;
+    List<SequenceExpression> argExprs = new List<SequenceExpression>();
+    List<SequenceVariable> returnVars = new List<SequenceVariable>();
+    SequenceRuleCall ruleCall;
+    SequenceFilterCallBase filter = null;
+}
+{
+    ("(" VariableList(returnVars) ")" "=")?
+    (
+        ("%" { special = true; })?
+        (LOOKAHEAD(2) package=Word() "::")? 
+        str=Word() ("(" (Arguments(argExprs))? ")")?
+        {
+            // No variable with this name may exist
+            if(varDecls.Lookup(str) != null)
+                throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
+
+            ruleCall = env.CreateSequenceRuleCall(str, package, argExprs, returnVars, null,
+                special, false, false);
+        }
+            ( "\\" filter=Filter(ruleCall, false) { ruleCall.AddFilterCall(filter); } )*
+            {
+                return ruleCall;
+            }
+    )
 }
 
 SequenceFilterCallBase Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter):

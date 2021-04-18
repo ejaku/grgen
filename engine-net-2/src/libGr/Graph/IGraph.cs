@@ -495,6 +495,15 @@ namespace de.unika.ipd.grGen.libGr
         IGraph Clone(String newName);
 
         /// <summary>
+        /// Duplicates a graph.
+        /// The new graph will use the same model as the other.
+        /// </summary>
+        /// <param name="newName">Name of the new graph.</param>
+        /// <param name="oldToNewMap">A map of the old elements to the corresponding new elements after cloning.</param>
+        /// <returns>A new graph with the same structure as this graph.</returns>
+        IGraph Clone(String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap);
+
+        /// <summary>
         /// Duplicates a graph, assigning names. (Don't use this on a named graph.)
         /// The new graph will use the same model and backend as the other.
         /// </summary>
