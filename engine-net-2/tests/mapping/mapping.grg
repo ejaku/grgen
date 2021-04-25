@@ -1,0 +1,35 @@
+#using "mapping.gm"
+
+rule init
+{
+	modify
+	{
+		n:Node --> . --> . --> n;
+	}
+}
+
+rule r
+{
+	n:Node;
+	
+	modify {
+		:N<n>;
+	}
+}
+
+test check
+{
+	n:N --> . --> . --> n;
+}
+
+rule mappingExec : (int, boolean)
+{
+	modify {
+	---
+		def var res:int;
+		def var resCheck:boolean = false;
+		exec({ yield res = [:for{r;true}:].size() });
+		exec({ ::graphs=[:for{r;true}:] } ;> if{ for{g:graph in ::graphs; in g { check() } }; { yield resCheck = true }});
+		return(res, resCheck);
+	}
+}

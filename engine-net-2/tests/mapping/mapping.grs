@@ -1,0 +1,9 @@
+new graph "mapping/mapping"
+
+exec init
+
+eval [:for{r;true}:].size()
+
+exec { ::graphs=[:for{r;true}:] } ;> for{g:graph in ::graphs; in g { check() } }
+
+quit

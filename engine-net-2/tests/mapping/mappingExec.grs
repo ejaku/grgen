@@ -1,0 +1,10 @@
+new graph "mapping/mapping"
+
+exec init
+
+exec (::numGraphs, ::checkSucceeded)=mappingExec
+
+show var numGraphs
+show var checkSucceeded
+
+quit

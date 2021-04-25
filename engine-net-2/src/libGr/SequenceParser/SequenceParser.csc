@@ -2543,7 +2543,6 @@ SequenceExpression MappingClause():
 }
 {
     "[" ":"
-    (
         "for" "{" { varDecls.PushScope(ScopeType.ForRulePrefixedSequence); } rule=RuleForMappingMultiRulePrefixedSequence() ";"
             seq=RewriteSequence() { varDecls.PopScope(variableList); } { rulePrefixedSequences.Add(new SequenceRulePrefixedSequence(rule, seq, variableList)); } "}"
             ( "," "for" "{" { varDecls.PushScope(ScopeType.ForRulePrefixedSequence); } rule=RuleForMappingMultiRulePrefixedSequence() ";"
@@ -2551,7 +2550,6 @@ SequenceExpression MappingClause():
             )*
             { seqMultiRulePrefixedSequence = new SequenceMultiRulePrefixedSequence(rulePrefixedSequences); }
             ( "\\" filter=Filter(null, true) { seqMultiRulePrefixedSequence.AddFilterCall(filter); } )*
-    )
     ":" "]"
     {
         return new SequenceExpressionMappingClause(seqMultiRulePrefixedSequence);

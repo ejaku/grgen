@@ -71,7 +71,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             this.seqGen = new SequenceGenerator(model, env, compGen, exprGen, seqHelper, fireDebugEvents, emitProfiling);
 
-            this.neededEntitiesEmitter = new NeededEntitiesEmitter(seqHelper);
+            this.neededEntitiesEmitter = new NeededEntitiesEmitter(seqHelper, exprGen);
 
             this.fireDebugEvents = fireDebugEvents;
             this.emitProfiling = emitProfiling;
@@ -121,6 +121,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             source.Append("\n");
+
+            neededEntitiesEmitter.EmitNeededMappingClauses(seq, seqGen, source);
+
             source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
             for(int i = 0; i < paramNames.Length; ++i)
             {

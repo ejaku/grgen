@@ -132,6 +132,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionRuleQuery((SequenceExpressionRuleQuery)expr, source);
             case SequenceExpressionType.MultiRuleQuery:
                 return GetSequenceExpressionMultiRuleQuery((SequenceExpressionMultiRuleQuery)expr, source);
+            case SequenceExpressionType.MappingClause:
+                return GetSequenceExpressionMappingClause((SequenceExpressionMappingClause)expr, source);
             case SequenceExpressionType.Scan:
                 return GetSequenceExpressionScan((SequenceExpressionScan)expr, source);
             case SequenceExpressionType.TryScan:
@@ -1190,6 +1192,129 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.MatchListHelper.ToList<" + matchType + ">(" + matchesSourceBuilder.ToString() + ")";
             else
                 return matchesSourceBuilder.ToString();
+        }
+
+        public string GetSequenceExpressionMappingClause(SequenceExpressionMappingClause seqMappingClause, SourceBuilder source)
+        {
+            SequenceMultiRulePrefixedSequence seqMulti = seqMappingClause.MultiRulePrefixedSequence;
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("MappingClause_" + seqMulti.Id + "(procEnv");
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqMappingClause.GetLocalVariables(variables, constructors);
+            foreach(SequenceVariable seqVar in variables.Keys)
+            {
+                sb.Append(", ");
+                sb.Append(seqVar.Name);
+            }
+
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+        public void EmitSequenceExpressionMappingClauseImplementation(SequenceExpressionMappingClause seqMappingClause, SequenceGenerator seqGen, NeededEntitiesEmitter needs, SourceBuilder source)
+        {
+            SequenceMultiRulePrefixedSequence seqMulti = seqMappingClause.MultiRulePrefixedSequence;
+
+            source.AppendFront("static List<GRGEN_LIBGR.IGraph> MappingClause_" + seqMulti.Id + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqMappingClause.GetLocalVariables(variables, constructors);
+            foreach(SequenceVariable seqVar in variables.Keys)
+            {
+                source.Append(", ");
+                source.Append(TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model));
+                source.Append(" ");
+                source.Append(seqVar.Name);
+            }
+
+            source.Append(")\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront("List<GRGEN_LIBGR.IGraph> graphs = new List<GRGEN_LIBGR.IGraph>();\n");
+
+            needs.EmitNeededVarAndRuleEntities(seqMulti, source);
+
+            string matchListName = EmitSequenceMultiRulePrefixedSequenceMatchingForMappingClause(seqMulti, source);
+
+            // code to handle the rewrite next match
+            String firstRewrite = "first_rewrite_" + seqMulti.Id;
+            source.AppendFront("bool " + firstRewrite + " = true;\n");
+
+            source.AppendFront("if(" + matchListName + ".Count != 0) {\n");
+            source.Indent();
+
+            // iterate through matches, use Modify on each, fire the next match event after the first
+            String enumeratorName = "enum_" + seqMulti.Id;
+            source.AppendFront("IEnumerator<GRGEN_LIBGR.IMatch> " + enumeratorName + " = " + matchListName + ".GetEnumerator();\n");
+            source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront("switch(" + enumeratorName + ".Current.Pattern.PackagePrefixedName)\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            // emit code for rewriting the current match (for each rule, rule fitting to the match is selected by rule name)
+            for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
+            {
+                bool fireDebugEvents = false; // todo: extend sequence expressions to full events, esp. enable debug events
+                SequenceMultiRulePrefixedSequenceRewritingGenerator ruleRewritingGenerator = new SequenceMultiRulePrefixedSequenceRewritingGenerator(
+                    seqMulti, (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i], this, seqHelper);
+                ruleRewritingGenerator.EmitRewritingMapping(source, seqGen, matchListName, enumeratorName, firstRewrite, fireDebugEvents);
+            }
+
+            source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.AppendFront("return graphs;\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private string EmitSequenceMultiRulePrefixedSequenceMatchingForMappingClause(SequenceMultiRulePrefixedSequence seqMulti, SourceBuilder source)
+        {
+            // likely todo: in case of full events handling also in expressions: matches list (!= match list) missing
+            String matchListName = "MatchList_" + seqMulti.Id;
+            source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>();\n", matchListName);
+
+            // emit code for matching all the contained rules
+            SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators = new SequenceRuleCallMatcherGenerator[seqMulti.RulePrefixedSequences.Count];
+            for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
+            {
+                SequenceRulePrefixedSequence seqRulePrefixedSequence = (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i];
+                ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator(seqRulePrefixedSequence.Rule, this, seqHelper);
+                ruleMatcherGenerators[i].EmitMatchingAndCloning(source, "procEnv.MaxMatches");
+            }
+
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators);
+
+            // emit code for rule-based filtering
+            for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
+            {
+                ruleMatcherGenerators[i].EmitFiltering(source);
+                ruleMatcherGenerators[i].EmitAddRange(source, matchListName);
+            }
+
+            // emit code for match class (non-rule-based) filtering
+            foreach(SequenceFilterCallBase sequenceFilterCall in seqMulti.Filters)
+            {
+                EmitMatchClassFilterCall(source, sequenceFilterCall, matchListName, false);
+            }
+
+            return matchListName;
         }
 
         private string GetRuleCallOfSequenceMultiRuleAllCall(SequenceMultiRuleAllCall seqMulti, int index, String matchListName, SourceBuilder source)

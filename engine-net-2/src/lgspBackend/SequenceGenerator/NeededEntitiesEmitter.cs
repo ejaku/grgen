@@ -21,13 +21,16 @@ namespace de.unika.ipd.grGen.lgsp
     {
         readonly SequenceGeneratorHelper seqHelper;
 
+        readonly SequenceExpressionGenerator exprGen;
+
         // set of the used rules (if contained, a variable was created for easy access to them, once)
         readonly Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
 
-        public NeededEntitiesEmitter(SequenceGeneratorHelper seqHelper)
+        public NeededEntitiesEmitter(SequenceGeneratorHelper seqHelper, SequenceExpressionGenerator exprGen)
         {
             this.seqHelper = seqHelper;
+            this.exprGen = exprGen;
         }
 
         public void Reset()
@@ -285,5 +288,59 @@ namespace de.unika.ipd.grGen.lgsp
 				break;
 			}
 		}
+
+        /// <summary>
+        /// pre-run for emitting the needed mapping clauses before emitting the sequences
+        /// </summary>
+        public void EmitNeededMappingClauses(Sequence seq, SequenceGenerator seqGen, SourceBuilder source)
+        {
+            switch(seq.SequenceType)
+            {
+            case SequenceType.BooleanComputation:
+                {
+                    SequenceBooleanComputation seqBoolComp = (SequenceBooleanComputation)seq;
+                    EmitNeededMappingClauses(seqBoolComp.Computation, seqGen, source);
+                    break;
+                }
+
+            default:
+                foreach(Sequence childSeq in seq.Children)
+                {
+                    EmitNeededMappingClauses(childSeq, seqGen, source);
+                }
+                break;
+            }
+        }
+
+        private void EmitNeededMappingClauses(SequenceComputation seqComp, SequenceGenerator seqGen, SourceBuilder source)
+        {
+            foreach(SequenceComputation childSeqComp in seqComp.Children)
+            {
+                if(childSeqComp is SequenceExpression)
+                    EmitNeededMappingClauses((SequenceExpression)childSeqComp, seqGen, source);
+                else
+                    EmitNeededMappingClauses(childSeqComp, seqGen, source);
+            }
+        }
+
+        private void EmitNeededMappingClauses(SequenceExpression seqExpr, SequenceGenerator seqGen, SourceBuilder source)
+        {
+            switch(seqExpr.SequenceExpressionType)
+            {
+            case SequenceExpressionType.MappingClause:
+                {
+                    SequenceExpressionMappingClause seqMapping = (SequenceExpressionMappingClause)seqExpr;
+                    exprGen.EmitSequenceExpressionMappingClauseImplementation(seqMapping, seqGen, this, source);
+                    break;
+                }
+
+            default:
+                foreach(SequenceExpression childSeqComp in seqExpr.ChildrenExpression)
+                {
+                    EmitNeededMappingClauses(childSeqComp, seqGen, source);
+                }
+                break;
+            }
+        }
     }
 }

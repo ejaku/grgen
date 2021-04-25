@@ -449,6 +449,7 @@ seqExprBasic [ExecNode xg] returns [ ExprNode res = env.initExprNode() ]
 		(i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }
 	| rq=seqRuleQuery[xg] sel=seqExprSelector[rq, xg] { res = sel; }
 	| mrq=seqMultiRuleQuery[xg] sel=seqExprSelector[mrq, xg] { res = sel; }
+	| mc=seqMappingClause[xg] sel=seqExprSelector[mc, xg] { res = sel; }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
 	| exp=seqConstantOfBasicOrEnumType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
 	| (seqConstantOfContainerType[null]) => exp=seqConstantOfContainerType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
@@ -869,6 +870,19 @@ seqMultiRuleQuery [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 			xg.addMultiCallAction(multiRuleCall);
 			res = new MultiRuleQueryExprNode(getCoords(l), ruleCallExprs, matchClassIdent, new ArrayTypeNode(matchClassIdent));
 		}
+	;
+
+seqMappingClause [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+	@init {
+		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
+		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
+	}
+	: l=LBRACK COLON {xg.append("[:");} 
+		seqRulePrefixedSequenceAtom[xg, ruleCalls, returns]
+		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } seqRulePrefixedSequenceAtom[xg, ruleCalls, returns] )*
+	  ( seqCallRuleOrMatchClassFilter[xg, filters, true] )* COLON RBRACK {xg.append(":]");} 
+		{ xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters)); }
 	;
 
 seqCallRuleExpressionForMulti [ ExecNode xg, CollectNode<CallActionNode> ruleCalls ] returns [ ExprNode res = env.initExprNode() ]
