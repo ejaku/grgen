@@ -1043,25 +1043,108 @@ namespace de.unika.ipd.grGen.lgsp
         /// For filtering with the auto-supplied filter keepFirstFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        public void Filter_keepFirstFraction(double fraction)
+        /// <returns>The changed matches list.</returns>
+        public IMatches Filter_keepFirstFraction(double fraction)
         {
-            Filter_keepFirst((int)Math.Ceiling(fraction * count));
+            return FilterExact_keepFirstFraction(fraction);
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter keepLastFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        public void Filter_keepLastFraction(double fraction)
+        /// <returns>The changed matches list.</returns>
+        public IMatches Filter_keepLastFraction(double fraction)
         {
-            Filter_keepLast((int)Math.Ceiling(fraction * count));
+            return FilterExact_keepLastFraction(fraction);
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter keepFirst
         /// </summary>
         /// <param name="count">The number of matches to keep</param>
-        public void Filter_keepFirst(int count)
+        /// <returns>The changed matches list.</returns>
+        public IMatches Filter_keepFirst(int count)
+        {
+            return FilterExact_keepFirst(count);
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepLast
+        /// </summary>
+        /// <param name="count">The number of matches to keep</param>
+        /// <returns>The changed matches list.</returns>
+        public IMatches Filter_keepLast(int count)
+        {
+            return FilterExact_keepLast(count);
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeFirstFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to remove</param>
+        /// <returns>The changed matches list.</returns>
+        public IMatches Filter_removeFirstFraction(double fraction)
+        {
+            return FilterExact_removeFirstFraction(fraction);
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeLastFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to remove</param>
+        /// <returns>The changed matches list.</returns>
+        public IMatches Filter_removeLastFraction(double fraction)
+        {
+            return FilterExact_removeLastFraction(fraction);
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeFirst
+        /// </summary>
+        /// <param name="count">The number of matches to remove</param>
+        /// <returns>The changed matches list.</returns>
+        public IMatches Filter_removeFirst(int count)
+        {
+            return FilterExact_removeFirst(count);
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeLast
+        /// </summary>
+        /// <param name="count">The number of matches to remove</param>
+        /// <returns>The changed matches list.</returns>
+        public IMatches Filter_removeLast(int count)
+        {
+            return FilterExact_removeLast(count);
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepFirstFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        public IMatchesExact<MatchInterface> FilterExact_keepFirstFraction(double fraction)
+        {
+            return FilterExact_keepFirst((int)Math.Ceiling(fraction * count));
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepLastFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        public IMatchesExact<MatchInterface> FilterExact_keepLastFraction(double fraction)
+        {
+            return FilterExact_keepLast((int)Math.Ceiling(fraction * count));
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepFirst
+        /// </summary>
+        /// <param name="count">The number of matches to keep</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        public IMatchesExact<MatchInterface> FilterExact_keepFirst(int count)
         {
             List<MatchInterface> matchesArray = ToListExact();
             for(int i = count; i < matchesArray.Count; ++i)
@@ -1069,13 +1152,15 @@ namespace de.unika.ipd.grGen.lgsp
                 matchesArray[i] = default(MatchInterface); // = null
             }
             FromListExact();
+            return this;
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter keepLast
         /// </summary>
         /// <param name="count">The number of matches to keep</param>
-        public void Filter_keepLast(int count)
+        /// <returns>The changed matches list of exact type.</returns>
+        public IMatchesExact<MatchInterface> FilterExact_keepLast(int count)
         {
             List<MatchInterface> matchesArray = ToListExact();
             for(int i = matchesArray.Count-1 - count; i >= 0; --i)
@@ -1083,31 +1168,35 @@ namespace de.unika.ipd.grGen.lgsp
                 matchesArray[i] = default(MatchInterface); // = null
             }
             FromListExact();
+            return this;
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeFirstFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to remove</param>
-        public void Filter_removeFirstFraction(double fraction)
+        /// <returns>The changed matches list of exact type.</returns>
+        public IMatchesExact<MatchInterface> FilterExact_removeFirstFraction(double fraction)
         {
-            Filter_removeFirst((int)Math.Ceiling(fraction * count));
+            return FilterExact_removeFirst((int)Math.Ceiling(fraction * count));
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeLastFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to remove</param>
-        public void Filter_removeLastFraction(double fraction)
+        /// <returns>The changed matches list of exact type.</returns>
+        public IMatchesExact<MatchInterface> FilterExact_removeLastFraction(double fraction)
         {
-            Filter_removeLast((int)Math.Ceiling(fraction * count));
+            return FilterExact_removeLast((int)Math.Ceiling(fraction * count));
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeFirst
         /// </summary>
         /// <param name="count">The number of matches to remove</param>
-        public void Filter_removeFirst(int count)
+        /// <returns>The changed matches list of exact type.</returns>
+        public IMatchesExact<MatchInterface> FilterExact_removeFirst(int count)
         {
             List<MatchInterface> matchesArray = ToListExact();
             for(int i = 0; i < Math.Min(count, matchesArray.Count); ++i)
@@ -1115,13 +1204,15 @@ namespace de.unika.ipd.grGen.lgsp
                 matchesArray[i] = default(MatchInterface); // = null
             }
             FromListExact();
+            return this;
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeLast
         /// </summary>
         /// <param name="count">The number of matches to remove</param>
-        public void Filter_removeLast(int count)
+        /// <returns>The changed matches list of exact type.</returns>
+        public IMatchesExact<MatchInterface> FilterExact_removeLast(int count)
         {
             List<MatchInterface> matchesArray = ToListExact();
             for(int i = matchesArray.Count - 1; i > Math.Max(matchesArray.Count - 1 - count, 0); --i)
@@ -1129,6 +1220,7 @@ namespace de.unika.ipd.grGen.lgsp
                 matchesArray[i] = default(MatchInterface); // = null
             }
             FromListExact();
+            return this;
         }
 
         /// <summary>

@@ -80,49 +80,57 @@ namespace de.unika.ipd.grGen.libGr
         /// For filtering with the auto-supplied filter keepFirst
         /// </summary>
         /// <param name="count">The number of matches to keep</param>
-        void Filter_keepFirst(int count);
-        
+        /// <returns>The changed matches list.</returns>
+        IMatches Filter_keepFirst(int count);
+
         /// <summary>
         /// For filtering with the auto-supplied filter keepLast
         /// </summary>
         /// <param name="count">The number of matches to keep</param>
-        void Filter_keepLast(int count);
+        /// <returns>The changed matches list.</returns>
+        IMatches Filter_keepLast(int count);
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeFirst
         /// </summary>
         /// <param name="count">The number of matches to remove</param>
-        void Filter_removeFirst(int count);
+        /// <returns>The changed matches list.</returns>
+        IMatches Filter_removeFirst(int count);
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeLast
         /// </summary>
         /// <param name="count">The number of matches to remove</param>
-        void Filter_removeLast(int count);
+        /// <returns>The changed matches list.</returns>
+        IMatches Filter_removeLast(int count);
 
         /// <summary>
         /// For filtering with the auto-supplied filter keepFirstFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        void Filter_keepFirstFraction(double fraction);
-        
+        /// <returns>The changed matches list.</returns>
+        IMatches Filter_keepFirstFraction(double fraction);
+
         /// <summary>
         /// For filtering with the auto-supplied filter keepLastFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        void Filter_keepLastFraction(double fraction);
+        /// <returns>The changed matches list.</returns>
+        IMatches Filter_keepLastFraction(double fraction);
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeFirstFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        void Filter_removeFirstFraction(double fraction);
+        /// <returns>The changed matches list.</returns>
+        IMatches Filter_removeFirstFraction(double fraction);
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeLastFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        void Filter_removeLastFraction(double fraction);
+        /// <returns>The changed matches list.</returns>
+        IMatches Filter_removeLastFraction(double fraction);
     }
 
 
@@ -165,5 +173,61 @@ namespace de.unika.ipd.grGen.libGr
         /// Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
         /// </summary>
         void FromListExact();
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepFirst
+        /// </summary>
+        /// <param name="count">The number of matches to keep</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        IMatchesExact<MatchInterface> FilterExact_keepFirst(int count);
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepLast
+        /// </summary>
+        /// <param name="count">The number of matches to keep</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        IMatchesExact<MatchInterface> FilterExact_keepLast(int count);
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeFirst
+        /// </summary>
+        /// <param name="count">The number of matches to remove</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        IMatchesExact<MatchInterface> FilterExact_removeFirst(int count);
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeLast
+        /// </summary>
+        /// <param name="count">The number of matches to remove</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        IMatchesExact<MatchInterface> FilterExact_removeLast(int count);
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepFirstFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        IMatchesExact<MatchInterface> FilterExact_keepFirstFraction(double fraction);
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepLastFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        IMatchesExact<MatchInterface> FilterExact_keepLastFraction(double fraction);
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeFirstFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        IMatchesExact<MatchInterface> FilterExact_removeFirstFraction(double fraction);
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeLastFraction
+        /// </summary>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        /// <returns>The changed matches list of exact type.</returns>
+        IMatchesExact<MatchInterface> FilterExact_removeLastFraction(double fraction);
     }
 }

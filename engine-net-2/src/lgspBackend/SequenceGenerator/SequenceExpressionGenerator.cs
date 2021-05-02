@@ -3669,7 +3669,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitFilterAutoSuppliedCall(SourceBuilder source, IFilterAutoSupplied filterAutoSupplied, SequenceExpression[] argumentExpressions, string matchesSource, bool chainable)
         {
-            source.AppendFrontFormat("{0}.Filter_{1}(", matchesSource, filterAutoSupplied.Name);
+            source.AppendFrontFormat("{0}.FilterExact_{1}(", matchesSource, filterAutoSupplied.Name);
             bool first = true;
             for(int i = 0; i < argumentExpressions.Length; ++i)
             {
