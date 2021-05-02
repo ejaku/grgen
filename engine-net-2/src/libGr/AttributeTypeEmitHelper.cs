@@ -345,6 +345,11 @@ namespace de.unika.ipd.grGen.libGr
                 if(graph != null)
                     return ((INamedGraph)graph).GetElementName((IGraphElement)value);
             }
+            if(value is IGraph)
+            {
+                IGraph graphValue = (IGraph)value;
+                return "graph{name:" + graphValue.Name + ",id:" + graphValue.GraphId + ",changes:" + graphValue.ChangesCounter + "}";
+            }
 
             // we return "" for null as null is a valid string denoting the empty string in GrGen (dubious performance optimization)
             if(value == null)
