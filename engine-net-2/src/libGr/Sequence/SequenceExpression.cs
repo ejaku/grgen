@@ -13189,7 +13189,8 @@ namespace de.unika.ipd.grGen.libGr
                     if(first)
                         first = false;
                     else
-                        sb.Append(rule.Symbol);
+                        sb.Append(",");
+                    sb.Append(rule.Symbol);
                 }
                 sb.Append("]");
                 sb.Append("\\<class " + MatchClass + ">");
