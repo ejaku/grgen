@@ -319,6 +319,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void GenerateInternalDefinedSequenceApplicationMethod(SourceBuilder source, DefinedSequenceInfo sequence, Sequence seq)
         {
+            neededEntitiesEmitter.EmitNeededMappingClauses(seq, seqGen, source);
+
             source.AppendFront("public static bool ApplyXGRS_" + sequence.Name + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
             for(int i = 0; i < sequence.Parameters.Length; ++i)
             {
