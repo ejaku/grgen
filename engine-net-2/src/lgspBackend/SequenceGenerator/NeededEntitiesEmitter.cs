@@ -290,40 +290,153 @@ namespace de.unika.ipd.grGen.lgsp
 		}
 
         /// <summary>
-        /// pre-run for emitting the needed mapping clauses before emitting the sequences
+        /// pre-run for emitting the needed mapping clauses and (multi) rule queries before emitting the sequences
         /// </summary>
-        public void EmitNeededMappingClauses(Sequence seq, SequenceGenerator seqGen, SourceBuilder source)
+        public void EmitNeededMappingClausesAndRuleQueries(Sequence seq, SequenceGenerator seqGen, SourceBuilder source)
         {
             switch(seq.SequenceType)
             {
             case SequenceType.BooleanComputation:
                 {
                     SequenceBooleanComputation seqBoolComp = (SequenceBooleanComputation)seq;
-                    EmitNeededMappingClauses(seqBoolComp.Computation, seqGen, source);
+                    EmitNeededMappingClausesAndRuleQueries(seqBoolComp.Computation, seqGen, source);
+                    break;
+                }
+
+            case SequenceType.RuleCall:
+            case SequenceType.RuleAllCall:
+            case SequenceType.RuleCountAllCall:
+                {
+                    SequenceRuleCall seqRuleCall = (SequenceRuleCall)seq;
+                    foreach(SequenceBase seqBase in seqRuleCall.ChildrenBase)
+                    {
+                        if(seqBase is SequenceExpression)
+                            EmitNeededMappingClausesAndRuleQueries((SequenceExpression)seqBase, seqGen, source);
+                    }
+                    break;
+                }
+
+            case SequenceType.RulePrefixedSequence:
+                {
+                    SequenceRulePrefixedSequence seqRulePrefixedSequence = (SequenceRulePrefixedSequence)seq;
+                    EmitNeededMappingClausesAndRuleQueries(seqRulePrefixedSequence.Rule, seqGen, source);
+                    EmitNeededMappingClausesAndRuleQueries(seqRulePrefixedSequence.Sequence, seqGen, source);
+                    break;
+                }
+
+            case SequenceType.MultiRuleAllCall:
+                {
+                    SequenceMultiRuleAllCall seqMultiRuleAllCall = (SequenceMultiRuleAllCall)seq;
+                    foreach(SequenceRuleCall seqRuleCall in seqMultiRuleAllCall.Sequences)
+                    {
+                        EmitNeededMappingClausesAndRuleQueries(seqRuleCall, seqGen, source);
+                    }
+                    foreach(SequenceFilterCallBase seqFilterCall in seqMultiRuleAllCall.Filters)
+                    {
+                        EmitNeededMappingClausesAndRuleQueries(seqFilterCall, seqGen, source);
+                    }
+                    break;
+                }
+
+            case SequenceType.MultiRulePrefixedSequence:
+                {
+                    SequenceMultiRulePrefixedSequence seqMultiRulePrefixedSequence = (SequenceMultiRulePrefixedSequence)seq;
+                    foreach(SequenceRulePrefixedSequence seqRulePrefixedSequence in seqMultiRulePrefixedSequence.RulePrefixedSequences)
+                    {
+                        EmitNeededMappingClausesAndRuleQueries(seqRulePrefixedSequence, seqGen, source);
+                    }
+                    foreach(SequenceFilterCallBase seqFilterCall in seqMultiRulePrefixedSequence.Filters)
+                    {
+                        EmitNeededMappingClausesAndRuleQueries(seqFilterCall, seqGen, source);
+                    }
+                    break;
+                }
+
+            case SequenceType.SomeFromSet:
+                {
+                    SequenceSomeFromSet seqSomeFromSet = (SequenceSomeFromSet)seq;
+                    foreach(SequenceRuleCall seqRuleCall in seqSomeFromSet.Sequences)
+                    {
+                        EmitNeededMappingClausesAndRuleQueries(seqRuleCall, seqGen, source);
+                    }
+                    break;
+                }
+
+            case SequenceType.ForMatch:
+                {
+                    SequenceForMatch seqForMatch = (SequenceForMatch)seq;
+                    EmitNeededMappingClausesAndRuleQueries(seqForMatch.Rule, seqGen, source);
+                    EmitNeededMappingClausesAndRuleQueries(seqForMatch.Seq, seqGen, source);
+                    break;
+                }
+
+            case SequenceType.Backtrack:
+                {
+                    SequenceBacktrack seqBacktrack = (SequenceBacktrack)seq;
+                    EmitNeededMappingClausesAndRuleQueries(seqBacktrack.Rule, seqGen, source);
+                    EmitNeededMappingClausesAndRuleQueries(seqBacktrack.Seq, seqGen, source);
+                    break;
+                }
+
+            case SequenceType.MultiBacktrack:
+                {
+                    SequenceMultiBacktrack seqMultiBacktrack = (SequenceMultiBacktrack)seq;
+                    EmitNeededMappingClausesAndRuleQueries(seqMultiBacktrack.Rules, seqGen, source);
+                    EmitNeededMappingClausesAndRuleQueries(seqMultiBacktrack.Seq, seqGen, source);
+                    break;
+                }
+
+            case SequenceType.MultiSequenceBacktrack:
+                {
+                    SequenceMultiSequenceBacktrack seqMultiSequenceBacktrack = (SequenceMultiSequenceBacktrack)seq;
+                    EmitNeededMappingClausesAndRuleQueries(seqMultiSequenceBacktrack.MultiRulePrefixedSequence, seqGen, source);
                     break;
                 }
 
             default:
                 foreach(Sequence childSeq in seq.Children)
                 {
-                    EmitNeededMappingClauses(childSeq, seqGen, source);
+                    EmitNeededMappingClausesAndRuleQueries(childSeq, seqGen, source);
                 }
                 break;
             }
         }
 
-        private void EmitNeededMappingClauses(SequenceComputation seqComp, SequenceGenerator seqGen, SourceBuilder source)
+        private void EmitNeededMappingClausesAndRuleQueries(SequenceFilterCallBase seqFilterCall, SequenceGenerator seqGen, SourceBuilder source)
+        {
+            if(seqFilterCall is SequenceFilterCall)
+                EmitNeededMappingClausesAndRuleQueries((SequenceFilterCall)seqFilterCall, seqGen, source);
+            else if(seqFilterCall is SequenceFilterCallLambdaExpression)
+                EmitNeededMappingClausesAndRuleQueries((SequenceFilterCallLambdaExpression)seqFilterCall, seqGen, source);
+        }
+
+        private void EmitNeededMappingClausesAndRuleQueries(SequenceFilterCall seqFilterCall, SequenceGenerator seqGen, SourceBuilder source)
+        {
+            foreach(SequenceExpression seqExpr in seqFilterCall.ArgumentExpressions)
+            {
+                EmitNeededMappingClausesAndRuleQueries(seqExpr, seqGen, source);
+            }
+        }
+
+        private void EmitNeededMappingClausesAndRuleQueries(SequenceFilterCallLambdaExpression seqFilterCall, SequenceGenerator seqGen, SourceBuilder source)
+        {
+            if(seqFilterCall.FilterCall.initExpression != null)
+                EmitNeededMappingClausesAndRuleQueries(seqFilterCall.FilterCall.initExpression, seqGen, source);
+            EmitNeededMappingClausesAndRuleQueries(seqFilterCall.FilterCall.lambdaExpression, seqGen, source);
+        }
+
+        private void EmitNeededMappingClausesAndRuleQueries(SequenceComputation seqComp, SequenceGenerator seqGen, SourceBuilder source)
         {
             foreach(SequenceComputation childSeqComp in seqComp.Children)
             {
                 if(childSeqComp is SequenceExpression)
-                    EmitNeededMappingClauses((SequenceExpression)childSeqComp, seqGen, source);
+                    EmitNeededMappingClausesAndRuleQueries((SequenceExpression)childSeqComp, seqGen, source);
                 else
-                    EmitNeededMappingClauses(childSeqComp, seqGen, source);
+                    EmitNeededMappingClausesAndRuleQueries(childSeqComp, seqGen, source);
             }
         }
 
-        private void EmitNeededMappingClauses(SequenceExpression seqExpr, SequenceGenerator seqGen, SourceBuilder source)
+        private void EmitNeededMappingClausesAndRuleQueries(SequenceExpression seqExpr, SequenceGenerator seqGen, SourceBuilder source)
         {
             switch(seqExpr.SequenceExpressionType)
             {
@@ -331,13 +444,27 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceExpressionMappingClause seqMapping = (SequenceExpressionMappingClause)seqExpr;
                     exprGen.EmitSequenceExpressionMappingClauseImplementation(seqMapping, seqGen, this, source);
+                    EmitNeededMappingClausesAndRuleQueries(seqMapping.MultiRulePrefixedSequence, seqGen, source);
                     break;
                 }
-
+            case SequenceExpressionType.RuleQuery:
+                {
+                    SequenceExpressionRuleQuery seqRuleQuery = (SequenceExpressionRuleQuery)seqExpr;
+                    exprGen.EmitSequenceExpressionRuleQueryImplementation(seqRuleQuery, seqGen, this, source);
+                    EmitNeededMappingClausesAndRuleQueries(seqRuleQuery.RuleCall, seqGen, source);
+                    break;
+                }
+            case SequenceExpressionType.MultiRuleQuery:
+                {
+                    SequenceExpressionMultiRuleQuery seqMultiRuleQuery = (SequenceExpressionMultiRuleQuery)seqExpr;
+                    exprGen.EmitSequenceExpressionMultiRuleQueryImplementation(seqMultiRuleQuery, seqGen, this, source);
+                    EmitNeededMappingClausesAndRuleQueries(seqMultiRuleQuery.MultiRuleCall, seqGen, source);
+                    break;
+                }
             default:
                 foreach(SequenceExpression childSeqComp in seqExpr.ChildrenExpression)
                 {
-                    EmitNeededMappingClauses(childSeqComp, seqGen, source);
+                    EmitNeededMappingClausesAndRuleQueries(childSeqComp, seqGen, source);
                 }
                 break;
             }

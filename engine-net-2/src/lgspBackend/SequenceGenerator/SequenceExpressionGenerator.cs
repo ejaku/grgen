@@ -1136,12 +1136,52 @@ namespace de.unika.ipd.grGen.lgsp
             return sb.ToString();
         }
 
-        private string GetSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqRuleQuery, SourceBuilder source)
+        public string GetSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqRuleQuery, SourceBuilder source)
         {
             SequenceRuleAllCall ruleCall = seqRuleQuery.RuleCall;
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("RuleQuery_" + ruleCall.Id + "(procEnv");
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqRuleQuery.GetLocalVariables(variables, constructors);
+            foreach(SequenceVariable seqVar in variables.Keys)
+            {
+                sb.Append(", ");
+                sb.Append(seqVar.Name);
+            }
+
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+        public void EmitSequenceExpressionRuleQueryImplementation(SequenceExpressionRuleQuery seqRuleQuery, SequenceGenerator seqGen, NeededEntitiesEmitter needs, SourceBuilder source)
+        {
+            SequenceRuleAllCall ruleCall = seqRuleQuery.RuleCall;
+
             String matchingPatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Rule_" + ruleCall.Name;
             String patternName = ruleCall.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
+
+            source.AppendFrontFormat("static List<{0}> RuleQuery_" + ruleCall.Id + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv", matchType);
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqRuleQuery.GetLocalVariables(variables, constructors);
+            foreach(SequenceVariable seqVar in variables.Keys)
+            {
+                source.Append(", ");
+                source.Append(TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model));
+                source.Append(" ");
+                source.Append(seqVar.Name);
+            }
+
+            source.Append(")\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront("return ");
             SourceBuilder matchesSourceBuilder = new SourceBuilder();
             matchesSourceBuilder.AppendFormat("((GRGEN_LIBGR.IMatchesExact<{0}>)procEnv.MatchForQuery({1}, {2}{3}, procEnv.MaxMatches, {4}))",
                 matchType, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Action_" + ruleCall.Name + ".Instance",
@@ -1153,19 +1193,61 @@ namespace de.unika.ipd.grGen.lgsp
                 matchesSourceBuilder.Reset();
                 EmitFilterCall(matchesSourceBuilder, ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
             }
-            return matchesSourceBuilder.ToString() + ".ToListExact()";
+            source.Append(matchesSourceBuilder.ToString() + ".ToListExact()");
+            source.Append(";\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
         }
 
         private string GetSequenceExpressionMultiRuleQuery(SequenceExpressionMultiRuleQuery seqMultiRuleQuery, SourceBuilder source)
         {
             SequenceMultiRuleAllCall seqMulti = seqMultiRuleQuery.MultiRuleCall;
 
+            StringBuilder sb = new StringBuilder();
+            sb.Append("MultiRuleQuery_" + seqMulti.Id + "(procEnv");
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqMultiRuleQuery.GetLocalVariables(variables, constructors);
+            foreach(SequenceVariable seqVar in variables.Keys)
+            {
+                sb.Append(", ");
+                sb.Append(seqVar.Name);
+            }
+
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+        public void EmitSequenceExpressionMultiRuleQueryImplementation(SequenceExpressionMultiRuleQuery seqMultiRuleQuery, SequenceGenerator seqGen, NeededEntitiesEmitter needs, SourceBuilder source)
+        {
+            SequenceMultiRuleAllCall seqMulti = seqMultiRuleQuery.MultiRuleCall;
+
+            String matchType = NamesOfEntities.MatchInterfaceName(seqMultiRuleQuery.MatchClass);
+
+            source.AppendFrontFormat("static List<{0}> MultiRuleQuery_" + seqMulti.Id + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv", matchType);
+
+            Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqMultiRuleQuery.GetLocalVariables(variables, constructors);
+            foreach(SequenceVariable seqVar in variables.Keys)
+            {
+                source.Append(", ");
+                source.Append(TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model));
+                source.Append(" ");
+                source.Append(seqVar.Name);
+            }
+
+            source.Append(")\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
             String matchListName = "MatchList_" + seqMulti.Id;
             source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>();\n", matchListName);
 
             SourceBuilder matchesSourceBuilder = new SourceBuilder();
 
-            String matchType = NamesOfEntities.MatchInterfaceName(seqMultiRuleQuery.MatchClass);
             if(seqMulti.Filters.Count != 0)
                 matchesSourceBuilder.AppendFormat("GRGEN_LIBGR.MatchListHelper.ToList<GRGEN_LIBGR.IMatch>(");
             else
@@ -1189,9 +1271,12 @@ namespace de.unika.ipd.grGen.lgsp
                 matchesSourceBuilder.Append(")");
 
             if(seqMulti.Filters.Count != 0)
-                return "GRGEN_LIBGR.MatchListHelper.ToList<" + matchType + ">(" + matchesSourceBuilder.ToString() + ")";
+                source.AppendFront("return GRGEN_LIBGR.MatchListHelper.ToList<" + matchType + ">(" + matchesSourceBuilder.ToString() + ");\n");
             else
-                return matchesSourceBuilder.ToString();
+                source.Append("return " + matchesSourceBuilder.ToString() + ";\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
         }
 
         public string GetSequenceExpressionMappingClause(SequenceExpressionMappingClause seqMappingClause, SourceBuilder source)
