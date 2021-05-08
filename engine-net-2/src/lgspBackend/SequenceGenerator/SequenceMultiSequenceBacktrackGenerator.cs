@@ -29,6 +29,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
+            String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
+            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+
             String matchListName = "MatchList_" + seqMulti.Id;
             source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>();\n", matchListName);
 
@@ -128,6 +132,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
+
+            source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
         }
     }
 }

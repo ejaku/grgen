@@ -1216,6 +1216,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceSome(SequenceSomeFromSet seqSome, SourceBuilder source)
         {
+            String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqSome.Id;
+            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+
             source.AppendFront(COMP_HELPER.SetResultVar(seqSome, "false"));
 
             // emit code for matching all the contained rules
@@ -1276,10 +1280,16 @@ namespace de.unika.ipd.grGen.lgsp
                     seqSome, (SequenceRuleCall)seqSome.Sequences[i], exprGen, seqHelper);
                 ruleGenerator.EmitRewriting(source, totalMatchToApply, curTotalMatch, firstRewrite, fireDebugEvents);
             }
+
+            source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
         }
 
         private void EmitSequenceMultiRuleAllCall(SequenceMultiRuleAllCall seqMulti, SourceBuilder source)
         {
+            String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
+            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "false"));
 
             String matchListName = "MatchList_" + seqMulti.Id;
@@ -1357,10 +1367,16 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
+
+            source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
         }
 
         private void EmitSequenceMultiRulePrefixedSequence(SequenceMultiRulePrefixedSequence seqMulti, SourceBuilder source)
         {
+            String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
+            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "false"));
 
             String matchListName = "MatchList_" + seqMulti.Id;
@@ -1426,6 +1442,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
+
+            source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
         }
 
         private void EmitSequenceTransaction(SequenceTransaction seqTrans, SourceBuilder source)

@@ -14,6 +14,17 @@ using System.Collections;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
+    /// A sequence construct that allows to match patterns (most also allow to rewrite them).
+    /// Utilized in begin and end events to tell about the construct that started or ended;
+    /// to be type checked against the concrete construct as needed,
+    /// e.g. SequenceExpressionRuleQuery or SequenceMultiRuleAllCall from interpreted sequences,
+    /// or PatternMatchingConstruct from compiled sequences.
+    /// </summary>
+    public interface IPatternMatchingConstruct
+    {
+    }
+
+    /// <summary>
     /// The common base of sequence, sequence computation, and sequence expression objects,
     /// with some common infrastructure.
     /// </summary>

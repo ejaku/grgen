@@ -57,6 +57,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
+            String patternMatchingConstructVarName = "patternMatchingConstruct_" + seq.Id;
+            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+
             String parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
             seqMatcherGen.EmitMatching(source, parameters, "procEnv.MaxMatches");
             SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, matchesName);
@@ -146,6 +150,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
+
+            source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
         }
     }
 }

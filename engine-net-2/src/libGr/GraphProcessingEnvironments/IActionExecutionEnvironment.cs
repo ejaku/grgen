@@ -14,13 +14,10 @@ namespace de.unika.ipd.grGen.libGr
     #region ActionExecutionDelegates
 
     /// <summary>
-    /// Represents a method called after all requested matches of an action have been matched.
+    /// Represents a method called when execution of a pattern matching construct begins.
     /// </summary>
-    /// <param name="matches">The matches found.</param>
-    /// <param name="match">If not null, specifies the one current match from the matches 
-    /// (to highlight the currently processed match during backtracking and the for matches loop).</param>
-    /// <param name="special">Specifies whether the "special" flag has been used.</param>
-    public delegate void AfterMatchHandler(IMatches matches, IMatch match, bool special);
+    /// <param name="patternMatchingConstruct">The pattern matching construct.</param>
+    public delegate void BeginExecutionHandler(IPatternMatchingConstruct patternMatchingConstruct);
 
     /// <summary>
     /// Represents a method called after all requested matches of a multi action or an action have been matched,
@@ -28,6 +25,15 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     /// <param name="matches">The matches found (an array of matches objects, one matches object per rule).</param>
     public delegate void PreMatchHandler(IMatches[] matches);
+
+    /// <summary>
+    /// Represents a method called after all requested matches of an action have been matched.
+    /// </summary>
+    /// <param name="matches">The matches found.</param>
+    /// <param name="match">If not null, specifies the one current match from the matches 
+    /// (to highlight the currently processed match during backtracking and the for matches loop).</param>
+    /// <param name="special">Specifies whether the "special" flag has been used.</param>
+    public delegate void AfterMatchHandler(IMatches matches, IMatch match, bool special);
 
     /// <summary>
     /// Represents a method called before the rewrite step of an action, when at least one match has been found.
@@ -49,6 +55,13 @@ namespace de.unika.ipd.grGen.libGr
     /// This may contain invalid entries, because parts of the matches may have been deleted.</param>
     /// <param name="special">Specifies whether the "special" flag has been used.</param>
     public delegate void AfterFinishHandler(IMatches matches, bool special);
+
+    /// <summary>
+    /// Represents a method called when execution of a pattern matching construct ends.
+    /// </summary>
+    /// <param name="patternMatchingConstruct">The pattern matching construct.</param>
+    /// <param name="result">The result in case of a sequence expression, or null otherwise.</param>
+    public delegate void EndExecutionHandler(IPatternMatchingConstruct patternMatchingConstruct, object result);
 
     #endregion ActionExecutionDelegates
 
@@ -198,6 +211,11 @@ namespace de.unika.ipd.grGen.libGr
         #region Events
 
         /// <summary>
+        /// Fired when execution of a pattern matching construct begins.
+        /// </summary>
+        event BeginExecutionHandler OnBeginExecution;
+
+        /// <summary>
         /// Fired after all requested matches of a rule have been matched (after filtering/selection of matches).
         /// </summary>
         event AfterMatchHandler OnMatched;
@@ -226,15 +244,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         event AfterFinishHandler OnFinished;
 
+        /// <summary>
+        /// Fired when execution of a pattern matching construct ends.
+        /// </summary>
+        event EndExecutionHandler OnEndExecution;
+
 
         /// <summary>
-        /// Fires an OnMatched event.
+        /// Fires an OnBeginExecution event.
         /// </summary>
-        /// <param name="matches">The IMatches object returned by the matcher.</param>
-        /// <param name="match">If not null, specifies the one current match from the matches 
-        /// (to highlight the currently processed match during backtracking and the for matches loop).</param>
-        /// <param name="special">Whether this is a 'special' match (user defined).</param>
-        void Matched(IMatches matches, IMatch match, bool special);
+        /// <param name="patternMatchingConstruct">The pattern matching construct.</param>
+        void BeginExecution(IPatternMatchingConstruct patternMatchingConstruct);
 
         /// <summary>
         /// Fires an OnPreMatched event.
@@ -247,6 +267,15 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="matches">The IMatches object returned by the matcher of the single action.</param>
         void PreMatched(IMatches matches);
+
+        /// <summary>
+        /// Fires an OnMatched event.
+        /// </summary>
+        /// <param name="matches">The IMatches object returned by the matcher.</param>
+        /// <param name="match">If not null, specifies the one current match from the matches 
+        /// (to highlight the currently processed match during backtracking and the for matches loop).</param>
+        /// <param name="special">Whether this is a 'special' match (user defined).</param>
+        void Matched(IMatches matches, IMatch match, bool special);
 
         /// <summary>
         /// Fires an OnFinishing event.
@@ -266,6 +295,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="matches">The IMatches object returned by the matcher. The elements may be invalid.</param>
         /// <param name="special">Whether this is a 'special' match (user defined).</param>
         void Finished(IMatches matches, bool special);
+
+        /// <summary>
+        /// Fires an OnEndExecution event.
+        /// </summary>
+        /// <param name="patternMatchingConstruct">The pattern matching construct.</param>
+        /// <param name="result">The result in case of a sequence expression, or null otherwise.</param>
+        void EndExecution(IPatternMatchingConstruct patternMatchingConstruct, object result);
 
         #endregion Events
     }

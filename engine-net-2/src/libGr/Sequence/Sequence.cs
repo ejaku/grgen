@@ -1458,7 +1458,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public abstract class SequenceRuleCall : SequenceSpecial, RuleInvocation
+    public abstract class SequenceRuleCall : SequenceSpecial, RuleInvocation, IPatternMatchingConstruct
     {
         /// <summary>
         /// An array of expressions used to compute the input arguments.
@@ -1859,6 +1859,8 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Applying rule " + GetRuleCallString(procEnv));
 #endif
+                procEnv.BeginExecution(this);
+
                 FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
 
                 List<object[]> retElemsList = ApplyRewrite(procEnv, Action,
@@ -1874,6 +1876,7 @@ namespace de.unika.ipd.grGen.libGr
                     procEnv.Recorder.Flush();
                 }
 #endif
+                procEnv.EndExecution(this, null);
                 return numMatches > 0;
             }
             catch(NullReferenceException)
@@ -2187,6 +2190,8 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                     procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
 #endif
+                    procEnv.BeginExecution(this);
+
                     FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
 
                     List<object[]> retElemsList = ApplyRewrite(procEnv, Action,
@@ -2202,10 +2207,13 @@ namespace de.unika.ipd.grGen.libGr
                         procEnv.Recorder.Flush();
                     }
 #endif
+                    procEnv.EndExecution(this, null);
                     return numMatches > 0;
                 }
                 else
                 {
+                    procEnv.BeginExecution(this);
+
                     FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
 
                     if(subgraph != null)
@@ -2224,7 +2232,10 @@ namespace de.unika.ipd.grGen.libGr
                         if(!(MinVarChooseRandom.GetVariableValue(procEnv) is int))
                             throw new InvalidOperationException("The variable '" + MinVarChooseRandom + "' is not of type int!");
                         if(matches.Count < (int)MinVarChooseRandom.GetVariableValue(procEnv))
+                        {
+                            procEnv.EndExecution(this, null);
                             return false;
+                        }
                     }
 
                     if(matches.Count > 0)
@@ -2235,6 +2246,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(subgraph != null)
                         procEnv.ReturnFromSubgraph();
 
+                    procEnv.EndExecution(this, null);
                     return result;
                 }
             }
@@ -2465,6 +2477,8 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
 #endif
+                procEnv.BeginExecution(this);
+
                 FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
 
                 List<object[]> retElemsList = ApplyRewrite(procEnv, Action, 
@@ -2481,6 +2495,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
 #endif
                 CountResult.SetVariableValue(numMatches, procEnv);
+                procEnv.EndExecution(this, null);
                 return numMatches > 0;
             }
             catch(NullReferenceException)
@@ -3351,7 +3366,7 @@ namespace de.unika.ipd.grGen.libGr
     /// Decision on order of execution by random, by user choice possible.
     /// First all the contained rules are matched, then they get rewritten
     /// </summary>
-    public class SequenceSomeFromSet : SequenceGeneralNAry
+    public class SequenceSomeFromSet : SequenceGeneralNAry, IPatternMatchingConstruct
     {
         public IMatches[] Matches;
         public override bool Random { get { return chooseRandom; } set { chooseRandom = value; } }
@@ -3457,12 +3472,15 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
+            procEnv.BeginExecution(this);
+
             MatchAll(procEnv);
 
             if(NumTotalMatches == 0)
             {
                 for(int i = 0; i < Sequences.Count; ++i)
                    Sequences[i].executionState = SequenceExecutionState.Fail;
+                procEnv.EndExecution(this, null);
                 return false;
             }
 
@@ -3500,6 +3518,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
+            procEnv.EndExecution(this, null);
             return true;
         }
 
@@ -3568,7 +3587,7 @@ namespace de.unika.ipd.grGen.libGr
     /// A sequence consisting of a list of subsequences in the form of rule calls.
     /// First all the contained rules are matched, then they get rewritten.
     /// </summary>
-    public class SequenceMultiRuleAllCall : Sequence
+    public class SequenceMultiRuleAllCall : Sequence, IPatternMatchingConstruct
     {
         public readonly List<Sequence> Sequences;
         public readonly List<SequenceFilterCallBase> Filters;
@@ -3621,6 +3640,8 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
+            procEnv.BeginExecution(this);
+
             IMatches[] MatchesArray;
             List<IMatch> MatchList;
             MatchAll(procEnv, out MatchesArray, out MatchList);
@@ -3668,6 +3689,7 @@ namespace de.unika.ipd.grGen.libGr
                 FillReturnVariablesFromValues(rule.ReturnVars, matches.Producer, procEnv, returnValues, -1);
             }
 
+            procEnv.EndExecution(this, null);
             return MatchList.Count > 0;
         }
 
@@ -3872,7 +3894,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceRulePrefixedSequence : Sequence
+    public class SequenceRulePrefixedSequence : Sequence, IPatternMatchingConstruct
     {
         public readonly SequenceRuleCall Rule;
         public readonly Sequence Sequence;
@@ -3925,11 +3947,14 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Applying rule prefixed sequence " + GetRuleCallString(procEnv));
 #endif
+                procEnv.BeginExecution(this);
+
                 IMatches matches = Match(procEnv);
 
                 if(matches.Count == 0)
                 {
                     Rule.executionState = SequenceExecutionState.Fail;
+                    procEnv.EndExecution(this, null);
                     return false;
                 }
 
@@ -3979,10 +4004,12 @@ namespace de.unika.ipd.grGen.libGr
                         procEnv.Recorder.WriteLine("Applying match exhausted " + rule.GetRuleCallString(procEnv));
 #endif
                         procEnv.EndOfIteration(false, this);
+                        procEnv.EndExecution(this, null);
                         return result;
                     }
                 }
 
+                procEnv.EndExecution(this, null);
                 return result;
             }
             catch(NullReferenceException)
@@ -4041,7 +4068,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceMultiRulePrefixedSequence : Sequence
+    public class SequenceMultiRulePrefixedSequence : Sequence, IPatternMatchingConstruct
     {
         public readonly List<SequenceRulePrefixedSequence> RulePrefixedSequences;
         public readonly List<SequenceFilterCallBase> Filters;
@@ -4100,6 +4127,8 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Matching rule prefixed multi sequence " + GetRuleCallString(procEnv));
 #endif
+            procEnv.BeginExecution(this);
+
             IMatches[] MatchesArray;
             List<IMatch> MatchList;
             MatchAll(procEnv, out MatchesArray, out MatchList);
@@ -4119,6 +4148,7 @@ namespace de.unika.ipd.grGen.libGr
                     rulePrefixedSequence.executionState = SequenceExecutionState.Fail;
                 }
                 executionState = SequenceExecutionState.Fail;
+                procEnv.EndExecution(this, null);
                 return false;
             }
 
@@ -4180,7 +4210,6 @@ namespace de.unika.ipd.grGen.libGr
                     procEnv.EndOfIteration(true, this);
                     rule.ResetExecutionState();
                     seq.ResetExecutionState();
-                    continue;
                 }
                 else
                 {
@@ -4188,9 +4217,10 @@ namespace de.unika.ipd.grGen.libGr
                     procEnv.Recorder.WriteLine("Applying match exhausted " + rule.GetRuleCallString(procEnv));
 #endif
                     procEnv.EndOfIteration(false, this);
-                    return result;
                 }
             }
+
+            procEnv.EndExecution(this, null);
             return result;
         }
 
@@ -4329,7 +4359,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceBacktrack : Sequence
+    public class SequenceBacktrack : Sequence, IPatternMatchingConstruct
     {
         public readonly SequenceRuleCall Rule;
         public readonly Sequence Seq;
@@ -4376,6 +4406,8 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Matching backtrack all " + Rule.GetRuleCallString(procEnv));
 #endif
+            procEnv.BeginExecution(this);
+
             FillArgumentsFromArgumentExpressions(Rule.ArgumentExpressions, Rule.Arguments, procEnv);
 
             SequenceRuleCallInterpreted ruleInterpreted = (SequenceRuleCallInterpreted)Rule;
@@ -4390,6 +4422,7 @@ namespace de.unika.ipd.grGen.libGr
             if(matches.Count == 0)
             {
                 Rule.executionState = SequenceExecutionState.Fail;
+                procEnv.EndExecution(this, null);
                 return false;
             }
 
@@ -4464,6 +4497,7 @@ namespace de.unika.ipd.grGen.libGr
                         procEnv.Recorder.WriteLine("Applying backtrack match exhausted " + Rule.GetRuleCallString(procEnv));
 #endif
                         procEnv.EndOfIteration(false, this);
+                        procEnv.EndExecution(this, null);
                         return false;
                     }
                 }
@@ -4471,6 +4505,7 @@ namespace de.unika.ipd.grGen.libGr
                 // if sequence execution succeeded, commit the changes so far and succeed
                 procEnv.TransactionManager.Commit(transactionID);
                 procEnv.EndOfIteration(false, this);
+                procEnv.EndExecution(this, null);
                 return true;
             }
 
@@ -4518,7 +4553,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceMultiBacktrack : Sequence
+    public class SequenceMultiBacktrack : Sequence, IPatternMatchingConstruct
     {
         public readonly SequenceMultiRuleAllCall Rules;
         public readonly Sequence Seq;
@@ -4558,6 +4593,8 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Matching multi backtrack all " + Rule.GetRuleCallString(procEnv));
 #endif
+            procEnv.BeginExecution(this);
+
             IMatches[] MatchesArray;
             List<IMatch> MatchList;
             Rules.MatchAll(procEnv, out MatchesArray, out MatchList);
@@ -4573,6 +4610,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 // todo: sequence, single rules?
                 Rules.executionState = SequenceExecutionState.Fail;
+                procEnv.EndExecution(this, null);
                 return false;
             }
 
@@ -4652,6 +4690,7 @@ namespace de.unika.ipd.grGen.libGr
                         procEnv.Recorder.WriteLine("Applying backtrack match exhausted " + rule.GetRuleCallString(procEnv));
 #endif
                         procEnv.EndOfIteration(false, this);
+                        procEnv.EndExecution(this, null);
                         return false;
                     }
                 }
@@ -4659,6 +4698,7 @@ namespace de.unika.ipd.grGen.libGr
                 // if sequence execution succeeded, commit the changes so far and succeed
                 procEnv.TransactionManager.Commit(transactionID);
                 procEnv.EndOfIteration(false, this);
+                procEnv.EndExecution(this, null);
                 return true;
             }
             return false;
@@ -4708,7 +4748,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceMultiSequenceBacktrack : Sequence
+    public class SequenceMultiSequenceBacktrack : Sequence, IPatternMatchingConstruct
     {
         public readonly SequenceMultiRulePrefixedSequence MultiRulePrefixedSequence;
 
@@ -4745,6 +4785,9 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Matching multi rule prefixed backtrack " + GetRuleCallString(procEnv));
 #endif
+
+            procEnv.BeginExecution(this);
+
             IMatches[] MatchesArray;
             List<IMatch> MatchList;
             MultiRulePrefixedSequence.MatchAll(procEnv, out MatchesArray, out MatchList);
@@ -4760,6 +4803,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 // todo: sequence, single rules?
                 executionState = SequenceExecutionState.Fail;
+                procEnv.EndExecution(this, null);
                 return false;
             }
 
@@ -4840,6 +4884,7 @@ namespace de.unika.ipd.grGen.libGr
                         procEnv.Recorder.WriteLine("Applying backtrack match exhausted " + rule.GetRuleCallString(procEnv));
 #endif
                         procEnv.EndOfIteration(false, this);
+                        procEnv.EndExecution(this, null);
                         return false;
                     }
                 }
@@ -4847,6 +4892,7 @@ namespace de.unika.ipd.grGen.libGr
                 // if sequence execution succeeded, commit the changes so far and succeed
                 procEnv.TransactionManager.Commit(transactionID);
                 procEnv.EndOfIteration(false, this);
+                procEnv.EndExecution(this, null);
                 return true;
             }
             return false;
@@ -6895,7 +6941,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceForMatch : SequenceUnary
+    public class SequenceForMatch : SequenceUnary, IPatternMatchingConstruct
     {
         public readonly SequenceVariable Var;
         public readonly SequenceRuleCall Rule;
@@ -6948,6 +6994,8 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Recorder.WriteLine("Matching for rule " + Rule.GetRuleCallString(procEnv));
 #endif
 
+            procEnv.BeginExecution(this);
+
             FillArgumentsFromArgumentExpressions(Rule.ArgumentExpressions, Rule.Arguments, procEnv);
 
             SequenceRuleCallInterpreted ruleInterpreted = (SequenceRuleCallInterpreted)Rule;
@@ -6963,6 +7011,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 procEnv.EndOfIteration(false, this);
                 Rule.executionState = SequenceExecutionState.Fail;
+                procEnv.EndExecution(this, null);
                 return res;
             }
 
@@ -7000,6 +7049,7 @@ namespace de.unika.ipd.grGen.libGr
                 first = false;
             }
             procEnv.EndOfIteration(false, this);
+            procEnv.EndExecution(this, null);
             return res;
         }
 

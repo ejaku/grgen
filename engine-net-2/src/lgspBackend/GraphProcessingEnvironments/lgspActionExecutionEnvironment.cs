@@ -341,16 +341,18 @@ namespace de.unika.ipd.grGen.lgsp
 
         #region Events
 
-        public event AfterMatchHandler OnMatched;
+        public event BeginExecutionHandler OnBeginExecution;
         public event PreMatchHandler OnPreMatched;
+        public event AfterMatchHandler OnMatched;
         public event BeforeFinishHandler OnFinishing;
         public event RewriteNextMatchHandler OnRewritingNextMatch;
         public event AfterFinishHandler OnFinished;
+        public event EndExecutionHandler OnEndExecution;
 
-        public void Matched(IMatches matches, IMatch match, bool special)
+        public void BeginExecution(IPatternMatchingConstruct patternMatchingConstruct)
         {
-            if(OnMatched != null)
-                OnMatched(matches, match, special);
+            if(OnBeginExecution != null)
+                OnBeginExecution(patternMatchingConstruct);
         }
 
         public void PreMatched(params IMatches[] matchesArray)
@@ -364,6 +366,12 @@ namespace de.unika.ipd.grGen.lgsp
             singleElementMatchesArray[0] = matches;
             if(OnPreMatched != null)
                 OnPreMatched(singleElementMatchesArray);
+        }
+
+        public void Matched(IMatches matches, IMatch match, bool special)
+        {
+            if(OnMatched != null)
+                OnMatched(matches, match, special);
         }
 
         public void Finishing(IMatches matches, bool special)
@@ -382,6 +390,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(OnFinished != null)
                 OnFinished(matches, special);
+        }
+
+        public void EndExecution(IPatternMatchingConstruct patternMatchingConstruct, object result)
+        {
+            if(OnEndExecution != null)
+                OnEndExecution(patternMatchingConstruct, result);
         }
 
         #endregion Events

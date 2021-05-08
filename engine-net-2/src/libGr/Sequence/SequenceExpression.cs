@@ -12983,7 +12983,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionRuleQuery : SequenceExpression, RuleInvocation
+    public class SequenceExpressionRuleQuery : SequenceExpression, RuleInvocation, IPatternMatchingConstruct
     {
         public readonly SequenceRuleAllCall RuleCall;
 
@@ -13039,7 +13039,10 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             SequenceRuleAllCallInterpreted ruleCallInterpreted = (SequenceRuleAllCallInterpreted)RuleCall;
-            return ruleCallInterpreted.MatchForQuery(procEnv);
+            procEnv.BeginExecution(this);
+            List<IMatch> matches = ruleCallInterpreted.MatchForQuery(procEnv);
+            procEnv.EndExecution(this, matches);
+            return matches;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -13073,7 +13076,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionMultiRuleQuery : SequenceExpression
+    public class SequenceExpressionMultiRuleQuery : SequenceExpression, IPatternMatchingConstruct
     {
         public readonly SequenceMultiRuleAllCall MultiRuleCall;
         public readonly String MatchClass;
@@ -13127,6 +13130,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
+            procEnv.BeginExecution(this);
+
             IMatches[] MatchesArray;
             List<IMatch> MatchList;
             MultiRuleCall.MatchAll(procEnv, out MatchesArray, out MatchList);
@@ -13149,6 +13154,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
+            procEnv.EndExecution(this, MatchList);
             return MatchList;
         }
 
@@ -13200,7 +13206,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionMappingClause : SequenceExpression
+    public class SequenceExpressionMappingClause : SequenceExpression, IPatternMatchingConstruct
     {
         public readonly SequenceMultiRulePrefixedSequence MultiRulePrefixedSequence;
 
@@ -13242,6 +13248,8 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Recorder.WriteLine("Matching mapping multi rule prefixed sequence " + GetRuleCallString(procEnv));
 #endif
 
+            procEnv.BeginExecution(this);
+
             IMatches[] MatchesArray;
             List<IMatch> MatchList;
             MultiRulePrefixedSequence.MatchAll(procEnv, out MatchesArray, out MatchList);
@@ -13263,6 +13271,7 @@ namespace de.unika.ipd.grGen.libGr
                 //    rulePrefixedSequence.executionState = SequenceExecutionState.Fail;
                 //}
                 //MultiRulePrefixedSequence.executionState = SequenceExecutionState.Fail;
+                procEnv.EndExecution(this, graphs);
                 return graphs;
             }
 
@@ -13346,6 +13355,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
+            procEnv.EndExecution(this, graphs);
             return graphs;
         }
 

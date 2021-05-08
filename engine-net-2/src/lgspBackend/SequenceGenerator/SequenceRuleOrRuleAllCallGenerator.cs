@@ -55,6 +55,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
+            String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqRule.Id;
+            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+
             String parameterDeclarations = null;
             String parameters = null;
             if(seqRule.Subgraph != null)
@@ -124,6 +128,8 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("procEnv.ReturnFromSubgraph();\n");
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
+
+            source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
         }
     }
 }

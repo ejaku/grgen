@@ -1181,7 +1181,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFront("return ");
+            String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqRuleQuery.Id;
+            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+
+            source.AppendFrontFormat("List<{0}> result = ", matchType);
+
             SourceBuilder matchesSourceBuilder = new SourceBuilder();
             matchesSourceBuilder.AppendFormat("((GRGEN_LIBGR.IMatchesExact<{0}>)procEnv.MatchForQuery({1}, {2}{3}, procEnv.MaxMatches, {4}))",
                 matchType, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Action_" + ruleCall.Name + ".Instance",
@@ -1195,6 +1200,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
             source.Append(matchesSourceBuilder.ToString() + ".ToListExact()");
             source.Append(";\n");
+
+            source.AppendFrontFormat("procEnv.EndExecution({0}, result);\n", patternMatchingConstructVarName);
+
+            source.AppendFront("return result;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -1243,6 +1252,10 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
+            String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
+            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+
             String matchListName = "MatchList_" + seqMulti.Id;
             source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>();\n", matchListName);
 
@@ -1270,10 +1283,16 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqMulti.Filters.Count == 0) // todo: rethink parenthesis ends handling - maybe fix is frickelei
                 matchesSourceBuilder.Append(")");
 
+            source.AppendFrontFormat("List<{0}> result = ", matchType);
+
             if(seqMulti.Filters.Count != 0)
-                source.AppendFront("return GRGEN_LIBGR.MatchListHelper.ToList<" + matchType + ">(" + matchesSourceBuilder.ToString() + ");\n");
+                source.AppendFront("GRGEN_LIBGR.MatchListHelper.ToList<" + matchType + ">(" + matchesSourceBuilder.ToString() + ");\n");
             else
-                source.Append("return " + matchesSourceBuilder.ToString() + ";\n");
+                source.Append(matchesSourceBuilder.ToString() + ";\n");
+
+            source.AppendFrontFormat("procEnv.EndExecution({0}, result);\n", patternMatchingConstructVarName);
+
+            source.AppendFront("return result;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -1320,6 +1339,10 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
+            String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
+            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+
             source.AppendFront("List<GRGEN_LIBGR.IGraph> graphs = new List<GRGEN_LIBGR.IGraph>();\n");
 
             needs.EmitNeededVarAndRuleEntities(seqMulti, source);
@@ -1362,6 +1385,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
+
+            source.AppendFrontFormat("procEnv.EndExecution({0}, graphs);\n", patternMatchingConstructVarName);
 
             source.AppendFront("return graphs;\n");
 
