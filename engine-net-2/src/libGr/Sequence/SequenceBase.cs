@@ -355,6 +355,42 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        protected static void GetLocalVariables(List<SequenceFilterCallBase> filterCalls,
+            Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionConstructor> constructors)
+        {
+            foreach(SequenceFilterCallBase filterCall in filterCalls)
+            {
+                if(filterCall is SequenceFilterCall)
+                    GetLocalVariables((SequenceFilterCall)filterCall, variables, constructors);
+                else if(filterCall is SequenceFilterCallLambdaExpression)
+                    GetLocalVariables((SequenceFilterCallLambdaExpression)filterCall, variables, constructors);
+            }
+        }
+
+        protected static void GetLocalVariables(SequenceFilterCall filterCall,
+            Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionConstructor> constructors)
+        {
+            foreach(SequenceExpression expr in filterCall.ArgumentExpressions)
+            {
+                expr.GetLocalVariables(variables, constructors);
+            }
+        }
+
+        protected static void GetLocalVariables(SequenceFilterCallLambdaExpression filterCall,
+            Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionConstructor> constructors)
+        {
+            if(filterCall.FilterCall.initExpression != null)
+                filterCall.FilterCall.initExpression.GetLocalVariables(variables, constructors);
+            filterCall.FilterCall.lambdaExpression.GetLocalVariables(variables, constructors);
+            if(filterCall.FilterCall.previousAccumulationAccess != null)
+                variables.Remove(filterCall.FilterCall.previousAccumulationAccess);
+            if(filterCall.FilterCall.arrayAccess != null)
+                variables.Remove(filterCall.FilterCall.arrayAccess);
+            if(filterCall.FilterCall.index != null)
+                variables.Remove(filterCall.FilterCall.index);
+            variables.Remove(filterCall.FilterCall.element);
+        }
+
         protected static void RemoveVariablesFallingOutOfScope(Dictionary<SequenceVariable, SetValueType> variables, List<SequenceVariable> variablesFallingOutOfScope)
         {
             foreach(SequenceVariable seqVar in variablesFallingOutOfScope)

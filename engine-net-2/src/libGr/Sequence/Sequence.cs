@@ -1687,6 +1687,7 @@ namespace de.unika.ipd.grGen.libGr
             GetLocalVariables(ReturnVars, variables, constructors);
             if(subgraph != null)
                 subgraph.GetLocalVariables(variables);
+            GetLocalVariables(Filters, variables, constructors);
             return this == target;
         }
 
@@ -3816,6 +3817,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(seq.GetLocalVariables(variables, constructors, target))
                     return true;
             }
+            GetLocalVariables(Filters, variables, constructors);
             return this == target;
         }
 
@@ -4229,6 +4231,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(rulePrefixedSequence.GetLocalVariables(variables, constructors, target))
                     return true;
             }
+            GetLocalVariables(Filters, variables, constructors);
             return this == target;
         }
 
