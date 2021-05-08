@@ -1149,7 +1149,7 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(SequenceVariable seqVar in variables.Keys)
             {
                 sb.Append(", ");
-                sb.Append(seqVar.Name);
+                sb.Append("var_" + seqVar.Name);
             }
 
             sb.Append(")");
@@ -1174,7 +1174,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(", ");
                 source.Append(TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model));
                 source.Append(" ");
-                source.Append(seqVar.Name);
+                source.Append("var_" + seqVar.Name);
             }
 
             source.Append(")\n");
@@ -1213,7 +1213,7 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(SequenceVariable seqVar in variables.Keys)
             {
                 sb.Append(", ");
-                sb.Append(seqVar.Name);
+                sb.Append("var_" + seqVar.Name);
             }
 
             sb.Append(")");
@@ -1236,7 +1236,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(", ");
                 source.Append(TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model));
                 source.Append(" ");
-                source.Append(seqVar.Name);
+                source.Append("var_" + seqVar.Name);
             }
 
             source.Append(")\n");
@@ -1292,7 +1292,7 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(SequenceVariable seqVar in variables.Keys)
             {
                 sb.Append(", ");
-                sb.Append(seqVar.Name);
+                sb.Append("var_" + seqVar.Name);
             }
 
             sb.Append(")");
@@ -1313,7 +1313,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(", ");
                 source.Append(TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model));
                 source.Append(" ");
-                source.Append(seqVar.Name);
+                source.Append("var_" + seqVar.Name);
             }
 
             source.Append(")\n");
