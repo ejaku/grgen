@@ -896,13 +896,13 @@ namespace de.unika.ipd.grGen.lgsp
         public event ExitSequenceHandler OnExitingSequence;
         public event EndOfIterationHandler OnEndOfIteration;
 
-        public void EnteringSequence(Sequence seq)
+        public void EnteringSequence(SequenceBase seq)
         {
             if(OnEntereringSequence != null)
                 OnEntereringSequence(seq);
         }
 
-        public void ExitingSequence(Sequence seq)
+        public void ExitingSequence(SequenceBase seq)
         {
             if(OnExitingSequence != null)
                 OnExitingSequence(seq);

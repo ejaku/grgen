@@ -44,10 +44,10 @@ namespace de.unika.ipd.grGen.grShell
         bool recordMode = false;
         bool topLevelRuleChanged = true;
         bool alwaysShow = true;
-        Sequence curStepSequence = null;
+        SequenceBase curStepSequence = null;
 
-        Sequence lastlyEntered = null;
-        Sequence recentlyMatched = null;
+        SequenceBase lastlyEntered = null;
+        SequenceBase recentlyMatched = null;
 
         PrintSequenceContext context = null;
 
@@ -372,13 +372,13 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
-        /// Searches in the given sequence seq for the parent sequence of the sequence childseq.
+        /// Searches in the given sequence base seq for the parent sequence base of the sequence base childseq.
         /// </summary>
-        /// <returns>The parent sequence of childseq or null, if no parent has been found.</returns>
-        private Sequence GetParentSequence(Sequence childseq, Sequence seq)
+        /// <returns>The parent sequence base of childseq or null, if no parent has been found.</returns>
+        private SequenceBase GetParentSequence(SequenceBase childseq, SequenceBase seq)
         {
-            Sequence res = null;
-            foreach(Sequence child in seq.Children)
+            SequenceBase res = null;
+            foreach(SequenceBase child in seq.ChildrenBase)
             {
                 if(child == childseq)
                     return seq;
@@ -394,7 +394,7 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         /// <param name="seq"></param>
         /// <returns></returns>
-        private bool QueryUser(Sequence seq)
+        private bool QueryUser(SequenceBase seq)
         {
             while(true)
             {
@@ -525,14 +525,14 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private void HandleShowVariable(Sequence seq)
+        private void HandleShowVariable(SequenceBase seq)
         {
             PrintVariables(null, null);
             PrintVariables(debugSequences.Peek(), seq);
             PrintVisited();
         }
 
-        private void HandleShowClassObject(Sequence seq)
+        private void HandleShowClassObject(SequenceBase seq)
         {
             do
             {
@@ -586,7 +586,7 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("Invalid transient class object id " + argument + "!");
         }
 
-        private void HandleShowClassObjectVariable(Sequence seq, string argument)
+        private void HandleShowClassObjectVariable(SequenceBase seq, string argument)
         {
             if(GetSequenceVariable(argument, debugSequences.Peek(), seq) != null
                 && GetSequenceVariable(argument, debugSequences.Peek(), seq).GetVariableValue(shellProcEnv.ProcEnv) != null)
@@ -617,7 +617,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private SequenceVariable GetSequenceVariable(String name, Sequence seqStart, Sequence seq)
+        private SequenceVariable GetSequenceVariable(String name, SequenceBase seqStart, SequenceBase seq)
         {
             Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
@@ -646,7 +646,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private void HandleAsGraph(Sequence seq)
+        private void HandleAsGraph(SequenceBase seq)
         {
             VariableOrAttributeAccessParserAndValueFetcher parserFetcher = new VariableOrAttributeAccessParserAndValueFetcher(
                 env, shellProcEnv, debugSequences);
@@ -693,7 +693,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("Back from as-graph display to debugging.");
         }
 
-        private void HandleUserHighlight(Sequence seq)
+        private void HandleUserHighlight(SequenceBase seq)
         {
             Console.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
             String str = Console.ReadLine();
@@ -746,7 +746,7 @@ namespace de.unika.ipd.grGen.grShell
 
         #region Print variables
 
-        private void PrintVariables(Sequence seqStart, Sequence seq)
+        private void PrintVariables(SequenceBase seqStart, SequenceBase seq)
         {
             if(seq != null)
             {
@@ -1582,7 +1582,7 @@ namespace de.unika.ipd.grGen.grShell
             while(true);
         }
 
-        private void DebugEnteringSequence(Sequence seq)
+        private void DebugEnteringSequence(SequenceBase seq)
         {
             // root node of sequence entered and interactive debugging activated
             if(stepMode && lastlyEntered == null)
@@ -1600,19 +1600,19 @@ namespace de.unika.ipd.grGen.grShell
 
             // Entering a loop?
             if(IsLoop(seq))
-                loopList.AddFirst(seq);
+                loopList.AddFirst((Sequence)seq);
 
             // Entering a subsequence called?
-            if(seq.SequenceType == SequenceType.SequenceDefinitionInterpreted)
+            if(seq.HasSequenceType(SequenceType.SequenceDefinitionInterpreted))
             {
-                loopList.AddFirst(seq);
-                debugSequences.Push(seq);
+                loopList.AddFirst((Sequence)seq);
+                debugSequences.Push((Sequence)seq);
             }
 
             // Breakpoint reached?
             bool breakpointReached = false;
-            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall
-                || seq.SequenceType == SequenceType.BooleanComputation || seq.SequenceType == SequenceType.SequenceCall)
+            if((seq.HasSequenceType(SequenceType.RuleCall) || seq.HasSequenceType(SequenceType.RuleAllCall) || seq.HasSequenceType(SequenceType.RuleCountAllCall)
+                || seq.HasSequenceType(SequenceType.BooleanComputation) || seq.HasSequenceType(SequenceType.SequenceCall))
                     && ((SequenceSpecial)seq).Special)
             {
                 stepMode = true;
@@ -1622,8 +1622,8 @@ namespace de.unika.ipd.grGen.grShell
             if(!stepMode)
                 return;
 
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
-                || seq.SequenceType == SequenceType.RuleCountAllCall || seq.SequenceType == SequenceType.SequenceCall
+            if(seq.HasSequenceType(SequenceType.RuleCall) || seq.HasSequenceType(SequenceType.RuleAllCall)
+                || seq.HasSequenceType(SequenceType.RuleCountAllCall) || seq.HasSequenceType(SequenceType.SequenceCall)
                 || breakpointReached)
             {
                 ycompClient.UpdateDisplay();
@@ -1637,7 +1637,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private void DebugExitingSequence(Sequence seq)
+        private void DebugExitingSequence(SequenceBase seq)
         {
             skipMode = false;
 
@@ -1647,7 +1647,7 @@ namespace de.unika.ipd.grGen.grShell
             if(IsLoop(seq))
                 loopList.RemoveFirst();
 
-            if(seq.SequenceType == SequenceType.SequenceDefinitionInterpreted)
+            if(seq.HasSequenceType(SequenceType.SequenceDefinitionInterpreted))
             {
                 debugSequences.Pop();
                 loopList.RemoveFirst();
@@ -1672,9 +1672,12 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("and (a)bort (plus Ctrl+C for forced abort).");
         }
 
-        private static bool IsLoop(Sequence seq)
+        private static bool IsLoop(SequenceBase seq)
         {
-            switch(seq.SequenceType)
+            if(!(seq is Sequence))
+                return false;
+
+            switch(((Sequence)seq).SequenceType)
             {
             case SequenceType.IterationMin:
             case SequenceType.IterationMinMax:

@@ -42,7 +42,7 @@ namespace de.unika.ipd.grGen.grShell
             this.debugSequences = debugSequences;
         }
 
-        public void ComputeHighlight(Sequence seq, String str, out List<object> values, out List<string> annotations)
+        public void ComputeHighlight(SequenceBase seq, String str, out List<object> values, out List<string> annotations)
         {
             values = new List<object>();
             annotations = new List<string>();
@@ -70,7 +70,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private void ComputeHighlightArgument(Sequence seq, string argument, string annotation, List<object> sources, List<string> annotations)
+        private void ComputeHighlightArgument(SequenceBase seq, string argument, string annotation, List<object> sources, List<string> annotations)
         {
             // visited flag directly given as constant
             int num;

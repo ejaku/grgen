@@ -90,7 +90,7 @@ namespace de.unika.ipd.grGen.libGr
         ///     And the user proxy queried when choices are due.</param>
         public abstract void Assign(object value, IGraphProcessingEnvironment procEnv);
 
-        public override sealed object Execute(IGraphProcessingEnvironment procEnv)
+        public override sealed object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             throw new Exception("Internal error! AssignmentTarget executed as SequenceComputation.");
         }

@@ -15,16 +15,18 @@ namespace de.unika.ipd.grGen.libGr
     #region GraphProcessingDelegates
 
     /// <summary>
-    /// Represents a method called directly after a sequence has been entered.
+    /// Represents a method called directly after a sequence base has been entered
+    /// (sequence base comprises sequences, sequence computations, sequence expressions).
     /// </summary>
     /// <param name="seq">The current sequence object.</param>
-    public delegate void EnterSequenceHandler(Sequence seq);
+    public delegate void EnterSequenceHandler(SequenceBase seq);
 
     /// <summary>
-    /// Represents a method called before a sequence is left.
+    /// Represents a method called before a sequence base is left
+    /// (sequence base comprises sequences, sequence computations, sequence expressions).
     /// </summary>
     /// <param name="seq">The current sequence object.</param>
-    public delegate void ExitSequenceHandler(Sequence seq);
+    public delegate void ExitSequenceHandler(SequenceBase seq);
 
     /// <summary>
     /// Represents a method called when a loop iteration is ended.
@@ -356,16 +358,16 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
-        /// Fires an OnEnteringSequence event.
+        /// Fires an OnEnteringSequence event (sequence includes sequence computations and sequence expressions).
         /// </summary>
-        /// <param name="seq">The sequence to be entered.</param>
-        void EnteringSequence(Sequence seq);
+        /// <param name="seq">The sequence base to be entered.</param>
+        void EnteringSequence(SequenceBase seq);
 
         /// <summary>
-        /// Fires an OnExitingSequence event.
+        /// Fires an OnExitingSequence event (sequence includes sequence computations and sequence expressions).
         /// </summary>
-        /// <param name="seq">The sequence to be exited.</param>
-        void ExitingSequence(Sequence seq);
+        /// <param name="seq">The sequence base to be exited.</param>
+        void ExitingSequence(SequenceBase seq);
 
         /// <summary>
         /// Fires an OnEndOfIteration event. 

@@ -48,6 +48,8 @@ namespace de.unika.ipd.grGen.libGr
             id = that.id;
         }
 
+        public abstract bool HasSequenceType(SequenceType sequenceType);
+
         /// <summary>
         /// Checks the sequence /expression for errors utilizing the given checking environment
         /// reports them by exception
@@ -118,6 +120,35 @@ namespace de.unika.ipd.grGen.libGr
             {
                 child.SetNeedForProfilingRecursive(profiling);
             }
+        }
+
+        /// <summary>
+        /// the state of executing this sequence base
+        /// (a sequence base comprises sequences, sequence computations, sequence expressions)
+        /// </summary>
+        public SequenceExecutionState ExecutionState
+        {
+            get { return executionState; }
+        }
+
+        /// <summary>
+        /// the state of executing this sequence base, implementation
+        /// </summary>
+        internal SequenceExecutionState executionState;
+
+        /// <summary>
+        /// Walks the sequence tree from this on to the given target sequence base (inclusive),
+        /// collecting all variables found on the way into the variables dictionary,
+        /// and all container and object type constructors used into the constructors array.
+        /// </summary>
+        /// <param name="variables">Contains the variables found</param>
+        /// <param name="constructors">Contains the constructors walked by</param>
+        /// <param name="target">The target sequence base up to which to walk</param>
+        /// <returns>Returns whether the target was hit, so the parent can abort walking</returns>
+        public virtual bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors, SequenceBase target)
+        {
+            return this == target;
         }
 
         #region helper methods

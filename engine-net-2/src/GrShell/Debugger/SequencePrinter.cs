@@ -441,7 +441,7 @@ namespace de.unika.ipd.grGen.grShell
                         }
                     }
 
-                    Sequence highlightSeqBackup = context.highlightSeq;
+                    SequenceBase highlightSeqBackup = context.highlightSeq;
                     context.highlightSeq = null; // we already highlighted here
                     PrintSequence(seqChild, seqN, context);
                     context.highlightSeq = highlightSeqBackup;
@@ -501,7 +501,7 @@ namespace de.unika.ipd.grGen.grShell
                     if(seqWeighted.Sequences[i] == context.highlightSeq)
                         WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
 
-                    Sequence highlightSeqBackup = context.highlightSeq;
+                    SequenceBase highlightSeqBackup = context.highlightSeq;
                     context.highlightSeq = null; // we already highlighted here
                     PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
                     context.highlightSeq = highlightSeqBackup;
@@ -583,7 +583,7 @@ namespace de.unika.ipd.grGen.grShell
                         }
                     }
 
-                    Sequence highlightSeqBackup = context.highlightSeq;
+                    SequenceBase highlightSeqBackup = context.highlightSeq;
                     context.highlightSeq = null; // we already highlighted here
                     PrintSequence(seqChild, seqSome, context);
                     context.highlightSeq = highlightSeqBackup;

@@ -71,6 +71,11 @@ namespace de.unika.ipd.grGen.libGr
             SequenceComputationType = that.SequenceComputationType;
         }
 
+        public override bool HasSequenceType(SequenceType sequenceType)
+        {
+            return false;
+        }
+
         /// <summary>
         /// Checks the sequence computation for errors utilizing the given checking environment
         /// reports them by exception
@@ -112,7 +117,31 @@ namespace de.unika.ipd.grGen.libGr
         ///     And the user proxy queried when choices are due.</param>
         /// <returns>The value resulting from computing this sequence computation, 
         ///          null if there is no result value</returns>
-        public abstract object Execute(IGraphProcessingEnvironment procEnv);
+        public object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            procEnv.EnteringSequence(this);
+            executionState = SequenceExecutionState.Underway;
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("Before executing sequence " + Id + ": " + Symbol);
+#endif
+            object res = ExecuteImpl(procEnv);
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("After executing sequence " + Id + ": " + Symbol + " result " + res);
+#endif
+            executionState = SequenceExecutionState.Success; // maybe todo: dedicated value SequenceExecutionState.Executed?
+            procEnv.ExitingSequence(this);
+            return res;
+        }
+
+        /// <summary>
+        /// Executes this sequence computation. This function represents the actual implementation of the sequence.
+        /// </summary>
+        /// <param name="procEnv">The graph processing environment on which this sequence computation is to be evaluated.
+        ///     Contains especially the graph on which this sequence computation is to be evaluated.
+        ///     And the user proxy queried when choices are due.</param>
+        /// <returns>The value resulting from computing this sequence computation, 
+        ///          null if there is no result value</returns>
+        public abstract object ExecuteImpl(IGraphProcessingEnvironment procEnv);
 
         /// <summary>
         /// Collects all variables of the sequence expression tree into the variables dictionary,
@@ -273,10 +302,10 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationThen(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            left.Execute(procEnv);
-            return right.Execute(procEnv);
+            left.ExecuteImpl(procEnv);
+            return right.ExecuteImpl(procEnv);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -331,7 +360,7 @@ namespace de.unika.ipd.grGen.libGr
             return "int";
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             return procEnv.Graph.AllocateVisitedFlag();
         }
@@ -384,7 +413,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             int visitedFlag = (int)VisitedFlagExpression.Evaluate(procEnv);
             if(Reset)
@@ -448,7 +477,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             int visitedFlag = (int)VisitedFlagExpression.Evaluate(procEnv);
             procEnv.Graph.ResetVisitedFlag(visitedFlag);
@@ -546,7 +575,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             IGraphElement elem;
             AttributeType attrType;
@@ -707,7 +736,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             IGraphElement elem;
             AttributeType attrType;
@@ -844,7 +873,7 @@ namespace de.unika.ipd.grGen.libGr
                 return; // we can't check further types if the container is untyped, only runtime-check possible
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             IGraphElement elem;
             AttributeType attrType;
@@ -986,9 +1015,9 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(Symbol, Target.Type(env), SourceValueProvider.Type(env));
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            object value = SourceValueProvider.Execute(procEnv);
+            object value = SourceValueProvider.ExecuteImpl(procEnv);
             Target.Assign(value, procEnv);
             return value;
         }
@@ -1041,7 +1070,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationVariableDeclaration(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object value = TypesHelper.DefaultValue(Target.Type, procEnv.Graph.Model);
             Target.SetVariableValue(value, procEnv);
@@ -1161,7 +1190,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationDebugAdd(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
@@ -1198,7 +1227,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationDebugRem(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
@@ -1235,7 +1264,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationDebugEmit(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
@@ -1272,7 +1301,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationDebugHalt(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
@@ -1319,7 +1348,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             List<object> values = new List<object>();
             List<string> annotations = new List<string>();
@@ -1368,7 +1397,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationEmit(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object value = null;
             for(int i = 0; i < Expressions.Count; ++i)
@@ -1466,7 +1495,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationRecord(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object value = Expression.Evaluate(procEnv);
             if(value is string)
@@ -1543,7 +1572,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationExport(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object path = Name.Evaluate(procEnv);
             IGraph graph = Graph != null ? (IGraph)Graph.Evaluate(procEnv) : procEnv.Graph;
@@ -1602,7 +1631,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationDeleteFile(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object path = Name.Evaluate(procEnv);
             File.Delete((string)path);
@@ -1694,7 +1723,7 @@ namespace de.unika.ipd.grGen.libGr
             return typeString;
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             if(ExprSrc == null)
                 return GraphHelper.AddNodeOfType(Expr.Evaluate(procEnv), procEnv.Graph);
@@ -1770,7 +1799,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object delCandidate = Expr.Evaluate(procEnv);
             if(delCandidate is IEdge)
@@ -1822,7 +1851,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationGraphClear(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             procEnv.Graph.Clear();
             return null;
@@ -1899,7 +1928,7 @@ namespace de.unika.ipd.grGen.libGr
             return typeString;
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             return GraphHelper.RetypeGraphElement((IGraphElement)ElemExpr.Evaluate(procEnv), TypeExpr.Evaluate(procEnv), procEnv.Graph);
         }
@@ -1997,7 +2026,7 @@ namespace de.unika.ipd.grGen.libGr
             return Expr.Type(env);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             if(ExprSrc == null)
             {
@@ -2089,7 +2118,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object targetNode = TargetNodeExpr.Evaluate(procEnv);
             object sourceNode = SourceNodeExpr.Evaluate(procEnv);
@@ -2169,7 +2198,7 @@ namespace de.unika.ipd.grGen.libGr
             return "void";
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             procEnv.Graph.RedirectSource((IEdge)EdgeExpr.Evaluate(procEnv), (INode)SourceNodeExpr.Evaluate(procEnv), "old source");
             return null;
@@ -2247,7 +2276,7 @@ namespace de.unika.ipd.grGen.libGr
             return "void";
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             procEnv.Graph.RedirectTarget((IEdge)EdgeExpr.Evaluate(procEnv), (INode)TargetNodeExpr.Evaluate(procEnv), "old target");
             return null;
@@ -2333,7 +2362,7 @@ namespace de.unika.ipd.grGen.libGr
             return "void";
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             procEnv.Graph.RedirectSourceAndTarget((IEdge)EdgeExpr.Evaluate(procEnv), (INode)SourceNodeExpr.Evaluate(procEnv), (INode)TargetNodeExpr.Evaluate(procEnv), "old source", "old target");
             return null;
@@ -2401,7 +2430,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object graph = Graph.Evaluate(procEnv);
             GraphHelper.Insert((IGraph)graph, procEnv.Graph);
@@ -2476,7 +2505,7 @@ namespace de.unika.ipd.grGen.libGr
             return RootNode.Type(env);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object graph = Graph.Evaluate(procEnv);
             object rootNode = RootNode.Evaluate(procEnv);
@@ -2558,7 +2587,7 @@ namespace de.unika.ipd.grGen.libGr
             return RootNode.Type(env);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object nodeSet = NodeSet.Evaluate(procEnv);
             object rootNode = RootNode.Evaluate(procEnv);
@@ -2644,7 +2673,7 @@ namespace de.unika.ipd.grGen.libGr
             return RootEdge.Type(env);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             object edgeSet = EdgeSet.Evaluate(procEnv);
             object rootEdge = RootEdge.Evaluate(procEnv);
@@ -2735,12 +2764,12 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             if(ReturnVars.Count > 0)
-                ReturnVars[0].SetVariableValue(BuiltinProcedure.Execute(procEnv), procEnv);
+                ReturnVars[0].SetVariableValue(BuiltinProcedure.ExecuteImpl(procEnv), procEnv);
             else
-                BuiltinProcedure.Execute(procEnv);
+                BuiltinProcedure.ExecuteImpl(procEnv);
             return null;
         }
 
@@ -2936,7 +2965,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationProcedureCallInterpreted(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             IProcedureDefinition procedureDef = ProcedureDef;
             FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
@@ -3008,7 +3037,7 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceComputationProcedureCallCompiled(this, originalToCopy, procEnv);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             throw new NotImplementedException();
         }
@@ -3092,7 +3121,7 @@ namespace de.unika.ipd.grGen.libGr
                 env.CheckProcedureMethodCall(TargetVar, this);
         }
 
-        public override object Execute(IGraphProcessingEnvironment procEnv)
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             IGraphElement owner;
             if(TargetExpr != null)

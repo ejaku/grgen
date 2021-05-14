@@ -31,7 +31,7 @@ namespace de.unika.ipd.grGen.grShell
             this.debugSequences = debugSequences;
         }
 
-        public bool FetchObjectToBeShownAsGraph(Sequence seq, out object toBeShownAsGraph, out AttributeType attrType)
+        public bool FetchObjectToBeShownAsGraph(SequenceBase seq, out object toBeShownAsGraph, out AttributeType attrType)
         {
             do
             {
@@ -150,7 +150,7 @@ namespace de.unika.ipd.grGen.grShell
             return env.GetElemByName(sb.ToString());
         }
 
-        private object ParseVariable(string str, Sequence seq, out string attribute)
+        private object ParseVariable(string str, SequenceBase seq, out string attribute)
         {
             string varName;
             if(str.Contains("."))

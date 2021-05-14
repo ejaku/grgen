@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.grShell
         public int cpPosCounter = -1;
 
         /// <summary> The sequence to be highlighted or null </summary>
-        public Sequence highlightSeq = null;
+        public SequenceBase highlightSeq = null;
         /// <summary> The sequence to be highlighted was already successfully matched? </summary>
         public bool success = false;
         /// <summary> The sequence to be highlighted requires a direction choice? </summary>

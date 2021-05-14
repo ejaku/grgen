@@ -449,18 +449,18 @@ namespace de.unika.ipd.grGen.grShell
             throw new OperationCanceledException();                 // abort rewrite sequence
         }
 
-        private void NormalEnteringSequenceHandler(Sequence seq)
+        private void NormalEnteringSequenceHandler(SequenceBase seq)
         {
             if(cancelSequence)
                 Cancel();
 
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
+            if(seq.HasSequenceType(SequenceType.RuleCall) || seq.HasSequenceType(SequenceType.RuleAllCall) || seq.HasSequenceType(SequenceType.RuleCountAllCall))
                 curRule = (SequenceRuleCall) seq;
         }
 
-        private void DumpOnEntereringSequence(Sequence seq)
+        private void DumpOnEntereringSequence(SequenceBase seq)
         {
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
+            if(seq.HasSequenceType(SequenceType.RuleCall) || seq.HasSequenceType(SequenceType.RuleAllCall) || seq.HasSequenceType(SequenceType.RuleCountAllCall))
             {
                 curRule = (SequenceRuleCall) seq;
                 if(curRule.Special)
@@ -468,9 +468,9 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private void DumpOnExitingSequence(Sequence seq)
+        private void DumpOnExitingSequence(SequenceBase seq)
         {
-            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
+            if(seq.HasSequenceType(SequenceType.RuleCall) || seq.HasSequenceType(SequenceType.RuleAllCall) || seq.HasSequenceType(SequenceType.RuleCountAllCall))
             {
                 SequenceRuleCall ruleSeq = (SequenceRuleCall) seq;
                 if(ruleSeq != null && ruleSeq.Special)
