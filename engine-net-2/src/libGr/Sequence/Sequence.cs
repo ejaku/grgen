@@ -1705,7 +1705,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected string TestDebugPrefix
+        public string TestDebugPrefix
         {
             get
             {
@@ -2070,7 +2070,7 @@ namespace de.unika.ipd.grGen.libGr
             return this == target;
         }
 
-        private string RandomChoicePrefix
+        public string RandomChoicePrefix
         {
             get
             {
