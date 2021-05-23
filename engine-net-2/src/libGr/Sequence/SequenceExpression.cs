@@ -13194,16 +13194,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("[?[");
-                bool first = true;
-                foreach(Sequence rule in MultiRuleCall.Sequences)
-                {
-                    if(first)
-                        first = false;
-                    else
-                        sb.Append(",");
-                    sb.Append(rule.Symbol);
-                }
+                sb.Append(MultiRuleCall.CoreSymbolNoTestPrefix);
                 sb.Append("]");
+                sb.Append(MultiRuleCall.FilterSymbol);
                 sb.Append("\\<class " + MatchClass + ">");
                 sb.Append("]");
                 return sb.ToString();
@@ -13393,7 +13386,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                return "[:" + MultiRulePrefixedSequence.Symbol + ":]"; // todo: [] of MultiRulePrefixedSequence is wrong, Sub-Symbol without it needed
+                return "[:" + MultiRulePrefixedSequence.CoreSymbol + MultiRulePrefixedSequence.FilterSymbol + ":]";
             }
         }
     }

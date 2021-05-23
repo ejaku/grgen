@@ -1780,6 +1780,14 @@ namespace de.unika.ipd.grGen.libGr
                 return ReturnAssignmentString + TestDebugPrefix + RuleCallString;
             }
         }
+
+        public string SymbolNoTestPrefix
+        {
+            get
+            {
+                return ReturnAssignmentString + (Special ? "%" : "") + RuleCallString;
+            }
+        }
     }
 
     public class SequenceRuleCallInterpreted : SequenceRuleCall
@@ -3841,9 +3849,45 @@ namespace de.unika.ipd.grGen.libGr
             get
             {
                 StringBuilder sb = new StringBuilder();
-                for(int i = 0; i < Filters.Count; ++i)
+                foreach(SequenceFilterCallBase filterCall in Filters)
                 {
-                    sb.Append("\\").Append(Filters[i].ToString());
+                    sb.Append("\\").Append(filterCall.ToString());
+                }
+                return sb.ToString();
+            }
+        }
+
+        public string CoreSymbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                bool first = true;
+                foreach(Sequence seq in Sequences)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(seq.Symbol);
+                }
+                return sb.ToString();
+            }
+        }
+
+        public string CoreSymbolNoTestPrefix
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                bool first = true;
+                foreach(Sequence seq in Sequences)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(((SequenceRuleCall)seq).SymbolNoTestPrefix);
                 }
                 return sb.ToString();
             }
@@ -3855,17 +3899,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("[[");
-                bool first = true;
-                foreach(Sequence seq in Sequences)
-                {
-                    if(first)
-                        first = false;
-                    else
-                        sb.Append(",");
-                    sb.Append(seq.Symbol);
-                }
-                sb.Append("]]");
+                sb.Append(CoreSymbol);
+                sb.Append("]");
                 sb.Append(FilterSymbol);
+                sb.Append("]");
                 return sb.ToString();
             }
         }
@@ -4263,9 +4300,27 @@ namespace de.unika.ipd.grGen.libGr
             get
             {
                 StringBuilder sb = new StringBuilder();
-                for(int i = 0; i < Filters.Count; ++i)
+                foreach(SequenceFilterCallBase filterCall in Filters)
                 {
-                    sb.Append("\\").Append(Filters[i].ToString());
+                    sb.Append("\\").Append(filterCall.ToString());
+                }
+                return sb.ToString();
+            }
+        }
+
+        public string CoreSymbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                bool first = true;
+                foreach(SequenceRulePrefixedSequence rulePrefixedSequence in RulePrefixedSequences)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(rulePrefixedSequence.Symbol);
                 }
                 return sb.ToString();
             }
@@ -4277,15 +4332,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("[[");
-                foreach(SequenceRulePrefixedSequence rulePrefixedSequence in RulePrefixedSequences)
-                {
-                    sb.Append(rulePrefixedSequence.Symbol);
-                }
-                sb.Append("]]");
-                foreach(SequenceFilterCallBase filterCall in Filters)
-                {
-                    sb.Append(FilterSymbol);
-                }
+                sb.Append(CoreSymbol);
+                sb.Append("]");
+                sb.Append(FilterSymbol);
+                sb.Append("]");
                 return sb.ToString();
             }
         }

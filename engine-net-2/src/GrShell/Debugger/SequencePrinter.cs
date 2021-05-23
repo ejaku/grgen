@@ -613,14 +613,19 @@ namespace de.unika.ipd.grGen.grShell
                 if(seqChild == context.highlightSeq)
                     highlight = true;
             }
-
             bool succesBackup = context.success;
             if(highlight)
                 context.success = true;
+
             Console.Write("[[");
             PrintChildren(seqMulti, context);
-            Console.Write("]]");
-            Console.Write(seqMulti.FilterSymbol);
+            Console.Write("]");
+            foreach(SequenceFilterCallBase filterCall in seqMulti.Filters)
+            {
+                PrintSequenceFilterCall(filterCall, seqMulti, context);
+            }
+            Console.Write("]");
+
             context.success = succesBackup;
         }
 
@@ -632,14 +637,19 @@ namespace de.unika.ipd.grGen.grShell
                 if(seqChild == context.highlightSeq)
                     highlight = true;
             }
-
             bool succesBackup = context.success;
             if(highlight)
                 context.success = true;
+
             Console.Write("[[");
             PrintChildren(seqMulti, context);
-            Console.Write("]]");
-            Console.Write(seqMulti.FilterSymbol);
+            Console.Write("]");
+            foreach(SequenceFilterCallBase filterCall in seqMulti.Filters)
+            {
+                PrintSequenceFilterCall(filterCall, seqMulti, context);
+            }
+            Console.Write("]");
+
             context.success = succesBackup;
         }
 
@@ -903,10 +913,11 @@ namespace de.unika.ipd.grGen.grShell
             bool first = true;
             foreach(Sequence seqChild in seq.Children)
             {
-                if(!first)
+                if(first)
+                    first = false;
+                else
                     Console.Write(", ");
                 PrintSequence(seqChild, seq, context);
-                first = false;
             }
         }
 
@@ -3226,31 +3237,64 @@ namespace de.unika.ipd.grGen.grShell
 
         private static void PrintSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqExprRuleQuery, SequenceBase parent, PrintSequenceContext context)
         {
-            PrintSequence(seqExprRuleQuery.RuleCall, seqExprRuleQuery, context);
+            if(seqExprRuleQuery == context.highlightSeq)
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprRuleQuery.Symbol, HighlightingMode.Focus);
+            else
+                PrintSequence(seqExprRuleQuery.RuleCall, seqExprRuleQuery, context);
         }
 
         private static void PrintSequenceExpressionMultiRuleQuery(SequenceExpressionMultiRuleQuery seqExprMultiRuleQuery, SequenceBase parent, PrintSequenceContext context)
         {
-            Console.Write("[?[");
-            bool first = true;
-            foreach(Sequence rule in seqExprMultiRuleQuery.MultiRuleCall.Sequences)
+            if(seqExprMultiRuleQuery == context.highlightSeq)
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprMultiRuleQuery.Symbol, HighlightingMode.Focus);
+            else
             {
-                if(first)
-                    first = false;
-                else
-                    Console.Write(",");
-                PrintSequence(rule, seqExprMultiRuleQuery, context);
+                Console.Write("[?[");
+                bool first = true;
+                foreach(Sequence rule in seqExprMultiRuleQuery.MultiRuleCall.Sequences)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        Console.Write(",");
+                    PrintSequence(rule, seqExprMultiRuleQuery, context);
+                }
+                Console.Write("]");
+                foreach(SequenceFilterCallBase filterCall in seqExprMultiRuleQuery.MultiRuleCall.Filters)
+                {
+                    PrintSequenceFilterCall(filterCall, seqExprMultiRuleQuery.MultiRuleCall, context);
+                }
+                Console.Write("\\<class " + seqExprMultiRuleQuery.MatchClass + ">");
+                Console.Write("]");
             }
-            Console.Write("]");
-            Console.Write("\\<class " + seqExprMultiRuleQuery.MatchClass + ">");
-            Console.Write("]");
         }
 
         private static void PrintSequenceExpressionMappingClause(SequenceExpressionMappingClause seqExprMappingClause, SequenceBase parent, PrintSequenceContext context)
         {
-            Console.Write("[:");
-            PrintSequence(seqExprMappingClause.MultiRulePrefixedSequence, seqExprMappingClause, context);
-            Console.Write(":]"); // todo: [] of MultiRulePrefixedSequence is wrong, Sub-Symbol without it needed
+            bool highlight = false;
+            foreach(Sequence seqChild in seqExprMappingClause.MultiRulePrefixedSequence.Children)
+            {
+                if(seqChild == context.highlightSeq)
+                    highlight = true;
+            }
+            bool succesBackup = context.success;
+            if(highlight)
+                context.success = true;
+
+            if(seqExprMappingClause == context.highlightSeq)
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprMappingClause.Symbol, HighlightingMode.Focus);
+            else
+            {
+                Console.Write("[:");
+                PrintChildren(seqExprMappingClause.MultiRulePrefixedSequence, context);
+                foreach(SequenceFilterCallBase filterCall in seqExprMappingClause.MultiRulePrefixedSequence.Filters)
+                {
+                    PrintSequenceFilterCall(filterCall, seqExprMappingClause.MultiRulePrefixedSequence, context);
+                }
+                Console.Write(":]");
+            }
+
+            context.success = succesBackup;
         }
 
         private static void PrintSequenceExpressionScan(SequenceExpressionScan seqExprScan, SequenceBase parent, PrintSequenceContext context)
