@@ -22,6 +22,26 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public interface IPatternMatchingConstruct
     {
+        /// <summary>
+        /// A string symbol representing this sequence /expression kind.
+        /// </summary>
+        String Symbol { get; }
+    }
+
+    /// <summary>
+    /// A compiled sequence construct that allows to match patterns (most also allow to rewrite them).
+    /// Utilized in begin and end events to tell about the construct that started or ended.
+    /// </summary>
+    public class PatternMatchingConstruct : IPatternMatchingConstruct
+    {
+        public PatternMatchingConstruct(String symbol)
+        {
+            this.symbol = symbol;
+        }
+
+        public String Symbol { get { return symbol; } }
+
+        String symbol;
     }
 
     /// <summary>

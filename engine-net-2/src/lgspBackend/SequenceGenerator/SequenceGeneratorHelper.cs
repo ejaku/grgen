@@ -445,5 +445,10 @@ namespace de.unika.ipd.grGen.lgsp
                     return constant.ToString();
             }
         }
+
+        public static string Escape(String str)
+        {
+            return str.Replace("\\", "\\\\").Replace("\"", "\\\"");
+        }
     }
 }

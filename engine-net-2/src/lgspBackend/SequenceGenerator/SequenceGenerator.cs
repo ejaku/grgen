@@ -1217,7 +1217,8 @@ namespace de.unika.ipd.grGen.lgsp
         private void EmitSequenceSome(SequenceSomeFromSet seqSome, SourceBuilder source)
         {
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqSome.Id;
-            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
+                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqSome.Symbol));
             source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
 
             source.AppendFront(COMP_HELPER.SetResultVar(seqSome, "false"));
@@ -1287,7 +1288,8 @@ namespace de.unika.ipd.grGen.lgsp
         private void EmitSequenceMultiRuleAllCall(SequenceMultiRuleAllCall seqMulti, SourceBuilder source)
         {
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
-            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
+                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqMulti.Symbol));
             source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
 
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "false"));
@@ -1374,7 +1376,8 @@ namespace de.unika.ipd.grGen.lgsp
         private void EmitSequenceMultiRulePrefixedSequence(SequenceMultiRulePrefixedSequence seqMulti, SourceBuilder source)
         {
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
-            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
+                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqMulti.Symbol));
             source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
 
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "false"));

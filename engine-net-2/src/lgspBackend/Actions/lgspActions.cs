@@ -643,12 +643,4 @@ namespace de.unika.ipd.grGen.lgsp
             return false;
         }
     }
-
-    /// <summary>
-    /// A compiled sequence construct that allows to match patterns (most also allow to rewrite them).
-    /// Utilized in begin and end events to tell about the construct that started or ended.
-    /// </summary>
-    public class PatternMatchingConstruct : IPatternMatchingConstruct
-    {
-    }
 }

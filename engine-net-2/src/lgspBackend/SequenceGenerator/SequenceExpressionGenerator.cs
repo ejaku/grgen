@@ -1182,7 +1182,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqRuleQuery.Id;
-            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
+                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqRuleQuery.Symbol));
             source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
 
             source.AppendFrontFormat("List<{0}> result = ", matchType);
@@ -1253,7 +1254,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
-            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
+                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqMultiRuleQuery.Symbol));
             source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
 
             String matchListName = "MatchList_" + seqMulti.Id;
@@ -1340,7 +1342,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
-            source.AppendFrontFormat("GRGEN_LGSP.PatternMatchingConstruct {0} = new GRGEN_LGSP.PatternMatchingConstruct();\n", patternMatchingConstructVarName);
+            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
+                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqMappingClause.Symbol));
             source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
 
             source.AppendFront("List<GRGEN_LIBGR.IGraph> graphs = new List<GRGEN_LIBGR.IGraph>();\n");
