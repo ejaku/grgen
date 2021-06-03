@@ -121,6 +121,24 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IEnumerable<SequenceBase> ChildrenBase { get; }
 
         /// <summary>
+        /// Returns whether the potentialChild is contained in this sequence (base).
+        /// True if potentialChild is the same as this sequence (base) (so reflexive relation).
+        /// </summary>
+        /// <param name="potentialChild">The candidate to be checked for containment.</param>
+        /// <returns>Returns whether the potentialChild is contained in this sequence (base).</returns>
+        public bool Contains(SequenceBase potentialChild)
+        {
+            if(this == potentialChild)
+                return true;
+            foreach(SequenceBase child in ChildrenBase)
+            {
+                if(child.Contains(potentialChild))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// sets for the very node the profiling flag (does not recurse)
         /// </summary>
         public virtual void SetNeedForProfiling(bool profiling)

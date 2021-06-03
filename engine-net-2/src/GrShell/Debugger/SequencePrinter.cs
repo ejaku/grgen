@@ -707,10 +707,10 @@ namespace de.unika.ipd.grGen.grShell
                     mode |= HighlightingMode.FocusSucces;
             }
 
-            if(seq == context.highlightSeq)
-                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, mode);
-            else
+            if(seq.Contains(context.highlightSeq) && seq != context.highlightSeq)
                 PrintSequenceAtom(seq, parent, context);
+            else
+                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, mode);
         }
 
         private static void PrintSequenceAtom(Sequence seq, SequenceBase parent, PrintSequenceContext context)
